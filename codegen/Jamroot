@@ -34,9 +34,9 @@ lib opencv
 # Declare the three extension modules.  You can specify multiple
 # source files after the colon separated by spaces.
 python-extension pyopencvext 
-  : [ glob M:/programming/mypackages/pyopencv/workspace_svn/pyopencv_opencv1.2b_win32/code/*.cpp ] opencv 
+  : [ glob M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen/code/*.cpp ] opencv 
 #  : opencv 
-  : <include>M:/programming/mypackages/pyopencv/workspace_svn/pyopencv_opencv1.2b_win32 <link>shared
+  : <include>M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen/opencv2_include <link>shared
   : ;
 
 # A little "rule" (function) to clean up the syntax of declaring tests
