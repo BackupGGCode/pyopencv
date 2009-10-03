@@ -28,7 +28,7 @@ project
 # OpenCV library
 lib opencv
   :
-  : <include>M:/programming/packages/opencv/build/svn/include <file>M:/programming/packages/opencv/build/svn/lib/libcxcore120.dll.a
+  : <include>M:/programming/packages/opencv/build/2.0/include/opencv <file>M:/programming/packages/opencv/build/2.0/lib/libcxcore200.dll.a
   ;
 
 # Declare the three extension modules.  You can specify multiple

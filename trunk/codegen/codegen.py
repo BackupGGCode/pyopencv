@@ -6,7 +6,15 @@ from pyplusplus import messages
 #Creating an instance of class that will help you to expose your declarations
 mb = module_builder.module_builder_t( 
     [
-        "cxcore.h", "cxcore.hpp", "cv.h", "cv.hpp", "cvaux.h", "cvaux.hpp", "ml.h", "highgui.h", "highgui.hpp",
+        "cxcore.h", 
+        # "cxcore.hpp", 
+        # "cv.h", 
+        # "cv.hpp", 
+        # "cvaux.h", 
+        # "cvaux.hpp", 
+        # "ml.h", 
+        # "highgui.h", 
+        # "highgui.hpp",
         # r"M:/programming/mypackages/pyopencv/workspace_svn/pyopencv_opencv1.2b_win32/pyopencvext.hpp"
     ],
     gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe", 
@@ -59,6 +67,38 @@ def expose_member_as_str(klass, member_name):
 # -----------------------------------------------------------------------------------------------
 # disable some warnings
 mb.decls().disable_warnings(messages.W1027, messages.W1025)
+
+
+
+
+# -----------------------------------------------------------------------------------------------
+# CxCore
+# -----------------------------------------------------------------------------------------------
+
+
+
+# -----------------------------------------------------------------------------------------------
+# CxCore/Basic Structures
+# -----------------------------------------------------------------------------------------------
+
+for z in ('CvScalar', 'CvPoint', 'CvSize', 'CvRect', 'CvTermCriteria'):
+    mb.decls(lambda decl: decl.name.startswith(z)).include()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # exlude every class first
 # mb.classes().exclude()
