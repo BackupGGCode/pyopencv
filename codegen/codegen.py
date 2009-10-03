@@ -6,14 +6,13 @@ from pyplusplus import messages
 #Creating an instance of class that will help you to expose your declarations
 mb = module_builder.module_builder_t( 
     [
-        "pyopencvext.hpp", 
+        "cxcore.h", "cxcore.hpp", "cv.h", "cv.hpp", "cvaux.h", "cvaux.hpp", "ml.h", "highgui.h", "highgui.hpp",
         # r"M:/programming/mypackages/pyopencv/workspace_svn/pyopencv_opencv1.2b_win32/pyopencvext.hpp"
     ],
     gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe", 
-    working_directory=r"M:/programming/mypackages/pyopencv/workspace_svn/pyopencv_opencv1.2b_win32", 
+    working_directory=r"M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen", 
     include_paths=[
-        r"M:/programming/mypackages/pyopencv/workspace_svn/pyopencv_opencv1.2b_win32",
-        r"M:/programming/packages/opencv/build/svn/include",
+        r"M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen/opencv2_include",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++\mingw32",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include",
@@ -25,7 +24,7 @@ mb = module_builder.module_builder_t(
 # mb.print_declarations() -- too many declarations
 
 # Disable every declarations first
-# mb.decls().exclude()
+mb.decls().exclude()
 
 
 def expose_addressof_member(klass, member_name, exclude_member=True):
@@ -62,33 +61,33 @@ def expose_member_as_str(klass, member_name):
 mb.decls().disable_warnings(messages.W1027, messages.W1025)
 
 # exlude every class first
-mb.classes().exclude()
+# mb.classes().exclude()
 
 # expose every OpenCV's C structure and class but none of its members
-for z in mb.classes(lambda z: z.decl_string.startswith('::Cv') or z.decl_string.startswith('::_Ipl')):
-    z.include()
-    z.decls().exclude()
+# for z in mb.classes(lambda z: z.decl_string.startswith('::Cv') or z.decl_string.startswith('::_Ipl')):
+    # z.include()
+    # z.decls().exclude()
     
 # exclude stupid CvMat... aliases
-mb.classes(lambda z: z.decl_string.startswith('::CvMat') and not z.name.startswith('CvMat')).exclude()
+# mb.classes(lambda z: z.decl_string.startswith('::CvMat') and not z.name.startswith('CvMat')).exclude()
     
 # cannot expose unions
-mb.class_('Cv32suf').exclude()
-mb.class_('Cv64suf').exclude()
+# mb.class_('Cv32suf').exclude()
+# mb.class_('Cv64suf').exclude()
 
 # expose every OpenCV's C++ class but none of its members
-for z in mb.classes(lambda z: z.decl_string.startswith('::cv')):
-    z.include()
-    z.decls().exclude()
+# for z in mb.classes(lambda z: z.decl_string.startswith('::cv')):
+    # z.include()
+    # z.decls().exclude()
     
 # exclude every Ptr class
-mb.classes(lambda z: z.decl_string.startswith('::cv::Ptr')).exclude()
+# mb.classes(lambda z: z.decl_string.startswith('::cv::Ptr')).exclude()
 
 # exclude every MatExpr class
-mb.classes(lambda z: z.decl_string.startswith('::cv::MatExpr')).exclude()
+# mb.classes(lambda z: z.decl_string.startswith('::cv::MatExpr')).exclude()
 
 # expose every OpenCV's C++ free function
-mb.free_functions(lambda z: z.decl_string.startswith('::cv')).include()
+# mb.free_functions(lambda z: z.decl_string.startswith('::cv')).include()
 
 # -----------------------------------------------------------------------------------------------
 # cxtypes.h
@@ -131,33 +130,33 @@ mb.free_functions(lambda z: z.decl_string.startswith('::cv')).include()
 
 # cv.decls(lambda decl: 'Optimized' in decl.name).include()
 
-for z in ('CvScalar', 'CvPoint', 'CvSize', 'CvRect', 'CvBox', 'CvSlice'):
-    mb.decls(lambda decl: decl.name.startswith(z)).include()
+# for z in ('CvScalar', 'CvPoint', 'CvSize', 'CvRect', 'CvBox', 'CvSlice'):
+    # mb.decls(lambda decl: decl.name.startswith(z)).include()
 
 
 # -----------------------------------------------------------------------------------------------
 # cxcore.hpp
 # -----------------------------------------------------------------------------------------------
-cv = mb.namespace('cv') # namespace cv
+# cv = mb.namespace('cv') # namespace cv
 
-cv.class_('Exception').include()
+# cv.class_('Exception').include()
 
 # for z in ('Optimized', 'NumThreads', 'ThreadNum', 'getTick'):
     # cv.decls(lambda decl: z in decl.name).include()
 
-for z in ('DataDepth', 'Vec', 'Complex', 'Point', 'Size', 'Rect', 'RotatedRect', 
-    'Scalar', 'Range', 'DataType'):
-    cv.decls(lambda decl: decl.name.startswith(z)).include()
+# for z in ('DataDepth', 'Vec', 'Complex', 'Point', 'Size', 'Rect', 'RotatedRect', 
+    # 'Scalar', 'Range', 'DataType'):
+    # cv.decls(lambda decl: decl.name.startswith(z)).include()
 
 # class Mat    
-mat = cv.class_('Mat')
-mat.include()
-for z in ('refcount', 'datastart', 'dataend'):
-    mat.var(z).exclude()
+# mat = cv.class_('Mat')
+# mat.include()
+# for z in ('refcount', 'datastart', 'dataend'):
+    # mat.var(z).exclude()
 # TODO: expose the 'data' member as read-write buffer
-mat.var('data').exclude()
+# mat.var('data').exclude()
 # expose_addressof_member(mat, 'data')    
-mat.decls('ptr').exclude()
+# mat.decls('ptr').exclude()
 
 #Creating code creator. After this step you should not modify/customize declarations.
 mb.build_code_creator( module_name='pyopencvext' )
