@@ -1,7 +1,7 @@
 
 import os
-from pyplusplus import module_builder
-from pyplusplus import messages
+from pyplusplus import module_builder, messages
+from pyplusplus.module_builder import call_policies
 
 #Creating an instance of class that will help you to expose your declarations
 mb = module_builder.module_builder_t( 
@@ -81,12 +81,138 @@ mb.decls().disable_warnings(messages.W1027, messages.W1025)
 # CxCore/Basic Structures
 # -----------------------------------------------------------------------------------------------
 
-for z in ('CvScalar', 'CvPoint', 'CvSize', 'CvRect', 'CvTermCriteria'):
+for z in ('CvScalar', 'cvRealScalar', 
+    'CvPoint', 'cvPoint', 
+    'CvSize', 'cvSize', 
+    'CvTermCriteria', 'cvTermCriteria', 'cvCheckTermCriteria'):
     mb.decls(lambda decl: decl.name.startswith(z)).include()
+for z in ('cvScalar', 'cvScalarAll', 
+    'cvRect'):
+    mb.decl(z).include()
+mb.class_('CvRect').include()
+    
+mb.add_constants(
+    CV_TERMCRIT_ITER=1,
+    CV_TERMCRIT_NUMBER=1, # CV_TERMCRIT_ITER
+    CV_TERMCRIT_EPS=2,
+)
+
+# CvMat
+cvmat = mb.class_('CvMat')
+cvmat.include()
+for z in ('ptr', 's', 'i', 'fl', 'db', 'data'):
+    cvmat.var(z).exclude()
+# deal with 'data'
+cvmat.include_files.append( "boost/python/object.hpp" )
+cvmat.include_files.append( "boost/python/str.hpp" )
+cvmat.add_wrapper_code('''
+static bp::object get_data( CvMat const & inst ){        
+    return bp::str((const char *)inst.data.ptr, (inst.step? inst.step: CV_ELEM_SIZE(inst.type)*inst.cols)*inst.rows);
+}
+''')
+cvmat.add_registration_code('''
+add_property( "data", bp::make_function(&CvMat_wrapper::get_data) )
+''')
+mb.add_constants(
+    CV_MAT_MAGIC_VAL=0x42420000,
+)
+
+# CvMatND
+cvmatnd = mb.class_('CvMatND')
+cvmatnd.include()
+for z in ('ptr', 's', 'i', 'fl', 'db', 'data'):
+    cvmatnd.var(z).exclude()
+# deal with 'data'
+cvmatnd.include_files.append( "boost/python/object.hpp" )
+cvmatnd.include_files.append( "boost/python/str.hpp" )
+cvmatnd.add_wrapper_code('''
+static bp::object get_data( CvMatND const & inst ){        
+    return bp::str((const char *)inst.data.ptr, inst.dim[0].step*inst.dim[0].size);
+}
+''')
+cvmatnd.add_registration_code('''
+add_property( "data", bp::make_function(&CvMatND_wrapper::get_data) )
+''')
+mb.add_constants(
+    CV_MATND_MAGIC_VAL=0x42430000,
+    CV_MAX_DIM=32,
+)
+
+# CvSparseMat
+cvsparsemat = mb.class_('CvSparseMat')
+cvsparsemat.include()
+for z in ('heap', 'hashtable'): # TODO: fix
+    cvsparsemat.var(z).exclude()
+mb.add_constants(
+    CV_SPARSE_MAT_MAGIC_VAL=0x42440000,
+)
+    
+# IplImage
+iplimage = mb.class_('_IplImage')
+iplimage.rename('IplImage')
+iplimage.include()
+for z in ('imageId', 'imageData', 'roi', 'imageDataOrigin', 'tileInfo', 'maskROI'): # don't need these attributes
+    iplimage.var(z).exclude()
+# deal with 'imageData'
+iplimage.include_files.append( "boost/python/object.hpp" )
+iplimage.include_files.append( "boost/python/str.hpp" )
+iplimage.add_wrapper_code('''
+static bp::object get_data( _IplImage const & inst ){        
+    return bp::str(inst.imageData, inst.imageSize);
+}
+''')
+iplimage.add_registration_code('''
+add_property( "data", bp::make_function(&_IplImage_wrapper::get_data) )
+''')
+
+    
+    
+mb.add_constants(
+    IPL_DEPTH_SIGN = -0x80000000,
+    IPL_DEPTH_1U =  1,
+    IPL_DEPTH_8U =  8,
+    IPL_DEPTH_16U = 16,
+    IPL_DEPTH_32F = 32,
+    IPL_DEPTH_64F = 64,
+    IPL_DEPTH_8S = -0x80000000 + 8, # IPL_DEPTH_SIGN + IPL_DEPTH_8U
+    IPL_DEPTH_16S = -0x80000000 + 16, # IPL_DEPTH_SIGN + IPL_DEPTH_16U
+    IPL_DEPTH_32S = -0x80000000 + 32, # IPL_DEPTH_SIGN + 32
+    IPL_DATA_ORDER_PIXEL = 0,
+    IPL_DATA_ORDER_PLANE = 1,
+    IPL_ORIGIN_TL = 0,
+    IPL_ORIGIN_BL = 1,
+)    
+
+# CvArr
+mb.decl('CvArr').include()
 
 
 
+# -----------------------------------------------------------------------------------------------
+# CxCore/Operations on Arrays
+# -----------------------------------------------------------------------------------------------
 
+z = mb.decls(lambda decl: decl.name.startswith('cvCreateImage'))
+z.include()
+z.call_policies = call_policies.return_value_policy( call_policies.return_pointee_value )
+
+
+# -----------------------------------------------------------------------------------------------
+# Final tasks
+# -----------------------------------------------------------------------------------------------
+
+for z in ('hdr_refcount', 'refcount'): # too low-level
+    mb.decls(z).exclude() 
+
+# mb.free_function( return_type='IplImage *' ).call_policies \
+    # = call_policies.return_value_policy( call_policies.return_pointee_value )
+
+
+for z in ('IPL_', 'CV_'):
+    try:
+        mb.decls(lambda decl: decl.name.startswith(z)).include()
+    except RuntimeError:
+        pass
 
 
 
