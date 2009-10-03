@@ -1,4 +1,4 @@
-import cPickle
+from pickle import dump
 from pyplusplus import module_builder
 
 #Creating an instance of class that will help you to expose your declarations
@@ -21,4 +21,4 @@ mb = module_builder.module_builder_t(
 #Well, don't you want to see what is going on?
 # mb.print_declarations() -- too many declarations
 
-cPickle.dump(mb, 'mb.sdd')
+dump(mb, open('mb.sdd', 'w'))
