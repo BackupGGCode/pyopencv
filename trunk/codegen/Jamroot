@@ -1,0 +1,40 @@
+# Copyright David Abrahams 2006. Distributed under the Boost
+# Software License, Version 1.0. (See accompanying
+# file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+# Specify the path to the Boost project.  If you move this project,
+# adjust this path to refer to the Boost root directory.
+use-project boost
+  : M:/programming/packages/scipack-gcc4.3-python2.6-core2/boost/boost_1_37_0 ;
+
+# Set up the project-wide requirements that everything uses the
+# boost_python library from the project whose global ID is
+# /boost/python.
+project boost-python-tutorial
+  : requirements <library>/boost/python//boost_python ;
+  
+# Make the definition of the python-extension rule available
+import python ;
+
+# Specify opencv's lib:
+lib cxcore : : <name>cxcore <search>M:/programming/packages/OpenCV/build/1.1a/lib ;
+lib cv : : <name>cv <search>M:/programming/packages/OpenCV/build/1.1a/lib ;
+lib highgui : : <name>highgui <search>M:/programming/packages/OpenCV/build/1.1a/lib ;
+lib ml : : <name>ml <search>M:/programming/packages/OpenCV/build/1.1a/lib ;
+
+# Declare the three extension modules.  You can specify multiple
+# source files after the colon separated by spaces.
+python-extension pyopencv : ../src/pyopencv_bindings.cpp cxcore cv highgui ml ;
+
+# A little "rule" (function) to clean up the syntax of declaring tests
+# of these extension modules.
+local rule run-test ( test-name : sources + )
+{
+    import testing ;
+    testing.make-test run-pyd : $(sources) : : $(test-name) ;
+}
+
+# Declare test targets
+run-test pyopencv-test : pyopencv pyopencv_test.py ;
+
+
