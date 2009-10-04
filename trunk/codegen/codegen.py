@@ -31,7 +31,7 @@ mb = module_builder.module_builder_t(
     
 cc = open('pyopencv/__init__.py', 'w')
 cc.write('''#!/usr/bin/env python
-# pyopencv - A Python wrapper for OpenCV 2.0 using Boost.Python and ctypes
+# pyopencv - A Python wrapper for OpenCV 2.0 using Boost.Python
 
 # Copyright (c) 2009, Minh-Tri Pham
 # All rights reserved.
@@ -135,8 +135,8 @@ class input_double_pointee_t(FT.transformer_t):
         tmp_type = remove_ptr( self.arg.type )
         w_arg.type = remove_ptr( tmp_type )
         if not declarations.is_convertible( w_arg.type, self.arg.type ):
-            controller.add_pre_call_code("%s tmp = reinterpret_cast< %s >(& %s);" % ( tmp_type, tmp_type, w_arg.name ))
-            casting_code = 'reinterpret_cast< %s >( & tmp )' % self.arg.type
+            controller.add_pre_call_code("%s tmp_%s = reinterpret_cast< %s >(& %s);" % ( tmp_type, w_arg.name, tmp_type, w_arg.name ))
+            casting_code = 'reinterpret_cast< %s >( & tmp_%s )' % (self.arg.type, w_arg.name)
             controller.modify_arg_expression(self.arg_index, casting_code)
 
     def __configure_v_mem_fun_default( self, controller ):
@@ -170,7 +170,7 @@ class input_smart_pointee_t(FT.transformer_t):
     """
 
     def __init__(self, function, arg_ref):
-        FT.transformer.transformer_t.__init__( self, function )
+        FT.transformer_t.__init__( self, function )
         self.arg = self.get_argument( arg_ref )
         self.arg_index = self.function.arguments.index( self.arg )
 
@@ -185,8 +185,8 @@ class input_smart_pointee_t(FT.transformer_t):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         data_type = declarations.remove_const(remove_ptr( self.arg.type ))
         w_arg.type = declarations.dummy_type_t( "boost::python::object" )
-        controller.add_pre_call_code("%s const &tmp = bp::extract<%s const &>(%s);" % (data_type, data_type, w_arg.name))
-        controller.modify_arg_expression(self.arg_index, "(%s.ptr() != Py_None)? (%s)(&tmp): 0" % (w_arg.name, self.arg.type))
+        controller.add_pre_call_code("%s const &tmp_%s = bp::extract<%s const &>(%s);" % (data_type, w_arg.name, data_type, w_arg.name))
+        controller.modify_arg_expression(self.arg_index, "(%s.ptr() != Py_None)? (%s)(&tmp_%s): 0" % (w_arg.name, self.arg.type, w_arg.name))
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -200,25 +200,79 @@ class input_smart_pointee_t(FT.transformer_t):
     def configure_virtual_mem_fun( self, controller ):
         self.__configure_v_mem_fun_default( controller.default_controller )
 
-
 def input_smart_pointee( *args, **keywd ):
     def creator( function ):
         return input_smart_pointee_t( function, *args, **keywd )
     return creator
-
-# by default, convert all pointers into pointee
+    
+# initialize list of transformer creators for each free function
+for z in mb.free_funs():
+    z._transformer_creators = []
+    
+# by default, convert all pointers to Cv... or to Ipl... into pointee
 for z in mb.free_funs():
     for arg in z.arguments:
-        if declarations.is_pointer(arg.type):
-            if 'void' in arg.type.decl_string:
-                z.add_transformation(FT.from_address(arg.name))
-            else:
-                z.add_transformation(input_smart_pointee(arg.name))
-# for z in mb.mem_funs():
+        if declarations.is_pointer(arg.type) and not declarations.is_pointer(declarations.remove_pointer(arg.type)) and \
+            (arg.type.decl_string.startswith('::Cv') or arg.type.decl_string.startswith('::_Ipl')):
+            z._transformer_creators.append(input_smart_pointee(arg.name))
+            if arg.default_value == '0' or arg.default_value == 'NULL':
+                arg.default_value = 'bp::object()'
+# for z in mb.mem_funs(): # TODO: fix
     # for i in xrange(z.arguments):
         # if declarations.is_pointer(z.arguments[i]):
-            # z.add_transformation(input_smart_pointee(i+1))
+            # z._transformer_creators.append(input_smart_pointee(i+1))
+
+
+# input_string_t
+class input_string_t(FT.transformer_t):
+    """Handles a string.
     
+    Convert: do_smth(void *v) -> do_smth(str v2)
+    where v2 is a Python string and v is a pointer to its content.
+    If vs is None, then v is NULL.
+    """
+
+    def __init__(self, function, arg_ref):
+        FT.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+        if not declarations.is_pointer( self.arg.type ):
+            raise ValueError( '%s\nin order to use "input_string_t" transformation, argument %s type must be a pointer (got %s).' ) \
+                  % ( function, arg_ref, self.arg.type)
+
+    def __str__(self):
+        return "input_string(%s)" % self.arg.name
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return [ "boost/python/str.hpp", "boost/python/object.hpp", "boost/python/extract.hpp" ]
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg( self.arg.name )
+        w_arg.type = declarations.dummy_type_t( "boost::python::object" )
+        if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+            w_arg.default_value = 'bp::object()'
+        controller.modify_arg_expression(self.arg_index, "(%s.ptr() != Py_None)? (void *)((const char *)bp::extract<const char *>(static_cast<bp::str>(%s))): 0" % (w_arg.name, w_arg.name))
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def input_string( *args, **keywd ):
+    def creator( function ):
+        return input_string_t( function, *args, **keywd )
+    return creator
+
+
+            
     
 #=============================================================================
 # Initialization
@@ -512,7 +566,6 @@ def _IplImage__del__(self):
     elif self._owner == 3: # own header and data
         _PE._cvReleaseImage(self)
 IplImage.__del__ = _IplImage__del__
-
 ''')
 
 # return_pointee_value call policies for cvCreate... functions
@@ -531,7 +584,7 @@ for z in mb.free_funs(lambda decl: decl.name.startswith('cvClone')):
 for z in mb.free_funs(lambda decl: decl.name.startswith('cvRelease')):
     if not z.name in ('cvRelease', 'cvReleaseMemStorage', 'cvReleaseData', 'cvReleaseFileStorage'): # TODO: fix
         add_underscore(z)
-        z.add_transformation(input_double_pointee(0))
+        z._transformer_creators.append(input_double_pointee(0))
         
 # cvInit... functions
 for z in mb.free_funs(lambda decl: decl.name.startswith('cvInit')):
@@ -602,6 +655,67 @@ mb.free_functions(lambda decl: decl.name.startswith('cv') and 'ImageCOI' in decl
 mb.free_functions(lambda decl: decl.name.startswith('cv') and 'ImageROI' in decl.name).include()
 
 
+
+cc.write('''
+# CvMat
+CvMat._owner = False
+        
+def _CvMat__del__(self):
+    if self._owner is True:
+        _cvReleaseMat(CvMat_p(self))
+CvMat.__del__ = _CvMat__del__
+
+''')
+
+
+# cvCreateMat
+cc.write('''
+def cvCreateMat(rows, cols, cvmat_type):
+    """CvMat cvCreateMat(int rows, int cols, int type)
+
+    Creates new matrix
+    """
+    z = _PE._cvCreateMat(rows, cols, cvmat_type)
+    if z is not None:
+        z._owner = True
+    return z
+
+''')
+
+# cvCreateMatHeader
+cc.write('''
+def cvCreateMatHeader(rows, cols, cvmat_type):
+    """CvMat cvCreateMatHeader(int rows, int cols, int type)
+
+    Creates new matrix header
+    """
+    z = _PE._cvCreateMatHeader(rows, cols, cvmat_type)
+    if z is not None:
+        z._owner = True
+    return z
+
+CV_AUTOSTEP = 0x7fffffff
+
+''')
+
+
+# cvInitMatHeader
+z = mb.free_fun('cvInitMatHeader')
+z._transformer_creators.append(input_string('data'))
+cc.write('''
+def cvInitMatHeader(mat, rows, cols, cvmat_type, data=None, step=CV_AUTOSTEP):
+    """CvMat cvInitMatHeader(CvMat mat, int rows, int cols, int type, void* data=NULL, int step=CV_AUTOSTEP)
+
+    Initializes matrix header
+    """
+    _PE._cvInitMatHeader(mat, rows, cols, cvmat_type, data=data, step=step)
+    if data is not None:
+        mat._depends = (data,)
+    return mat
+    
+''')
+
+
 # cvReleaseData
 add_underscore(mb.free_fun('cvReleaseData'))
 
@@ -614,6 +728,11 @@ for z in ('hdr_refcount', 'refcount'): # too low-level
 
 # mb.free_function( return_type='IplImage *' ).call_policies \
     # = call_policies.return_value_policy( call_policies.return_pointee_value )
+    
+# apply all the function transformations    
+for z in mb.free_funs():
+    if len(z._transformer_creators) > 0:
+        z.add_transformation(*z._transformer_creators)
 
 
 for z in ('IPL_', 'CV_'):
