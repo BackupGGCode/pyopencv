@@ -174,7 +174,7 @@ typedef signed char schar;
  * into functions where the particular
  * array type is recognized at runtime:
  */
-typedef void CvArr;
+typedef struct {} CvArr;
 
 typedef union Cv32suf
 {
@@ -379,7 +379,7 @@ CV_INLINE double cvRandReal( CvRNG* rng )
 #define IPL_BORDER_REFLECT    2
 #define IPL_BORDER_WRAP       3
 
-typedef struct _IplImage
+typedef struct _IplImage : CvArr
 {
     int  nSize;             /* sizeof(IplImage) */
     int  ID;                /* version (=0)*/
@@ -558,7 +558,7 @@ IplConvKernelFP;
 #define CV_MAT_MAGIC_VAL    0x42420000
 #define CV_TYPE_NAME_MAT    "opencv-matrix"
 
-typedef struct CvMat
+typedef struct CvMat : CvArr
 {
     int type;
     int step;
@@ -719,7 +719,7 @@ CV_INLINE int cvIplDepth( int type )
 #define CV_MAX_DIM            32
 #define CV_MAX_DIM_HEAP       (1 << 16)
 
-typedef struct CvMatND
+typedef struct CvMatND : CvArr
 {
     int type;
     int dims;
@@ -761,7 +761,7 @@ CvMatND;
 
 struct CvSet;
 
-typedef struct CvSparseMat
+typedef struct CvSparseMat : CvArr
 {
     int type;
     int dims;
@@ -1236,7 +1236,7 @@ CvSeqBlock;
     CvSeqBlock* free_blocks;  /* Free blocks list.                    */  \
     CvSeqBlock* first;        /* Pointer to the first sequence block. */
 
-typedef struct CvSeq
+typedef struct CvSeq : CvArr
 {
     CV_SEQUENCE_FIELDS()
 }
