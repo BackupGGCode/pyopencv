@@ -1,7 +1,9 @@
 
 import os
+from pygccxml import declarations
 from pyplusplus import module_builder, messages
-from pyplusplus.module_builder import call_policies
+from pyplusplus import function_transformers as FT
+from pyplusplus.module_builder import call_policies as CP
 
 #Creating an instance of class that will help you to expose your declarations
 mb = module_builder.module_builder_t( 
@@ -61,19 +63,129 @@ def expose_member_as_str(klass, member_name):
     '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
     
 
+def remove_ptr( type_ ):
+    if declarations.is_pointer( type_ ):
+        return declarations.remove_pointer( type_ )
+    else:
+        raise TypeError( 'Type should be a pointer, got %s.' % type_ )
+
+
+# -----------------------------------------------------------------------------------------------
+# Function transfomers
+# -----------------------------------------------------------------------------------------------
+
+# input_double_pointee_t
+class input_double_pointee_t(FT.transformer_t):
+    """Handles a double pointee input.
     
-# -----------------------------------------------------------------------------------------------
+    Convert by dereferencing: do_smth(your_type **v) -> do_smth(your_type v)
+
+    Right now compiler should be able to use implicit conversion
+    """
+
+    def __init__(self, function, arg_ref):
+        FT.transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+        if not declarations.is_pointer( self.arg.type ):
+            raise ValueError( '%s\nin order to use "input_double_pointee_t" transformation, argument %s type must be a pointer or a array (got %s).' ) \
+                  % ( function, self.arg_ref.name, arg.type)
+
+    def __str__(self):
+        return "input_double_pointee(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg( self.arg.name )
+        tmp_type = remove_ptr( self.arg.type )
+        w_arg.type = remove_ptr( tmp_type )
+        if not declarations.is_convertible( w_arg.type, self.arg.type ):
+            controller.add_pre_call_code("%s tmp = reinterpret_cast< %s >(& %s);" % ( tmp_type, tmp_type, w_arg.name ))
+            casting_code = 'reinterpret_cast< %s >( & tmp )' % self.arg.type
+            controller.modify_arg_expression(self.arg_index, casting_code)
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return []
+
+def input_double_pointee( *args, **keywd ):
+    def creator( function ):
+        return input_double_pointee_t( function, *args, **keywd )
+    return creator
+
+# input_smart_pointee_t
+class input_smart_pointee_t(FT.transformer_t):
+    """Handles a pointee input.
+    
+    Convert by dereferencing: do_smth(your_type *v) -> do_smth(object v2)
+    where v2 is either of type NoneType or type 'your_type'. 
+    If v2 is None, v is NULL.  Otherwise, v is the pointer to v2.
+    """
+
+    def __init__(self, function, arg_ref):
+        FT.transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "input_smart_pointee(%s)" % self.arg.name
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return [ "boost/python/object.hpp" ]
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg( self.arg.name )
+        data_type = remove_ptr( self.arg.type )
+        w_arg.type = declarations.dummy_type_t( "boost::python::object" )
+        casting_code = "(%s.ptr() != bp::Py_None)? 1: &bp::extract<%s>(%s)" % (w_arg.name, data_type, w_arg.name)
+        controller.modify_arg_expression(self.arg_index, casting_code)
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+
+def input_smart_pointee( *args, **keywd ):
+    def creator( function ):
+        return input_smart_pointee_t( function, *args, **keywd )
+    return creator
+
+    
+    
+#=============================================================================
 # Initialization
-# -----------------------------------------------------------------------------------------------
+#=============================================================================
+
 # disable some warnings
 mb.decls().disable_warnings(messages.W1027, messages.W1025)
 
+# expose 'this'
+mb.classes().expose_this = True
 
 
-
-# -----------------------------------------------------------------------------------------------
+#=============================================================================
 # CxCore
-# -----------------------------------------------------------------------------------------------
+#=============================================================================
 
 
 
@@ -91,12 +203,6 @@ for z in ('cvScalar', 'cvScalarAll',
     mb.decl(z).include()
 mb.class_('CvRect').include()
     
-mb.add_constants(
-    CV_TERMCRIT_ITER=1,
-    CV_TERMCRIT_NUMBER=1, # CV_TERMCRIT_ITER
-    CV_TERMCRIT_EPS=2,
-)
-
 # CvMat
 cvmat = mb.class_('CvMat')
 cvmat.include()
@@ -113,9 +219,6 @@ static bp::object get_data( CvMat const & inst ){
 cvmat.add_registration_code('''
 add_property( "data", bp::make_function(&CvMat_wrapper::get_data) )
 ''')
-mb.add_constants(
-    CV_MAT_MAGIC_VAL=0x42420000,
-)
 
 # CvMatND
 cvmatnd = mb.class_('CvMatND')
@@ -133,19 +236,12 @@ static bp::object get_data( CvMatND const & inst ){
 cvmatnd.add_registration_code('''
 add_property( "data", bp::make_function(&CvMatND_wrapper::get_data) )
 ''')
-mb.add_constants(
-    CV_MATND_MAGIC_VAL=0x42430000,
-    CV_MAX_DIM=32,
-)
 
 # CvSparseMat
 cvsparsemat = mb.class_('CvSparseMat')
 cvsparsemat.include()
 for z in ('heap', 'hashtable'): # TODO: fix
     cvsparsemat.var(z).exclude()
-mb.add_constants(
-    CV_SPARSE_MAT_MAGIC_VAL=0x42440000,
-)
     
 # IplImage
 iplimage = mb.class_('_IplImage')
@@ -165,37 +261,35 @@ iplimage.add_registration_code('''
 add_property( "data", bp::make_function(&_IplImage_wrapper::get_data) )
 ''')
 
-    
-    
-mb.add_constants(
-    IPL_DEPTH_SIGN = -0x80000000,
-    IPL_DEPTH_1U =  1,
-    IPL_DEPTH_8U =  8,
-    IPL_DEPTH_16U = 16,
-    IPL_DEPTH_32F = 32,
-    IPL_DEPTH_64F = 64,
-    IPL_DEPTH_8S = -0x80000000 + 8, # IPL_DEPTH_SIGN + IPL_DEPTH_8U
-    IPL_DEPTH_16S = -0x80000000 + 16, # IPL_DEPTH_SIGN + IPL_DEPTH_16U
-    IPL_DEPTH_32S = -0x80000000 + 32, # IPL_DEPTH_SIGN + 32
-    IPL_DATA_ORDER_PIXEL = 0,
-    IPL_DATA_ORDER_PLANE = 1,
-    IPL_ORIGIN_TL = 0,
-    IPL_ORIGIN_BL = 1,
-)    
-
 # CvArr
 mb.decl('CvArr').include()
 
-
+def add_underscore(decl):
+    decl.rename('_'+decl.name)
+    decl.include()
 
 # -----------------------------------------------------------------------------------------------
 # CxCore/Operations on Arrays
 # -----------------------------------------------------------------------------------------------
 
-z = mb.decls(lambda decl: decl.name.startswith('cvCreateImage'))
-z.include()
-z.call_policies = call_policies.return_value_policy( call_policies.return_pointee_value )
+# return pointee value
+for z in ('IplImage', 'CvMat', 'CvMatND'):
+    mb.free_functions( return_type='::'+z+' *' ).call_policies \
+        = CP.return_value_policy( CP.return_pointee_value )
 
+
+# convert every cvRelease...() function into private        
+mb.decls(lambda decl: decl.name.startswith('cvCreateImage')).include()
+
+# cvReleaseImage... functions
+for z in mb.free_funs(lambda decl: decl.name.startswith('cvReleaseImage')):
+    add_underscore(z)
+    z.add_transformation(input_double_pointee(0))
+
+# cvReleaseData
+z = mb.free_fun('cvReleaseData')
+add_underscore(z)
+z.add_transformation(input_smart_pointee(0))
 
 # -----------------------------------------------------------------------------------------------
 # Final tasks
