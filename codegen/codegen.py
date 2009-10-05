@@ -1330,6 +1330,16 @@ def cvCloneMatND(mat):
 
 # cvCloneSparseMat, automatic
 
+# cvInitSparseMatIterator
+z = mb.free_fun('cvInitSparseMatIterator')
+z.include()
+z.call_policies = CP.return_value_policy(CP.reference_existing_object, CP.with_custodian_and_ward_postcall(0, 2))
+
+# cvGetNextSparseNode
+z = mb.free_fun('cvGetNextSparseNode')
+z.include()
+z.call_policies = CP.return_value_policy(CP.reference_existing_object, CP.with_custodian_and_ward_postcall(0, 1))
+
 
 
 # cvReleaseData
@@ -1398,29 +1408,9 @@ for z in ('IPL_', 'CV_'):
 # expose every OpenCV's C++ free function
 # mb.free_functions(lambda z: z.decl_string.startswith('::cv')).include()
 
-# -----------------------------------------------------------------------------------------------
-# cxtypes.h
-# -----------------------------------------------------------------------------------------------
-
-# CvTypeInfo
-# cvtypeinfo = mb.class_('CvTypeInfo')
-# expose_member_as_str(cvtypeinfo, 'type_name')
-# for z in ('is_instance', 'release', 'read', 'write', 'clone'):
-    # expose_addressof_member(cvtypeinfo, z)
-    
-# CvAttrList
-
 
 # -----------------------------------------------------------------------------------------------
 
-# for z in ('_IplImage', 'CvAttrList', 'CvFileNode', 'CvMatND', '_IplConvKernelFP', 
-    # 'CvModuleInfo', 'CvChain', 'CvHistogram', 'CvSeqReader', 'CvContour',
-    # 'CvString', 'CvSet', 'CvGraph', 'CvSeqWriter', 'CvSeq', 'CvSeqBlock', 'CvGraphEdge',
-    # '_IplConvKernel', 'CvPluginFuncInfo', 'CvLineIterator', 'CvSparseMat', 'CvString',
-    # '_IplROI', ):
-    # mb.class_(z).exclude()
-    
-    
 # cv = mb.namespace('cv')
 # cv.decls().exclude()
 
