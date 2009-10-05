@@ -197,3 +197,53 @@ def input_string( *args, **keywd ):
     return creator
 
 
+# input_pair_dims_and_sizes_t
+class input_pair_dims_and_sizes_t(transformer_t):
+    """Handles a string.
+    
+    Convert: do_smth(void *v) -> do_smth(str v2)
+    where v2 is a Python string and v is a pointer to its content.
+    If vs is None, then v is NULL.
+    """
+
+    def __init__(self, function, arg_ref):
+        transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+        self.arg2 = self.function.arguments[self.arg_index+1]
+        if not declarations.is_integral( self.arg.type ) or not declarations.is_pointer( self.arg2.type ):
+            raise ValueError( '%s\nin order to use "input_pair_dims_and_sizes_t" transformation, argument %s type must be an integer (got %s) and the next argument must be a pointer (got %s).' ) \
+                  % ( function, arg_ref, self.arg.type, self.arg2.type)
+
+    def __str__(self):
+        return "input_pair_dims_and_sizes(%s)" % self.arg.name
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return [ "boost/python/str.hpp", "boost/python/object.hpp", "boost/python/extract.hpp" ]
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg( self.arg.name )
+        w_arg.type = declarations.dummy_type_t( "boost::python::object" )
+        if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+            w_arg.default_value = 'bp::object()'
+        controller.modify_arg_expression(self.arg_index, "(%s.ptr() != Py_None)? (void *)((const char *)bp::extract<const char *>(%s)): 0" % (w_arg.name, w_arg.name))
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def input_pair_dims_and_sizes( *args, **keywd ):
+    def creator( function ):
+        return input_pair_dims_and_sizes_t( function, *args, **keywd )
+    return creator
+
+
