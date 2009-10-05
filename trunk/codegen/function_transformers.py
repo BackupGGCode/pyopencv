@@ -1,5 +1,7 @@
 from pygccxml import declarations
+from pyplusplus import code_repository
 from pyplusplus.function_transformers import *
+import pyplusplus.function_transformers.transformers as _T
 
 
 def expose_addressof_member(klass, member_name, exclude_member=True):
@@ -196,41 +198,85 @@ def input_string( *args, **keywd ):
         return input_string_t( function, *args, **keywd )
     return creator
 
-
-# input_pair_dims_and_sizes_t
-class input_pair_dims_and_sizes_t(transformer_t):
-    """Handles a string.
     
-    Convert: do_smth(void *v) -> do_smth(str v2)
-    where v2 is a Python string and v is a pointer to its content.
-    If vs is None, then v is NULL.
+class input_dynamic_array_t(transformer.transformer_t):
+    """Handles an input array with a dynamic size.
+
+    void do_something(int N, double* v) ->  do_something(object v2)
+
+    where v2 is a Python sequence of N items. Each item is of the same type as v's element type.
     """
 
-    def __init__(self, function, arg_ref):
-        transformer_t.__init__( self, function )
+    def __init__(self, function, arg_ref, arg_size_ref):
+        """Constructor.
+
+        """
+        transformer.transformer_t.__init__( self, function )
+
         self.arg = self.get_argument( arg_ref )
         self.arg_index = self.function.arguments.index( self.arg )
-        self.arg2 = self.function.arguments[self.arg_index+1]
-        if not declarations.is_integral( self.arg.type ) or not declarations.is_pointer( self.arg2.type ):
-            raise ValueError( '%s\nin order to use "input_pair_dims_and_sizes_t" transformation, argument %s type must be an integer (got %s) and the next argument must be a pointer (got %s).' ) \
-                  % ( function, arg_ref, self.arg.type, self.arg2.type)
+
+        self.arg_size = self.get_argument( arg_size_ref )
+        self.arg_size_index = self.function.arguments.index( self.arg_size )
+
+        if not _T.is_ptr_or_array( self.arg.type ):
+            raise ValueError( '%s\nin order to use "input_dynamic_array" transformation, argument %s type must be a array or a pointer (got %s).' ) \
+                  % ( function, self.arg.name, self.arg.type)
+
+        if not declarations.is_integral( self.arg_size.type ):
+            raise ValueError( '%s\nin order to use "input_dynamic_array" transformation, argument %s type must be an integer (got %s).' ) \
+                  % ( function, self.arg_size.name, self.arg_size.type)
+
+        self.array_item_type = declarations.remove_const( declarations.array_item_type( self.arg.type ) )
 
     def __str__(self):
-        return "input_pair_dims_and_sizes(%s)" % self.arg.name
+        return "input_dynamic_array(%s,%d)"%( self.arg.name, self.arg_size.name)
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return [ "boost/python/str.hpp", "boost/python/object.hpp", "boost/python/extract.hpp" ]
+        return [ code_repository.convenience.file_name ]
 
-    def __configure_sealed( self, controller ):
+    def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         w_arg.type = declarations.dummy_type_t( "boost::python::object" )
-        if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.default_value = 'bp::object()'
-        controller.modify_arg_expression(self.arg_index, "(%s.ptr() != Py_None)? (void *)((const char *)bp::extract<const char *>(%s)): 0" % (w_arg.name, w_arg.name))
+
+        #removing arg_size from the function wrapper definition
+        controller.remove_wrapper_arg( self.arg_size.name )
+        
+        # array size
+        array_size = controller.declare_variable( "int", "native_" + self.arg_size.name, 
+            "=bp::len(%s)" % self.arg.name)
+
+        # Declare a variable that will hold the C array...
+        native_array = controller.declare_variable( declarations.pointer_t(self.array_item_type), 
+            "native_" + self.arg.name, 
+            "= new %s [%s]" % (self.array_item_type, array_size) )
+            
+        controller.add_post_call_code("delete[] %s;" % native_array)
+
+        copy_pylist2arr = _T._seq2arr.substitute( type=self.array_item_type
+                                                , pylist=w_arg.name
+                                                , array_size=array_size
+                                                , native_array=native_array )
+
+        controller.add_pre_call_code( copy_pylist2arr )
+
+        controller.modify_arg_expression( self.arg_index, native_array )
+        controller.modify_arg_expression( self.arg_size_index, array_size )
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
+
+    def __configure_v_mem_fun_override( self, controller ):
+        global _arr2seq
+        pylist = controller.declare_py_variable( declarations.dummy_type_t( 'boost::python::list' )
+                                                 , 'py_' + self.arg.name )
+
+        copy_arr2pylist = _arr2seq.substitute( native_array=self.arg.name
+                                                , array_size=self.array_size
+                                                , pylist=pylist )
+
+        controller.add_py_pre_call_code( copy_arr2pylist )
 
     def configure_mem_fun( self, controller ):
         self.__configure_sealed( controller )
@@ -239,11 +285,12 @@ class input_pair_dims_and_sizes_t(transformer_t):
         self.__configure_sealed( controller )
 
     def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_override( controller.override_controller )
         self.__configure_v_mem_fun_default( controller.default_controller )
 
-def input_pair_dims_and_sizes( *args, **keywd ):
+def input_dynamic_array( *args, **keywd ):
     def creator( function ):
-        return input_pair_dims_and_sizes_t( function, *args, **keywd )
+        return input_dynamic_array_t( function, *args, **keywd )
     return creator
 
 

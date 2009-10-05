@@ -1020,13 +1020,13 @@ cc.write('''
 for z in mb.free_funs(lambda decl: decl.name.startswith('cvCreate')):
     if not z.name in ('cvCreateData', 'cvCreateSeqBlock'): # TODO: fix
         add_underscore(z)
-        z.call_policies = CP.return_value_policy( CP.return_pointee_value )
+        z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 
 # return_pointee_value call policies for cvClone... functions
 for z in mb.free_funs(lambda decl: decl.name.startswith('cvClone')):
     if not z.name in ('cvClone', ):
         add_underscore(z)
-        z.call_policies = CP.return_value_policy( CP.return_pointee_value )
+        z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 
 # cvRelease... functions
 for z in mb.free_funs(lambda decl: decl.name.startswith('cvRelease')):
@@ -1284,7 +1284,8 @@ def cvGetDiag(arr, submat=None, diag=0):
 # cvScalarToRawData and cvRawDataToScalar # TODO: fix this
 
 # cvCreateMatNDHeader
-
+z = mb.free_fun('cvCreateMatNDHeader')
+z._transformer_creators.append(FT.input_dynamic_array('sizes', 'dims'))
 
 
 
