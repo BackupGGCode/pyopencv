@@ -298,11 +298,9 @@ CV_TYPE_NAME_IMAGE = "opencv-image"
 iplimage = mb.class_('_IplImage')
 iplimage.rename('IplImage')
 iplimage.include()
-iplroi = mb.class_('_IplROI')
-iplroi.rename('IplROI')
-iplroi.include()
-for z in ('imageId', 'imageData', 'roi', 'imageDataOrigin', 'tileInfo', 'maskROI'): # don't need these attributes
+for z in ('imageId', 'imageData', 'imageDataOrigin', 'tileInfo', 'maskROI'): # don't need these attributes
     iplimage.var(z).exclude()
+FT.expose_member_as_pointee(iplimage, 'roi')    
 # deal with 'imageData' and 'roi'
 iplimage.include_files.append( "boost/python/object.hpp" )
 iplimage.include_files.append( "boost/python/str.hpp" )
@@ -312,16 +310,9 @@ iplimage.add_wrapper_code('''
         return inst.imageData? bp::str(inst.imageData, inst.imageSize) : bp::object();
     }
 
-    static bp::object get_roi( _IplImage const & inst ){        
-        return inst.roi? bp::object(inst.roi) : bp::object();
-    }
-
 ''')
 iplimage.add_registration_code('''
 add_property( "data", bp::make_function(&_IplImage_wrapper::get_data) )
-''')
-iplimage.add_registration_code('''
-add_property( "roi", bp::make_function(&_IplImage_wrapper::get_roi) )
 ''')
 
 cc.write('''
@@ -338,6 +329,10 @@ IplImage.__del__ = _IplImage__del__
 
 ''')
 
+# IplROI
+iplroi = mb.class_('_IplROI')
+iplroi.rename('IplROI')
+iplroi.include()
 
 # IplConvKernel
 iplconvkernel = mb.class_('_IplConvKernel')
@@ -547,44 +542,13 @@ CvSparseMat.__del__ = _CvSparseMat__del__
 # CvSparseNode
 cvsparsenode = mb.class_('CvSparseNode')
 cvsparsenode.include()
-cvsparsenode.var('next').exclude()
-# deal with 'next'
-cvsparsenode.include_files.append( "boost/python/object.hpp" )
-cvsparsenode.add_wrapper_code('''
-
-    static bp::object get_next( CvSparseNode const & inst ){        
-        return inst.next? bp::object(inst.next) : bp::object();
-    }
-
-''')
-cvsparsenode.add_registration_code('''
-add_property( "next", bp::make_function(&CvSparseNode_wrapper::get_next) )
-''')
+FT.expose_member_as_pointee(cvsparsenode, 'next')
 
 # CvSparseMatIterator
 cvsparsematiterator = mb.class_('CvSparseMatIterator')
 cvsparsematiterator.include()
-cvsparsematiterator.var('mat').exclude()
-cvsparsematiterator.var('node').exclude()
-# deal with 'mat' and 'node'
-cvsparsematiterator.include_files.append( "boost/python/object.hpp" )
-cvsparsematiterator.add_wrapper_code('''
-
-    static bp::object get_mat( CvSparseMatIterator const & inst ){        
-        return inst.mat? bp::object(inst.mat) : bp::object();
-    }
-
-    static bp::object get_node( CvSparseMatIterator const & inst ){        
-        return inst.node? bp::object(inst.node) : bp::object();
-    }
-
-''')
-cvsparsematiterator.add_registration_code('''
-add_property( "mat", bp::make_function(&CvSparseMatIterator_wrapper::get_mat) )
-''')
-cvsparsematiterator.add_registration_code('''
-add_property( "node", bp::make_function(&CvSparseMatIterator_wrapper::get_node) )
-''')
+FT.expose_member_as_pointee(cvsparsematiterator, 'mat')
+FT.expose_member_as_pointee(cvsparsematiterator, 'node')
 
 
 # CvHistogram

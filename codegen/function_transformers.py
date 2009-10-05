@@ -27,6 +27,18 @@ def expose_member_as_str(klass, member_name):
     add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_MEMBER_NAME) )
     '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
     
+def expose_member_as_pointee(klass, member_name):
+    klass.include_files.append( "boost/python/object.hpp" )
+    klass.var(member_name).exclude()
+    klass.add_wrapper_code('''
+    static bp::object get_MEMBER_NAME( CLASS_TYPE const & inst ){        
+        return inst.MEMBER_NAME? bp::object(inst.MEMBER_NAME): bp::object();
+    }
+    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
+    klass.add_registration_code('''
+    add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_MEMBER_NAME) )
+    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
+    
 
 def remove_ptr( type_ ):
     if declarations.is_pointer( type_ ):
