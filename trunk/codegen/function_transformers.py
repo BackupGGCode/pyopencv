@@ -202,12 +202,12 @@ def input_string( *args, **keywd ):
 class input_dynamic_array_t(transformer.transformer_t):
     """Handles an input array with a dynamic size.
 
-    void do_something(int N, double* v) ->  do_something(object v2)
+    void do_something([int N, ]double* v) ->  do_something(object v2)
 
     where v2 is a Python sequence of N items. Each item is of the same type as v's element type.
     """
 
-    def __init__(self, function, arg_ref, arg_size_ref):
+    def __init__(self, function, arg_ref, arg_size_ref=None):
         """Constructor.
 
         """
@@ -216,21 +216,27 @@ class input_dynamic_array_t(transformer.transformer_t):
         self.arg = self.get_argument( arg_ref )
         self.arg_index = self.function.arguments.index( self.arg )
 
-        self.arg_size = self.get_argument( arg_size_ref )
-        self.arg_size_index = self.function.arguments.index( self.arg_size )
-
         if not _T.is_ptr_or_array( self.arg.type ):
             raise ValueError( '%s\nin order to use "input_dynamic_array" transformation, argument %s type must be a array or a pointer (got %s).' ) \
                   % ( function, self.arg.name, self.arg.type)
 
-        if not declarations.is_integral( self.arg_size.type ):
-            raise ValueError( '%s\nin order to use "input_dynamic_array" transformation, argument %s type must be an integer (got %s).' ) \
-                  % ( function, self.arg_size.name, self.arg_size.type)
+        if arg_size_ref is not None:
+            self.arg_size = self.get_argument( arg_size_ref )
+            self.arg_size_index = self.function.arguments.index( self.arg_size )
+            
+            if not declarations.is_integral( self.arg_size.type ):
+                raise ValueError( '%s\nin order to use "input_dynamic_array" transformation, argument %s type must be an integer (got %s).' ) \
+                      % ( function, self.arg_size.name, self.arg_size.type)
+
+        else:
+            self.arg_size = None
 
         self.array_item_type = declarations.remove_const( declarations.array_item_type( self.arg.type ) )
 
     def __str__(self):
-        return "input_dynamic_array(%s,%d)"%( self.arg.name, self.arg_size.name)
+        if self.arg_size is not None:
+            return "input_dynamic_array(%s,%d)"%( self.arg.name, self.arg_size.name)
+        return "input_dynamic_array(%s)"% self.arg.name
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
@@ -240,11 +246,12 @@ class input_dynamic_array_t(transformer.transformer_t):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         w_arg.type = declarations.dummy_type_t( "boost::python::object" )
 
-        #removing arg_size from the function wrapper definition
-        controller.remove_wrapper_arg( self.arg_size.name )
+        if self.arg_size is not None:
+            #removing arg_size from the function wrapper definition
+            controller.remove_wrapper_arg( self.arg_size.name )
         
         # array size
-        array_size = controller.declare_variable( "int", "native_" + self.arg_size.name, 
+        array_size = controller.declare_variable( "int", "size_" + self.arg.name, 
             "=bp::len(%s)" % self.arg.name)
 
         # Declare a variable that will hold the C array...
@@ -262,7 +269,8 @@ class input_dynamic_array_t(transformer.transformer_t):
         controller.add_pre_call_code( copy_pylist2arr )
 
         controller.modify_arg_expression( self.arg_index, native_array )
-        controller.modify_arg_expression( self.arg_size_index, array_size )
+        if self.arg_size is not None:
+            controller.modify_arg_expression( self.arg_size_index, array_size )
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
