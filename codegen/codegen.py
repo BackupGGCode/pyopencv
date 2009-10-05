@@ -113,7 +113,7 @@ for z in mb.free_funs():
 # function argument 'void *data'
 for f in mb.free_funs():
     for arg in f.arguments:
-        if arg.name == 'data' and 'void *' in arg.type.decl_string:
+        if arg.name == 'data' and declarations.is_void_pointer(arg.type):
             f._transformer_creators.append(FT.input_string(arg.name))
             break
 
@@ -625,7 +625,7 @@ for z in ('cvScalar', 'cvScalarAll',
 for z in ('CvScalar', 'cvRealScalar', 
     'CvPoint', 'cvPoint', 
     'CvSize', 'cvSize', 'CvBox2D',
-    'CvTermCriteria', 'cvTermCriteria', 'cvCheckTermCriteria',
+    'CvTermCriteria', 'cvTermCriteria', 
     'CvLineIterator',
     'CvSlice', 'cvSlice',
     ):
@@ -1063,7 +1063,7 @@ def cvCreateImageHeader(size, depth, channels):
 # cvInitImageHeader
 z = mb.free_fun('cvInitImageHeader')
 z.include()
-z.call_policies = CP.return_self( CP.return_value_policy(CP.reference_existing_object))
+z.call_policies = CP.return_self()
 
 # cvCreateImage
 cc.write('''
@@ -1121,7 +1121,7 @@ def cvCreateMatHeader(rows, cols, cvmat_type):
 # cvInitMatHeader
 z = mb.free_fun('cvInitMatHeader')
 z.include()
-z.call_policies = CP.return_self( CP.return_value_policy(CP.reference_existing_object, CP.with_custodian_and_ward(1, 5)))
+z.call_policies = CP.with_custodian_and_ward_postcall(1, 5, CP.return_self())
 
 
 # cvCreateMat
@@ -1191,7 +1191,7 @@ mb.free_funs(lambda f: f.name.startswith('cv') and 'RefData' in f.name).include(
 # cvGetSubRect
 z = mb.free_fun('cvGetSubRect')
 add_underscore(z)
-z.call_policies = CP.return_arg(2)
+z.call_policies = CP.with_custodian_and_ward_postcall(2, 1, CP.return_arg(2))
 cc.write('''
 def cvGetSubRect(arr, submat, rect):
     """CvMat cvGetSubRect(const CvArr arr, CvMat submat, CvRect rect)
@@ -1202,7 +1202,6 @@ def cvGetSubRect(arr, submat, rect):
     if submat is None:
         submat = CvMat()
     _PE._cvGetSubRect(arr, submat, rect)
-    submat._depends = (arr,)
     return submat
 
 cvGetSubArr = cvGetSubRect
@@ -1212,7 +1211,7 @@ cvGetSubArr = cvGetSubRect
 # cvGetRows and cvGetRow
 z = mb.free_fun('cvGetRows')
 add_underscore(z)
-z.call_policies = CP.return_arg(2)
+z.call_policies = CP.with_custodian_and_ward_postcall(2, 1, CP.return_arg(2))
 cc.write('''
 def cvGetRows(arr, submat, start_row, end_row, delta_row=1):
     """CvMat cvGetRows(const CvArr arr, CvMat submat, int start_row, int end_row, int delta_row=1)
@@ -1223,7 +1222,6 @@ def cvGetRows(arr, submat, start_row, end_row, delta_row=1):
     if submat is None:
         submat = CvMat()
     _cvGetRows(arr, submat, start_row, end_row, delta_row=delta_row)
-    submat._depends = (arr,)
     return submat
     
 def cvGetRow(arr, submat=None, row=0):
@@ -1234,7 +1232,7 @@ def cvGetRow(arr, submat=None, row=0):
 # cvGetCols and cvGetCol
 z = mb.free_fun('cvGetCols')
 add_underscore(z)
-z.call_policies = CP.return_arg(2)
+z.call_policies = CP.with_custodian_and_ward_postcall(2, 1, CP.return_arg(2))
 cc.write('''
 def cvGetCols(arr, submat, start_col, end_col):
     """CvMat cvGetCols(const CvArr arr, CvMat submat, int start_col, int end_col)
@@ -1245,7 +1243,6 @@ def cvGetCols(arr, submat, start_col, end_col):
     if submat is None:
         submat = CvMat()
     _cvGetCols(arr, submat, start_col, end_col)
-    submat._depends = (arr,)
     return submat
     
 def cvGetCol(arr, submat=None, col=0):
@@ -1256,7 +1253,7 @@ def cvGetCol(arr, submat=None, col=0):
 # cvGetDiag
 z = mb.free_fun('cvGetDiag')
 add_underscore(z)
-z.call_policies = CP.return_arg(2)
+z.call_policies = CP.with_custodian_and_ward_postcall(2, 1, CP.return_arg(2))
 cc.write('''
 def cvGetDiag(arr, submat=None, diag=0):
     """CvMat cvGetDiag(const CvArr arr, CvMat submat, int diag=0)
@@ -1267,7 +1264,6 @@ def cvGetDiag(arr, submat=None, diag=0):
     if submat is None:
         submat = CvMat()
     _cvGetDiag(arr, submat, diag=diag)
-    submat._depends = (arr,)
     return submat
 
 ''')
@@ -1305,7 +1301,7 @@ def cvCreateMatND(sizes, type):
 # cvInitMatNDHeader
 z = mb.free_fun('cvInitMatNDHeader')
 z.include()
-z.call_policies = CP.return_self( CP.return_value_policy(CP.reference_existing_object, CP.with_custodian_and_ward(1, 4)))
+z.call_policies = CP.with_custodian_and_ward_postcall(1, 4, CP.return_self())
 cc.write('''
 def cvMatND(sizes, mattype, data=None):
     return cvInitMatNDHeader(CvMatND(), sizes, mattype, data=data)
@@ -1340,7 +1336,198 @@ z = mb.free_fun('cvGetNextSparseNode')
 z.include()
 z.call_policies = CP.return_value_policy(CP.reference_existing_object, CP.with_custodian_and_ward_postcall(0, 1))
 
+# CvNArrayIterator
+z = mb.class_('CvNArrayIterator')
+z.include()
+for t in ('ptr', 'hdr'): # TODO: fix this
+    z.var(t).exclude()
+cc.write('''
+CV_MAX_ARR = 10
 
+CV_NO_DEPTH_CHECK     = 1
+CV_NO_CN_CHECK        = 2
+CV_NO_SIZE_CHECK      = 4
+
+''')
+
+
+# cvInitNArrayIterator # TODO: fix this
+
+# functions
+for z in ('cvNextNArraySlice', 'cvGetElemType', 'cvGetDimSize'):
+    mb.free_fun(z).include()
+
+# cvPtr*D # TODO: fix this
+
+# cvGet*D and cvSet*D
+mb.free_funs(lambda f: len(f.name) == 7 and f.name.startswith('cvGet') and f.name.endswith('D')).include()
+mb.free_funs(lambda f: len(f.name) == 11 and f.name.startswith('cvGetReal') and f.name.endswith('D')).include()
+mb.free_funs(lambda f: len(f.name) == 7 and f.name.startswith('cvSet') and f.name.endswith('D')).include()
+mb.free_funs(lambda f: len(f.name) == 11 and f.name.startswith('cvSetReal') and f.name.endswith('D')).include()
+for z in ('cvGetND', 'cvGetRealND', 'cvSetND', 'cvSetRealND', 'cvClearND'):
+    mb.free_fun(z)._transformer_creators.append(FT.input_dynamic_array('idx'))
+
+# cvGetMat
+z = mb.free_fun('cvGetMat')
+add_underscore(z)
+z._transformer_creators.append(FT.from_address('coi'))
+z.call_policies = CP.with_custodian_and_ward_postcall(2, 1, CP.return_arg(2))
+cc.write('''
+def cvGetMat(arr, header=None, coi=None, allowND=0):
+    """CvMat mat[, int output_coi] = cvGetMat(const CvArr arr, CvMat header=None, c_int coi=None, int allowND=0)
+
+    Returns matrix header for arbitrary array
+    [ctypes-opencv] If 'header' is None, it is internally created.
+    [ctypes-opencv] 'coi' can be:
+        an instance of c_int: its value will be filled with the output coi's value
+        True: the returning object is a tuple of CvMat and the output coi
+        None: no output coi is returned
+    """
+    if header is None:
+        header = CvMat()
+    if coi is True:
+        coi = _CT.c_int()
+        _PE._cvGetMat(arr, header, _CT.addressof(coi), allowND)
+        return (header, coi.value)
+        
+    _PE._cvGetMat(arr, header, 0 if coi is None else _CT.addressof(coi), allowND)
+    return header
+    
+''')
+
+# cvGetImage
+z = mb.free_fun('cvGetImage')
+add_underscore(z)
+z.call_policies = CP.with_custodian_and_ward_postcall(2, 1, CP.return_arg(2))
+cc.write('''
+def cvGetImage(arr, image_header=None):
+    """IplImage cvGetImage(const CvArr arr, IplImage image_header=None)
+
+    Returns image header for arbitrary array
+    [ctypes-opencv] If 'image_header' is None, it is internally created.
+    """
+    if image_header is None:
+        image_header = IplImage()
+    _PE._cvGetImage(arr, image_header)
+    return image_header
+
+''')
+
+# cvReshapeMatND
+z = mb.free_fun('cvReshapeMatND')
+z.include()
+z.call_policies = CP.with_custodian_and_ward_postcall(3, 1, CP.return_arg(3))
+z._transformer_creators.append(FT.input_dynamic_array('new_sizes', 'new_dims'))
+
+# cvReshape
+z = mb.free_fun('cvReshape')
+z.include()
+z.call_policies = CP.with_custodian_and_ward_postcall(2, 1, CP.return_arg(2))
+
+# functions
+for z in ('cvRepeat', 'cvCreateData', 'cvReleaseData', 'cvSetData', 'cvGetSize'):
+    mb.free_fun(z).include()
+    
+# cvGetRawData # TODO: fix this
+
+# functions
+for z in ('cvCopy', 'cvSet', 'cvSetZero', 'cvSplit', 'cvMerge', 
+    'cvConvertScale', 'cvConvertScaleAbs', 'cvCheckTermCriteria',
+    ):
+    mb.free_fun(z).include()
+cc.write('''
+cvZero = cvSetZero
+
+cvCvtScale = cvConvertScale
+
+cvScale = cvConvertScale
+
+def cvConvert(src, dst):
+    cvConvertScale(src, dst, 1, 0)
+
+cvCvtScaleAbs = cvConvertScaleAbs
+
+
+''')
+    
+# CvMixChannels # TODO: fix this
+
+    
+# Arithmetic, logic and comparison operations
+cc.write('''
+#-----------------------------------------------------------------------------
+# Arithmetic, logic and comparison operations
+#-----------------------------------------------------------------------------
+
+
+def cvAXPY( A, real_scalar, B, C ):
+    cvScaleAdd(A, cvRealScalar(real_scalar), B, C)
+    
+CV_CMP_EQ = 0
+CV_CMP_GT = 1
+CV_CMP_GE = 2
+CV_CMP_LT = 3
+CV_CMP_LE = 4
+CV_CMP_NE = 5
+
+def cvAbs(src, dst):
+    """void cvAbs(const CvArr src, CvArr dst)
+    
+    Calculates absolute value of every element in array
+    """
+    cvAbsDiffS(src, dst, cvScalarAll(0))
+
+    
+''')
+    
+# functions
+for z in (
+    'cvAdd', 'cvAddS', 'cvSub', 'cvSubS', 'cvSubRS', 'cvMul', 'cvDiv', 
+    'cvScaleAdd', 'cvAddWeighted', 'cvDotProduct', 'cvAnd', 'cvAndS', 
+    'cvOr', 'cvOrS', 'cvXor', 'cvXorS', 'cvNot', 'cvInRange', 'cvInRangeS',
+    'cvCmp', 'cvCmpS', 'cvMin', 'cvMax', 'cvMinS', 'cvMaxS', 'cvAbsDiff', 'cvAbsDiffS', 
+    ):
+    mb.free_fun(z).include()
+
+
+
+# Math operations
+cc.write('''
+#-----------------------------------------------------------------------------
+# Math operations
+#-----------------------------------------------------------------------------
+
+
+CV_CHECK_RANGE = 1
+CV_CHECK_QUIET = 2
+
+cvCheckArray = cvCheckArr
+
+CV_RAND_UNI = 0
+CV_RAND_NORMAL = 1
+
+CV_SORT_EVERY_ROW = 0
+CV_SORT_EVERY_COLUMN = 1
+CV_SORT_ASCENDING = 0
+CV_SORT_DESCENDING = 16
+
+    
+''')
+    
+# functions
+for z in (
+    'cvCartToPolar', 'cvPolarToCart', 'cvPow', 'cvExp', 'cvLog', 'cvFastArctan', 'cvCbrt', 
+    'cvCheckArr', 'cvRandArr', 'cvRandShuffle', 'cvSort', 'cvSolveCubic', 'cvSolvePoly',
+    ):
+    mb.free_fun(z).include()
+
+
+
+    
+    
+    
+    
+    
 
 # cvReleaseData
 add_underscore(mb.free_fun('cvReleaseData'))
