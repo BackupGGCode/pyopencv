@@ -330,15 +330,15 @@ IplImage.__del__ = _IplImage__del__
 ''')
 
 # IplROI
-iplroi = mb.class_('_IplROI')
-iplroi.rename('IplROI')
-iplroi.include()
+z = mb.class_('_IplROI')
+z.rename('IplROI')
+z.include()
 
 # IplConvKernel
-iplconvkernel = mb.class_('_IplConvKernel')
-iplconvkernel.rename('IplConvKernel')
-iplconvkernel.include()
-iplconvkernel.var('values').exclude() # don't need this variable yet
+z = mb.class_('_IplConvKernel')
+z.rename('IplConvKernel')
+z.include()
+z.var('values').exclude() # don't need this variable yet
 
 cc.write('''
 IplConvKernel._owner = False # default: owns nothing
@@ -540,15 +540,15 @@ CvSparseMat.__del__ = _CvSparseMat__del__
 
 
 # CvSparseNode
-cvsparsenode = mb.class_('CvSparseNode')
-cvsparsenode.include()
-FT.expose_member_as_pointee(cvsparsenode, 'next')
+z = mb.class_('CvSparseNode')
+z.include()
+FT.expose_member_as_pointee(z, 'next')
 
 # CvSparseMatIterator
-cvsparsematiterator = mb.class_('CvSparseMatIterator')
-cvsparsematiterator.include()
-FT.expose_member_as_pointee(cvsparsematiterator, 'mat')
-FT.expose_member_as_pointee(cvsparsematiterator, 'node')
+z = mb.class_('CvSparseMatIterator')
+z.include()
+FT.expose_member_as_pointee(z, 'mat')
+FT.expose_member_as_pointee(z, 'node')
 
 
 # CvHistogram
@@ -620,10 +620,72 @@ for z in ('CvScalar', 'cvRealScalar',
 mb.class_('CvLineIterator').var('ptr').exclude() # TODO: fix this
     
 
+# Dynamic Data structures
+cc.write('''
+#-----------------------------------------------------------------------------
+# Dynamic Data structures
+#-----------------------------------------------------------------------------
+
+CV_STORAGE_MAGIC_VAL = 0x42890000
+
+CV_TYPE_NAME_SEQ             = "opencv-sequence"
+CV_TYPE_NAME_SEQ_TREE        = "opencv-sequence-tree"
+
+CV_SET_ELEM_IDX_MASK   = ((1 << 26) - 1)
+CV_SET_ELEM_FREE_FLAG  = (1 << (_CT.sizeof(_CT.c_int)*8-1))
+
+# Checks whether the element pointed by ptr belongs to a set or not
+def CV_IS_SET_ELEM(ptr):
+    return cast(ptr, CvSetElem_p)[0].flags >= 0
 
 
+''')
 
+# CvMemBlock
+z = mb.class_('CvMemBlock')
+z.include()
+for t in ('prev', 'next'):
+    FT.expose_member_as_pointee(z, t)
 
+# CvMemStorage
+z = mb.class_('CvMemStorage')
+z.include()
+for t in ('bottom', 'top', 'parent'):
+    FT.expose_member_as_pointee(z, t)
+
+# CvMemStoragePos
+z = mb.class_('CvMemStoragePos')
+z.include()
+FT.expose_member_as_pointee(z, 'top')
+
+# CvSeqBlock
+z = mb.class_('CvSeqBlock')
+z.include()
+for t in ('prev', 'next'):
+    FT.expose_member_as_pointee(z, t)
+FT.expose_member_as_str(z, 'data')
+
+# CvSeq
+z = mb.class_('CvSeq')
+def _expose_CvSeq_members(z):
+    z.include()
+    for t in ('h_prev', 'h_next', 'v_prev', 'v_next', 'storage', 'free_blocks', 'first'):
+        FT.expose_member_as_pointee(z, t)
+    for t in ('block_max', 'ptr'):
+        FT.expose_member_as_str(z, t)
+_expose_CvSeq_members(z)
+        
+# CvSetElem
+z = mb.class_('CvSetElem')
+z.include()
+FT.expose_member_as_pointee(z, 'next_free')
+
+# CvSet
+z = mb.class_('CvSet')
+def _expose_CvSet_members(z):
+    _expose_CvSeq_members(z)
+    FT.expose_member_as_pointee(z, 'free_elems')
+_expose_CvSet_members(z)
 
 
 
@@ -915,19 +977,6 @@ for z in ('IPL_', 'CV_'):
 # for z in ('is_instance', 'release', 'read', 'write', 'clone'):
     # expose_addressof_member(cvtypeinfo, z)
     
-# IplImage
-# iplimage = mb.class_('_IplImage')
-# for z in ('imageId', 'imageData', 'imageDataOrigin'):
-    # iplimage.var(z).expose_address = True
-    
-# CvMat
-# cvmat = mb.class_('CvMat')
-# cvmat.include()
-# cvmat.var('refcount').expose_address = True
-# for z in ('ptr', 's', 'i', 'fl', 'db'):
-    # cvmat.var(z).exclude()
-# expose_addressof_member(cvmat, 'data')
-
 # CvAttrList
 
 
