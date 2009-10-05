@@ -117,7 +117,13 @@ for f in mb.free_funs():
             f._transformer_creators.append(FT.input_string(arg.name))
             break
 
-            
+# function argument int *sizes and int dims
+for f in mb.free_funs():
+    for arg in f.arguments:
+        if arg.name == 'sizes' and declarations.is_pointer(arg.type):
+            for arg in f.arguments:
+                if arg.name == 'dims' and declarations.is_integral(arg.type):
+                    f._transformer_creators.append(FT.input_dynamic_array('sizes', 'dims'))
 
 cc.write('''
 #=============================================================================
@@ -514,7 +520,7 @@ CvMatND._owner = False
         
 def _CvMatND__del__(self):
     if self._owner is True:
-        _PE._cvReleaseMat(self)
+        _PE._cvReleaseMatND(self)
 CvMatND.__del__ = _CvMatND__del__
 
 ''')
@@ -1284,9 +1290,18 @@ def cvGetDiag(arr, submat=None, diag=0):
 # cvScalarToRawData and cvRawDataToScalar # TODO: fix this
 
 # cvCreateMatNDHeader
-z = mb.free_fun('cvCreateMatNDHeader')
-z._transformer_creators.append(FT.input_dynamic_array('sizes', 'dims'))
+cc.write('''
+def cvCreateMatNDHeader(sizes, type):
+    """CvMatND cvCreateMatNDHeader(sequence_of_ints sizes, int type)
 
+    Creates new matrix header
+    """
+    z = _PE._cvCreateMatNDHeader(sizes, type)
+    if z is not None:
+        z._owner = True
+    return z
+
+''')
 
 
 
