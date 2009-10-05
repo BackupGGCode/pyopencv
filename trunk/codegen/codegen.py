@@ -416,7 +416,7 @@ CV_64FC3 = CV_MAKETYPE(CV_64F,3)
 CV_64FC4 = CV_MAKETYPE(CV_64F,4)
 
 CV_AUTOSTEP = 0x7fffffff
-# CV_WHOLE_ARR  = cvSlice( 0, 0x3fffffff ) # TODO: fix this when cvSlice is up and running
+CV_WHOLE_ARR  = cvSlice( 0, 0x3fffffff )
 
 CV_MAT_CN_MASK = ((CV_CN_MAX - 1) << CV_CN_SHIFT)
 def CV_MAT_CN(flags):
@@ -587,11 +587,81 @@ add_property( "node", bp::make_function(&CvSparseMatIterator_wrapper::get_node) 
 ''')
 
 
+# CvHistogram
+cvhistogram = mb.class_('CvHistogram')
+cvhistogram.include()
+for z in ('bins', 'thresh', 'thresh2'): # TODO: fix this
+    cvhistogram.var(z).exclude()
+mb.decl('CvHistType').include()
+cc.write('''
+#-----------------------------------------------------------------------------
+# Histogram
+#-----------------------------------------------------------------------------
+
+CV_HIST_MAGIC_VAL     = 0x42450000
+CV_HIST_UNIFORM_FLAG  = (1 << 10)
+
+CV_HIST_RANGES_FLAG   = (1 << 11)
+
+CV_HIST_ARRAY         = 0
+CV_HIST_SPARSE        = 1
+CV_HIST_TREE          = CV_HIST_SPARSE
+
+CV_HIST_UNIFORM       = 1
+
+
+''')
+
+cc.write('''
+CvHistogram._owner = False
+        
+def _CvHistogram__del__(self):
+    if self._owner is True:
+        _PE._cvReleaseHist(self)
+CvHistogram.__del__ = _CvHistogram__del__
+
+''')
+
+
+# Other supplementary data type definitions
+cc.write('''
+#-----------------------------------------------------------------------------
+# Other supplementary data type definitions
+#-----------------------------------------------------------------------------
+
+CV_TERMCRIT_ITER    = 1
+CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
+CV_TERMCRIT_EPS     = 2
+
+CV_WHOLE_SEQ_END_INDEX = 0x3fffffff
+CV_WHOLE_SEQ = cvSlice(0, CV_WHOLE_SEQ_END_INDEX)
+
+
+''')
+
+for z in ('CvRect',):
+    mb.class_(z).include()
+for z in ('cvScalar', 'cvScalarAll', 
+    'cvRect', 'cvRectToROI', 'cvROIToRect'):
+    mb.free_fun(z).include()
+for z in ('CvScalar', 'cvRealScalar', 
+    'CvPoint', 'cvPoint', 
+    'CvSize', 'cvSize', 'CvBox2D',
+    'CvTermCriteria', 'cvTermCriteria', 'cvCheckTermCriteria',
+    'CvLineIterator',
+    'CvSlice', 'cvSlice',
+    ):
+    mb.decls(lambda decl: decl.name.startswith(z)).include()
     
+mb.class_('CvLineIterator').var('ptr').exclude() # TODO: fix this
     
 
-            
-    
+
+
+
+
+
+
 
 
 
@@ -602,29 +672,6 @@ cc.write('''
 
 
 ''')
-
-cc.write('''
-#-----------------------------------------------------------------------------
-# CvTermCriteria
-#-----------------------------------------------------------------------------
-
-CV_TERMCRIT_ITER    = 1
-CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
-CV_TERMCRIT_EPS     = 2
-
-
-''')
-
-for z in ('CvScalar', 'cvRealScalar', 
-    'CvPoint', 'cvPoint', 
-    'CvSize', 'cvSize', 
-    'CvTermCriteria', 'cvTermCriteria', 'cvCheckTermCriteria'):
-    mb.decls(lambda decl: decl.name.startswith(z)).include()
-for z in ('cvScalar', 'cvScalarAll', 
-    'cvRect'):
-    mb.decl(z).include()
-mb.class_('CvRect').include()
-    
 
     
    
