@@ -9,13 +9,13 @@ from pyplusplus.module_builder import call_policies as CP
 mb = module_builder.module_builder_t( 
     [
         "cxcore.h", 
-        # "cxcore.hpp", 
         # "cv.h", 
-        # "cv.hpp", 
         # "cvaux.h", 
-        # "cvaux.hpp", 
         # "ml.h", 
         # "highgui.h", 
+        # "cxcore.hpp", 
+        # "cv.hpp", 
+        # "cvaux.hpp", 
         # "highgui.hpp",
         # r"M:/programming/mypackages/pyopencv/workspace_svn/pyopencv_opencv1.2b_win32/pyopencvext.hpp"
     ],
@@ -110,6 +110,14 @@ for z in mb.free_funs():
         # if declarations.is_pointer(z.arguments[i]):
             # z._transformer_creators.append(FT.input_smart_pointee(i+1))
 
+# function argument 'void *data'
+for f in mb.free_funs():
+    for arg in f.arguments:
+        if arg.name == 'data' and 'void *' in arg.type.decl_string:
+            f._transformer_creators.append(FT.input_string(arg.name))
+            break
+
+            
 
 cc.write('''
 #=============================================================================
@@ -983,26 +991,10 @@ for t in ('name', 'version'):
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
 cc.write('''
 #=============================================================================
-# CxCore/Basic Structures
+# cxcore.h
 #=============================================================================
 
 
@@ -1017,9 +1009,9 @@ def add_underscore(decl):
 
 
 cc.write('''
-#=============================================================================
-# CxCore/Operations on Arrays
-#=============================================================================
+#-----------------------------------------------------------------------------
+# Array allocation, deallocation, initialization and access to elements
+#-----------------------------------------------------------------------------
 
 
 ''')
@@ -1038,7 +1030,7 @@ for z in mb.free_funs(lambda decl: decl.name.startswith('cvClone')):
 
 # cvRelease... functions
 for z in mb.free_funs(lambda decl: decl.name.startswith('cvRelease')):
-    if not z.name in ('cvRelease', 'cvReleaseMemStorage', 'cvReleaseData', 'cvReleaseFileStorage'): # TODO: fix
+    if not z.name in ('cvRelease', 'cvReleaseData', 'cvReleaseFileStorage'): # TODO: fix
         add_underscore(z)
         z._transformer_creators.append(FT.input_double_pointee(0))
         
@@ -1047,28 +1039,6 @@ for z in mb.free_funs(lambda decl: decl.name.startswith('cvInit')):
     add_underscore(z)
     z.call_policies = CP.return_self()
 
-# function argument 'void *data'
-for f in mb.free_funs():
-    for arg in f.arguments:
-        if arg.name == 'data' and 'void *' in arg.type.decl_string:
-            f._transformer_creators.append(FT.input_string(arg.name))
-            break
-
-# cvCreateImage
-cc.write('''
-def cvCreateImage(size, depth, channels):
-    """IplImage cvCreateImage(CvSize size, int depth, int channels)
-
-    Creates header and allocates data
-    """
-    z = _PE._cvCreateImage(size, depth, channels)
-    if z is not None:
-        z._owner = 3 # both header and data
-    return z
-
-''')
-
-        
 # cvCreateImageHeader
 cc.write('''
 def cvCreateImageHeader(size, depth, channels):
@@ -1095,6 +1065,21 @@ def cvInitImageHeader(image, size, depth, channels, origin=0, align=4):
     
 ''')
 
+# cvCreateImage
+cc.write('''
+def cvCreateImage(size, depth, channels):
+    """IplImage cvCreateImage(CvSize size, int depth, int channels)
+
+    Creates header and allocates data
+    """
+    z = _PE._cvCreateImage(size, depth, channels)
+    if z is not None:
+        z._owner = 3 # both header and data
+    return z
+
+''')
+
+        
 # cvCloneImage
 cc.write('''
 def cvCloneImage(image):
@@ -1116,6 +1101,36 @@ mb.free_functions(lambda decl: decl.name.startswith('cv') and 'ImageCOI' in decl
 # cv...ImageROI functions
 mb.free_functions(lambda decl: decl.name.startswith('cv') and 'ImageROI' in decl.name).include()
 
+
+
+# cvCreateMatHeader
+cc.write('''
+def cvCreateMatHeader(rows, cols, cvmat_type):
+    """CvMat cvCreateMatHeader(int rows, int cols, int type)
+
+    Creates new matrix header
+    """
+    z = _PE._cvCreateMatHeader(rows, cols, cvmat_type)
+    if z is not None:
+        z._owner = True
+    return z
+
+''')
+
+
+# cvInitMatHeader
+cc.write('''
+def cvInitMatHeader(mat, rows, cols, cvmat_type, data=None, step=CV_AUTOSTEP):
+    """CvMat cvInitMatHeader(CvMat mat, int rows, int cols, int type, string data=None, int step=CV_AUTOSTEP)
+
+    Initializes matrix header
+    """
+    _PE._cvInitMatHeader(mat, rows, cols, cvmat_type, data=data, step=step)
+    if data is not None:
+        mat._depends = (data,)
+    return mat
+    
+''')
 
 
 # cvCreateMat
@@ -1164,38 +1179,6 @@ def cvCreateMatFromCvPointList(points):
 
 ''')
 
-# cvCreateMatHeader
-cc.write('''
-def cvCreateMatHeader(rows, cols, cvmat_type):
-    """CvMat cvCreateMatHeader(int rows, int cols, int type)
-
-    Creates new matrix header
-    """
-    z = _PE._cvCreateMatHeader(rows, cols, cvmat_type)
-    if z is not None:
-        z._owner = True
-    return z
-
-CV_AUTOSTEP = 0x7fffffff
-
-''')
-
-
-# cvInitMatHeader
-cc.write('''
-def cvInitMatHeader(mat, rows, cols, cvmat_type, data=None, step=CV_AUTOSTEP):
-    """CvMat cvInitMatHeader(CvMat mat, int rows, int cols, int type, string data=None, int step=CV_AUTOSTEP)
-
-    Initializes matrix header
-    """
-    _PE._cvInitMatHeader(mat, rows, cols, cvmat_type, data=data, step=step)
-    if data is not None:
-        mat._depends = (data,)
-    return mat
-    
-''')
-
-
 # cvCloneMat
 cc.write('''
 def cvCloneMat(mat):
@@ -1209,6 +1192,104 @@ def cvCloneMat(mat):
     return z
 
 ''')
+
+
+# cv...RefData
+mb.free_funs(lambda f: f.name.startswith('cv') and 'RefData' in f.name).include()
+
+# cvGetSubRect
+z = mb.free_fun('cvGetSubRect')
+add_underscore(z)
+z.call_policies = CP.return_arg(2)
+cc.write('''
+def cvGetSubRect(arr, submat, rect):
+    """CvMat cvGetSubRect(const CvArr arr, CvMat submat, CvRect rect)
+
+    Returns matrix header corresponding to the rectangular sub-array of input image or matrix
+    [ctypes-opencv] If 'submat' is None, it is internally created.
+    """
+    if submat is None:
+        submat = CvMat()
+    _PE._cvGetSubRect(arr, submat, rect)
+    submat._depends = (arr,)
+    return submat
+
+cvGetSubArr = cvGetSubRect
+
+''')
+
+# cvGetRows and cvGetRow
+z = mb.free_fun('cvGetRows')
+add_underscore(z)
+z.call_policies = CP.return_arg(2)
+cc.write('''
+def cvGetRows(arr, submat, start_row, end_row, delta_row=1):
+    """CvMat cvGetRows(const CvArr arr, CvMat submat, int start_row, int end_row, int delta_row=1)
+
+    Returns array row or row span
+    [ctypes-opencv] If 'submat' is None, it is internally created.
+    """
+    if submat is None:
+        submat = CvMat()
+    _cvGetRows(arr, submat, start_row, end_row, delta_row=delta_row)
+    submat._depends = (arr,)
+    return submat
+    
+def cvGetRow(arr, submat=None, row=0):
+    return cvGetRows(arr, submat, row, row+1)
+
+''')
+
+# cvGetCols and cvGetCol
+z = mb.free_fun('cvGetCols')
+add_underscore(z)
+z.call_policies = CP.return_arg(2)
+cc.write('''
+def cvGetCols(arr, submat, start_col, end_col):
+    """CvMat cvGetCols(const CvArr arr, CvMat submat, int start_col, int end_col)
+
+    Returns array column or column span
+    [ctypes-opencv] If 'submat' is None, it is internally created.
+    """
+    if submat is None:
+        submat = CvMat()
+    _cvGetCols(arr, submat, start_col, end_col)
+    submat._depends = (arr,)
+    return submat
+    
+def cvGetCol(arr, submat=None, col=0):
+    return cvGetCols(arr, submat, col, col+1)
+
+''')
+
+# cvGetDiag
+z = mb.free_fun('cvGetDiag')
+add_underscore(z)
+z.call_policies = CP.return_arg(2)
+cc.write('''
+def cvGetDiag(arr, submat=None, diag=0):
+    """CvMat cvGetDiag(const CvArr arr, CvMat submat, int diag=0)
+
+    Returns one of array diagonals
+    [ctypes-opencv] If 'submat' is None, it is internally created.
+    """
+    if submat is None:
+        submat = CvMat()
+    _cvGetDiag(arr, submat, diag=diag)
+    submat._depends = (arr,)
+    return submat
+
+''')
+
+# cvScalarToRawData and cvRawDataToScalar # TODO: fix this
+
+# cvCreateMatNDHeader
+
+
+
+
+
+
 
 # cvReleaseData
 add_underscore(mb.free_fun('cvReleaseData'))
