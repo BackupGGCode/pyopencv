@@ -114,6 +114,8 @@ class input_smart_pointee_t(transformer_t):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         data_type = declarations.remove_const(remove_ptr( self.arg.type ))
         w_arg.type = declarations.dummy_type_t( "boost::python::object" )
+        if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+            w_arg.default_value = 'bp::object()'
         controller.add_pre_call_code("%s const &tmp_%s = bp::extract<%s const &>(%s);" % (data_type, w_arg.name, data_type, w_arg.name))
         controller.modify_arg_expression(self.arg_index, "(%s.ptr() != Py_None)? (%s)(&tmp_%s): 0" % (w_arg.name, self.arg.type, w_arg.name))
 

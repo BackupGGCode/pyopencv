@@ -31,7 +31,7 @@ mb = module_builder.module_builder_t(
     
 cc = open('pyopencv/__init__.py', 'w')
 cc.write('''#!/usr/bin/env python
-# pyopencv - A Python wrapper for OpenCV 2.0 using Boost.Python
+# pyopencv - A Python wrapper for OpenCV 2.0 using Boost.Python and ctypes
 
 # Copyright (c) 2009, Minh-Tri Pham
 # All rights reserved.
@@ -49,6 +49,8 @@ cc.write('''#!/usr/bin/env python
 
 from pyopencvext import *
 import pyopencvext as _PE
+import math as _Math
+import ctypes as _CT
 
 
 #=============================================================================
@@ -66,37 +68,17 @@ CV_VERSION          = "2.0.0"
 ''')
 
 
+
+#=============================================================================
+# Initialization
+#=============================================================================
+
+
 #Well, don't you want to see what is going on?
 # mb.print_declarations() -- too many declarations
 
 # Disable every declarations first
 mb.decls().exclude()
-
-
-# initialize list of transformer creators for each free function
-for z in mb.free_funs():
-    z._transformer_creators = []
-    
-# by default, convert all pointers to Cv... or to Ipl... into pointee
-for z in mb.free_funs():
-    for arg in z.arguments:
-        if declarations.is_pointer(arg.type) and not declarations.is_pointer(declarations.remove_pointer(arg.type)) and \
-            (arg.type.decl_string.startswith('::Cv') or arg.type.decl_string.startswith('::_Ipl')):
-            z._transformer_creators.append(FT.input_smart_pointee(arg.name))
-            if arg.default_value == '0' or arg.default_value == 'NULL':
-                arg.default_value = 'bp::object()'
-# for z in mb.mem_funs(): # TODO: fix
-    # for i in xrange(z.arguments):
-        # if declarations.is_pointer(z.arguments[i]):
-            # z._transformer_creators.append(FT.input_smart_pointee(i+1))
-
-
-
-            
-    
-#=============================================================================
-# Initialization
-#=============================================================================
 
 # disable some warnings
 mb.decls().disable_warnings(messages.W1027, messages.W1025)
@@ -106,44 +88,282 @@ mb.classes().expose_this = True
 
 
 
-
-cc.write('''
 #=============================================================================
-# CxCore/Basic Structures
+# Rules for free functions and member functions
 #=============================================================================
 
 
-''')
-
-cc.write('''
-#-----------------------------------------------------------------------------
-# CvTermCriteria
-#-----------------------------------------------------------------------------
-
-CV_TERMCRIT_ITER    = 1
-CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
-CV_TERMCRIT_EPS     = 2
-
-
-''')
-
-for z in ('CvScalar', 'cvRealScalar', 
-    'CvPoint', 'cvPoint', 
-    'CvSize', 'cvSize', 
-    'CvTermCriteria', 'cvTermCriteria', 'cvCheckTermCriteria'):
-    mb.decls(lambda decl: decl.name.startswith(z)).include()
-for z in ('cvScalar', 'cvScalarAll', 
-    'cvRect'):
-    mb.decl(z).include()
-mb.class_('CvRect').include()
+# initialize list of transformer creators for each free function
+for z in mb.free_funs():
+    z._transformer_creators = []
+for z in mb.mem_funs():
+    z._transformer_creators = []
     
+# by default, convert all pointers to Cv... or to Ipl... into pointee
+for z in mb.free_funs():
+    for arg in z.arguments:
+        if declarations.is_pointer(arg.type) and not declarations.is_pointer(declarations.remove_pointer(arg.type)) and \
+            (arg.type.decl_string.startswith('::Cv') or arg.type.decl_string.startswith('::_Ipl')):
+            z._transformer_creators.append(FT.input_smart_pointee(arg.name))
+# for z in mb.mem_funs(): # TODO: fix
+    # for i in xrange(z.arguments):
+        # if declarations.is_pointer(z.arguments[i]):
+            # z._transformer_creators.append(FT.input_smart_pointee(i+1))
+
+
+cc.write('''
+#=============================================================================
+# cxerror.h
+#=============================================================================
+
+
+''')
+
+# CVStatus
+mb.decl('CVStatus').include()
+cc.write('''
+CV_StsOk                   =  0  # everithing is ok                
+CV_StsBackTrace            = -1  # pseudo error for back trace     
+CV_StsError                = -2  # unknown /unspecified error      
+CV_StsInternal             = -3  # internal error (bad state)      
+CV_StsNoMem                = -4  # insufficient memory             
+CV_StsBadArg               = -5  # function arg/param is bad       
+CV_StsBadFunc              = -6  # unsupported function            
+CV_StsNoConv               = -7  # iter. didn't converge           
+CV_StsAutoTrace            = -8  # tracing                         
+
+CV_HeaderIsNull            = -9  # image header is NULL            
+CV_BadImageSize            = -10 # image size is invalid           
+CV_BadOffset               = -11 # offset is invalid               
+CV_BadDataPtr              = -12 #
+CV_BadStep                 = -13 #
+CV_BadModelOrChSeq         = -14 #
+CV_BadNumChannels          = -15 #
+CV_BadNumChannel1U         = -16 #
+CV_BadDepth                = -17 #
+CV_BadAlphaChannel         = -18 #
+CV_BadOrder                = -19 #
+CV_BadOrigin               = -20 #
+CV_BadAlign                = -21 #
+CV_BadCallBack             = -22 #
+CV_BadTileSize             = -23 #
+CV_BadCOI                  = -24 #
+CV_BadROISize              = -25 #
+
+CV_MaskIsTiled             = -26 #
+
+CV_StsNullPtr                = -27 # null pointer 
+CV_StsVecLengthErr           = -28 # incorrect vector length 
+CV_StsFilterStructContentErr = -29 # incorr. filter structure content 
+CV_StsKernelStructContentErr = -30 # incorr. transform kernel content 
+CV_StsFilterOffsetErr        = -31 # incorrect filter ofset value 
+
+#extra for CV 
+CV_StsBadSize                = -201 # the input/output structure size is incorrect  
+CV_StsDivByZero              = -202 # division by zero 
+CV_StsInplaceNotSupported    = -203 # in-place operation is not supported 
+CV_StsObjectNotFound         = -204 # request can't be completed 
+CV_StsUnmatchedFormats       = -205 # formats of input/output arrays differ 
+CV_StsBadFlag                = -206 # flag is wrong or not supported   
+CV_StsBadPoint               = -207 # bad CvPoint  
+CV_StsBadMask                = -208 # bad format of mask (neither 8uC1 nor 8sC1)
+CV_StsUnmatchedSizes         = -209 # sizes of input/output structures do not match 
+CV_StsUnsupportedFormat      = -210 # the data format/type is not supported by the function
+CV_StsOutOfRange             = -211 # some of parameters are out of range 
+CV_StsParseError             = -212 # invalid syntax/structure of the parsed file 
+CV_StsNotImplemented         = -213 # the requested function/feature is not implemented 
+CV_StsBadMemBlock            = -214 # an allocated block has been corrupted 
+CV_StsAssert                 = -215 # assertion failed 
+
+
+
+''')
+
+
+
+cc.write('''
+#=============================================================================
+# cxtypes.h
+#=============================================================================
+
+
+''')
+
+# CvArr
+mb.class_('CvArr').include()
+
+cc.write('''
+#-----------------------------------------------------------------------------
+# Common macros and inline functions
+#-----------------------------------------------------------------------------
+
+CV_PI = _Math.pi
+CV_LOG2 = 0.69314718055994530941723212145818
+
+''')
+
+# functions
+for z in ('cvRound', 'cvFloor', 'cvCeil', 'cvIsNaN', 'cvIsInf'):
+    mb.free_fun(z).include()
+
+cc.write('''
+#-----------------------------------------------------------------------------
+# Random number generation
+#-----------------------------------------------------------------------------
+
+# Minh-Tri's note: I'd rather use a random generator other than CvRNG.
+# It's slow and doesn't guarrantee a large cycle.
+
+CvRNG = _CT.c_uint64
+
+def cvRNG(seed=-1):
+    """CvRNG cvRNG( int64 seed = CV_DEFAULT(-1))
+    
+    Initializes random number generator and returns the state. 
+    """
+    if seed != 0:
+        return CvRNG(seed)
+    return CvRNG(-1)
+
+def cvRandInt(rng):
+    """unsigned cvRandInt( CvRNG rng )
+    
+    Returns random 32-bit unsigned integer. 
+    """
+    temp = rng.value
+    temp = temp*4164903690 + (temp >> 32)
+    rng.value = temp
+    return _CT.c_uint32(temp).value
+    
+def cvRandReal(rng):
+    """double cvRandReal( CvRNG rng )
+    
+    Returns random floating-point number between 0 and 1.
+    """
+    return _CT.c_double(cvRandInt(rng).value*2.3283064365386962890625e-10) # 2^-32
+
+    
+''')
+
+
+# IplImage and IplROI
+cc.write('''
+#-----------------------------------------------------------------------------
+# Image type (IplImage)
+#-----------------------------------------------------------------------------
+
+# Image type (IplImage)
+IPL_DEPTH_SIGN = -0x80000000
+
+IPL_DEPTH_1U =  1
+IPL_DEPTH_8U =  8
+IPL_DEPTH_16U = 16
+IPL_DEPTH_32F = 32
+IPL_DEPTH_64F = 64
+
+IPL_DEPTH_8S = IPL_DEPTH_SIGN + IPL_DEPTH_8U
+IPL_DEPTH_16S = IPL_DEPTH_SIGN + IPL_DEPTH_16U
+IPL_DEPTH_32S = IPL_DEPTH_SIGN + 32
+
+IPL_DATA_ORDER_PIXEL = 0
+IPL_DATA_ORDER_PLANE = 1
+
+IPL_ORIGIN_TL = 0
+IPL_ORIGIN_BL = 1
+
+IPL_ALIGN_4BYTES = 4
+IPL_ALIGN_8BYTES = 8
+IPL_ALIGN_16BYTES = 16
+IPL_ALIGN_32BYTES = 32
+
+IPL_ALIGN_DWORD = IPL_ALIGN_4BYTES
+IPL_ALIGN_QWORD = IPL_ALIGN_8BYTES
+
+IPL_BORDER_CONSTANT = 0
+IPL_BORDER_REPLICATE = 1
+IPL_BORDER_REFLECT = 2
+IPL_BORDER_WRAP = 3
+
+IPL_IMAGE_HEADER = 1
+IPL_IMAGE_DATA = 2
+IPL_IMAGE_ROI = 4
+
+IPL_BORDER_REFLECT_101    = 4
+
+CV_TYPE_NAME_IMAGE = "opencv-image"
+
+
+''')    
+
+iplimage = mb.class_('_IplImage')
+iplimage.rename('IplImage')
+iplimage.include()
+iplroi = mb.class_('_IplROI')
+iplroi.rename('IplROI')
+iplroi.include()
+for z in ('imageId', 'imageData', 'roi', 'imageDataOrigin', 'tileInfo', 'maskROI'): # don't need these attributes
+    iplimage.var(z).exclude()
+# deal with 'imageData' and 'roi'
+iplimage.include_files.append( "boost/python/object.hpp" )
+iplimage.include_files.append( "boost/python/str.hpp" )
+iplimage.add_wrapper_code('''
+
+    static bp::object get_data( _IplImage const & inst ){        
+        return inst.imageData? bp::str(inst.imageData, inst.imageSize) : bp::object();
+    }
+
+    static bp::object get_roi( _IplImage const & inst ){        
+        return inst.roi? bp::object(inst.roi) : bp::object();
+    }
+
+''')
+iplimage.add_registration_code('''
+add_property( "data", bp::make_function(&_IplImage_wrapper::get_data) )
+''')
+iplimage.add_registration_code('''
+add_property( "roi", bp::make_function(&_IplImage_wrapper::get_roi) )
+''')
+
+cc.write('''
+IplImage._owner = 0 # default: owns nothing
+        
+def _IplImage__del__(self):
+    if self._owner == 1: # own header only
+        _PE._cvReleaseImageHeader(self)
+    elif self._owner == 2: # own data but not header
+        _PE._cvReleaseData(self)
+    elif self._owner == 3: # own header and data
+        _PE._cvReleaseImage(self)
+IplImage.__del__ = _IplImage__del__
+
+''')
+
+
+# IplConvKernel
+iplconvkernel = mb.class_('_IplConvKernel')
+iplconvkernel.rename('IplConvKernel')
+iplconvkernel.include()
+iplconvkernel.var('values').exclude() # don't need this variable yet
+
+cc.write('''
+IplConvKernel._owner = False # default: owns nothing
+        
+def _IplConvKernel__del__(self):
+    if self._owner is True: # own header
+        _PE._cvReleaseStructuringElement(self)
+IplConvKernel.__del__ = _IplConvKernel__del__
+
+''')
+
+
+# CvMat
 cc.write('''
 #-----------------------------------------------------------------------------
 # Matrix type (CvMat) 
 #-----------------------------------------------------------------------------
 
 # Matrix type (CvMat)
-CV_CN_MAX = 4
+CV_CN_MAX = 64
 CV_CN_SHIFT = 3
 CV_DEPTH_MAX = (1 << CV_CN_SHIFT)
 
@@ -195,8 +415,8 @@ CV_64FC2 = CV_MAKETYPE(CV_64F,2)
 CV_64FC3 = CV_MAKETYPE(CV_64F,3)
 CV_64FC4 = CV_MAKETYPE(CV_64F,4)
 
-# CV_AUTO_STEP = 0x7fffffff -- no such thing as CV_AUTO_STEP
-# CV_WHOLE_ARR  = cvSlice( 0, 0x3fffffff )
+CV_AUTOSTEP = 0x7fffffff
+# CV_WHOLE_ARR  = cvSlice( 0, 0x3fffffff ) # TODO: fix this when cvSlice is up and running
 
 CV_MAT_CN_MASK = ((CV_CN_MAX - 1) << CV_CN_SHIFT)
 def CV_MAT_CN(flags):
@@ -224,8 +444,6 @@ CV_TYPE_NAME_MAT = "opencv-matrix"
 
 ''')
 
-
-# CvMat
 cvmat = mb.class_('CvMat')
 cvmat.include()
 for z in ('ptr', 's', 'i', 'fl', 'db', 'data'):
@@ -242,7 +460,22 @@ cvmat.add_registration_code('''
 add_property( "data", bp::make_function(&CvMat_wrapper::get_data) )
 ''')
 
+cc.write('''
+CvMat._owner = False
+        
+def _CvMat__del__(self):
+    if self._owner is True:
+        _PE._cvReleaseMat(self)
+CvMat.__del__ = _CvMat__del__
 
+''')
+
+# CvMat functions
+for z in ('cvMat', 'cvmGet', 'cvmSet', 'cvIplDepth'):
+    mb.free_fun(z).include()
+
+
+# CvMatND
 cc.write('''
 #-----------------------------------------------------------------------------
 # Multi-dimensional dense array (CvMatND)
@@ -257,7 +490,6 @@ CV_MAX_DIM_HEAP = (1 << 16)
 
 ''')
 
-# CvMatND
 cvmatnd = mb.class_('CvMatND')
 cvmatnd.include()
 for z in ('ptr', 's', 'i', 'fl', 'db', 'data'):
@@ -275,6 +507,18 @@ add_property( "data", bp::make_function(&CvMatND_wrapper::get_data) )
 ''')
 
 cc.write('''
+CvMatND._owner = False
+        
+def _CvMatND__del__(self):
+    if self._owner is True:
+        _PE._cvReleaseMat(self)
+CvMatND.__del__ = _CvMatND__del__
+
+''')
+
+
+# CvSparseMat
+cc.write('''
 #-----------------------------------------------------------------------------
 # Multi-dimensional sparse array (CvSparseMat) 
 #-----------------------------------------------------------------------------
@@ -285,81 +529,105 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 
 ''')
 
-# CvSparseMat
 cvsparsemat = mb.class_('CvSparseMat')
 cvsparsemat.include()
 for z in ('heap', 'hashtable'): # TODO: fix
     cvsparsemat.var(z).exclude()
+
+cc.write('''
+CvSparseMat._owner = False
+        
+def _CvSparseMat__del__(self):
+    _PE._cvReleaseSparseMat(self)
+CvSparseMat.__del__ = _CvSparseMat__del__
+
+''')
+
+
+# CvSparseNode
+cvsparsenode = mb.class_('CvSparseNode')
+cvsparsenode.include()
+cvsparsenode.var('next').exclude()
+# deal with 'next'
+cvsparsenode.include_files.append( "boost/python/object.hpp" )
+cvsparsenode.add_wrapper_code('''
+
+    static bp::object get_next( CvSparseNode const & inst ){        
+        return inst.next? bp::object(inst.next) : bp::object();
+    }
+
+''')
+cvsparsenode.add_registration_code('''
+add_property( "next", bp::make_function(&CvSparseNode_wrapper::get_next) )
+''')
+
+# CvSparseMatIterator
+cvsparsematiterator = mb.class_('CvSparseMatIterator')
+cvsparsematiterator.include()
+cvsparsematiterator.var('mat').exclude()
+cvsparsematiterator.var('node').exclude()
+# deal with 'mat' and 'node'
+cvsparsematiterator.include_files.append( "boost/python/object.hpp" )
+cvsparsematiterator.add_wrapper_code('''
+
+    static bp::object get_mat( CvSparseMatIterator const & inst ){        
+        return inst.mat? bp::object(inst.mat) : bp::object();
+    }
+
+    static bp::object get_node( CvSparseMatIterator const & inst ){        
+        return inst.node? bp::object(inst.node) : bp::object();
+    }
+
+''')
+cvsparsematiterator.add_registration_code('''
+add_property( "mat", bp::make_function(&CvSparseMatIterator_wrapper::get_mat) )
+''')
+cvsparsematiterator.add_registration_code('''
+add_property( "node", bp::make_function(&CvSparseMatIterator_wrapper::get_node) )
+''')
+
+
     
+    
+
+            
+    
+
+
+
+cc.write('''
+#=============================================================================
+# CxCore/Basic Structures
+#=============================================================================
+
+
+''')
 
 cc.write('''
 #-----------------------------------------------------------------------------
-# Image type (IplImage)
+# CvTermCriteria
 #-----------------------------------------------------------------------------
 
-# Image type (IplImage)
-IPL_DEPTH_SIGN = -0x80000000
-
-IPL_DEPTH_1U =  1
-IPL_DEPTH_8U =  8
-IPL_DEPTH_16U = 16
-IPL_DEPTH_32F = 32
-IPL_DEPTH_64F = 64
-
-IPL_DEPTH_8S = IPL_DEPTH_SIGN + IPL_DEPTH_8U
-IPL_DEPTH_16S = IPL_DEPTH_SIGN + IPL_DEPTH_16U
-IPL_DEPTH_32S = IPL_DEPTH_SIGN + 32
-
-IPL_DATA_ORDER_PIXEL = 0
-IPL_DATA_ORDER_PLANE = 1
-
-IPL_ORIGIN_TL = 0
-IPL_ORIGIN_BL = 1
-
-IPL_ALIGN_4BYTES = 4
-IPL_ALIGN_8BYTES = 8
-IPL_ALIGN_16BYTES = 16
-IPL_ALIGN_32BYTES = 32
-
-IPL_ALIGN_DWORD = IPL_ALIGN_4BYTES
-IPL_ALIGN_QWORD = IPL_ALIGN_8BYTES
-
-IPL_BORDER_CONSTANT = 0
-IPL_BORDER_REPLICATE = 1
-IPL_BORDER_REFLECT = 2
-IPL_BORDER_WRAP = 3
-
-IPL_IMAGE_HEADER = 1
-IPL_IMAGE_DATA = 2
-IPL_IMAGE_ROI = 4
-
-IPL_BORDER_REFLECT_101    = 4
-
-CV_TYPE_NAME_IMAGE = "opencv-image"
+CV_TERMCRIT_ITER    = 1
+CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
+CV_TERMCRIT_EPS     = 2
 
 
-''')    
-
-# IplImage
-iplimage = mb.class_('_IplImage')
-iplimage.rename('IplImage')
-iplimage.include()
-for z in ('imageId', 'imageData', 'roi', 'imageDataOrigin', 'tileInfo', 'maskROI'): # don't need these attributes
-    iplimage.var(z).exclude()
-# deal with 'imageData'
-iplimage.include_files.append( "boost/python/object.hpp" )
-iplimage.include_files.append( "boost/python/str.hpp" )
-iplimage.add_wrapper_code('''
-static bp::object get_data( _IplImage const & inst ){        
-    return inst.imageData? bp::str(inst.imageData, inst.imageSize) : bp::object();
-}
-''')
-iplimage.add_registration_code('''
-add_property( "data", bp::make_function(&_IplImage_wrapper::get_data) )
 ''')
 
-# CvArr
-mb.class_('CvArr').include()
+for z in ('CvScalar', 'cvRealScalar', 
+    'CvPoint', 'cvPoint', 
+    'CvSize', 'cvSize', 
+    'CvTermCriteria', 'cvTermCriteria', 'cvCheckTermCriteria'):
+    mb.decls(lambda decl: decl.name.startswith(z)).include()
+for z in ('cvScalar', 'cvScalarAll', 
+    'cvRect'):
+    mb.decl(z).include()
+mb.class_('CvRect').include()
+    
+
+    
+   
 
 def add_underscore(decl):
     decl.rename('_'+decl.name)
@@ -372,20 +640,6 @@ cc.write('''
 #=============================================================================
 
 
-''')
-
-cc.write('''
-# IplImage
-IplImage._owner = 0 # default: owns nothing
-        
-def _IplImage__del__(self):
-    if self._owner == 1: # own header only
-        _PE._cvReleaseImageHeader(self)
-    elif self._owner == 2: # own data but not header
-        _PE._cvReleaseData(self)
-    elif self._owner == 3: # own header and data
-        _PE._cvReleaseImage(self)
-IplImage.__del__ = _IplImage__del__
 ''')
 
 # return_pointee_value call policies for cvCreate... functions
@@ -482,18 +736,6 @@ mb.free_functions(lambda decl: decl.name.startswith('cv') and 'ImageROI' in decl
 
 
 
-cc.write('''
-# CvMat
-CvMat._owner = False
-        
-def _CvMat__del__(self):
-    if self._owner is True:
-        _cvReleaseMat(CvMat_p(self))
-CvMat.__del__ = _CvMat__del__
-
-''')
-
-
 # cvCreateMat
 cc.write('''
 def cvCreateMat(rows, cols, cvmat_type):
@@ -571,9 +813,6 @@ def cvInitMatHeader(mat, rows, cols, cvmat_type, data=None, step=CV_AUTOSTEP):
     
 ''')
 
-
-# cvMat
-mb.free_fun('cvMat').include()
 
 # cvCloneMat
 cc.write('''
