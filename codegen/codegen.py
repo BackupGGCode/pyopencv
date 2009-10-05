@@ -638,6 +638,8 @@ CV_SET_ELEM_FREE_FLAG  = (1 << (_CT.sizeof(_CT.c_int)*8-1))
 def CV_IS_SET_ELEM(ptr):
     return cast(ptr, CvSetElem_p)[0].flags >= 0
 
+CV_TYPE_NAME_GRAPH = "opencv-graph"
+
 
 ''')
 
@@ -686,6 +688,127 @@ def _expose_CvSet_members(z):
     _expose_CvSeq_members(z)
     FT.expose_member_as_pointee(z, 'free_elems')
 _expose_CvSet_members(z)
+
+
+# CvGraphEdge
+z = mb.class_('CvGraphEdge')
+z.include()
+for t in ('next', 'vtx'): # TODO: fix this
+    z.var(t).exclude()
+    
+# CvGraphVtx    
+z = mb.class_('CvGraphVtx')
+z.include()
+FT.expose_member_as_pointee(z, 'first')
+
+# CvGraphVtx2D
+z = mb.class_('CvGraphVtx2D')
+z.include()
+FT.expose_member_as_pointee(z, 'first')
+FT.expose_member_as_pointee(z, 'ptr') # TODO: fix this
+
+# CvGraph
+z = mb.class_('CvGraph')
+_expose_CvSet_members(z)
+FT.expose_member_as_pointee(z, 'edges')
+
+# CvChain
+z = mb.class_('CvChain')
+_expose_CvSeq_members(z)
+
+# CvContour
+z = mb.class_('CvContour')
+_expose_CvSeq_members(z)
+mb.decl('CvPoint2DSeq').include()
+
+
+# Sequence types
+cc.write('''
+#-----------------------------------------------------------------------------
+# Sequence types
+#-----------------------------------------------------------------------------
+
+#Viji Periapoilan 5/21/2007(start)
+
+CV_SEQ_MAGIC_VAL            = 0x42990000
+
+#define CV_IS_SEQ(seq) \
+#    ((seq) != NULL && (((CvSeq*)(seq))->flags & CV_MAGIC_MASK) == CV_SEQ_MAGIC_VAL)
+
+CV_SET_MAGIC_VAL           = 0x42980000
+#define CV_IS_SET(set) \
+#    ((set) != NULL && (((CvSeq*)(set))->flags & CV_MAGIC_MASK) == CV_SET_MAGIC_VAL)
+
+CV_SEQ_ELTYPE_BITS         = 9
+CV_SEQ_ELTYPE_MASK         =  ((1 << CV_SEQ_ELTYPE_BITS) - 1)
+CV_SEQ_ELTYPE_POINT        =  CV_32SC2  #/* (x,y) */
+CV_SEQ_ELTYPE_CODE         = CV_8UC1   #/* freeman code: 0..7 */
+CV_SEQ_ELTYPE_GENERIC      =  0
+CV_SEQ_ELTYPE_PTR          =  CV_USRTYPE1
+CV_SEQ_ELTYPE_PPOINT       =  CV_SEQ_ELTYPE_PTR  #/* &(x,y) */
+CV_SEQ_ELTYPE_INDEX        =  CV_32SC1  #/* #(x,y) */
+CV_SEQ_ELTYPE_GRAPH_EDGE   =  0  #/* &next_o, &next_d, &vtx_o, &vtx_d */
+CV_SEQ_ELTYPE_GRAPH_VERTEX =  0  #/* first_edge, &(x,y) */
+CV_SEQ_ELTYPE_TRIAN_ATR    =  0  #/* vertex of the binary tree   */
+CV_SEQ_ELTYPE_CONNECTED_COMP= 0  #/* connected component  */
+CV_SEQ_ELTYPE_POINT3D      =  CV_32FC3  #/* (x,y,z)  */
+
+CV_SEQ_KIND_BITS           = 3
+CV_SEQ_KIND_MASK           = (((1 << CV_SEQ_KIND_BITS) - 1)<<CV_SEQ_ELTYPE_BITS)
+
+
+# types of sequences
+CV_SEQ_KIND_GENERIC        = (0 << CV_SEQ_ELTYPE_BITS)
+CV_SEQ_KIND_CURVE          = (1 << CV_SEQ_ELTYPE_BITS)
+CV_SEQ_KIND_BIN_TREE       = (2 << CV_SEQ_ELTYPE_BITS)
+
+#Viji Periapoilan 5/21/2007(end)
+
+# types of sparse sequences (sets)
+CV_SEQ_KIND_GRAPH       = (3 << CV_SEQ_ELTYPE_BITS)
+CV_SEQ_KIND_SUBDIV2D    = (4 << CV_SEQ_ELTYPE_BITS)
+
+CV_SEQ_FLAG_SHIFT       = (CV_SEQ_KIND_BITS + CV_SEQ_ELTYPE_BITS)
+
+# flags for curves
+CV_SEQ_FLAG_CLOSED     = (1 << CV_SEQ_FLAG_SHIFT)
+CV_SEQ_FLAG_SIMPLE     = (2 << CV_SEQ_FLAG_SHIFT)
+CV_SEQ_FLAG_CONVEX     = (4 << CV_SEQ_FLAG_SHIFT)
+CV_SEQ_FLAG_HOLE       = (8 << CV_SEQ_FLAG_SHIFT)
+
+# flags for graphs
+CV_GRAPH_FLAG_ORIENTED = (1 << CV_SEQ_FLAG_SHIFT)
+
+CV_GRAPH               = CV_SEQ_KIND_GRAPH
+CV_ORIENTED_GRAPH      = (CV_SEQ_KIND_GRAPH|CV_GRAPH_FLAG_ORIENTED)
+
+# point sets
+CV_SEQ_POINT_SET       = (CV_SEQ_KIND_GENERIC| CV_SEQ_ELTYPE_POINT)
+CV_SEQ_POINT3D_SET     = (CV_SEQ_KIND_GENERIC| CV_SEQ_ELTYPE_POINT3D)
+CV_SEQ_POLYLINE        = (CV_SEQ_KIND_CURVE  | CV_SEQ_ELTYPE_POINT)
+CV_SEQ_POLYGON         = (CV_SEQ_FLAG_CLOSED | CV_SEQ_POLYLINE )
+CV_SEQ_CONTOUR         = CV_SEQ_POLYGON
+CV_SEQ_SIMPLE_POLYGON  = (CV_SEQ_FLAG_SIMPLE | CV_SEQ_POLYGON  )
+
+# chain-coded curves
+CV_SEQ_CHAIN           = (CV_SEQ_KIND_CURVE  | CV_SEQ_ELTYPE_CODE)
+CV_SEQ_CHAIN_CONTOUR   = (CV_SEQ_FLAG_CLOSED | CV_SEQ_CHAIN)
+
+# binary tree for the contour
+CV_SEQ_POLYGON_TREE    = (CV_SEQ_KIND_BIN_TREE  | CV_SEQ_ELTYPE_TRIAN_ATR)
+
+# sequence of the connected components
+CV_SEQ_CONNECTED_COMP  = (CV_SEQ_KIND_GENERIC  | CV_SEQ_ELTYPE_CONNECTED_COMP)
+
+# sequence of the integer numbers
+CV_SEQ_INDEX           = (CV_SEQ_KIND_GENERIC  | CV_SEQ_ELTYPE_INDEX)
+
+# CV_SEQ_ELTYPE( seq )   = ((seq)->flags & CV_SEQ_ELTYPE_MASK)
+# CV_SEQ_KIND( seq )     = ((seq)->flags & CV_SEQ_KIND_MASK )
+
+
+''')
+
 
 
 
