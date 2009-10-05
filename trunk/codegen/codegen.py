@@ -654,6 +654,15 @@ z = mb.class_('CvMemStorage')
 z.include()
 for t in ('bottom', 'top', 'parent'):
     FT.expose_member_as_pointee(z, t)
+cc.write('''
+CvMemStorage._owner = False
+        
+def _CvMemStorage__del__(self):
+    if self._owner is True:
+        _PE._cvReleaseMemStorage(self)
+CvMemStorage.__del__ = _CvMemStorage__del__
+
+''')
 
 # CvMemStoragePos
 z = mb.class_('CvMemStoragePos')
@@ -806,9 +815,58 @@ CV_SEQ_INDEX           = (CV_SEQ_KIND_GENERIC  | CV_SEQ_ELTYPE_INDEX)
 # CV_SEQ_ELTYPE( seq )   = ((seq)->flags & CV_SEQ_ELTYPE_MASK)
 # CV_SEQ_KIND( seq )     = ((seq)->flags & CV_SEQ_KIND_MASK )
 
+def CV_GET_SEQ_ELEM(TYPE, seq, index):
+    result = cvGetSeqElem(seq, index)
+    return cast(result, POINTER(TYPE))
+
 
 ''')
 
+# CvSeqWriter
+z = mb.class_('CvSeqWriter')
+z.include()
+for t in ('seq', 'block'):
+    FT.expose_member_as_pointee(z, t)
+for t in ('ptr', 'block_min', 'block_max'):
+    FT.expose_member_as_str(z, t)
+
+# CvSeqReader
+z = mb.class_('CvSeqReader')
+z.include()
+for t in ('seq', 'block'):
+    FT.expose_member_as_pointee(z, t)
+for t in ('ptr', 'block_min', 'block_max', 'prev_elem'):
+    FT.expose_member_as_str(z, t)
+
+
+# Data structures for persistence (a.k.a serialization) functionality
+cc.write('''
+#-----------------------------------------------------------------------------
+# Data structures for persistence (a.k.a serialization) functionality
+#-----------------------------------------------------------------------------
+
+CV_STORAGE_READ = 0
+CV_STORAGE_WRITE = 1
+CV_STORAGE_WRITE_TEXT = CV_STORAGE_WRITE
+CV_STORAGE_WRITE_BINARY = CV_STORAGE_WRITE
+CV_STORAGE_APPEND = 2
+
+
+''')
+
+# CvFileStorage # TODO: fix this
+# z = mb.decls('CvFileStorage')[0]
+# z.set_exportable(True)
+# z.include()
+# cc.write('''
+# CvFileStorage._owner = False
+        
+# def _CvFileStorage__del__(self):
+    # if self._owner is True:
+        # _PE._cvReleaseFileStorage(self)
+# CvFileStorage.__del__ = _CvFileStorage__del__
+
+# ''')
 
 
 
