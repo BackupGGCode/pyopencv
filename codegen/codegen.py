@@ -923,9 +923,82 @@ def CV_NODE_SEQ_IS_SIMPLE(seq):
 
 # ''')
 
+# CvAttrList  # TODO: fix this
+
+# CvTypeInfo
+z = mb.class_('CvTypeInfo')
+z.include()
+for t in ('prev', 'next'):
+    FT.expose_member_as_pointee(z, t)
+FT.expose_member_as_str(z, 'type_name')
+
+# CvString
+z = mb.class_('CvString')
+z.include()
+for t in ('len', 'ptr'):
+    z.var(t).exclude()
+# deal with 'data'
+z.include_files.append( "boost/python/object.hpp" )
+z.include_files.append( "boost/python/str.hpp" )
+z.add_wrapper_code('''
+static bp::object get_data( CvString const & inst ){        
+    return inst.ptr? bp::str((const char *)inst.ptr, inst.len) : bp::object();
+}
+''')
+z.add_registration_code('''
+add_property( "data", bp::make_function(&CvString_wrapper::get_data) )
+''')
 
 
+# CvStringHashNode
+z = mb.class_('CvStringHashNode')
+z.include()
+FT.expose_member_as_pointee(z, 'next')
 
+# CvGenericHash # TODO: fix this
+
+# CvFileNode
+z = mb.class_('CvFileNode')
+z.include()
+FT.expose_member_as_pointee(z, 'info')
+for t in ('data', 'f', 'i', 'str', 'seq', 'map'):
+    z.var(t).exclude() # TODO: fix this
+
+    
+# CvPluginFuncInfo
+z = mb.class_('CvPluginFuncInfo')
+z.include()
+for t in ('func_addr', 'default_func_addr'): # TODO: fix this
+    z.var(t).exclude()
+FT.expose_member_as_str(z, 'func_names')    
+    
+# CvModuleInfo    
+z = mb.class_('CvModuleInfo')
+z.include()
+for t in ('next', 'func_tab'):
+    FT.expose_member_as_pointee(z, t)
+for t in ('name', 'version'):
+    FT.expose_member_as_str(z, t)
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 cc.write('''
 #=============================================================================
