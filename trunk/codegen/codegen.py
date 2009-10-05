@@ -851,6 +851,61 @@ CV_STORAGE_WRITE_TEXT = CV_STORAGE_WRITE
 CV_STORAGE_WRITE_BINARY = CV_STORAGE_WRITE
 CV_STORAGE_APPEND = 2
 
+CV_NODE_NONE        = 0
+CV_NODE_INT         = 1
+CV_NODE_INTEGER     = CV_NODE_INT
+CV_NODE_REAL        = 2
+CV_NODE_FLOAT       = CV_NODE_REAL
+CV_NODE_STR         = 3
+CV_NODE_STRING      = CV_NODE_STR
+CV_NODE_REF         = 4 # not used
+CV_NODE_SEQ         = 5
+CV_NODE_MAP         = 6
+CV_NODE_TYPE_MASK   = 7
+
+def CV_NODE_TYPE(flags):
+    return flags & CV_NODE_TYPE_MASK
+
+# file node flags
+CV_NODE_FLOW        = 8 # used only for writing structures to YAML format
+CV_NODE_USER        = 16
+CV_NODE_EMPTY       = 32
+CV_NODE_NAMED       = 64
+
+def CV_NODE_IS_INT(flags):
+    return CV_NODE_TYPE(flags) == CV_NODE_INT
+    
+def CV_NODE_IS_REAL(flags):
+    return CV_NODE_TYPE(flags) == CV_NODE_REAL
+    
+def CV_NODE_IS_STRING(flags):
+    return CV_NODE_TYPE(flags) == CV_NODE_STRING
+    
+def CV_NODE_IS_SEQ(flags):
+    return CV_NODE_TYPE(flags) == CV_NODE_SEQ
+    
+def CV_NODE_IS_MAP(flags):
+    return CV_NODE_TYPE(flags) == CV_NODE_MAP
+    
+def CV_NODE_IS_COLLECTION(flags):
+    return CV_NODE_TYPE(flags) >= CV_NODE_SEQ
+    
+def CV_NODE_IS_FLOW(flags):
+    return bool(flags & CV_NODE_FLOW)
+    
+def CV_NODE_IS_EMPTY(flags):
+    return bool(flags & CV_NODE_EMPTY)
+    
+def CV_NODE_IS_USER(flags):
+    return bool(flags & CV_NODE_USER)
+    
+def CV_NODE_HAS_NAME(flags):
+    return bool(flags & CV_NODE_NAMED)
+
+CV_NODE_SEQ_SIMPLE = 256
+def CV_NODE_SEQ_IS_SIMPLE(seq):
+    return bool(seq[0].flags & CV_NODE_SEQ_SIMPLE)
+
 
 ''')
 
