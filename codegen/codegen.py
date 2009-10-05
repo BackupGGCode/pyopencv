@@ -1025,13 +1025,19 @@ cc.write('''
 # return_pointee_value call policies for cvCreate... functions
 for z in mb.free_funs(lambda decl: decl.name.startswith('cvCreate')):
     if not z.name in ('cvCreateData', 'cvCreateSeqBlock'): # TODO: fix
-        add_underscore(z)
+        if z.name in ('cvCreateSparseMat',):
+            z.include()
+        else:
+            add_underscore(z)
         z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 
 # return_pointee_value call policies for cvClone... functions
 for z in mb.free_funs(lambda decl: decl.name.startswith('cvClone')):
     if not z.name in ('cvClone', ):
-        add_underscore(z)
+        if z.name in ('cvCloneSparseMat',):
+            z.include()
+        else:
+            add_underscore(z)
         z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 
 # cvRelease... functions
@@ -1040,11 +1046,6 @@ for z in mb.free_funs(lambda decl: decl.name.startswith('cvRelease')):
         add_underscore(z)
         z._transformer_creators.append(FT.input_double_pointee(0))
         
-# cvInit... functions
-for z in mb.free_funs(lambda decl: decl.name.startswith('cvInit')):
-    add_underscore(z)
-    z.call_policies = CP.return_self()
-
 # cvCreateImageHeader
 cc.write('''
 def cvCreateImageHeader(size, depth, channels):
@@ -1060,16 +1061,9 @@ def cvCreateImageHeader(size, depth, channels):
 ''')
 
 # cvInitImageHeader
-cc.write('''
-def cvInitImageHeader(image, size, depth, channels, origin=0, align=4):
-    """IplImage cvInitImageHeader(IplImage image, CvSize size, int depth, int channels, int origin=0, int align=4)
-
-    Initializes allocated by user image header
-    """
-    _PE._cvInitImageHeader(image, size, depth, channels, origin=origin, align=align)
-    return image
-    
-''')
+z = mb.free_fun('cvInitImageHeader')
+z.include()
+z.call_policies = CP.return_self( CP.return_value_policy(CP.reference_existing_object))
 
 # cvCreateImage
 cc.write('''
@@ -1125,18 +1119,9 @@ def cvCreateMatHeader(rows, cols, cvmat_type):
 
 
 # cvInitMatHeader
-cc.write('''
-def cvInitMatHeader(mat, rows, cols, cvmat_type, data=None, step=CV_AUTOSTEP):
-    """CvMat cvInitMatHeader(CvMat mat, int rows, int cols, int type, string data=None, int step=CV_AUTOSTEP)
-
-    Initializes matrix header
-    """
-    _PE._cvInitMatHeader(mat, rows, cols, cvmat_type, data=data, step=step)
-    if data is not None:
-        mat._depends = (data,)
-    return mat
-    
-''')
+z = mb.free_fun('cvInitMatHeader')
+z.include()
+z.call_policies = CP.return_self( CP.return_value_policy(CP.reference_existing_object, CP.with_custodian_and_ward(1, 5)))
 
 
 # cvCreateMat
@@ -1303,7 +1288,47 @@ def cvCreateMatNDHeader(sizes, type):
 
 ''')
 
+# cvCreateMatND
+cc.write('''
+def cvCreateMatND(sizes, type):
+    """CvMatND cvCreateMatND(sequence_of_ints sizes, int type)
 
+    Creates multi-dimensional dense array
+    """
+    z = _PE._cvCreateMatND(sizes, type)
+    if z is not None:
+        z._owner = True
+    return z
+
+''')
+
+# cvInitMatNDHeader
+z = mb.free_fun('cvInitMatNDHeader')
+z.include()
+z.call_policies = CP.return_self( CP.return_value_policy(CP.reference_existing_object, CP.with_custodian_and_ward(1, 4)))
+cc.write('''
+def cvMatND(sizes, mattype, data=None):
+    return cvInitMatNDHeader(CvMatND(), sizes, mattype, data=data)
+    
+''')
+
+# cvCloneMatND
+cc.write('''
+def cvCloneMatND(mat):
+    """CvMatND cvCloneMatND(const CvMatND mat)
+
+    Creates full copy of multi-dimensional array
+    """
+    z = _PE._cvCloneMatND(mat)
+    if z is not None:
+        z._owner = True
+    return z
+
+''')
+
+# cvCreateSparseMat, automatic
+
+# cvCloneSparseMat, automatic
 
 
 
