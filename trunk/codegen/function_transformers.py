@@ -1,4 +1,4 @@
-from pygccxml import declarations
+from pygccxml import declarations as _D
 from pyplusplus import code_repository
 from pyplusplus.function_transformers import *
 import pyplusplus.function_transformers.transformers as _T
@@ -43,8 +43,8 @@ def expose_member_as_pointee(klass, member_name):
     
 
 def remove_ptr( type_ ):
-    if declarations.is_pointer( type_ ):
-        return declarations.remove_pointer( type_ )
+    if _D.is_pointer( type_ ):
+        return _D.remove_pointer( type_ )
     else:
         raise TypeError( 'Type should be a pointer, got %s.' % type_ )
 
@@ -66,7 +66,7 @@ class input_double_pointee_t(transformer_t):
         transformer.transformer_t.__init__( self, function )
         self.arg = self.get_argument( arg_ref )
         self.arg_index = self.function.arguments.index( self.arg )
-        if not declarations.is_pointer( self.arg.type ):
+        if not _D.is_pointer( self.arg.type ):
             raise ValueError( '%s\nin order to use "input_double_pointee_t" transformation, argument %s type must be a pointer or a array (got %s).' ) \
                   % ( function, self.arg_ref.name, arg.type)
 
@@ -77,7 +77,7 @@ class input_double_pointee_t(transformer_t):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         tmp_type = remove_ptr( self.arg.type )
         w_arg.type = remove_ptr( tmp_type )
-        if not declarations.is_convertible( w_arg.type, self.arg.type ):
+        if not _D.is_convertible( w_arg.type, self.arg.type ):
             controller.add_pre_call_code("%s tmp_%s = reinterpret_cast< %s >(& %s);" % ( tmp_type, w_arg.name, tmp_type, w_arg.name ))
             casting_code = 'reinterpret_cast< %s >( & tmp_%s )' % (self.arg.type, w_arg.name)
             controller.modify_arg_expression(self.arg_index, casting_code)
@@ -126,8 +126,8 @@ class input_smart_pointee_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg( self.arg.name )
-        data_type = declarations.remove_const(remove_ptr( self.arg.type ))
-        w_arg.type = declarations.dummy_type_t( "boost::python::object" )
+        data_type = _D.remove_const(remove_ptr( self.arg.type ))
+        w_arg.type = _D.dummy_type_t( "boost::python::object" )
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
             w_arg.default_value = 'bp::object()'
         controller.add_pre_call_code("%s const &tmp_%s = bp::extract<%s const &>(%s);" % (data_type, w_arg.name, data_type, w_arg.name))
@@ -163,7 +163,7 @@ class input_string_t(transformer_t):
         transformer_t.__init__( self, function )
         self.arg = self.get_argument( arg_ref )
         self.arg_index = self.function.arguments.index( self.arg )
-        if not declarations.is_pointer( self.arg.type ):
+        if not _D.is_pointer( self.arg.type ):
             raise ValueError( '%s\nin order to use "input_string_t" transformation, argument %s type must be a pointer (got %s).' ) \
                   % ( function, arg_ref, self.arg.type)
 
@@ -176,7 +176,7 @@ class input_string_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg( self.arg.name )
-        w_arg.type = declarations.dummy_type_t( "boost::python::object" )
+        w_arg.type = _D.dummy_type_t( "boost::python::object" )
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
             w_arg.default_value = 'bp::object()'
         controller.modify_arg_expression(self.arg_index, "(%s.ptr() != Py_None)? (void *)((const char *)bp::extract<const char *>(%s)): 0" % (w_arg.name, w_arg.name))
@@ -207,10 +207,7 @@ class input_dynamic_array_t(transformer.transformer_t):
     where v2 is a Python sequence of N items. Each item is of the same type as v's element type.
     """
 
-    def __init__(self, function, arg_ref, arg_size_ref=None):
-        """Constructor.
-
-        """
+    def __init__(self, function, arg_ref, arg_size_ref=None, remove_arg_size=True):
         transformer.transformer_t.__init__( self, function )
 
         self.arg = self.get_argument( arg_ref )
@@ -224,14 +221,15 @@ class input_dynamic_array_t(transformer.transformer_t):
             self.arg_size = self.get_argument( arg_size_ref )
             self.arg_size_index = self.function.arguments.index( self.arg_size )
             
-            if not declarations.is_integral( self.arg_size.type ):
+            if not _D.is_integral( self.arg_size.type ):
                 raise ValueError( '%s\nin order to use "input_dynamic_array" transformation, argument %s type must be an integer (got %s).' ) \
                       % ( function, self.arg_size.name, self.arg_size.type)
 
         else:
             self.arg_size = None
 
-        self.array_item_type = declarations.remove_const( declarations.array_item_type( self.arg.type ) )
+        self.array_item_type = _D.remove_const( _D.array_item_type( self.arg.type ) )
+        self.remove_arg_size = remove_arg_size
 
     def __str__(self):
         if self.arg_size is not None:
@@ -244,9 +242,9 @@ class input_dynamic_array_t(transformer.transformer_t):
 
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
-        w_arg.type = declarations.dummy_type_t( "boost::python::object" )
+        w_arg.type = _D.dummy_type_t( "boost::python::object" )
 
-        if self.arg_size is not None:
+        if self.remove_arg_size and self.arg_size is not None:
             #removing arg_size from the function wrapper definition
             controller.remove_wrapper_arg( self.arg_size.name )
         
@@ -255,7 +253,7 @@ class input_dynamic_array_t(transformer.transformer_t):
             "=bp::len(%s)" % self.arg.name)
 
         # Declare a variable that will hold the C array...
-        native_array = controller.declare_variable( declarations.pointer_t(self.array_item_type), 
+        native_array = controller.declare_variable( _D.pointer_t(self.array_item_type), 
             "native_" + self.arg.name, 
             "= new %s [%s]" % (self.array_item_type, array_size) )
             
@@ -269,22 +267,11 @@ class input_dynamic_array_t(transformer.transformer_t):
         controller.add_pre_call_code( copy_pylist2arr )
 
         controller.modify_arg_expression( self.arg_index, native_array )
-        if self.arg_size is not None:
+        if self.remove_arg_size and self.arg_size is not None:
             controller.modify_arg_expression( self.arg_size_index, array_size )
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
-
-    def __configure_v_mem_fun_override( self, controller ):
-        global _arr2seq
-        pylist = controller.declare_py_variable( declarations.dummy_type_t( 'boost::python::list' )
-                                                 , 'py_' + self.arg.name )
-
-        copy_arr2pylist = _arr2seq.substitute( native_array=self.arg.name
-                                                , array_size=self.array_size
-                                                , pylist=pylist )
-
-        controller.add_py_pre_call_code( copy_arr2pylist )
 
     def configure_mem_fun( self, controller ):
         self.__configure_sealed( controller )
@@ -293,12 +280,109 @@ class input_dynamic_array_t(transformer.transformer_t):
         self.__configure_sealed( controller )
 
     def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_override( controller.override_controller )
         self.__configure_v_mem_fun_default( controller.default_controller )
 
 def input_dynamic_array( *args, **keywd ):
     def creator( function ):
         return input_dynamic_array_t( function, *args, **keywd )
+    return creator
+
+
+class input_dynamic_array_of_pointers_t(transformer.transformer_t):
+    """Handles an input array with a dynamic size.
+
+    void do_something([int N, ]double** v) ->  do_something(object v2)
+
+    where v2 is a Python sequence of N items. Each item is of the same type as v's element pointee type.
+    """
+
+    def __init__(self, function, arg_ref, arg_size_ref=None):
+        transformer.transformer_t.__init__( self, function )
+
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+        if not _T.is_ptr_or_array( self.arg.type ) or not _T.is_ptr_or_array(remove_ptr(self.arg.type)):
+            raise ValueError( '%s\nin order to use "input_dynamic_array_of_pointers" transformation, argument %s type must be a array of pointers or a double pointer (got %s).' ) \
+                  % ( function, self.arg.name, self.arg.type)
+
+        if arg_size_ref is not None:
+            self.arg_size = self.get_argument( arg_size_ref )
+            self.arg_size_index = self.function.arguments.index( self.arg_size )
+            
+            if not _D.is_integral( self.arg_size.type ):
+                raise ValueError( '%s\nin order to use "input_dynamic_array_of_pointers" transformation, argument %s type must be an integer (got %s).' ) \
+                      % ( function, self.arg_size.name, self.arg_size.type)
+
+        else:
+            self.arg_size = None
+
+        self.array_item_type = _D.remove_const( _D.array_item_type( self.arg.type ) )
+        self.array_item_pointee_type = _D.remove_const( _D.remove_pointer( self.array_item_type ) )
+
+    def __str__(self):
+        if self.arg_size is not None:
+            return "input_dynamic_array_of_pointers(%s,%d)"%( self.arg.name, self.arg_size.name)
+        return "input_dynamic_array_of_pointers(%s)"% self.arg.name
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return [ code_repository.convenience.file_name ]
+
+    def __configure_sealed(self, controller):
+        w_arg = controller.find_wrapper_arg( self.arg.name )
+        w_arg.type = _D.dummy_type_t( "boost::python::object" )
+
+        if self.arg_size is not None:
+            #removing arg_size from the function wrapper definition
+            controller.remove_wrapper_arg( self.arg_size.name )
+        
+        # array size
+        array_size = controller.declare_variable( "int", "size_" + self.arg.name, 
+            "=bp::len(%s)" % self.arg.name)
+            
+        array_item_type = "item_of_%s_t" % self.arg.name
+        native_array = "native_%s" % self.arg.name
+        iter_array = "iter_%s" % self.arg.name
+            
+        # Declare a variable that will hold the C array...
+        precall_code = """typedef S_ITEM_TYPE ARRAY_ITEM_TYPE;
+    ARRAY_ITEM_TYPE *NATIVE_ARRAY = new ARRAY_ITEM_TYPE [ARRAY_SIZE];
+    for(int ITER_ARRAY = 0; ITER_ARRAY < ARRAY_SIZE; ++ITER_ARRAY)
+    {
+        ARRAY_ITEM_POINTEE_TYPE &aipt_PARRAY = bp::extract< ARRAY_ITEM_POINTEE_TYPE & >(PARRAY[ITER_ARRAY]);
+        NATIVE_ARRAY[ITER_ARRAY] = reinterpret_cast< ARRAY_ITEM_TYPE >(&aipt_PARRAY);
+    }""".replace("S_ITEM_TYPE", self.array_item_type.decl_string) \
+            .replace("ARRAY_ITEM_TYPE", array_item_type) \
+            .replace("ARRAY_ITEM_POINTEE_TYPE", self.array_item_pointee_type.decl_string) \
+            .replace("NATIVE_ARRAY", native_array) \
+            .replace("ITER_ARRAY", iter_array) \
+            .replace("ARRAY_SIZE", array_size) \
+            .replace("PARRAY", self.arg.name)
+        
+        controller.add_pre_call_code(precall_code)
+            
+        controller.add_post_call_code("delete[] %s;" % native_array)
+        
+        controller.modify_arg_expression( self.arg_index, native_array )
+        if self.arg_size is not None:
+            controller.modify_arg_expression( self.arg_size_index, array_size )
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def input_dynamic_array_of_pointers( *args, **keywd ):
+    def creator( function ):
+        return input_dynamic_array_of_pointers_t( function, *args, **keywd )
     return creator
 
 
