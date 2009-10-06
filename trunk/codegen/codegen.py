@@ -1376,24 +1376,21 @@ add_underscore(z)
 z._transformer_creators.append(FT.from_address('coi'))
 z.call_policies = CP.with_custodian_and_ward_postcall(2, 1, CP.return_arg(2))
 cc.write('''
-def cvGetMat(arr, header=None, coi=None, allowND=0):
-    """CvMat mat[, int output_coi] = cvGetMat(const CvArr arr, CvMat header=None, c_int coi=None, int allowND=0)
+def cvGetMat(arr, header=None, return_coi=False, allowND=0):
+    """CvMat mat[, int output_coi] = cvGetMat(const CvArr arr, CvMat header=None, return_coi=None, int allowND=0)
 
     Returns matrix header for arbitrary array
     [ctypes-opencv] If 'header' is None, it is internally created.
-    [ctypes-opencv] 'coi' can be:
-        an instance of c_int: its value will be filled with the output coi's value
-        True: the returning object is a tuple of CvMat and the output coi
-        None: no output coi is returned
+    [ctypes-opencv] If 'return_coi' is True, output_coi is returned.
     """
     if header is None:
         header = CvMat()
-    if coi is True:
+    if return_coi:
         coi = _CT.c_int()
         _PE._cvGetMat(arr, header, _CT.addressof(coi), allowND)
         return (header, coi.value)
         
-    _PE._cvGetMat(arr, header, 0 if coi is None else _CT.addressof(coi), allowND)
+    _PE._cvGetMat(arr, header, 0, allowND)
     return header
     
 ''')
@@ -1600,8 +1597,6 @@ CV_PCA_USE_AVG = 2
 
 cvMahalonobis = cvMahalanobis
 
-
-
     
 ''')
     
@@ -1625,7 +1620,65 @@ z.include()
 z._transformer_creators.append(FT.input_dynamic_array_of_pointers('vects', 'count'))    
     
     
+# Array Statistics
+cc.write('''
+#-----------------------------------------------------------------------------
+# Array Statistics
+#-----------------------------------------------------------------------------
+
     
+def cvMinMaxLoc(arr, min_loc=None, max_loc=None, mask=None):
+    """double min_val, double max_val = cvMinMaxLoc(const CvArr arr, CvPoint min_loc=None, CvPoint max_loc=None, const CvArr mask=None)
+
+    Finds global minimum and maximum in array or subarray, and optionally their locations
+    [ctypes-opencv] If any of min_loc or max_loc is not None, it is filled with the resultant location.
+    """
+    min_val_p = _CT.c_double()
+    max_val_p = _CT.c_double()
+    
+    _PE._cvMinMaxLoc(arr, min_val=_CT.addressof(min_val_p), max_val=_CT.addressof(max_val_p),
+        min_loc=min_loc, max_loc=max_loc, mask=mask)
+    
+    return min_val_p.value, max_val_p.value
+    
+
+CV_C = 1
+CV_L1 = 2
+CV_L2 = 4
+CV_NORM_MASK = 7
+CV_RELATIVE = 8
+CV_DIFF = 16
+CV_MINMAX = 32
+CV_DIFF_C = (CV_DIFF | CV_C)
+CV_DIFF_L1 = (CV_DIFF | CV_L1)
+CV_DIFF_L2 = (CV_DIFF | CV_L2)
+CV_RELATIVE_C = (CV_RELATIVE | CV_C)
+CV_RELATIVE_L1 = (CV_RELATIVE | CV_L1)
+CV_RELATIVE_L2 = (CV_RELATIVE | CV_L2)
+
+CV_REDUCE_SUM = 0
+CV_REDUCE_AVG = 1
+CV_REDUCE_MAX = 2
+CV_REDUCE_MIN = 3
+
+
+''')
+
+# functions
+for z in (
+    'cvSum', 'cvCountNonZero', 'cvAvg', 'cvAvgSdv',
+    'cvNorm', 'cvNormalize', 'cvReduce',
+    ):
+    mb.free_fun(z).include()
+
+# cvMinMaxLoc
+z = mb.free_fun('cvMinMaxLoc')
+add_underscore(z)
+z._transformer_creators.append(FT.from_address('min_val'))
+z._transformer_creators.append(FT.from_address('max_val'))
+
+
+
     
 
 # -----------------------------------------------------------------------------------------------

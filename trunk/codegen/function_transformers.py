@@ -130,8 +130,10 @@ class input_smart_pointee_t(transformer_t):
         w_arg.type = _D.dummy_type_t( "boost::python::object" )
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
             w_arg.default_value = 'bp::object()'
-        controller.add_pre_call_code("%s const &tmp_%s = bp::extract<%s const &>(%s);" % (data_type, w_arg.name, data_type, w_arg.name))
-        controller.modify_arg_expression(self.arg_index, "(%s.ptr() != Py_None)? (%s)(&tmp_%s): 0" % (w_arg.name, self.arg.type, w_arg.name))
+        exp_code = "(ARGNAME.ptr() != Py_None)? (ARGTYPE)bp::extract< DATATYPE * >(ARGNAME): 0".replace("ARGNAME", self.arg.name) \
+            .replace("ARGTYPE", self.arg.type.decl_string) \
+            .replace("DATATYPE", data_type.decl_string)
+        controller.modify_arg_expression(self.arg_index, exp_code)
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -349,10 +351,8 @@ class input_dynamic_array_of_pointers_t(transformer.transformer_t):
         precall_code = """typedef S_ITEM_TYPE ARRAY_ITEM_TYPE;
     ARRAY_ITEM_TYPE *NATIVE_ARRAY = new ARRAY_ITEM_TYPE [ARRAY_SIZE];
     for(int ITER_ARRAY = 0; ITER_ARRAY < ARRAY_SIZE; ++ITER_ARRAY)
-    {
-        ARRAY_ITEM_POINTEE_TYPE &aipt_PARRAY = bp::extract< ARRAY_ITEM_POINTEE_TYPE & >(PARRAY[ITER_ARRAY]);
-        NATIVE_ARRAY[ITER_ARRAY] = reinterpret_cast< ARRAY_ITEM_TYPE >(&aipt_PARRAY);
-    }""".replace("S_ITEM_TYPE", self.array_item_type.decl_string) \
+        NATIVE_ARRAY[ITER_ARRAY] = (ARRAY_ITEM_TYPE)(bp::extract< ARRAY_ITEM_POINTEE_TYPE * >(PARRAY[ITER_ARRAY]));
+    """.replace("S_ITEM_TYPE", self.array_item_type.decl_string) \
             .replace("ARRAY_ITEM_TYPE", array_item_type) \
             .replace("ARRAY_ITEM_POINTEE_TYPE", self.array_item_pointee_type.decl_string) \
             .replace("NATIVE_ARRAY", native_array) \
