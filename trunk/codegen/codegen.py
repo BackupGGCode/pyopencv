@@ -669,11 +669,8 @@ z.include()
 for t in ('bottom', 'top', 'parent'):
     FT.expose_member_as_pointee(z, t)
 cc.write('''
-CvMemStorage._owner = False
-        
 def _CvMemStorage__del__(self):
-    if self._owner is True:
-        _PE._cvReleaseMemStorage(self)
+    _PE._cvReleaseMemStorage(self)
 CvMemStorage.__del__ = _CvMemStorage__del__
 
 ''')
@@ -1022,24 +1019,6 @@ cc.write('''
 
 ''')
 
-# return_pointee_value call policies for cvCreate... functions
-for z in mb.free_funs(lambda decl: decl.name.startswith('cvCreate')):
-    if not z.name in ('cvCreateData', 'cvCreateSeqBlock'): # TODO: fix
-        if z.name in ('cvCreateSparseMat',):
-            z.include()
-        else:
-            add_underscore(z)
-        z.call_policies = CP.return_value_policy( CP.reference_existing_object )
-
-# return_pointee_value call policies for cvClone... functions
-for z in mb.free_funs(lambda decl: decl.name.startswith('cvClone')):
-    if not z.name in ('cvClone', ):
-        if z.name in ('cvCloneSparseMat',):
-            z.include()
-        else:
-            add_underscore(z)
-        z.call_policies = CP.return_value_policy( CP.reference_existing_object )
-
 # cvRelease... functions
 for z in mb.free_funs(lambda decl: decl.name.startswith('cvRelease')):
     if not z.name in ('cvRelease', 'cvReleaseData', 'cvReleaseFileStorage'): # TODO: fix
@@ -1047,6 +1026,9 @@ for z in mb.free_funs(lambda decl: decl.name.startswith('cvRelease')):
         z._transformer_creators.append(FT.input_double_pointee(0))
         
 # cvCreateImageHeader
+z = mb.free_fun('cvCreateImageHeader')
+add_underscore(z)
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 cc.write('''
 def cvCreateImageHeader(size, depth, channels):
     """IplImage cvCreateImageHeader(CvSize size, int depth, int channels)
@@ -1066,6 +1048,9 @@ z.include()
 z.call_policies = CP.return_self()
 
 # cvCreateImage
+z = mb.free_fun('cvCreateImage')
+add_underscore(z)
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 cc.write('''
 def cvCreateImage(size, depth, channels):
     """IplImage cvCreateImage(CvSize size, int depth, int channels)
@@ -1081,6 +1066,9 @@ def cvCreateImage(size, depth, channels):
 
         
 # cvCloneImage
+z = mb.free_fun('cvCloneImage')
+add_underscore(z)
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 cc.write('''
 def cvCloneImage(image):
     """IplImage cvCloneImage(const IplImage image)
@@ -1104,6 +1092,9 @@ mb.free_functions(lambda decl: decl.name.startswith('cv') and 'ImageROI' in decl
 
 
 # cvCreateMatHeader
+z = mb.free_fun('cvCreateMatHeader')
+add_underscore(z)
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 cc.write('''
 def cvCreateMatHeader(rows, cols, cvmat_type):
     """CvMat cvCreateMatHeader(int rows, int cols, int type)
@@ -1125,6 +1116,9 @@ z.call_policies = CP.with_custodian_and_ward_postcall(1, 5, CP.return_self())
 
 
 # cvCreateMat
+z = mb.free_fun('cvCreateMat')
+add_underscore(z)
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 cc.write('''
 def cvCreateMat(rows, cols, cvmat_type):
     """CvMat cvCreateMat(int rows, int cols, int type)
@@ -1171,6 +1165,9 @@ def cvCreateMatFromCvPointList(points):
 ''')
 
 # cvCloneMat
+z = mb.free_fun('cvCloneMat')
+add_underscore(z)
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 cc.write('''
 def cvCloneMat(mat):
     """CvMat cvCloneMat(const CvMat mat)
@@ -1271,6 +1268,9 @@ def cvGetDiag(arr, submat=None, diag=0):
 # cvScalarToRawData and cvRawDataToScalar # TODO: fix this
 
 # cvCreateMatNDHeader
+z = mb.free_fun('cvCreateMatNDHeader')
+add_underscore(z)
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 cc.write('''
 def cvCreateMatNDHeader(sizes, type):
     """CvMatND cvCreateMatNDHeader(sequence_of_ints sizes, int type)
@@ -1285,6 +1285,9 @@ def cvCreateMatNDHeader(sizes, type):
 ''')
 
 # cvCreateMatND
+z = mb.free_fun('cvCreateMatND')
+add_underscore(z)
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 cc.write('''
 def cvCreateMatND(sizes, type):
     """CvMatND cvCreateMatND(sequence_of_ints sizes, int type)
@@ -1309,6 +1312,9 @@ def cvMatND(sizes, mattype, data=None):
 ''')
 
 # cvCloneMatND
+z = mb.free_fun('cvCloneMatND')
+add_underscore(z)
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 cc.write('''
 def cvCloneMatND(mat):
     """CvMatND cvCloneMatND(const CvMatND mat)
@@ -1322,9 +1328,15 @@ def cvCloneMatND(mat):
 
 ''')
 
-# cvCreateSparseMat, automatic
+# cvCreateSparseMat
+z = mb.free_fun('cvCreateImageHeader')
+z.include()
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 
-# cvCloneSparseMat, automatic
+# cvCloneSparseMat
+z = mb.free_fun('cvCloneSparseMat')
+z.include()
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
 
 # cvInitSparseMatIterator
 z = mb.free_fun('cvInitSparseMatIterator')
@@ -1679,8 +1691,189 @@ z._transformer_creators.append(FT.from_address('max_val'))
 
 
 
-    
+# Discrete Linear Transforms and Related Functions
+cc.write('''
+#-----------------------------------------------------------------------------
+# Discrete Linear Transforms and Related Functions
+#-----------------------------------------------------------------------------
 
+    
+# Performs forward or inverse Discrete Fourier transform of 1D or 2D floating-point array
+CV_DXT_FORWARD = 0
+CV_DXT_INVERSE = 1
+CV_DXT_SCALE = 2     # divide result by size of array
+CV_DXT_INV_SCALE = CV_DXT_SCALE | CV_DXT_INVERSE
+CV_DXT_INVERSE_SCALE = CV_DXT_INV_SCALE
+CV_DXT_ROWS = 4     # transfor each row individually
+CV_DXT_MUL_CONJ = 8     # conjugate the second argument of cvMulSpectrums
+
+cvFFT = cvDFT
+
+
+''')
+
+# functions
+for z in (
+    'cvDFT', 'cvMulSpectrums', 'cvGetOptimalDFTSize', 'cvDCT',
+    ):
+    mb.free_fun(z).include()
+
+
+# Dynamic Data Structure
+cc.write('''
+#-----------------------------------------------------------------------------
+# Dynamic Data Structure
+#-----------------------------------------------------------------------------
+
+    
+CV_FRONT = 1
+CV_BACK = 0
+
+
+''')
+
+# functions
+for z in (
+    'cvSliceLength', 'cvClearMemStorage', 'cvSaveMemStoragePos', 'cvRestoreMemStoragePos',
+    'cvSetSeqBlockSize', 
+    'cvSeqRemove', 'cvClearSeq',
+    'cvStartAppendToSeq', 'cvStartWriteSeq', 'cvFlushSeqWriter',
+    'cvStartReadSeq', 'cvGetSeqReaderPos', 'cvSetSeqReaderPos',
+    'cvSeqRemoveSlice', 'cvSeqInsertSlice', 'cvSeqInvert',
+    'cvCreateSeqBlock',
+    'cvSetRemove', 'cvClearSet',
+    ):
+    mb.free_fun(z).include()
+
+# cvCreateMemStorage
+z = mb.free_fun('cvCreateMemStorage')
+z.include()
+z.call_policies = CP.return_value_policy( CP.reference_existing_object )
+
+# cvCreateChildMemStorage
+z = mb.free_fun('cvCreateChildMemStorage')
+z.include()
+z.call_policies = CP.with_custodian_and_ward_postcall(0, 1, CP.return_value_policy(CP.reference_existing_object))
+    
+# cvMemStorageAlloc, cvMemStorageAllocString # TODO: fix this
+
+# cvCreateSeq
+z = mb.free_fun('cvCreateSeq')
+z.include()
+z.call_policies = CP.with_custodian_and_ward_postcall(0, 4, CP.return_value_policy(CP.reference_existing_object))
+    
+# cvSeq* # TODO: fix this
+
+# cvGetSeqElem, cvSeqElemIdx # TODO: fix
+
+# cvEndWriteSeq
+z = mb.free_fun('cvEndWriteSeq')
+z.include()
+z.call_policies = CP.with_custodian_and_ward_postcall(0, 1, CP.return_value_policy(CP.reference_existing_object))
+
+# cvCvtSeqToArray, cvMakeSeqHeaderForArray # TODO: fix
+
+# cvSeqSlice
+z = mb.free_fun('cvSeqSlice')
+z.include()
+z.call_policies = CP.with_custodian_and_ward_postcall(0, 3, CP.return_value_policy(CP.reference_existing_object))
+
+# cvCloneSeq
+z = mb.free_fun('cvCloneSeq')
+z.include()
+z.call_policies = CP.with_custodian_and_ward_postcall(0, 2, CP.return_value_policy(CP.reference_existing_object))
+
+# cvSeqSort, cvSeqSearch, cvSeqPartition # TODO: fix
+
+# cvChangeSeqBlock # TODO: fix
+
+# cvCreateSet
+z = mb.free_fun('cvCreateSet')
+z.include()
+z.call_policies = CP.with_custodian_and_ward_postcall(0, 4, CP.return_value_policy(CP.reference_existing_object))
+
+# cvSetAdd, cvSetNew, cvSetRemoveByPtr # TODO: fix
+
+# cvGetSetElem
+z = mb.free_fun('cvGetSetElem')
+z.include()
+z.call_policies = CP.with_custodian_and_ward_postcall(0, 1, CP.return_value_policy(CP.reference_existing_object))
+
+
+
+# CvGraph* and cvGraph* # TODO: fix this whole thing
+
+# CvTree* # TODO: fix this whole thing
+
+
+
+# Drawing Functions
+cc.write('''
+#-----------------------------------------------------------------------------
+# Drawing Functions
+#-----------------------------------------------------------------------------
+
+    
+CV_FILLED = -1
+CV_AA = 16
+
+# Constructs a color value
+def CV_RGB(r, g, b):
+    return CvScalar(b, g, r)
+
+cvDrawRect = cvRectangle
+cvDrawLine = cvLine
+cvDrawCircle = cvCircle
+cvDrawEllipse = cvEllipse
+# cvDrawPolyLine = cvPolyLine # TODO: fix
+
+CV_FONT_HERSHEY_SIMPLEX = 0
+CV_FONT_HERSHEY_PLAIN = 1
+CV_FONT_HERSHEY_DUPLEX = 2
+CV_FONT_HERSHEY_COMPLEX = 3
+CV_FONT_HERSHEY_TRIPLEX = 4
+CV_FONT_HERSHEY_COMPLEX_SMALL = 5
+CV_FONT_HERSHEY_SCRIPT_SIMPLEX = 6
+CV_FONT_HERSHEY_SCRIPT_COMPLEX = 7
+CV_FONT_ITALIC = 16
+CV_FONT_VECTOR0 = CV_FONT_HERSHEY_SIMPLEX
+
+
+''')
+
+# functions
+for z in (
+    'cvLine', 'cvRectangle', 'cvCircle', 'cvEllipse', 'cvEllipseBox', 'cvFillConvexPoly',
+    'cvClipLine', 'cvInitLineIterator',
+    'cvInitFont', 'cvFont',
+    'cvColorToScalar',
+    'cvDrawContours', 'cvLUT',
+    ):
+    mb.free_fun(z).include()
+
+# cvFillPoly, cvPolyLine # TODO: fix
+
+# CvFont
+z = mb.class_('CvFont')
+z.include()
+for t in ('ascii', 'greek', 'cyrillic'): # TODO: fix
+    z.var(t).exclude()
+
+# cvPutText
+z = mb.free_fun('cvPutText')
+z.include()
+z._transformer_creators.append(FT.input_string('text'))
+    
+# cvGetTextSize # TODO: fix
+    
+# cvEllipse2Poly # TODO: fix
+
+
+
+
+
+    
+    
 # -----------------------------------------------------------------------------------------------
 # Final tasks
 # -----------------------------------------------------------------------------------------------
