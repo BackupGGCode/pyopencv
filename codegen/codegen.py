@@ -1351,7 +1351,10 @@ CV_NO_SIZE_CHECK      = 4
 ''')
 
 
-# cvInitNArrayIterator # TODO: fix this
+# cvInitNArrayIterator
+z = mb.free_fun('cvInitNArrayIterator')
+z.include()
+z._transformer_creators.append(FT.input_dynamic_array_of_pointers('arrs', 'count'))
 
 # functions
 for z in ('cvNextNArraySlice', 'cvGetElemType', 'cvGetDimSize'):
@@ -1450,8 +1453,24 @@ cvCvtScaleAbs = cvConvertScaleAbs
 
 ''')
     
-# CvMixChannels # TODO: fix this
+# CvMixChannels
+z = mb.free_fun('cvMixChannels')
+add_underscore(z)
+z._transformer_creators.append(FT.input_dynamic_array_of_pointers('src', 'src_count'))
+z._transformer_creators.append(FT.input_dynamic_array_of_pointers('dst', 'dst_count'))
+z._transformer_creators.append(FT.input_dynamic_array('from_to', 'pair_count', remove_arg_size=False))
+cc.write('''
+def cvMixChannels(src, dst, from_to):
+    """void cvMixChannels(sequence_of_CvArr src, sequence_of_CvArr dst, sequence_of_int from_to)
+    
+    Copies several channels from input arrays to certain channels of output arrays
+    
+    Example: cvMixChannels((z1, z2, z3), (t1, t2, t3), (0,1, 1,2, 2,0))
+        where z1, z2, z3, t1, t2, t3 are instances of CvArr
+    """
+    return _PE._cvMixChannels(src, dst, from_to, len(from_to) >> 1)
 
+''')
     
 # Arithmetic, logic and comparison operations
 cc.write('''
@@ -1522,15 +1541,92 @@ for z in (
     mb.free_fun(z).include()
 
 
+# Matrix operations
+cc.write('''
+#-----------------------------------------------------------------------------
+# Matrix operations
+#-----------------------------------------------------------------------------
+
+
+CV_GEMM_A_T = 1
+CV_GEMM_B_T = 2
+CV_GEMM_C_T = 4
+
+cvMatMulAddEx = cvGEMM
+
+def cvMatMulAdd(src1, src2, src3, dst):
+    """void cvMatMulAdd(const CvArr src1, const CvArr src2, const CvArr src3, CvArr dst)
+    
+    Performs dst = src1*src2+src3
+    """
+    cvGEMM(src1, src2, 1, src3, 1, dst, 0)
+
+def cvMatMul(src1, src2, dst):
+    """void cvMatMul(const CvArr src1, const CvArr src2, CvArr dst)
+    
+    Performs dst = src1*src2
+    """
+    cvMatMulAdd(src1, src2, 0, dst)
+
+cvMatMulAddS = cvTransform
+
+cvT = cvTranspose
+
+cvMirror = cvFlip
+
+CV_SVD_MODIFY_A = 1
+CV_SVD_U_T = 2
+CV_SVD_V_T = 4
+
+CV_LU = 0
+CV_SVD = 1
+CV_SVD_SYM = 2
+CV_CHOLESKY = 3
+CV_QR = 4
+CV_NORMAL = 16
+
+cvInv = cvInvert
+
+CV_COVAR_SCRAMBLED = 0
+CV_COVAR_NORMAL = 1
+CV_COVAR_USE_AVG = 2
+CV_COVAR_SCALE = 4
+CV_COVAR_ROWS = 8
+CV_COVAR_COLS = 16
+
+CV_PCA_DATA_AS_ROW = 0
+CV_PCA_DATA_AS_COL = 1
+CV_PCA_USE_AVG = 2
+
+cvMahalonobis = cvMahalanobis
+
+
 
     
+''')
     
-    
-    
-    
+# functions
+for z in (
+    'cvCrossProduct', 'cvGEMM', 'cvTransform', 'cvPerspectiveTransform', 'cvMulTransposed',
+    'cvTranspose', 'cvCompleteSymm', 'cvFlip', 'cvSVD', 'cvSVBkSb', 
+    'cvInvert', 'cvSolve', 'cvDet', 'cvTrace', 'cvEigenVV', 'cvSetIdentity',
+    'cvCalcPCA', 'cvProjectPCA', 'cvBackProjectPCA', 'cvMahalanobis',
+    ):
+    mb.free_fun(z).include()
 
-# cvReleaseData
-add_underscore(mb.free_fun('cvReleaseData'))
+# cvRange
+z = mb.free_fun('cvRange')
+z.include()
+z.call_policies = CP.return_self()
+
+# cvCalcCovarMatrix
+z = mb.free_fun('cvCalcCovarMatrix')
+z.include()
+z._transformer_creators.append(FT.input_dynamic_array_of_pointers('vects', 'count'))    
+    
+    
+    
+    
 
 # -----------------------------------------------------------------------------------------------
 # Final tasks
