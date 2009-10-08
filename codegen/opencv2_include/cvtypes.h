@@ -47,6 +47,8 @@
   #include <stdlib.h>
 #endif
 
+#include <cxtypes.h>
+
 /* spatial and central moments */
 typedef struct CvMoments
 {
@@ -327,7 +329,7 @@ CvKalman;
 typedef struct CvHaarFeature
 {
     int  tilted;
-    struct
+    struct sd_param // by Minh-Tri Pham
     {
         CvRect r;
         float weight;
@@ -358,7 +360,7 @@ typedef struct CvHaarStageClassifier
 }
 CvHaarStageClassifier;
 
-typedef struct CvHidHaarClassifierCascade CvHidHaarClassifierCascade;
+typedef struct CvHidHaarClassifierCascade {} CvHidHaarClassifierCascade; // fix the black box by Minh-Tri Pham
 
 typedef struct CvHaarClassifierCascade
 {

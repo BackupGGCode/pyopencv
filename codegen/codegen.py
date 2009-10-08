@@ -1,6 +1,6 @@
 
 import os
-from pygccxml import declarations
+from pygccxml import declarations as _D
 from pyplusplus import module_builder, messages
 import function_transformers as FT
 from pyplusplus.module_builder import call_policies as CP
@@ -8,7 +8,10 @@ from pyplusplus.module_builder import call_policies as CP
 #Creating an instance of class that will help you to expose your declarations
 mb = module_builder.module_builder_t( 
     [
-        "cxcore.h", 
+        "opencv.hpp",
+        # "cxtypes.h",
+        # "cxcore.h", 
+        # "cvtypes.h",
         # "cv.h", 
         # "cvaux.h", 
         # "ml.h", 
@@ -86,6 +89,9 @@ mb.decls().disable_warnings(messages.W1027, messages.W1025)
 # expose 'this'
 mb.classes().expose_this = True
 
+# expose all enumerations
+mb.enums().include()
+
 
 
 #=============================================================================
@@ -99,30 +105,24 @@ for z in mb.free_funs():
 for z in mb.mem_funs():
     z._transformer_creators = []
     
-# by default, convert all pointers to Cv... or to Ipl... into pointee
-for z in mb.free_funs():
-    for arg in z.arguments:
-        if declarations.is_pointer(arg.type) and not declarations.is_pointer(declarations.remove_pointer(arg.type)) and \
-            (arg.type.decl_string.startswith('::Cv') or arg.type.decl_string.startswith('::_Ipl')):
-            z._transformer_creators.append(FT.input_smart_pointee(arg.name))
-# for z in mb.mem_funs(): # TODO: fix
-    # for i in xrange(z.arguments):
-        # if declarations.is_pointer(z.arguments[i]):
-            # z._transformer_creators.append(FT.input_smart_pointee(i+1))
 
-# function argument 'void *data'
 for f in mb.free_funs():
     for arg in f.arguments:
-        if arg.name == 'data' and declarations.is_void_pointer(arg.type):
-            f._transformer_creators.append(FT.input_string(arg.name))
-            break
+        # by default, convert all pointers to Cv... or to Ipl... into pointee
+        if _D.is_pointer(arg.type) and not _D.is_pointer(_D.remove_pointer(arg.type)) and \
+            (arg.type.decl_string.startswith('::Cv') or arg.type.decl_string.startswith('::_Ipl')):
+            f._transformer_creators.append(FT.input_smart_pointee(arg.name))
 
+        #  argument 'void *data'
+        elif arg.name == 'data' and _D.is_void_pointer(arg.type):
+            f._transformer_creators.append(FT.input_string(arg.name))
+            
 # function argument int *sizes and int dims
 for f in mb.free_funs():
     for arg in f.arguments:
-        if arg.name == 'sizes' and declarations.is_pointer(arg.type):
+        if arg.name == 'sizes' and _D.is_pointer(arg.type):
             for arg in f.arguments:
-                if arg.name == 'dims' and declarations.is_integral(arg.type):
+                if arg.name == 'dims' and _D.is_integral(arg.type):
                     f._transformer_creators.append(FT.input_dynamic_array('sizes', 'dims'))
 
 cc.write('''
@@ -314,7 +314,7 @@ iplimage.rename('IplImage')
 iplimage.include()
 for z in ('imageId', 'imageData', 'imageDataOrigin', 'tileInfo', 'maskROI'): # don't need these attributes
     iplimage.var(z).exclude()
-FT.expose_member_as_pointee(iplimage, 'roi')    
+FT.expose_member_as_pointee(iplimage, 'roi')
 # deal with 'imageData' and 'roi'
 iplimage.include_files.append( "boost/python/object.hpp" )
 iplimage.include_files.append( "boost/python/str.hpp" )
@@ -844,10 +844,12 @@ for t in ('ptr', 'block_min', 'block_max'):
 # CvSeqReader
 z = mb.class_('CvSeqReader')
 z.include()
-for t in ('seq', 'block'):
-    FT.expose_member_as_pointee(z, t)
-for t in ('ptr', 'block_min', 'block_max', 'prev_elem'):
-    FT.expose_member_as_str(z, t)
+def _expose_CvSeqReader_members(z):
+    for t in ('seq', 'block'):
+        FT.expose_member_as_pointee(z, t)
+    for t in ('ptr', 'block_min', 'block_max', 'prev_elem'):
+        FT.expose_member_as_str(z, t)
+_expose_CvSeqReader_members(z)
 
 
 # Data structures for persistence (a.k.a serialization) functionality
@@ -920,21 +922,20 @@ def CV_NODE_SEQ_IS_SIMPLE(seq):
 
 ''')
 
-# CvFileStorage # TODO: fix this
-# z = mb.decls('CvFileStorage')[0]
-# z.set_exportable(True)
-# z.include()
-# cc.write('''
-# CvFileStorage._owner = False
-        
-# def _CvFileStorage__del__(self):
-    # if self._owner is True:
-        # _PE._cvReleaseFileStorage(self)
-# CvFileStorage.__del__ = _CvFileStorage__del__
+# CvFileStorage
+z = mb.class_('CvFileStorage')
+z.include()
+cc.write('''
+def _CvFileStorage__del__(self):
+    _PE._cvReleaseFileStorage(self)
+CvFileStorage.__del__ = _CvFileStorage__del__
 
-# ''')
+''')
 
 # CvAttrList  # TODO: fix this
+z = mb.class_('CvAttrList')
+z.include()
+z.var('attr').exclude()
 
 # CvTypeInfo
 z = mb.class_('CvTypeInfo')
@@ -1021,7 +1022,7 @@ cc.write('''
 
 # cvRelease... functions
 for z in mb.free_funs(lambda decl: decl.name.startswith('cvRelease')):
-    if not z.name in ('cvRelease', 'cvReleaseData', 'cvReleaseFileStorage'): # TODO: fix
+    if not z.name in ('cvRelease', 'cvReleaseData'):
         add_underscore(z)
         z._transformer_creators.append(FT.input_double_pointee(0))
         
@@ -1825,7 +1826,7 @@ cvDrawRect = cvRectangle
 cvDrawLine = cvLine
 cvDrawCircle = cvCircle
 cvDrawEllipse = cvEllipse
-# cvDrawPolyLine = cvPolyLine # TODO: fix
+cvDrawPolyLine = cvPolyLine
 
 CV_FONT_HERSHEY_SIMPLEX = 0
 CV_FONT_HERSHEY_PLAIN = 1
@@ -1845,13 +1846,21 @@ CV_FONT_VECTOR0 = CV_FONT_HERSHEY_SIMPLEX
 for z in (
     'cvLine', 'cvRectangle', 'cvCircle', 'cvEllipse', 'cvEllipseBox', 'cvFillConvexPoly',
     'cvClipLine', 'cvInitLineIterator',
-    'cvInitFont', 'cvFont',
+    'cvInitFont', 'cvFont', 'cvPutText',
     'cvColorToScalar',
     'cvDrawContours', 'cvLUT',
     ):
     mb.free_fun(z).include()
 
-# cvFillPoly, cvPolyLine # TODO: fix
+# cvFillPoly
+z = mb.free_fun('cvFillPoly')
+z.include()
+z._transformer_creators.append(FT.input_dynamic_double_array('pts', 'npts', 'contours'))
+
+# cvPolyLine
+z = mb.free_fun('cvPolyLine')
+z.include()
+z._transformer_creators.append(FT.input_dynamic_double_array('pts', 'npts', 'contours'))
 
 # CvFont
 z = mb.class_('CvFont')
@@ -1859,21 +1868,346 @@ z.include()
 for t in ('ascii', 'greek', 'cyrillic'): # TODO: fix
     z.var(t).exclude()
 
-# cvPutText
-z = mb.free_fun('cvPutText')
-z.include()
-z._transformer_creators.append(FT.input_string('text'))
-    
-# cvGetTextSize # TODO: fix
+# cvGetTextSize
+z = mb.free_fun('cvGetTextSize')
+add_underscore(z)
+z._transformer_creators.append(FT.from_address('baseline'))
+
+def cvGetTextSize(text_string, font):
+    """(CvSize text_size, int baseline) = cvGetTextSize(string text_string, const CvFont font)
+
+    Retrieves width and height of text string
+    """
+    text_size = CvSize()
+    baseline = _CT.c_int()
+    _PE.cvGetTextSize(text_string, font, text_size, _CT.addressof(baseline))
+    return (text_size, baseline.value)
+
+
     
 # cvEllipse2Poly # TODO: fix
 
 
-
-
+# System Functions
+cc.write('''
+#-----------------------------------------------------------------------------
+# System Functions
+#-----------------------------------------------------------------------------
 
     
+# Sets the error mode
+CV_ErrModeLeaf = 0
+CV_ErrModeParent = 1
+CV_ErrModeSilent = 2
+
+
+''')
+
+# functions
+for z in (
+    'cvRegisterModule', 'cvUseOptimized', 'cvGetErrStatus', 'cvSetErrStatus',
+    'cvGetErrMode', 'cvSetErrMode', 'cvError',
+    'cvErrorStr', 'cvErrorFromIppStatus',
+    ):
+    mb.free_fun(z).include()
     
+# TODO: fix these functions:
+# cvGetModuleInfo, cvGetErrInfo, cvRedirectError, cvNulDevReport, cvStdErrReport, cvGuiBoxReport
+# cvSetMemoryManager, cvSetIPLAllocators
+
+
+# Data Persistence
+cc.write('''
+#-----------------------------------------------------------------------------
+# Data Persistence
+#-----------------------------------------------------------------------------
+
+    
+
+''')
+
+# functions
+for z in (
+    'cvAttrValue', 'cvStartWriteStruct', 'cvEndWriteStruct', 'cvWriteInt', 'cvWriteReal',
+    'cvWriteString', 'cvWriteComment', 'cvStartNextStream',
+    'cvReadInt', 'cvReadIntByName', 'cvReadReal', 'cvReadRealByName', 'cvReadString', 'cvReadStringByName',
+    'cvStartReadRawData', 'cvWriteFileNode', 'cvGetFileNodeName',
+    'cvRegisterType', 'cvUnregisterType',
+    'cvGetTickCount', 'cvGetTickFrequency',
+    'cvGetNumThreads', 'cvSetNumThreads', 'cvGetThreadNum',
+    ):
+    mb.free_fun(z).include()
+    
+# TODO: fix these functions:
+# cvWriteRawData, cvRead, cvReadByName, cvReadRawDataSlice, cvReadRawData,
+# cvSave, cvLoad
+
+# cvOpenFileStorage
+z = mb.free_fun('cvOpenFileStorage')
+z.include()
+z.call_policies = CP.with_custodian_and_ward_postcall(0, 2, CP.return_value_policy(CP.reference_existing_object))
+
+# cvWrite
+z = mb.free_fun('cvWrite')
+z.include()
+z._transformer_creators.append(FT.input_string('ptr'))
+
+for z in (
+    'cvGetHashedKey', 'cvGetRootFileNode', 'cvGetFileNode', 'cvGetFileNodeByName',
+    ):
+    f = mb.free_fun(z)
+    f.include()
+    f.call_policies = CP.with_custodian_and_ward_postcall(0, 1, CP.return_value_policy(CP.reference_existing_object))
+
+for z in (
+    'cvFirstType', 'cvFindType', # TODO: cvTypeOf
+    ):
+    f = mb.free_fun(z)
+    f.include()
+    f.call_policies = CP.return_value_policy(CP.reference_existing_object)
+
+
+# CvImage and CvMatrix are not necessary
+
+
+
+
+cc.write('''
+#=============================================================================
+# cvtypes.h
+#=============================================================================
+
+
+# contour retrieval mode
+CV_RETR_EXTERNAL = 0
+CV_RETR_LIST     = 1
+CV_RETR_CCOMP    = 2
+CV_RETR_TREE     = 3
+
+# contour approximation method
+CV_CHAIN_CODE               = 0
+CV_CHAIN_APPROX_NONE        = 1
+CV_CHAIN_APPROX_SIMPLE      = 2
+CV_CHAIN_APPROX_TC89_L1     = 3
+CV_CHAIN_APPROX_TC89_KCOS   = 4
+CV_LINK_RUNS                = 5
+
+# Haar-like Object Detection structures
+
+CV_HAAR_MAGIC_VAL    = 0x42500000
+CV_TYPE_NAME_HAAR    = "opencv-haar-classifier"
+CV_HAAR_FEATURE_MAX  = 3
+
+
+''')
+
+
+z = mb.class_('CvConnectedComp')
+z.include()
+FT.expose_member_as_pointee(z, 'contour')
+
+# CvContourScanner
+mb.decl('CvContourScanner').include()
+
+# CvChainPtReader # TODO: fix
+# z = mb.class_('CvChainPtReader')
+# z.include()
+# _expose_CvSeqReader_members(z)
+
+# CvContourTree
+z = mb.class_('CvContourTree')
+z.include()
+_expose_CvSeq_members(z)
+
+#CvConvexityDefect
+z = mb.class_('CvConvexityDefect')
+z.include()
+for t in (
+    'start', 'end', 'depth_point',
+    ):
+    FT.expose_member_as_pointee(z, t)
+
+
+def _expose_QuadEdge2D_members(z):
+    z.var('pt').exclude() # TODO: fix
+    
+z = mb.class_('CvQuadEdge2D')
+z.include()
+_expose_QuadEdge2D_members(z)
+
+mb.class_('CvSubdiv2DPoint').include()
+
+# CvSubdiv2D, # TODO: fix
+
+for z in (
+    'CvVect32f', 'CvMatr32f', 'CvVect64d', 'CvMatr64d',
+    ):
+    mb.decl(z).include()
+    
+z = mb.class_('CvMatrix3')
+z.include()
+z.var('m').exclude() # TODO: fix this
+
+
+# TODO: fix the pointer members
+for z in (
+    'CvMoments', 'CvHuMoments',
+    'CvHaarFeature', 
+    'CvAvgComp',
+    'CvConDensation', 'CvKalman',
+    'CvHaarClassifier', 'CvHaarStageClassifier', 'CvHaarClassifierCascade',
+    # 'CvRandState', # from cvcompat.h
+    ):
+    k = mb.class_(z)
+    k.include()
+    for v in k.vars():
+        if _D.is_pointer(v.type):
+            if 'Cv' in v.type.decl_string:
+                FT.expose_member_as_pointee(k, v.name)
+            else:
+                v.exclude()
+
+mb.class_('CvConDensation').exclude() # TODO: fix                
+
+
+cc.write('''
+#=============================================================================
+# cv.h
+#=============================================================================
+
+
+''')
+
+
+# Image Processing
+cc.write('''
+#-----------------------------------------------------------------------------
+# Image Processing
+#-----------------------------------------------------------------------------
+
+    
+CV_BLUR_NO_SCALE = 0
+CV_BLUR = 1
+CV_GAUSSIAN = 2
+CV_MEDIAN = 3
+CV_BILATERAL = 4
+
+
+''')
+
+# functions
+# for z in (
+    # 'cvCopyMakeBorder', 'cvSmooth', 'cvFilter2D', 'cvIntegral', 'cvPyrDown', 'cvPyrUp',
+    # ):
+    # mb.free_fun(z).include()
+    
+# TODO: fix these functions:
+
+
+
+
+
+cc.write('''
+#=============================================================================
+# highgui.h
+#=============================================================================
+
+
+''')
+
+
+# Basic GUI functions 
+cc.write('''
+#-----------------------------------------------------------------------------
+# Basic GUI functions 
+#-----------------------------------------------------------------------------
+
+    
+# Assigns callback for mouse events
+CV_EVENT_MOUSEMOVE = 0
+CV_EVENT_LBUTTONDOWN = 1
+CV_EVENT_RBUTTONDOWN = 2
+CV_EVENT_MBUTTONDOWN = 3
+CV_EVENT_LBUTTONUP = 4
+CV_EVENT_RBUTTONUP = 5
+CV_EVENT_MBUTTONUP = 6
+CV_EVENT_LBUTTONDBLCLK = 7
+CV_EVENT_RBUTTONDBLCLK = 8
+CV_EVENT_MBUTTONDBLCLK = 9
+
+CV_EVENT_FLAG_LBUTTON = 1
+CV_EVENT_FLAG_RBUTTON = 2
+CV_EVENT_FLAG_MBUTTON = 4
+CV_EVENT_FLAG_CTRLKEY = 8
+CV_EVENT_FLAG_SHIFTKEY = 16
+CV_EVENT_FLAG_ALTKEY = 32
+
+CV_LOAD_IMAGE_UNCHANGED = -1 # 8 bit, color or gray - deprecated, use CV_LOAD_IMAGE_ANYCOLOR
+CV_LOAD_IMAGE_GRAYSCALE =  0 # 8 bit, gray
+CV_LOAD_IMAGE_COLOR     =  1 # 8 bit unless combined with CV_LOAD_IMAGE_ANYDEPTH, color
+CV_LOAD_IMAGE_ANYDEPTH  =  2 # any depth, if specified on its own gray by itself
+                             # equivalent to CV_LOAD_IMAGE_UNCHANGED but can be modified
+                             # with CV_LOAD_IMAGE_ANYDEPTH
+CV_LOAD_IMAGE_ANYCOLOR  =  4
+
+CV_IMWRITE_JPEG_QUALITY = 1
+CV_IMWRITE_PNG_COMPRESSION = 16
+CV_IMWRITE_PXM_BINARY = 32
+
+
+
+''')
+
+# functions
+# for z in (
+    # 'cvStartWindowThread', 'cvShowImage', 'cvResizeWindow', 'cvMoveWindow', 'cvDestroyWindow', 'cvDestroyAllWindows',
+    # 'cvGetWindowName', 'cvGetTrackbarPos', 'cvSetTrackbarPos',
+    # ):
+    # mb.free_fun(z).include()
+    
+# TODO: fix these functions:
+# cvInitSystem, cvGetWindowHandle, cvCreateTrackbar, cvCreateTrackbar2, cvSetMouseCallback
+
+# cvLoadImage
+# z = mb.free_fun('cvLoadImage')
+# add_underscore(z)
+# z.call_policies = CP.return_value_policy(CP.reference_existing_object)
+cc.write('''
+def cvLoadImage(filename, iscolor=CV_LOAD_IMAGE_COLOR):
+    """IplImage cvLoadImage(string filename, int iscolor=CV_LOAD_IMAGE_COLOR)
+
+    Loads an image from file
+    """
+    z = _PE._cvLoadImage(filename, iscolor)
+    if z is not None:
+        z._owner = 3 # both header and data
+    return z
+
+''')
+
+# cvLoadImageM
+# z = mb.free_fun('cvLoadImageM')
+# add_underscore(z)
+# z.call_policies = CP.return_value_policy(CP.reference_existing_object)
+cc.write('''
+def cvLoadImageM(filename, iscolor=CV_LOAD_IMAGE_COLOR):
+    """CvMat cvLoadImageM(string filename, int iscolor=CV_LOAD_IMAGE_COLOR)
+
+    Loads an image from file
+    """
+    z = _PE._cvLoadImageM(filename, iscolor)
+    if z is not None:
+        z._owner = True # owns this object
+    return z
+
+''')
+
+# cvSaveImage # TODO: fix
+
+
+
+
+   
 # -----------------------------------------------------------------------------------------------
 # Final tasks
 # -----------------------------------------------------------------------------------------------
@@ -1881,9 +2215,6 @@ z._transformer_creators.append(FT.input_string('text'))
 for z in ('hdr_refcount', 'refcount'): # too low-level
     mb.decls(z).exclude() 
 
-# mb.free_function( return_type='IplImage *' ).call_policies \
-    # = call_policies.return_value_policy( call_policies.return_pointee_value )
-    
 # apply all the function transformations    
 for z in mb.free_funs():
     if len(z._transformer_creators) > 0:
