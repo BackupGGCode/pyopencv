@@ -235,7 +235,7 @@ class input_dynamic_array_t(transformer.transformer_t):
 
     def __str__(self):
         if self.arg_size is not None:
-            return "input_dynamic_array(%s,%d)"%( self.arg.name, self.arg_size.name)
+            return "input_dynamic_array(%s,%s)"%( self.arg.name, self.arg_size.name)
         return "input_dynamic_array(%s)"% self.arg.name
 
     def required_headers( self ):
@@ -324,7 +324,7 @@ class input_dynamic_array_of_pointers_t(transformer.transformer_t):
 
     def __str__(self):
         if self.arg_size is not None:
-            return "input_dynamic_array_of_pointers(%s,%d)"%( self.arg.name, self.arg_size.name)
+            return "input_dynamic_array_of_pointers(%s,%s)"%( self.arg.name, self.arg_size.name)
         return "input_dynamic_array_of_pointers(%s)"% self.arg.name
 
     def required_headers( self ):
@@ -383,6 +383,123 @@ class input_dynamic_array_of_pointers_t(transformer.transformer_t):
 def input_dynamic_array_of_pointers( *args, **keywd ):
     def creator( function ):
         return input_dynamic_array_of_pointers_t( function, *args, **keywd )
+    return creator
+
+    
+class input_dynamic_double_array_t(transformer.transformer_t):
+    """Handles an input array with a dynamic size.
+
+    void do_something([[int N, ]int *ncnts, ]double** v) ->  do_something(object v2)
+
+    where v2 is a Python sequence of sequences of items. Each item is of the same type as v's element type.
+    """
+
+    def __init__(self, function, arg_ref, arg_ncnts_ref=None, arg_size_ref=None, remove_arg_ncnts=True, remove_arg_size=True):
+        transformer.transformer_t.__init__( self, function )
+
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+        if not _T.is_ptr_or_array( self.arg.type ) or not _T.is_ptr_or_array(remove_ptr(self.arg.type)):
+            raise ValueError( '%s\nin order to use "input_dynamic_double_array" transformation, argument %s type must be a double array or a double pointer (got %s).' ) \
+                  % ( function, self.arg.name, self.arg.type)
+                  
+        if arg_ncnts_ref is not None:
+            self.arg_ncnts = self.get_argument( arg_ncnts_ref )
+            self.arg_ncnts_index = self.function.arguments.index( self.arg_ncnts )
+            
+            if not _T.is_ptr_or_array(self.arg_ncnts.type) or not _D.is_integral( remove_ptr(self.arg_ncnts.type) ):
+                raise ValueError( '%s\nin order to use "input_dynamic_double_array" transformation, argument %s type must be an integer array (got %s).' ) \
+                      % ( function, self.arg_ncnts.name, self.arg_ncnts.type)
+
+        else:
+            self.arg_ncnts = None
+        self.remove_arg_ncnts = remove_arg_ncnts
+
+        if arg_size_ref is not None:
+            self.arg_size = self.get_argument( arg_size_ref )
+            self.arg_size_index = self.function.arguments.index( self.arg_size )
+            
+            if not _D.is_integral( self.arg_size.type ):
+                raise ValueError( '%s\nin order to use "input_dynamic_double_array" transformation, argument %s type must be an integer (got %s).' ) \
+                      % ( function, self.arg_size.name, self.arg_size.type)
+
+        else:
+            self.arg_size = None
+        self.remove_arg_size = remove_arg_size
+
+        self.array_item_type = _D.remove_const( _D.array_item_type( _D.array_item_type( self.arg.type ) ) )
+
+    def __str__(self):
+        return "input_dynamic_double_array(%s)"% (self.arg.name,
+            "None" if self.arg_ncnts is None else self.arg_ncnts.name,
+            "None" if self.arg_sizes is None else self.arg_sizes.name,
+            )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return [ code_repository.convenience.file_name ]
+
+    def __configure_sealed(self, controller):
+        w_arg = controller.find_wrapper_arg( self.arg.name )
+        w_arg.type = _D.dummy_type_t( "boost::python::object" )
+
+        if self.remove_arg_size and self.arg_size is not None:
+            #removing arg_size from the function wrapper definition
+            controller.remove_wrapper_arg( self.arg_size.name )
+            
+        if self.remove_arg_ncnts and self.arg_ncnts is not None:
+            #removing arg_ncnts from the function wrapper definition
+            controller.remove_wrapper_arg( self.arg_ncnts.name )
+        
+        # precall_code
+        precall_code = """typedef ITEM_TYPE *LP_ARRAY;
+    int i_ARRAY, j_ARRAY, n0_ARRAY = bp::len(ARRAY);
+    int *n1_ARRAY = new int [n0_ARRAY];
+    LP_ARRAY *buf_ARRAY = new LP_ARRAY [n0_ARRAY];
+    for(i_ARRAY = 0; i_ARRAY < n0_ARRAY; ++i_ARRAY)
+    {
+        bp::object const &obj_ARRAY = ARRAY[i_ARRAY];
+        n1_ARRAY[i_ARRAY] = bp::len(obj_ARRAY);
+        buf_ARRAY[i_ARRAY] = new ITEM_TYPE [n1_ARRAY[i_ARRAY]];
+        for(j_ARRAY = 0; j_ARRAY < n1_ARRAY[i_ARRAY]; ++j_ARRAY)
+            buf_ARRAY[i_ARRAY][j_ARRAY] = bp::extract< ITEM_TYPE const & > ( obj_ARRAY[j_ARRAY] );
+    }
+        """.replace("ARRAY", self.arg.name) \
+            .replace("ITEM_TYPE", self.array_item_type.decl_string)
+        controller.add_pre_call_code(precall_code)
+        
+        # postcall_code
+        postcall_code = """for(i_ARRAY = 0; i_ARRAY < n0_ARRAY; ++i_ARRAY) delete[] buf_ARRAY[i_ARRAY];
+    delete[] n1_ARRAY;
+    delete[] buf_ARRAY;
+        """.replace("ARRAY", self.arg.name)
+        controller.add_post_call_code(postcall_code)
+        
+
+        controller.modify_arg_expression( self.arg_index, "buf_"+self.arg.name )
+        
+        if self.remove_arg_ncnts and self.arg_ncnts is not None:
+            controller.modify_arg_expression( self.arg_ncnts_index, "n1_"+self.arg.name )
+
+        if self.remove_arg_size and self.arg_size is not None:
+            controller.modify_arg_expression( self.arg_size_index, "n0_"+self.arg.name )
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def input_dynamic_double_array( *args, **keywd ):
+    def creator( function ):
+        return input_dynamic_double_array_t( function, *args, **keywd )
     return creator
 
 

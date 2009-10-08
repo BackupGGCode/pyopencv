@@ -1644,7 +1644,7 @@ CvSeqReader;
 \****************************************************************************************/
 
 /* "black box" file storage */
-typedef struct CvFileStorage CvFileStorage;
+typedef struct {} CvFileStorage; // fix the black-box, by Minh-Tri Pham
 
 /* Storage flags: */
 #define CV_STORAGE_READ          0
