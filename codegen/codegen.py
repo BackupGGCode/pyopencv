@@ -544,8 +544,6 @@ for z in ('heap', 'hashtable'): # TODO: fix
     cvsparsemat.var(z).exclude()
 
 cc.write('''
-CvSparseMat._owner = False
-        
 def _CvSparseMat__del__(self):
     _PE._cvReleaseSparseMat(self)
 CvSparseMat.__del__ = _CvSparseMat__del__
@@ -2123,6 +2121,16 @@ cc.write('''
 #-----------------------------------------------------------------------------
 
     
+CV_WINDOW_AUTOSIZE = 1
+
+# Holds references to ctypes function wrappers for callbacks to keep the
+# Python side object alive.  Keyed by window name, with a window value being
+# a dictionary of callbacks, keyed by "mouse" mouse callback, or "trackbar-name"
+# for a trackbar named "name".  
+#
+# See module bottom for atexit registration to destroy windows at process exit.
+_windows_callbacks = {}
+
 # Assigns callback for mouse events
 CV_EVENT_MOUSEMOVE = 0
 CV_EVENT_LBUTTONDOWN = 1
@@ -2154,24 +2162,106 @@ CV_IMWRITE_JPEG_QUALITY = 1
 CV_IMWRITE_PNG_COMPRESSION = 16
 CV_IMWRITE_PXM_BINARY = 32
 
+CV_CVTIMG_FLIP = 1
+CV_CVTIMG_SWAP_RB = 2
+
+CV_CAP_ANY = 0     # autodetect
+CV_CAP_MIL = 100     # MIL proprietary drivers
+CV_CAP_VFW = 200     # platform native
+CV_CAP_V4L = 200
+CV_CAP_V4L2 = 200
+CV_CAP_FIREWARE = 300     # IEEE 1394 drivers
+CV_CAP_FIREWIRE = 300     # IEEE 1394 drivers
+CV_CAP_IEEE1394 = 300
+CV_CAP_DC1394 = 300
+CV_CAP_CMU1394 = 300
+CV_CAP_STEREO = 400     # TYZX proprietary drivers
+CV_CAP_TYZX = 400
+CV_TYZX_LEFT = 400
+CV_TYZX_RIGHT = 401
+CV_TYZX_COLOR = 402
+CV_TYZX_Z = 403
+CV_CAP_QT = 500     # Quicktime
+CV_CAP_UNICAP = 600   # Unicap drivers
+CV_CAP_DSHOW = 700   # DirectShow (via videoInput)
+
+CV_CAP_PROP_POS_MSEC      = 0
+CV_CAP_PROP_POS_FRAMES    = 1
+CV_CAP_PROP_POS_AVI_RATIO = 2
+CV_CAP_PROP_FRAME_WIDTH   = 3
+CV_CAP_PROP_FRAME_HEIGHT  = 4
+CV_CAP_PROP_FPS           = 5
+CV_CAP_PROP_FOURCC        = 6
+CV_CAP_PROP_FRAME_COUNT   = 7
+CV_CAP_PROP_FORMAT        = 8
+CV_CAP_PROP_MODE          = 9
+CV_CAP_PROP_BRIGHTNESS    =10
+CV_CAP_PROP_CONTRAST      =11
+CV_CAP_PROP_SATURATION    =12
+CV_CAP_PROP_HUE           =13
+CV_CAP_PROP_GAIN          =14
+CV_CAP_PROP_EXPOSURE      =15
+CV_CAP_PROP_CONVERT_RGB   =16
+CV_CAP_PROP_WHITE_BALANCE =17
+CV_CAP_PROP_RECTIFICATION =18
+
+def CV_FOURCC(c1,c2,c3,c4):
+    return (((ord(c1))&255) + (((ord(c2))&255)<<8) + (((ord(c3))&255)<<16) + (((ord(c4))&255)<<24))
+    
+CV_FOURCC_PROMPT = -1 # Windows only
+CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
+
 
 
 ''')
 
 # functions
-# for z in (
-    # 'cvStartWindowThread', 'cvShowImage', 'cvResizeWindow', 'cvMoveWindow', 'cvDestroyWindow', 'cvDestroyAllWindows',
-    # 'cvGetWindowName', 'cvGetTrackbarPos', 'cvSetTrackbarPos',
-    # ):
-    # mb.free_fun(z).include()
+for z in (
+    'cvStartWindowThread', 'cvShowImage', 'cvResizeWindow', 'cvMoveWindow', 
+    'cvGetWindowName', 'cvGetTrackbarPos', 'cvSetTrackbarPos',
+    'cvConvertImage', 'cvWaitKey',
+    'cvGrabFrame', 'cvGetCaptureProperty', 'cvSetCaptureProperty', 'cvGetCaptureDomain',
+    'cvWriteFrame',
+    ):
+    mb.free_fun(z).include()
+    
+for z in ('CvCapture', 'CvVideoWriter'):
+    mb.class_(z).include()
+cc.write('''
+def _CvCapture__del__(self):
+    _PE._cvReleaseCapture(self)
+CvCapture.__del__ = _CvCapture__del__
+
+def _CvVideoWriter__del__(self):
+    _PE._cvReleaseVideoWriter(self)
+CvVideoWriter.__del__ = _CvVideoWriter__del__
+
+''')
+
     
 # TODO: fix these functions:
 # cvInitSystem, cvGetWindowHandle, cvCreateTrackbar, cvCreateTrackbar2, cvSetMouseCallback
 
+# cvNamedWindow
+z = mb.free_fun('cvNamedWindow')
+add_underscore(z)
+cc.write('''
+def cvNamedWindow(name, flags=1):
+    """int cvNamedWindow(string name, int flags)
+
+    Creates window
+    """
+    z = _PE._cvNamedWindow(name, flags=flags)
+    if z > 0 and not name in _windows_callbacks:
+        _windows_callbacks[name] = {}
+    return z
+    
+''')
+
 # cvLoadImage
-# z = mb.free_fun('cvLoadImage')
-# add_underscore(z)
-# z.call_policies = CP.return_value_policy(CP.reference_existing_object)
+z = mb.free_fun('cvLoadImage')
+add_underscore(z)
+z.call_policies = CP.return_value_policy(CP.reference_existing_object)
 cc.write('''
 def cvLoadImage(filename, iscolor=CV_LOAD_IMAGE_COLOR):
     """IplImage cvLoadImage(string filename, int iscolor=CV_LOAD_IMAGE_COLOR)
@@ -2186,9 +2276,9 @@ def cvLoadImage(filename, iscolor=CV_LOAD_IMAGE_COLOR):
 ''')
 
 # cvLoadImageM
-# z = mb.free_fun('cvLoadImageM')
-# add_underscore(z)
-# z.call_policies = CP.return_value_policy(CP.reference_existing_object)
+z = mb.free_fun('cvLoadImageM')
+add_underscore(z)
+z.call_policies = CP.return_value_policy(CP.reference_existing_object)
 cc.write('''
 def cvLoadImageM(filename, iscolor=CV_LOAD_IMAGE_COLOR):
     """CvMat cvLoadImageM(string filename, int iscolor=CV_LOAD_IMAGE_COLOR)
@@ -2204,10 +2294,98 @@ def cvLoadImageM(filename, iscolor=CV_LOAD_IMAGE_COLOR):
 
 # cvSaveImage # TODO: fix
 
+# cvDecodeImage
+z = mb.free_fun('cvDecodeImage')
+add_underscore(z)
+z.call_policies = CP.return_value_policy(CP.reference_existing_object)
+cc.write('''
+def cvDecodeImage(buf, iscolor=CV_LOAD_IMAGE_COLOR):
+    """IplImage cvDecodeImage( const CvMat buf, int iscolor=CV_LOAD_IMAGE_COLOR)
+
+    Loads an image from file
+    """
+    z = _PE._cvDecodeImage(filename, iscolor)
+    if z is not None:
+        z._owner = 3 # both header and data
+    return z
+
+''')
+
+# cvDecodeImageM
+z = mb.free_fun('cvDecodeImageM')
+add_underscore(z)
+z.call_policies = CP.return_value_policy(CP.reference_existing_object)
+cc.write('''
+def cvDecodeImageM(buf, iscolor=CV_LOAD_IMAGE_COLOR):
+    """CvMat cvDecodeImageM( const CvMat buf, int iscolor=CV_LOAD_IMAGE_COLOR)
+
+    Loads an image from file
+    """
+    z = _PE._cvDecodeImageM(filename, iscolor)
+    if z is not None:
+        z._owner = True # owns this object
+    return z
+
+''')
+
+# cvEncodeImage # TODO: fix
+
+# cvDestroyWindow
+z = mb.free_fun('cvDestroyWindow')
+add_underscore(z)
+cc.write('''
+def cvDestroyWindow(name):
+    """void cvDestroyWindow(string name)
+
+    Destroys a window
+    """
+    _PE._cvDestroyWindow(name)
+    if name in _windows_callbacks:
+        _windows_callbacks.pop(name)
+        
+''')
+
+# cvDestroyAllWindows
+z = mb.free_fun('cvDestroyAllWindows')
+add_underscore(z)
+cc.write('''
+def cvDestroyAllWindows():
+    """void cvDestroyAllWindows(void)
+
+    Destroys all the HighGUI windows
+    """
+    _PE._cvDestroyAllWindows()
+    _windows_callbacks.clear()
+
+''')
+
+
+cc.write('''
+# Automatically destroy any remaining tracked windows at process exit,
+# otherwise our references to ctypes objects may be destroyed by the normal
+# interpreter cleanup before the highgui library cleans up fully, leaving us
+# exposed to exceptions.
+
+import atexit
+atexit.register(cvDestroyAllWindows)
+''')
+
+for z in ('cvRetrieveFrame', 'cvQueryFrame'):
+    f = mb.free_fun(z)
+    f.include()
+    f.call_policies = CP.with_custodian_and_ward_postcall(0, 1, CP.return_value_policy(CP.reference_existing_object))
+
+for z in ('cvCreateFileCapture', 'cvCreateCameraCapture', 'cvCreateVideoWriter'):
+    f = mb.free_fun(z)
+    f.include()
+    f.call_policies = CP.return_value_policy(CP.reference_existing_object)
 
 
 
-   
+
+
+
+    
 # -----------------------------------------------------------------------------------------------
 # Final tasks
 # -----------------------------------------------------------------------------------------------
