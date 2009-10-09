@@ -75,7 +75,7 @@ CV_HAAR_FEATURE_MAX  = 3
 
 
     def expose_QuadEdge2D_members(z):
-        z.var('pt').exclude() # TODO: fix
+        FT.expose_member_as_array_of_pointees(z, 'pt', 4)
         
     z = mb.class_('CvQuadEdge2D')
     z.include()
@@ -83,7 +83,7 @@ CV_HAAR_FEATURE_MAX  = 3
 
     mb.class_('CvSubdiv2DPoint').include()
 
-    # CvSubdiv2D, # TODO: fix
+    # CvSubdiv2D, # TODO: fix, need CvGraph up and running
 
     for z in (
         'CvVect32f', 'CvMatr32f', 'CvVect64d', 'CvMatr64d',

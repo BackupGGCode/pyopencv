@@ -541,8 +541,8 @@ CvMemStorage.__del__ = _CvMemStorage__del__
     # CvGraphEdge
     z = mb.class_('CvGraphEdge')
     z.include()
-    for t in ('next', 'vtx'): # TODO: fix this
-        z.var(t).exclude()
+    for t in ('next', 'vtx'):
+        FT.expose_member_as_array_of_pointees(z, t, 2)
         
     # CvGraphVtx    
     z = mb.class_('CvGraphVtx')
@@ -553,7 +553,7 @@ CvMemStorage.__del__ = _CvMemStorage__del__
     z = mb.class_('CvGraphVtx2D')
     z.include()
     FT.expose_member_as_pointee(z, 'first')
-    FT.expose_member_as_pointee(z, 'ptr') # TODO: fix this
+    FT.expose_member_as_pointee(z, 'ptr')
 
     # CvGraph
     z = mb.class_('CvGraph')
