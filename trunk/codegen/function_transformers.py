@@ -4,6 +4,11 @@ from pyplusplus.function_transformers import *
 import pyplusplus.function_transformers.transformers as _T
 
 
+
+def add_underscore(decl):
+    decl.rename('_'+decl.name)
+    decl.include()
+
 def expose_addressof_member(klass, member_name, exclude_member=True):
     klass.include_files.append( "boost/python/long.hpp" )
     if exclude_member:
