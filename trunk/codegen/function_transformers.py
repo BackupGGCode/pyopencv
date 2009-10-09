@@ -46,6 +46,25 @@ def expose_member_as_pointee(klass, member_name):
     add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_MEMBER_NAME) )
     '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
     
+def expose_member_as_array_of_pointees(klass, member_name, array_size):
+    klass.include_files.append( "boost/python/object.hpp")
+    klass.include_files.append( "boost/python/list.hpp")
+    klass.include_files.append( "boost/python/tuple.hpp")
+    klass.var(member_name).exclude()
+    klass.add_wrapper_code('''
+    static bp::object get_MEMBER_NAME( CLASS_TYPE const & inst ){
+        bp::list l;
+        for(int i = 0; i < ARRAY_SIZE; ++i)
+            l.append(inst.MEMBER_NAME[i]);
+        return bp::tuple(l);
+    }
+    '''.replace("MEMBER_NAME", member_name) \
+        .replace("CLASS_TYPE", klass.decl_string) \
+        .replace("ARRAY_SIZE", str(array_size)))
+    klass.add_registration_code('''
+    add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_MEMBER_NAME) )
+    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
+    
 
 def remove_ptr( type_ ):
     if _D.is_pointer( type_ ):
