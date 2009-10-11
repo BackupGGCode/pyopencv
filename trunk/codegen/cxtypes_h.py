@@ -169,14 +169,14 @@ add_property( "data", bp::make_function(&_IplImage_wrapper::get_data) )
     ''')
 
     cc.write('''
-IplImage._owner = 0 # default: owns nothing
+IplImage._ownershiplevel = 0 # default: owns nothing
         
 def _IplImage__del__(self):
-    if self._owner == 1: # own header only
+    if self._ownershiplevel == 1: # own header only
         _PE._cvReleaseImageHeader(self)
-    elif self._owner == 2: # own data but not header
+    elif self._ownershiplevel == 2: # own data but not header
         _PE._cvReleaseData(self)
-    elif self._owner == 3: # own header and data
+    elif self._ownershiplevel == 3: # own header and data
         _PE._cvReleaseImage(self)
 IplImage.__del__ = _IplImage__del__
 
