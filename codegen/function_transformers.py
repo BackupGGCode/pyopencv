@@ -2,6 +2,67 @@ from pygccxml import declarations as _D
 from pyplusplus import code_repository
 from pyplusplus.function_transformers import *
 import pyplusplus.function_transformers.transformers as _T
+from pyplusplus.decl_wrappers import call_policies as CP
+
+
+def expose_func(func, ownershiplevel=None, ward_indices=(), return_arg_index=None, return_pointee=False, transformer_creators=[]):
+    
+    func.include()    
+    func._transformer_creators.extend(transformer_creators)
+    
+    cp = CP.return_value_policy(CP.reference_existing_object) if return_pointee is True else None
+    
+    if return_arg_index is None:
+        for ward_index in ward_indices:
+            cp = CP.with_custodian_and_ward_postcall(0, ward_index, cp)
+    else:
+        cp = CP.return_arg(return_arg_index) # ignore previous settings
+        for ward_index in ward_indices:
+            cp = CP.with_custodian_and_ward(return_arg_index, ward_index, cp)
+            
+    if ownershiplevel is not None:
+        cp = with_ownershiplevel_postcall(ownershiplevel, cp)
+        
+    if cp is not None:
+        func.call_policies = cp
+        
+    
+
+
+# -----------------------------------------------------------------------------------------------
+# Call policies
+# -----------------------------------------------------------------------------------------------
+
+class with_ownershiplevel_postcall_t( CP.compound_policy_t ):
+    """implements code generation for boost::python::with_ownershiplevel_postcall call policies"""
+    def __init__( self, value=0, base=None):
+        CP.compound_policy_t.__init__( self, base )
+        self._value = value
+
+    def _get_value( self ):
+        return self._value
+    def _set_value( self, new_value):
+        self._value = new_value
+    value = property( _get_value, _set_value )
+
+    def _get_name(self, function_creator):
+        return '::boost::python::with_ownershiplevel_postcall'
+
+    def _get_args(self, function_creator):
+        return [ str( self.value ) ]
+
+    @property
+    def header_file(self):
+        """return a name of the header file the call policy is defined in"""
+        return "with_ownershiplevel_postcall.hpp"
+
+def with_ownershiplevel_postcall( arg_value=0, base=None):
+    """create boost::python::with_ownershiplevel_postcall call policies code generator"""
+    return with_ownershiplevel_postcall_t( arg_value, base )
+
+
+
+
 
 
 

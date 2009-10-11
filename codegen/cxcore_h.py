@@ -40,62 +40,16 @@ def generate_code(mb, cc, D, FT, CP):
             z._transformer_creators.append(FT.input_double_pointee(0))
             
     # cvCreateImageHeader
-    z = mb.free_fun('cvCreateImageHeader')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
-    cc.write('''
-def cvCreateImageHeader(size, depth, channels):
-    """IplImage cvCreateImageHeader(CvSize size, int depth, int channels)
-
-    Allocates, initializes, and returns structure IplImage
-    """
-    z = _PE._cvCreateImageHeader(size, depth, channels)
-    if z is not None:
-        z._owner = 1 # header only
-    return z
-
-    ''')
+    FT.expose_func(mb.free_fun('cvCreateImageHeader'), ownershiplevel=1, return_pointee=True)
 
     # cvInitImageHeader
-    z = mb.free_fun('cvInitImageHeader')
-    z.include()
-    z.call_policies = CP.return_self()
+    FT.expose_func(mb.free_fun('cvInitImageHeader'), return_arg_index=1, return_pointee=True)
 
     # cvCreateImage
-    z = mb.free_fun('cvCreateImage')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
-    cc.write('''
-def cvCreateImage(size, depth, channels):
-    """IplImage cvCreateImage(CvSize size, int depth, int channels)
-
-    Creates header and allocates data
-    """
-    z = _PE._cvCreateImage(size, depth, channels)
-    if z is not None:
-        z._owner = 3 # both header and data
-    return z
-
-    ''')
-
+    FT.expose_func(mb.free_fun('cvCreateImage'), ownershiplevel=3, return_pointee=True)
             
     # cvCloneImage
-    z = mb.free_fun('cvCloneImage')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
-    cc.write('''
-def cvCloneImage(image):
-    """IplImage cvCloneImage(const IplImage image)
-
-    Makes a full copy of image (widthStep may differ)
-    """
-    z = _PE._cvCloneImage(image)
-    if z is not None:
-        z._owner = 3 # as a clone, z owns both header and data
-    return z
-
-    ''')
-
+    FT.expose_func(mb.free_fun('cvCloneImage'), ownershiplevel=3, return_pointee=True)
 
     # cv...ImageCOI functions
     mb.free_functions(lambda decl: decl.name.startswith('cv') and 'ImageCOI' in decl.name).include()
