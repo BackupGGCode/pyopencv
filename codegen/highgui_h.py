@@ -139,12 +139,16 @@ CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
     for z in ('CvCapture', 'CvVideoWriter'):
         mb.class_(z).include()
     cc.write('''
+CvCapture._ownershiplevel = 0
 def _CvCapture__del__(self):
-    _PE._cvReleaseCapture(self)
+    if self._ownershiplevel == 1:
+        _PE._cvReleaseCapture(self)
 CvCapture.__del__ = _CvCapture__del__
 
+CvVideoWriter._ownershiplevel = 0
 def _CvVideoWriter__del__(self):
-    _PE._cvReleaseVideoWriter(self)
+    if self._ownershiplevel == 1:
+        _PE._cvReleaseVideoWriter(self)
 CvVideoWriter.__del__ = _CvVideoWriter__del__
 
     ''')
@@ -168,76 +172,13 @@ def cvNamedWindow(name, flags=1):
     return z
     
     ''')
-
-    # cvLoadImage
-    z = mb.free_fun('cvLoadImage')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy(CP.reference_existing_object)
-    cc.write('''
-def cvLoadImage(filename, iscolor=CV_LOAD_IMAGE_COLOR):
-    """IplImage cvLoadImage(string filename, int iscolor=CV_LOAD_IMAGE_COLOR)
-
-    Loads an image from file
-    """
-    z = _PE._cvLoadImage(filename, iscolor)
-    if z is not None:
-        z._owner = 3 # both header and data
-    return z
-
-    ''')
-
-    # cvLoadImageM
-    z = mb.free_fun('cvLoadImageM')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy(CP.reference_existing_object)
-    cc.write('''
-def cvLoadImageM(filename, iscolor=CV_LOAD_IMAGE_COLOR):
-    """CvMat cvLoadImageM(string filename, int iscolor=CV_LOAD_IMAGE_COLOR)
-
-    Loads an image from file
-    """
-    z = _PE._cvLoadImageM(filename, iscolor)
-    if z is not None:
-        z._owner = True # owns this object
-    return z
-
-    ''')
+    
+    for z in (
+        'cvLoadImage', 'cvLoadImageM', 'cvDecodeImage', 'cvDecodeImageM',
+        ):
+        FT.expose_func(mb.free_fun(z), ownershiplevel=3)
 
     # cvSaveImage # TODO: fix
-
-    # cvDecodeImage
-    z = mb.free_fun('cvDecodeImage')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy(CP.reference_existing_object)
-    cc.write('''
-def cvDecodeImage(buf, iscolor=CV_LOAD_IMAGE_COLOR):
-    """IplImage cvDecodeImage( const CvMat buf, int iscolor=CV_LOAD_IMAGE_COLOR)
-
-    Loads an image from file
-    """
-    z = _PE._cvDecodeImage(filename, iscolor)
-    if z is not None:
-        z._owner = 3 # both header and data
-    return z
-
-    ''')
-
-    # cvDecodeImageM
-    z = mb.free_fun('cvDecodeImageM')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy(CP.reference_existing_object)
-    cc.write('''
-def cvDecodeImageM(buf, iscolor=CV_LOAD_IMAGE_COLOR):
-    """CvMat cvDecodeImageM( const CvMat buf, int iscolor=CV_LOAD_IMAGE_COLOR)
-
-    Loads an image from file
-    """
-    z = _PE._cvDecodeImageM(filename, iscolor)
-    if z is not None:
-        z._owner = True # owns this object
-    return z
-
-    ''')
 
     # cvEncodeImage # TODO: fix
 
@@ -282,13 +223,9 @@ atexit.register(cvDestroyAllWindows)
     ''')
 
     for z in ('cvRetrieveFrame', 'cvQueryFrame'):
-        f = mb.free_fun(z)
-        f.include()
-        f.call_policies = CP.with_custodian_and_ward_postcall(0, 1, CP.return_value_policy(CP.reference_existing_object))
+        FT.expose_func(mb.free_fun(z), ward_indices=(1,))
 
     for z in ('cvCreateFileCapture', 'cvCreateCameraCapture', 'cvCreateVideoWriter'):
-        f = mb.free_fun(z)
-        f.include()
-        f.call_policies = CP.return_value_policy(CP.reference_existing_object)
+        FT.expose_func(mb.free_fun(z))
 
 

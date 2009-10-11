@@ -194,10 +194,10 @@ IplImage.__del__ = _IplImage__del__
     z.var('values').exclude() # don't need this variable yet
 
     cc.write('''
-IplConvKernel._owner = False # default: owns nothing
+IplConvKernel._ownershiplevel = 0 # default: owns nothing
         
 def _IplConvKernel__del__(self):
-    if self._owner is True: # own header
+    if self._ownershiplevel==1: # own header
         _PE._cvReleaseStructuringElement(self)
 IplConvKernel.__del__ = _IplConvKernel__del__
 
@@ -309,10 +309,10 @@ add_property( "data", bp::make_function(&CvMat_wrapper::get_data) )
     ''')
 
     cc.write('''
-CvMat._owner = False
+CvMat._ownershiplevel = 0
         
 def _CvMat__del__(self):
-    if self._owner is True:
+    if self._ownershiplevel==1:
         _PE._cvReleaseMat(self)
 CvMat.__del__ = _CvMat__del__
 
@@ -355,10 +355,10 @@ add_property( "data", bp::make_function(&CvMatND_wrapper::get_data) )
     ''')
 
     cc.write('''
-CvMatND._owner = False
+CvMatND._ownershiplevel = 0
         
 def _CvMatND__del__(self):
-    if self._owner is True:
+    if self._ownershiplevel==1:
         _PE._cvReleaseMatND(self)
 CvMatND.__del__ = _CvMatND__del__
 
@@ -383,8 +383,11 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
         cvsparsemat.var(z).exclude()
 
     cc.write('''
+CvSparseMat._ownershiplevel = 0
+    
 def _CvSparseMat__del__(self):
-    _PE._cvReleaseSparseMat(self)
+    if self._ownershiplevel==1:
+        _PE._cvReleaseSparseMat(self)
 CvSparseMat.__del__ = _CvSparseMat__del__
 
     ''')
@@ -428,10 +431,10 @@ CV_HIST_UNIFORM       = 1
     ''')
 
     cc.write('''
-CvHistogram._owner = False
+CvHistogram._ownershiplevel = 0
         
 def _CvHistogram__del__(self):
-    if self._owner is True:
+    if self._ownershiplevel==1:
         _PE._cvReleaseHist(self)
 CvHistogram.__del__ = _CvHistogram__del__
 
