@@ -40,16 +40,16 @@ def generate_code(mb, cc, D, FT, CP):
             z._transformer_creators.append(FT.input_double_pointee(0))
             
     # cvCreateImageHeader
-    FT.expose_func(mb.free_fun('cvCreateImageHeader'), ownershiplevel=1, return_pointee=True)
+    FT.expose_func(mb.free_fun('cvCreateImageHeader'), ownershiplevel=1)
 
     # cvInitImageHeader
-    FT.expose_func(mb.free_fun('cvInitImageHeader'), return_arg_index=1, return_pointee=True)
+    FT.expose_func(mb.free_fun('cvInitImageHeader'), return_arg_index=1)
 
     # cvCreateImage
-    FT.expose_func(mb.free_fun('cvCreateImage'), ownershiplevel=3, return_pointee=True)
+    FT.expose_func(mb.free_fun('cvCreateImage'), ownershiplevel=3)
             
     # cvCloneImage
-    FT.expose_func(mb.free_fun('cvCloneImage'), ownershiplevel=3, return_pointee=True)
+    FT.expose_func(mb.free_fun('cvCloneImage'), ownershiplevel=3)
 
     # cv...ImageCOI functions
     mb.free_functions(lambda decl: decl.name.startswith('cv') and 'ImageCOI' in decl.name).include()
@@ -57,48 +57,14 @@ def generate_code(mb, cc, D, FT, CP):
     # cv...ImageROI functions
     mb.free_functions(lambda decl: decl.name.startswith('cv') and 'ImageROI' in decl.name).include()
 
-
-
     # cvCreateMatHeader
-    z = mb.free_fun('cvCreateMatHeader')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
-    cc.write('''
-def cvCreateMatHeader(rows, cols, cvmat_type):
-    """CvMat cvCreateMatHeader(int rows, int cols, int type)
-
-    Creates new matrix header
-    """
-    z = _PE._cvCreateMatHeader(rows, cols, cvmat_type)
-    if z is not None:
-        z._owner = True
-    return z
-
-    ''')
-
+    FT.expose_func(mb.free_fun('cvCreateMatHeader'), ownershiplevel=1)
 
     # cvInitMatHeader
-    z = mb.free_fun('cvInitMatHeader')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(1, 5, CP.return_self())
-
+    FT.expose_func(mb.free_fun('cvInitMatHeader'), ward_indices=(5,), return_arg_index=1)
 
     # cvCreateMat
-    z = mb.free_fun('cvCreateMat')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
-    cc.write('''
-def cvCreateMat(rows, cols, cvmat_type):
-    """CvMat cvCreateMat(int rows, int cols, int type)
-
-    Creates new matrix
-    """
-    z = _PE._cvCreateMat(rows, cols, cvmat_type)
-    if z is not None:
-        z._owner = True
-    return z
-
-    ''')
+    FT.expose_func(mb.free_fun('cvCreateMat'), ownershiplevel=1)
 
     cc.write('''
 # Minh-Tri's helpers
@@ -133,22 +99,7 @@ def cvCreateMatFromCvPointList(points):
     ''')
 
     # cvCloneMat
-    z = mb.free_fun('cvCloneMat')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
-    cc.write('''
-def cvCloneMat(mat):
-    """CvMat cvCloneMat(const CvMat mat)
-
-    Creates matrix copy
-    """
-    z = _PE._cvCloneMat(mat)
-    if z is not None:
-        z._owner = True
-    return z
-
-    ''')
-
+    FT.expose_func(mb.free_fun('cvCloneMat'), ownershiplevel=1)
 
     # cv...RefData
     mb.free_funs(lambda f: f.name.startswith('cv') and 'RefData' in f.name).include()
@@ -236,43 +187,14 @@ def cvGetDiag(arr, submat=None, diag=0):
     # cvScalarToRawData and cvRawDataToScalar # TODO: fix this
 
     # cvCreateMatNDHeader
-    z = mb.free_fun('cvCreateMatNDHeader')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
-    cc.write('''
-def cvCreateMatNDHeader(sizes, type):
-    """CvMatND cvCreateMatNDHeader(sequence_of_ints sizes, int type)
-
-    Creates new matrix header
-    """
-    z = _PE._cvCreateMatNDHeader(sizes, type)
-    if z is not None:
-        z._owner = True
-    return z
-
-    ''')
+    FT.expose_func(mb.free_fun('cvCreateMatNDHeader'), ownershiplevel=1)
 
     # cvCreateMatND
-    z = mb.free_fun('cvCreateMatND')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
-    cc.write('''
-def cvCreateMatND(sizes, type):
-    """CvMatND cvCreateMatND(sequence_of_ints sizes, int type)
-
-    Creates multi-dimensional dense array
-    """
-    z = _PE._cvCreateMatND(sizes, type)
-    if z is not None:
-        z._owner = True
-    return z
-
-    ''')
+    FT.expose_func(mb.free_fun('cvCreateMatND'), ownershiplevel=1)
 
     # cvInitMatNDHeader
-    z = mb.free_fun('cvInitMatNDHeader')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(1, 4, CP.return_self())
+    FT.expose_func(mb.free_fun('cvInitMatNDHeader'), ward_indices=(4,), return_arg_index=1)
+
     cc.write('''
 def cvMatND(sizes, mattype, data=None):
     return cvInitMatNDHeader(CvMatND(), sizes, mattype, data=data)
@@ -280,41 +202,19 @@ def cvMatND(sizes, mattype, data=None):
     ''')
 
     # cvCloneMatND
-    z = mb.free_fun('cvCloneMatND')
-    FT.add_underscore(z)
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
-    cc.write('''
-def cvCloneMatND(mat):
-    """CvMatND cvCloneMatND(const CvMatND mat)
-
-    Creates full copy of multi-dimensional array
-    """
-    z = _PE._cvCloneMatND(mat)
-    if z is not None:
-        z._owner = True
-    return z
-
-    ''')
+    FT.expose_func(mb.free_fun('cvCloneMatND'), ownershiplevel=1)
 
     # cvCreateSparseMat
-    z = mb.free_fun('cvCreateImageHeader')
-    z.include()
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
+    FT.expose_func(mb.free_fun('cvCreateSparseMat'), ownershiplevel=1)
 
     # cvCloneSparseMat
-    z = mb.free_fun('cvCloneSparseMat')
-    z.include()
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
+    FT.expose_func(mb.free_fun('cvCloneSparseMat'), ownershiplevel=1)
 
     # cvInitSparseMatIterator
-    z = mb.free_fun('cvInitSparseMatIterator')
-    z.include()
-    z.call_policies = CP.return_value_policy(CP.reference_existing_object, CP.with_custodian_and_ward_postcall(0, 2))
+    FT.expose_func(mb.free_fun('cvInitSparseMatIterator'), ward_indices=(1, 2))
 
     # cvGetNextSparseNode
-    z = mb.free_fun('cvGetNextSparseNode')
-    z.include()
-    z.call_policies = CP.return_value_policy(CP.reference_existing_object, CP.with_custodian_and_ward_postcall(0, 1))
+    FT.expose_func(mb.free_fun('cvGetNextSparseNode'), ward_indices=(1,))
 
     # CvNArrayIterator
     z = mb.class_('CvNArrayIterator')
@@ -394,19 +294,17 @@ def cvGetImage(arr, image_header=None):
     ''')
 
     # cvReshapeMatND
-    z = mb.free_fun('cvReshapeMatND')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(3, 1, CP.return_arg(3))
-    z._transformer_creators.append(FT.input_dynamic_array('new_sizes', 'new_dims'))
+    FT.expose_func(mb.free_fun('cvReshapeMatND'), ward_indices=(1,), return_arg_index=3, 
+        transformer_creators=[FT.input_dynamic_array('new_sizes', 'new_dims')])
 
     # cvReshape
-    z = mb.free_fun('cvReshape')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(2, 1, CP.return_arg(2))
+    FT.expose_func(mb.free_fun('cvReshape'), ward_indices=(1,), return_arg_index=2) 
 
     # functions
-    for z in ('cvRepeat', 'cvCreateData', 'cvReleaseData', 'cvSetData', 'cvGetSize'):
+    for z in ('cvRepeat', 'cvCreateData', 'cvReleaseData', 'cvGetSize'):
         mb.free_fun(z).include()
+        
+    # cvSetData # TODO: fix this
         
     # cvGetRawData # TODO: fix this
 
@@ -590,9 +488,7 @@ cvMahalonobis = cvMahalanobis
         mb.free_fun(z).include()
 
     # cvRange
-    z = mb.free_fun('cvRange')
-    z.include()
-    z.call_policies = CP.return_self()
+    FT.expose_func(mb.free_fun('cvRange'), return_arg_index=1) 
 
     # cvCalcCovarMatrix
     z = mb.free_fun('cvCalcCovarMatrix')
@@ -714,59 +610,42 @@ CV_BACK = 0
         mb.free_fun(z).include()
 
     # cvCreateMemStorage
-    z = mb.free_fun('cvCreateMemStorage')
-    z.include()
-    z.call_policies = CP.return_value_policy( CP.reference_existing_object )
+    FT.expose_func(mb.free_fun('cvCreateMemStorage')) 
 
     # cvCreateChildMemStorage
-    z = mb.free_fun('cvCreateChildMemStorage')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(0, 1, CP.return_value_policy(CP.reference_existing_object))
+    FT.expose_func(mb.free_fun('cvCreateChildMemStorage'), ward_indices=(1,)) 
         
     # cvMemStorageAlloc, cvMemStorageAllocString # TODO: fix this
 
     # cvCreateSeq
-    z = mb.free_fun('cvCreateSeq')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(0, 4, CP.return_value_policy(CP.reference_existing_object))
+    FT.expose_func(mb.free_fun('cvCreateSeq'), ward_indices=(4,)) 
         
     # cvSeq* # TODO: fix this
 
     # cvGetSeqElem, cvSeqElemIdx # TODO: fix
 
     # cvEndWriteSeq
-    z = mb.free_fun('cvEndWriteSeq')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(0, 1, CP.return_value_policy(CP.reference_existing_object))
+    FT.expose_func(mb.free_fun('cvEndWriteSeq'), ward_indices=(1,)) 
 
     # cvCvtSeqToArray, cvMakeSeqHeaderForArray # TODO: fix
 
     # cvSeqSlice
-    z = mb.free_fun('cvSeqSlice')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(0, 3, CP.return_value_policy(CP.reference_existing_object))
+    FT.expose_func(mb.free_fun('cvSeqSlice'), ward_indices=(3,)) 
 
     # cvCloneSeq
-    z = mb.free_fun('cvCloneSeq')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(0, 2, CP.return_value_policy(CP.reference_existing_object))
+    FT.expose_func(mb.free_fun('cvCloneSeq'), ward_indices=(2,)) 
 
     # cvSeqSort, cvSeqSearch, cvSeqPartition # TODO: fix
 
     # cvChangeSeqBlock # TODO: fix
 
     # cvCreateSet
-    z = mb.free_fun('cvCreateSet')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(0, 4, CP.return_value_policy(CP.reference_existing_object))
+    FT.expose_func(mb.free_fun('cvCreateSet'), ward_indices=(4,)) 
 
     # cvSetAdd, cvSetNew, cvSetRemoveByPtr # TODO: fix
 
     # cvGetSetElem
-    z = mb.free_fun('cvGetSetElem')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(0, 1, CP.return_value_policy(CP.reference_existing_object))
-
+    FT.expose_func(mb.free_fun('cvGetSetElem'), ward_indices=(1,)) 
 
 
     # CvGraph* and cvGraph* # TODO: fix this whole thing
@@ -910,9 +789,7 @@ CV_ErrModeSilent = 2
     # cvSave, cvLoad
 
     # cvOpenFileStorage
-    z = mb.free_fun('cvOpenFileStorage')
-    z.include()
-    z.call_policies = CP.with_custodian_and_ward_postcall(0, 2, CP.return_value_policy(CP.reference_existing_object))
+    FT.expose_func(mb.free_fun('cvOpenFileStorage'), ward_indices=(2,)) 
 
     # cvWrite
     z = mb.free_fun('cvWrite')
@@ -922,16 +799,12 @@ CV_ErrModeSilent = 2
     for z in (
         'cvGetHashedKey', 'cvGetRootFileNode', 'cvGetFileNode', 'cvGetFileNodeByName',
         ):
-        f = mb.free_fun(z)
-        f.include()
-        f.call_policies = CP.with_custodian_and_ward_postcall(0, 1, CP.return_value_policy(CP.reference_existing_object))
+        FT.expose_func(mb.free_fun(z), ward_indices=(1,)) 
 
     for z in (
         'cvFirstType', 'cvFindType', # TODO: cvTypeOf
         ):
-        f = mb.free_fun(z)
-        f.include()
-        f.call_policies = CP.return_value_policy(CP.reference_existing_object)
+        FT.expose_func(mb.free_fun(z)) 
 
 
     # CvImage and CvMatrix are not necessary

@@ -5,7 +5,7 @@ import pyplusplus.function_transformers.transformers as _T
 from pyplusplus.decl_wrappers import call_policies as CP
 
 
-def expose_func(func, ownershiplevel=None, ward_indices=(), return_arg_index=None, return_pointee=False, transformer_creators=[]):
+def expose_func(func, ownershiplevel=None, ward_indices=(), return_arg_index=None, return_pointee=True, transformer_creators=[]):
     
     func.include()    
     func._transformer_creators.extend(transformer_creators)
