@@ -30,10 +30,10 @@ import cv_h
 import highgui_h
 
 #Creating an instance of class that will help you to expose your declarations
-mb = module_builder.module_builder_t( 
+mb = module_builder.module_builder_t(
     ["opencv.hpp",],
-    gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe", 
-    working_directory=r"M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen", 
+    gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe",
+    working_directory=r"M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen",
     include_paths=[
         r"M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen/opencv2_include",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++",
@@ -41,7 +41,7 @@ mb = module_builder.module_builder_t(
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include",
     ],
     define_symbols=[] )
-    
+
 cc = open('pyopencv/__init__.py', 'w')
 cc.write('''#!/usr/bin/env python
 # pyopencv - A Python wrapper for OpenCV 2.0 using Boost.Python and ctypes
@@ -109,34 +109,66 @@ mb.enums().include()
 #=============================================================================
 
 
-# initialize list of transformer creators for each free function
-for z in mb.free_funs():
-    z._transformer_creators = []
-for z in mb.mem_funs():
-    z._transformer_creators = []
-    
+# get the list of OpenCV functions
+opencv_funs = mb.free_funs(lambda decl: decl.name.startswith('cv'))
 
-for f in mb.free_funs():
-    for arg in f.arguments:
-        # by default, convert all pointers to Cv... or to Ipl... into pointee
-        if D.is_pointer(arg.type) and not D.is_pointer(D.remove_pointer(arg.type)) and \
-            (arg.type.decl_string.startswith('::Cv') or arg.type.decl_string.startswith('::_Ipl')):
-            f._transformer_creators.append(FT.input_smart_pointee(arg.name))
+# initialize list of transformer creators for each function
+for z in opencv_funs:
+    z._transformer_creators = []
+    z._modified_vars = []
 
-        #  argument 'void *data'
-        elif arg.name == 'data' and D.is_void_pointer(arg.type):
-            f._transformer_creators.append(FT.input_string(arg.name))
-            
+
 # function argument int *sizes and int dims
-for f in mb.free_funs():
+for f in opencv_funs:
     for arg in f.arguments:
+        if arg.name in f._modified_vars:
+            continue
         if arg.name == 'sizes' and D.is_pointer(arg.type):
-            for arg in f.arguments:
-                if arg.name == 'dims' and D.is_integral(arg.type):
+            for arg2 in f.arguments:
+                if arg2.name == 'dims' and D.is_integral(arg2.type):
                     f._transformer_creators.append(FT.input_dynamic_array('sizes', 'dims'))
+                    f._modified_vars.extend(['sizes', 'dims'])
+                    break
 
-                    
-                    
+# function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
+for f in opencv_funs:
+    for arg in f.arguments:
+        if arg.name in f._modified_vars:
+            continue
+        if arg.name == 'src' and D.is_pointer(arg.type) and 'CvPoint2D32f' in arg.type.decl_string:
+            for arg2 in f.arguments:
+                if arg2.name == 'dst' and D.is_pointer(arg2.type) and 'CvPoint2D32f' in arg2.type.decl_string:
+                    f._transformer_creators.append(FT.input_dynamic_array('src'))
+                    f._transformer_creators.append(FT.input_dynamic_array('dst'))
+                    f._modified_vars.extend(['src','dst'])
+                    break
+
+#  argument 'void *data'
+for f in opencv_funs:
+    for arg in f.arguments:
+        if arg.name in f._modified_vars:
+            continue
+        if arg.name == 'data' and D.is_void_pointer(arg.type):
+            f._transformer_creators.append(FT.input_string(arg.name))
+            f._modified_vars.extend(['data'])
+
+# by default, convert all pointers to Cv... or to Ipl... into pointee
+for f in opencv_funs:
+    for arg in f.arguments:
+        if arg.name in f._modified_vars:
+            continue
+        if D.is_pointer(arg.type) and not D.is_pointer(D.remove_pointer(arg.type)):
+            z = D.remove_const(D.remove_pointer(arg.type))
+            if (z.decl_string.startswith('::Cv') or z.decl_string.startswith('::_Ipl')) and D.is_class(z):
+                print "exposing argument %s of type %s" % (arg.name, z.decl_string)
+                z = mb.class_(z.decl_string[2:])
+                if not z.exportable:
+                    print "WARNING!!!!!!!!!! %s is not exportable." % z.name
+                    print z.why_not_exportable()
+                f._transformer_creators.append(FT.input_smart_pointee(arg.name))
+                f._modified_vars.append(arg.name)
+
+
 #=============================================================================
 # Wrappers for different headers
 #=============================================================================
@@ -160,16 +192,16 @@ cv_h.generate_code(mb, cc, D, FT, CP)
 highgui_h.generate_code(mb, cc, D, FT, CP)
 
 
-    
+
 #=============================================================================
 # Final tasks
 #=============================================================================
 
 for z in ('hdr_refcount', 'refcount'): # too low-level
-    mb.decls(z).exclude() 
+    mb.decls(z).exclude()
 
-# apply all the function transformations    
-for z in mb.free_funs():
+# apply all the function transformations
+for z in opencv_funs:
     if len(z._transformer_creators) > 0:
         z.add_transformation(*z._transformer_creators)
 
@@ -199,10 +231,10 @@ for z in ('IPL_', 'CV_'):
 # for z in mb.classes(lambda z: z.decl_string.startswith('::Cv') or z.decl_string.startswith('::_Ipl')):
     # z.include()
     # z.decls().exclude()
-    
+
 # exclude stupid CvMat... aliases
 # mb.classes(lambda z: z.decl_string.startswith('::CvMat') and not z.name.startswith('CvMat')).exclude()
-    
+
 # cannot expose unions
 # mb.class_('Cv32suf').exclude()
 # mb.class_('Cv64suf').exclude()
@@ -211,7 +243,7 @@ for z in ('IPL_', 'CV_'):
 # for z in mb.classes(lambda z: z.decl_string.startswith('::cv')):
     # z.include()
     # z.decls().exclude()
-    
+
 # exclude every Ptr class
 # mb.classes(lambda z: z.decl_string.startswith('::cv::Ptr')).exclude()
 
@@ -243,18 +275,18 @@ for z in ('IPL_', 'CV_'):
 # for z in ('Optimized', 'NumThreads', 'ThreadNum', 'getTick'):
     # cv.decls(lambda decl: z in decl.name).include()
 
-# for z in ('DataDepth', 'Vec', 'Complex', 'Point', 'Size', 'Rect', 'RotatedRect', 
+# for z in ('DataDepth', 'Vec', 'Complex', 'Point', 'Size', 'Rect', 'RotatedRect',
     # 'Scalar', 'Range', 'DataType'):
     # cv.decls(lambda decl: decl.name.startswith(z)).include()
 
-# class Mat    
+# class Mat
 # mat = cv.class_('Mat')
 # mat.include()
 # for z in ('refcount', 'datastart', 'dataend'):
     # mat.var(z).exclude()
 # TODO: expose the 'data' member as read-write buffer
 # mat.var('data').exclude()
-# expose_addressof_member(mat, 'data')    
+# expose_addressof_member(mat, 'data')
 # mat.decls('ptr').exclude()
 
 #Creating code creator. After this step you should not modify/customize declarations.

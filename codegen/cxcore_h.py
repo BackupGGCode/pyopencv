@@ -34,10 +34,13 @@ def generate_code(mb, cc, D, FT, CP):
     ''')
 
     # cvRelease... functions
-    for z in mb.free_funs(lambda decl: decl.name.startswith('cvRelease')):
-        if not z.name in ('cvRelease', 'cvReleaseData'):
-            FT.add_underscore(z)
-            z._transformer_creators.append(FT.input_double_pointee(0))
+    for z in (
+        'cvReleaseImageHeader', 'cvReleaseImage', 'cvReleaseMat', 'cvReleaseMatND',
+        'cvReleaseSparseMat', 'cvReleaseMemStorage', 'cvReleaseFileStorage',
+        ):
+        f = mb.free_fun(z)
+        FT.add_underscore(f)
+        f._transformer_creators.append(FT.input_double_pointee(0))
             
     # cvCreateImageHeader
     FT.expose_func(mb.free_fun('cvCreateImageHeader'), ownershiplevel=1)

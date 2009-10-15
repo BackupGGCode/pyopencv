@@ -1,10 +1,21 @@
 #ifndef SDOPENCV_H
 #define SDOPENCV_H
 
+#define CV_NO_BACKWARD_COMPATIBILITY
+
 #include "cxtypes.h"
 #include "cxcore.h"
 #include "cvtypes.h"
-// #include "cv.h"
+#define SKIP_INCLUDES
+#include "cv.h"
+#undef SKIP_INCLUDES
 #include "highgui.h"
+
+
+struct CvFeatureTree {};
+struct CvLSH {};
+struct CvLSHOperations {}; // if cv.hpp is not included
+struct CvPOSITObject {};
+
 
 #endif
