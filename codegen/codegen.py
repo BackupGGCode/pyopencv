@@ -102,71 +102,20 @@ mb.classes().expose_this = True
 # expose all enumerations
 mb.enums().include()
 
-
-
-#=============================================================================
-# Rules for free functions and member functions
-#=============================================================================
-
-
 # get the list of OpenCV functions
 opencv_funs = mb.free_funs(lambda decl: decl.name.startswith('cv'))
 
 # initialize list of transformer creators for each function
 for z in opencv_funs:
     z._transformer_creators = []
-    z._modified_vars = []
+
+def is_arg_touched(f, arg_name):
+    for tr in f._transformer_creators:
+        if arg_name in tr.func_closure[1].cell_contents:
+            return True
+    return False
 
 
-# function argument int *sizes and int dims
-for f in opencv_funs:
-    for arg in f.arguments:
-        if arg.name in f._modified_vars:
-            continue
-        if arg.name == 'sizes' and D.is_pointer(arg.type):
-            for arg2 in f.arguments:
-                if arg2.name == 'dims' and D.is_integral(arg2.type):
-                    f._transformer_creators.append(FT.input_dynamic_array('sizes', 'dims'))
-                    f._modified_vars.extend(['sizes', 'dims'])
-                    break
-
-# function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
-for f in opencv_funs:
-    for arg in f.arguments:
-        if arg.name in f._modified_vars:
-            continue
-        if arg.name == 'src' and D.is_pointer(arg.type) and 'CvPoint2D32f' in arg.type.decl_string:
-            for arg2 in f.arguments:
-                if arg2.name == 'dst' and D.is_pointer(arg2.type) and 'CvPoint2D32f' in arg2.type.decl_string:
-                    f._transformer_creators.append(FT.input_dynamic_array('src'))
-                    f._transformer_creators.append(FT.input_dynamic_array('dst'))
-                    f._modified_vars.extend(['src','dst'])
-                    break
-
-#  argument 'void *data'
-for f in opencv_funs:
-    for arg in f.arguments:
-        if arg.name in f._modified_vars:
-            continue
-        if arg.name == 'data' and D.is_void_pointer(arg.type):
-            f._transformer_creators.append(FT.input_string(arg.name))
-            f._modified_vars.extend(['data'])
-
-# by default, convert all pointers to Cv... or to Ipl... into pointee
-for f in opencv_funs:
-    for arg in f.arguments:
-        if arg.name in f._modified_vars:
-            continue
-        if D.is_pointer(arg.type) and not D.is_pointer(D.remove_pointer(arg.type)):
-            z = D.remove_const(D.remove_pointer(arg.type))
-            if (z.decl_string.startswith('::Cv') or z.decl_string.startswith('::_Ipl')) and D.is_class(z):
-                print "exposing argument %s of type %s" % (arg.name, z.decl_string)
-                z = mb.class_(z.decl_string[2:])
-                if not z.exportable:
-                    print "WARNING!!!!!!!!!! %s is not exportable." % z.name
-                    print z.why_not_exportable()
-                f._transformer_creators.append(FT.input_smart_pointee(arg.name))
-                f._modified_vars.append(arg.name)
 
 
 #=============================================================================
@@ -190,6 +139,59 @@ cv_h.generate_code(mb, cc, D, FT, CP)
 
 # highgui.h
 highgui_h.generate_code(mb, cc, D, FT, CP)
+
+
+
+
+#=============================================================================
+# Rules for free functions and member functions
+#=============================================================================
+
+
+# function argument int *sizes and int dims
+for f in opencv_funs:
+    for arg in f.arguments:
+        if is_arg_touched(f, arg.name):
+            continue
+        if arg.name == 'sizes' and D.is_pointer(arg.type):
+            for arg2 in f.arguments:
+                if arg2.name == 'dims' and D.is_integral(arg2.type):
+                    f._transformer_creators.append(FT.input_dynamic_array('sizes', 'dims'))
+                    break
+
+# function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
+for f in opencv_funs:
+    for arg in f.arguments:
+        if is_arg_touched(f, arg.name):
+            continue
+        if arg.name == 'src' and D.is_pointer(arg.type) and 'CvPoint2D32f' in arg.type.decl_string:
+            for arg2 in f.arguments:
+                if arg2.name == 'dst' and D.is_pointer(arg2.type) and 'CvPoint2D32f' in arg2.type.decl_string:
+                    f._transformer_creators.append(FT.input_dynamic_array('src'))
+                    f._transformer_creators.append(FT.input_dynamic_array('dst'))
+                    break
+
+#  argument 'void *data'
+for f in opencv_funs:
+    for arg in f.arguments:
+        if is_arg_touched(f, arg.name):
+            continue
+        if arg.name == 'data' and D.is_void_pointer(arg.type):
+            f._transformer_creators.append(FT.input_string(arg.name))
+
+# by default, convert all pointers to Cv... or to Ipl... into pointee
+for f in opencv_funs:
+    for arg in f.arguments:
+        if is_arg_touched(f, arg.name):
+            continue
+        if D.is_pointer(arg.type) and not D.is_pointer(D.remove_pointer(arg.type)):
+            z = D.remove_const(D.remove_pointer(arg.type))
+            if (z.decl_string.startswith('::Cv') or z.decl_string.startswith('::_Ipl')) and D.is_class(z):
+                z = mb.class_(z.decl_string[2:])
+                if not z.exportable:
+                    print "WARNING!!!!!!!!!! %s is not exportable." % z.name
+                    print z.why_not_exportable()
+                f._transformer_creators.append(FT.input_smart_pointee(arg.name))
 
 
 

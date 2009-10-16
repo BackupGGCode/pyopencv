@@ -11,11 +11,16 @@
 #undef SKIP_INCLUDES
 #include "highgui.h"
 
+struct CvGenericHash {};
+struct CvFileStorage {};
 
 struct CvFeatureTree {};
 struct CvLSH {};
 struct CvLSHOperations {}; // if cv.hpp is not included
 struct CvPOSITObject {};
+
+struct CvCapture {};
+struct CvVideoWriter {};
 
 
 #endif

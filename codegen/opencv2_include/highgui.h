@@ -232,7 +232,7 @@ CVAPI(int) cvWaitKey(int delay CV_DEFAULT(0));
 \****************************************************************************************/
 
 /* "black box" capture structure */
-typedef struct CvCapture {} CvCapture; // fixed black box by Minh-Tri Pham
+typedef struct CvCapture CvCapture;
 
 /* start capturing frames from video file */
 CVAPI(CvCapture*) cvCreateFileCapture( const char* filename );
@@ -312,7 +312,7 @@ CVAPI(int)    cvSetCaptureProperty( CvCapture* capture, int property_id, double 
 CVAPI(int)    cvGetCaptureDomain( CvCapture* capture);  
 
 /* "black box" video file writer structure */
-typedef struct CvVideoWriter {} CvVideoWriter; // fixed black box by Minh-Tri Pham
+typedef struct CvVideoWriter CvVideoWriter;
 
 #ifndef SWIG
 #define CV_FOURCC(c1,c2,c3,c4)  \

@@ -1267,7 +1267,7 @@ CvSetElem;
     CvSetElem* free_elems;   \
     int active_count;
 
-typedef struct CvSet
+typedef struct CvSet : CvArr
 {
     CV_SET_FIELDS()
 }
@@ -1339,7 +1339,7 @@ CvGraphVtx2D;
     CV_SET_FIELDS()          \
     CvSet* edges;
 
-typedef struct CvGraph
+typedef struct CvGraph : CvArr
 {
     CV_GRAPH_FIELDS()
 }
@@ -1644,7 +1644,7 @@ CvSeqReader;
 \****************************************************************************************/
 
 /* "black box" file storage */
-typedef struct {} CvFileStorage; // fix the black-box, by Minh-Tri Pham
+typedef struct CvFileStorage;
 
 /* Storage flags: */
 #define CV_STORAGE_READ          0

@@ -177,6 +177,9 @@ CV_MOP_BLACKHAT = 6
     # cvCreatePyramid, cvReleasePyramid, cvPyrSegmentation
     # cvCreateStructuringElementEx, cvReleaseStructuringElement
 
+    # TODO: fix this function cvPointSeqFromMat()
+    mb.free_fun('cvPointSeqFromMat').exclude()
+
     # cvGetAffineTransform
     # FT.expose_func(mb.free_fun('cvGetAffineTransform'), return_arg_index=3)
 
