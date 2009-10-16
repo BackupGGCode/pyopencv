@@ -9,6 +9,7 @@
 #define SKIP_INCLUDES
 #include "cv.h"
 #undef SKIP_INCLUDES
+#include "ml.h"
 #include "highgui.h"
 
 struct CvGenericHash {};
