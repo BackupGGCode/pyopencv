@@ -758,10 +758,26 @@ CvFileStorage.__del__ = _CvFileStorage__del__
 
     ''')
 
-    # CvAttrList  # TODO: fix this
+    # CvAttrList
     z = mb.class_('CvAttrList')
     z.include()
     z.var('attr').exclude()
+    # deal with 'attr'
+    z.include_files.append( "boost/python/object.hpp" )
+    z.include_files.append( "boost/python/str.hpp" )
+    z.include_files.append( "boost/python/list.hpp" )
+    z.include_files.append( "boost/python/tuple.hpp" )
+    z.add_wrapper_code('''
+static bp::object get_attr( CvString const & inst ){
+    if(!inst.ptr) return bp::object();
+    bp::list l;
+    for(int i = 0; inst.ptr[i]; ++i) l.append(inst.ptr[i]);
+    return bp::tuple(l);
+}
+    ''')
+    z.add_registration_code('''
+add_property( "attr", bp::make_function(&CvAttrList_wrapper::get_attr) )
+    ''')
 
     # CvTypeInfo
     z = mb.class_('CvTypeInfo')

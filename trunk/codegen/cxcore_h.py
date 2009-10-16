@@ -238,6 +238,7 @@ CV_NO_SIZE_CHECK      = 4
     z = mb.free_fun('cvInitNArrayIterator')
     z.include()
     z._transformer_creators.append(FT.input_dynamic_array_of_pointers('arrs', 'count'))
+   
 
     # functions
     for z in ('cvNextNArraySlice', 'cvGetElemType', 'cvGetDimSize'):
