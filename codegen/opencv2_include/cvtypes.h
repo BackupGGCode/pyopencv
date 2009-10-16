@@ -360,7 +360,7 @@ typedef struct CvHaarStageClassifier
 }
 CvHaarStageClassifier;
 
-typedef struct CvHidHaarClassifierCascade {} CvHidHaarClassifierCascade; // fix the black box by Minh-Tri Pham
+typedef struct CvHidHaarClassifierCascade CvHidHaarClassifierCascade;
 
 typedef struct CvHaarClassifierCascade
 {

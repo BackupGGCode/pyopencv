@@ -14,6 +14,7 @@
 struct CvGenericHash {};
 struct CvFileStorage {};
 
+struct CvHidHaarClassifierCascade {};
 struct CvFeatureTree {};
 struct CvLSH {};
 struct CvLSHOperations {}; // if cv.hpp is not included

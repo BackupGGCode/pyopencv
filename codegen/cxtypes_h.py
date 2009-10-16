@@ -379,7 +379,7 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 
     cvsparsemat = mb.class_('CvSparseMat')
     cvsparsemat.include()
-    for z in ('heap', 'hashtable'): # TODO: fix
+    for z in ('heap', 'hashtable'):
         cvsparsemat.var(z).exclude()
 
     cc.write('''
@@ -809,7 +809,8 @@ add_property( "data", bp::make_function(&CvString_wrapper::get_data) )
     z.include()
     FT.expose_member_as_pointee(z, 'next')
 
-    # CvGenericHash # TODO: fix this
+    # CvGenericHash
+    mb.class_('CvGenericHash').include()
 
     # CvFileNode
     z = mb.class_('CvFileNode')
