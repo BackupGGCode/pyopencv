@@ -1,14 +1,14 @@
 #ifndef SDOPENCV_H
 #define SDOPENCV_H
 
-#define CV_NO_BACKWARD_COMPATIBILITY
+// #define CV_NO_BACKWARD_COMPATIBILITY
 
 #include "cxtypes.h"
 #include "cxcore.h"
 #include "cvtypes.h"
-#define SKIP_INCLUDES
 #include "cv.h"
-#undef SKIP_INCLUDES
+#include "cvcompat.h"
+
 #include "ml.h"
 #include "highgui.h"
 #include "cxflann.h"
@@ -19,7 +19,9 @@
 #include "cv.hpp"
 #include "highgui.hpp"
 
+#include "cvaux.hpp"
 #include "cvvidsurv.hpp"
+#include "cvaux.h"
 
 struct CvGenericHash {};
 struct CvFileStorage {};

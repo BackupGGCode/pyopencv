@@ -43,8 +43,6 @@
 #ifndef _HIGHGUI_HPP_
 #define _HIGHGUI_HPP_
 
-#include "highgui.h"
-
 #ifdef __cplusplus
 
 namespace cv

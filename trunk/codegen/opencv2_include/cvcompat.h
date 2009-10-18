@@ -328,7 +328,7 @@ CV_INLINE  void  cvbFastLog( const double* x, float* y, int len )
 }
 
 
-CV_INLINE  CvRect  cvContourBoundingRect( void* point_set, int update CV_DEFAULT(0))
+CV_INLINE  CvRect  cvContourBoundingRect( CvArr* point_set, int update CV_DEFAULT(0))
 {
     return cvBoundingRect( point_set, update );
 }
