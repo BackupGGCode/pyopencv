@@ -52,8 +52,6 @@
     #include "cvconfig.h"
 #endif
 
-#include "cxtypes.h"
-
 #include <limits.h>
 #ifdef _OPENMP
 #include "omp.h"
