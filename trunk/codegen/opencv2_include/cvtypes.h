@@ -47,8 +47,6 @@
   #include <stdlib.h>
 #endif
 
-#include <cxtypes.h>
-
 /* spatial and central moments */
 typedef struct CvMoments
 {
