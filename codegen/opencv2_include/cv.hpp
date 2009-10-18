@@ -43,8 +43,6 @@
 #ifndef _CV_HPP_
 #define _CV_HPP_
 
-#include "cv.h"
-
 #ifdef __cplusplus
 
 namespace cv

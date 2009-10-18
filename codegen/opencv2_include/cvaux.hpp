@@ -42,8 +42,6 @@
 #ifndef __CVAUX_HPP__
 #define __CVAUX_HPP__
 
-#include "cvaux.h"
-
 #ifdef __cplusplus
 
 #include <iosfwd>

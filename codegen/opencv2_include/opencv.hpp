@@ -11,6 +11,15 @@
 #undef SKIP_INCLUDES
 #include "ml.h"
 #include "highgui.h"
+#include "cxflann.h"
+
+#include "cxoperations.hpp"
+#include "cxmat.hpp"
+#include "cxcore.hpp"
+#include "cv.hpp"
+#include "highgui.hpp"
+
+#include "cvvidsurv.hpp"
 
 struct CvGenericHash {};
 struct CvFileStorage {};
@@ -18,7 +27,7 @@ struct CvFileStorage {};
 struct CvHidHaarClassifierCascade {};
 struct CvFeatureTree {};
 struct CvLSH {};
-struct CvLSHOperations {}; // if cv.hpp is not included
+// struct CvLSHOperations {}; // if cv.hpp is not included
 struct CvPOSITObject {};
 
 struct CvCapture {};

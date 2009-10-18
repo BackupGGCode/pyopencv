@@ -79,17 +79,22 @@ CV_VERSION          = "2.0.0"
 
 
 ''')
+mb.cc = cc
 
 # -----------------------------------------------------------------------------------------------
 # Modules related to writing to the __init__.py file
 # -----------------------------------------------------------------------------------------------
 
-def add_doc(cc, decl, s):
+def add_doc(self, decl, s):
     """Adds a string s to the docstring of declaration f"""
-    cc.write('''
-    DECL.__doc__ += "[pyopencv] STR"
-    ''').replace("DECL", decl.name).replace("STR", str(s))
-cc.add_doc = add_doc
+    self.cc.write('''
+str = "    [pyopencv] STR"
+if DECL.__doc__ is None:
+    DECL.__doc__ = str
+else:
+    DECL.__doc__ += str
+'''.replace("DECL", decl.alias).replace("STR", str(s)))
+module_builder.module_builder_t.add_doc = add_doc
 
 
 
