@@ -27,6 +27,7 @@ import cxtypes_h
 import cxcore_h
 import cvtypes_h
 import cv_h
+import cvcompat_h
 import highgui_h
 
 #Creating an instance of class that will help you to expose your declarations
@@ -153,6 +154,9 @@ cvtypes_h.generate_code(mb, cc, D, FT, CP)
 
 # cv.h
 cv_h.generate_code(mb, cc, D, FT, CP)
+
+# cvcompat.h
+cvcompat_h.generate_code(mb, cc, D, FT, CP)
 
 # highgui.h
 highgui_h.generate_code(mb, cc, D, FT, CP)

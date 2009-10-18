@@ -161,6 +161,29 @@ CV_MOP_BLACKHAT = 6
 
     ''')
 
+    # pointers which are not Cv... * are excluded until further requested
+    for z in (
+        'CvFeatureTree', 'CvLSH', 'CvLSHOperations',
+        'CvSURFPoint', 'CvSURFParams',
+        'CvMSERParams', 
+        'CvStarKeypoint',
+        'CvStarDetectorParams', 
+        'CvPOSITObject',
+        'CvStereoBMState', 'CvStereoGCState', 
+        ):
+        k = mb.class_(z)
+        k.include()
+        try:
+            vv = k.vars()
+        except RuntimeError:
+            vv = []
+        for v in vv:
+            if D.is_pointer(v.type):
+                if 'Cv' in v.type.decl_string:
+                    FT.expose_member_as_pointee(k, v.name)
+                else:
+                    v.exclude()
+
     # functions
     # for z in (
         # 'cvCopyMakeBorder', 'cvSmooth', 'cvFilter2D', 'cvIntegral', 'cvPyrDown', 'cvPyrUp',

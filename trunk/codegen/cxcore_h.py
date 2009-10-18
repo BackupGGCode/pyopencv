@@ -222,7 +222,7 @@ def cvMatND(sizes, mattype, data=None):
     # CvNArrayIterator
     z = mb.class_('CvNArrayIterator')
     z.include()
-    for t in ('ptr', 'hdr'): # TODO: fix this
+    for t in ('ptr', 'hdr'): # wait until requested 
         z.var(t).exclude()
     cc.write('''
 CV_MAX_ARR = 10
@@ -652,9 +652,34 @@ CV_BACK = 0
     FT.expose_func(mb.free_fun('cvGetSetElem'), ward_indices=(1,)) 
 
 
-    # CvGraph* and cvGraph* # TODO: fix this whole thing
+    # CvGraphScanner
+    z = mb.class_('CvGraphScanner')
+    z.include()
+    for t in ('vtx', 'dst', 'edge', 'graph', 'stack'):
+        FT.expose_member_as_pointee(z, t) 
+    cc.write('''
+CvGraphScanner._ownershiplevel = 0
+        
+def _CvGraphScanner__del__(self):
+    if self._ownershiplevel==1:
+        _PE._cvReleaseGraphScanner(self)
+CvGraphScanner.__del__ = _CvGraphScanner__del__
 
-    # CvTree* # TODO: fix this whole thing
+    ''')
+
+
+
+    # TODO: fix this whole thing cvGraph*
+
+
+
+    # CvTreeNodeIterator
+    z = mb.class_('CvTreeNodeIterator')
+    z.include()
+    z.var('node').expose_address = True # wait until requested
+
+
+    # TODO: fix this whole thing with cvTree*
 
 
 
@@ -715,7 +740,7 @@ CV_FONT_VECTOR0 = CV_FONT_HERSHEY_SIMPLEX
     # CvFont
     z = mb.class_('CvFont')
     z.include()
-    for t in ('ascii', 'greek', 'cyrillic'): # TODO: fix
+    for t in ('ascii', 'greek', 'cyrillic'): # wait until requested 
         z.var(t).exclude()
 
     # cvGetTextSize
