@@ -113,7 +113,7 @@ CvChainPtReader;
      (deltas)[6] =  (step), (deltas)[7] =  (step) + (nch))
 
 /* Contour tree header */
-typedef struct CvContourTree
+typedef struct CvContourTree : CvArr
 {
     CV_SEQUENCE_FIELDS()
     CvPoint p1;            /* the first point of the binary tree root segment */
@@ -167,7 +167,7 @@ CvSubdiv2DPoint;
     CvPoint2D32f  topleft;      \
     CvPoint2D32f  bottomright;
 
-typedef struct CvSubdiv2D
+typedef struct CvSubdiv2D : CvArr
 {
     CV_SUBDIV2D_FIELDS()
 }

@@ -33,6 +33,11 @@ def expose_CvSeqReader_members(z, FT):
     for t in ('ptr', 'block_min', 'block_max', 'prev_elem'):
         FT.expose_member_as_str(z, t)
 
+def expose_CvGraph_members(z, FT):
+    expose_CvSet_members(z, FT)
+    FT.expose_member_as_pointee(z, 'edges')
+    
+
 def generate_code(mb, cc, D, FT, CP):
     cc.write('''
 #=============================================================================
@@ -409,7 +414,7 @@ CvSparseMat.__del__ = _CvSparseMat__del__
     # CvHistogram
     cvhistogram = mb.class_('CvHistogram')
     cvhistogram.include()
-    for z in ('bins', 'thresh', 'thresh2'): # TODO: fix this
+    for z in ('bins', 'thresh', 'thresh2'): # wait until requested
         cvhistogram.var(z).exclude()
     mb.decl('CvHistType').include()
     cc.write('''
@@ -472,7 +477,7 @@ CV_WHOLE_SEQ = cvSlice(0, CV_WHOLE_SEQ_END_INDEX)
         ):
         mb.decls(lambda decl: decl.name.startswith(z)).include()
         
-    mb.class_('CvLineIterator').var('ptr').exclude() # TODO: fix this
+    mb.class_('CvLineIterator').var('ptr').exclude() # wait until requested
         
 
     # Dynamic Data structures
@@ -561,8 +566,7 @@ CvMemStorage.__del__ = _CvMemStorage__del__
 
     # CvGraph
     z = mb.class_('CvGraph')
-    expose_CvSet_members(z, FT)
-    FT.expose_member_as_pointee(z, 'edges')
+    expose_CvGraph_members(z, FT)
 
     # CvChain
     z = mb.class_('CvChain')
@@ -817,15 +821,16 @@ add_property( "data", bp::make_function(&CvString_wrapper::get_data) )
     z = mb.class_('CvFileNode')
     z.include()
     FT.expose_member_as_pointee(z, 'info')
-    for t in ('data', 'f', 'i', 'str', 'seq', 'map'):
-        z.var(t).exclude() # TODO: fix this
-
+    # deal with 'data' -- wait until requested
+    z.var('data').expose_address = True
+    for t in ('f', 'i', 'str', 'seq', 'map'):
+        z.var(t).exclude()
         
     # CvPluginFuncInfo
     z = mb.class_('CvPluginFuncInfo')
     z.include()
-    for t in ('func_addr', 'default_func_addr'): # TODO: fix this
-        z.var(t).exclude()
+    for t in ('func_addr', 'default_func_addr'):
+        z.var(t).expose_address = True
     FT.expose_member_as_str(z, 'func_names')    
         
     # CvModuleInfo    

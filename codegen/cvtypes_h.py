@@ -55,10 +55,11 @@ CV_HAAR_FEATURE_MAX  = 3
     # CvContourScanner
     mb.decl('CvContourScanner').include()
 
-    # CvChainPtReader # TODO: fix
-    # z = mb.class_('CvChainPtReader')
-    # z.include()
-    # expose_CvSeqReader_members(z)
+    # CvChainPtReader
+    z = mb.class_('CvChainPtReader')
+    z.include()
+    cxtypes_h.expose_CvSeqReader_members(z, FT)
+    z.var('deltas').exclude() # wait until requested
 
     # CvContourTree
     z = mb.class_('CvContourTree')
@@ -83,8 +84,12 @@ CV_HAAR_FEATURE_MAX  = 3
 
     mb.class_('CvSubdiv2DPoint').include()
 
-    # CvSubdiv2D, # TODO: fix, need CvGraph up and running
-
+    # CvSubdiv2D
+    z = mb.class_('CvSubdiv2D')
+    z.include()
+    cxtypes_h.expose_CvGraph_members(z, FT)
+    
+    
     for z in (
         'CvVect32f', 'CvMatr32f', 'CvVect64d', 'CvMatr64d',
         ):
@@ -95,14 +100,15 @@ CV_HAAR_FEATURE_MAX  = 3
     z.var('m').exclude() # TODO: fix this
 
 
-    # TODO: fix the pointer members
+    # pointers which are not Cv... * are excluded until further requested
     for z in (
         'CvMoments', 'CvHuMoments',
         'CvHaarFeature', 
         'CvAvgComp',
-        'CvConDensation', 'CvKalman',
+        # 'CvConDensation', 
+        'CvKalman',
         'CvHaarClassifier', 'CvHaarStageClassifier', 'CvHaarClassifierCascade',
-        # 'CvRandState', # from cvcompat.h
+        'CvAvgComp',
         ):
         k = mb.class_(z)
         k.include()
@@ -113,6 +119,10 @@ CV_HAAR_FEATURE_MAX  = 3
                 else:
                     v.exclude()
 
-    mb.class_('CvConDensation').exclude() # TODO: fix                
+    z = mb.class_('CvConDensation')
+    z.include()
+    for arg in z.vars():
+        if D.is_pointer(arg.type):
+            arg.exclude() # wait until requested
 
 

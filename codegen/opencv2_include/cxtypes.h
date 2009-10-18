@@ -1349,7 +1349,7 @@ CvGraph;
 
 /*********************************** Chain/Countour *************************************/
 
-typedef struct CvChain
+typedef struct CvChain : CvArr
 {
     CV_SEQUENCE_FIELDS()
     CvPoint  origin;
@@ -1362,7 +1362,7 @@ CvChain;
     int color;               \
     int reserved[3];
 
-typedef struct CvContour
+typedef struct CvContour : CvArr
 {
     CV_CONTOUR_FIELDS()
 }
