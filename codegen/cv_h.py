@@ -218,7 +218,9 @@ CV_TM_CCOEFF_NORMED = 5
     
 
     # cvReleaseStructuringElement
-    FT.add_underscore(mb.free_fun('cvReleaseStructuringElement'))
+    z = mb.free_fun('cvReleaseStructuringElement')
+    FT.add_underscore(z)
+    z._transformer_creators.append(FT.input_double_pointee('element'))
 
 
     # TODO: fix this function cvPointSeqFromMat()
@@ -236,4 +238,120 @@ CV_TM_CCOEFF_NORMED = 5
     # TODO: fix these functions
     # cvCalcEMD2
 
+
+    # Contours Retrieving
+    cc.write('''
+#-----------------------------------------------------------------------------
+# Contours Retrieving
+#-----------------------------------------------------------------------------
+
+
+    ''')
+
+    for z in (
+        'cvSubstituteContour',
+        'cvStartReadChainPoints', 'cvReadChainPoint',
+        ):
+        mb.free_fun(z).include()
+
+
+    # TODO: fix these functions
+    # cvFindContours
+
+    # cvStartFindContours
+    FT.expose_func(mb.free_fun('cvStartFindContours'), ownershiplevel=1, ward_indices=(2,))
+
+    # cvFindNextContour
+    FT.expose_func(mb.free_fun('cvFindNextContour'), ward_indices=(1,))
+
+    # cvEndFindContours
+    z = mb.free_fun('cvEndFindContours')
+    FT.expose_func(z, ward_indices=(1,))
+    z.rename('_cvEndFindContours')
+    FT.add_underscore(z)
+    cc.write('''
+def cvEndFindContours(scanner):
+    z = _PE._cvEndFindContours(scanner)
+    scanner._ownershiplevel = 0 # not owning the structure anymore
+    return z
+cvEndFindContours.__doc__ = _PE._cvEndFindContours.__doc__
+    ''')
+
+    # cvApproxChains
+    FT.expose_func(mb.free_fun('cvApproxChains'), ward_indices=(2,))
+
+
+    # Motion Analysis
+    cc.write('''
+#-----------------------------------------------------------------------------
+# Motion Analysis
+#-----------------------------------------------------------------------------
+
+
+CV_LKFLOW_PYR_A_READY = 1
+CV_LKFLOW_PYR_B_READY = 2
+CV_LKFLOW_INITIAL_GUESSES = 4
+CV_LKFLOW_GET_MIN_EIGENVALS = 8
+
+
+    ''')
+
+    for z in (
+        'cvCalcOpticalFlowLK', 'cvCalcOpticalFlowBM', 'cvCalcOpticalFlowHS',
+        'cvEstimateRigidTransform',
+        'cvUpdateMotionHistory', 'cvCalcMotionGradient', 'cvCalcGlobalOrientation',
+        'cvAcc', 'cvSquareAcc', 'cvMultiplyAcc', 'cvRunningAvg',
+        ):
+        mb.free_fun(z).include()
+
+
+    # TODO: fix these functions
+    # cvCalcOpticalFlowPyrLK, cvCalcAffineFlowPyrLK
+
+    # cvSegmentMotion
+    FT.expose_func(mb.free_fun('cvSegmentMotion'), ward_indices=(3,))
     
+
+    # Object Tracking
+    cc.write('''
+#-----------------------------------------------------------------------------
+# Object Tracking
+#-----------------------------------------------------------------------------
+
+
+    ''')
+
+    for z in (
+        'cvCamShift', 'cvMeanShift', 
+        'cvConDensUpdateByTime', 'cvConDensInitSampleSet',
+        ):
+        mb.free_fun(z).include()
+
+
+    # TODO: fix these functions
+
+    # cvCreateConDensation
+    FT.expose_func(mb.free_fun('cvCreateConDensation'), ownershiplevel=1)
+    
+    # cvReleaseConDensation
+    z = mb.free_fun('cvReleaseConDensation')
+    FT.add_underscore(z)
+    z._transformer_creators.append(FT.input_double_pointee('condens'))
+
+    # cvCreateKalman
+    FT.expose_func(mb.free_fun('cvCreateKalman'), ownershiplevel=1)
+
+    # cvReleaseKalman
+    z = mb.free_fun('cvReleaseKalman')
+    FT.add_underscore(z)
+    z._transformer_creators.append(FT.input_double_pointee('kalman'))
+
+    # cvKalmanPredict
+    FT.expose_func(mb.free_fun('cvKalmanPredict'), ward_indices=(1,))
+
+    # cvKalmanCorrect
+    FT.expose_func(mb.free_fun('cvKalmanCorrect'), ward_indices=(1,))
+
+
+
+

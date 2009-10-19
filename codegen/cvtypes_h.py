@@ -53,7 +53,10 @@ CV_HAAR_FEATURE_MAX  = 3
     FT.expose_member_as_pointee(z, 'contour')
 
     # CvContourScanner
-    mb.decl('CvContourScanner').include()
+    z = mb.class_('_CvContourScanner')
+    z.include()
+    z.rename('CvContourScanner')
+    mb.insert_del_interface('CvContourScanner', '_PE._cvEndFindContours')
 
     # CvChainPtReader
     z = mb.class_('CvChainPtReader')
@@ -123,5 +126,7 @@ CV_HAAR_FEATURE_MAX  = 3
     for arg in z.vars():
         if D.is_pointer(arg.type):
             arg.exclude() # wait until requested
+    mb.insert_del_interface('CvConDensation', '_PE._cvReleaseConDensation')
 
+    mb.insert_del_interface('CvKalman', '_PE._cvReleaseKalman')
 
