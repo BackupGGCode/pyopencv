@@ -353,5 +353,41 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
     FT.expose_func(mb.free_fun('cvKalmanCorrect'), ward_indices=(1,))
 
 
+    # Planar Subdivisions
+    cc.write('''
+#-----------------------------------------------------------------------------
+# Planar Subdivisions
+#-----------------------------------------------------------------------------
+
+
+    ''')
+
+    for z in (
+        'cvInitSubdivDelaunay2D',
+        'cvCalcSubdivVoronoi2D', 'cvClearSubdivVoronoi2D',
+        'cvSubdiv2DNextEdge', 'cvSubdiv2DRotateEdge', 'cvSubdiv2DSymEdge', 'cvSubdiv2DGetEdge',
+        'cvTriangleArea',
+        ):
+        mb.free_fun(z).include()
+
+
+    # cvCreateSubdiv2D
+    FT.expose_func(mb.free_fun('cvCreateSubdiv2D'), ward_indices=(5,))
+
+    # cvCreateSubdivDelaunay2D
+    FT.expose_func(mb.free_fun('cvCreateSubdivDelaunay2D'), ward_indices=(2,))
+
+    # cvSubdivDelaunay2DInsert
+    FT.expose_func(mb.free_fun('cvSubdivDelaunay2DInsert'), ward_indices=(1,))
+
+    # TODO: fix this function
+    # cvSubdiv2DLocate
+
+    # cvFindNearestPoint2D
+    FT.expose_func(mb.free_fun('cvFindNearestPoint2D'), ward_indices=(1,))
+
+    # cvSubdiv2DEdge*
+    for z in ('cvSubdiv2DEdgeOrg', 'cvSubdiv2DEdgeDst'):
+        FT.expose_func(mb.free_fun(z))
 
 

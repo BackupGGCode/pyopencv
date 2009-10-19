@@ -86,6 +86,7 @@ CV_HAAR_FEATURE_MAX  = 3
     expose_QuadEdge2D_members(z)
 
     mb.class_('CvSubdiv2DPoint').include()
+    mb.decl('CvSubdiv2DEdge').include()
 
     # CvSubdiv2D
     z = mb.class_('CvSubdiv2D')
