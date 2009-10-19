@@ -223,9 +223,6 @@ CV_TM_CCOEFF_NORMED = 5
     z._transformer_creators.append(FT.input_double_pointee('element'))
 
 
-    # TODO: fix this function cvPointSeqFromMat()
-    mb.free_fun('cvPointSeqFromMat').exclude()
-
     # cvGetAffineTransform
     FT.expose_func(mb.free_fun('cvGetAffineTransform'), return_arg_index=3)
 
@@ -391,3 +388,57 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
         FT.expose_func(mb.free_fun(z))
 
 
+    # Contour Processing and Shape Analysis
+    cc.write('''
+#-----------------------------------------------------------------------------
+# Contour Processing and Shape Analysis
+#-----------------------------------------------------------------------------
+
+
+CV_POLY_APPROX_DP = 0
+
+CV_DOMINANT_IPAN = 1
+
+CV_CONTOURS_MATCH_I1 = 1
+CV_CONTOURS_MATCH_I2 = 2
+CV_CONTOURS_MATCH_I3 = 3
+
+CV_CONTOUR_TREES_MATCH_I1 = 1
+
+CV_CLOCKWISE = 1
+CV_COUNTER_CLOCKWISE = 2
+
+    ''')
+
+    for z in (
+        'cvContourArea', 'cvMinAreaRect2',
+        'cvMatchContourTrees', 'cvCheckContourConvexity',
+        'cvFitEllipse2', 'cvMaxRect', 'cvBoxPoints', 'cvPointPolygonTest',
+        ):
+        mb.free_fun(z).include()
+
+    # TODO: fix these functions
+    # cvApproxpoly, cvArcLength, cvContourPerimeter, cvBoundingRect, cvMinEnclosingCircle
+
+    # cvFindDominantPoints
+    FT.expose_func(mb.free_fun('cvFindDominantPoints'), ward_indices=(2,))
+
+    # TODO: fix these functions
+    # cvMatchshapes
+
+    # cvCreateContourTree
+    FT.expose_func(mb.free_fun('cvCreateContourTree'), ward_indices=(2,))
+
+    # cvContourFromContourTree
+    FT.expose_func(mb.free_fun('cvContourFromContourTree'), ward_indices=(2,))
+
+    # TODO: fix this function, check with ctypes-opencv
+    # cvConvexHull2
+
+    # cvConvexityDefects
+    FT.expose_func(mb.free_fun('cvConvexityDefects'), ward_indices=(3,1,2))
+
+    # TODO: fix this function cvPointSeqFromMat()
+    FT.expose_func(mb.free_fun('cvPointSeqFromMat'), ward_indices=(3,2))
+
+    # 
