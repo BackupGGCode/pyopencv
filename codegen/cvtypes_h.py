@@ -97,7 +97,7 @@ CV_HAAR_FEATURE_MAX  = 3
         
     z = mb.class_('CvMatrix3')
     z.include()
-    z.var('m').exclude() # TODO: fix this
+    z.var('m').exclude() # wait until requested
 
 
     # pointers which are not Cv... * are excluded until further requested
@@ -105,7 +105,6 @@ CV_HAAR_FEATURE_MAX  = 3
         'CvMoments', 'CvHuMoments',
         'CvHaarFeature', 
         'CvAvgComp',
-        # 'CvConDensation', 
         'CvKalman',
         'CvHaarClassifier', 'CvHaarStageClassifier', 'CvHaarClassifierCascade',
         'CvAvgComp',

@@ -24,6 +24,30 @@ def generate_code(mb, cc, D, FT, CP):
 
     ''')
 
+    # Data Structures in cv.h
+    # pointers which are not Cv... * are excluded until further requested
+    for z in (
+        'CvFeatureTree', 'CvLSH', 'CvLSHOperations',
+        'CvSURFPoint', 'CvSURFParams',
+        'CvMSERParams', 
+        'CvStarKeypoint',
+        'CvStarDetectorParams', 
+        'CvPOSITObject',
+        'CvStereoBMState', 'CvStereoGCState', 
+        ):
+        k = mb.class_(z)
+        k.include()
+        try:
+            vv = k.vars()
+        except RuntimeError:
+            vv = []
+        for v in vv:
+            if D.is_pointer(v.type):
+                if 'Cv' in v.type.decl_string:
+                    FT.expose_member_as_pointee(k, v.name)
+                else:
+                    v.exclude()
+
 
     # Image Processing
     cc.write('''
@@ -157,59 +181,59 @@ CV_MOP_GRADIENT = 4
 CV_MOP_TOPHAT = 5
 CV_MOP_BLACKHAT = 6
 
+CV_TM_SQDIFF        = 0
+CV_TM_SQDIFF_NORMED = 1
+CV_TM_CCORR         = 2
+CV_TM_CCORR_NORMED  = 3
+CV_TM_CCOEFF        = 4
+CV_TM_CCOEFF_NORMED = 5
+
 
 
     ''')
 
-    # pointers which are not Cv... * are excluded until further requested
-    for z in (
-        'CvFeatureTree', 'CvLSH', 'CvLSHOperations',
-        'CvSURFPoint', 'CvSURFParams',
-        'CvMSERParams', 
-        'CvStarKeypoint',
-        'CvStarDetectorParams', 
-        'CvPOSITObject',
-        'CvStereoBMState', 'CvStereoGCState', 
-        ):
-        k = mb.class_(z)
-        k.include()
-        try:
-            vv = k.vars()
-        except RuntimeError:
-            vv = []
-        for v in vv:
-            if D.is_pointer(v.type):
-                if 'Cv' in v.type.decl_string:
-                    FT.expose_member_as_pointee(k, v.name)
-                else:
-                    v.exclude()
-
     # functions
-    # for z in (
-        # 'cvCopyMakeBorder', 'cvSmooth', 'cvFilter2D', 'cvIntegral', 'cvPyrDown', 'cvPyrUp',
-        # 'cvPyrMeanShiftFiltering', 'cvWatershed', 'cvInpaint', 'cvSobel', 'cvLaplace',
-        # 'cvCvtColor', 'cvResize', 'cvWarpAffine', 'cvWarpPerspective',
-        # 'cvRemap', 'cvConvertMaps', 'cvLogPolar', 'cvLinearPolar',
-        # 'cvErode', 'cvDilate', 'cvMorphologyEx', 
-        # 'cvMoments', 'cvGetSpatialMoment', 'cvGetCentralMoment', 'cvGetNormalizedCentralMoment', 'cvGetHuMoments',
+    for z in (
+        'cvCopyMakeBorder', 'cvSmooth', 'cvFilter2D', 'cvIntegral', 'cvPyrDown', 'cvPyrUp',
+        'cvPyrMeanShiftFiltering', 'cvWatershed', 'cvInpaint', 'cvSobel', 'cvLaplace',
+        'cvCvtColor', 'cvResize', 'cvWarpAffine', 'cvWarpPerspective',
+        'cvRemap', 'cvConvertMaps', 'cvLogPolar', 'cvLinearPolar',
+        'cvErode', 'cvDilate', 'cvMorphologyEx', 
+        'cvMoments', 'cvGetSpatialMoment', 'cvGetCentralMoment', 'cvGetNormalizedCentralMoment', 'cvGetHuMoments',
+        'cvSampleLine', 'cvGetRectSubPix', 'cvGetQuadrangleSubPix',
+        'cvMatchTemplate', 
+        ):
+        mb.free_fun(z).include()
         
-        # ):
-        # mb.free_fun(z).include()
-        
+
+    # cvCreatePyramid, cvReleasePyramid -- wait until requested
+
     # TODO: fix these functions:
-    # cvCreatePyramid, cvReleasePyramid, cvPyrSegmentation
-    # cvCreateStructuringElementEx, cvReleaseStructuringElement
+    # cvPyrSegmentation
+
+    # TODO: fix this function
+    # cvCreateStructuringElementEx
+    # FT.expose_func(mb.free_fun('cvCreateStructuringElementEx'), ownershiplevel=1, transformer_creators=[
+        # FT.input_dynamic_array('values')])
+    
+
+    # cvReleaseStructuringElement
+    FT.add_underscore(mb.free_fun('cvReleaseStructuringElement'))
+
 
     # TODO: fix this function cvPointSeqFromMat()
     mb.free_fun('cvPointSeqFromMat').exclude()
 
     # cvGetAffineTransform
-    # FT.expose_func(mb.free_fun('cvGetAffineTransform'), return_arg_index=3)
+    FT.expose_func(mb.free_fun('cvGetAffineTransform'), return_arg_index=3)
 
     # cv2DRotationMatrix
-    # FT.expose_func(mb.free_fun('cv2DRotationMatrix'), return_arg_index=4)
+    FT.expose_func(mb.free_fun('cv2DRotationMatrix'), return_arg_index=4)
     
     # cvGetPerspectiveTransform
-    # FT.expose_func(mb.free_fun('cvGetPerspectiveTransform'), return_arg_index=3)
+    FT.expose_func(mb.free_fun('cvGetPerspectiveTransform'), return_arg_index=3)
+
+    # TODO: fix these functions
+    # cvCalcEMD2
 
     
