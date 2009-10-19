@@ -98,6 +98,83 @@ else:
 '''.replace("DECL", decl.alias).replace("STR", str(s)))
 module_builder.module_builder_t.add_doc = add_doc
 
+def insert_del_interface(self, class_name, del_func_name):
+    """Insert an interface to delete the self instance"""
+    self.cc.write('''
+CLASS_NAME._ownershiplevel = 0
+
+def _CLASS_NAME__del__(self):
+    if self._ownershiplevel==1:
+        DEL_FUNC_NAME(self)
+CLASS_NAME.__del__ = _CLASS_NAME__del__
+'''.replace("CLASS_NAME", class_name).replace("DEL_FUNC_NAME", del_func_name))
+module_builder.module_builder_t.insert_del_interface = insert_del_interface
+
+def init_class(self, z):
+    """Initializes a class z"""
+    z.include()
+    funs = []
+    try:
+        funs.extend(z.mem_funs())
+    except RuntimeError:
+        pass
+    try:
+        funs.extend(z.operators())
+    except RuntimeError:
+        pass
+    for fun in funs:
+        fun._transformer_creators = []
+    z._funs = funs
+module_builder.module_builder_t.init_class = init_class
+
+
+def is_arg_touched(f, arg_name):
+    for tr in f._transformer_creators:
+        if arg_name in tr.func_closure[1].cell_contents:
+            return True
+    return False
+
+
+def beautify_func_list(self, func_list):
+    # function argument int *sizes and int dims
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            if arg.name == 'sizes' and D.is_pointer(arg.type):
+                for arg2 in f.arguments:
+                    if arg2.name == 'dims' and D.is_integral(arg2.type):
+                        f._transformer_creators.append(FT.input_dynamic_array('sizes', 'dims'))
+                        break
+
+    # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            if arg.name == 'src' and D.is_pointer(arg.type) and 'CvPoint2D32f' in arg.type.decl_string:
+                for arg2 in f.arguments:
+                    if arg2.name == 'dst' and D.is_pointer(arg2.type) and 'CvPoint2D32f' in arg2.type.decl_string:
+                        f._transformer_creators.append(FT.input_dynamic_array('src'))
+                        f._transformer_creators.append(FT.input_dynamic_array('dst'))
+                        break
+
+    #  argument 'void *data'
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            if arg.name == 'data' and D.is_void_pointer(arg.type):
+                f._transformer_creators.append(FT.input_string(arg.name))
+                if not f.ignore:
+                    mb.add_doc(f, "'data' is represented by a string")
+
+module_builder.module_builder_t.beautify_func_list = beautify_func_list
+
+def finalize_class(self, z):
+    """Finalizes a class z"""
+    mb.beautify_func_list(z._funs)
+module_builder.module_builder_t.finalize_class = finalize_class
 
 
 
@@ -127,13 +204,6 @@ opencv_funs = mb.free_funs(lambda decl: decl.name.startswith('cv'))
 # initialize list of transformer creators for each function
 for z in opencv_funs:
     z._transformer_creators = []
-
-def is_arg_touched(f, arg_name):
-    for tr in f._transformer_creators:
-        if arg_name in tr.func_closure[1].cell_contents:
-            return True
-    return False
-
 
 
 
@@ -173,51 +243,7 @@ highgui_h.generate_code(mb, cc, D, FT, CP)
 #=============================================================================
 
 
-# function argument int *sizes and int dims
-for f in opencv_funs:
-    for arg in f.arguments:
-        if is_arg_touched(f, arg.name):
-            continue
-        if arg.name == 'sizes' and D.is_pointer(arg.type):
-            for arg2 in f.arguments:
-                if arg2.name == 'dims' and D.is_integral(arg2.type):
-                    f._transformer_creators.append(FT.input_dynamic_array('sizes', 'dims'))
-                    break
-
-# function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
-for f in opencv_funs:
-    for arg in f.arguments:
-        if is_arg_touched(f, arg.name):
-            continue
-        if arg.name == 'src' and D.is_pointer(arg.type) and 'CvPoint2D32f' in arg.type.decl_string:
-            for arg2 in f.arguments:
-                if arg2.name == 'dst' and D.is_pointer(arg2.type) and 'CvPoint2D32f' in arg2.type.decl_string:
-                    f._transformer_creators.append(FT.input_dynamic_array('src'))
-                    f._transformer_creators.append(FT.input_dynamic_array('dst'))
-                    break
-
-#  argument 'void *data'
-for f in opencv_funs:
-    for arg in f.arguments:
-        if is_arg_touched(f, arg.name):
-            continue
-        if arg.name == 'data' and D.is_void_pointer(arg.type):
-            f._transformer_creators.append(FT.input_string(arg.name))
-
-# by default, convert all pointers to Cv... or to Ipl... into pointee
-for f in opencv_funs:
-    for arg in f.arguments:
-        if is_arg_touched(f, arg.name):
-            continue
-        if D.is_pointer(arg.type) and not D.is_pointer(D.remove_pointer(arg.type)):
-            z = D.remove_const(D.remove_pointer(arg.type))
-            if (z.decl_string.startswith('::Cv') or z.decl_string.startswith('::_Ipl')) and D.is_class(z):
-                z = mb.class_(z.decl_string[2:])
-                if not z.exportable:
-                    print "WARNING!!!!!!!!!! %s is not exportable." % z.name
-                    print z.why_not_exportable()
-                f._transformer_creators.append(FT.input_smart_pointee(arg.name))
-
+mb.beautify_func_list(opencv_funs)
 
 
 #=============================================================================
