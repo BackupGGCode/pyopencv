@@ -198,16 +198,7 @@ IplImage.__del__ = _IplImage__del__
     z.rename('IplConvKernel')
     z.include()
     z.var('values').exclude() # don't need this variable yet
-
-    cc.write('''
-IplConvKernel._ownershiplevel = 0 # default: owns nothing
-        
-def _IplConvKernel__del__(self):
-    if self._ownershiplevel==1: # own header
-        _PE._cvReleaseStructuringElement(self)
-IplConvKernel.__del__ = _IplConvKernel__del__
-
-    ''')
+    mb.insert_del_interface('IplConvKernel', '_PE._cvReleaseStructuringElement')
 
 
     # CvMat
@@ -313,16 +304,7 @@ static bp::object get_data( CvMat const & inst ){
     cvmat.add_registration_code('''
 add_property( "data", bp::make_function(&CvMat_wrapper::get_data) )
     ''')
-
-    cc.write('''
-CvMat._ownershiplevel = 0
-        
-def _CvMat__del__(self):
-    if self._ownershiplevel==1:
-        _PE._cvReleaseMat(self)
-CvMat.__del__ = _CvMat__del__
-
-    ''')
+    mb.insert_del_interface('CvMat', '_PE._cvReleaseMat')
 
     # CvMat functions
     for z in ('cvMat', 'cvmGet', 'cvmSet', 'cvIplDepth'):
@@ -359,16 +341,7 @@ static bp::object get_data( CvMatND const & inst ){
     cvmatnd.add_registration_code('''
 add_property( "data", bp::make_function(&CvMatND_wrapper::get_data) )
     ''')
-
-    cc.write('''
-CvMatND._ownershiplevel = 0
-        
-def _CvMatND__del__(self):
-    if self._ownershiplevel==1:
-        _PE._cvReleaseMatND(self)
-CvMatND.__del__ = _CvMatND__del__
-
-    ''')
+    mb.insert_del_interface('CvMatND', '_PE._cvReleaseMatND')
 
 
     # CvSparseMat
@@ -387,17 +360,7 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
     cvsparsemat.include()
     for z in ('heap', 'hashtable'):
         cvsparsemat.var(z).exclude()
-
-    cc.write('''
-CvSparseMat._ownershiplevel = 0
-    
-def _CvSparseMat__del__(self):
-    if self._ownershiplevel==1:
-        _PE._cvReleaseSparseMat(self)
-CvSparseMat.__del__ = _CvSparseMat__del__
-
-    ''')
-
+    mb.insert_del_interface('CvSparseMat', '_PE._cvReleaseSparseMat')
 
     # CvSparseNode
     z = mb.class_('CvSparseNode')
@@ -435,16 +398,7 @@ CV_HIST_UNIFORM       = 1
 
 
     ''')
-
-    cc.write('''
-CvHistogram._ownershiplevel = 0
-        
-def _CvHistogram__del__(self):
-    if self._ownershiplevel==1:
-        _PE._cvReleaseHist(self)
-CvHistogram.__del__ = _CvHistogram__del__
-
-    ''')
+    mb.insert_del_interface('CvHistogram', '_PE._cvReleaseHist')
 
 
     # Other supplementary data type definitions
@@ -514,12 +468,7 @@ CV_TYPE_NAME_GRAPH = "opencv-graph"
     z.include()
     for t in ('bottom', 'top', 'parent'):
         FT.expose_member_as_pointee(z, t)
-    cc.write('''
-def _CvMemStorage__del__(self):
-    _PE._cvReleaseMemStorage(self)
-CvMemStorage.__del__ = _CvMemStorage__del__
-
-    ''')
+    mb.insert_del_interface('CvMemStorage', '_PE._cvReleaseMemStorage')
 
     # CvMemStoragePos
     z = mb.class_('CvMemStoragePos')
@@ -756,12 +705,7 @@ def CV_NODE_SEQ_IS_SIMPLE(seq):
     # CvFileStorage
     z = mb.class_('CvFileStorage')
     z.include()
-    cc.write('''
-def _CvFileStorage__del__(self):
-    _PE._cvReleaseFileStorage(self)
-CvFileStorage.__del__ = _CvFileStorage__del__
-
-    ''')
+    mb.insert_del_interface('CvFileStorage', '_PE._cvReleaseFileStorage')
 
     # CvAttrList
     z = mb.class_('CvAttrList')

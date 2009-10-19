@@ -187,7 +187,7 @@ def cvGetDiag(arr, submat=None, diag=0):
 
     ''')
 
-    # cvScalarToRawData and cvRawDataToScalar # TODO: fix this
+    # cvScalarToRawData and cvRawDataToScalar # wait until requested 
 
     # cvCreateMatNDHeader
     FT.expose_func(mb.free_fun('cvCreateMatNDHeader'), ownershiplevel=1)
@@ -244,7 +244,7 @@ CV_NO_SIZE_CHECK      = 4
     for z in ('cvNextNArraySlice', 'cvGetElemType', 'cvGetDimSize'):
         mb.free_fun(z).include()
 
-    # cvPtr*D # TODO: fix this
+    # cvPtr*D # too low-level, wait until requested 
 
     # cvGet*D and cvSet*D
     mb.free_funs(lambda f: len(f.name) == 7 and f.name.startswith('cvGet') and f.name.endswith('D')).include()
@@ -305,12 +305,50 @@ def cvGetImage(arr, image_header=None):
     FT.expose_func(mb.free_fun('cvReshape'), ward_indices=(1,), return_arg_index=2) 
 
     # functions
-    for z in ('cvRepeat', 'cvCreateData', 'cvReleaseData', 'cvGetSize'):
+    for z in ('cvRepeat', 'cvGetSize'):
         mb.free_fun(z).include()
+
+    # cvCreateData
+    z = mb.free_fun('cvCreateData')
+    FT.add_underscore(z)
+    cc.write('''
+def cvCreateData(arr):
+    cvReleaseData(arr) # release previous data first
+    _PE._cvCreateData(arr)
+    if isinstance(arr, IplImage):
+        arr._ownershiplevel |= 2 # now arr owns data
+cvCreateData.__doc__ = _PE._cvCreateData.__doc__
+    ''')
+    
+
+    # cvReleaseData
+    z = mb.free_fun('cvReleaseData')
+    FT.add_underscore(z)
+    z.include()
+    cc.write('''
+def cvReleaseData(arr):
+    _PE._cvReleaseData(arr)
+    arr._depends = None # remove previous links
+    if isinstance(arr, IplImage):
+        arr._ownershiplevel &= ~2 # arr does not own data anymore
+cvReleaseData.__doc__ = _PE._cvReleaseData.__doc__
+
+    ''')
         
-    # cvSetData # TODO: fix this
+    # cvSetData
+    z = mb.free_fun('cvSetData')
+    FT.add_underscore(z)
+    z.call_policies = CP.with_custodian_and_ward(1, 2)
+    z._transformer_creators.append(FT.input_string('data'))
+    cc.write('''
+def cvSetData(arr, data, step):
+    cvReleaseData(arr)
+    _PE._cvSetData(arr, data, step)
+    arr._depends = (data,) # link to the current data
+cvSetData.__doc__ = _PE._cvSetData.__doc__ + "\\n    [pyopencv] data is a string"
+    ''')
         
-    # cvGetRawData # TODO: fix this
+    # cvGetRawData # too low-level, wait until requested
 
     # functions
     for z in ('cvCopy', 'cvSet', 'cvSetZero', 'cvSplit', 'cvMerge', 
@@ -614,24 +652,29 @@ CV_BACK = 0
         mb.free_fun(z).include()
 
     # cvCreateMemStorage
-    FT.expose_func(mb.free_fun('cvCreateMemStorage')) 
+    FT.expose_func(mb.free_fun('cvCreateMemStorage'), ownershiplevel=1) 
 
     # cvCreateChildMemStorage
     FT.expose_func(mb.free_fun('cvCreateChildMemStorage'), ward_indices=(1,)) 
         
-    # cvMemStorageAlloc, cvMemStorageAllocString # TODO: fix this
+    # cvMemStorageAlloc -- too low-level, wait until requested
+
+    # cvMemStorageAllocString
+    z = mb.free_fun('cvMemStorageAllocString')
+    FT.expose_func(z, ward_indices=(1,))
+    z.call_policies = None # TODO: don't know why this cannot use ward yet
 
     # cvCreateSeq
     FT.expose_func(mb.free_fun('cvCreateSeq'), ward_indices=(4,)) 
         
-    # cvSeq* # TODO: fix this
+    # cvSeq* # wait until requested
 
-    # cvGetSeqElem, cvSeqElemIdx # TODO: fix
+    # cvGetSeqElem, cvSeqElemIdx # wait until requested
 
     # cvEndWriteSeq
     FT.expose_func(mb.free_fun('cvEndWriteSeq'), ward_indices=(1,)) 
 
-    # cvCvtSeqToArray, cvMakeSeqHeaderForArray # TODO: fix
+    # cvCvtSeqToArray, cvMakeSeqHeaderForArray # wait until requested
 
     # cvSeqSlice
     FT.expose_func(mb.free_fun('cvSeqSlice'), ward_indices=(3,)) 
@@ -639,14 +682,14 @@ CV_BACK = 0
     # cvCloneSeq
     FT.expose_func(mb.free_fun('cvCloneSeq'), ward_indices=(2,)) 
 
-    # cvSeqSort, cvSeqSearch, cvSeqPartition # TODO: fix
+    # cvSeqSort, cvSeqSearch, cvSeqPartition # wait until requested
 
-    # cvChangeSeqBlock # TODO: fix
+    # cvChangeSeqBlock # wait until requested
 
     # cvCreateSet
     FT.expose_func(mb.free_fun('cvCreateSet'), ward_indices=(4,)) 
 
-    # cvSetAdd, cvSetNew, cvSetRemoveByPtr # TODO: fix
+    # cvSetAdd, cvSetNew, cvSetRemoveByPtr # wait until requested
 
     # cvGetSetElem
     FT.expose_func(mb.free_fun('cvGetSetElem'), ward_indices=(1,)) 
@@ -656,20 +699,11 @@ CV_BACK = 0
     z = mb.class_('CvGraphScanner')
     z.include()
     for t in ('vtx', 'dst', 'edge', 'graph', 'stack'):
-        FT.expose_member_as_pointee(z, t) 
-    cc.write('''
-CvGraphScanner._ownershiplevel = 0
-        
-def _CvGraphScanner__del__(self):
-    if self._ownershiplevel==1:
-        _PE._cvReleaseGraphScanner(self)
-CvGraphScanner.__del__ = _CvGraphScanner__del__
-
-    ''')
+        FT.expose_member_as_pointee(z, t)
+    mb.insert_del_interface('CvGraphScanner', '_PE._cvReleaseGraphScanner')
 
 
-
-    # TODO: fix this whole thing cvGraph*
+    # this whole set of functions cvGraph*, wait until requested
 
 
 
@@ -679,7 +713,7 @@ CvGraphScanner.__del__ = _CvGraphScanner__del__
     z.var('node').expose_address = True # wait until requested
 
 
-    # TODO: fix this whole thing with cvTree*
+    # this whole set of functions cvTree*
 
 
 
@@ -818,7 +852,7 @@ CV_ErrModeSilent = 2
     # cvSave, cvLoad
 
     # cvOpenFileStorage
-    FT.expose_func(mb.free_fun('cvOpenFileStorage'), ward_indices=(2,)) 
+    FT.expose_func(mb.free_fun('cvOpenFileStorage'), ward_indices=(2,), ownershiplevel=1) 
 
     # cvWrite
     z = mb.free_fun('cvWrite')
@@ -837,5 +871,13 @@ CV_ErrModeSilent = 2
 
 
     # CvImage and CvMatrix are not necessary
+    # CvImage
+    z = mb.class_('CvImage')
+    mb.init_class(z)
+    z.mem_funs(lambda decl: decl.name == 'data').exclude()
+    z.mem_funs(lambda decl: decl.name == 'roi_row').exclude()
+    z.operators().exclude()
+    mb.finalize_class(z)
+
 
 

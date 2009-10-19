@@ -280,10 +280,8 @@ class input_string_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg( self.arg.name )
-        w_arg.type = _D.dummy_type_t( "boost::python::object" )
-        if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.default_value = 'bp::object()'
-        controller.modify_arg_expression(self.arg_index, "(%s.ptr() != Py_None)? (%s)((const char *)bp::extract<const char *>(%s)): 0" % (w_arg.name, self.arg.type, w_arg.name))
+        w_arg.type = _D.dummy_type_t( "const char *" )
+        controller.modify_arg_expression(self.arg_index, "((%s) %s)" % (self.arg.type, w_arg.name))
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
