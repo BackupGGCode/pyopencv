@@ -870,14 +870,52 @@ CV_ErrModeSilent = 2
         FT.expose_func(mb.free_fun(z)) 
 
 
-    # CvImage and CvMatrix are not necessary
     # CvImage
     z = mb.class_('CvImage')
     mb.init_class(z)
-    z.mem_funs(lambda decl: decl.name == 'data').exclude()
-    z.mem_funs(lambda decl: decl.name == 'roi_row').exclude()
+    # deal with operators to convert into IplImage
     z.operators().exclude()
+    z.include_files.append( "boost/python/object.hpp" )
+    z.add_wrapper_code('''
+static bp::object get_IplImage( CvImage const & inst ){
+    return bp::object((const IplImage *)inst);
+}
+    ''')
+    z.add_registration_code('''
+add_property( "image", bp::make_function(&CvImage_wrapper::get_IplImage) )
+    ''')
+    z.mem_funs(lambda decl: decl.name == 'data').exclude() # wait until requested
+    z.mem_funs(lambda decl: decl.name == 'roi_row').exclude() # wait until requested
     mb.finalize_class(z)
 
+    # CvMatrix
+    z = mb.class_('CvMatrix')
+    mb.init_class(z)
+    # deal with operators to convert into CvMat
+    z.operators().exclude()
+    z.include_files.append( "boost/python/object.hpp" )
+    z.add_wrapper_code('''
+static bp::object get_CvMat( CvMatrix const & inst ){
+    return bp::object((const CvMat *)inst);
+}
+    ''')
+    z.add_registration_code('''
+add_property( "matrix", bp::make_function(&CvMatrix_wrapper::get_CvMat) )
+    ''')
+    z.mem_fun('set_data')._transformer_creators.append(FT.input_string('data'))
+    z.mem_funs(lambda decl: decl.name == 'data').exclude() # wait until requested
+    z.mem_funs(lambda decl: decl.name == 'row').exclude() # wait until requested
+    mb.finalize_class(z)
 
+    # CvModule
+    z = mb.class_('CvModule')
+    z.include()
+    for t in ('info', 'first', 'last'):
+        FT.expose_member_as_pointee(z, t)
+
+    # CvType
+    z = mb.class_('CvType')
+    z.include()
+    for t in ('info', 'first', 'last'):
+        FT.expose_member_as_pointee(z, t)
 
