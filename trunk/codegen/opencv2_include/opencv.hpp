@@ -26,6 +26,7 @@
 struct CvGenericHash {};
 struct CvFileStorage {};
 
+struct _CvContourScanner {};
 struct CvHidHaarClassifierCascade {};
 struct CvFeatureTree {};
 struct CvLSH {};
