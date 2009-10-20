@@ -88,7 +88,7 @@ mb.cc = cc
 # Modules related to writing to the __init__.py file
 # -----------------------------------------------------------------------------------------------
 
-def add_doc(self, decl, s):
+def add_doc(self, decl_name, s):
     """Adds a string s to the docstring of declaration f"""
     self.cc.write('''
 str = "    [pyopencv] STR"
@@ -96,7 +96,7 @@ if DECL.__doc__ is None:
     DECL.__doc__ = str
 else:
     DECL.__doc__ += str
-'''.replace("DECL", decl.alias).replace("STR", str(s)))
+'''.replace("DECL", decl_name).replace("STR", str(s)))
 module_builder.module_builder_t.add_doc = add_doc
 
 def insert_del_interface(self, class_name, del_func_name):
@@ -168,7 +168,7 @@ def beautify_func_list(self, func_list):
             if arg.name == 'data' and D.is_void_pointer(arg.type):
                 f._transformer_creators.append(FT.input_string(arg.name))
                 if not f.ignore:
-                    mb.add_doc(f, "'data' is represented by a string")
+                    mb.add_doc(f.name, "'data' is represented by a string")
 
 module_builder.module_builder_t.beautify_func_list = beautify_func_list
 

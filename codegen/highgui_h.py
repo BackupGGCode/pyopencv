@@ -145,7 +145,14 @@ CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
     # cvInitSystem, cvGetWindowHandle, cvCreateTrackbar, cvCreateTrackbar2, cvSetMouseCallback
 
     # cvSetMouseCallback
-    FT.expose_func(mb.free_fun('cvSetMouseCallback'), transformer_creators=[FT.mouse_callback_func('on_mouse', 'param')])
+    z = mb.free_fun('cvSetMouseCallback')
+    FT.expose_func(z, transformer_creators=[FT.mouse_callback_func('on_mouse', 'param')])
+    FT.add_underscore(z)
+    cc.write('''
+def cvSetMouseCallback(window_name, on_mouse, param=None):
+    _windows_callbacks.setdefault(window_name,{})["mouse"] = _PE._cvSetMouseCallback(window_name, on_mouse, param=param)
+cvSetMouseCallback.__doc__ = _PE._cvSetMouseCallback.__doc__
+    ''')
 
     # cvNamedWindow
     z = mb.free_fun('cvNamedWindow')
