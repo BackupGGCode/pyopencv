@@ -25,23 +25,37 @@ def generate_code(mb, cc, D, FT, CP):
 
     ''')
 
-# cv.class_('Exception').include()
+    mb.class_('Exception').include()
 
-# for z in ('Optimized', 'NumThreads', 'ThreadNum', 'getTick'):
-    # cv.decls(lambda decl: z in decl.name).include()
+    for z in ('fromUtf16', 'toUtf16',
+        'setNumThreads', 'getNumThreads', 'getThreadNum',
+        'getTickCount', 'getTickFrequency',
+        'setUseOptimized', 'useOptimized',
+        ):
+        mb.free_fun(lambda decl: z in decl.name).include()
 
-# for z in ('DataDepth', 'Vec', 'Complex', 'Point', 'Size', 'Rect', 'RotatedRect',
-    # 'Scalar', 'Range', 'DataType'):
-    # cv.decls(lambda decl: decl.name.startswith(z)).include()
+    for z in ('DataDepth', 'Vec', 'Complex', 'Point', 'Size', 'Rect', 'RotatedRect',
+        'Scalar', 'Range', 'DataType', 'RNG'):
+        try:
+            mb.classes(lambda decl: decl.name.startswith(z)).include()
+        except RuntimeError:
+            pass
 
-# class Mat
-# mat = cv.class_('Mat')
-# mat.include()
-# for z in ('refcount', 'datastart', 'dataend'):
-    # mat.var(z).exclude()
-# TODO: expose the 'data' member as read-write buffer
-# mat.var('data').exclude()
-# expose_addressof_member(mat, 'data')
-# mat.decls('ptr').exclude()
+    # TODO: fix these things
+    # Ptr
 
+    # class Mat
+    mat = mb.class_('Mat')
+    mat.include()
+    for z in ('refcount', 'datastart', 'dataend'):
+        mat.var(z).exclude()
+    # TODO: expose the 'data' member as read-write buffer
+    mat.var('data').exclude()
+    FT.expose_addressof_member(mat, 'data')
+    mat.decls('ptr').exclude()
+    mat.operators().exclude() # TODO fix these things
+    for z in ('setTo', 'adjustROI'):
+        mat.mem_fun(z).exclude()
+
+    # TODO: expand the rest of cxcore.hpp
  
