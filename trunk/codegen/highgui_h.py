@@ -144,6 +144,29 @@ CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
     # TODO: fix these functions:
     # cvInitSystem, cvGetWindowHandle, cvCreateTrackbar, cvCreateTrackbar2, cvSetMouseCallback
 
+    # cvCreateTrackbar2
+    z = mb.free_fun('cvCreateTrackbar2')
+    FT.expose_func(z, return_pointee=False, transformer_creators=[
+        FT.trackbar_callback2_func('on_change', 'userdata'), FT.from_address('value')])
+    FT.add_underscore(z)
+    cc.write('''
+def cvCreateTrackbar2(trackbar_name, window_name, value, count, on_change, userdata=None):
+    if not isinstance(value, _CT.c_int):
+        value = _CT.c_int(value)
+
+    result, z = _PE._cvCreateTrackbar2(trackbar_name, window_name, _CT.addressof(value), count, on_change, userdata=userdata)
+    if result:
+        cb_key = 'tracker-' + trackbar_name
+        _windows_callbacks.setdefault(window_name,{})[cb_key] = z
+    return result
+cvCreateTrackbar2.__doc__ = _PE._cvCreateTrackbar2.__doc__
+    ''')
+    mb.add_doc('cvCreateTrackbar2', "'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_int, it keeps the current position of the trackbar at any time.")
+    cc.write('''
+cvCreateTrackbar = cvCreateTrackbar2
+
+    ''')
+
     # cvSetMouseCallback
     z = mb.free_fun('cvSetMouseCallback')
     FT.expose_func(z, transformer_creators=[FT.mouse_callback_func('on_mouse', 'param')])

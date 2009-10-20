@@ -91,7 +91,7 @@ mb.cc = cc
 def add_doc(self, decl_name, s):
     """Adds a string s to the docstring of declaration f"""
     self.cc.write('''
-str = "    [pyopencv] STR"
+str = "\\n    [pyopencv] STR"
 if DECL.__doc__ is None:
     DECL.__doc__ = str
 else:
