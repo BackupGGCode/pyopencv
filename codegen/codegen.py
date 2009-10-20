@@ -23,14 +23,17 @@ import function_transformers as FT
 from pyplusplus.module_builder import call_policies as CP
 from shutil import copyfile
 
-import cxerror_h
-import cxtypes_h
+import cxerror_h # done
+import cxtypes_h # done
 import cxcore_h
-import cvtypes_h
+import cxcore_hpp
+import cxmat_hpp
+import cvtypes_h # done
 import cv_h
 import cvcompat_h
+import highgui_h # done
+import highgui_hpp
 import ml_h
-import highgui_h
 
 #Creating an instance of class that will help you to expose your declarations
 mb = module_builder.module_builder_t(
@@ -221,6 +224,12 @@ cxtypes_h.generate_code(mb, cc, D, FT, CP)
 # cxcore.h
 cxcore_h.generate_code(mb, cc, D, FT, CP)
 
+# cxcore.hpp
+cxcore_hpp.generate_code(mb, cc, D, FT, CP)
+
+# cxmat.hpp
+cxmat_hpp.generate_code(mb, cc, D, FT, CP)
+
 # cvtypes.h
 cvtypes_h.generate_code(mb, cc, D, FT, CP)
 
@@ -235,6 +244,9 @@ ml_h.generate_code(mb, cc, D, FT, CP)
 
 # highgui.h
 highgui_h.generate_code(mb, cc, D, FT, CP)
+
+# highgui.hpp
+highgui_hpp.generate_code(mb, cc, D, FT, CP)
 
 
 
@@ -286,13 +298,6 @@ for z in ('IPL_', 'CV_'):
     # z.include()
     # z.decls().exclude()
 
-# exclude stupid CvMat... aliases
-# mb.classes(lambda z: z.decl_string.startswith('::CvMat') and not z.name.startswith('CvMat')).exclude()
-
-# cannot expose unions
-# mb.class_('Cv32suf').exclude()
-# mb.class_('Cv64suf').exclude()
-
 # expose every OpenCV's C++ class but none of its members
 # for z in mb.classes(lambda z: z.decl_string.startswith('::cv')):
     # z.include()
@@ -310,38 +315,6 @@ for z in ('IPL_', 'CV_'):
 
 # -----------------------------------------------------------------------------------------------
 
-# cv = mb.namespace('cv')
-# cv.decls().exclude()
-
-# cv.decls(lambda decl: 'Optimized' in decl.name).include()
-
-# for z in ('CvScalar', 'CvPoint', 'CvSize', 'CvRect', 'CvBox', 'CvSlice'):
-    # mb.decls(lambda decl: decl.name.startswith(z)).include()
-
-
-# -----------------------------------------------------------------------------------------------
-# cxcore.hpp
-# -----------------------------------------------------------------------------------------------
-# cv = mb.namespace('cv') # namespace cv
-
-# cv.class_('Exception').include()
-
-# for z in ('Optimized', 'NumThreads', 'ThreadNum', 'getTick'):
-    # cv.decls(lambda decl: z in decl.name).include()
-
-# for z in ('DataDepth', 'Vec', 'Complex', 'Point', 'Size', 'Rect', 'RotatedRect',
-    # 'Scalar', 'Range', 'DataType'):
-    # cv.decls(lambda decl: decl.name.startswith(z)).include()
-
-# class Mat
-# mat = cv.class_('Mat')
-# mat.include()
-# for z in ('refcount', 'datastart', 'dataend'):
-    # mat.var(z).exclude()
-# TODO: expose the 'data' member as read-write buffer
-# mat.var('data').exclude()
-# expose_addressof_member(mat, 'data')
-# mat.decls('ptr').exclude()
 
 #Creating code creator. After this step you should not modify/customize declarations.
 mb.build_code_creator( module_name='pyopencvext' )
