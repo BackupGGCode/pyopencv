@@ -32,7 +32,7 @@ import cvtypes_h # done
 import cv_h
 import cvcompat_h
 import highgui_h # done
-import highgui_hpp
+import highgui_hpp # done
 import ml_h
 
 #Creating an instance of class that will help you to expose your declarations

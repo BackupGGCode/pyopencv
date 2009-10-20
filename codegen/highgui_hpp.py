@@ -31,14 +31,22 @@ def generate_code(mb, cc, D, FT, CP):
 # C++ Interface
 #-----------------------------------------------------------------------------
 
+namedWindow = cvNamedWindow
+createTrackbar = cvCreateTrackbar2
+getTrackbarPos = cvGetTrackbarPos # don't know why they haven't exported this function
+setTrackbarpos = cvSetTrackbarPos # don't know why they haven't exported this function
     
     ''')
 
     # functions
     for z in (
-        # 'namedWindow', 'imshow',
+        'imshow', 'imread', 'imwrite', 'imdecode', 'imencode', 'waitKey',
         ):
         mb.free_fun(z).include()
         
-
+    # classes
+    for z in (
+        'VideoCapture', 'VideoWriter',
+        ):
+        mb.class_(z).include()
 
