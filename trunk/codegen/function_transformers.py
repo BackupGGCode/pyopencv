@@ -27,6 +27,7 @@ def expose_func(func, ownershiplevel=None, ward_indices=(), return_arg_index=Non
     
     func.include()    
     func._transformer_creators.extend(transformer_creators)
+    func.set_exportable(True) # make sure the function is exposed even if there might be a compilation error
     
     cp = CP.return_value_policy(CP.reference_existing_object) if return_pointee is True else None
     
@@ -600,6 +601,71 @@ class input_dynamic_double_array_t(transformer.transformer_t):
 def input_dynamic_double_array( *args, **keywd ):
     def creator( function ):
         return input_dynamic_double_array_t( function, *args, **keywd )
+    return creator
+
+
+class mouse_callback_func_t(transformer.transformer_t):
+    """Handles a CvMouseCallback argument.
+
+    void do_something(CvMouseCallback on_mouse, void* param) ->  do_something((Python function) on_mouse, (object) param)
+    """
+
+    def __init__(self, function, arg_on_mouse, arg_param):
+        transformer.transformer_t.__init__( self, function )
+
+        self.arg1 = self.get_argument( arg_on_mouse )
+        self.arg1_index = self.function.arguments.index( self.arg1 )
+
+        self.arg2 = self.get_argument( arg_param )
+        self.arg2_index = self.function.arguments.index( self.arg2 )
+
+
+    def __str__(self):
+        return "mouse_callback_func(%s,%s)"% (self.arg1.name, self.arg2.name)
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["boost/python/object.hpp", "boost/python/tuple.hpp" ]
+
+    def __configure_sealed(self, controller):
+        w_arg1 = controller.find_wrapper_arg( self.arg1.name )
+        w_arg1.type = _D.dummy_type_t( "boost::python::object" )
+
+        w_arg2 = controller.find_wrapper_arg( self.arg2.name )
+        w_arg2.type = _D.dummy_type_t( "boost::python::object" )
+
+        if self.arg2.default_value == '0' or self.arg2.default_value == 'NULL':
+            w_arg2.default_value = 'bp::object()'
+        
+        # declare a tuple to keep the function and the parameter together
+        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name )
+        
+        # precall_code
+        precall_code = "%s = bp::make_tuple(%s, %s);" % (var_tuple, w_arg1.name, w_arg2.name)
+        controller.add_pre_call_code(precall_code)
+        
+        # adding the variable to return variables list
+        controller.return_variable(var_tuple)
+
+        controller.modify_arg_expression( self.arg1_index, "sdMouseCallback" )
+        controller.modify_arg_expression( self.arg2_index, "(%s)(%s.ptr())" % (self.arg2.type.decl_string, var_tuple))
+        
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def mouse_callback_func( *args, **keywd ):
+    def creator( function ):
+        return mouse_callback_func_t( function, *args, **keywd )
     return creator
 
 

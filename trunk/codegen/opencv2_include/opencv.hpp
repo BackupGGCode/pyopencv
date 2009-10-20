@@ -37,4 +37,6 @@ struct CvCapture {};
 struct CvVideoWriter {};
 
 
+void CV_CDECL sdMouseCallback(int event, int x, int y, int flags, void* param);
+
 #endif
