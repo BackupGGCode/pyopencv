@@ -21,6 +21,7 @@ from pygccxml import declarations as D
 from pyplusplus import module_builder, messages
 import function_transformers as FT
 from pyplusplus.module_builder import call_policies as CP
+from shutil import copyfile
 
 import cxerror_h
 import cxtypes_h
@@ -347,3 +348,7 @@ mb.build_code_creator( module_name='pyopencvext' )
 
 #Writing code to file.
 mb.split_module( 'code' )
+
+#Write the remaining files
+copyfile('extra_src/opencv_extra.cpp', 'code/opencv_extra.cpp')
+

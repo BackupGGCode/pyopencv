@@ -138,24 +138,14 @@ CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
         
     for z in ('CvCapture', 'CvVideoWriter'):
         mb.class_(z).include()
-    cc.write('''
-CvCapture._ownershiplevel = 0
-def _CvCapture__del__(self):
-    if self._ownershiplevel == 1:
-        _PE._cvReleaseCapture(self)
-CvCapture.__del__ = _CvCapture__del__
-
-CvVideoWriter._ownershiplevel = 0
-def _CvVideoWriter__del__(self):
-    if self._ownershiplevel == 1:
-        _PE._cvReleaseVideoWriter(self)
-CvVideoWriter.__del__ = _CvVideoWriter__del__
-
-    ''')
-
+    mb.insert_del_interface('CvCapture', '_PE._cvReleaseCapture')
+    mb.insert_del_interface('CvVideoWriter', '_PE._cvReleaseVideoWriter')
         
     # TODO: fix these functions:
     # cvInitSystem, cvGetWindowHandle, cvCreateTrackbar, cvCreateTrackbar2, cvSetMouseCallback
+
+    # cvSetMouseCallback
+    FT.expose_func(mb.free_fun('cvSetMouseCallback'), transformer_creators=[FT.mouse_callback_func('on_mouse', 'param')])
 
     # cvNamedWindow
     z = mb.free_fun('cvNamedWindow')

@@ -1,0 +1,1 @@
+Boost.Python is _not_ thread-safe. Therefore, be very careful when dealing with threading functions like cvSetMouseCallback, cvCreateTrackbar, etc. In the callback functions, do not invoke 'print' for example.
