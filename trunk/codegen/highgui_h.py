@@ -141,8 +141,10 @@ CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
     mb.insert_del_interface('CvCapture', '_PE._cvReleaseCapture')
     mb.insert_del_interface('CvVideoWriter', '_PE._cvReleaseVideoWriter')
         
-    # TODO: fix these functions:
-    # cvInitSystem, cvGetWindowHandle, cvCreateTrackbar, cvCreateTrackbar2, cvSetMouseCallback
+    # cvInitSystem
+    FT.expose_func(mb.free_fun('cvInitSystem'), return_pointee=False, transformer_creators=[FT.input_dynamic_array('argv', 'argc')])
+
+    # cvGetWindowHandle, wait until requested
 
     # cvCreateTrackbar2
     z = mb.free_fun('cvCreateTrackbar2')
@@ -198,9 +200,11 @@ def cvNamedWindow(name, flags=1):
         ):
         FT.expose_func(mb.free_fun(z), ownershiplevel=3)
 
-    # cvSaveImage # TODO: fix
+    # cvSaveImage
+    FT.expose_func(mb.free_fun('cvSaveImage'), return_pointee=False, transformer_creators=[FT.input_dynamic_array('params')])
 
-    # cvEncodeImage # TODO: fix
+    # cvEncodeImage
+    FT.expose_func(mb.free_fun('cvEncodeImage'), transformer_creators=[FT.input_dynamic_array('params')])
 
     # cvDestroyWindow
     z = mb.free_fun('cvDestroyWindow')

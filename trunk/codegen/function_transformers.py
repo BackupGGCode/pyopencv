@@ -347,31 +347,29 @@ class input_dynamic_array_t(transformer.transformer_t):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         w_arg.type = _D.dummy_type_t( "boost::python::object" )
 
+        if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+            w_arg.default_value = 'bp::object()'
+        
         if self.remove_arg_size and self.arg_size is not None:
             #removing arg_size from the function wrapper definition
             controller.remove_wrapper_arg( self.arg_size.name )
+
+        # Precall code
+        precall_code = """int l_ARRAY = (ARRAY.ptr() != Py_None)? bp::len(ARRAY): 0;
+    std::vector< ETYPE > v_ARRAY;
+    if(l_ARRAY > 0)
+    {
+        v_ARRAY.resize(l_ARRAY);
+        for(int i_ARRAY = 0; i_ARRAY < l_ARRAY; ++i_ARRAY) v_ARRAY[i_ARRAY] = bp::extract< ETYPE >(ARRAY[i_ARRAY]);
+    }
+    """.replace("ETYPE", self.array_item_type.decl_string) \
+            .replace("ARRAY", self.arg.name)
         
-        # array size
-        array_size = controller.declare_variable( "int", "size_" + self.arg.name, 
-            "=bp::len(%s)" % self.arg.name)
-
-        # Declare a variable that will hold the C array...
-        native_array = controller.declare_variable( _D.pointer_t(self.array_item_type), 
-            "native_" + self.arg.name, 
-            "= new %s [%s]" % (self.array_item_type, array_size) )
+        controller.add_pre_call_code(precall_code)
             
-        controller.add_post_call_code("delete[] %s;" % native_array)
-
-        copy_pylist2arr = _T._seq2arr.substitute( type=self.array_item_type
-                                                , pylist=w_arg.name
-                                                , array_size=array_size
-                                                , native_array=native_array )
-
-        controller.add_pre_call_code( copy_pylist2arr )
-
-        controller.modify_arg_expression( self.arg_index, native_array )
+        controller.modify_arg_expression( self.arg_index, "(ARRAY.ptr() != Py_None)? (& (v_ARRAY.front())): 0".replace("ARRAY", self.arg.name) )
         if self.remove_arg_size and self.arg_size is not None:
-            controller.modify_arg_expression( self.arg_size_index, array_size )
+            controller.modify_arg_expression( self.arg_size_index, "l_ARRAY".replace("ARRAY", self.arg.name) )
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -638,11 +636,8 @@ class trackbar_callback2_func_t(transformer.transformer_t):
             w_arg2.default_value = 'bp::object()'
         
         # declare a tuple to keep the function and the parameter together
-        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name )
-        
-        # precall_code
-        precall_code = "%s = bp::make_tuple(%s, %s);" % (var_tuple, w_arg1.name, w_arg2.name)
-        controller.add_pre_call_code(precall_code)
+        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name,
+            "= bp::make_tuple(%s, %s);" % (w_arg1.name, w_arg2.name))
         
         # adding the variable to return variables list
         controller.return_variable(var_tuple)
@@ -702,11 +697,8 @@ class mouse_callback_func_t(transformer.transformer_t):
             w_arg2.default_value = 'bp::object()'
         
         # declare a tuple to keep the function and the parameter together
-        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name )
-        
-        # precall_code
-        precall_code = "%s = bp::make_tuple(%s, %s);" % (var_tuple, w_arg1.name, w_arg2.name)
-        controller.add_pre_call_code(precall_code)
+        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name,
+            "= bp::make_tuple(%s, %s);" % (w_arg1.name, w_arg2.name))
         
         # adding the variable to return variables list
         controller.return_variable(var_tuple)
