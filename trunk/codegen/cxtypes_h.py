@@ -186,7 +186,7 @@ def _IplImage__del__(self):
 IplImage.__del__ = _IplImage__del__
 
     ''')
-    mb.add_doc(iplimage, "'data' is a read-only string representing the data of the image")
+    mb.add_doc('IplImage', "'data' is a read-only string representing the data of the image")
 
     # IplROI
     z = mb.class_('_IplROI')

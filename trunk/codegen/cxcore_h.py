@@ -345,8 +345,9 @@ def cvSetData(arr, data, step):
     cvReleaseData(arr)
     _PE._cvSetData(arr, data, step)
     arr._depends = (data,) # link to the current data
-cvSetData.__doc__ = _PE._cvSetData.__doc__ + "\\n    [pyopencv] data is a string"
+cvSetData.__doc__ = _PE._cvSetData.__doc__
     ''')
+    mb.add_doc('cvSetData', 'data is a string')
         
     # cvGetRawData # too low-level, wait until requested
 
