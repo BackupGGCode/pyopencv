@@ -662,8 +662,7 @@ CV_BACK = 0
 
     # cvMemStorageAllocString
     z = mb.free_fun('cvMemStorageAllocString')
-    FT.expose_func(z, ward_indices=(1,))
-    z.call_policies = None # TODO: don't know why this cannot use ward yet
+    FT.expose_func(z, ward_indices=(1,), return_pointee=False)
 
     # cvCreateSeq
     FT.expose_func(mb.free_fun('cvCreateSeq'), ward_indices=(4,)) 
