@@ -23,6 +23,8 @@ import function_transformers as FT
 from pyplusplus.module_builder import call_policies as CP
 from shutil import copyfile
 
+# import template_instantiations # to instantiate classes, only turn it on when you want to update file template_instantiations.h
+
 import cxerror_h # done
 import cxtypes_h # done
 import cxcore_h
@@ -89,7 +91,7 @@ CV_VERSION          = "2.0.0"
 mb.cc = cc
 
 # -----------------------------------------------------------------------------------------------
-# Modules related to writing to the __init__.py file
+# Subroutines related to writing to the __init__.py file
 # -----------------------------------------------------------------------------------------------
 
 def add_doc(self, decl_name, s):
@@ -281,9 +283,6 @@ for z in ('IPL_', 'CV_'):
         mb.decls(lambda decl: decl.name.startswith(z)).include()
     except RuntimeError:
         pass
-
-
-
 
 
 
