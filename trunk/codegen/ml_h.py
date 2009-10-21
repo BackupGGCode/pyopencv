@@ -143,11 +143,7 @@ CV_TEST_ERROR   = 1
     # CvEM
     z = mb.class_('CvEM')
     mb.init_class(z)
-    for t in ('get_means', 'get_weights', 'get_probs'):
-        FT.expose_func(z.mem_fun(t), ward_indices=(1,))
     z.mem_fun('get_covs').exclude() # TODO: get_covs()
-    for t in ('means', 'weights', 'probs', 'log_weight_div_det', 'inv_eigen_values', 'covs', 'cov_rotate_mats'):
-        z.var(t).exclude()
     mb.finalize_class(z)
 
     # CvPair16u32s # TODO: expose members
@@ -178,10 +174,6 @@ CV_TEST_ERROR   = 1
     z = mb.class_('CvDTreeTrainData')
     mb.init_class(z)
     for t in (
-        'subsample_data', 'new_node', 'new_split_ord', 'new_split_cat',
-        ):
-        FT.expose_func(z.mem_fun(t), ward_indices=(1,))
-    for t in (
         'get_pred_float_buf', 'get_pred_int_buf', 'get_resp_float_buf', 'get_resp_int_buf', 
         'get_cv_lables_buf', 'get_sample_idx_buf',
         ):
@@ -194,12 +186,15 @@ CV_TEST_ERROR   = 1
         FT.expose_member_as_pointee(z, t)
     mb.finalize_class(z)
 
-    # CvDTree
-    z = mb.class_('CvDTree')
-    mb.init_class(z)
-    for t in ('predict', 'get_var_importance', 'get_root', 'get_data'):
-        FT.expose_func(z.mem_fun(t), ward_indices=(1,))
-    for t in z.decls():
-        if t.access_type == 'protected':
-            t.exclude()
-    mb.finalize_class(z)
+    # straightforward classes
+    for t in (
+        'CvDTree', 'CvForestTree', 'CvRTParams', 'CvRTrees',
+        ):
+        z = mb.class_(t)
+        mb.init_class(z)
+        mb.finalize_class(z)
+
+    mb.class_('CvRTrees').mem_fun('get_rng').exclude() # TODO: fix CvRNG first, then fix this get_rng function
+
+
+
