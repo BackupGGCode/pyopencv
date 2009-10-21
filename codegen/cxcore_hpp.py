@@ -61,7 +61,7 @@ def generate_code(mb, cc, D, FT, CP):
 
     for z in (
         'getElemSize',
-        'cvarrToMat', 'extractImageCOI', 'insertImageCOI', 
+        # 'cvarrToMat', 'extractImageCOI', 'insertImageCOI', # TODO: don't know why I can't expose these funcs
         ):
         mb.free_fun(z).include()
 

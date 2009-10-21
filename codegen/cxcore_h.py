@@ -244,7 +244,29 @@ CV_NO_SIZE_CHECK      = 4
     for z in ('cvNextNArraySlice', 'cvGetElemType', 'cvGetDimSize'):
         mb.free_fun(z).include()
 
-    # cvPtr*D # too low-level, wait until requested 
+    # cvGetDims()
+    z = mb.free_fun('cvGetDims')
+    FT.add_underscore(z)
+    z._transformer_creators.append(FT.from_address('sizes'))
+    cc.write('''
+def cvGetDims(arr, return_sizes=False):
+    """
+    z = cvGetDims((const CvArr)arr, (bool)return_sizes=False)
+
+    Retrieves array dimensions.
+
+    [pyopencv] If 'return_sizes' is True, z = a tuple containing the sizes of the dimensions.
+    [pyopencv] If 'return_sizes' is False, z = an integer that is the number of dimensions.
+    """
+    if not return_sizes:
+        return _PE._cvGetDims(arr, 0)
+
+    sizes = (_CT.c_int*CV_MAX_DIM)()
+    dims = _PE._cvGetDims(arr, _CT.addressof(sizes))
+    return tuple(sizes[:dims])
+    ''')
+
+    # cvPtr*D # too low-level, wait until requested
 
     # cvGet*D and cvSet*D
     mb.free_funs(lambda f: len(f.name) == 7 and f.name.startswith('cvGet') and f.name.endswith('D')).include()
@@ -261,7 +283,7 @@ CV_NO_SIZE_CHECK      = 4
     z.call_policies = CP.with_custodian_and_ward_postcall(2, 1, CP.return_arg(2))
     cc.write('''
 def cvGetMat(arr, header=None, return_coi=False, allowND=0):
-    """CvMat mat[, int output_coi] = cvGetMat(const CvArr arr, CvMat header=None, return_coi=None, int allowND=0)
+    """CvMat mat[, int output_coi] = cvGetMat(const CvArr arr, CvMat header=None, return_coi=False, int allowND=0)
 
     Returns matrix header for arbitrary array
     [ctypes-opencv] If 'header' is None, it is internally created.
@@ -546,21 +568,6 @@ cvMahalonobis = cvMahalanobis
 #-----------------------------------------------------------------------------
 
     
-def cvMinMaxLoc(arr, min_loc=None, max_loc=None, mask=None):
-    """double min_val, double max_val = cvMinMaxLoc(const CvArr arr, CvPoint min_loc=None, CvPoint max_loc=None, const CvArr mask=None)
-
-    Finds global minimum and maximum in array or subarray, and optionally their locations
-    [ctypes-opencv] If any of min_loc or max_loc is not None, it is filled with the resultant location.
-    """
-    min_val_p = _CT.c_double()
-    max_val_p = _CT.c_double()
-    
-    _PE._cvMinMaxLoc(arr, min_val=_CT.addressof(min_val_p), max_val=_CT.addressof(max_val_p),
-        min_loc=min_loc, max_loc=max_loc, mask=mask)
-    
-    return min_val_p.value, max_val_p.value
-    
-
 CV_C = 1
 CV_L1 = 2
 CV_L2 = 4
@@ -595,6 +602,32 @@ CV_REDUCE_MIN = 3
     FT.add_underscore(z)
     z._transformer_creators.append(FT.from_address('min_val'))
     z._transformer_creators.append(FT.from_address('max_val'))
+    cc.write('''
+def cvMinMaxLoc(arr, return_min_loc=False, return_max_loc=False, mask=None):
+    """(double)min_val, (double)max_val[, (CvPoint)min_loc][, (CvPoint)max_loc] = cvMinMaxLoc((const CvArr)arr, (bool)return_min_loc=False, (bool)return_max_loc=False, const CvArr mask=None)
+
+    Finds global minimum and maximum in array or subarray, and optionally their locations
+    [pyopencv] 'min_loc' is returned if 'return_min_loc' is True. 
+    [pyopencv] 'max_loc' is returned if 'return_max_loc' is True. 
+    """
+    min_val_p = _CT.c_double()
+    max_val_p = _CT.c_double()
+
+    min_loc = CvPoint() if return_min_loc is None else None
+    max_loc = CvPoint() if return_max_loc is None else None
+    
+    _PE._cvMinMaxLoc(arr, min_val=_CT.addressof(min_val_p), max_val=_CT.addressof(max_val_p),
+        min_loc=min_loc, max_loc=max_loc, mask=mask)
+    
+    z = (min_val_p.value, max_val_p.value)
+    if min_loc is not None:
+        z.append(min_loc)
+    if max_loc is not None:
+        z.append(max_loc)
+
+    return z
+    
+    ''')
 
 
 

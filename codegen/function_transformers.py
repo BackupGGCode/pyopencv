@@ -488,9 +488,10 @@ def input_dynamic_array_of_pointers( *args, **keywd ):
 class input_dynamic_double_array_t(transformer.transformer_t):
     """Handles an input array with a dynamic size.
 
-    void do_something([[int N, ]int *ncnts, ]double** v) ->  do_something(object v2)
+    void do_something([[int N, ]int *ncnts, ]double** v=NULL) ->  do_something(object v2)
 
     where v2 is a Python sequence of sequences of items. Each item is of the same type as v's element type.
+    If v2 is None, then v=ncnts=NULL and N=0.
     """
 
     def __init__(self, function, arg_ref, arg_ncnts_ref=None, arg_size_ref=None, remove_arg_ncnts=True, remove_arg_size=True):
@@ -543,6 +544,9 @@ class input_dynamic_double_array_t(transformer.transformer_t):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         w_arg.type = _D.dummy_type_t( "boost::python::object" )
 
+        if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+            w_arg.default_value = 'bp::object()'
+        
         if self.remove_arg_size and self.arg_size is not None:
             #removing arg_size from the function wrapper definition
             controller.remove_wrapper_arg( self.arg_size.name )
@@ -553,9 +557,10 @@ class input_dynamic_double_array_t(transformer.transformer_t):
         
         # precall_code
         precall_code = """typedef ITEM_TYPE *LP_ARRAY;
-    int i_ARRAY, j_ARRAY, n0_ARRAY = bp::len(ARRAY);
-    int *n1_ARRAY = new int [n0_ARRAY];
-    LP_ARRAY *buf_ARRAY = new LP_ARRAY [n0_ARRAY];
+    bool b_ARRAY = (ARRAY.ptr() != Py_None);
+    int i_ARRAY, j_ARRAY, n0_ARRAY = b_ARRAY? bp::len(ARRAY): 0;
+    int *n1_ARRAY = b_ARRAY? new int [n0_ARRAY]: NULL;
+    LP_ARRAY *buf_ARRAY = b_ARRAY? new LP_ARRAY [n0_ARRAY]: NULL;
     for(i_ARRAY = 0; i_ARRAY < n0_ARRAY; ++i_ARRAY)
     {
         bp::object const &obj_ARRAY = ARRAY[i_ARRAY];
@@ -569,9 +574,12 @@ class input_dynamic_double_array_t(transformer.transformer_t):
         controller.add_pre_call_code(precall_code)
         
         # postcall_code
-        postcall_code = """for(i_ARRAY = 0; i_ARRAY < n0_ARRAY; ++i_ARRAY) delete[] buf_ARRAY[i_ARRAY];
-    delete[] n1_ARRAY;
-    delete[] buf_ARRAY;
+        postcall_code = """if(b_ARRAY)
+    {
+        for(i_ARRAY = 0; i_ARRAY < n0_ARRAY; ++i_ARRAY) delete[] buf_ARRAY[i_ARRAY];
+        delete[] n1_ARRAY;
+        delete[] buf_ARRAY;
+    }
         """.replace("ARRAY", self.arg.name)
         controller.add_post_call_code(postcall_code)
         
@@ -600,6 +608,84 @@ def input_dynamic_double_array( *args, **keywd ):
     def creator( function ):
         return input_dynamic_double_array_t( function, *args, **keywd )
     return creator
+
+
+
+# output_pointee_t
+class output_pointee_t( transformer.transformer_t ):
+    """Handles a single output variable.
+
+    The specified variable is removed from the argument list and is turned
+    into a return value.
+
+    void getValue(int* v) -> v2 = getValue()
+
+    where v2 is the pointee of v
+    """
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        """Constructor.
+
+        The specified argument must be a reference or a pointer.
+
+        :param arg_ref: Index of the argument that is an output value.
+        :type arg_ref: int
+        """
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+        if not _D.is_pointer( self.arg.type ):
+            raise ValueError( '%s\nin order to use "output_pointee" transformation, argument %s type must be a pointer (got %s).' ) \
+                  % ( function, self.arg_ref.name, arg.type)
+
+    def __str__(self):
+        return "output_pointee(%d)"%(self.arg.name)
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return [ code_repository.convenience.file_name ]
+
+    def __configure_sealed( self, controller ):
+        #removing arg from the function wrapper definition
+        controller.remove_wrapper_arg( self.arg.name )
+        #the element type
+        etype = _D.remove_pointer( self.arg.type )
+        #declaring new variable, which will keep result
+        var_name = controller.declare_variable( etype, self.arg.name )
+        #adding just declared variable to the original function call expression
+        controller.modify_arg_expression( self.arg_index, "&" + var_name )
+        #adding the variable to return variables list
+        controller.return_variable( 'pyplusplus::call_policies::make_object< call_policies_t, %s >( %s )' % (etype.decl_string, var_name) )
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def __configure_v_mem_fun_override( self, controller ):
+        controller.remove_py_arg( self.arg_index )
+        tmpl = string.Template(
+            '$name = boost::python::extract< $type >( pyplus_conv::get_out_argument( $py_result, "$name" ) );' )
+        store_py_result_in_arg = tmpl.substitute( name=self.arg.name
+                                                  , type=remove_ref_or_ptr( self.arg.type ).decl_string
+                                                  , py_result=controller.py_result_variable.name )
+        controller.add_py_post_call_code( store_py_result_in_arg )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+        self.__configure_v_mem_fun_override( controller.override_controller )
+
+def output_pointee( *args, **keywd ):
+    def creator( function ):
+        return output_pointee_t( function, *args, **keywd )
+    return creator
+
+
 
 
 class trackbar_callback2_func_t(transformer.transformer_t):
@@ -640,7 +726,8 @@ class trackbar_callback2_func_t(transformer.transformer_t):
             "= bp::make_tuple(%s, %s);" % (w_arg1.name, w_arg2.name))
         
         # adding the variable to return variables list
-        controller.return_variable(var_tuple)
+        # controller.return_variable( 'pyplusplus::call_policies::make_object< call_policies_t, bp::tuple >( %s )' % var_tuple )
+        controller.return_variable( var_tuple )
 
         controller.modify_arg_expression( self.arg1_index, "sdTrackbarCallback2" )
         controller.modify_arg_expression( self.arg2_index, "(%s)(%s.ptr())" % (self.arg2.type.decl_string, var_tuple))
@@ -701,7 +788,8 @@ class mouse_callback_func_t(transformer.transformer_t):
             "= bp::make_tuple(%s, %s);" % (w_arg1.name, w_arg2.name))
         
         # adding the variable to return variables list
-        controller.return_variable(var_tuple)
+        # controller.return_variable( 'pyplusplus::call_policies::make_object< call_policies_t, bp::tuple >( %s )' % var_tuple )
+        controller.return_variable( var_tuple )
 
         controller.modify_arg_expression( self.arg1_index, "sdMouseCallback" )
         controller.modify_arg_expression( self.arg2_index, "(%s)(%s.ptr())" % (self.arg2.type.decl_string, var_tuple))

@@ -206,10 +206,11 @@ CV_TM_CCOEFF_NORMED = 5
         mb.free_fun(z).include()
         
 
-    # cvCreatePyramid, cvReleasePyramid -- wait until requested
+    # cvCreatePyramid, cvReleasePyramid # TODO fix these functions
 
-    # TODO: fix these functions:
     # cvPyrSegmentation
+    FT.expose_func(mb.free_fun('cvPyrSegmentation'), ward_indices=(3,), transformer_creators=[
+        FT.output_pointee('comp')])
 
     # TODO: fix this function
     # cvCreateStructuringElementEx
@@ -444,15 +445,63 @@ CV_COMP_BHATTACHARYYA= 3
     # cvConvexityDefects
     FT.expose_func(mb.free_fun('cvConvexityDefects'), ward_indices=(3,1,2))
 
-    # TODO: fix this function cvPointSeqFromMat()
+    # cvPointSeqFromMat
     FT.expose_func(mb.free_fun('cvPointSeqFromMat'), ward_indices=(3,2))
 
-    # TODO: cvCreateHist, cvSetHistBinRanges, cvMakeHistHeaderForArray
+    # cvMakeHistHeaderForArray, not a safe way to create a histogram, disabled by Minh-Tri Pham
+
+    # cvCreateHist
+    FT.expose_func(mb.free_fun('cvCreateHist'), ownershiplevel=1, transformer_creators=[
+        FT.input_dynamic_double_array('ranges')])
+
+    # cvSetHistBinRanges
+    FT.expose_func(mb.free_fun('cvSetHistBinRanges'), return_pointee=False, transformer_creators=[
+        FT.input_dynamic_double_array('ranges')])
 
     # cvReleaseHist
     FT.add_underscore(mb.free_fun('cvReleaseHist'))
 
-    # TODO: cvGetMinMaxHistValue, cvCopyHist, cvCalcArrHist, cvCalcHist
+    # cvGetMinMaxHistValue
+    z = mb.free_fun('cvGetMinMaxHistValue')
+    FT.add_underscore(z)
+    z._transformer_creators.append(FT.from_address('min_value'))
+    z._transformer_creators.append(FT.from_address('max_value'))
+    z._transformer_creators.append(FT.from_address('min_idx'))
+    z._transformer_creators.append(FT.from_address('max_idx'))
+    cc.write('''
+def cvGetMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
+    """(float) min_value, (float) max_value[, (tuple_of_ints)min_idx][, (tuple_of_ints)max_idx] = cvGetMinMaxHistValue((CvHistogram) hist, (bool)return_min_idx=False, (bool)return_max_idx=False)
+
+    Finds the minimum and maximum histogram bins
+    [pyopencv] 'min_idx' is returned if 'return_min_idx' is True. 
+    [pyopencv] 'max_idx' is returned if 'return_max_idx' is True. 
+    """
+    min_val = _CT.c_float()
+    max_val = _CT.c_float()
+
+    dims = cvGetDims(hist.bins)
+    if return_min_idx:
+        min_idx = (_CT.c_int*dims)()
+        min_addr = _CT.addressof(min_idx)
+    else:
+        min_addr = 0
+    if return_max_idx:
+        max_idx = (_CT.c_int*dims)()
+        max_addr = _CT.addressof(max_idx)
+    else:
+        max_addr = 0
+
+    _PE.cvGetMinMaxHistValue(hist, _CT.addressof(min_val), _CT.addressof(max_val), min_addr, max_addr)
+
+    z = (min_val.value, max_val.value)
+    if return_min_idx:
+        z.append(tuple(min_idx))
+    if return_max_idx:
+        z.append(tuple(max_idx))
+    return z
+    ''')
+
+    # TODO: cvCopyHist, cvCalcBayesianProb, cvCalcArrHist, cvCalcHist
 
 
     # TODO: wrap the rest of cv.h
