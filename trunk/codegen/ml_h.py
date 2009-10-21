@@ -66,7 +66,35 @@ CV_TYPE_NAME_ML_RTREES      = "opencv-ml-random-trees"
 CV_TRAIN_ERROR  = 0
 CV_TEST_ERROR   = 1
 
+CV_TS_CONCENTRIC_SPHERES = 0
 
+CV_COUNT     = 0
+CV_PORTION   = 1
+
+StatModel = CvStatModel
+ParamGrid = CvParamGrid
+NormalBayesClassifier = CvNormalBayesClassifier
+KNearest = CvKNearest
+SVMParams = CvSVMParams
+SVMKernel = CvSVMKernel
+SVMSolver = CvSVMSolver
+SVM = CvSVM
+EMParams = CvEMParams
+ExpectationMaximization = CvEM
+DTreeParams = CvDTreeParams
+TrainData = CvMLData
+DecisionTree = CvDTree
+ForestTree = CvForestTree
+RandomTreeParams = CvRTParams
+RandomTrees = CvRTrees
+ERTreeTrainData = CvERTreeTrainData
+ERTree = CvForestERTree
+ERTrees = CvERTrees
+BoostParams = CvBoostParams
+BoostTree = CvBoostTree
+Boost = CvBoost
+ANN_MLP_TrainParams = CvANN_MLP_TrainParams
+NeuralNet_MLP = CvANN_MLP
 
     ''')
 
@@ -192,6 +220,7 @@ CV_TEST_ERROR   = 1
         'CvForestERTree', 'CvERTrees',
         'CvBoostParams', 'CvBoostTree', 'CvBoost',
         'CvANN_MLP_TrainParams', 'CvANN_MLP',
+        'CvMLData',
         ):
         z = mb.class_(t)
         mb.init_class(z)
@@ -207,4 +236,19 @@ CV_TEST_ERROR   = 1
 
     mb.class_('CvANN_MLP').mem_fun('get_weights').exclude() # TODO: fix this func somehow
 
+    # Convolutional Neural Network, Estimate classifiers algorithms, and Cross validation are not yet enabled
+
+    # Auxilary functions declarations
+    for z in (
+        'cvRandMVNormal',
+        ):
+        mb.free_fun(z).include()
+
+    # TODO: fix these functions
+    # cvRandGaussMixture, cvCreateTestSet
+
+    # CvTrainTestSplit # TODO: fix these member variables
+    z = mb.class_('CvTrainTestSplit')
+    for t in ('train_sample_part', 'count', 'portion', 'class_part'):
+        z.vars(t).exclude()
 
