@@ -144,7 +144,7 @@ CV_TEST_ERROR   = 1
     z = mb.class_('CvEM')
     mb.init_class(z)
     for t in ('get_means', 'get_weights', 'get_probs'):
-        FT.expose_func(z.mem_fun(t))
+        FT.expose_func(z.mem_fun(t), ward_indices=(1,))
     z.mem_fun('get_covs').exclude() # TODO: get_covs()
     for t in ('means', 'weights', 'probs', 'log_weight_div_det', 'inv_eigen_values', 'covs', 'cov_rotate_mats'):
         z.var(t).exclude()
@@ -170,7 +170,26 @@ CV_TEST_ERROR   = 1
     for t in ('num_valid', 'cv_Tn', 'cv_node_risk', 'cv_node_error'):
         z.var(t).exclude() # TODO: expose these members
 
-    # cvDTreeParams # TODO: expose 'priors'
+    # CvDTreeParams # TODO: expose 'priors'
     z = mb.class_('CvDTreeParams')
     z.include()
 
+    # CvDTreeTrainData
+    z = mb.class_('CvDTreeTrainData')
+    mb.init_class(z)
+    for t in (
+        'subsample_data', 'new_node', 'new_split_ord', 'new_split_cat',
+        ):
+        FT.expose_func(z.mem_fun(t), ward_indices=(1,))
+    for t in (
+        'get_pred_float_buf', 'get_pred_int_buf', 'get_resp_float_buf', 'get_resp_int_buf', 
+        'get_cv_lables_buf', 'get_sample_idx_buf',
+        ):
+        z.mem_fun(t).exclude() # TODO: fix these functions
+    for t in (
+        'responses_copy', 'cat_count', 'cat_ofs', 'cat_map', 'counts', 'buf', 'direction', 'split_buf', 
+        'var_idx', 'var_type', 'priors', 'priors_mult', 'tree_storage', 'temp_storage', 'data_root',
+        'node_heap', 'split_heap', 'cv_heap', 'nv_heap',
+        ):
+        FT.expose_member_as_pointee(z, t)
+    mb.finalize_class(z)
