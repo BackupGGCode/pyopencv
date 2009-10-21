@@ -189,12 +189,21 @@ CV_TEST_ERROR   = 1
     # straightforward classes
     for t in (
         'CvDTree', 'CvForestTree', 'CvRTParams', 'CvRTrees',
+        'CvForestERTree', 'CvERTrees',
+        'CvBoostParams', 'CvBoostTree', 'CvBoost',
         ):
         z = mb.class_(t)
         mb.init_class(z)
         mb.finalize_class(z)
 
     mb.class_('CvRTrees').mem_fun('get_rng').exclude() # TODO: fix CvRNG first, then fix this get_rng function
+
+    # CvERTreeTrainData
+    z = mb.class_('CvERTreeTrainData')
+    mb.init_class(z)
+    FT.expose_member_as_pointee(z, 'missing_mask')
+    mb.finalize_class(z)
+
 
 
 
