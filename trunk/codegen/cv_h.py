@@ -408,12 +408,18 @@ CV_CONTOUR_TREES_MATCH_I1 = 1
 CV_CLOCKWISE = 1
 CV_COUNTER_CLOCKWISE = 2
 
+CV_COMP_CORREL       = 0
+CV_COMP_CHISQR       = 1
+CV_COMP_INTERSECT    = 2
+CV_COMP_BHATTACHARYYA= 3
+
     ''')
 
     for z in (
         'cvContourArea', 'cvMinAreaRect2',
         'cvMatchContourTrees', 'cvCheckContourConvexity',
         'cvFitEllipse2', 'cvMaxRect', 'cvBoxPoints', 'cvPointPolygonTest',
+        'cvClearHist', 'cvNormalizeHist', 'cvThreshHist', 'cvCompareHist',
         ):
         mb.free_fun(z).include()
 
@@ -441,4 +447,12 @@ CV_COUNTER_CLOCKWISE = 2
     # TODO: fix this function cvPointSeqFromMat()
     FT.expose_func(mb.free_fun('cvPointSeqFromMat'), ward_indices=(3,2))
 
-    # 
+    # TODO: cvCreateHist, cvSetHistBinRanges, cvMakeHistHeaderForArray
+
+    # cvReleaseHist
+    FT.add_underscore(mb.free_fun('cvReleaseHist'))
+
+    # TODO: cvGetMinMaxHistValue, cvCopyHist, cvCalcArrHist, cvCalcHist
+
+
+    # TODO: wrap the rest of cv.h
