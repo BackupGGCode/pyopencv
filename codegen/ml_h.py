@@ -193,3 +193,13 @@ CV_TEST_ERROR   = 1
         ):
         FT.expose_member_as_pointee(z, t)
     mb.finalize_class(z)
+
+    # CvDTree
+    z = mb.class_('CvDTree')
+    mb.init_class(z)
+    for t in ('predict', 'get_var_importance', 'get_root', 'get_data'):
+        FT.expose_func(z.mem_fun(t), ward_indices=(1,))
+    for t in z.decls():
+        if t.access_type == 'protected':
+            t.exclude()
+    mb.finalize_class(z)
