@@ -35,7 +35,9 @@ def generate_code(mb, cc, D, FT, CP):
         mb.free_fun(lambda decl: z in decl.name).include()
 
     for z in ('DataDepth', 'Vec', 'Point', 'Size', 'Rect', 'RotatedRect',
-        'Scalar', 'Range', 'DataType', 'RNG'):
+        'Scalar', 'Range', 'DataType', 
+        'RNG', 'TermCriteria',
+        ):
         try:
             mb.classes(lambda decl: decl.name.startswith(z)).include()
         except RuntimeError:
@@ -56,6 +58,12 @@ def generate_code(mb, cc, D, FT, CP):
     mat.operators().exclude() # TODO fix these things
     for z in ('setTo', 'adjustROI'):
         mat.mem_fun(z).exclude()
+
+    for z in (
+        'getElemSize',
+        'cvarrToMat', 'extractImageCOI', 'insertImageCOI', 
+        ):
+        mb.free_fun(z).include()
 
     # TODO: expand the rest of cxcore.hpp
  
