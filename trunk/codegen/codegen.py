@@ -23,8 +23,6 @@ import function_transformers as FT
 from pyplusplus.module_builder import call_policies as CP
 from shutil import copyfile
 
-# import template_instantiations # to instantiate classes, only turn it on when you want to update file template_instantiations.h
-
 import cxerror_h # done
 import cxtypes_h # done
 import cxcore_h
