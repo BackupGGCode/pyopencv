@@ -9,15 +9,17 @@
 #include "cv.h"
 #include "cvcompat.h"
 
-#include "ml.h"
 #include "highgui.h"
+#include "highgui.hpp"
+
 #include "cxflann.h"
+
+#include "ml.h"
 
 #include "cxoperations.hpp"
 #include "cxmat.hpp"
 #include "cxcore.hpp"
 #include "cv.hpp"
-#include "highgui.hpp"
 
 #include "cvaux.hpp"
 #include "cvvidsurv.hpp"
@@ -56,13 +58,15 @@ namespace cv {
     typedef Rect_<double> Rectd;
     
     typedef Size_<double> Size2d;
-    
-    int __dummy_val = 0
+
+    CV_INLINE void __dummy_func(
+        int __dummy_val = 0
         + sizeof(DataDepth_bool) + sizeof(DataDepth_uchar) + sizeof(DataDepth_schar)
         + sizeof(DataDepth_ushort) + sizeof(DataDepth_short) + sizeof(DataDepth_int)
         + sizeof(DataDepth_float) + sizeof(DataDepth_double) + sizeof(Point2i)
         + sizeof(Point) + sizeof(Complexd) + sizeof(Complexf) + sizeof(Rectf) + sizeof(Rectd)
-        + sizeof(Point2d) + sizeof(Vec2d) + sizeof(Size2d) + sizeof(Size) + sizeof(Size2i);
+        + sizeof(Point2d) + sizeof(Vec2d) + sizeof(Size2d) + sizeof(Size) + sizeof(Size2i)
+    ) {}
 }
 
 
