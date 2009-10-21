@@ -120,6 +120,10 @@ def init_class(self, z):
     z.include()
     funs = []
     try:
+        funs.extend(z.constructors())
+    except RuntimeError:
+        pass
+    try:
         funs.extend(z.mem_funs())
     except RuntimeError:
         pass
@@ -179,6 +183,21 @@ module_builder.module_builder_t.beautify_func_list = beautify_func_list
 def finalize_class(self, z):
     """Finalizes a class z"""
     mb.beautify_func_list(z._funs)
+
+    # ignore all non-public members
+    for t in z.decls():
+        try:
+            if t.access_type != 'public':
+                t.exclude()
+        except:
+            pass
+
+    # if a function returns a pointer and does not have a call policy, create a default one for it
+    for f in z._funs:
+        if not f.ignore and f.call_policies is None and \
+            FT._T.is_ref_or_ptr(f.return_type) and not FT._T.is_ref_or_ptr(FT._T.remove_ref_or_ptr(f.return_type)):
+            f.call_policies = CP.return_internal_reference()
+
 module_builder.module_builder_t.finalize_class = finalize_class
 
 
