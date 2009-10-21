@@ -24,5 +24,30 @@ def generate_code(mb, cc, D, FT, CP):
 
     ''')
        
-    # Index
-    mb.class_('Index').include()
+    # Index: there are two classes, one from namespace 'flann', the other from namespace 'cv::flann'
+    flanns = mb.classes('Index')
+    flanns.include()
+    if flanns[0].decl_string == '::flann::Index':
+        flann_Index = flanns[0]
+        cvflann_Index = flanns[1]
+    else:
+        flann_Index = flanns[1]
+        cvflann_Index = flanns[0]
+    flann_Index.rename('flann_Index')
+    # FT.expose_member_as_pointee(cvflann_Index, 'nnIndex')
+
+    # IndexFactory classes
+    for name in (
+        'LinearIndexParams', 'KDTreeIndexParams', 'KMeansIndexParams',
+        'CompositeIndexParams', 'AutotunedIndexParams', 'SavedIndexParams', 
+        ):
+        z = mb.class_(name)
+        mb.init_class(z)
+        FT.expose_func(z.mem_fun('createIndex'))
+        mb.finalize_class(z)
+
+    # SearchParams
+    mb.class_('SearchParams').include()
+
+    mb.free_fun('hierarchicalClustering').include()
+
