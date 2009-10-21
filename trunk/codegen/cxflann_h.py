@@ -15,47 +15,14 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
-
 def generate_code(mb, cc, D, FT, CP):
     cc.write('''
 #=============================================================================
-# cxcore.hpp
+# cxflann.h
 #=============================================================================
 
 
     ''')
-
-    mb.class_('Exception').include()
-
-    for z in ('fromUtf16', 'toUtf16',
-        'setNumThreads', 'getNumThreads', 'getThreadNum',
-        'getTickCount', 'getTickFrequency',
-        'setUseOptimized', 'useOptimized',
-        ):
-        mb.free_fun(lambda decl: z in decl.name).include()
-
-    for z in ('DataDepth', 'Vec', 'Point', 'Size', 'Rect', 'RotatedRect',
-        'Scalar', 'Range', 'DataType', 'RNG'):
-        try:
-            mb.classes(lambda decl: decl.name.startswith(z)).include()
-        except RuntimeError:
-            pass
-
-    # TODO: fix these things
-    # Ptr, Complex*
-
-    # class Mat
-    mat = mb.class_('Mat')
-    mat.include()
-    for z in ('refcount', 'datastart', 'dataend'):
-        mat.var(z).exclude()
-    # TODO: expose the 'data' member as read-write buffer
-    mat.var('data').exclude()
-    FT.expose_addressof_member(mat, 'data')
-    mat.decls('ptr').exclude()
-    mat.operators().exclude() # TODO fix these things
-    for z in ('setTo', 'adjustROI'):
-        mat.mem_fun(z).exclude()
-
-    # TODO: expand the rest of cxcore.hpp
- 
+       
+    # Index
+    mb.class_('Index').include()

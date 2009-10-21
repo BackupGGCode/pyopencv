@@ -27,6 +27,7 @@ import cxerror_h # done
 import cxtypes_h # done
 import cxcore_h
 import cxcore_hpp
+import cxflann_h
 import cxmat_hpp
 import cvtypes_h # done
 import cv_h
@@ -227,6 +228,9 @@ cxcore_h.generate_code(mb, cc, D, FT, CP)
 # cxcore.hpp
 cxcore_hpp.generate_code(mb, cc, D, FT, CP)
 
+# cxflann.h
+cxflann_h.generate_code(mb, cc, D, FT, CP)
+
 # cxmat.hpp
 cxmat_hpp.generate_code(mb, cc, D, FT, CP)
 
@@ -277,12 +281,6 @@ for z in ('IPL_', 'CV_'):
         mb.decls(lambda decl: decl.name.startswith(z)).include()
     except RuntimeError:
         pass
-
-
-
-
-
-
 
 
 
