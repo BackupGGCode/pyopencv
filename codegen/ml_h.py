@@ -191,6 +191,7 @@ CV_TEST_ERROR   = 1
         'CvDTree', 'CvForestTree', 'CvRTParams', 'CvRTrees',
         'CvForestERTree', 'CvERTrees',
         'CvBoostParams', 'CvBoostTree', 'CvBoost',
+        'CvANN_MLP_TrainParams', 'CvANN_MLP',
         ):
         z = mb.class_(t)
         mb.init_class(z)
@@ -204,6 +205,6 @@ CV_TEST_ERROR   = 1
     FT.expose_member_as_pointee(z, 'missing_mask')
     mb.finalize_class(z)
 
-
+    mb.class_('CvANN_MLP').mem_fun('get_weights').exclude() # TODO: fix this func somehow
 
 
