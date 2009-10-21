@@ -2,5 +2,5 @@ Boost.Python is _not_ thread-safe. Therefore, be very careful when dealing with 
 
 cvSaveImage() in Boost Python mode doesn't work with jpg file, works with png file. Does it has anything to do with python?
 
-SWIG was used when building the official Windows binary release of OpenCV 2.0
+SWIG was used when building the ML component of the official Windows binary release of OpenCV 2.0. It was turned on when building the HighGUI component, how dummy!!
 

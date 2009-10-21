@@ -140,6 +140,12 @@ CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
         mb.class_(z).include()
     mb.insert_del_interface('CvCapture', '_PE._cvReleaseCapture')
     mb.insert_del_interface('CvVideoWriter', '_PE._cvReleaseVideoWriter')
+    
+    # CV_FOURCC -- turn it off, we've got ctypes code for it
+    try:
+        mb.free_fun('CV_FOURCC').exclude()
+    except:
+        pass
         
     # cvInitSystem
     FT.expose_func(mb.free_fun('cvInitSystem'), return_pointee=False, transformer_creators=[FT.input_dynamic_array('argv', 'argc')])

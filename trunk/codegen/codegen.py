@@ -27,7 +27,7 @@ import cxerror_h # done
 import cxtypes_h # done
 import cxcore_h
 import cxcore_hpp
-import cxflann_h
+import cxflann_h # done
 import cxmat_hpp
 import cvtypes_h # done
 import cv_h
@@ -210,6 +210,13 @@ opencv_funs = mb.free_funs(lambda decl: decl.name.startswith('cv'))
 for z in opencv_funs:
     z._transformer_creators = []
 
+# turn on 'most' of the constants
+for z in ('IPL_', 'CV_'):
+    try:
+        mb.decls(lambda decl: decl.name.startswith(z)).include()
+    except RuntimeError:
+        pass
+
 
 
 #=============================================================================
@@ -275,12 +282,6 @@ for z in opencv_funs:
     if len(z._transformer_creators) > 0:
         z.add_transformation(*z._transformer_creators)
 
-
-for z in ('IPL_', 'CV_'):
-    try:
-        mb.decls(lambda decl: decl.name.startswith(z)).include()
-    except RuntimeError:
-        pass
 
 
 
