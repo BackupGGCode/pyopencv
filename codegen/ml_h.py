@@ -135,8 +135,18 @@ CV_TEST_ERROR   = 1
     z.mem_fun('get_support_vector').exclude() # TODO: fix this function
     mb.finalize_class(z)
 
-    # CvEMParams
+    # CvEMParams # TODO: expose this class' members
     z = mb.class_('CvEMParams')
     z.include()
+    z.decls().exclude()
 
+    # CvEM
+    z = mb.class_('CvEM')
+    mb.init_class(z)
+    for t in ('get_means', 'get_weights', 'get_probs'):
+        FT.expose_func(z.mem_fun(t))
+    z.mem_fun('get_covs').exclude() # TODO: get_covs()
+    for t in ('means', 'weights', 'probs', 'log_weight_div_det', 'inv_eigen_values', 'covs', 'cov_rotate_mats'):
+        z.var(t).exclude()
+    mb.finalize_class(z)
 
