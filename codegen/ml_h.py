@@ -48,6 +48,25 @@ CV_TYPE_NAME_ML_RTREES      = "opencv-ml-random-trees"
 CV_TRAIN_ERROR  = 0
 CV_TEST_ERROR   = 1
 
+# Variable type
+CV_VAR_NUMERICAL    = 0
+CV_VAR_ORDERED      = 0
+CV_VAR_CATEGORICAL  = 1
+
+CV_TYPE_NAME_ML_SVM         = "opencv-ml-svm"
+CV_TYPE_NAME_ML_KNN         = "opencv-ml-knn"
+CV_TYPE_NAME_ML_NBAYES      = "opencv-ml-bayesian"
+CV_TYPE_NAME_ML_EM          = "opencv-ml-em"
+CV_TYPE_NAME_ML_BOOSTING    = "opencv-ml-boost-tree"
+CV_TYPE_NAME_ML_TREE        = "opencv-ml-tree"
+CV_TYPE_NAME_ML_ANN_MLP     = "opencv-ml-ann-mlp"
+CV_TYPE_NAME_ML_CNN         = "opencv-ml-cnn"
+CV_TYPE_NAME_ML_RTREES      = "opencv-ml-random-trees"
+
+CV_TRAIN_ERROR  = 0
+CV_TEST_ERROR   = 1
+
+
 
     ''')
 
@@ -61,8 +80,15 @@ CV_TEST_ERROR   = 1
     # TODO: fix member functions with arguments Cv... *
     for z in (
         'CvStatModel', 'CvParamGrid',
+        'CvNormalBayesClassifier',
         ):
         mb.class_(z).include()
         
-
+    # ParamLattice, may or may not be available
+    try:
+        mb.class_('CvParamLattice').include()
+        mb.free_fun('cvParamLattice').include()
+        mb.free_fun('cvDefaultParamLattice').include()
+    except:
+        pass
 

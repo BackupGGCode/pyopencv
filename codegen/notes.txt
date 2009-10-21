@@ -1,3 +1,6 @@
 Boost.Python is _not_ thread-safe. Therefore, be very careful when dealing with threading functions like cvSetMouseCallback, cvCreateTrackbar, etc. In the callback functions, do not invoke 'print' for example.
 
 cvSaveImage() in Boost Python mode doesn't work with jpg file, works with png file. Does it has anything to do with python?
+
+SWIG was used when building the official Windows binary release of OpenCV 2.0
+
