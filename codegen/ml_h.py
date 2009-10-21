@@ -162,3 +162,15 @@ CV_TEST_ERROR   = 1
     for t in ('subset', 'c', 'split_point'):
         z.var(t).exclude() # TODO: fix these members
     mb.finalize_class(z)
+
+    # CvDTreeNode
+    z = mb.class_('CvDTreeNode')
+    for t in ('parent', 'left', 'right', 'split'):
+        FT.expose_member_as_pointee(z, t)
+    for t in ('num_valid', 'cv_Tn', 'cv_node_risk', 'cv_node_error'):
+        z.var(t).exclude() # TODO: expose these members
+
+    # cvDTreeParams # TODO: expose 'priors'
+    z = mb.class_('CvDTreeParams')
+    z.include()
+
