@@ -80,7 +80,7 @@ CV_TEST_ERROR   = 1
     # TODO: fix member functions with arguments Cv... *
     for z in (
         'CvStatModel', 'CvParamGrid',
-        'CvNormalBayesClassifier',
+        'CvNormalBayesClassifier', 
         ):
         mb.class_(z).include()
         
@@ -91,4 +91,52 @@ CV_TEST_ERROR   = 1
         mb.free_fun('cvDefaultParamLattice').include()
     except:
         pass
+
+    # CvKNearest
+    z = mb.class_('CvKNearest')
+    mb.init_class(z)
+    for t in (
+        'write_results', 'find_neighbors_direct',
+        'find_nearest', # TODO: fix this find_nearest function
+        ):
+        z.mem_fun(t).exclude()
+    mb.finalize_class(z)
+
+    # CvSVMParams
+    z = mb.class_('CvSVMParams')
+    z.include()
+    FT.expose_member_as_pointee(z, 'class_weights')
+
+    # CvSVMKernel # TODO: fix the members of this class
+    z = mb.class_('CvSVMKernel')
+    z.include()
+    z.decls().exclude()
+
+    # CvSVMKernelRow
+    z = mb.class_('CvSVMKernelRow')
+    for t in ('prev', 'next'):
+        FT.expose_member_as_pointee(z, t)
+    z.var('data').expose_address = True # wait until requested
+
+    # CvSVMSolver # ToDO: fix this class' members
+    z = mb.class_('CvSVMSolver')
+    z.include()
+    z.decls().exclude()
+
+    # CvSVMDecisionFunc
+    z = mb.class_('CvSVMDecisionFunc')
+    z.include()
+    for t in ('alpha', 'sv_index'):
+        FT.expose_member_as_pointee(z, t)
+
+    # CvSVM # TODO: fix this class' members
+    z = mb.class_('CvSVM')
+    mb.init_class(z)
+    z.mem_fun('get_support_vector').exclude() # TODO: fix this function
+    mb.finalize_class(z)
+
+    # CvEMParams
+    z = mb.class_('CvEMParams')
+    z.include()
+
 
