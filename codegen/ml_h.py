@@ -150,3 +150,15 @@ CV_TEST_ERROR   = 1
         z.var(t).exclude()
     mb.finalize_class(z)
 
+    # CvPair16u32s # TODO: expose members
+    z = mb.class_('CvPair16u32s')
+    z.include()
+    z.decls().exclude()
+
+    # CvDTreeSplit
+    z = mb.class_('CvDTreeSplit')
+    mb.init_class(z)
+    FT.expose_member_as_pointee(z, 'next')
+    for t in ('subset', 'c', 'split_point'):
+        z.var(t).exclude() # TODO: fix these members
+    mb.finalize_class(z)
