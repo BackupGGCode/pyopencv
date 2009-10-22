@@ -437,6 +437,27 @@ CV_COMP_CHISQR       = 1
 CV_COMP_INTERSECT    = 2
 CV_COMP_BHATTACHARYYA= 3
 
+CV_VALUE = 1
+CV_ARRAY = 2
+
+CV_DIST_MASK_3 = 3
+CV_DIST_MASK_5 = 5
+CV_DIST_MASK_PRECISE = 0
+
+CV_THRESH_BINARY = 0      # value = (value > threshold) ? max_value : 0
+CV_THRESH_BINARY_INV = 1  # value = (value > threshold) ? 0 : max_value
+CV_THRESH_TRUNC = 2       # value = (value > threshold) ? threshold : value
+CV_THRESH_TOZERO = 3      # value = (value > threshold) ? value : 0
+CV_THRESH_TOZERO_INV = 4  # value = (value > threshold) ? 0 : value
+CV_THRESH_MASK = 7
+CV_THRESH_OTSU = 8        # use Otsu algorithm to choose the optimal threshold value
+
+CV_ADAPTIVE_THRESH_MEAN_C = 0
+CV_ADAPTIVE_THRESH_GAUSSIAN_C = 1
+
+CV_FLOODFILL_FIXED_RANGE = 1 << 16
+CV_FLOODFILL_MASK_ONLY = 1 << 17
+
     ''')
 
     for z in (
@@ -444,6 +465,8 @@ CV_COMP_BHATTACHARYYA= 3
         'cvMatchContourTrees', 'cvCheckContourConvexity',
         'cvFitEllipse2', 'cvMaxRect', 'cvBoxPoints', 'cvPointPolygonTest',
         'cvClearHist', 'cvNormalizeHist', 'cvThreshHist', 'cvCompareHist',
+        'cvCalcProbDensity', 'cvEqualizeHist',
+        'cvThreshold', 'cvAdaptiveThreshold', 'cvFloodFill',
         ):
         mb.free_fun(z).include()
 
@@ -552,5 +575,44 @@ def cvGetMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
     FT.expose_func(mb.free_fun('cvCalcArrHist'), return_pointee=False, transformer_creators=[FT.input_array1d('arr')])
     FT.expose_func(mb.free_fun('cvCalcHist'), return_pointee=False, transformer_creators=[FT.input_array1d('image')])
 
+    # cvCalcArrBackProject and cvCalcArrBackProjectPatch
+    for z in ('cvCalcArrBackProject', 'cvCalcArrBackProjectPatch'):
+        FT.expose_func(mb.free_fun(z), return_pointee=False, transformer_creators=[FT.input_array1d('image')])
+    cc.write('''
+cvBackProject = cvCalcArrBackProject
+cvCalcBackProjectPatch = cvCalcArrBackProjectPatch
+    ''')
+
+
+    # cvSnakeImage
+    FT.expose_func(mb.free_fun('cvSnakeImage'), return_pointee=False, transformer_creators=[
+        FT.input_array1d('alpha'), FT.input_array1d('beta'), FT.input_array1d('gamma')])
+
+    # cvCalcImageHomography
+    FT.expose_func(mb.free_fun('cvCalcImageHomography'), return_pointee=False, transformer_creators=[
+        FT.input_static_array('line', 3), FT.input_static_array('intrinsic', 9), FT.output_static_array('homography', 9)])
+
+    # cvDistTransform
+    FT.expose_func(mb.free_fun('cvDistTransform'), return_pointee=False, transformer_creators=[FT.input_array1d('mask')])
+
+
+
+    # Feature detection
+    cc.write('''
+#-----------------------------------------------------------------------------
+# Feature detection
+#-----------------------------------------------------------------------------
+
+
+CV_POLY_APPROX_DP = 0
+
+    ''')
+
+    # some functions
+    for z in (
+        'cvCanny', 'cvPreCornerDetect', 'cvCornerEigenValsAndVecs', 'cvCornerMinEigenVal', 
+        'cvCornerHarris', 'cvFindCornerSubPix',
+        ):
+        mb.free_fun(z).include()
 
     # TODO: wrap the rest of cv.h

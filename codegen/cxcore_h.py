@@ -187,7 +187,7 @@ def cvGetDiag(arr, submat=None, diag=0):
 
     ''')
 
-    # cvScalarToRawData and cvRawDataToScalar # TODO: fix these funcs
+    # cvScalarToRawData and cvRawDataToScalar # too low-level, wait until requested
 
     # cvCreateMatNDHeader
     FT.expose_func(mb.free_fun('cvCreateMatNDHeader'), ownershiplevel=1)
@@ -898,10 +898,10 @@ CV_ErrModeSilent = 2
         FT.expose_func(mb.free_fun(z), ward_indices=(1,)) 
 
     for z in (
-        'cvFirstType', 'cvFindType', # TODO: cvTypeOf
+        'cvFirstType', 'cvFindType', 
         ):
         FT.expose_func(mb.free_fun(z)) 
-
+    FT.expose_func(mb.free_fun('cvTypeOf'), transformer_creators=[FT.fix_type('struct_ptr', '::CvArr *')])
 
     # CvImage
     z = mb.class_('CvImage')
