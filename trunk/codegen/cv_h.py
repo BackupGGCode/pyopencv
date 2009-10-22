@@ -206,16 +206,26 @@ CV_TM_CCOEFF_NORMED = 5
         mb.free_fun(z).include()
         
 
-    # cvCreatePyramid, cvReleasePyramid # TODO fix these functions
+    # CvPyramid
+    z = mb.class_('CvPyramid')
+    z.include()
+    z.var('pyramid').exclude()
+
+    # cvCreatePyramid and cvReleasePyramid
+    mb.free_fun('cvCreatePyramid').exclude()
+    mb.free_fun('cvReleasePyramid').exclude()
+    z = mb.free_fun('sdCreatePyramid')
+    z.include()
+    z.rename('cvCreatePyramid')
+
 
     # cvPyrSegmentation
     FT.expose_func(mb.free_fun('cvPyrSegmentation'), ward_indices=(3,), transformer_creators=[
         FT.output_pointee('comp')])
 
-    # TODO: fix this function
     # cvCreateStructuringElementEx
-    # FT.expose_func(mb.free_fun('cvCreateStructuringElementEx'), ownershiplevel=1, transformer_creators=[
-        # FT.input_dynamic_array('values')])
+    FT.expose_func(mb.free_fun('cvCreateStructuringElementEx'), ownershiplevel=1, transformer_creators=[
+        FT.input_dynamic_array('values')])
     
 
     # cvReleaseStructuringElement
@@ -233,9 +243,17 @@ CV_TM_CCOEFF_NORMED = 5
     # cvGetPerspectiveTransform
     FT.expose_func(mb.free_fun('cvGetPerspectiveTransform'), return_arg_index=3)
 
-    # TODO: fix these functions
     # cvCalcEMD2
-
+    FT.expose_func(mb.free_fun('cvCalcEMD2'), return_pointee=False, transformer_creators=[
+        FT.distance_function('distance_func', 'userdata')])
+    mb.add_doc('cvCalcEMD2', 
+        "'distance_func' is a Python function declared as follows:",
+        "    def distance_func((int)a, (int)b, (object)userdata) -> (float)x",
+        "where",
+        "    'a' : the address of a C array of C floats representing the first vector",
+        "    'b' : the address of a C array of C floats representing the second vector",
+        "    'userdata' : the 'userdata' parameter of cvCalcEMD2()",
+        "    'x' : the resultant distance")
 
     # Contours Retrieving
     cc.write('''
