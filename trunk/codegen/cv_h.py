@@ -452,11 +452,11 @@ CV_COMP_BHATTACHARYYA= 3
 
     # cvApproxPoly
     FT.expose_func(mb.free_fun('cvApproxPoly'), ward_indices=(3,1), transformer_creators=[
-        FT.modify_type('src_seq', lambda x: D.dummy_type_t('::CvArr *'))])
+        FT.fix_type('src_seq', '::CvArr *')])
 
     # cvArcLength
     FT.expose_func(mb.free_fun('cvArcLength'), return_pointee=False, transformer_creators=[
-        FT.modify_type('curve', lambda x: D.dummy_type_t('::CvArr *'))])
+        FT.fix_type('curve', '::CvArr *')])
     cc.write('''
 def cvContourPerimeter(contour):
     return cvArcLength(contour, CV_WHOLE_SEQ, 1)
@@ -465,8 +465,9 @@ def cvContourPerimeter(contour):
     # cvFindDominantPoints
     FT.expose_func(mb.free_fun('cvFindDominantPoints'), ward_indices=(2,))
 
-    # TODO: fix these functions
     # cvMatchshapes
+    FT.expose_func(mb.free_fun('cvMatchShapes'), return_pointee=False, transformer_creators=[
+        FT.fix_type('object1', '::CvArr *'), FT.fix_type('object2', '::CvArr *')])
 
     # cvCreateContourTree
     FT.expose_func(mb.free_fun('cvCreateContourTree'), ward_indices=(2,))
@@ -474,8 +475,9 @@ def cvContourPerimeter(contour):
     # cvContourFromContourTree
     FT.expose_func(mb.free_fun('cvContourFromContourTree'), ward_indices=(2,))
 
-    # TODO: fix this function, check with ctypes-opencv
     # cvConvexHull2
+    FT.expose_func(mb.free_fun('cvConvexHull2'), ward_indices=(1,2), transformer_creators=[
+        FT.fix_type('hull_storage', '::CvArr *')])
 
     # cvConvexityDefects
     FT.expose_func(mb.free_fun('cvConvexityDefects'), ward_indices=(3,1,2))
