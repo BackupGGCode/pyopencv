@@ -221,7 +221,7 @@ CV_TM_CCOEFF_NORMED = 5
 
     # cvPyrSegmentation
     FT.expose_func(mb.free_fun('cvPyrSegmentation'), ward_indices=(3,), transformer_creators=[
-        FT.output_type1('comp')])
+        FT.output_type1('comp', ignore_call_policies=False)])
 
     # cvCreateStructuringElementEx
     FT.expose_func(mb.free_fun('cvCreateStructuringElementEx'), ownershiplevel=1, transformer_creators=[
@@ -271,8 +271,9 @@ CV_TM_CCOEFF_NORMED = 5
         mb.free_fun(z).include()
 
 
-    # TODO: fix these functions
-    # cvFindContours
+    # cvFindContours, # warning: first_contour not linked to storage, wait until requested
+    FT.expose_func(mb.free_fun('cvFindContours'), return_pointee=False, transformer_creators=[
+        FT.output_type1('first_contour')])
 
     # cvStartFindContours
     FT.expose_func(mb.free_fun('cvStartFindContours'), ownershiplevel=1, ward_indices=(2,))
@@ -321,8 +322,13 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
         mb.free_fun(z).include()
 
 
-    # TODO: fix these functions
-    # cvCalcOpticalFlowPyrLK, cvCalcAffineFlowPyrLK
+    # cvCalcOpticalFlowPyrLK
+    FT.expose_func(mb.free_fun('cvCalcOpticalFlowPyrLK'), return_pointee=False, transformer_creators=[
+        FT.input_array1d('prev_features', 'count', output_arrays={'curr_features':'1', 'status':'1', 'track_error':'1' })])
+
+    # cvCalcAffineFlowPyrLK
+    FT.expose_func(mb.free_fun('cvCalcAffineFlowPyrLK'), return_pointee=False, transformer_creators=[
+        FT.input_array1d('prev_features', 'count', output_arrays={'curr_features':'1', 'matrices':'1', 'status':'1', 'track_error':'1' })])
 
     # cvSegmentMotion
     FT.expose_func(mb.free_fun('cvSegmentMotion'), ward_indices=(3,))
@@ -343,8 +349,6 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
         ):
         mb.free_fun(z).include()
 
-
-    # TODO: fix these functions
 
     # cvCreateConDensation
     FT.expose_func(mb.free_fun('cvCreateConDensation'), ownershiplevel=1)
@@ -435,15 +439,28 @@ CV_COMP_BHATTACHARYYA= 3
     ''')
 
     for z in (
-        'cvContourArea', 'cvMinAreaRect2',
+        'cvBoundingRect', 'cvContourArea', 'cvMinAreaRect2',
         'cvMatchContourTrees', 'cvCheckContourConvexity',
         'cvFitEllipse2', 'cvMaxRect', 'cvBoxPoints', 'cvPointPolygonTest',
         'cvClearHist', 'cvNormalizeHist', 'cvThreshHist', 'cvCompareHist',
         ):
         mb.free_fun(z).include()
 
-    # TODO: fix these functions
-    # cvApproxpoly, cvArcLength, cvContourPerimeter, cvBoundingRect, cvMinEnclosingCircle
+    # cvMinEnclosingCircle
+    FT.expose_func(mb.free_fun('cvMinEnclosingCircle'), return_pointee=False, transformer_creators=[
+        FT.output_type1('center'), FT.output_type1('radius')])
+
+    # cvApproxPoly
+    FT.expose_func(mb.free_fun('cvApproxPoly'), ward_indices=(3,1), transformer_creators=[
+        FT.modify_type('src_seq', lambda x: D.dummy_type_t('::CvArr *'))])
+
+    # cvArcLength
+    FT.expose_func(mb.free_fun('cvArcLength'), return_pointee=False, transformer_creators=[
+        FT.modify_type('curve', lambda x: D.dummy_type_t('::CvArr *'))])
+    cc.write('''
+def cvContourPerimeter(contour):
+    return cvArcLength(contour, CV_WHOLE_SEQ, 1)
+    ''')
 
     # cvFindDominantPoints
     FT.expose_func(mb.free_fun('cvFindDominantPoints'), ward_indices=(2,))
@@ -521,7 +538,7 @@ def cvGetMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
 
     # cvCopyHist, special case, two transformations
     z = mb.free_fun('cvCopyHist')
-    FT.expose_func(z, ownershiplevel=1, transformer_creators=[FT.output_type1('dst')])
+    FT.expose_func(z, ownershiplevel=1, transformer_creators=[FT.output_type1('dst', ignore_call_policies=False)])
     # z.add_transformation(FT.input_double_pointee('dst')) -- wait until requested, buggy though
 
     # cvCalcBayesianProb

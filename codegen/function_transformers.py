@@ -318,9 +318,11 @@ class input_array1d_t(transformer.transformer_t):
             oo_arg = self.get_argument(key)
             ow_arg = controller.find_wrapper_arg(key)
             oetype = _D.remove_const( _D.array_item_type( oo_arg.type ) )
-            oa_arg = controller.declare_variable( _D.dummy_type_t( "std::vector < %s >" % oetype.decl_string ), key, "l_%s * %s" % (self.arg.name, self.output_arrays[key]) )
-            controller.modify_arg_expression( self.function.arguments.index(key), "b_%s? (& (%s.front())): 0" % (self.arg.name, oa_arg) )
+            oa_arg = controller.declare_variable( _D.dummy_type_t( "std::vector < %s >" % oetype.decl_string ), key, "(l_%s * %s)" % (self.arg.name, self.output_arrays[key]) )
+            controller.modify_arg_expression( self.function.arguments.index(oo_arg), "b_%s? (& (%s.front())): 0" % (self.arg.name, oa_arg) )
             controller.remove_wrapper_arg(key)
+
+            controller.return_variable("bp::tuple(%s)" % oa_arg) # TODO: check if this works
         
         # Precall code
         precall_code = """std::vector< ETYPE > v_ARRAY(l_ARRAY);
@@ -490,10 +492,11 @@ class output_type1_t( transformer.transformer_t ):
 
     where v2 is of type 'data_type'.
     Note that if 'data_type' is replaced by 'CvSomething *', v2 is still of type 'CvSomething' (i.e. the pointer is taken care of).
-    And note that the value of *v is initialized to NULL before v is passed to C function getValue().
+    And note that the value of *v is initialized to NULL (if it is a pointer) before v is passed to C function getValue().
+    And by default, call policies are ignored.
     """
 
-    def __init__(self, function, arg_ref):
+    def __init__(self, function, arg_ref, ignore_call_policies=True):
         transformer.transformer_t.__init__( self, function )
         """Constructor.
 
@@ -504,6 +507,7 @@ class output_type1_t( transformer.transformer_t ):
         """
         self.arg = self.get_argument( arg_ref )
         self.arg_index = self.function.arguments.index( self.arg )
+        self.ignore_call_policies = ignore_call_policies
 
         if not _D.is_pointer( self.arg.type ):
             raise ValueError( '%s\nin order to use "output_type1" transformation, argument %s type must be a pointer (got %s).' ) \
@@ -522,11 +526,14 @@ class output_type1_t( transformer.transformer_t ):
         #the element type
         etype = _D.remove_pointer( self.arg.type )
         #declaring new variable, which will keep result
-        var_name = controller.declare_variable( etype, self.arg.name, "=(%s)0" % etype.decl_string )
+        if _D.is_pointer(etype):
+            var_name = controller.declare_variable( etype, self.arg.name, "=(%s)0" % etype.decl_string )
+        else:
+            var_name = controller.declare_variable( etype, self.arg.name )
         #adding just declared variable to the original function call expression
         controller.modify_arg_expression( self.arg_index, "&" + var_name )
         #adding the variable to return variables list
-        controller.return_variable( 'pyplusplus::call_policies::make_object< call_policies_t, %s >( %s )' % (etype.decl_string, var_name) )
+        controller.return_variable( var_name if self.ignore_call_policies else 'pyplusplus::call_policies::make_object< call_policies_t, %s >( %s )' % (etype.decl_string, var_name) )
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
