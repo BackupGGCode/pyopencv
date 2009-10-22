@@ -519,7 +519,10 @@ def cvGetMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
     return z
     ''')
 
-    # TODO: cvCopyHist
+    # cvCopyHist, special case, two transformations
+    z = mb.free_fun('cvCopyHist')
+    FT.expose_func(z, ownershiplevel=1, transformer_creators=[FT.output_type1('dst')])
+    # z.add_transformation(FT.input_double_pointee('dst')) -- wait until requested, buggy though
 
     # cvCalcBayesianProb
     FT.expose_func(mb.free_fun('cvCalcBayesianProb'), return_pointee=False, transformer_creators=[

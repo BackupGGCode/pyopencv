@@ -261,9 +261,10 @@ class input_array1d_t(transformer.transformer_t):
 
     where v2 is a Python sequence of N items, each of which is of type 'data_type'.
     Note that if 'data_type' is replaced by 'CvSomething *', each element of v2 is still of type 'CvSomething' (i.e. the pointer is taken care of).
+    output_arrays not yet documented, sorry. no time.
     """
 
-    def __init__(self, function, arg_ref, arg_size_ref=None, remove_arg_size=True):
+    def __init__(self, function, arg_ref, arg_size_ref=None, remove_arg_size=True, output_arrays={}):
         transformer.transformer_t.__init__( self, function )
 
         self.arg = self.get_argument( arg_ref )
@@ -287,6 +288,8 @@ class input_array1d_t(transformer.transformer_t):
         self.array_item_type = _D.remove_const( _D.array_item_type( self.arg.type ) )
         self.remove_arg_size = remove_arg_size
 
+        self.output_arrays = output_arrays
+
     def __str__(self):
         if self.arg_size is not None:
             return "input_array1d(%s,%s)"%( self.arg.name, self.arg_size.name)
@@ -307,20 +310,27 @@ class input_array1d_t(transformer.transformer_t):
             #removing arg_size from the function wrapper definition
             controller.remove_wrapper_arg( self.arg_size.name )
 
-        # Precall code
-        precall_code = """int l_ARRAY = (ARRAY.ptr() != Py_None)? bp::len(ARRAY): 0;
-    std::vector< ETYPE > v_ARRAY;
-    if(l_ARRAY > 0)
-    {
-        v_ARRAY.resize(l_ARRAY);
-        for(int i_ARRAY = 0; i_ARRAY < l_ARRAY; ++i_ARRAY) v_ARRAY[i_ARRAY] = bp::extract< ETYPE >(ARRAY[i_ARRAY]);
-    }
-    """.replace("ETYPE", self.array_item_type.decl_string) \
-            .replace("ARRAY", self.arg.name)
+        b_arr = controller.declare_variable( _D.dummy_type_t('bool'), "b_%s" % self.arg.name, "= %s.ptr() != Py_None" % self.arg.name )
+        l_arr = controller.declare_variable( _D.dummy_type_t('int'), "l_%s" % self.arg.name, "= b_ARRAY? bp::len(ARRAY): 0".replace('ARRAY', self.arg.name) )
+
+        # dealing with output arrays
+        for key in self.output_arrays.keys():
+            oo_arg = self.get_argument(key)
+            ow_arg = controller.find_wrapper_arg(key)
+            oetype = _D.remove_const( _D.array_item_type( oo_arg.type ) )
+            oa_arg = controller.declare_variable( _D.dummy_type_t( "std::vector < %s >" % oetype.decl_string ), key, "l_%s * %s" % (self.arg.name, self.output_arrays[key]) )
+            controller.modify_arg_expression( self.function.arguments.index(key), "b_%s? (& (%s.front())): 0" % (self.arg.name, oa_arg) )
+            controller.remove_wrapper_arg(key)
         
+        # Precall code
+        precall_code = """std::vector< ETYPE > v_ARRAY(l_ARRAY);
+    if(l_ARRAY > 0) for(int i_ARRAY = 0; i_ARRAY < l_ARRAY; ++i_ARRAY) v_ARRAY[i_ARRAY] = bp::extract< ETYPE >(ARRAY[i_ARRAY]);
+    """.replace("ETYPE", self.array_item_type.decl_string) \
+        .replace("ARRAY", self.arg.name)
+
         controller.add_pre_call_code(precall_code)
             
-        controller.modify_arg_expression( self.arg_index, "(ARRAY.ptr() != Py_None)? (& (v_ARRAY.front())): 0".replace("ARRAY", self.arg.name) )
+        controller.modify_arg_expression( self.arg_index, "b_ARRAY? (& (v_ARRAY.front())): 0".replace("ARRAY", self.arg.name) )
         if self.remove_arg_size and self.arg_size is not None:
             controller.modify_arg_expression( self.arg_size_index, "l_ARRAY".replace("ARRAY", self.arg.name) )
 
@@ -480,6 +490,7 @@ class output_type1_t( transformer.transformer_t ):
 
     where v2 is of type 'data_type'.
     Note that if 'data_type' is replaced by 'CvSomething *', v2 is still of type 'CvSomething' (i.e. the pointer is taken care of).
+    And note that the value of *v is initialized to NULL before v is passed to C function getValue().
     """
 
     def __init__(self, function, arg_ref):
@@ -511,7 +522,7 @@ class output_type1_t( transformer.transformer_t ):
         #the element type
         etype = _D.remove_pointer( self.arg.type )
         #declaring new variable, which will keep result
-        var_name = controller.declare_variable( etype, self.arg.name )
+        var_name = controller.declare_variable( etype, self.arg.name, "=(%s)0" % etype.decl_string )
         #adding just declared variable to the original function call expression
         controller.modify_arg_expression( self.arg_index, "&" + var_name )
         #adding the variable to return variables list
@@ -543,8 +554,6 @@ def output_type1( *args, **keywd ):
     def creator( function ):
         return output_type1_t( function, *args, **keywd )
     return creator
-
-
 
 
 class trackbar_callback2_func_t(transformer.transformer_t):
