@@ -221,7 +221,7 @@ CV_TM_CCOEFF_NORMED = 5
 
     # cvPyrSegmentation
     FT.expose_func(mb.free_fun('cvPyrSegmentation'), ward_indices=(3,), transformer_creators=[
-        FT.output_pointee('comp')])
+        FT.output_type1('comp')])
 
     # cvCreateStructuringElementEx
     FT.expose_func(mb.free_fun('cvCreateStructuringElementEx'), ownershiplevel=1, transformer_creators=[

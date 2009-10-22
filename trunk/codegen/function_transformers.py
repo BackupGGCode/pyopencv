@@ -206,6 +206,7 @@ def input_double_pointee( *args, **keywd ):
         return input_double_pointee_t( function, *args, **keywd )
     return creator
 
+
 # input_string_t
 class input_string_t(transformer_t):
     """Handles a string.
@@ -468,16 +469,17 @@ def input_array2d( *args, **keywd ):
 
 
 
-# output_pointee_t
-class output_pointee_t( transformer.transformer_t ):
+# output_type1_t
+class output_type1_t( transformer.transformer_t ):
     """Handles a single output variable.
 
     The specified variable is removed from the argument list and is turned
     into a return value.
 
-    void getValue(int* v) -> v2 = getValue()
+    void getValue(data_type* v) -> v2 = getValue()
 
-    where v2 is the pointee of v
+    where v2 is of type 'data_type'.
+    Note that if 'data_type' is replaced by 'CvSomething *', each element of v2 is still of type 'CvSomething' (i.e. the pointer is taken care of).
     """
 
     def __init__(self, function, arg_ref):
@@ -493,11 +495,11 @@ class output_pointee_t( transformer.transformer_t ):
         self.arg_index = self.function.arguments.index( self.arg )
 
         if not _D.is_pointer( self.arg.type ):
-            raise ValueError( '%s\nin order to use "output_pointee" transformation, argument %s type must be a pointer (got %s).' ) \
+            raise ValueError( '%s\nin order to use "output_type1" transformation, argument %s type must be a pointer (got %s).' ) \
                   % ( function, self.arg_ref.name, arg.type)
 
     def __str__(self):
-        return "output_pointee(%d)"%(self.arg.name)
+        return "output_type1(%d)"%(self.arg.name)
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
@@ -537,9 +539,9 @@ class output_pointee_t( transformer.transformer_t ):
         self.__configure_v_mem_fun_default( controller.default_controller )
         self.__configure_v_mem_fun_override( controller.override_controller )
 
-def output_pointee( *args, **keywd ):
+def output_type1( *args, **keywd ):
     def creator( function ):
-        return output_pointee_t( function, *args, **keywd )
+        return output_type1_t( function, *args, **keywd )
     return creator
 
 
@@ -607,6 +609,7 @@ def trackbar_callback2_func( *args, **keywd ):
         return trackbar_callback2_func_t( function, *args, **keywd )
     return creator
 
+
 class mouse_callback_func_t(transformer.transformer_t):
     """Handles a CvMouseCallback argument.
 
@@ -668,6 +671,7 @@ def mouse_callback_func( *args, **keywd ):
     def creator( function ):
         return mouse_callback_func_t( function, *args, **keywd )
     return creator
+
 
 class distance_function_t(transformer.transformer_t):
     """Handles a CvMouseCallback argument.
