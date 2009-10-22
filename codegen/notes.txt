@@ -4,3 +4,4 @@ cvSaveImage() in Boost Python mode doesn't work with jpg file, works with png fi
 
 SWIG was used when building the ML component of the official Windows binary release of OpenCV 2.0. It was turned on when building the HighGUI component, how dummy!!
 
+Perhaps, TDM-GCC builds differently from MinGW GCC when mangling the C++ declaration names. Seems like C++ functions are not properly detected from the official library using MinGW. I'll work with _just the C interface_ for now.

@@ -92,10 +92,13 @@ mb.cc = cc
 # Subroutines related to writing to the __init__.py file
 # -----------------------------------------------------------------------------------------------
 
-def add_doc(self, decl_name, s):
-    """Adds a string s to the docstring of declaration f"""
+def add_doc(self, decl_name, *strings):
+    """Adds a few strings to the docstring of declaration f"""
+    if len(strings) == 0:
+        return
+    s = reduce(lambda x, y: x+y, ["\\n    [pyopencv] "+x for x in strings])
     self.cc.write('''
-str = "\\n    [pyopencv] STR"
+str = "STR"
 if DECL.__doc__ is None:
     DECL.__doc__ = str
 else:
