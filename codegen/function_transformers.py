@@ -479,7 +479,7 @@ class output_type1_t( transformer.transformer_t ):
     void getValue(data_type* v) -> v2 = getValue()
 
     where v2 is of type 'data_type'.
-    Note that if 'data_type' is replaced by 'CvSomething *', each element of v2 is still of type 'CvSomething' (i.e. the pointer is taken care of).
+    Note that if 'data_type' is replaced by 'CvSomething *', v2 is still of type 'CvSomething' (i.e. the pointer is taken care of).
     """
 
     def __init__(self, function, arg_ref):
