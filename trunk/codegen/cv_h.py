@@ -400,8 +400,9 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
     # cvSubdivDelaunay2DInsert
     FT.expose_func(mb.free_fun('cvSubdivDelaunay2DInsert'), ward_indices=(1,))
 
-    # TODO: fix this function
     # cvSubdiv2DLocate
+    FT.expose_func(mb.free_fun('cvSubdiv2DLocate'), return_pointee=False, transformer_creators=[
+        FT.output_type1('vertex')])
 
     # cvFindNearestPoint2D
     FT.expose_func(mb.free_fun('cvFindNearestPoint2D'), ward_indices=(1,))
