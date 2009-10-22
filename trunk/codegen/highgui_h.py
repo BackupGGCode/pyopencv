@@ -148,7 +148,7 @@ CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
         pass
         
     # cvInitSystem
-    FT.expose_func(mb.free_fun('cvInitSystem'), return_pointee=False, transformer_creators=[FT.input_dynamic_array('argv', 'argc')])
+    FT.expose_func(mb.free_fun('cvInitSystem'), return_pointee=False, transformer_creators=[FT.input_array1d('argv', 'argc')])
 
     # cvGetWindowHandle, wait until requested
 
@@ -207,10 +207,10 @@ def cvNamedWindow(name, flags=1):
         FT.expose_func(mb.free_fun(z), ownershiplevel=3)
 
     # cvSaveImage
-    FT.expose_func(mb.free_fun('cvSaveImage'), return_pointee=False, transformer_creators=[FT.input_dynamic_array('params')])
+    FT.expose_func(mb.free_fun('cvSaveImage'), return_pointee=False, transformer_creators=[FT.input_array1d('params')])
 
     # cvEncodeImage
-    FT.expose_func(mb.free_fun('cvEncodeImage'), transformer_creators=[FT.input_dynamic_array('params')])
+    FT.expose_func(mb.free_fun('cvEncodeImage'), transformer_creators=[FT.input_array1d('params')])
 
     # cvDestroyWindow
     z = mb.free_fun('cvDestroyWindow')
