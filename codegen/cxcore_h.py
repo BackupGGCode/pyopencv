@@ -237,7 +237,7 @@ CV_NO_SIZE_CHECK      = 4
     # cvInitNArrayIterator
     z = mb.free_fun('cvInitNArrayIterator')
     z.include()
-    z._transformer_creators.append(FT.input_dynamic_array_of_pointers('arrs', 'count'))
+    z._transformer_creators.append(FT.input_array1d('arrs', 'count'))
    
 
     # functions
@@ -274,7 +274,7 @@ def cvGetDims(arr, return_sizes=False):
     mb.free_funs(lambda f: len(f.name) == 7 and f.name.startswith('cvSet') and f.name.endswith('D')).include()
     mb.free_funs(lambda f: len(f.name) == 11 and f.name.startswith('cvSetReal') and f.name.endswith('D')).include()
     for z in ('cvGetND', 'cvGetRealND', 'cvSetND', 'cvSetRealND', 'cvClearND'):
-        mb.free_fun(z)._transformer_creators.append(FT.input_dynamic_array('idx'))
+        mb.free_fun(z)._transformer_creators.append(FT.input_array1d('idx'))
 
     # cvGetMat
     z = mb.free_fun('cvGetMat')
@@ -321,7 +321,7 @@ def cvGetImage(arr, image_header=None):
 
     # cvReshapeMatND
     FT.expose_func(mb.free_fun('cvReshapeMatND'), ward_indices=(1,), return_arg_index=3, 
-        transformer_creators=[FT.input_dynamic_array('new_sizes', 'new_dims')])
+        transformer_creators=[FT.input_array1d('new_sizes', 'new_dims')])
 
     # cvReshape
     FT.expose_func(mb.free_fun('cvReshape'), ward_indices=(1,), return_arg_index=2) 
@@ -396,9 +396,9 @@ cvCvtScaleAbs = cvConvertScaleAbs
     # CvMixChannels
     z = mb.free_fun('cvMixChannels')
     FT.add_underscore(z)
-    z._transformer_creators.append(FT.input_dynamic_array_of_pointers('src', 'src_count'))
-    z._transformer_creators.append(FT.input_dynamic_array_of_pointers('dst', 'dst_count'))
-    z._transformer_creators.append(FT.input_dynamic_array('from_to', 'pair_count', remove_arg_size=False))
+    z._transformer_creators.append(FT.input_array1d('src', 'src_count'))
+    z._transformer_creators.append(FT.input_array1d('dst', 'dst_count'))
+    z._transformer_creators.append(FT.input_array1d('from_to', 'pair_count', remove_arg_size=False))
     cc.write('''
 def cvMixChannels(src, dst, from_to):
     """void cvMixChannels(sequence_of_CvArr src, sequence_of_CvArr dst, sequence_of_int from_to)
@@ -558,7 +558,7 @@ cvMahalonobis = cvMahalanobis
     # cvCalcCovarMatrix
     z = mb.free_fun('cvCalcCovarMatrix')
     z.include()
-    z._transformer_creators.append(FT.input_dynamic_array_of_pointers('vects', 'count'))    
+    z._transformer_creators.append(FT.input_array1d('vects', 'count'))    
         
         
     # Array Statistics

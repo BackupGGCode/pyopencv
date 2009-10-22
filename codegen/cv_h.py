@@ -225,7 +225,7 @@ CV_TM_CCOEFF_NORMED = 5
 
     # cvCreateStructuringElementEx
     FT.expose_func(mb.free_fun('cvCreateStructuringElementEx'), ownershiplevel=1, transformer_creators=[
-        FT.input_dynamic_array('values')])
+        FT.input_array1d('values')])
     
 
     # cvReleaseStructuringElement
@@ -519,7 +519,11 @@ def cvGetMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
     return z
     ''')
 
-    # TODO: cvCopyHist, cvCalcBayesianProb, cvCalcArrHist, cvCalcHist
+    # TODO: cvCopyHist, cvCalcArrHist, cvCalcHist
+
+    # cvCalcBayesianProb
+    FT.expose_func(mb.free_fun('cvCalcBayesianProb'), return_pointee=False, transformer_creators=[
+        FT.input_array1d('src', 'number'), FT.input_array1d('dst')])
 
 
     # TODO: wrap the rest of cv.h

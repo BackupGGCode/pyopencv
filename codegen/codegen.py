@@ -156,7 +156,7 @@ def beautify_func_list(self, func_list):
             if arg.name == 'sizes' and D.is_pointer(arg.type):
                 for arg2 in f.arguments:
                     if arg2.name == 'dims' and D.is_integral(arg2.type):
-                        f._transformer_creators.append(FT.input_dynamic_array('sizes', 'dims'))
+                        f._transformer_creators.append(FT.input_array1d('sizes', 'dims'))
                         break
 
     # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
@@ -167,8 +167,8 @@ def beautify_func_list(self, func_list):
             if arg.name == 'src' and D.is_pointer(arg.type) and 'CvPoint2D32f' in arg.type.decl_string:
                 for arg2 in f.arguments:
                     if arg2.name == 'dst' and D.is_pointer(arg2.type) and 'CvPoint2D32f' in arg2.type.decl_string:
-                        f._transformer_creators.append(FT.input_dynamic_array('src'))
-                        f._transformer_creators.append(FT.input_dynamic_array('dst'))
+                        f._transformer_creators.append(FT.input_array1d('src'))
+                        f._transformer_creators.append(FT.input_array1d('dst'))
                         break
 
     #  argument 'void *data'
