@@ -187,7 +187,7 @@ def cvGetDiag(arr, submat=None, diag=0):
 
     ''')
 
-    # cvScalarToRawData and cvRawDataToScalar # wait until requested 
+    # cvScalarToRawData and cvRawDataToScalar # TODO: fix these funcs
 
     # cvCreateMatNDHeader
     FT.expose_func(mb.free_fun('cvCreateMatNDHeader'), ownershiplevel=1)
@@ -700,14 +700,14 @@ CV_BACK = 0
     # cvCreateSeq
     FT.expose_func(mb.free_fun('cvCreateSeq'), ward_indices=(4,)) 
         
-    # cvSeq* # wait until requested
+    # cvSeq* # TODO: fix these whole functions
 
-    # cvGetSeqElem, cvSeqElemIdx # wait until requested
+    # cvGetSeqElem, cvSeqElemIdx # TODO: fix these functions
 
     # cvEndWriteSeq
     FT.expose_func(mb.free_fun('cvEndWriteSeq'), ward_indices=(1,)) 
 
-    # cvCvtSeqToArray, cvMakeSeqHeaderForArray # wait until requested
+    # cvCvtSeqToArray, cvMakeSeqHeaderForArray # TODO: fix these funcs
 
     # cvSeqSlice
     FT.expose_func(mb.free_fun('cvSeqSlice'), ward_indices=(3,)) 
@@ -715,14 +715,14 @@ CV_BACK = 0
     # cvCloneSeq
     FT.expose_func(mb.free_fun('cvCloneSeq'), ward_indices=(2,)) 
 
-    # cvSeqSort, cvSeqSearch, cvSeqPartition # wait until requested
+    # cvSeqSort, cvSeqSearch, cvSeqPartition # TODO: fix these funcs
 
-    # cvChangeSeqBlock # wait until requested
+    # cvChangeSeqBlock # TODO: fix this func
 
     # cvCreateSet
     FT.expose_func(mb.free_fun('cvCreateSet'), ward_indices=(4,)) 
 
-    # cvSetAdd, cvSetNew, cvSetRemoveByPtr # wait until requested
+    # cvSetAdd, cvSetNew, cvSetRemoveByPtr # TODO: fix
 
     # cvGetSetElem
     FT.expose_func(mb.free_fun('cvGetSetElem'), ward_indices=(1,)) 
@@ -736,7 +736,7 @@ CV_BACK = 0
     mb.insert_del_interface('CvGraphScanner', '_PE._cvReleaseGraphScanner')
 
 
-    # this whole set of functions cvGraph*, wait until requested
+    # this whole set of functions cvGraph*, # TODO: fix these funcs
 
 
 
