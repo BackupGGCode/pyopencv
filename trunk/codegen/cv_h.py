@@ -470,11 +470,11 @@ CV_COMP_BHATTACHARYYA= 3
 
     # cvCreateHist
     FT.expose_func(mb.free_fun('cvCreateHist'), ownershiplevel=1, transformer_creators=[
-        FT.input_dynamic_double_array('ranges')])
+        FT.input_array2d('ranges')])
 
     # cvSetHistBinRanges
     FT.expose_func(mb.free_fun('cvSetHistBinRanges'), return_pointee=False, transformer_creators=[
-        FT.input_dynamic_double_array('ranges')])
+        FT.input_array2d('ranges')])
 
     # cvReleaseHist
     FT.add_underscore(mb.free_fun('cvReleaseHist'))
@@ -519,11 +519,15 @@ def cvGetMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
     return z
     ''')
 
-    # TODO: cvCopyHist, cvCalcArrHist, cvCalcHist
+    # TODO: cvCopyHist
 
     # cvCalcBayesianProb
     FT.expose_func(mb.free_fun('cvCalcBayesianProb'), return_pointee=False, transformer_creators=[
         FT.input_array1d('src', 'number'), FT.input_array1d('dst')])
+
+    # cvCalcArrHist and cvCalcHist
+    FT.expose_func(mb.free_fun('cvCalcArrHist'), return_pointee=False, transformer_creators=[FT.input_array1d('arr')])
+    FT.expose_func(mb.free_fun('cvCalcHist'), return_pointee=False, transformer_creators=[FT.input_array1d('image')])
 
 
     # TODO: wrap the rest of cv.h
