@@ -156,6 +156,11 @@ def remove_ptr( type_ ):
 # Function transfomers
 # -----------------------------------------------------------------------------------------------
 
+
+# fix_type
+def fix_type(arg, type_str):
+    return modify_type(arg, lambda x: _D.dummy_type_t(type_str))
+
 # input_double_pointee_t
 class input_double_pointee_t(transformer_t):
     """Handles a double pointee input.
