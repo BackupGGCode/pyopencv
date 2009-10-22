@@ -797,12 +797,12 @@ CV_FONT_VECTOR0 = CV_FONT_HERSHEY_SIMPLEX
     # cvFillPoly
     z = mb.free_fun('cvFillPoly')
     z.include()
-    z._transformer_creators.append(FT.input_dynamic_double_array('pts', 'npts', 'contours'))
+    z._transformer_creators.append(FT.input_array2d('pts', 'npts', 'contours'))
 
     # cvPolyLine
     z = mb.free_fun('cvPolyLine')
     z.include()
-    z._transformer_creators.append(FT.input_dynamic_double_array('pts', 'npts', 'contours'))
+    z._transformer_creators.append(FT.input_array2d('pts', 'npts', 'contours'))
 
     # CvFont
     z = mb.class_('CvFont')
