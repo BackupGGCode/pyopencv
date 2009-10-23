@@ -26,14 +26,19 @@ def generate_code(mb, cc, D, FT, CP):
 
     # FT.expose_func(mb.free_fun('cvSegmentImage'), ward_indices=(5,))
 
-    # Contour Morphing
+    # HOG (Histogram-of-Oriented-Gradients) Descriptor and Object Detector 
     cc.write('''
 #-----------------------------------------------------------------------------
-# Contour Morphing
+# HOG (Histogram-of-Oriented-Gradients) Descriptor and Object Detector 
 #-----------------------------------------------------------------------------
 
     
     ''')
+
+    # HOGDescriptor
+    z = mb.class_('HOGDescriptor')
+    mb.init_class(z)
+    mb.finalize_class(z)
 
     # functions -- not in cvaux200.dll.a!!!
     # FT.expose_func(mb.free_fun('cvCalcContoursCorrespondence'), ward_indices=(3,))
