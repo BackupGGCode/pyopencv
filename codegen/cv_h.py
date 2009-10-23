@@ -271,7 +271,7 @@ CV_TM_CCOEFF_NORMED = 5
         mb.free_fun(z).include()
 
 
-    # cvFindContours, # warning: first_contour not linked to storage, wait until requested
+    # cvFindContours, # warning: first_contour not linked to storage, wait until requested # TODO: similar to cvExtractSURF
     FT.expose_func(mb.free_fun('cvFindContours'), return_pointee=False, transformer_creators=[
         FT.output_type1('first_contour')])
 
@@ -622,6 +622,7 @@ CV_HOUGH_GRADIENT = 3
         'LSHSize', 'cvLSHAdd', 'cvLSHRemove', 'cvLSHQuery',
         'cvSURFPoint', 'cvSURFParams',
         'cvMSERParams',
+        'cvStarKeypoint', 'cvStarDetectorParams',
         ):
         mb.free_fun(z).include()
 
@@ -658,12 +659,33 @@ CV_HOUGH_GRADIENT = 3
     FT.add_underscore(mb.free_fun('cvReleaseLSH'))
 
     # cvExtractSURF
-    FT.expose_func(mb.free_fun('cvExtractSURF'), return_pointee=False, transformer_creators=[
+    z = mb.free_fun('cvExtractSURF')
+    FT.add_underscore(z)
+    FT.expose_func(z, return_pointee=False, transformer_creators=[
         FT.inout_type1('keypoints'), FT.output_type1('descriptors')])
+    cc.write('''
+def cvExtractSURF(img, mask, keypoints, storage, params, useProvidedKeyPts=0):
+    keypoints, descriptors = _PE._cvExtractSURF(img, mask, keypoints, storage, params, useProvidedKeysPts=useProvidedKeyPts)
+    keypoints._depends = (storage,)
+    descriptors._depends = (storage,)
+    return keypoints, descriptors
+cvExtractSURF.__doc__ = _PE._cvExtractSURF.__doc__
+    ''')
     mb.add_doc('cvExtractSURF', "both output 'keypoints' and 'descriptors' are returned")
 
     # cvExtractMSER
-    FT.expose_func(mb.free_fun('cvExtractMSER'), return_pointee=False, transformer_creators=[
+    z = mb.free_fun('cvExtractMSER')
+    FT.add_underscore(z)
+    FT.expose_func(z, return_pointee=False, transformer_creators=[
         FT.output_type1('contours')])
+    cc.write('''
+def cvExtractMSER(img, mask, storage, params):
+    contours = _PE._cvExtractMSER(img, mask, storage, params)
+    contours._depends = (storage,)
+cvExtractMSER.__doc__ = _PE._cvExtractMSER.__doc__
+    ''')
+
+    # cvGetStarKeypoints
+    FT.expose_func(mb.free_fun('cvGetStarKeypoints'), ward_indices=(2,))
 
     # TODO: wrap the rest of cv.h
