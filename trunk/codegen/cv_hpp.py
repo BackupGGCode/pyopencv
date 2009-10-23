@@ -18,7 +18,7 @@
 def generate_code(mb, cc, D, FT, CP):
     cc.write('''
 #=============================================================================
-# cvaux.hpp
+# cv.hpp
 #=============================================================================
 
 
@@ -26,10 +26,10 @@ def generate_code(mb, cc, D, FT, CP):
 
     # FT.expose_func(mb.free_fun('cvSegmentImage'), ward_indices=(5,))
 
-    # HOG (Histogram-of-Oriented-Gradients) Descriptor and Object Detector 
+    # TBD
     cc.write('''
 #-----------------------------------------------------------------------------
-# HOG (Histogram-of-Oriented-Gradients) Descriptor and Object Detector 
+# TBD
 #-----------------------------------------------------------------------------
 
     
@@ -37,8 +37,7 @@ def generate_code(mb, cc, D, FT, CP):
 
     # classes
     for t in (
-        'HOGDescriptor', 'SelfSimDescriptor', 'PatchGenerator', 
-        # 'LDetector', # TODO: due to vector<KeyPoint>
+        'KeyPoint',
         ):
         z = mb.class_(t)
         mb.init_class(z)
@@ -46,4 +45,6 @@ def generate_code(mb, cc, D, FT, CP):
 
 
 
-    # TODO: wrap the rest of cvaux.hpp
+
+        
+    # TODO: wrap the rest of cv.hpp
