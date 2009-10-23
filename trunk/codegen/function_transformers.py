@@ -568,6 +568,83 @@ def output_type1( *args, **keywd ):
     return creator
 
 
+# inout_type1_t
+class inout_type1_t( transformer.transformer_t ):
+    """Handles a single inout variable.
+
+    void getValue(data_type* v) -> v2 = getValue(v1)
+
+    where v1 and v2 are of type 'data_type'. v1 represents *v as input and v2 represents *v as output.
+    Note that if 'data_type' is replaced by 'CvSomething *', v1 and v2 are still of type 'CvSomething' (i.e. the pointer is taken care of).
+    And by default, call policies are ignored.
+    """
+
+    def __init__(self, function, arg_ref, ignore_call_policies=True):
+        transformer.transformer_t.__init__( self, function )
+        """Constructor.
+
+        The specified argument must be a reference or a pointer.
+
+        :param arg_ref: Index of the argument that is an output value.
+        :type arg_ref: int
+        """
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+        self.ignore_call_policies = ignore_call_policies
+
+        if not _D.is_pointer( self.arg.type ):
+            raise ValueError( '%s\nin order to use "inout_type1" transformation, argument %s type must be a pointer (got %s).' ) \
+                  % ( function, self.arg_ref.name, arg.type)
+
+    def __str__(self):
+        return "inout_type1(%d)"%(self.arg.name)
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return [ code_repository.convenience.file_name ]
+
+    def __configure_sealed( self, controller ):
+        #the element type
+        etype = _D.remove_pointer( self.arg.type )
+
+        # wrapper argument
+        w_arg = controller.find_wrapper_arg( self.arg.name )
+        w_arg.type = etype
+
+        #adding wrapper argument to the original function call expression
+        controller.modify_arg_expression( self.arg_index, "&" + self.arg.name )
+
+        #adding the variable to return variables list
+        controller.return_variable( self.arg.name if self.ignore_call_policies else 'pyplusplus::call_policies::make_object< call_policies_t, %s >( %s )' % (etype.decl_string, self.arg.name ) )
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def __configure_v_mem_fun_override( self, controller ):
+        controller.remove_py_arg( self.arg_index )
+        tmpl = string.Template(
+            '$name = boost::python::extract< $type >( pyplus_conv::get_out_argument( $py_result, "$name" ) );' )
+        store_py_result_in_arg = tmpl.substitute( name=self.arg.name
+                                                  , type=remove_ref_or_ptr( self.arg.type ).decl_string
+                                                  , py_result=controller.py_result_variable.name )
+        controller.add_py_post_call_code( store_py_result_in_arg )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+        self.__configure_v_mem_fun_override( controller.override_controller )
+
+def inout_type1( *args, **keywd ):
+    def creator( function ):
+        return inout_type1_t( function, *args, **keywd )
+    return creator
+
+
 class trackbar_callback2_func_t(transformer.transformer_t):
     """Handles a CvMouseCallback argument.
 
