@@ -32,6 +32,7 @@ import cxmat_hpp
 import cvtypes_h # done
 import cv_h
 import cvcompat_h
+import cvaux_h
 import highgui_h # done
 import highgui_hpp # done
 import ml_h
@@ -271,6 +272,9 @@ cv_h.generate_code(mb, cc, D, FT, CP)
 
 # cvcompat.h
 cvcompat_h.generate_code(mb, cc, D, FT, CP)
+
+# cvaux.h
+cvaux_h.generate_code(mb, cc, D, FT, CP)
 
 # ml.h
 ml_h.generate_code(mb, cc, D, FT, CP)
