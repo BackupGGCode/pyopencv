@@ -31,6 +31,7 @@ import cxflann_h # done
 import cxmat_hpp
 import cvtypes_h # done
 import cv_h
+import cv_hpp
 import cvcompat_h
 import cvaux_h
 import cvaux_hpp
@@ -270,6 +271,9 @@ cvtypes_h.generate_code(mb, cc, D, FT, CP)
 
 # cv.h
 cv_h.generate_code(mb, cc, D, FT, CP)
+
+# cv.hpp
+cv_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cvcompat.h
 cvcompat_h.generate_code(mb, cc, D, FT, CP)
