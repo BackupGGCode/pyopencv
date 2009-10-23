@@ -27,7 +27,7 @@ def generate_code(mb, cc, D, FT, CP):
     # Data Structures in cv.h
     # pointers which are not Cv... * are excluded until further requested
     for z in (
-        'CvFeatureTree', 'CvLSH', 'CvLSHOperations',
+        'CvLSHOperations',
         'CvSURFPoint', 'CvSURFParams',
         'CvMSERParams', 
         'CvStarKeypoint',
@@ -606,13 +606,64 @@ cvCalcBackProjectPatch = cvCalcArrBackProjectPatch
 
 CV_POLY_APPROX_DP = 0
 
+CV_HOUGH_STANDARD = 0
+CV_HOUGH_PROBABILISTIC = 1
+CV_HOUGH_MULTI_SCALE = 2
+CV_HOUGH_GRADIENT = 3
+
     ''')
 
     # some functions
     for z in (
         'cvCanny', 'cvPreCornerDetect', 'cvCornerEigenValsAndVecs', 'cvCornerMinEigenVal', 
         'cvCornerHarris', 'cvFindCornerSubPix',
+        'cvFitLine',
+        'cvFindFeatures', 'cvFindFeaturesBoxed',
+        'LSHSize', 'cvLSHAdd', 'cvLSHRemove', 'cvLSHQuery',
+        'cvSURFPoint', 'cvSURFParams',
+        'cvMSERParams',
         ):
         mb.free_fun(z).include()
+
+    # TODO: cvGoodFeatureToTrack
+
+    # cvHoughLines2
+    FT.expose_func(mb.free_fun('cvHoughLines2'), ward_indices=(2,1), transformer_creators=[
+        FT.fix_type('line_storage', '::CvArr *')])
+
+    # cvHoughCircles
+    FT.expose_func(mb.free_fun('cvHoughCircles'), ward_indices=(2,1), transformer_creators=[
+        FT.fix_type('circle_storage', '::CvArr *')])
+    
+    # CvFeatureTree
+    mb.class_('CvFeatureTree').include()
+    mb.insert_del_interface('CvFeatureTree', '_PE._cvReleaseFeatureTree')
+
+    # cvCreateKDTree and cvCreateSpillTree
+    for z in ('cvCreateKDTree', 'cvCreateSpillTree'):
+        FT.expose_func(mb.free_fun(z), ownershiplevel=1, ward_indices=(1,))
+
+    # cvReleaseFeatureTree
+    FT.add_underscore(mb.free_fun('cvReleaseFeatureTree'))
+
+    # CvLSH
+    mb.class_('CvLSH').include()
+    mb.insert_del_interface('CvLSH', '_PE._cvReleaseLSH')
+
+    # cvCreateLSH and cvCreateMemoryLSH
+    for z in ('cvCreateLSH', 'cvCreateMemoryLSH'):
+        FT.expose_func(mb.free_fun(z), ownershiplevel=1)
+
+    # cvReleaseLSH
+    FT.add_underscore(mb.free_fun('cvReleaseLSH'))
+
+    # cvExtractSURF
+    FT.expose_func(mb.free_fun('cvExtractSURF'), return_pointee=False, transformer_creators=[
+        FT.inout_type1('keypoints'), FT.output_type1('descriptors')])
+    mb.add_doc('cvExtractSURF', "both output 'keypoints' and 'descriptors' are returned")
+
+    # cvExtractMSER
+    FT.expose_func(mb.free_fun('cvExtractMSER'), return_pointee=False, transformer_creators=[
+        FT.output_type1('contours')])
 
     # TODO: wrap the rest of cv.h

@@ -1175,7 +1175,7 @@ CvMemBlock;
 
 #define CV_STORAGE_MAGIC_VAL    0x42890000
 
-typedef struct CvMemStorage
+typedef struct CvMemStorage : CvArr
 {
     int signature;
     CvMemBlock* bottom;           /* First allocated block.                   */
