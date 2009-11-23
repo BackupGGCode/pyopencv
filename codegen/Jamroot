@@ -36,7 +36,7 @@ lib opencv
 python-extension pyopencvext 
   : [ glob M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen/code/*.cpp ] opencv 
 #  : opencv 
-  : <include>M:/programming/packages/opencv/2.0_mgw440/include <link>shared
+  : <include>M:/programming/packages/opencv/2.0_mgw440/include <include>numpy_include <link>shared
   : ;
 
 # A little "rule" (function) to clean up the syntax of declaring tests
