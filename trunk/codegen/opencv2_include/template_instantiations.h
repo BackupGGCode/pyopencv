@@ -83,6 +83,46 @@ namespace cv {
     #endif
 
 
+    #ifndef vector_bool
+    typedef vector < bool > vector_bool;
+    #endif
+
+
+    #ifndef vector_uchar
+    typedef vector < uchar > vector_uchar;
+    #endif
+
+
+    #ifndef vector_schar
+    typedef vector < schar > vector_schar;
+    #endif
+
+
+    #ifndef vector_ushort
+    typedef vector < ushort > vector_ushort;
+    #endif
+
+
+    #ifndef vector_short
+    typedef vector < short > vector_short;
+    #endif
+
+
+    #ifndef vector_int
+    typedef vector < int > vector_int;
+    #endif
+
+
+    #ifndef vector_float
+    typedef vector < float > vector_float;
+    #endif
+
+
+    #ifndef vector_double
+    typedef vector < double > vector_double;
+    #endif
+
+
     #ifndef DataType_Range
     typedef DataType < Range > DataType_Range;
     #endif
@@ -274,63 +314,70 @@ namespace cv {
 
 
 
-    CV_INLINE void __dummy_func(
-        int __dummy_var = 0
-            + sizeof(DataDepth_bool)
-            + sizeof(DataDepth_uchar)
-            + sizeof(DataDepth_schar)
-            + sizeof(DataDepth_ushort)
-            + sizeof(DataDepth_short)
-            + sizeof(DataDepth_int)
-            + sizeof(DataDepth_float)
-            + sizeof(DataDepth_double)
-            + sizeof(DataType_bool)
-            + sizeof(DataType_uchar)
-            + sizeof(DataType_schar)
-            + sizeof(DataType_ushort)
-            + sizeof(DataType_short)
-            + sizeof(DataType_int)
-            + sizeof(DataType_float)
-            + sizeof(DataType_double)
-            + sizeof(DataType_Range)
-            + sizeof(Rect)
-            + sizeof(Rectf)
-            + sizeof(Rectd)
-            + sizeof(Size)
-            + sizeof(Size2i)
-            + sizeof(Size2f)
-            + sizeof(Size2d)
-            + sizeof(Complexf)
-            + sizeof(Complexd)
-            + sizeof(Point)
-            + sizeof(Point2i)
-            + sizeof(Point2f)
-            + sizeof(Point2d)
-            + sizeof(Point3i)
-            + sizeof(Point3f)
-            + sizeof(Point3d)
-            + sizeof(Scalar)
-            + sizeof(Vec2b)
-            + sizeof(Vec3b)
-            + sizeof(Vec4b)
-            + sizeof(Vec2s)
-            + sizeof(Vec3s)
-            + sizeof(Vec4s)
-            + sizeof(Vec2w)
-            + sizeof(Vec3w)
-            + sizeof(Vec4w)
-            + sizeof(Vec2i)
-            + sizeof(Vec3i)
-            + sizeof(Vec4i)
-            + sizeof(Vec2f)
-            + sizeof(Vec3f)
-            + sizeof(Vec4f)
-            + sizeof(Vec6f)
-            + sizeof(Vec2d)
-            + sizeof(Vec3d)
-            + sizeof(Vec4d)
-            + sizeof(Vec6d)
-    ) {}
+    struct __dummy_struct {
+         DataDepth_bool var0;
+         DataDepth_uchar var1;
+         DataDepth_schar var2;
+         DataDepth_ushort var3;
+         DataDepth_short var4;
+         DataDepth_int var5;
+         DataDepth_float var6;
+         DataDepth_double var7;
+         DataType_bool var8;
+         DataType_uchar var9;
+         DataType_schar var10;
+         DataType_ushort var11;
+         DataType_short var12;
+         DataType_int var13;
+         DataType_float var14;
+         DataType_double var15;
+         vector_bool var16;
+         vector_uchar var17;
+         vector_schar var18;
+         vector_ushort var19;
+         vector_short var20;
+         vector_int var21;
+         vector_float var22;
+         vector_double var23;
+         DataType_Range var24;
+         Rect var25;
+         Rectf var26;
+         Rectd var27;
+         Size var28;
+         Size2i var29;
+         Size2f var30;
+         Size2d var31;
+         Complexf var32;
+         Complexd var33;
+         Point var34;
+         Point2i var35;
+         Point2f var36;
+         Point2d var37;
+         Point3i var38;
+         Point3f var39;
+         Point3d var40;
+         Scalar var41;
+         Vec2b var42;
+         Vec3b var43;
+         Vec4b var44;
+         Vec2s var45;
+         Vec3s var46;
+         Vec4s var47;
+         Vec2w var48;
+         Vec3w var49;
+         Vec4w var50;
+         Vec2i var51;
+         Vec3i var52;
+         Vec4i var53;
+         Vec2f var54;
+         Vec3f var55;
+         Vec4f var56;
+         Vec6f var57;
+         Vec2d var58;
+         Vec3d var59;
+         Vec4d var60;
+         Vec6d var61;
+    };
 }
 
 #endif

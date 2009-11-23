@@ -644,7 +644,76 @@ def inout_type1( *args, **keywd ):
         return inout_type1_t( function, *args, **keywd )
     return creator
 
+    
+    
 
+# input_ndarray_as_t
+class input_ndarray_as_t(transformer_t):
+    """Converts an ndarray into a type of OpenCV.
+    
+        do_smth(bp::numeric::array V) -> do_smth(your_cv_type v)
+
+    Right now compiler should be able to use implicit conversion
+    """
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "input_ndarray_as(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg( self.arg.name )
+        w_arg.type = _D.dummy_type_t( "boost::python::numeric::array &" )
+        dtype = _D.remove_const(_D.remove_reference(self.arg.type))
+        
+        v = controller.declare_variable( dtype, self.arg.name )
+        
+        controller.add_pre_call_code("convert_ndarray_to< %s >(%s, %s);" % (dtype.decl_string, w_arg.name, v))        
+        controller.modify_arg_expression( self.arg_index, v )
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["boost/python/numeric.hpp"]
+
+def input_ndarray_as( *args, **keywd ):
+    def creator( function ):
+        return input_ndarray_as_t( function, *args, **keywd )
+    return creator
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 class trackbar_callback2_func_t(transformer.transformer_t):
     """Handles a CvMouseCallback argument.
 
@@ -666,7 +735,7 @@ class trackbar_callback2_func_t(transformer.transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return ["boost/python/object.hpp", "boost/python/tuple.hpp" ]
+        return ["boost/python/object.hpp", "boost/python/tuple.hpp", "opencv_extra.hpp" ]
 
     def __configure_sealed(self, controller):
         w_arg1 = controller.find_wrapper_arg( self.arg1.name )
@@ -729,7 +798,7 @@ class mouse_callback_func_t(transformer.transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return ["boost/python/object.hpp", "boost/python/tuple.hpp" ]
+        return ["boost/python/object.hpp", "boost/python/tuple.hpp", "opencv_extra.hpp" ]
 
     def __configure_sealed(self, controller):
         w_arg1 = controller.find_wrapper_arg( self.arg1.name )

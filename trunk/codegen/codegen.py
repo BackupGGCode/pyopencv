@@ -23,29 +23,29 @@ import function_transformers as FT
 from pyplusplus.module_builder import call_policies as CP
 from shutil import copyfile
 
-import cxerror_h # done
-import cxtypes_h # done
-import cxcore_h
-import cxcore_hpp
-import cxflann_h # done
-import cxmat_hpp
-import cvtypes_h # done
-import cv_h
-import cv_hpp
-import cvcompat_h
-import cvaux_h
-import cvaux_hpp
+# import cxerror_h # done
+# import cxtypes_h # done
+# import cxcore_h
+# import cxcore_hpp
+# import cxflann_h # done
+# import cxmat_hpp
+# import cvtypes_h # done
+# import cv_h
+# import cv_hpp
+# import cvcompat_h
+# import cvaux_h
+# import cvaux_hpp
 import highgui_h # done
 import highgui_hpp # done
-import ml_h
+# import ml_h
 
 #Creating an instance of class that will help you to expose your declarations
 mb = module_builder.module_builder_t(
-    ["opencv.hpp",],
+    ["opencv_headers.hpp",],
     gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe",
     working_directory=r"M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen",
     include_paths=[
-        r"M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen/opencv2_include",
+        r"M:\programming\packages\OpenCV\build\2.0_mgw440\include",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++\mingw32",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include",
@@ -249,43 +249,43 @@ for z in ('IPL_', 'CV_'):
 #=============================================================================
 
 # cxerror.h
-cxerror_h.generate_code(mb, cc, D, FT, CP)
+# cxerror_h.generate_code(mb, cc, D, FT, CP)
 
 # cxtypes.h
-cxtypes_h.generate_code(mb, cc, D, FT, CP)
+# cxtypes_h.generate_code(mb, cc, D, FT, CP)
 
 # cxcore.h
-cxcore_h.generate_code(mb, cc, D, FT, CP)
+# cxcore_h.generate_code(mb, cc, D, FT, CP)
 
 # cxcore.hpp
-cxcore_hpp.generate_code(mb, cc, D, FT, CP)
+# cxcore_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cxflann.h
-cxflann_h.generate_code(mb, cc, D, FT, CP)
+# cxflann_h.generate_code(mb, cc, D, FT, CP)
 
 # cxmat.hpp
-cxmat_hpp.generate_code(mb, cc, D, FT, CP)
+# cxmat_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cvtypes.h
-cvtypes_h.generate_code(mb, cc, D, FT, CP)
+# cvtypes_h.generate_code(mb, cc, D, FT, CP)
 
 # cv.h
-cv_h.generate_code(mb, cc, D, FT, CP)
+# cv_h.generate_code(mb, cc, D, FT, CP)
 
 # cv.hpp
-cv_hpp.generate_code(mb, cc, D, FT, CP)
+# cv_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cvcompat.h
-cvcompat_h.generate_code(mb, cc, D, FT, CP)
+# cvcompat_h.generate_code(mb, cc, D, FT, CP)
 
 # cvaux.h
-cvaux_h.generate_code(mb, cc, D, FT, CP)
+# cvaux_h.generate_code(mb, cc, D, FT, CP)
 
 # cvaux.hpp
-cvaux_hpp.generate_code(mb, cc, D, FT, CP)
+# cvaux_hpp.generate_code(mb, cc, D, FT, CP)
 
 # ml.h
-ml_h.generate_code(mb, cc, D, FT, CP)
+# ml_h.generate_code(mb, cc, D, FT, CP)
 
 # highgui.h
 highgui_h.generate_code(mb, cc, D, FT, CP)
@@ -315,8 +315,14 @@ for z in ('hdr_refcount', 'refcount'): # too low-level
 for z in opencv_funs:
     if len(z._transformer_creators) > 0:
         z.add_transformation(*z._transformer_creators)
+        
+        
+mb.add_registration_code("boost::python::numeric::array::set_module_and_type(\"numpy\", \"ndarray\");")
 
 
+# z = mb.class_('__dummy_struct')
+# for t in z.vars():
+    # mb.decl(t.type.decl_string).include()
 
 
 
@@ -353,5 +359,7 @@ mb.build_code_creator( module_name='pyopencvext' )
 mb.split_module( 'code' )
 
 #Write the remaining files
-copyfile('extra_src/opencv_extra.cpp', 'code/opencv_extra.cpp')
+# copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
+# copyfile('opencv_extra.hpp', 'code/opencv_extra.hpp')
+copyfile('opencv_extra.cpp', 'code/opencv_extra.cpp')
 
