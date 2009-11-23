@@ -651,7 +651,7 @@ def inout_type1( *args, **keywd ):
 class input_ndarray_t(transformer_t):
     """Converts an ndarray into a type of OpenCV.
     
-        do_smth(bp::numeric::array V) -> do_smth(your_cv_type v)
+        do_smth(bp::object V) -> do_smth(your_cv_type v)
 
     Right now compiler should be able to use implicit conversion
     """
@@ -666,6 +666,7 @@ class input_ndarray_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg(self.arg.name)
+        w_arg.type = _D.dummy_type_t( "bp::object" )
         dtype = self.arg.type
         if dtype == _D.dummy_type_t("::IplImage *") \
             or dtype == _D.dummy_type_t("::IplImage const *") \
@@ -673,7 +674,6 @@ class input_ndarray_t(transformer_t):
             or dtype == _D.dummy_type_t("::CvMat const *") \
             or dtype == _D.dummy_type_t("::CvArr *") \
             or dtype == _D.dummy_type_t("::CvArr const *"):
-            w_arg.type = _D.dummy_type_t( "bp::object &" )
             if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
                 w_arg.default_value = 'bp::object()'
             etype = _D.remove_const(_D.remove_pointer(dtype))
@@ -684,7 +684,7 @@ class input_ndarray_t(transformer_t):
             controller.add_pre_call_code('''
     if(W.ptr() != Py_None)
     {
-        convert_ndarray_to< cv::Mat >(static_cast<bp::numeric::array>(W), V2);
+        convert_ndarray_to< cv::Mat >(W, V2);
         V1 = V2;
     }
             '''.replace("W", w_arg.name).replace("V1", v1).replace("V2", v2))
@@ -694,18 +694,16 @@ class input_ndarray_t(transformer_t):
             or dtype == _D.dummy_type_t("::cv::Mat const &") \
             or dtype == _D.dummy_type_t("::cv::Mat") \
             or dtype == _D.dummy_type_t("::cv::Mat const"):
-            w_arg.type = _D.dummy_type_t( "bp::numeric::array &" )
             etype = _D.remove_const(_D.remove_reference(dtype))
             v = controller.declare_variable( etype, self.arg.name )
             controller.add_pre_call_code("convert_ndarray_to< %s >(%s, %s);" % (etype.decl_string, w_arg.name, v))
             controller.modify_arg_expression( self.arg_index, v )
         elif "::std::vector<int" in dtype.decl_string:
-            w_arg.type = _D.dummy_type_t( "bp::object" )
             if self.arg.default_value is not None: # be careful with this default value
                 w_arg.default_value = 'bp::object()'
             etype = _D.remove_const(_D.remove_reference(dtype))
             v = controller.declare_variable( etype, self.arg.name )
-            controller.add_pre_call_code("if(W.ptr() != Py_None) convert_ndarray_to< std::vector<int> >(static_cast<bp::numeric::array>(W), V);".replace("W", w_arg.name).replace("V", v))
+            controller.add_pre_call_code("if(W.ptr() != Py_None) convert_ndarray_to< std::vector<int> >(W, V);".replace("W", w_arg.name).replace("V", v))
             controller.modify_arg_expression( self.arg_index, v )
 
     def __configure_v_mem_fun_default( self, controller ):
