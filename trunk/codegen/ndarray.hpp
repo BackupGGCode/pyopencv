@@ -1,9 +1,9 @@
-// Copyright David Abrahams 2002.
+// Copyright Minh-Tri Pham 2009.
 // Distributed under the Boost Software License, Version 1.0. (See
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
-#ifndef NUMARRAY_DWA2002922_HPP
-# define NUMARRAY_DWA2002922_HPP
+#ifndef SD_NDARRAY_HPP
+# define SD_NDARRAY_HPP
 
 # include <boost/python/detail/prefix.hpp>
 
@@ -14,17 +14,18 @@
 # include <boost/preprocessor/repetition/enum.hpp>
 # include <boost/preprocessor/repetition/enum_params.hpp>
 # include <boost/preprocessor/repetition/enum_binary_params.hpp>
+# include <boost/python/numeric.hpp>
 
 namespace boost { namespace python { namespace numeric {
 
-class array;
+class ndarray;
 
 namespace aux
 {
-  struct BOOST_PYTHON_DECL array_base : object
+  struct BOOST_PYTHON_DECL ndarray_base : object
   {
 # define BOOST_PP_LOCAL_MACRO(n)                                \
-      array_base(BOOST_PP_ENUM_PARAMS_Z(1, n, object const& x));
+      ndarray_base(BOOST_PP_ENUM_PARAMS_Z(1, n, object const& x));
 # define BOOST_PP_LOCAL_LIMITS (1, 7)
 # include BOOST_PP_LOCAL_ITERATE()
 
@@ -38,7 +39,7 @@ namespace aux
       void info() const;
       bool is_c_array() const;
       bool isbyteswapped() const;
-      array new_(object type) const;
+      ndarray new_(object type) const;
       void sort();
       object trace(long offset = 0, long axis1 = 0, long axis2 = 1) const;
       object type() const;
@@ -85,20 +86,13 @@ namespace aux
       object view() const;
 
    public: // implementation detail - do not touch.
-      BOOST_PYTHON_FORWARD_OBJECT_CONSTRUCTORS(array_base, object);
-  };
-
-  struct BOOST_PYTHON_DECL array_object_manager_traits
-  {
-      static bool check(PyObject* obj);
-      static detail::new_non_null_reference adopt(PyObject* obj);
-      static PyTypeObject const* get_pytype() ;
+      BOOST_PYTHON_FORWARD_OBJECT_CONSTRUCTORS(ndarray_base, object);
   };
 } // namespace aux
 
-class array : public aux::array_base
+class ndarray : public aux::ndarray_base
 {
-    typedef aux::array_base base;
+    typedef aux::ndarray_base base;
  public:
 
     object astype() { return base::astype(); }
@@ -110,7 +104,7 @@ class array : public aux::array_base
     }
 
     template <class Type>
-    array new_(Type const& type_) const
+    ndarray new_(Type const& type_) const
     {
         return base::new_(object(type_));
     }
@@ -211,7 +205,7 @@ class array : public aux::array_base
 # define BOOST_PYTHON_ENUM_AS_OBJECT(z, n, x) object(BOOST_PP_CAT(x,n))
 # define BOOST_PP_LOCAL_MACRO(n)                                        \
     template <BOOST_PP_ENUM_PARAMS_Z(1, n, class T)>                    \
-    explicit array(BOOST_PP_ENUM_BINARY_PARAMS_Z(1, n, T, const& x))    \
+    explicit ndarray(BOOST_PP_ENUM_BINARY_PARAMS_Z(1, n, T, const& x))    \
     : base(BOOST_PP_ENUM_1(n, BOOST_PYTHON_ENUM_AS_OBJECT, x))          \
     {}
 # define BOOST_PP_LOCAL_LIMITS (1, 7)
@@ -222,7 +216,7 @@ class array : public aux::array_base
     static BOOST_PYTHON_DECL std::string get_module_name();
 
  public: // implementation detail -- for internal use only
-    BOOST_PYTHON_FORWARD_OBJECT_CONSTRUCTORS(array, base);
+    BOOST_PYTHON_FORWARD_OBJECT_CONSTRUCTORS(ndarray, base);
 };
 
 } // namespace boost::python::numeric
@@ -230,7 +224,7 @@ class array : public aux::array_base
 namespace converter
 {
   template <>
-  struct object_manager_traits< numeric::array >
+  struct object_manager_traits< numeric::ndarray >
       : numeric::aux::array_object_manager_traits
   {
       BOOST_STATIC_CONSTANT(bool, is_specialized = true);
@@ -239,4 +233,4 @@ namespace converter
 
 }} // namespace boost::python
 
-#endif // NUMARRAY_DWA2002922_HPP
+#endif // SD_NDARRAY_HPP

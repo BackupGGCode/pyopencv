@@ -7,7 +7,7 @@
 #include "boost/python/object.hpp"
 #include "boost/python/str.hpp"
 #include "boost/python/tuple.hpp"
-#include "boost/python/numeric.hpp"
+//#include "ndarray.hpp"
 
 
 CV_INLINE CvPyramid sdCreatePyramid( const CvArr* img, int extra_layers, double rate,

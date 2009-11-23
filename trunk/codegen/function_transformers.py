@@ -701,7 +701,7 @@ class input_ndarray_t(transformer_t):
             controller.modify_arg_expression( self.arg_index, v )
         elif "::std::vector<int" in dtype.decl_string:
             if self.arg.default_value is not None:
-                w_arg.default_value = None # TODO: fix this
+                w_arg.default_value = "bp::numeric::array()"
             w_arg.type = _D.dummy_type_t( "bp::numeric::array &" )
             etype = _D.remove_const(_D.remove_reference(dtype))
             v = controller.declare_variable( etype, self.arg.name )
