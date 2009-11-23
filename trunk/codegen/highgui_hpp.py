@@ -31,7 +31,6 @@ def generate_code(mb, cc, D, FT, CP):
 # C++ Interface
 #-----------------------------------------------------------------------------
 
-namedWindow = cvNamedWindow
 createTrackbar = cvCreateTrackbar2
 getTrackbarPos = cvGetTrackbarPos # don't know why they haven't exported this function
 setTrackbarpos = cvSetTrackbarPos # don't know why they haven't exported this function
@@ -40,7 +39,7 @@ setTrackbarpos = cvSetTrackbarPos # don't know why they haven't exported this fu
 
     # functions
     for z in (
-        'imshow', 'imread', 'imwrite', 'imdecode', 'imencode', 'waitKey',
+        'namedWindow', 'imshow', 'imread', 'imwrite', 'imdecode', 'imencode', 'waitKey',
         ):
         mb.free_fun(z).include()
         
@@ -49,10 +48,5 @@ setTrackbarpos = cvSetTrackbarPos # don't know why they haven't exported this fu
         'VideoCapture', 'VideoWriter',
         ):
         mb.class_(z).include()
-        
-    z = mb.free_fun('imshow')
-    z.add_transformation(FT.input_ndarray_as('mat'))
-    # FT.expose_func(, return_pointee=False, transformer_creators=[
-        # FT.input_ndarray_as('mat')])
-    
+            
 

@@ -647,8 +647,8 @@ def inout_type1( *args, **keywd ):
     
     
 
-# input_ndarray_as_t
-class input_ndarray_as_t(transformer_t):
+# input_ndarray_t
+class input_ndarray_t(transformer_t):
     """Converts an ndarray into a type of OpenCV.
     
         do_smth(bp::numeric::array V) -> do_smth(your_cv_type v)
@@ -662,17 +662,51 @@ class input_ndarray_as_t(transformer_t):
         self.arg_index = self.function.arguments.index( self.arg )
 
     def __str__(self):
-        return "input_ndarray_as(%s)" % self.arg.name
+        return "input_ndarray(%s)" % self.arg.name
 
     def __configure_sealed( self, controller ):
-        w_arg = controller.find_wrapper_arg( self.arg.name )
-        w_arg.type = _D.dummy_type_t( "boost::python::numeric::array &" )
-        dtype = _D.remove_const(_D.remove_reference(self.arg.type))
-        
-        v = controller.declare_variable( dtype, self.arg.name )
-        
-        controller.add_pre_call_code("convert_ndarray_to< %s >(%s, %s);" % (dtype.decl_string, w_arg.name, v))        
-        controller.modify_arg_expression( self.arg_index, v )
+        w_arg = controller.find_wrapper_arg(self.arg.name)
+        dtype = self.arg.type
+        if dtype == _D.dummy_type_t("::IplImage *") \
+            or dtype == _D.dummy_type_t("::IplImage const *") \
+            or dtype == _D.dummy_type_t("::CvMat *") \
+            or dtype == _D.dummy_type_t("::CvMat const *") \
+            or dtype == _D.dummy_type_t("::CvArr *") \
+            or dtype == _D.dummy_type_t("::CvArr const *"):
+            w_arg.type = _D.dummy_type_t( "bp::object &" )
+            if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+                w_arg.default_value = 'bp::object()'
+            etype = _D.remove_const(_D.remove_pointer(dtype))
+            if etype == _D.dummy_type_t("void"):
+                etype = _D.dummy_type_t("::CvMat")
+            v1 = controller.declare_variable( etype, self.arg.name )
+            v2 = controller.declare_variable( _D.dummy_type_t("::cv::Mat"), self.arg.name )
+            controller.add_pre_call_code('''
+    if(W.ptr() != Py_None)
+    {
+        convert_ndarray_to< cv::Mat >(static_cast<bp::numeric::array>(W), V2);
+        V1 = V2;
+    }
+            '''.replace("W", w_arg.name).replace("V1", v1).replace("V2", v2))
+            controller.modify_arg_expression( self.arg_index, 
+                "%s.ptr() != Py_None? (%s)&%s: 0" % (w_arg.name, dtype.decl_string, v1) )
+        elif dtype == _D.dummy_type_t("::cv::Mat &") \
+            or dtype == _D.dummy_type_t("::cv::Mat const &") \
+            or dtype == _D.dummy_type_t("::cv::Mat") \
+            or dtype == _D.dummy_type_t("::cv::Mat const"):
+            w_arg.type = _D.dummy_type_t( "bp::numeric::array &" )
+            etype = _D.remove_const(_D.remove_reference(dtype))
+            v = controller.declare_variable( etype, self.arg.name )
+            controller.add_pre_call_code("convert_ndarray_to< %s >(%s, %s);" % (etype.decl_string, w_arg.name, v))
+            controller.modify_arg_expression( self.arg_index, v )
+        elif "::std::vector<int" in dtype.decl_string:
+            if self.arg.default_value is not None:
+                w_arg.default_value = None # TODO: fix this
+            w_arg.type = _D.dummy_type_t( "bp::numeric::array &" )
+            etype = _D.remove_const(_D.remove_reference(dtype))
+            v = controller.declare_variable( etype, self.arg.name )
+            controller.add_pre_call_code("convert_ndarray_to< %s >(%s, %s);" % (etype.decl_string, w_arg.name, v))
+            controller.modify_arg_expression( self.arg_index, v )
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -690,9 +724,9 @@ class input_ndarray_as_t(transformer_t):
         """Returns list of header files that transformer generated code depends on."""
         return ["boost/python/numeric.hpp"]
 
-def input_ndarray_as( *args, **keywd ):
+def input_ndarray( *args, **keywd ):
     def creator( function ):
-        return input_ndarray_as_t( function, *args, **keywd )
+        return input_ndarray_t( function, *args, **keywd )
     return creator
 
 
