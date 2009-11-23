@@ -375,6 +375,5 @@ mb.split_module( 'code' )
 #Write the remaining files
 # copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
 # copyfile('opencv_extra.hpp', 'code/opencv_extra.hpp')
-copyfile('ndarray.cpp', 'code/ndarray.cpp')
 copyfile('opencv_extra.cpp', 'code/opencv_extra.cpp')
 
