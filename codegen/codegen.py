@@ -162,6 +162,20 @@ def beautify_func_list(self, func_list):
                         f._transformer_creators.append(FT.input_array1d('sizes', 'dims'))
                         break
 
+    # function argument [const] cv::Mat &xyz, etc into ndarray
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            for typename in ("::cv::Mat", "::CvMat", "::IplImage", "::CvArr", "::std::vector<int"):
+                if typename in arg.type.decl_string:
+                    break
+            else:
+                continue
+            if "::std::vector<int" in arg.type.decl_string:
+                print "beautifying %s of type %s in function %s" % (arg.name, arg.type.decl_string, f.name)
+            f._transformer_creators.append(FT.input_ndarray(arg.name))
+
     # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
     for f in func_list:
         for arg in f.arguments:
@@ -229,7 +243,7 @@ mb.classes().expose_this = True
 mb.enums().include()
 
 # get the list of OpenCV functions
-opencv_funs = mb.free_funs(lambda decl: decl.name.startswith('cv'))
+opencv_funs = mb.free_funs() # mb.free_funs(lambda decl: decl.name.startswith('cv'))
 
 # initialize list of transformer creators for each function
 for z in opencv_funs:
