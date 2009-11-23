@@ -32,7 +32,7 @@ def add_ti(class_, element_type, new_name=None):
 def generate_ti():
     # template instantiations
     basic_types = ('bool', 'uchar', 'schar', 'ushort', 'short', 'int', 'float', 'double')
-    for z1 in ('DataDepth', 'DataType'):
+    for z1 in ('DataDepth', 'DataType', 'vector'):
         for z2 in basic_types:
             add_ti(z1, z2)
     add_ti('DataType', 'Range')
@@ -105,14 +105,13 @@ namespace cv {
 
     tif.write('''
 
-    CV_INLINE void __dummy_func(
-        int __dummy_var = 0
+    struct __dummy_struct {
 ''')
 
-    for z in ti:
-        tif.write('            + sizeof(%s)\n' % (z[2]))
+    for i in xrange(len(ti)):
+        tif.write('         %s var%d;\n' % (ti[i][2], i))
 
-    tif.write('''    ) {}
+    tif.write('''    };
 }
 
 #endif

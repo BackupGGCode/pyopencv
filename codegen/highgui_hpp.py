@@ -49,4 +49,10 @@ setTrackbarpos = cvSetTrackbarPos # don't know why they haven't exported this fu
         'VideoCapture', 'VideoWriter',
         ):
         mb.class_(z).include()
+        
+    z = mb.free_fun('imshow')
+    z.add_transformation(FT.input_ndarray_as('mat'))
+    # FT.expose_func(, return_pointee=False, transformer_creators=[
+        # FT.input_ndarray_as('mat')])
+    
 
