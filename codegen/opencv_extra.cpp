@@ -68,7 +68,7 @@ bool npy_inited = npy_init2();
 
 
 
-template<> void convert_ndarray_to< cv::Mat >( const bp::numeric::array &in_arr, cv::Mat &out_matr )
+template<> void convert_ndarray_to< cv::Mat >( const bp::object &in_arr, cv::Mat &out_matr )
 {
     PyObject *arr = in_arr.ptr();
     char s[100];

@@ -7,7 +7,6 @@
 #include "boost/python/object.hpp"
 #include "boost/python/str.hpp"
 #include "boost/python/tuple.hpp"
-//#include "ndarray.hpp"
 
 
 CV_INLINE CvPyramid sdCreatePyramid( const CvArr* img, int extra_layers, double rate,
@@ -28,13 +27,13 @@ void CV_CDECL sdMouseCallback(int event, int x, int y, int flags, void* param);
 float CV_CDECL sdDistanceFunction( const float* a, const float*b, void* user_param );
 
 template<typename T>
-void convert_ndarray_to( const boost::python::numeric::array &in_arr, T &out_matr )
+void convert_ndarray_to( const boost::python::object &in_arr, T &out_matr )
 {
-    const char message[] = "Instantiation of this function for the given class is not yet implemented.";
+    const char message[] = "Instantiation function convert_ndarray_to() for the given class is not yet implemented.";
     PyErr_SetString(PyExc_NotImplementedError, message);
     throw boost::python::error_already_set(); 
 }
 
-template<> void convert_ndarray_to< cv::Mat >( const boost::python::numeric::array &in_arr, cv::Mat &out_matr );
+template<> void convert_ndarray_to< cv::Mat >( const boost::python::object &in_arr, cv::Mat &out_matr );
 
 #endif
