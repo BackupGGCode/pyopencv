@@ -700,12 +700,12 @@ class input_ndarray_t(transformer_t):
             controller.add_pre_call_code("convert_ndarray_to< %s >(%s, %s);" % (etype.decl_string, w_arg.name, v))
             controller.modify_arg_expression( self.arg_index, v )
         elif "::std::vector<int" in dtype.decl_string:
-            if self.arg.default_value is not None:
-                w_arg.default_value = "bp::numeric::array()"
-            w_arg.type = _D.dummy_type_t( "bp::numeric::array &" )
+            w_arg.type = _D.dummy_type_t( "bp::object" )
+            if self.arg.default_value is not None: # be careful with this default value
+                w_arg.default_value = 'bp::object()'
             etype = _D.remove_const(_D.remove_reference(dtype))
             v = controller.declare_variable( etype, self.arg.name )
-            controller.add_pre_call_code("convert_ndarray_to< %s >(%s, %s);" % (etype.decl_string, w_arg.name, v))
+            controller.add_pre_call_code("if(W.ptr() != Py_None) convert_ndarray_to< std::vector<int> >(static_cast<bp::numeric::array>(W), V);".replace("W", w_arg.name).replace("V", v))
             controller.modify_arg_expression( self.arg_index, v )
 
     def __configure_v_mem_fun_default( self, controller ):
