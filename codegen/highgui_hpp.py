@@ -39,9 +39,11 @@ setTrackbarpos = cvSetTrackbarPos # don't know why they haven't exported this fu
 
     # functions
     for z in (
-        'namedWindow', 'imshow', 'imread', 'imwrite', 'imdecode', 'imencode', 'waitKey',
+        'namedWindow', 'imshow', 'imread', 'imwrite', 'imdecode', 'waitKey',
         ):
         mb.free_fun(z).include()
+        
+    FT.expose_func(mb.free_fun('imencode'), return_pointee=False, transformer_creators=[FT.output_ndarray('buf')])
         
     # classes
     for z in (
