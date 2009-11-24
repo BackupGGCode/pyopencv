@@ -172,8 +172,6 @@ def beautify_func_list(self, func_list):
                     break
             else:
                 continue
-            if "::std::vector<int" in arg.type.decl_string:
-                print "beautifying %s of type %s in function %s" % (arg.name, arg.type.decl_string, f.name)
             f._transformer_creators.append(FT.input_ndarray(arg.name))
 
     # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst

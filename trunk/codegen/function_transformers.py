@@ -720,11 +720,62 @@ class input_ndarray_t(transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return ["boost/python/numeric.hpp"]
+        return []
 
 def input_ndarray( *args, **keywd ):
     def creator( function ):
         return input_ndarray_t( function, *args, **keywd )
+    return creator
+
+
+    
+    
+# output_ndarray_t
+class output_ndarray_t(transformer_t):
+    """Converts an ndarray into a type of OpenCV.
+    
+        do_smth(bp::object V) -> do_smth(your_cv_type v)
+
+    Right now compiler should be able to use implicit conversion
+    """
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "output_ndarray(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        controller.remove_wrapper_arg( self.arg.name )
+        etype = _D.remove_const(_D.remove_reference(self.arg.type))
+        w = controller.declare_variable( _D.dummy_type_t( "bp::object" ), self.arg.name )
+        v = controller.declare_variable( etype, self.arg.name )
+        controller.add_post_call_code("convert_ndarray_from< ETYPE >(V, W);".replace("W", w)
+            .replace("V", v).replace("ETYPE", etype.decl_string))
+        controller.modify_arg_expression( self.arg_index, v )
+        controller.return_variable(w)
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return []
+
+def output_ndarray( *args, **keywd ):
+    def creator( function ):
+        return output_ndarray_t( function, *args, **keywd )
     return creator
 
 

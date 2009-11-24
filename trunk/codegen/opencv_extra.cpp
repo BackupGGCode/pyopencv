@@ -5,9 +5,6 @@
 #include <string>
 
 #include <boost/python/extract.hpp>
-#include <arrayobject.h>
-
-namespace bp = boost::python;
 
 // ================================================================================================
 
@@ -39,7 +36,7 @@ int get_cvdepth_from_dtype(int dtype)
     case NPY_UBYTE: return CV_8U;
     case NPY_SHORT: return CV_16S;
     case NPY_USHORT: return CV_16U;
-    case NPY_INT: return CV_32S;
+    case NPY_LONG: return CV_32S;
     case NPY_FLOAT: return CV_32F;
     case NPY_DOUBLE: return CV_64F;
     }
@@ -68,7 +65,7 @@ bool npy_inited = npy_init2();
 
 
 
-template<> void convert_ndarray_to< cv::Mat >( const bp::object &in_arr, cv::Mat &out_matr )
+template<> void convert_ndarray_to< cv::Mat >( const bp::object &in_arr, cv::Mat &out_arr )
 {
     PyObject *arr = in_arr.ptr();
     char s[100];
@@ -131,6 +128,46 @@ template<> void convert_ndarray_to< cv::Mat >( const bp::object &in_arr, cv::Mat
             throw bp::error_already_set(); 
         }
     }
-    out_matr = cv::Mat(cv::Size(shape[1], shape[0]), 
+    out_arr = cv::Mat(cv::Size(shape[1], shape[0]), 
         CV_MAKETYPE(get_cvdepth_from_dtype(PyArray_TYPE(arr)), nchannels), PyArray_DATA(arr), strides[0]);
+}
+
+template<> void convert_ndarray_to< std::vector<int> >( const bp::object &in_arr, std::vector<int> &out_arr )
+{
+    PyObject *arr = in_arr.ptr();
+    char s[100];
+    if(PyArray_Check(arr) != 1)
+    {
+        PyErr_SetString(PyExc_TypeError, "Input argument is not an ndarray.");
+        throw bp::error_already_set(); 
+    }
+    int nd = PyArray_NDIM(arr);
+    if(nd != 1)
+    {
+        sprintf(s, "Rank must be 1, rank=%d detected.", nd);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw bp::error_already_set(); 
+    }
+    if(PyArray_TYPE(arr) != NPY_LONG)
+    {
+        sprintf(s, "Element type must be 32-bit integer, dtype=%d detected.", PyArray_TYPE(arr));
+        PyErr_SetString(PyExc_TypeError, s);
+        throw bp::error_already_set(); 
+    }
+    
+    int len = PyArray_DIM(arr, 0);
+    
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) out_arr[i] = *(int *)PyArray_GETPTR1(arr, i);
+}
+
+// ================================================================================================
+
+
+template<> void convert_ndarray_from< std::vector<uchar> >( const std::vector<uchar> &in_arr, bp::object &out_arr )
+{
+    int len = in_arr.size();
+    out_arr = bp::object(bp::handle<>(PyArray_SimpleNew(1, &len, NPY_UBYTE)));
+    uchar *data = (uchar *)PyArray_DATA(out_arr.ptr());
+    for(int i = 0; i < len; ++i) data[i] = in_arr[i];
 }
