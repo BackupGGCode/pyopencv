@@ -119,17 +119,20 @@ extern template void convert_ndarray_to( const bp::object &in_arr, std::vector<d
 template<typename T>
 void convert_ndarray_from( const T &in_arr, bp::object &out_arr )
 {
-    const char message[] = "Instantiation function convert_ndarray_from() for the given class is not yet implemented.";
+    const char message[] = "Instantiation of function convert_ndarray_from() for the given class is not yet implemented.";
     PyErr_SetString(PyExc_NotImplementedError, message);
     throw bp::error_already_set(); 
 }
+
+template<> void convert_ndarray_from< cv::Mat >( const cv::Mat &in_arr, bp::object &out_arr );
+
 
 // convert_ndarray_from, std::vector case
 template<typename T>
 void convert_ndarray_from( const std::vector<T> &in_arr, bp::object &out_arr )
 {
     int len = in_arr.size();
-    out_arr = bp::object(bp::handle<>(PyArray_SimpleNew(1, &len, NPY_UBYTE)));
+    out_arr = bp::object(bp::handle<>(PyArray_SimpleNew(1, &len, dtypeof<T>())));
     T *data = (T *)PyArray_DATA(out_arr.ptr());
     for(int i = 0; i < len; ++i) data[i] = in_arr[i];
 }
