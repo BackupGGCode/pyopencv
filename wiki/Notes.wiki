@@ -3,7 +3,7 @@
 1) Should I convert every OpenCV's array into a numpy array? It's is a lot more efficient to deal with numpy array than with a collection of (mutually inconsistent) past and current OpenCV arrays.
 
 The following arrays will be replaced by numpy array:
-  - CvMat
-  - IplImage
-  - cv::Mat
-  - std::vector < T >, where T is in (primitive data types or CvPoint-like types)
+ * CvMat
+ * IplImage
+ * cv::Mat
+ * std::vector < T >, where T is in (primitive data types or CvPoint-like types)
