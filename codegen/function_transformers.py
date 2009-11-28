@@ -703,7 +703,7 @@ class input_ndarray_t(transformer_t):
                 w_arg.default_value = 'bp::object()'
             etype = _D.remove_const(_D.remove_reference(dtype))
             v = controller.declare_variable( etype, self.arg.name )
-            controller.add_pre_call_code("if(W.ptr() != Py_None) convert_ndarray_to< std::vector<int> >(W, V);".replace("W", w_arg.name).replace("V", v))
+            controller.add_pre_call_code("if(W.ptr() != Py_None) convert_ndarray_to(W, V);".replace("W", w_arg.name).replace("V", v))
             controller.modify_arg_expression( self.arg_index, v )
 
     def __configure_v_mem_fun_default( self, controller ):
