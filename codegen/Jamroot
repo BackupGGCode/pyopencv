@@ -28,7 +28,7 @@ project
 # OpenCV library
 lib opencv
   :
-  : <include>M:/programming/packages/opencv/build/2.0_mgw440/include/opencv <file>M:/programming/packages/opencv/build/2.0_mgw440/lib/libhighgui200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440/lib/libml200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440/lib/libcvaux200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440/lib/libcv200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440/lib/libcxcore200.dll.a
+  : <include>M:/programming/packages/opencv/build/2.0/include/opencv <file>M:/programming/packages/opencv/build/2.0/lib/libhighgui200.dll.a <file>M:/programming/packages/opencv/build/2.0/lib/libml200.dll.a <file>M:/programming/packages/opencv/build/2.0/lib/libcvaux200.dll.a <file>M:/programming/packages/opencv/build/2.0/lib/libcv200.dll.a <file>M:/programming/packages/opencv/build/2.0/lib/libcxcore200.dll.a
   ;
   
 # Declare the three extension modules.  You can specify multiple
@@ -36,7 +36,7 @@ lib opencv
 python-extension pyopencvext 
   : [ glob M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen/code/*.cpp ] opencv 
 #  : opencv 
-  : <include>M:/programming/packages/opencv/2.0_mgw440/include <include>numpy_include <link>shared
+  : <include>M:/programming/packages/opencv/2.0/include <include>numpy_include <link>shared
   : ;
 
 # A little "rule" (function) to clean up the syntax of declaring tests

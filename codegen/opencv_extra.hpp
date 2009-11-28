@@ -2,6 +2,7 @@
 #define SDOPENCV_EXTRA_H
 
 #include <vector>
+#include <iostream>
 
 #include "opencv_headers.hpp"
 
@@ -9,6 +10,7 @@
 #include "boost/python/object.hpp"
 #include "boost/python/str.hpp"
 #include "boost/python/tuple.hpp"
+#include "boost/python/to_python_value.hpp"
 
 #include <arrayobject.h>
 
@@ -36,6 +38,7 @@ float CV_CDECL sdDistanceFunction( const float* a, const float*b, void* user_par
 // ================================================================================================
 // Stuff related to numpy's ndarray
 // ================================================================================================
+
 
 // dtypeof
 template<typename T>
@@ -147,6 +150,16 @@ extern template void convert_ndarray_from( const std::vector<int> &in_arr, bp::o
 extern template void convert_ndarray_from( const std::vector<unsigned int> &in_arr, bp::object &out_arr );
 extern template void convert_ndarray_from( const std::vector<float> &in_arr, bp::object &out_arr );
 extern template void convert_ndarray_from( const std::vector<double> &in_arr, bp::object &out_arr );
+
+
+namespace boost { namespace python {
+
+template <> struct to_python_value<const cv::Mat &>;
+
+}}
+
+
+
 
 
 #endif
