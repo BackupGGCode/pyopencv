@@ -241,4 +241,25 @@ template void convert_ndarray_from( const std::vector<unsigned int> &in_arr, bp:
 template void convert_ndarray_from( const std::vector<float> &in_arr, bp::object &out_arr );
 template void convert_ndarray_from( const std::vector<double> &in_arr, bp::object &out_arr );
 
+// ================================================================================================
 
+
+namespace boost { namespace python {
+
+template <> struct to_python_value<const cv::Mat &>
+{
+    inline PyObject* operator()(cv::Mat const& x) const
+    {
+        std::cout << "Everthing is fine." << std::endl;
+        object obj;
+        ::convert_ndarray_from(x, obj);
+        std::cout << "Everthing is fine until here." << std::endl;
+        return incref(obj.ptr());
+    }
+    inline PyTypeObject const* get_pytype() const
+    {
+        return 0;//PyArray_Type;
+    }
+};
+
+}}

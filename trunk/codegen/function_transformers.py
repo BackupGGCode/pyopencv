@@ -44,8 +44,7 @@ def expose_func(func, ownershiplevel=None, ward_indices=(), return_arg_index=Non
         
     if cp is not None:
         func.call_policies = cp
-        
-    
+
 
 # -----------------------------------------------------------------------------------------------
 # Call policies
@@ -82,6 +81,9 @@ def with_ownershiplevel_postcall( arg_value=0, base=None):
 
 
 
+# -----------------------------------------------------------------------------------------------
+# Some functions
+# -----------------------------------------------------------------------------------------------
 
 
 def add_underscore(decl):
@@ -645,6 +647,209 @@ def inout_type1( *args, **keywd ):
     return creator
 
     
+# trackbar_callback2_func_t
+class trackbar_callback2_func_t(transformer.transformer_t):
+    """Handles a CvMouseCallback argument.
+
+    void do_something(CvMouseCallback on_mouse, void* param) ->  do_something((Python function) on_mouse, (object) param)
+    """
+
+    def __init__(self, function, arg_on_mouse, arg_user_data):
+        transformer.transformer_t.__init__( self, function )
+
+        self.arg1 = self.get_argument( arg_on_mouse )
+        self.arg1_index = self.function.arguments.index( self.arg1 )
+
+        self.arg2 = self.get_argument( arg_user_data )
+        self.arg2_index = self.function.arguments.index( self.arg2 )
+
+
+    def __str__(self):
+        return "trackbar_callback2_func(%s,%s)"% (self.arg1.name, self.arg2.name)
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["boost/python/object.hpp", "boost/python/tuple.hpp", "opencv_extra.hpp" ]
+
+    def __configure_sealed(self, controller):
+        w_arg1 = controller.find_wrapper_arg( self.arg1.name )
+        w_arg1.type = _D.dummy_type_t( "boost::python::object" )
+
+        w_arg2 = controller.find_wrapper_arg( self.arg2.name )
+        w_arg2.type = _D.dummy_type_t( "boost::python::object" )
+
+        if self.arg2.default_value == '0' or self.arg2.default_value == 'NULL':
+            w_arg2.default_value = 'bp::object()'
+        
+        # declare a tuple to keep the function and the parameter together
+        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name,
+            "= bp::make_tuple(%s, %s)" % (w_arg1.name, w_arg2.name))
+        
+        # adding the variable to return variables list
+        # controller.return_variable( 'pyplusplus::call_policies::make_object< call_policies_t, bp::tuple >( %s )' % var_tuple )
+        controller.return_variable( var_tuple )
+
+        controller.modify_arg_expression( self.arg1_index, "sdTrackbarCallback2" )
+        controller.modify_arg_expression( self.arg2_index, "(%s)(%s.ptr())" % (self.arg2.type.decl_string, var_tuple))
+        
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def trackbar_callback2_func( *args, **keywd ):
+    def creator( function ):
+        return trackbar_callback2_func_t( function, *args, **keywd )
+    return creator
+
+
+# mouse_callback_func_t
+class mouse_callback_func_t(transformer.transformer_t):
+    """Handles a CvMouseCallback argument.
+
+    void do_something(CvMouseCallback on_mouse, void* param) ->  do_something((Python function) on_mouse, (object) param)
+    """
+
+    def __init__(self, function, arg_on_mouse, arg_param):
+        transformer.transformer_t.__init__( self, function )
+
+        self.arg1 = self.get_argument( arg_on_mouse )
+        self.arg1_index = self.function.arguments.index( self.arg1 )
+
+        self.arg2 = self.get_argument( arg_param )
+        self.arg2_index = self.function.arguments.index( self.arg2 )
+
+
+    def __str__(self):
+        return "mouse_callback_func(%s,%s)"% (self.arg1.name, self.arg2.name)
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["boost/python/object.hpp", "boost/python/tuple.hpp", "opencv_extra.hpp" ]
+
+    def __configure_sealed(self, controller):
+        w_arg1 = controller.find_wrapper_arg( self.arg1.name )
+        w_arg1.type = _D.dummy_type_t( "boost::python::object" )
+
+        w_arg2 = controller.find_wrapper_arg( self.arg2.name )
+        w_arg2.type = _D.dummy_type_t( "boost::python::object" )
+
+        if self.arg2.default_value == '0' or self.arg2.default_value == 'NULL':
+            w_arg2.default_value = 'bp::object()'
+        
+        # declare a tuple to keep the function and the parameter together
+        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name,
+            "= bp::make_tuple(%s, %s)" % (w_arg1.name, w_arg2.name))
+        
+        # adding the variable to return variables list
+        # controller.return_variable( 'pyplusplus::call_policies::make_object< call_policies_t, bp::tuple >( %s )' % var_tuple )
+        controller.return_variable( var_tuple )
+
+        controller.modify_arg_expression( self.arg1_index, "sdMouseCallback" )
+        controller.modify_arg_expression( self.arg2_index, "(%s)(%s.ptr())" % (self.arg2.type.decl_string, var_tuple))
+        
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def mouse_callback_func( *args, **keywd ):
+    def creator( function ):
+        return mouse_callback_func_t( function, *args, **keywd )
+    return creator
+
+
+# distance_function_t
+class distance_function_t(transformer.transformer_t):
+    """Handles a CvMouseCallback argument.
+
+    void do_something(CvMouseCallback on_mouse, void* param) ->  do_something((Python function) on_mouse, (object) param)
+    """
+
+    def __init__(self, function, arg_distance_func, arg_userdata):
+        transformer.transformer_t.__init__( self, function )
+
+        self.arg1 = self.get_argument( arg_distance_func )
+        self.arg1_index = self.function.arguments.index( self.arg1 )
+
+        self.arg2 = self.get_argument( arg_userdata )
+        self.arg2_index = self.function.arguments.index( self.arg2 )
+
+
+    def __str__(self):
+        return "distance_function(%s,%s)"% (self.arg1.name, self.arg2.name)
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["boost/python/object.hpp", "boost/python/tuple.hpp" ]
+
+    def __configure_sealed(self, controller):
+        w_arg1 = controller.find_wrapper_arg( self.arg1.name )
+        w_arg1.type = _D.dummy_type_t( "boost::python::object" )
+
+        if self.arg1.default_value == '0' or self.arg1.default_value == 'NULL':
+            w_arg1.default_value = 'bp::object()'
+
+        w_arg2 = controller.find_wrapper_arg( self.arg2.name )
+        w_arg2.type = _D.dummy_type_t( "boost::python::object" )
+
+        if self.arg2.default_value == '0' or self.arg2.default_value == 'NULL':
+            w_arg2.default_value = 'bp::object()'
+
+        # declare a variable to check if distance_func is None
+        b_dist_func = controller.declare_variable( _D.dummy_type_t("bool"), "b_"+w_arg1.name, "= %s.ptr() != Py_None" % w_arg1.name)
+        
+        # declare a tuple to keep the function and the parameter together
+        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name)
+        
+        # precall code
+        controller.add_pre_call_code("if(%s) %s = bp::make_tuple(%s, %s);" % (b_dist_func, var_tuple, w_arg1.name, w_arg2.name))
+        
+        controller.modify_arg_expression( self.arg1_index, "%s? sdDistanceFunction: 0" % b_dist_func )
+        controller.modify_arg_expression( self.arg2_index, "%s? (%s)(%s.ptr()): 0" % (b_dist_func, self.arg2.type.decl_string, var_tuple))
+        
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def distance_function( *args, **keywd ):
+    def creator( function ):
+        return distance_function_t( function, *args, **keywd )
+    return creator
+
+
+
+
+
+    
+    
+
+
     
 
 # input_ndarray_t
@@ -753,8 +958,6 @@ def input_ndarray( *args, **keywd ):
     def creator( function ):
         return input_ndarray_t( function, *args, **keywd )
     return creator
-
-
     
     
 # output_ndarray_t
@@ -803,217 +1006,6 @@ class output_ndarray_t(transformer_t):
 def output_ndarray( *args, **keywd ):
     def creator( function ):
         return output_ndarray_t( function, *args, **keywd )
-    return creator
-
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-class trackbar_callback2_func_t(transformer.transformer_t):
-    """Handles a CvMouseCallback argument.
-
-    void do_something(CvMouseCallback on_mouse, void* param) ->  do_something((Python function) on_mouse, (object) param)
-    """
-
-    def __init__(self, function, arg_on_mouse, arg_user_data):
-        transformer.transformer_t.__init__( self, function )
-
-        self.arg1 = self.get_argument( arg_on_mouse )
-        self.arg1_index = self.function.arguments.index( self.arg1 )
-
-        self.arg2 = self.get_argument( arg_user_data )
-        self.arg2_index = self.function.arguments.index( self.arg2 )
-
-
-    def __str__(self):
-        return "trackbar_callback2_func(%s,%s)"% (self.arg1.name, self.arg2.name)
-
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return ["boost/python/object.hpp", "boost/python/tuple.hpp", "opencv_extra.hpp" ]
-
-    def __configure_sealed(self, controller):
-        w_arg1 = controller.find_wrapper_arg( self.arg1.name )
-        w_arg1.type = _D.dummy_type_t( "boost::python::object" )
-
-        w_arg2 = controller.find_wrapper_arg( self.arg2.name )
-        w_arg2.type = _D.dummy_type_t( "boost::python::object" )
-
-        if self.arg2.default_value == '0' or self.arg2.default_value == 'NULL':
-            w_arg2.default_value = 'bp::object()'
-        
-        # declare a tuple to keep the function and the parameter together
-        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name,
-            "= bp::make_tuple(%s, %s)" % (w_arg1.name, w_arg2.name))
-        
-        # adding the variable to return variables list
-        # controller.return_variable( 'pyplusplus::call_policies::make_object< call_policies_t, bp::tuple >( %s )' % var_tuple )
-        controller.return_variable( var_tuple )
-
-        controller.modify_arg_expression( self.arg1_index, "sdTrackbarCallback2" )
-        controller.modify_arg_expression( self.arg2_index, "(%s)(%s.ptr())" % (self.arg2.type.decl_string, var_tuple))
-        
-
-    def __configure_v_mem_fun_default( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_mem_fun( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_free_fun(self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_default( controller.default_controller )
-
-def trackbar_callback2_func( *args, **keywd ):
-    def creator( function ):
-        return trackbar_callback2_func_t( function, *args, **keywd )
-    return creator
-
-
-class mouse_callback_func_t(transformer.transformer_t):
-    """Handles a CvMouseCallback argument.
-
-    void do_something(CvMouseCallback on_mouse, void* param) ->  do_something((Python function) on_mouse, (object) param)
-    """
-
-    def __init__(self, function, arg_on_mouse, arg_param):
-        transformer.transformer_t.__init__( self, function )
-
-        self.arg1 = self.get_argument( arg_on_mouse )
-        self.arg1_index = self.function.arguments.index( self.arg1 )
-
-        self.arg2 = self.get_argument( arg_param )
-        self.arg2_index = self.function.arguments.index( self.arg2 )
-
-
-    def __str__(self):
-        return "mouse_callback_func(%s,%s)"% (self.arg1.name, self.arg2.name)
-
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return ["boost/python/object.hpp", "boost/python/tuple.hpp", "opencv_extra.hpp" ]
-
-    def __configure_sealed(self, controller):
-        w_arg1 = controller.find_wrapper_arg( self.arg1.name )
-        w_arg1.type = _D.dummy_type_t( "boost::python::object" )
-
-        w_arg2 = controller.find_wrapper_arg( self.arg2.name )
-        w_arg2.type = _D.dummy_type_t( "boost::python::object" )
-
-        if self.arg2.default_value == '0' or self.arg2.default_value == 'NULL':
-            w_arg2.default_value = 'bp::object()'
-        
-        # declare a tuple to keep the function and the parameter together
-        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name,
-            "= bp::make_tuple(%s, %s)" % (w_arg1.name, w_arg2.name))
-        
-        # adding the variable to return variables list
-        # controller.return_variable( 'pyplusplus::call_policies::make_object< call_policies_t, bp::tuple >( %s )' % var_tuple )
-        controller.return_variable( var_tuple )
-
-        controller.modify_arg_expression( self.arg1_index, "sdMouseCallback" )
-        controller.modify_arg_expression( self.arg2_index, "(%s)(%s.ptr())" % (self.arg2.type.decl_string, var_tuple))
-        
-
-    def __configure_v_mem_fun_default( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_mem_fun( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_free_fun(self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_default( controller.default_controller )
-
-def mouse_callback_func( *args, **keywd ):
-    def creator( function ):
-        return mouse_callback_func_t( function, *args, **keywd )
-    return creator
-
-
-class distance_function_t(transformer.transformer_t):
-    """Handles a CvMouseCallback argument.
-
-    void do_something(CvMouseCallback on_mouse, void* param) ->  do_something((Python function) on_mouse, (object) param)
-    """
-
-    def __init__(self, function, arg_distance_func, arg_userdata):
-        transformer.transformer_t.__init__( self, function )
-
-        self.arg1 = self.get_argument( arg_distance_func )
-        self.arg1_index = self.function.arguments.index( self.arg1 )
-
-        self.arg2 = self.get_argument( arg_userdata )
-        self.arg2_index = self.function.arguments.index( self.arg2 )
-
-
-    def __str__(self):
-        return "distance_function(%s,%s)"% (self.arg1.name, self.arg2.name)
-
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return ["boost/python/object.hpp", "boost/python/tuple.hpp" ]
-
-    def __configure_sealed(self, controller):
-        w_arg1 = controller.find_wrapper_arg( self.arg1.name )
-        w_arg1.type = _D.dummy_type_t( "boost::python::object" )
-
-        if self.arg1.default_value == '0' or self.arg1.default_value == 'NULL':
-            w_arg1.default_value = 'bp::object()'
-
-        w_arg2 = controller.find_wrapper_arg( self.arg2.name )
-        w_arg2.type = _D.dummy_type_t( "boost::python::object" )
-
-        if self.arg2.default_value == '0' or self.arg2.default_value == 'NULL':
-            w_arg2.default_value = 'bp::object()'
-
-        # declare a variable to check if distance_func is None
-        b_dist_func = controller.declare_variable( _D.dummy_type_t("bool"), "b_"+w_arg1.name, "= %s.ptr() != Py_None" % w_arg1.name)
-        
-        # declare a tuple to keep the function and the parameter together
-        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name)
-        
-        # precall code
-        controller.add_pre_call_code("if(%s) %s = bp::make_tuple(%s, %s);" % (b_dist_func, var_tuple, w_arg1.name, w_arg2.name))
-        
-        controller.modify_arg_expression( self.arg1_index, "%s? sdDistanceFunction: 0" % b_dist_func )
-        controller.modify_arg_expression( self.arg2_index, "%s? (%s)(%s.ptr()): 0" % (b_dist_func, self.arg2.type.decl_string, var_tuple))
-        
-
-    def __configure_v_mem_fun_default( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_mem_fun( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_free_fun(self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_default( controller.default_controller )
-
-def distance_function( *args, **keywd ):
-    def creator( function ):
-        return distance_function_t( function, *args, **keywd )
     return creator
 
 
