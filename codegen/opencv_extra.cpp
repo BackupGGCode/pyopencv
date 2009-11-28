@@ -146,10 +146,15 @@ template void convert_ndarray_to( const bp::object &in_arr, std::vector<double> 
 // ================================================================================================
 
 
-template<> void convert_ndarray_from< std::vector<uchar> >( const std::vector<uchar> &in_arr, bp::object &out_arr )
-{
-    int len = in_arr.size();
-    out_arr = bp::object(bp::handle<>(PyArray_SimpleNew(1, &len, NPY_UBYTE)));
-    uchar *data = (uchar *)PyArray_DATA(out_arr.ptr());
-    for(int i = 0; i < len; ++i) data[i] = in_arr[i];
-}
+template void convert_ndarray_from( const std::vector<char> &in_arr, bp::object &out_arr );
+template void convert_ndarray_from( const std::vector<unsigned char> &in_arr, bp::object &out_arr );
+template void convert_ndarray_from( const std::vector<short> &in_arr, bp::object &out_arr );
+template void convert_ndarray_from( const std::vector<unsigned short> &in_arr, bp::object &out_arr );
+template void convert_ndarray_from( const std::vector<long> &in_arr, bp::object &out_arr );
+template void convert_ndarray_from( const std::vector<unsigned long> &in_arr, bp::object &out_arr );
+template void convert_ndarray_from( const std::vector<int> &in_arr, bp::object &out_arr );
+template void convert_ndarray_from( const std::vector<unsigned int> &in_arr, bp::object &out_arr );
+template void convert_ndarray_from( const std::vector<float> &in_arr, bp::object &out_arr );
+template void convert_ndarray_from( const std::vector<double> &in_arr, bp::object &out_arr );
+
+

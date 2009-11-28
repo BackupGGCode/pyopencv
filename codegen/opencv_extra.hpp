@@ -70,6 +70,9 @@ void convert_ndarray_to( const bp::object &in_arr, T &out_arr )
 template<> void convert_ndarray_to< cv::Mat >( const bp::object &in_arr, cv::Mat &out_arr );
 
 // convert_ndarray_to, std::vector case
+// Note: because Python and C have different ways of allocating/reallocating memory,
+// it is UNSAFE to share data between ndarray and std::vector.
+// In this implementation, data is allocated and copied instead.
 template<typename T>
 void convert_ndarray_to( const bp::object &in_arr, std::vector<T> &out_arr )
 {
@@ -121,7 +124,26 @@ void convert_ndarray_from( const T &in_arr, bp::object &out_arr )
     throw bp::error_already_set(); 
 }
 
-template<> void convert_ndarray_from< std::vector<uchar> >( const std::vector<uchar> &in_arr, bp::object &out_arr );
+// convert_ndarray_from, std::vector case
+template<typename T>
+void convert_ndarray_from( const std::vector<T> &in_arr, bp::object &out_arr )
+{
+    int len = in_arr.size();
+    out_arr = bp::object(bp::handle<>(PyArray_SimpleNew(1, &len, NPY_UBYTE)));
+    T *data = (T *)PyArray_DATA(out_arr.ptr());
+    for(int i = 0; i < len; ++i) data[i] = in_arr[i];
+}
+
+extern template void convert_ndarray_from( const std::vector<char> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray_from( const std::vector<unsigned char> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray_from( const std::vector<short> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray_from( const std::vector<unsigned short> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray_from( const std::vector<long> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray_from( const std::vector<unsigned long> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray_from( const std::vector<int> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray_from( const std::vector<unsigned int> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray_from( const std::vector<float> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray_from( const std::vector<double> &in_arr, bp::object &out_arr );
 
 
 #endif

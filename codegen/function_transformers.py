@@ -752,8 +752,8 @@ class output_ndarray_t(transformer_t):
         etype = _D.remove_const(_D.remove_reference(self.arg.type))
         w = controller.declare_variable( _D.dummy_type_t( "bp::object" ), self.arg.name )
         v = controller.declare_variable( etype, self.arg.name )
-        controller.add_post_call_code("convert_ndarray_from< ETYPE >(V, W);".replace("W", w)
-            .replace("V", v).replace("ETYPE", etype.decl_string))
+        controller.add_post_call_code("convert_ndarray_from(V, W);".replace("W", w)
+            .replace("V", v))
         controller.modify_arg_expression( self.arg_index, v )
         controller.return_variable(w)
 
