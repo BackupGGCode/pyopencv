@@ -674,11 +674,17 @@ class input_ndarray_t(transformer_t):
             or dtype == _D.dummy_type_t("::CvMat const *") \
             or dtype == _D.dummy_type_t("::CvArr *") \
             or dtype == _D.dummy_type_t("::CvArr const *"):
+            
+            # default value
             if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
                 w_arg.default_value = 'bp::object()'
+                
+            # element type
             etype = _D.remove_const(_D.remove_pointer(dtype))
             if etype == _D.dummy_type_t("void"):
                 etype = _D.dummy_type_t("::CvMat")
+            
+            # code
             v1 = controller.declare_variable( etype, self.arg.name )
             v2 = controller.declare_variable( _D.dummy_type_t("::cv::Mat"), self.arg.name )
             controller.add_pre_call_code('''
@@ -690,21 +696,42 @@ class input_ndarray_t(transformer_t):
             '''.replace("W", w_arg.name).replace("V1", v1).replace("V2", v2))
             controller.modify_arg_expression( self.arg_index, 
                 "%s.ptr() != Py_None? (%s)&%s: 0" % (w_arg.name, dtype.decl_string, v1) )
+            
+            # is inout
+            if not 'const' in self.arg.type.partial_decl_string:
+                controller.add_post_call_code("if(%s.ptr() != Py_None) convert_ndarray_from(%s, %s);" % (w_arg.name, v2, w_arg.name))
+                
         elif dtype == _D.dummy_type_t("::cv::Mat &") \
             or dtype == _D.dummy_type_t("::cv::Mat const &") \
             or dtype == _D.dummy_type_t("::cv::Mat") \
             or dtype == _D.dummy_type_t("::cv::Mat const"):
+            
+            # element type
             etype = _D.remove_const(_D.remove_reference(dtype))
             v = controller.declare_variable( etype, self.arg.name )
-            controller.add_pre_call_code("convert_ndarray_to< %s >(%s, %s);" % (etype.decl_string, w_arg.name, v))
+            controller.add_pre_call_code("convert_ndarray_to(%s, %s);" % (w_arg.name, v))
             controller.modify_arg_expression( self.arg_index, v )
-        elif "::std::vector<int" in dtype.decl_string:
-            if self.arg.default_value is not None: # be careful with this default value
+            
+            # is inout
+            if not 'const' in self.arg.type.partial_decl_string:
+                controller.add_post_call_code("convert_ndarray_from(%s, %s);" % (v, w_arg.name))
+            
+        elif "::std::vector<" in dtype.decl_string:
+        
+            # be careful with this default value
+            if self.arg.default_value is not None: 
                 w_arg.default_value = 'bp::object()'
+                
+            # element type
             etype = _D.remove_const(_D.remove_reference(dtype))
             v = controller.declare_variable( etype, self.arg.name )
-            controller.add_pre_call_code("if(W.ptr() != Py_None) convert_ndarray_to(W, V);".replace("W", w_arg.name).replace("V", v))
+            controller.add_pre_call_code("if(%s.ptr() != Py_None) convert_ndarray_to(%s, %s);" % (w_arg.name, w_arg.name, v))
             controller.modify_arg_expression( self.arg_index, v )
+            
+            # is inout
+            if not 'const' in self.arg.type.partial_decl_string:
+                controller.add_post_call_code("if(%s.ptr() != Py_None) convert_ndarray_from(%s, %s);" % (w_arg.name, v, w_arg.name))
+            
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
