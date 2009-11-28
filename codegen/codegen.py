@@ -195,6 +195,12 @@ def beautify_func_list(self, func_list):
                 f._transformer_creators.append(FT.input_string(arg.name))
                 if not f.ignore:
                     mb.add_doc(f.name, "'data' is represented by a string")
+                    
+    # return type Mat
+    for f in func_list:
+        if f.return_type == D.dummy_type_t("::cv::Mat"):
+            if f.call_policies.is_default():
+                f.call_policies = CP.custom_call_policies( "bp::return_value_policy<bp::return_by_value>", "opencv_extra.hpp" )
 
 module_builder.module_builder_t.beautify_func_list = beautify_func_list
 

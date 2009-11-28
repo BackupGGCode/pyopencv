@@ -160,10 +160,8 @@ template <> struct to_python_value<const cv::Mat &>
 {
     inline PyObject* operator()(cv::Mat const& x) const
     {
-        std::cout << "Everthing is fine until here." << std::endl;
         object obj;
         convert_ndarray_from(x, obj);
-        std::cout << "Everthing is fine until here." << std::endl;
         return bp::incref(obj.ptr());
     }
     inline PyTypeObject const* get_pytype() const

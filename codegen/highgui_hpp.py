@@ -45,8 +45,8 @@ setTrackbarpos = cvSetTrackbarPos # don't know why they haven't exported this fu
         
     FT.expose_func(mb.free_fun('imencode'), return_pointee=False, transformer_creators=[FT.output_ndarray('buf')])
     # FT.expose_func(mb.free_fun('imread'), return_pointee=False, return_as_ndarray_from_type='cv::Mat')
-    z = mb.free_fun('imread')
-    z.call_policies = CP.custom_call_policies( "bp::return_value_policy<bp::return_by_value>", "opencv_extra.hpp" )
+    # z = mb.free_fun('imread')
+    # z.call_policies = CP.custom_call_policies( "bp::return_value_policy<bp::return_by_value>", "opencv_extra.hpp" )
         
     # classes
     for z in (
