@@ -1,11 +1,16 @@
-#include "opencv_extra.hpp"
+#include <boost/python/detail/prefix.hpp>
+#include <boost/python/extract.hpp>
+#include <boost/python/default_call_policies.hpp>
+#include <boost/python/object.hpp>
 
+#include <algorithm>
 #include <iostream>
 #include <cstdio>
 #include <string>
 #include <cstring>
 
-#include <boost/python/extract.hpp>
+#include "opencv_extra.hpp"
+
 
 // ================================================================================================
 
@@ -243,23 +248,8 @@ template void convert_ndarray_from( const std::vector<double> &in_arr, bp::objec
 
 // ================================================================================================
 
-
-namespace boost { namespace python {
-
-template <> struct to_python_value<const cv::Mat &>
+// get_ndarray_type
+PyTypeObject const* get_ndarray_type()
 {
-    inline PyObject* operator()(cv::Mat const& x) const
-    {
-        std::cout << "Everthing is fine." << std::endl;
-        object obj;
-        ::convert_ndarray_from(x, obj);
-        std::cout << "Everthing is fine until here." << std::endl;
-        return incref(obj.ptr());
-    }
-    inline PyTypeObject const* get_pytype() const
-    {
-        return 0;//PyArray_Type;
-    }
-};
-
-}}
+    return &PyArray_Type;
+}
