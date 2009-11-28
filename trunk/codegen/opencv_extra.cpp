@@ -212,7 +212,7 @@ void create_ndarray_from_Mat( const cv::Mat &in_arr, bp::object &out_arr )
 {
     PyObject *arr;
     int rows = in_arr.rows, cols = in_arr.cols, nchannels = in_arr.channels();
-    int shape[3], i, rowlen = cols*in_arr.elemSize1();
+    int shape[3], i, rowlen = cols*in_arr.elemSize();
     shape[0] = rows; shape[1] = cols;    
     if(nchannels == 1)
         arr = PyArray_SimpleNew(2, shape, convert_cvdepth_to_dtype(in_arr.depth()));
