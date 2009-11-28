@@ -2,9 +2,6 @@
 #define SDOPENCV_EXTRA_H
 
 #include <vector>
-#include <iostream>
-
-#include "opencv_headers.hpp"
 
 #include "boost/python.hpp"
 #include "boost/python/object.hpp"
@@ -13,6 +10,8 @@
 #include "boost/python/to_python_value.hpp"
 
 #include <arrayobject.h>
+
+#include "opencv_headers.hpp"
 
 namespace bp = boost::python;
 
@@ -39,6 +38,9 @@ float CV_CDECL sdDistanceFunction( const float* a, const float*b, void* user_par
 // Stuff related to numpy's ndarray
 // ================================================================================================
 
+
+// get_ndarray_type
+PyTypeObject const* get_ndarray_type();
 
 // dtypeof
 template<typename T>
@@ -152,13 +154,26 @@ extern template void convert_ndarray_from( const std::vector<float> &in_arr, bp:
 extern template void convert_ndarray_from( const std::vector<double> &in_arr, bp::object &out_arr );
 
 
-namespace boost { namespace python {
+namespace boost { namespace python { 
 
-template <> struct to_python_value<const cv::Mat &>;
+template <> struct to_python_value<const cv::Mat &>
+{
+    inline PyObject* operator()(cv::Mat const& x) const
+    {
+        std::cout << "Everthing is fine until here." << std::endl;
+        object obj;
+        convert_ndarray_from(x, obj);
+        std::cout << "Everthing is fine until here." << std::endl;
+        return bp::incref(obj.ptr());
+    }
+    inline PyTypeObject const* get_pytype() const
+    {
+        return get_ndarray_type();
+    }
+};
 
-}}
 
-
+}} // namespace boost::python
 
 
 
