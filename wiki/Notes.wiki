@@ -6,4 +6,4 @@ The following arrays will be replaced by numpy array:
  * CvMat
  * IplImage
  * cv::Mat
- * std::vector < T >, where T is in (primitive data types or CvPoint-like types)
+ * std::vector < T >, where T is in (primitive data types and CvPoint-like types)
