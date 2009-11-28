@@ -132,34 +132,16 @@ template<> void convert_ndarray_to< cv::Mat >( const bp::object &in_arr, cv::Mat
         CV_MAKETYPE(get_cvdepth_from_dtype(PyArray_TYPE(arr)), nchannels), PyArray_DATA(arr), strides[0]);
 }
 
-template<> void convert_ndarray_to< std::vector<int> >( const bp::object &in_arr, std::vector<int> &out_arr )
-{
-    PyObject *arr = in_arr.ptr();
-    char s[100];
-    if(PyArray_Check(arr) != 1)
-    {
-        PyErr_SetString(PyExc_TypeError, "Input argument is not an ndarray.");
-        throw bp::error_already_set(); 
-    }
-    int nd = PyArray_NDIM(arr);
-    if(nd != 1)
-    {
-        sprintf(s, "Rank must be 1, rank=%d detected.", nd);
-        PyErr_SetString(PyExc_TypeError, s);
-        throw bp::error_already_set(); 
-    }
-    if(PyArray_TYPE(arr) != NPY_LONG)
-    {
-        sprintf(s, "Element type must be 32-bit integer, dtype=%d detected.", PyArray_TYPE(arr));
-        PyErr_SetString(PyExc_TypeError, s);
-        throw bp::error_already_set(); 
-    }
-    
-    int len = PyArray_DIM(arr, 0);
-    
-    out_arr.resize(len);
-    for(int i = 0; i < len; ++i) out_arr[i] = *(int *)PyArray_GETPTR1(arr, i);
-}
+template void convert_ndarray_to( const bp::object &in_arr, std::vector<char> &out_arr );
+template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned char> &out_arr );
+template void convert_ndarray_to( const bp::object &in_arr, std::vector<short> &out_arr );
+template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned short> &out_arr );
+template void convert_ndarray_to( const bp::object &in_arr, std::vector<long> &out_arr );
+template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned long> &out_arr );
+template void convert_ndarray_to( const bp::object &in_arr, std::vector<int> &out_arr );
+template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned int> &out_arr );
+template void convert_ndarray_to( const bp::object &in_arr, std::vector<float> &out_arr );
+template void convert_ndarray_to( const bp::object &in_arr, std::vector<double> &out_arr );
 
 // ================================================================================================
 
