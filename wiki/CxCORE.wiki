@@ -32,3 +32,5 @@ where 'arr' is your ndarray.
 || cv::subtract || subtract ||
 || cv::multiply || multiply ||
 || cv::divide || divide ||
+|| cv::scaleAdd || scaleAdd ||
+|| cv::addWeighted || addWeighted ||
