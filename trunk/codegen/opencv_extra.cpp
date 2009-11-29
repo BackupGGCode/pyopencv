@@ -99,6 +99,20 @@ bool last_index_is_channel(const bp::object &in_arr)
 
 // ================================================================================================
 
+// rankof
+int rankof(const bp::object &in_arr)
+{
+    PyObject *arr = in_arr.ptr();
+    if(PyArray_Check(arr) != 1)
+    {
+        PyErr_SetString(PyExc_TypeError, "Input argument is not an ndarray.");
+        throw bp::error_already_set(); 
+    }
+    return PyArray_NDIM(arr) - last_index_is_channel(in_arr);
+}
+
+// ================================================================================================
+
 void npy_init1()
 {
     import_array();
@@ -331,4 +345,237 @@ template void convert_ndarray( const std::vector<double> &in_arr, bp::object &ou
 PyTypeObject const* get_ndarray_type()
 {
     return &PyArray_Type;
+}
+
+// ================================================================================================
+
+// free functions
+namespace sd {
+
+bp::object add(const bp::object & a, const bp::object& b, bp::object& c, const bp::object& mask)
+{
+    cv::Scalar b1;
+    cv::Mat a2, b2, c2, m2;
+    cv::MatND a3, b3, c3, m3;
+
+    int ra = rankof(a);
+    if(ra == 2)
+    {
+        convert_ndarray(a, a2);
+        convert_ndarray(c, c2);
+        if(mask.ptr() != Py_None) convert_ndarray(mask, m2);
+        if(rankof(b) <= 1) // scalar
+        {
+            // TODO: convert b to b1
+            cv::add(a2, b1, c2, m2);
+        }
+        else
+        {
+            convert_ndarray(b, b2);
+            cv::add(a2, b2, c2, m2);
+        }
+        convert_ndarray(c2, c);
+    }
+    else
+    {
+        convert_ndarray(a, a3);
+        convert_ndarray(c, c3);
+        if(mask.ptr() != Py_None) convert_ndarray(mask, m3);
+        if(rankof(b) <= 1) // scalar
+        {
+            // TODO: convert b to b1
+            cv::add(a3, b1, c3, m3);
+        }
+        else
+        {
+            convert_ndarray(b, b3);
+            cv::add(a3, b3, c3, m3);
+        }        
+        convert_ndarray(c3, c);
+    }
+    return c;
+}
+
+bp::object subtract(const bp::object & a, const bp::object& b, bp::object& c, const bp::object& mask)
+{
+    cv::Scalar a1, b1;
+    cv::Mat a2, b2, c2, m2;
+    cv::MatND a3, b3, c3, m3;
+
+    int ra = rankof(a);
+    if(ra <= 1)
+    {
+        // TODO: convert a to a1
+        if(rankof(b) == 2)
+        {
+            convert_ndarray(b, b2);
+            convert_ndarray(c, c2);
+            if(mask.ptr() != Py_None) convert_ndarray(mask, m2);
+            cv::subtract(a1, b2, c2, m2);
+            convert_ndarray(c2, c);
+        }
+        else
+        {
+            convert_ndarray(b, b3);
+            convert_ndarray(c, c3);
+            if(mask.ptr() != Py_None) convert_ndarray(mask, m3);
+            cv::subtract(a1, b3, c3, m3);
+            convert_ndarray(c3, c);
+        }
+    }
+    else if(ra == 2)
+    {
+        convert_ndarray(a, a2);
+        convert_ndarray(c, c2);
+        if(mask.ptr() != Py_None) convert_ndarray(mask, m2);
+        if(rankof(b) <= 1) // scalar
+        {
+            // TODO: convert b to b1
+            cv::subtract(a2, b1, c2, m2);
+        }
+        else
+        {
+            convert_ndarray(b, b2);
+            cv::subtract(a2, b2, c2, m2);
+        }
+        convert_ndarray(c2, c);
+    }
+    else
+    {
+        convert_ndarray(a, a3);
+        convert_ndarray(c, c3);
+        if(mask.ptr() != Py_None) convert_ndarray(mask, m3);
+        if(rankof(b) <= 1) // scalar
+        {
+            // TODO: convert b to b1
+            cv::subtract(a3, b1, c3, m3);
+        }
+        else
+        {
+            convert_ndarray(b, b3);
+            cv::subtract(a3, b3, c3, m3);
+        }        
+        convert_ndarray(c3, c);
+    }
+    return c;
+}
+
+bp::object multiply(const bp::object & a, const bp::object& b, bp::object& c, double scale)
+{
+    cv::Mat a2, b2, c2;
+    cv::MatND a3, b3, c3;
+
+    if(rankof(a) == 2)
+    {
+        convert_ndarray(a, a2);
+        convert_ndarray(b, b2);
+        convert_ndarray(c, c2);
+        cv::multiply(a2, b2, c2, scale);
+        convert_ndarray(c2, c);
+    }
+    else
+    {
+        convert_ndarray(a, a3);
+        convert_ndarray(b, b3);
+        convert_ndarray(c, c3);
+        cv::multiply(a3, b3, c3, scale);
+        convert_ndarray(c3, c);
+    }
+    return c;
+}
+
+bp::object divide(const bp::object & a, const bp::object& b, bp::object& c, double s)
+{
+    cv::Mat a2, b2, c2;
+    cv::MatND a3, b3, c3;
+
+    if(PyArray_Check(a.ptr()) == 1) // ndarray
+    {
+        if(rankof(a) == 2)
+        {
+            convert_ndarray(a, a2);
+            convert_ndarray(b, b2);
+            convert_ndarray(c, c2);
+            cv::divide(a2, b2, c2, s);
+            convert_ndarray(c2, c);
+        }
+        else
+        {
+            convert_ndarray(a, a3);
+            convert_ndarray(b, b3);
+            convert_ndarray(c, c3);
+            cv::divide(a3, b3, c3, s);
+            convert_ndarray(c3, c);
+        }
+    }
+    else
+    {
+        s = bp::extract<double>(a);
+        if(rankof(b) == 2)
+        {
+            convert_ndarray(b, b2);
+            convert_ndarray(c, c2);
+            cv::divide(s, b2, c2);
+            convert_ndarray(c2, c);
+        }
+        else
+        {
+            convert_ndarray(b, b3);
+            convert_ndarray(c, c3);
+            cv::divide(s, b3, c3);
+            convert_ndarray(c3, c);
+        }
+    }
+    return c;
+}
+
+bp::object scaleAdd(const bp::object & a, double alpha, const bp::object& b, bp::object& c)
+{
+    cv::Mat a2, b2, c2;
+    cv::MatND a3, b3, c3;
+
+    if(rankof(a) == 2)
+    {
+        convert_ndarray(a, a2);
+        convert_ndarray(b, b2);
+        convert_ndarray(c, c2);
+        cv::scaleAdd(a2, alpha, b2, c2);
+        convert_ndarray(c2, c);
+    }
+    else
+    {
+        convert_ndarray(a, a3);
+        convert_ndarray(b, b3);
+        convert_ndarray(c, c3);
+        cv::scaleAdd(a3, alpha, b3, c3);
+        convert_ndarray(c3, c);
+    }
+    return c;
+}
+
+bp::object addWeighted(const bp::object & a, double alpha, const bp::object& b, double beta, double gamma, bp::object& c)
+{
+    cv::Mat a2, b2, c2;
+    cv::MatND a3, b3, c3;
+
+    if(rankof(a) == 2)
+    {
+        convert_ndarray(a, a2);
+        convert_ndarray(b, b2);
+        convert_ndarray(c, c2);
+        cv::addWeighted(a2, alpha, b2, beta, gamma, c2);
+        convert_ndarray(c2, c);
+    }
+    else
+    {
+        convert_ndarray(a, a3);
+        convert_ndarray(b, b3);
+        convert_ndarray(c, c3);
+        cv::addWeighted(a3, alpha, b3, beta, gamma, c3);
+        convert_ndarray(c3, c);
+    }
+    return c;
+}
+
+
 }
