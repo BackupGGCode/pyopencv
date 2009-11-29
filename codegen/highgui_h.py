@@ -122,24 +122,31 @@ def CV_FOURCC(c1,c2,c3,c4):
 CV_FOURCC_PROMPT = -1 # Windows only
 CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
 
-
+cvNamedWindow = namedWindow
+cvShowImage = imshow
+cvLoadImage = imread
+cvLoadImageM = imread
+cvDecodeImage = imdecode
+cvDecodeImageM = imdecode
+cvSaveImage = imwrite
+cvEncodeImage = imencode
 
     ''')
 
     # functions
     for z in (
-        'cvStartWindowThread', 'cvShowImage', 'cvResizeWindow', 'cvMoveWindow', 
+        'cvStartWindowThread', 'cvResizeWindow', 'cvMoveWindow', 
         'cvGetWindowName', 'cvGetTrackbarPos', 'cvSetTrackbarPos',
         'cvConvertImage', 'cvWaitKey',
-        'cvGrabFrame', 'cvGetCaptureProperty', 'cvSetCaptureProperty', 'cvGetCaptureDomain',
-        'cvWriteFrame',
+        # 'cvGrabFrame', 'cvGetCaptureProperty', 'cvSetCaptureProperty', 'cvGetCaptureDomain',
+        # 'cvWriteFrame',
         ):
         mb.free_fun(z).include()
         
-    for z in ('CvCapture', 'CvVideoWriter'):
-        mb.class_(z).include()
-    mb.insert_del_interface('CvCapture', '_PE._cvReleaseCapture')
-    mb.insert_del_interface('CvVideoWriter', '_PE._cvReleaseVideoWriter')
+    # for z in ('CvCapture', 'CvVideoWriter'):
+        # mb.class_(z).include()
+    # mb.insert_del_interface('CvCapture', '_PE._cvReleaseCapture')
+    # mb.insert_del_interface('CvVideoWriter', '_PE._cvReleaseVideoWriter')
     
     # CV_FOURCC -- turn it off, we've got ctypes code for it
     try:
@@ -185,33 +192,6 @@ def cvSetMouseCallback(window_name, on_mouse, param=None):
 cvSetMouseCallback.__doc__ = _PE._cvSetMouseCallback.__doc__
     ''')
 
-    # cvNamedWindow
-    z = mb.free_fun('cvNamedWindow')
-    FT.add_underscore(z)
-    cc.write('''
-def cvNamedWindow(name, flags=1):
-    """int cvNamedWindow(string name, int flags)
-
-    Creates window
-    """
-    z = _PE._cvNamedWindow(name, flags=flags)
-    if z > 0 and not name in _windows_callbacks:
-        _windows_callbacks[name] = {}
-    return z
-    
-    ''')
-    
-    for z in (
-        'cvLoadImage', 'cvLoadImageM', 'cvDecodeImage', 'cvDecodeImageM',
-        ):
-        FT.expose_func(mb.free_fun(z), ownershiplevel=3)
-
-    # cvSaveImage
-    FT.expose_func(mb.free_fun('cvSaveImage'), return_pointee=False, transformer_creators=[FT.input_array1d('params')])
-
-    # cvEncodeImage
-    FT.expose_func(mb.free_fun('cvEncodeImage'), transformer_creators=[FT.input_array1d('params')])
-
     # cvDestroyWindow
     z = mb.free_fun('cvDestroyWindow')
     FT.add_underscore(z)
@@ -252,10 +232,10 @@ import atexit
 atexit.register(cvDestroyAllWindows)
     ''')
 
-    for z in ('cvRetrieveFrame', 'cvQueryFrame'):
-        FT.expose_func(mb.free_fun(z), ward_indices=(1,))
+    # for z in ('cvRetrieveFrame', 'cvQueryFrame'):
+        # FT.expose_func(mb.free_fun(z), ward_indices=(1,))
 
-    for z in ('cvCreateFileCapture', 'cvCreateCameraCapture', 'cvCreateVideoWriter'):
-        FT.expose_func(mb.free_fun(z))
+    # for z in ('cvCreateFileCapture', 'cvCreateCameraCapture', 'cvCreateVideoWriter'):
+        # FT.expose_func(mb.free_fun(z))
 
 

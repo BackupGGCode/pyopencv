@@ -32,8 +32,13 @@ def generate_code(mb, cc, D, FT, CP):
 #-----------------------------------------------------------------------------
 
 createTrackbar = cvCreateTrackbar2
-getTrackbarPos = cvGetTrackbarPos # don't know why they haven't exported this function
-setTrackbarpos = cvSetTrackbarPos # don't know why they haven't exported this function
+
+# don't know why they haven't exported these function
+getTrackbarPos = cvGetTrackbarPos 
+setTrackbarpos = cvSetTrackbarPos
+setMouseCallback = cvSetMouseCallback
+destroyWindow = cvDestroyWindow
+destroyAllWindows = cvDestroyAllWindows
     
     ''')
 
