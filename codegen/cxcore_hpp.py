@@ -33,37 +33,64 @@ def generate_code(mb, cc, D, FT, CP):
         'setUseOptimized', 'useOptimized',
         ):
         mb.free_fun(lambda decl: z in decl.name).include()
-
-    for z in ('DataDepth', 'Vec', 'Point', 'Size', 'Rect', 'RotatedRect',
-        'Scalar', 'Range', 'DataType', 
-        'RNG', 'TermCriteria',
-        ):
-        try:
-            mb.classes(lambda decl: decl.name.startswith(z)).include()
-        except RuntimeError:
-            pass
-
-    # TODO: fix these things
-    # Ptr, Complex*
-
-    # class Mat
-    mat = mb.class_('Mat')
-    mat.include()
-    for z in ('refcount', 'datastart', 'dataend'):
-        mat.var(z).exclude()
-    # TODO: expose the 'data' member as read-write buffer
-    mat.var('data').exclude()
-    FT.expose_addressof_member(mat, 'data')
-    mat.decls('ptr').exclude()
-    mat.operators().exclude() # TODO fix these things
-    for z in ('setTo', 'adjustROI'):
-        mat.mem_fun(z).exclude()
-
+        
+    # TODO:
+    # Vec et al
+    # Complex et al
+    # Point et al
+    # Point3 et al
+    # Size et al
+    # Rect et al
+    # RotatedRect
+    # Scalar et al
+    # Range
+    # DataType et al
+    # RNG
+    # TermCriteria
+    
     for z in (
         'getElemSize',
-        # 'cvarrToMat', 'extractImageCOI', 'insertImageCOI', # TODO: don't know why I can't expose these funcs
+        # 'cvarrToMat', 'extractImageCOI', 'insertImageCOI', # removed, everything is in ndarray now
         ):
-        mb.free_fun(z).include()
+        mb.free_funs(z).include()
+
+    mat = D.dummy_type_t('::cv::Mat &')
+    mat_c = D.dummy_type_t('::cv::Mat const &')
+    matnd = D.dummy_type_t('::cv::MatND &')
+    matnd_c = D.dummy_type_t('::cv::MatND const &')
+    scalar = D.dummy_type_t('::cv::Scalar &')
+    scalar_c = D.dummy_type_t('::cv::Scalar const &')
+
+    # add
+    mb.free_funs('add').exclude()
+    z = mb.free_fun('add', arg_types=[mat_c, mat_c, mat, mat_c])
+    z.rename('add_mat')
+    z.include()
+    z.arguments[3].default_value = "cv::Mat()"
+    z = mb.free_fun('add', arg_types=[matnd_c, matnd_c, matnd, matnd_c])
+    z.rename('add_matnd')
+    z.include()
+    z.arguments[3].default_value = "cv::MatND()"
+    z = mb.free_fun('add', arg_types=[matnd_c, scalar_c, matnd, matnd_c])
+    z.rename('add_matnd_scalar')
+    z.include()
+    
+    
+    # TODO: subtract, multiply, divide
 
     # TODO: expand the rest of cxcore.hpp
  
+    
+
+    # for z in ('DataDepth', 'Vec', 'Point', 'Size', 'Rect', 'RotatedRect',
+        # 'Scalar', 'Range', 'DataType', 
+        # 'RNG', 'TermCriteria',
+        # ):
+        # try:
+            # mb.classes(lambda decl: decl.name.startswith(z)).include()
+        # except RuntimeError:
+            # pass
+
+    # TODO: fix these things
+
+

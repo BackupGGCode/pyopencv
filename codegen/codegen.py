@@ -23,18 +23,18 @@ import function_transformers as FT
 from pyplusplus.module_builder import call_policies as CP
 from shutil import copyfile
 
-# import cxerror_h # done
-# import cxtypes_h # done
-# import cxcore_h
-# import cxcore_hpp
-# import cxflann_h # done
-# import cxmat_hpp
-# import cvtypes_h # done
-# import cv_h
-# import cv_hpp
-# import cvcompat_h
-# import cvaux_h
-# import cvaux_hpp
+import cxerror_h # done
+import cxtypes_h # done
+import cxcore_h
+import cxcore_hpp
+import cxflann_h # done
+import cxmat_hpp
+import cvtypes_h # done
+import cv_h
+import cv_hpp
+import cvcompat_h
+import cvaux_h
+import cvaux_hpp
 import highgui_h # done
 import highgui_hpp # done
 # import ml_h
@@ -281,7 +281,7 @@ for z in ('IPL_', 'CV_'):
 # cxcore_h.generate_code(mb, cc, D, FT, CP)
 
 # cxcore.hpp
-# cxcore_hpp.generate_code(mb, cc, D, FT, CP)
+cxcore_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cxflann.h
 # cxflann_h.generate_code(mb, cc, D, FT, CP)
@@ -331,10 +331,6 @@ mb.beautify_func_list(opencv_funs)
 # Final tasks
 #=============================================================================
 
-for z in ('hdr_refcount', 'refcount'): # too low-level
-    mb.decls(z).exclude()
-
-        
 mb.add_registration_code("boost::python::numeric::array::set_module_and_type(\"numpy\", \"ndarray\");")
 
 

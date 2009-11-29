@@ -42,6 +42,9 @@ float CV_CDECL sdDistanceFunction( const float* a, const float*b, void* user_par
 // get_ndarray_type
 PyTypeObject const* get_ndarray_type();
 
+// last_index_is_channel
+bool last_index_is_channel(const bp::object &in_arr);
+
 // dtypeof
 template<typename T>
 inline int dtypeof()
@@ -72,7 +75,24 @@ void convert_ndarray( const bp::object &in_arr, T &out_arr )
     throw bp::error_already_set(); 
 }
 
+template<typename T>
+void convert_ndarray( const T &in_arr, bp::object &out_arr )
+{
+    const char message[] = "Instantiation of function convert_ndarray() for the given class is not yet implemented.";
+    PyErr_SetString(PyExc_NotImplementedError, message);
+    throw bp::error_already_set(); 
+}
+
+
+// convert_ndarray, cv::Mat case
 template<> void convert_ndarray< cv::Mat >( const bp::object &in_arr, cv::Mat &out_arr );
+template<> void convert_ndarray< cv::Mat >( const cv::Mat &in_arr, bp::object &out_arr );
+
+// convert_ndarray, cv::MatND case
+template<> void convert_ndarray< cv::MatND >( const bp::object &in_arr, cv::MatND &out_arr );
+template<> void convert_ndarray< cv::MatND >( const cv::MatND &in_arr, bp::object &out_arr );
+
+
 
 // convert_ndarray, std::vector case
 // Note: because Python and C have different ways of allocating/reallocating memory,
@@ -118,19 +138,6 @@ extern template void convert_ndarray( const bp::object &in_arr, std::vector<int>
 extern template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned int> &out_arr );
 extern template void convert_ndarray( const bp::object &in_arr, std::vector<float> &out_arr );
 extern template void convert_ndarray( const bp::object &in_arr, std::vector<double> &out_arr );
-
-
-// convert_ndarray
-template<typename T>
-void convert_ndarray( const T &in_arr, bp::object &out_arr )
-{
-    const char message[] = "Instantiation of function convert_ndarray() for the given class is not yet implemented.";
-    PyErr_SetString(PyExc_NotImplementedError, message);
-    throw bp::error_already_set(); 
-}
-
-template<> void convert_ndarray< cv::Mat >( const cv::Mat &in_arr, bp::object &out_arr );
-
 
 // convert_ndarray, std::vector case
 template<typename T>

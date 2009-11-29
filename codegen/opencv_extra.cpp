@@ -74,6 +74,30 @@ int convert_cvdepth_to_dtype(int depth)
 
 // ================================================================================================
 
+// last_index_is_channel
+bool last_index_is_channel(const bp::object &in_arr)
+{
+    PyObject *arr = in_arr.ptr();
+    if(PyArray_Check(arr) != 1)
+    {
+        PyErr_SetString(PyExc_TypeError, "Input argument is not an ndarray.");
+        throw bp::error_already_set(); 
+    }
+    
+    int nd = PyArray_NDIM(arr);
+    if(!nd) return false;
+    
+    int nchannels = PyArray_DIM(arr, nd-1);
+    if(nchannels < 1 || nchannels > 4) return false;
+    
+    int itemsize = PyArray_ITEMSIZE(arr);
+    int *strides = PyArray_STRIDES(arr);
+    if(nd == 1) return itemsize == strides[0];
+    
+    return itemsize == strides[nd-1] && nchannels*itemsize == strides[nd-2];
+}
+
+// ================================================================================================
 
 void npy_init1()
 {
@@ -90,7 +114,6 @@ bool npy_inited = npy_init2();
 
 // ================================================================================================
 
-
 template<> void convert_ndarray< cv::Mat >( const bp::object &in_arr, cv::Mat &out_arr )
 {
     PyObject *arr = in_arr.ptr();
@@ -100,15 +123,12 @@ template<> void convert_ndarray< cv::Mat >( const bp::object &in_arr, cv::Mat &o
         PyErr_SetString(PyExc_TypeError, "Input argument is not an ndarray.");
         throw bp::error_already_set(); 
     }
+    bool lindex_is_channel = last_index_is_channel(in_arr);
     int nd = PyArray_NDIM(arr);
-    if(nd < 2)
-    {    
-        PyErr_SetString(PyExc_TypeError, "Rank must not be less than 2.");
-        throw bp::error_already_set(); 
-    }
-    if(nd > 3)
+    if(nd != 2+lindex_is_channel)
     {
-        PyErr_SetString(PyExc_TypeError, "Rank must not be greater than 3.");
+        sprintf( s, "Rank must be 2+last_index_is_channel. Detected rank=%d and last_index_is_channel=%d.", nd, lindex_is_channel);
+        PyErr_SetString(PyExc_TypeError, s);
         throw bp::error_already_set(); 
     }
     
@@ -136,18 +156,6 @@ template<> void convert_ndarray< cv::Mat >( const bp::object &in_arr, cv::Mat &o
             throw bp::error_already_set(); 
         }
         nchannels = shape[2];
-        if(nchannels < 1) // non-contiguous
-        {
-            sprintf(s, "The number of channels must not be less than 1 (nchannels=%d).", nchannels);
-            PyErr_SetString(PyExc_TypeError, s);
-            throw bp::error_already_set(); 
-        }
-        if(nchannels > 4) // non-contiguous
-        {
-            sprintf(s, "The number of channels must not be greater than 4 (nchannels=%d).", nchannels);
-            PyErr_SetString(PyExc_TypeError, s);
-            throw bp::error_already_set(); 
-        }
         if(strides[1] != itemsize*nchannels) // non-contiguous
         {
             sprintf(s, "The 2nd dimension must be contiguous (2nd stride=%d, itemsize=%d, nchannels=%d).", strides[1], itemsize, nchannels);
@@ -159,22 +167,6 @@ template<> void convert_ndarray< cv::Mat >( const bp::object &in_arr, cv::Mat &o
 }
 
 // ================================================================================================
-
-
-template void convert_ndarray( const bp::object &in_arr, std::vector<char> &out_arr );
-template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned char> &out_arr );
-template void convert_ndarray( const bp::object &in_arr, std::vector<short> &out_arr );
-template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned short> &out_arr );
-template void convert_ndarray( const bp::object &in_arr, std::vector<long> &out_arr );
-template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned long> &out_arr );
-template void convert_ndarray( const bp::object &in_arr, std::vector<int> &out_arr );
-template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned int> &out_arr );
-template void convert_ndarray( const bp::object &in_arr, std::vector<float> &out_arr );
-template void convert_ndarray( const bp::object &in_arr, std::vector<double> &out_arr );
-
-
-// ================================================================================================
-
 
 bool is_Mat_same_shape_with_ndarray( const cv::Mat &in_arr, bp::object &out_arr )
 {
@@ -203,7 +195,7 @@ bool is_Mat_same_shape_with_ndarray( const cv::Mat &in_arr, bp::object &out_arr 
     return true;
 }
 
-
+// TODO: later I will create a function to wrap around a cv::Mat, for the case of VideoCapture in highgui
 template<> void convert_ndarray< cv::Mat >( const cv::Mat &in_arr, bp::object &out_arr )
 {
     PyObject *arr;
@@ -235,6 +227,92 @@ template<> void convert_ndarray< cv::Mat >( const cv::Mat &in_arr, bp::object &o
 
 // ================================================================================================
 
+template<> void convert_ndarray< cv::MatND >( const bp::object &in_arr, cv::MatND &out_arr )
+{
+    PyObject *arr = in_arr.ptr();
+    char s[100];
+    if(PyArray_Check(arr) != 1)
+    {
+        PyErr_SetString(PyExc_TypeError, "Input argument is not an ndarray.");
+        throw bp::error_already_set(); 
+    }
+    if(PyArray_ISCONTIGUOUS(arr) != true)
+    {
+        sprintf(s, "Cannot convert the ndarray into a cv::MatND because it is not C-style contiguous.");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw bp::error_already_set(); 
+    }
+    
+    bool lindex_is_channel = last_index_is_channel(in_arr);
+    int *shape = PyArray_DIMS(arr);
+    int nd = PyArray_NDIM(arr);
+    int nchannels = lindex_is_channel? shape[--nd]: 1;
+    
+    int rshape[CV_MAX_DIM];    
+    for(int i = 0; i < nd; ++i) rshape[i] = shape[nd-1-i];
+    
+    CvMatND cvmatnd;
+    cvInitMatNDHeader( &cvmatnd, nd, rshape, CV_MAKETYPE(convert_dtype_to_cvdepth(PyArray_TYPE(arr)), nchannels), PyArray_DATA(arr) );
+    
+    out_arr = cv::MatND(&cvmatnd, false);
+}
+
+// ================================================================================================
+
+bool is_MatND_same_shape_with_ndarray( const cv::MatND &in_arr, bp::object &out_arr )
+{
+    PyObject *arr = out_arr.ptr();
+    if(PyArray_Check(arr) != 1 || PyArray_ISCONTIGUOUS(arr) != true || PyArray_ITEMSIZE(arr) != in_arr.elemSize1()) 
+        return false;
+        
+    bool lindex_is_channel = last_index_is_channel(out_arr);
+    int *shape = PyArray_DIMS(arr);
+    int nd = PyArray_NDIM(arr);
+    int nchannels = lindex_is_channel? shape[--nd]: 1;
+    if(nchannels != in_arr.channels()) return false;
+    
+    for(int i = 0; i < nd; ++i) if(shape[i] != in_arr.size[nd-1-i]) return false;
+    
+    return true;
+}
+
+template<> void convert_ndarray< cv::MatND >( const cv::MatND &in_arr, bp::object &out_arr )
+{
+    PyObject *arr;
+    if(is_MatND_same_shape_with_ndarray(in_arr, out_arr)) arr = out_arr.ptr();
+    else
+    {
+        int nd = in_arr.dims, shape[CV_MAX_DIM];
+        for(int i = 0; i < nd; ++i) shape[i] = in_arr.size[nd-1-i];
+        int nchannels = in_arr.channels();
+        if(nchannels > 1) shape[nd++] = nchannels;
+        arr = PyArray_SimpleNew(nd, shape, convert_cvdepth_to_dtype(in_arr.depth()));
+        
+        out_arr = bp::object(bp::handle<>(arr));
+    }
+    
+    if(PyArray_DATA(arr) != (void *)in_arr.data)
+    {
+        int count = in_arr.step[in_arr.dims-1]*in_arr.size[in_arr.dims-1];
+        std::memmove(PyArray_DATA(arr), (const void *)in_arr.data, count);
+    }
+    // else do nothing
+}
+
+// ================================================================================================
+
+template void convert_ndarray( const bp::object &in_arr, std::vector<char> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned char> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<short> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned short> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<long> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned long> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<int> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned int> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<float> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<double> &out_arr );
+
+// ================================================================================================
 
 template void convert_ndarray( const std::vector<char> &in_arr, bp::object &out_arr );
 template void convert_ndarray( const std::vector<unsigned char> &in_arr, bp::object &out_arr );

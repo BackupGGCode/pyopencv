@@ -34,11 +34,17 @@ def generate_code(mb, cc, D, FT, CP):
 createTrackbar = cvCreateTrackbar2
 
 # don't know why they haven't exported these function
+initSystem = cvInitSystem
+startWindowThread = cvStartWindowThread
+resizeWindow = cvResizeWindow
+moveWindow = cvMoveWindow
+getWindowName = cvGetWindowName
 getTrackbarPos = cvGetTrackbarPos 
 setTrackbarpos = cvSetTrackbarPos
 setMouseCallback = cvSetMouseCallback
 destroyWindow = cvDestroyWindow
 destroyAllWindows = cvDestroyAllWindows
+convertImage = cvConvertImage
     
     ''')
 
@@ -56,8 +62,8 @@ destroyAllWindows = cvDestroyAllWindows
     FT.expose_rshift(z, '''    
         cv::Mat mat;
         (*this) >> mat;
-        convert_ndarray(mat, rshift_other);
-        return rshift_other;
+        convert_ndarray(mat, FUNC_NAME_other);
+        return FUNC_NAME_other;
     ''', 'query')
     mb.finalize_class(z)
             
