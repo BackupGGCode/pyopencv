@@ -13,11 +13,11 @@
 
 OpenCV supports multi-channel arrays. When converting an ndarray into an OpenCV's array, it is essential to know if the last index of the ndarray represents the channel. PyOpenCV has a simple mechanism to detect this bit of information:
 
-    last_index_is_channel = "last_dimension in (1, 2, 3, 4)" and "ndarray_is_contiguous_up_to _the_second_last_dimension"
+    last_index_is_channel = "last_dimension in (1, 2, 3, 4)" and "ndarray_is_contiguous_up_to_the_second_last_dimension"
 
 If you want to explicitly specify whether the last index is the channel, then just set:
     arr.last_index_is_channel = True or False
-where arr is your ndarray.
+where 'arr' is your ndarray.
 
 
 = Free Functions =
