@@ -9,9 +9,9 @@
 || *OpenCV* || *PyOpenCV* ||
 || IplImage, CvMat, cv::Mat, CvMatND, cv::MatND || numpy.ndarray ||
 
-==Determining the number of channels of an ndarray==
+==Multi-channel arrays==
 
-OpenCV supports multi-channel arrays. When converting an ndarray into an OpenCV's array, it is essential to know if the last dimension of the ndarray represents the channel. PyOpenCV assumes that the last dimension represents the channel if *its size is between 1 to 4* and *the ndarray is contiguous up to the second last dimension*. If you would like to avoid the array multi-channel, simply add an extra dimension to your ndarray, e.g. by using reshape():
+OpenCV supports multi-channel arrays. When converting an ndarray into an OpenCV's array, PyOpenCV always tries to convert the ndarray into a multi-channel OpenCV array. This happens only when *the size of the last dimension is between 2 to 4* and *the ndarray is contiguous up to the second last dimension*. If you would like to explicitly avoid the ndarray to be converted into a multi-channel OpenCV array, simply add an extra dimension to your ndarray, e.g. by using reshape():
     arr.reshape(arr.shape+(1,))
 where 'arr' is your ndarray.
 
