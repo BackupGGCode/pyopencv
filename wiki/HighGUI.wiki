@@ -1,6 +1,12 @@
 = Free Functions =
 
 || *OpenCV* || *PyOpenCV* ||
-|| cvInitSystem || cvInitSystem ||
-|| cvStartWindowThread || cvStartWindowThread ||
-|| cvNamedWindow, namedWindow || namedWindows ||
+|| cvInitSystem || initSystem ||
+|| cvStartWindowThread || startWindowThread ||
+|| cvNamedWindow, namedWindow || namedWindow ||
+|| cvShowImage, imshow || imshow ||
+|| cvResizeWindow || resizeWindow ||
+|| cvMoveWindow || moveWindow ||
+|| cvDestroyWindow || destroyWindow ||
+|| cvDestroyAllWindows || destroyAllWindows ||
+|| cvCreateTrackbar, cvCreateTrackbar2, createTrackbar || createTrackbar ||
