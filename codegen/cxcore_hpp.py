@@ -51,7 +51,7 @@ def generate_code(mb, cc, D, FT, CP):
     for z in (
         'getElemSize',
         # 'cvarrToMat', 'extractImageCOI', 'insertImageCOI', # removed, everything is in ndarray now
-        'convertScaleAbs', 'LUT',
+        'convertScaleAbs', 'LUT', 'reduce', 'flip',
         ):
         mb.free_funs(z).include()
 
@@ -65,11 +65,27 @@ def generate_code(mb, cc, D, FT, CP):
     mb.add_registration_code('''bp::def("subtract", &sd::subtract,
         ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=bp::object() ));''')
     
+    # mean
+    mb.free_funs('mean').exclude()
+    mb.add_registration_code('''bp::def("mean", &sd::mean,
+        ( bp::arg("m"), bp::arg("mask")=bp::object() ));''')
+    
+    # meanStdDev
+    mb.free_funs('meanStdDev').exclude()
+    mb.add_registration_code('''bp::def("meanStdDev", &sd::meanStdDev,
+        ( bp::arg("m"), bp::arg("mean"), bp::arg("stddev"), bp::arg("mask")=bp::object() ));''')
+    
     # free functions which are rendered obsolete by numpy
     for z in (
-        'multiply', 'divide', 'scaleAdd', 'addWeighted', 'sum', 'countNonZero', 'mean',
+        'multiply', 'divide', 'scaleAdd', 'addWeighted', 'sum', 'countNonZero', 
+        'split', 'merge', 'mixChannels',
     ):
         mb.free_funs(z).exclude()
+        
+    # TODO: function norm, normalize, minMaxLoc
+    
+    mb.free_fun('repeat', return_type=D.dummy_type_t('void')).include()
+    
     
 
     # TODO: expand the rest of cxcore.hpp
