@@ -11,7 +11,7 @@
 
 ==Multi-channel arrays==
 
-OpenCV supports multi-channel arrays. When converting an ndarray into an OpenCV's array, PyOpenCV always tries to convert the ndarray into a multi-channel OpenCV array. This happens only when *the size of the last dimension is between 2 to 4* and *the ndarray is contiguous up to the second last dimension*. If you would like to explicitly avoid the ndarray to be converted into a multi-channel OpenCV array, simply add an extra dimension to your ndarray, e.g. by using reshape():
+OpenCV supports multi-channel arrays. When converting an ndarray into an OpenCV's array, PyOpenCV always tries to convert the ndarray into a multi-channel OpenCV array. This happens only when *2 <= the size of the last dimension <= 4* and *the ndarray is contiguous up to the second last dimension*. If you would like to explicitly avoid the ndarray to be converted into a multi-channel OpenCV array, simply add an extra dimension to your ndarray, e.g. by using reshape():
     arr.reshape(arr.shape+(1,))
 where 'arr' is your ndarray.
 
