@@ -45,6 +45,9 @@ PyTypeObject const* get_ndarray_type();
 // last_index_is_channel
 bool last_index_is_channel(const bp::object &in_arr);
 
+// rankof
+int rankof(const bp::object &in_arr);
+
 // dtypeof
 template<typename T>
 inline int dtypeof()
@@ -181,5 +184,16 @@ template <> struct to_python_value<const cv::Mat &>
 }} // namespace boost::python
 
 
+// free functions, reimplemented
+namespace sd {
+
+bp::object add(const bp::object & a, const bp::object& b, bp::object& c, const bp::object& mask=bp::object());
+bp::object subtract(const bp::object & a, const bp::object& b, bp::object& c, const bp::object& mask=bp::object());
+bp::object multiply(const bp::object & a, const bp::object& b, bp::object& c, double scale=1);
+bp::object divide(const bp::object & a, const bp::object& b, bp::object& c, double s=1);
+bp::object scaleAdd(const bp::object & a, double alpha, const bp::object& b, bp::object& c);
+bp::object addWeighted(const bp::object & a, double alpha, const bp::object& b, double beta, double gamma, bp::object& c);
+
+}
 
 #endif

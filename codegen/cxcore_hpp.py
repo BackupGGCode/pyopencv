@@ -51,32 +51,26 @@ def generate_code(mb, cc, D, FT, CP):
     for z in (
         'getElemSize',
         # 'cvarrToMat', 'extractImageCOI', 'insertImageCOI', # removed, everything is in ndarray now
+        'convertScaleAbs', 'LUT',
         ):
         mb.free_funs(z).include()
 
-    mat = D.dummy_type_t('::cv::Mat &')
-    mat_c = D.dummy_type_t('::cv::Mat const &')
-    matnd = D.dummy_type_t('::cv::MatND &')
-    matnd_c = D.dummy_type_t('::cv::MatND const &')
-    scalar = D.dummy_type_t('::cv::Scalar &')
-    scalar_c = D.dummy_type_t('::cv::Scalar const &')
-
     # add
     mb.free_funs('add').exclude()
-    z = mb.free_fun('add', arg_types=[mat_c, mat_c, mat, mat_c])
-    z.rename('add_mat')
-    z.include()
-    z.arguments[3].default_value = "cv::Mat()"
-    z = mb.free_fun('add', arg_types=[matnd_c, matnd_c, matnd, matnd_c])
-    z.rename('add_matnd')
-    z.include()
-    z.arguments[3].default_value = "cv::MatND()"
-    z = mb.free_fun('add', arg_types=[matnd_c, scalar_c, matnd, matnd_c])
-    z.rename('add_matnd_scalar')
-    z.include()
+    mb.add_registration_code('''bp::def("add", &sd::add,
+        ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=bp::object() ));''')
     
+    # subtract
+    mb.free_funs('subtract').exclude()
+    mb.add_registration_code('''bp::def("subtract", &sd::subtract,
+        ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=bp::object() ));''')
     
-    # TODO: subtract, multiply, divide
+    # free functions which are rendered obsolete by numpy
+    for z in (
+        'multiply', 'divide', 'scaleAdd', 'addWeighted', 'sum', 'countNonZero', 'mean',
+    ):
+        mb.free_funs(z).exclude()
+    
 
     # TODO: expand the rest of cxcore.hpp
  

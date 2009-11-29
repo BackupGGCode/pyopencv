@@ -331,7 +331,7 @@ mb.beautify_func_list(opencv_funs)
 # Final tasks
 #=============================================================================
 
-mb.add_registration_code("boost::python::numeric::array::set_module_and_type(\"numpy\", \"ndarray\");")
+# mb.add_registration_code("boost::python::numeric::array::set_module_and_type(\"numpy\", \"ndarray\");")
 
 
 
