@@ -30,8 +30,9 @@ where 'arr' is your ndarray.
 || cv::getElemSize || getElemSize ||
 || cv::add || add ||
 || cv::subtract || subtract ||
-|| cv::multiply || (removed, use numpy instead) ||
-|| cv::divide || (removed, use numpy instead) ||
-|| cv::scaleAdd || (removed, use numpy instead) ||
-|| cv::addWeighted || (removed, use numpy instead) ||
+|| cv::multiply(a,b,c,scale) || c = scale*a*b ||
+|| cv::divide(a,b,c,scale) || c = scale*a/b ||
+|| cv::divide(scale,b,c) || c = scale/b ||
+|| cv::scaleAdd(a,alpha,b,c) || c = a*alpha+b ||
+|| cv::addWeighted(a,alpha,b,beta,gamma,c) || c = a*alpha+b*beta+gamma ||
 || cv::sum || numpy.sum ||
