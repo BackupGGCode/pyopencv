@@ -43,7 +43,7 @@ where 'arr' is your ndarray.
 || cv::normalize || normalize ||
 || cv::minMaxLoc || minMaxLoc ||
 || cv::reduce || reduce ||
-|| cv::split(a) || a\[:,:,0\], a\[:,:,1\], etc ||
+|| cv::split(a) || use slices of a ||
 || cv::merge(a1,a2,...) || numpy.array((a1,a2,...)) ||
 || cv::mixChannels || similarly to 'split' and 'merge' ||
 || cv::repeat || repeat ||
