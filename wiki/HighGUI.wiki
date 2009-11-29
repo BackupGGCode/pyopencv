@@ -14,3 +14,8 @@
 || cvSetTrackbarPos, cv::setTrackbarPos || setTrackbarPos ||
 || cvSetMouseCallback || setMouseCallback ||
 || cvLoadImage, cvLoadImageM, cv::imread || imread ||
+|| cvSaveImage, cv::imwrite || imwrite ||
+|| cvDecodeImage, cvDecodeImageM, cv::imdecode || imdecode ||
+|| cvEncodeImage, cv::imencode || imencode ||
+|| cvConvertImage || convertImage ||
+|| cvWaitKey, cv::waitKey || waitKey ||
