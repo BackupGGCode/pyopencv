@@ -34,3 +34,4 @@ where 'arr' is your ndarray.
 || cv::divide || (removed, use numpy instead) ||
 || cv::scaleAdd || (removed, use numpy instead) ||
 || cv::addWeighted || (removed, use numpy instead) ||
+|| cv::sum || numpy.sum ||
