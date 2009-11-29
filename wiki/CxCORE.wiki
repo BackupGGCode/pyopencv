@@ -11,12 +11,8 @@
 
 ==Determining the number of channels of an ndarray==
 
-OpenCV supports multi-channel arrays. When converting an ndarray into an OpenCV's array, it is essential to know if the last index of the ndarray represents the channel. PyOpenCV has a simple mechanism to detect this bit of information:
-
-    last_index_is_channel = "1 <= last_dimension <= 4" and "ndarray_is_contiguous_up_to_the_second_last_dimension"
-
-If you want to explicitly specify whether the last index is the channel, then just set:
-    arr.last_index_is_channel = True or False
+OpenCV supports multi-channel arrays. When converting an ndarray into an OpenCV's array, it is essential to know if the last dimension of the ndarray represents the channel. PyOpenCV assumes that the last dimension represents the channel if *its size is between 1 to 4* and *the ndarray is contiguous up to the second last dimension*. If you would like to avoid the array multi-channel, simply add an extra dimension to your ndarray, e.g. by using reshape():
+    arr.reshape(arr.shape+(1,))
 where 'arr' is your ndarray.
 
 
