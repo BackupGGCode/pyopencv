@@ -1,7 +1,19 @@
 = Free Functions =
 
 || *OpenCV* || *PyOpenCV* ||
-|| cvInitSystem || (removed) ||
+|| cv::fromUtf16 || fromUtf16 ||
+|| cv::toUtf16 || toUtf16 ||
+|| cv::setNumThreads || setNumThreads ||
+|| cv::getThreadNum || getThreadNum ||
+|| cv::getTickCount || getTickCount ||
+|| cv::getTickFrequency || getTickFrequency ||
+|| cv::setUseOptimized || setUseOptimized ||
+|| cv::useOptimized || useOptimized ||
+
+= Exception =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cv::Exception || Exception ||
 
 
 = Image, Matrix =
