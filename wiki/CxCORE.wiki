@@ -1,3 +1,15 @@
+= Exception =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cv::Exception || Exception ||
+
+
+= Image, Matrix =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| IplImage, CvMat, cv::Mat || numpy.ndarray ||
+
+
 = Free Functions =
 
 || *OpenCV* || *PyOpenCV* ||
@@ -9,14 +21,3 @@
 || cv::getTickFrequency || getTickFrequency ||
 || cv::setUseOptimized || setUseOptimized ||
 || cv::useOptimized || useOptimized ||
-
-= Exception =
-
-|| *OpenCV* || *PyOpenCV* ||
-|| cv::Exception || Exception ||
-
-
-= Image, Matrix =
-
-|| *OpenCV* || *PyOpenCV* ||
-|| IplImage, CvMat, cv::Mat || numpy.ndarray ||
