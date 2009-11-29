@@ -147,6 +147,27 @@ def expose_member_as_array_of_pointees(klass, member_name, array_size):
     '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
     
 
+def expose_lshift(klass, conversion_code, func_name="__lshift__"):
+    try:
+        klass.operators('<<').exclude()
+    except RunError:
+        pass
+    klass.include_files.append("opencv_extra.hpp")
+    klass.add_wrapper_code('bp::object lshift( bp::object const & other ){%s}' % conversion_code)
+    klass.add_registration_code('def( "%s", &%s_wrapper::lshift )' % (func_name, klass.name))
+    
+def expose_rshift(klass, conversion_code, func_name="read"):
+    try:
+        klass.operators('>>').exclude()
+    except RunError:
+        pass
+    klass.include_files.append("opencv_extra.hpp")
+    klass.add_wrapper_code('bp::object rshift_other;')
+    klass.add_wrapper_code('bp::object rshift(){%s}' % conversion_code)
+    klass.add_registration_code('def( "%s", &%s_wrapper::rshift )' % (func_name, klass.name))
+    
+    
+    
 def remove_ptr( type_ ):
     if _D.is_pointer( type_ ):
         return _D.remove_pointer( type_ )
@@ -895,7 +916,7 @@ class input_ndarray_t(transformer_t):
             controller.add_pre_call_code('''
     if(W.ptr() != Py_None)
     {
-        convert_ndarray_to< cv::Mat >(W, V2);
+        convert_ndarray< cv::Mat >(W, V2);
         V1 = V2;
     }
             '''.replace("W", w_arg.name).replace("V1", v1).replace("V2", v2))
@@ -904,7 +925,7 @@ class input_ndarray_t(transformer_t):
             
             # is inout
             if not 'const' in self.arg.type.partial_decl_string:
-                controller.add_post_call_code("if(%s.ptr() != Py_None) convert_ndarray_from(%s, %s);" % (w_arg.name, v2, w_arg.name))
+                controller.add_post_call_code("if(%s.ptr() != Py_None) convert_ndarray(%s, %s);" % (w_arg.name, v2, w_arg.name))
                 
         elif dtype == _D.dummy_type_t("::cv::Mat &") \
             or dtype == _D.dummy_type_t("::cv::Mat const &") \
@@ -914,12 +935,12 @@ class input_ndarray_t(transformer_t):
             # element type
             etype = _D.remove_const(_D.remove_reference(dtype))
             v = controller.declare_variable( etype, self.arg.name )
-            controller.add_pre_call_code("convert_ndarray_to(%s, %s);" % (w_arg.name, v))
+            controller.add_pre_call_code("convert_ndarray(%s, %s);" % (w_arg.name, v))
             controller.modify_arg_expression( self.arg_index, v )
             
             # is inout
             if not 'const' in self.arg.type.partial_decl_string:
-                controller.add_post_call_code("convert_ndarray_from(%s, %s);" % (v, w_arg.name))
+                controller.add_post_call_code("convert_ndarray(%s, %s);" % (v, w_arg.name))
             
         elif "::std::vector<" in dtype.decl_string:
         
@@ -930,12 +951,12 @@ class input_ndarray_t(transformer_t):
             # element type
             etype = _D.remove_const(_D.remove_reference(dtype))
             v = controller.declare_variable( etype, self.arg.name )
-            controller.add_pre_call_code("if(%s.ptr() != Py_None) convert_ndarray_to(%s, %s);" % (w_arg.name, w_arg.name, v))
+            controller.add_pre_call_code("if(%s.ptr() != Py_None) convert_ndarray(%s, %s);" % (w_arg.name, w_arg.name, v))
             controller.modify_arg_expression( self.arg_index, v )
             
             # is inout
             if not 'const' in self.arg.type.partial_decl_string:
-                controller.add_post_call_code("if(%s.ptr() != Py_None) convert_ndarray_from(%s, %s);" % (w_arg.name, v, w_arg.name))
+                controller.add_post_call_code("if(%s.ptr() != Py_None) convert_ndarray(%s, %s);" % (w_arg.name, v, w_arg.name))
             
 
     def __configure_v_mem_fun_default( self, controller ):
@@ -952,7 +973,7 @@ class input_ndarray_t(transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return []
+        return ["opencv_extra.hpp"]
 
 def input_ndarray( *args, **keywd ):
     def creator( function ):
@@ -982,7 +1003,7 @@ class output_ndarray_t(transformer_t):
         etype = _D.remove_const(_D.remove_reference(self.arg.type))
         w = controller.declare_variable( _D.dummy_type_t( "bp::object" ), self.arg.name )
         v = controller.declare_variable( etype, self.arg.name )
-        controller.add_post_call_code("convert_ndarray_from(V, W);".replace("W", w)
+        controller.add_post_call_code("convert_ndarray(V, W);".replace("W", w)
             .replace("V", v))
         controller.modify_arg_expression( self.arg_index, v )
         controller.return_variable(w)
@@ -1001,7 +1022,7 @@ class output_ndarray_t(transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return []
+        return ["opencv_extra.hpp"]
 
 def output_ndarray( *args, **keywd ):
     def creator( function ):

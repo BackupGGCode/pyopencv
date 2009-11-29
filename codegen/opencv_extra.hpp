@@ -63,23 +63,23 @@ template<> inline int dtypeof<float>() { return NPY_FLOAT; }
 template<> inline int dtypeof<double>() { return NPY_DOUBLE; }
 
 
-// convert_ndarray_to
+// convert_ndarray
 template<typename T>
-void convert_ndarray_to( const bp::object &in_arr, T &out_arr )
+void convert_ndarray( const bp::object &in_arr, T &out_arr )
 {
-    const char message[] = "Instantiation of function convert_ndarray_to() for the given class is not yet implemented.";
+    const char message[] = "Instantiation of function convert_ndarray() for the given class is not yet implemented.";
     PyErr_SetString(PyExc_NotImplementedError, message);
     throw bp::error_already_set(); 
 }
 
-template<> void convert_ndarray_to< cv::Mat >( const bp::object &in_arr, cv::Mat &out_arr );
+template<> void convert_ndarray< cv::Mat >( const bp::object &in_arr, cv::Mat &out_arr );
 
-// convert_ndarray_to, std::vector case
+// convert_ndarray, std::vector case
 // Note: because Python and C have different ways of allocating/reallocating memory,
 // it is UNSAFE to share data between ndarray and std::vector.
 // In this implementation, data is allocated and copied instead.
 template<typename T>
-void convert_ndarray_to( const bp::object &in_arr, std::vector<T> &out_arr )
+void convert_ndarray( const bp::object &in_arr, std::vector<T> &out_arr )
 {
     PyObject *arr = in_arr.ptr();
     char s[100];
@@ -108,33 +108,33 @@ void convert_ndarray_to( const bp::object &in_arr, std::vector<T> &out_arr )
     for(int i = 0; i < len; ++i) out_arr[i] = *(T *)PyArray_GETPTR1(arr, i);
 }
 
-extern template void convert_ndarray_to( const bp::object &in_arr, std::vector<char> &out_arr );
-extern template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned char> &out_arr );
-extern template void convert_ndarray_to( const bp::object &in_arr, std::vector<short> &out_arr );
-extern template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned short> &out_arr );
-extern template void convert_ndarray_to( const bp::object &in_arr, std::vector<long> &out_arr );
-extern template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned long> &out_arr );
-extern template void convert_ndarray_to( const bp::object &in_arr, std::vector<int> &out_arr );
-extern template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned int> &out_arr );
-extern template void convert_ndarray_to( const bp::object &in_arr, std::vector<float> &out_arr );
-extern template void convert_ndarray_to( const bp::object &in_arr, std::vector<double> &out_arr );
+extern template void convert_ndarray( const bp::object &in_arr, std::vector<char> &out_arr );
+extern template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned char> &out_arr );
+extern template void convert_ndarray( const bp::object &in_arr, std::vector<short> &out_arr );
+extern template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned short> &out_arr );
+extern template void convert_ndarray( const bp::object &in_arr, std::vector<long> &out_arr );
+extern template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned long> &out_arr );
+extern template void convert_ndarray( const bp::object &in_arr, std::vector<int> &out_arr );
+extern template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned int> &out_arr );
+extern template void convert_ndarray( const bp::object &in_arr, std::vector<float> &out_arr );
+extern template void convert_ndarray( const bp::object &in_arr, std::vector<double> &out_arr );
 
 
-// convert_ndarray_from
+// convert_ndarray
 template<typename T>
-void convert_ndarray_from( const T &in_arr, bp::object &out_arr )
+void convert_ndarray( const T &in_arr, bp::object &out_arr )
 {
-    const char message[] = "Instantiation of function convert_ndarray_from() for the given class is not yet implemented.";
+    const char message[] = "Instantiation of function convert_ndarray() for the given class is not yet implemented.";
     PyErr_SetString(PyExc_NotImplementedError, message);
     throw bp::error_already_set(); 
 }
 
-template<> void convert_ndarray_from< cv::Mat >( const cv::Mat &in_arr, bp::object &out_arr );
+template<> void convert_ndarray< cv::Mat >( const cv::Mat &in_arr, bp::object &out_arr );
 
 
-// convert_ndarray_from, std::vector case
+// convert_ndarray, std::vector case
 template<typename T>
-void convert_ndarray_from( const std::vector<T> &in_arr, bp::object &out_arr )
+void convert_ndarray( const std::vector<T> &in_arr, bp::object &out_arr )
 {
     int len = in_arr.size();
     out_arr = bp::object(bp::handle<>(PyArray_SimpleNew(1, &len, dtypeof<T>())));
@@ -142,16 +142,16 @@ void convert_ndarray_from( const std::vector<T> &in_arr, bp::object &out_arr )
     for(int i = 0; i < len; ++i) data[i] = in_arr[i];
 }
 
-extern template void convert_ndarray_from( const std::vector<char> &in_arr, bp::object &out_arr );
-extern template void convert_ndarray_from( const std::vector<unsigned char> &in_arr, bp::object &out_arr );
-extern template void convert_ndarray_from( const std::vector<short> &in_arr, bp::object &out_arr );
-extern template void convert_ndarray_from( const std::vector<unsigned short> &in_arr, bp::object &out_arr );
-extern template void convert_ndarray_from( const std::vector<long> &in_arr, bp::object &out_arr );
-extern template void convert_ndarray_from( const std::vector<unsigned long> &in_arr, bp::object &out_arr );
-extern template void convert_ndarray_from( const std::vector<int> &in_arr, bp::object &out_arr );
-extern template void convert_ndarray_from( const std::vector<unsigned int> &in_arr, bp::object &out_arr );
-extern template void convert_ndarray_from( const std::vector<float> &in_arr, bp::object &out_arr );
-extern template void convert_ndarray_from( const std::vector<double> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray( const std::vector<char> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray( const std::vector<unsigned char> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray( const std::vector<short> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray( const std::vector<unsigned short> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray( const std::vector<long> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray( const std::vector<unsigned long> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray( const std::vector<int> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray( const std::vector<unsigned int> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray( const std::vector<float> &in_arr, bp::object &out_arr );
+extern template void convert_ndarray( const std::vector<double> &in_arr, bp::object &out_arr );
 
 
 namespace boost { namespace python { 
@@ -161,7 +161,7 @@ template <> struct to_python_value<const cv::Mat &>
     inline PyObject* operator()(cv::Mat const& x) const
     {
         object obj;
-        convert_ndarray_from(x, obj);
+        convert_ndarray(x, obj);
         return bp::incref(obj.ptr());
     }
     inline PyTypeObject const* get_pytype() const

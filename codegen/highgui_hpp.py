@@ -45,10 +45,25 @@ setTrackbarpos = cvSetTrackbarPos # don't know why they haven't exported this fu
         
     FT.expose_func(mb.free_fun('imencode'), return_pointee=False, transformer_creators=[FT.output_ndarray('buf')])
         
-    # classes
-    for z in (
-        'VideoCapture', 'VideoWriter',
-        ):
-        mb.class_(z).include()
+    # VideoCapture
+    z = mb.class_('VideoCapture')
+    mb.init_class(z)
+    FT.expose_rshift(z, '''    
+        cv::Mat mat;
+        (*this) >> mat;
+        convert_ndarray(mat, rshift_other);
+        return rshift_other;
+    ''', 'query')
+    mb.finalize_class(z)
+            
+    # VideoWriter
+    z = mb.class_('VideoWriter')
+    mb.init_class(z)
+    FT.expose_lshift(z, '''
+        cv::Mat mat;
+        convert_ndarray(other, mat);
+        return bp::object((*this) << mat);
+    ''', 'write')
+    mb.finalize_class(z)
             
 

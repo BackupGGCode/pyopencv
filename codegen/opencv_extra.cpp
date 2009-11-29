@@ -91,7 +91,7 @@ bool npy_inited = npy_init2();
 // ================================================================================================
 
 
-template<> void convert_ndarray_to< cv::Mat >( const bp::object &in_arr, cv::Mat &out_arr )
+template<> void convert_ndarray< cv::Mat >( const bp::object &in_arr, cv::Mat &out_arr )
 {
     PyObject *arr = in_arr.ptr();
     char s[100];
@@ -161,26 +161,25 @@ template<> void convert_ndarray_to< cv::Mat >( const bp::object &in_arr, cv::Mat
 // ================================================================================================
 
 
-template void convert_ndarray_to( const bp::object &in_arr, std::vector<char> &out_arr );
-template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned char> &out_arr );
-template void convert_ndarray_to( const bp::object &in_arr, std::vector<short> &out_arr );
-template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned short> &out_arr );
-template void convert_ndarray_to( const bp::object &in_arr, std::vector<long> &out_arr );
-template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned long> &out_arr );
-template void convert_ndarray_to( const bp::object &in_arr, std::vector<int> &out_arr );
-template void convert_ndarray_to( const bp::object &in_arr, std::vector<unsigned int> &out_arr );
-template void convert_ndarray_to( const bp::object &in_arr, std::vector<float> &out_arr );
-template void convert_ndarray_to( const bp::object &in_arr, std::vector<double> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<char> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned char> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<short> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned short> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<long> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned long> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<int> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<unsigned int> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<float> &out_arr );
+template void convert_ndarray( const bp::object &in_arr, std::vector<double> &out_arr );
 
 
 // ================================================================================================
 
 
-bool is_Mat_from_ndarray( const cv::Mat &in_arr, bp::object &out_arr )
+bool is_Mat_same_shape_with_ndarray( const cv::Mat &in_arr, bp::object &out_arr )
 {
     PyObject *arr = out_arr.ptr();
     if(PyArray_Check(arr) != 1) return false;
-    if(PyArray_DATA(arr) != (void *)in_arr.data) return false;
     int nd = PyArray_NDIM(arr);
     if(nd < 2 || nd > 3) return false;
     int nchannels;
@@ -201,50 +200,52 @@ bool is_Mat_from_ndarray( const cv::Mat &in_arr, bp::object &out_arr )
     if(in_arr.cols != shape[1] || in_arr.rows != shape[0] || in_arr.step != strides[0] ||
         in_arr.channels() != nchannels || in_arr.depth() != convert_dtype_to_cvdepth(PyArray_TYPE(arr)))
         return false;
-    // finally, made it
-    PyErr_SetString(PyExc_TypeError, "Alright, it is working fine.");
-    throw bp::error_already_set(); 
     return true;
 }
 
 
-void create_ndarray_from_Mat( const cv::Mat &in_arr, bp::object &out_arr )
+template<> void convert_ndarray< cv::Mat >( const cv::Mat &in_arr, bp::object &out_arr )
 {
     PyObject *arr;
     int rows = in_arr.rows, cols = in_arr.cols, nchannels = in_arr.channels();
-    int shape[3], i, rowlen = cols*in_arr.elemSize();
-    shape[0] = rows; shape[1] = cols;    
-    if(nchannels == 1)
-        arr = PyArray_SimpleNew(2, shape, convert_cvdepth_to_dtype(in_arr.depth()));
+    int i, rowlen = cols*in_arr.elemSize();
+    if(is_Mat_same_shape_with_ndarray(in_arr, out_arr)) arr = out_arr.ptr();
     else
     {
-        shape[2] = nchannels;
-        arr = PyArray_SimpleNew(3, shape, convert_cvdepth_to_dtype(in_arr.depth()));
+        int shape[3];
+        shape[0] = rows; shape[1] = cols;    
+        if(nchannels == 1)
+            arr = PyArray_SimpleNew(2, shape, convert_cvdepth_to_dtype(in_arr.depth()));
+        else
+        {
+            shape[2] = nchannels;
+            arr = PyArray_SimpleNew(3, shape, convert_cvdepth_to_dtype(in_arr.depth()));
+        }
+        out_arr = bp::object(bp::handle<>(arr));
     }
-    for(i = 0; i < rows; ++i)
-        std::memmove(PyArray_GETPTR1(arr, i), (const void *)in_arr.ptr(i), rowlen);
-    out_arr = bp::object(bp::handle<>(arr));
-}
-
-template<> void convert_ndarray_from< cv::Mat >( const cv::Mat &in_arr, bp::object &out_arr )
-{
-    if(!is_Mat_from_ndarray(in_arr, out_arr)) // if same array, no need to do anything
-        create_ndarray_from_Mat(in_arr, out_arr);
+    
+    if(PyArray_DATA(arr) != (void *)in_arr.data)
+    {
+        for(i = 0; i < rows; ++i)
+            std::memmove(PyArray_GETPTR1(arr, i), (const void *)in_arr.ptr(i), rowlen);
+    }
+    else
+        std::cout << "Same data location. No copy was needed." << std::endl;
 }
 
 // ================================================================================================
 
 
-template void convert_ndarray_from( const std::vector<char> &in_arr, bp::object &out_arr );
-template void convert_ndarray_from( const std::vector<unsigned char> &in_arr, bp::object &out_arr );
-template void convert_ndarray_from( const std::vector<short> &in_arr, bp::object &out_arr );
-template void convert_ndarray_from( const std::vector<unsigned short> &in_arr, bp::object &out_arr );
-template void convert_ndarray_from( const std::vector<long> &in_arr, bp::object &out_arr );
-template void convert_ndarray_from( const std::vector<unsigned long> &in_arr, bp::object &out_arr );
-template void convert_ndarray_from( const std::vector<int> &in_arr, bp::object &out_arr );
-template void convert_ndarray_from( const std::vector<unsigned int> &in_arr, bp::object &out_arr );
-template void convert_ndarray_from( const std::vector<float> &in_arr, bp::object &out_arr );
-template void convert_ndarray_from( const std::vector<double> &in_arr, bp::object &out_arr );
+template void convert_ndarray( const std::vector<char> &in_arr, bp::object &out_arr );
+template void convert_ndarray( const std::vector<unsigned char> &in_arr, bp::object &out_arr );
+template void convert_ndarray( const std::vector<short> &in_arr, bp::object &out_arr );
+template void convert_ndarray( const std::vector<unsigned short> &in_arr, bp::object &out_arr );
+template void convert_ndarray( const std::vector<long> &in_arr, bp::object &out_arr );
+template void convert_ndarray( const std::vector<unsigned long> &in_arr, bp::object &out_arr );
+template void convert_ndarray( const std::vector<int> &in_arr, bp::object &out_arr );
+template void convert_ndarray( const std::vector<unsigned int> &in_arr, bp::object &out_arr );
+template void convert_ndarray( const std::vector<float> &in_arr, bp::object &out_arr );
+template void convert_ndarray( const std::vector<double> &in_arr, bp::object &out_arr );
 
 // ================================================================================================
 
