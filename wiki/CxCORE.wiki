@@ -4,6 +4,12 @@
 || cv::Exception || Exception ||
 
 
+= 1D Array =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cv::Scalar, cv::Vec* || numpy.ndarray ||
+
+
 = Image, Matrix, and Higher-order Array =
 
 || *OpenCV* || *PyOpenCV* ||
