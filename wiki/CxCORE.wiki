@@ -39,3 +39,7 @@ where 'arr' is your ndarray.
 || cv::countNonZero || numpy.nonzero ||
 || cv::mean || mean ||
 || cv::meanStdDev || meanStdDev ||
+|| cv::norm || norm ||
+|| cv::normalize || normalize ||
+|| cv::minMaxLoc || minMaxLoc ||
+|| cv::reduce || reduce ||
