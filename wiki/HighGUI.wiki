@@ -1,8 +1,6 @@
-#summary One-sentence summary of this page.
-
-= HighGUI =
-
-== Free Functions ==
+= Free Functions =
 
 || *OpenCV* || *PyOpenCV* ||
 || cvInitSystem || cvInitSystem ||
+|| cvStartWindowThread || cvStartWindowThread ||
+|| cvNamedWindow, namedWindow || namedWindows ||
