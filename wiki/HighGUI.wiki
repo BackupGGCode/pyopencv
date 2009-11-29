@@ -3,10 +3,14 @@
 || *OpenCV* || *PyOpenCV* ||
 || cvInitSystem || initSystem ||
 || cvStartWindowThread || startWindowThread ||
-|| cvNamedWindow, namedWindow || namedWindow ||
-|| cvShowImage, imshow || imshow ||
+|| cvNamedWindow, cv::namedWindow || namedWindow ||
+|| cvShowImage, cv::imshow || imshow ||
 || cvResizeWindow || resizeWindow ||
 || cvMoveWindow || moveWindow ||
 || cvDestroyWindow || destroyWindow ||
 || cvDestroyAllWindows || destroyAllWindows ||
-|| cvCreateTrackbar, cvCreateTrackbar2, createTrackbar || createTrackbar ||
+|| cvCreateTrackbar, cvCreateTrackbar2, cv::createTrackbar || createTrackbar ||
+|| cvGetTrackbarPos, cv::getTrackbarPos || getTrackbarPos ||
+|| cvSetTrackbarPos, cv::setTrackbarPos || setTrackbarPos ||
+|| cvSetMouseCallback || setMouseCallback ||
+|| cvLoadImage, cvLoadImageM, cv::imread || imread ||
