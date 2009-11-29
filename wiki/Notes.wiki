@@ -9,4 +9,5 @@ The following arrays will be replaced by numpy array:
  * cv::Vec-like
  * std::vector < T >, where T is in (primitive data types and CvPoint-like types)
 
-How to replace a return type from Mat to ndarray of a free function?
+VideoCapture::operator >> is replaced by VideoCapture::query()
+VideoWriter::operator << is replaced by VideoWriter::write()
