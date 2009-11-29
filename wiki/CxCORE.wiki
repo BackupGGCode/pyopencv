@@ -21,3 +21,4 @@
 || cv::getTickFrequency || getTickFrequency ||
 || cv::setUseOptimized || setUseOptimized ||
 || cv::useOptimized || useOptimized ||
+|| cv::getElemSize || getElemSize ||
