@@ -162,9 +162,11 @@ def expose_rshift(klass, conversion_code, func_name="read"):
     except RunError:
         pass
     klass.include_files.append("opencv_extra.hpp")
-    klass.add_wrapper_code('bp::object rshift_other;')
-    klass.add_wrapper_code('bp::object rshift(){%s}' % conversion_code)
-    klass.add_registration_code('def( "%s", &%s_wrapper::rshift )' % (func_name, klass.name))
+    klass.add_wrapper_code('bp::object %s_other;' % func_name)
+    conversion_code = 'bp::object FUNC_NAME(){%s}' % conversion_code
+    klass.add_wrapper_code(conversion_code.replace('FUNC_NAME', func_name))
+    klass.add_registration_code('def( "FUNC_NAME", &KLASS_NAME_wrapper::FUNC_NAME )'\
+        .replace('FUNC_NAME', func_name).replace('KLASS_NAME', klass.name))
     
     
     
@@ -926,21 +928,31 @@ class input_ndarray_t(transformer_t):
             # is inout
             if not 'const' in self.arg.type.partial_decl_string:
                 controller.add_post_call_code("if(%s.ptr() != Py_None) convert_ndarray(%s, %s);" % (w_arg.name, v2, w_arg.name))
+                controller.return_variable(w_arg.name)
                 
         elif dtype == _D.dummy_type_t("::cv::Mat &") \
             or dtype == _D.dummy_type_t("::cv::Mat const &") \
             or dtype == _D.dummy_type_t("::cv::Mat") \
-            or dtype == _D.dummy_type_t("::cv::Mat const"):
+            or dtype == _D.dummy_type_t("::cv::Mat const") \
+            or dtype == _D.dummy_type_t("::cv::MatND &") \
+            or dtype == _D.dummy_type_t("::cv::MatND const &") \
+            or dtype == _D.dummy_type_t("::cv::MatND") \
+            or dtype == _D.dummy_type_t("::cv::MatND const"):
             
+            # default value
+            if self.arg.default_value is not None: # TODO: not safe but for now assume default value is the default constructor
+                w_arg.default_value = 'bp::object()'
+                
             # element type
             etype = _D.remove_const(_D.remove_reference(dtype))
             v = controller.declare_variable( etype, self.arg.name )
-            controller.add_pre_call_code("convert_ndarray(%s, %s);" % (w_arg.name, v))
+            controller.add_pre_call_code("if(%s.ptr() != Py_None) convert_ndarray(%s, %s);" % (w_arg.name, w_arg.name, v))
             controller.modify_arg_expression( self.arg_index, v )
             
             # is inout
             if not 'const' in self.arg.type.partial_decl_string:
                 controller.add_post_call_code("convert_ndarray(%s, %s);" % (v, w_arg.name))
+                controller.return_variable(w_arg.name)
             
         elif "::std::vector<" in dtype.decl_string:
         
@@ -957,6 +969,7 @@ class input_ndarray_t(transformer_t):
             # is inout
             if not 'const' in self.arg.type.partial_decl_string:
                 controller.add_post_call_code("if(%s.ptr() != Py_None) convert_ndarray(%s, %s);" % (w_arg.name, v, w_arg.name))
+                controller.return_variable(w_arg.name)
             
 
     def __configure_v_mem_fun_default( self, controller ):
@@ -1003,8 +1016,7 @@ class output_ndarray_t(transformer_t):
         etype = _D.remove_const(_D.remove_reference(self.arg.type))
         w = controller.declare_variable( _D.dummy_type_t( "bp::object" ), self.arg.name )
         v = controller.declare_variable( etype, self.arg.name )
-        controller.add_post_call_code("convert_ndarray(V, W);".replace("W", w)
-            .replace("V", v))
+        controller.add_post_call_code("convert_ndarray(V, W);".replace("W", w).replace("V", v))
         controller.modify_arg_expression( self.arg_index, v )
         controller.return_variable(w)
 

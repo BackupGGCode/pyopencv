@@ -122,6 +122,7 @@ def CV_FOURCC(c1,c2,c3,c4):
 CV_FOURCC_PROMPT = -1 # Windows only
 CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
 
+# for backward compatibility only
 cvNamedWindow = namedWindow
 cvShowImage = imshow
 cvLoadImage = imread
@@ -197,14 +198,10 @@ cvSetMouseCallback.__doc__ = _PE._cvSetMouseCallback.__doc__
     FT.add_underscore(z)
     cc.write('''
 def cvDestroyWindow(name):
-    """void cvDestroyWindow(string name)
-
-    Destroys a window
-    """
     _PE._cvDestroyWindow(name)
     if name in _windows_callbacks:
         _windows_callbacks.pop(name)
-        
+cvDestroyWindow.__doc__ = _PE._cvDestroyWindow.__doc__        
     ''')
 
     # cvDestroyAllWindows
@@ -212,12 +209,9 @@ def cvDestroyWindow(name):
     FT.add_underscore(z)
     cc.write('''
 def cvDestroyAllWindows():
-    """void cvDestroyAllWindows(void)
-
-    Destroys all the HighGUI windows
-    """
     _PE._cvDestroyAllWindows()
     _windows_callbacks.clear()
+cvDestroyAllWindows.__doc__ = _PE._cvDestroyAllWindows.__doc__        
 
     ''')
 
