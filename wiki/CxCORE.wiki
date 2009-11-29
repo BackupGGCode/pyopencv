@@ -36,3 +36,5 @@ where 'arr' is your ndarray.
 || cv::scaleAdd(a,alpha,b,c) || c = a*alpha+b ||
 || cv::addWeighted(a,alpha,b,beta,gamma,c) || c = a*alpha+b*beta+gamma ||
 || cv::sum || numpy.sum ||
+|| cv::countNonZero || numpy.nonzero ||
+|| cv::mean || numpy.mean ||
