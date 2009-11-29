@@ -19,3 +19,13 @@
 || cvEncodeImage, cv::imencode || imencode ||
 || cvConvertImage || convertImage ||
 || cvWaitKey, cv::waitKey || waitKey ||
+
+= Video Capture =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvCapture, cv::VideoCapture || VideoCapture ||
+|| cvCreateFileCapture, cvCreateCameraCapture, cv::VideoCapture's constructors || VideoCapture's constructors ||
+|| cvGrabFrame, cv::VideoCapture::grab || VideoCapture.grab ||
+|| cvRetrieveFrame, cv::VideoCapture::retrieve || VideoCapture.retrieve ||
+|| cvQueryFrame, cv::VideoCapture::operator >> || VideoCapture.query ||
+|| cvReleaseCapture, cv::VideoCapture's destructor || VideoCapture's destructor ||
