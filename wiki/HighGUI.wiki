@@ -20,12 +20,21 @@
 || cvConvertImage || convertImage ||
 || cvWaitKey, cv::waitKey || waitKey ||
 
+
 = Video Capture =
 
 || *OpenCV* || *PyOpenCV* ||
 || CvCapture, cv::VideoCapture || VideoCapture ||
-|| cvCreateFileCapture, cvCreateCameraCapture, cv::VideoCapture's constructors || VideoCapture's constructors ||
+|| cvCreateFileCapture, cvCreateCameraCapture, cv::VideoCapture::open || VideoCapture.open ||
 || cvGrabFrame, cv::VideoCapture::grab || VideoCapture.grab ||
 || cvRetrieveFrame, cv::VideoCapture::retrieve || VideoCapture.retrieve ||
 || cvQueryFrame, cv::VideoCapture::operator >> || VideoCapture.query ||
-|| cvReleaseCapture, cv::VideoCapture's destructor || VideoCapture's destructor ||
+|| cvReleaseCapture, cv::VideoCapture::release || VideoCapture.release ||
+|| cvGetCaptureProperty, cv::VideoCapture::get || VideoCapture.get ||
+|| cvSetCaptureProperty, cv::VideoCapture::set || VideoCapture.set ||
+
+
+= Video Writer =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvCapture, cv::VideoCapture || VideoCapture ||
