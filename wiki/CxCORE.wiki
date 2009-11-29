@@ -9,7 +9,7 @@
 || *OpenCV* || *PyOpenCV* ||
 || IplImage, CvMat, cv::Mat, CvMatND, cv::MatND || numpy.ndarray ||
 
-==Multi-channel arrays==
+==Multi-channel array==
 
 OpenCV supports multi-channel arrays. When converting an ndarray into an OpenCV's array, PyOpenCV always tries to convert the ndarray into a multi-channel OpenCV array. This happens only when *2 <= the size of the last dimension <= 4* and *the ndarray is contiguous up to the second last dimension*. If you would like to explicitly avoid the ndarray to be converted into a multi-channel OpenCV array, simply add an extra dimension to your ndarray, e.g. by using reshape():
     arr.reshape(arr.shape+(1,))
