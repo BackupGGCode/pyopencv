@@ -1,0 +1,10 @@
+= Free Functions =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cvInitSystem || (removed) ||
+
+
+= Image, Matrix =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| IplImage, CvMat, cv::Mat || numpy.ndarray ||
