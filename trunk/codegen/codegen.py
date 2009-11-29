@@ -202,6 +202,11 @@ def beautify_func_list(self, func_list):
             if f.call_policies.is_default():
                 f.call_policies = CP.custom_call_policies( "bp::return_value_policy<bp::return_by_value>", "opencv_extra.hpp" )
 
+    # final step: apply all the function transformations
+    for f in func_list:
+        if len(f._transformer_creators) > 0:
+            f.add_transformation(*f._transformer_creators)
+            
 module_builder.module_builder_t.beautify_func_list = beautify_func_list
 
 def finalize_class(self, z):
@@ -329,45 +334,14 @@ mb.beautify_func_list(opencv_funs)
 for z in ('hdr_refcount', 'refcount'): # too low-level
     mb.decls(z).exclude()
 
-# apply all the function transformations
-for z in opencv_funs:
-    if len(z._transformer_creators) > 0:
-        z.add_transformation(*z._transformer_creators)
-        
         
 mb.add_registration_code("boost::python::numeric::array::set_module_and_type(\"numpy\", \"ndarray\");")
 
 
-# z = mb.class_('__dummy_struct')
-# for t in z.vars():
-    # mb.decl(t.type.decl_string).include()
 
-
-
-# exlude every class first
-# mb.classes().exclude()
-
-# expose every OpenCV's C structure and class but none of its members
-# for z in mb.classes(lambda z: z.decl_string.startswith('::Cv') or z.decl_string.startswith('::_Ipl')):
-    # z.include()
-    # z.decls().exclude()
-
-# expose every OpenCV's C++ class but none of its members
-# for z in mb.classes(lambda z: z.decl_string.startswith('::cv')):
-    # z.include()
-    # z.decls().exclude()
-
-# exclude every Ptr class
-# mb.classes(lambda z: z.decl_string.startswith('::cv::Ptr')).exclude()
-
-# exclude every MatExpr class
-# mb.classes(lambda z: z.decl_string.startswith('::cv::MatExpr')).exclude()
-
-# expose every OpenCV's C++ free function
-# mb.free_functions(lambda z: z.decl_string.startswith('::cv')).include()
-
-
-# -----------------------------------------------------------------------------------------------
+#=============================================================================
+# Build code
+#=============================================================================
 
 
 #Creating code creator. After this step you should not modify/customize declarations.
