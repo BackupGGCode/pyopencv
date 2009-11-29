@@ -460,6 +460,55 @@ bp::object subtract(const bp::object & a, const bp::object& b, bp::object& c, co
     return c;
 }
 
+bp::object mean(const bp::object & a, const bp::object& mask)
+{
+    cv::Scalar r;
+    cv::Mat a2, m2;
+    cv::MatND a3, m3;
+
+    int ra = rankof(a);
+    if(ra == 2)
+    {
+        convert_ndarray(a, a2);
+        if(mask.ptr() != Py_None) convert_ndarray(mask, m2);
+        r = cv::mean(a2, m2);
+    }
+    else
+    {
+        convert_ndarray(a, a3);
+        if(mask.ptr() != Py_None) convert_ndarray(mask, m3);
+        r = cv::mean(a3, m3);
+    }
+    // TODO: convert r to Scalar
+    return bp::object(r);
+}
+
+bp::object meanStdDev(const bp::object & a, bp::object & mean, bp::object & stddev, const bp::object& mask)
+{
+    cv::Scalar r1, r2;
+    cv::Mat a2, m2;
+    cv::MatND a3, m3;
+
+    int ra = rankof(a);
+    if(ra == 2)
+    {
+        convert_ndarray(a, a2);
+        if(mask.ptr() != Py_None) convert_ndarray(mask, m2);
+        cv::meanStdDev(a2, r1, r2, m2);
+    }
+    else
+    {
+        convert_ndarray(a, a3);
+        if(mask.ptr() != Py_None) convert_ndarray(mask, m3);
+        cv::meanStdDev(a3, r1, r2, m3);
+    }
+    // TODO: convert r1 and r2 to Scalar
+    return make_tuple(bp::object(r1), bp::object(r2));
+}
+
+
+
+
 bp::object multiply(const bp::object & a, const bp::object& b, bp::object& c, double scale)
 {
     cv::Mat a2, b2, c2;

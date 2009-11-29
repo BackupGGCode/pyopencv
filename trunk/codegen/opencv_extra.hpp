@@ -189,6 +189,9 @@ namespace sd {
 
 bp::object add(const bp::object & a, const bp::object& b, bp::object& c, const bp::object& mask=bp::object());
 bp::object subtract(const bp::object & a, const bp::object& b, bp::object& c, const bp::object& mask=bp::object());
+bp::object mean(const bp::object & m, const bp::object& mask=bp::object());
+bp::object meanStdDev(const bp::object & m, bp::object & mean, bp::object & stddev, const bp::object& mask=bp::object());
+
 bp::object multiply(const bp::object & a, const bp::object& b, bp::object& c, double scale=1);
 bp::object divide(const bp::object & a, const bp::object& b, bp::object& c, double s=1);
 bp::object scaleAdd(const bp::object & a, double alpha, const bp::object& b, bp::object& c);
