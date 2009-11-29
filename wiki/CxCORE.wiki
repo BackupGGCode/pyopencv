@@ -22,3 +22,7 @@
 || cv::setUseOptimized || setUseOptimized ||
 || cv::useOptimized || useOptimized ||
 || cv::getElemSize || getElemSize ||
+|| cv::add || add ||
+|| cv::subtract || subtract ||
+|| cv::multiply || multiply ||
+|| cv::divide || divide ||
