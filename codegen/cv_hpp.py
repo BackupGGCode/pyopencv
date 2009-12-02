@@ -28,11 +28,11 @@ def generate_code(mb, cc, D, FT, CP):
     # Structures
     #=============================================================================
 
-    # Base...Filter
-    for t in ('BaseRowFilter', 'BaseColumn', 'BaseFilter'):
-        z = mb.class_(t)
-        z.include()
-        z.operator('()').exclude() # TODO: fix this function
+    # TODO: Base...Filter
+    # for t in ('BaseRowFilter', 'BaseColumnFilter', 'BaseFilter'):
+        # z = mb.class_(t)
+        # z.include()
+        # z.operator('()').exclude() # TODO: fix this function
     
     # FilterEngine
     # TODO: fix the rest of the member declarations
@@ -110,14 +110,45 @@ def generate_code(mb, cc, D, FT, CP):
     # Free functions
     #=============================================================================
     
+    # free functions
+    for z in (
+        'getKernelType', 'getGaussianKernel', 'getDerivKernels', 
+        'morphologyDefaultBorderValue', 'getStructuringElement',
+        'copyMakeBorder', 'medianBlur', 'GaussianBlur', 'bilateralFilter',
+        'boxFilter', 'blur', 'filter2D', 'sepFilter2D', 'Sobel', 'Scharr',
+        'Laplacian', 'Canny', 'cornerMinEigenVal', 'cornerHarris', 
+        'cornerEigenValsAndVecs', 'preCornerDetect', 'erode', 'dilate', 
+        'morphologyEx', 'resize', 'warpAffine', 'warpPerspective', 'remap',
+        'convertMaps', 'getRotationMatrix2D', 'invertAffineTransform', 
+        'getRectSubPix', 'integral', 'accumulate', 'accumulateSquare', 
+        'accumulateProduct', 'accumulateWeighted', 'threshold', 
+        'adaptiveThreshold', 'pyrDown', 'pyrUp', 'undistort', 
+        'initUndistortRectifyMap', 'getDefaultNewCameraMatrix', 
+        'calcOpticalFlowFarneback', 'compareHist', 'equalizeHist', 'watershed',
+        'inpaint', 'distanceTransform', 'cvtColor', 'moments', 'matchTemplate',
+        'arcLength', 'boundingRect', 'contourArea', 'minAreaRect', 
+        'minEnclosingCircle', 'matchShapes', 'isContourConvex', 'fitEllipse',
+        'fitLine', 'pointPolygonTest', 'updateMotionHistory', 
+        'calcMotionGradient', 'calcGlobalOrientation', 'CamShift', 'meanShift', 
+        'Rodrigues', 'RQDecomp3x3', 'decomposeProjectionMatrix', 'matMulDeriv', 
+        'composeRT', 'solvePnP', 'drawChessboardCorners', 
+        'calibrationMatrixValues', 'stereoRectify', 'stereoRectifyUncalibrated', 
+        'reprojectImageTo3D', 
+        ):
+        mb.free_funs(z).include()
 
+    # TODO:
+    # getLinearRowFilter, getLinearColumnFilter, getLinearFilter, createSeparableLinearFilter, createLinearFilter
+    # createGaussianFilter,  createDerivFilter, getRowSumFilter, getColumnSumFilter, createBoxFilter
+    # getMorphologyRowFilter, getMorphologyColumnFilter, getMorphologyFilter
+    # createMorphologyFilter,  cornerSubPix, goodFeaturesToTrack, HoughLines, HoughLinesP, HoughCircles,
+    # getPerspectiveTransform, getAffineTransform, buildPyramid, calcOpticalFlowPyrLK
+    # calcHist, calcBackProject, floodFill, HuMoments, findContours, drawContours, approxPolyDP
+    # convexHull, estimateAffine3D, groupRectangles, undistortPoints, findHomography
+    # projectPoints, initCameraMatrix2D, findChessboardCorners, calibrateCamera, stereoCalibrate
+    # convertPointsHomogeneous, findFundamentalMat, computeCorrespondEpilines
+    # write, read
     
-    # TBD
-    cc.write('''
-#-----------------------------------------------------------------------------
-# TBD
-#-----------------------------------------------------------------------------
-
+    # TODO: missing functions
+    # 'estimateRigidTransform', 
     
-    ''')
-
