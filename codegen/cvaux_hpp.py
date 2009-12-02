@@ -24,26 +24,136 @@ def generate_code(mb, cc, D, FT, CP):
 
     ''')
 
-    # FT.expose_func(mb.free_fun('cvSegmentImage'), ward_indices=(5,))
+    #=============================================================================
+    # Structures
+    #=============================================================================
 
-    # HOG (Histogram-of-Oriented-Gradients) Descriptor and Object Detector 
-    cc.write('''
-#-----------------------------------------------------------------------------
-# HOG (Histogram-of-Oriented-Gradients) Descriptor and Object Detector 
-#-----------------------------------------------------------------------------
+    # CvCamShiftTracker
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('CvCamShiftTracker')
+    z.include()
+    z.decls().exclude()
+    
+    # CvAdaptiveSkinDetector
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('CvAdaptiveSkinDetector')
+    z.include()
+    z.decls().exclude()
+    
+    # CvFuzzyPoint
+    mb.class_('CvFuzzyPoint').include()
+    
+    # CvFuzzyCurve
+    mb.class_('CvFuzzyCurve').include()
+    
+    # CvFuzzyFunction
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('CvFuzzyFunction')
+    z.include()
+    z.decls().exclude()
+    
+    # CvFuzzyRule
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('CvFuzzyRule')
+    z.include()
+    z.decls().exclude()
+    
+    # CvFuzzyController
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('CvFuzzyController')
+    z.include()
+    z.decls().exclude()
+    
+    # CvFuzzyMeanShiftTracker
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('CvFuzzyMeanShiftTracker')
+    z.include()
+    z.decls().exclude()
+    
+    # Octree
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('Octree')
+    z.include()
+    z.decls().exclude()
+    
+    # Mesh3D
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('Mesh3D')
+    z.include()
+    z.decls().exclude()
+    
+    # SpinImageModel
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('SpinImageModel')
+    z.include()
+    z.decls().exclude()
+    
+    # TickMeter
+    mb.class_('TickMeter').include()
+    
+    # HOGDescriptor
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('HOGDescriptor')
+    z.include()
+    z.decls().exclude()
+    
+    # SelfSimDescriptor
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('SelfSimDescriptor')
+    z.include()
+    z.decls().exclude()
+    
+    # PatchGenerator
+    mb.class_('PatchGenerator').include()
+    
+    # LDetector
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('LDetector')
+    z.include()
+    z.decls().exclude()
+    
+    # FernClassifier
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('FernClassifier')
+    z.include()
+    z.decls().exclude()
+    
+    # PlanarObjectDetector
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('PlanarObjectDetector')
+    z.include()
+    z.decls().exclude()
+    
+    # OneWayDescriptor
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('OneWayDescriptor')
+    z.include()
+    z.decls().exclude()
+    
+    # OneWayDescriptorBase
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('OneWayDescriptorBase')
+    z.include()
+    z.decls().exclude()
+    
+    # OneWayDescriptorObject
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('OneWayDescriptorObject')
+    z.include()
+    z.decls().exclude()
+    
+    # LevMarqSparse
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('LevMarqSparse')
+    z.include()
+    z.decls().exclude()
 
     
-    ''')
+    #=============================================================================
+    # Free Functions
+    #=============================================================================
 
-    # classes
-    for t in (
-        'HOGDescriptor', 'SelfSimDescriptor', 'PatchGenerator', 
-        # 'LDetector', # TODO: due to vector<KeyPoint>
-        ):
-        z = mb.class_(t)
-        mb.init_class(z)
-        mb.finalize_class(z)
-
-
-
-    # TODO: wrap the rest of cvaux.hpp
+    # TODO:
+    # TickMeter's operator <<
+    # findOneWayDescriptor
+    # FAST
