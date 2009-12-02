@@ -50,31 +50,37 @@ convertImage = cvConvertImage
 
     # functions
     for z in (
-        'namedWindow', 'imshow', 'imread', 'imwrite', 'imdecode', 'waitKey',
+        'namedWindow', 'imshow', 'imread', 'imdecode', 'waitKey',
         ):
         mb.free_fun(z).include()
         
-    FT.expose_func(mb.free_fun('imencode'), return_pointee=False, transformer_creators=[FT.output_ndarray('buf')])
+    # FT.expose_func(mb.free_fun('imencode'), return_pointee=False, transformer_creators=[FT.output_ndarray('buf')])
+    # FT.expose_func(mb.free_fun('imwrite'), return_pointee=False, transformer_creators=[FT.output_ndarray('buf')])
         
     # VideoCapture
     z = mb.class_('VideoCapture')
-    mb.init_class(z)
-    FT.expose_rshift(z, '''    
-        cv::Mat mat;
-        (*this) >> mat;
-        convert_ndarray(mat, FUNC_NAME_other);
-        return FUNC_NAME_other;
-    ''', 'query')
-    mb.finalize_class(z)
+    z.include()
+    z.operator('>>').call_policies = CP.return_self()
+    
+    # mb.init_class(z)
+    # FT.expose_rshift(z, '''    
+        # cv::Mat mat;
+        # (*this) >> mat;
+        # convert_ndarray(mat, FUNC_NAME_other);
+        # return FUNC_NAME_other;
+    # ''', 'query')
+    # mb.finalize_class(z)
             
     # VideoWriter
     z = mb.class_('VideoWriter')
-    mb.init_class(z)
-    FT.expose_lshift(z, '''
-        cv::Mat mat;
-        convert_ndarray(other, mat);
-        return bp::object((*this) << mat);
-    ''', 'write')
-    mb.finalize_class(z)
+    z.include()
+    z.operator('<<').call_policies = CP.return_self()
+    # mb.init_class(z)
+    # FT.expose_lshift(z, '''
+        # cv::Mat mat;
+        # convert_ndarray(other, mat);
+        # return bp::object((*this) << mat);
+    # ''', 'write')
+    # mb.finalize_class(z)
             
 
