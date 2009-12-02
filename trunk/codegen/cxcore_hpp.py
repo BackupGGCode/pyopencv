@@ -202,7 +202,7 @@ Size2i = Size
     
     
     #=============================================================================
-    # Structures
+    # Free functions
     #=============================================================================
     
 
@@ -217,7 +217,7 @@ Size2i = Size
     # free functions
     for z in (
         'getElemSize',
-        # 'cvarrToMat', 'extractImageCOI', 'insertImageCOI', # removed, everything is in ndarray now
+        # 'cvarrToMat', 'extractImageCOI', 'insertImageCOI', # removed, deal with cv::Mat instead
         'add', 'subtract', 'multiply', 'divide', 'scaleAdd', 'addWeighted',
         'convertScaleAbs', 'LUT', 'sum', 'countNonZero', 'mean', 'meanStdDev', 
         'normalize', 'reduce', 'flip', 'repeat', 'bitwise_and', 'bitwise_or', 

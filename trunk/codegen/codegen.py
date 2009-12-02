@@ -266,7 +266,7 @@ for z in ('IPL_', 'CV_'):
 #=============================================================================
 
 # cxerror.h
-# cxerror_h.generate_code(mb, cc, D, FT, CP)
+cxerror_h.generate_code(mb, cc, D, FT, CP)
 
 # cxtypes.h
 # cxtypes_h.generate_code(mb, cc, D, FT, CP)
@@ -342,5 +342,4 @@ mb.split_module( 'code' )
 # copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
 # copyfile('opencv_extra.hpp', 'code/opencv_extra.hpp')
 copyfile('opencv_extra.cpp', 'code/opencv_extra.cpp')
-copyfile('ndarray.cpp', 'code/ndarray.cpp')
 
