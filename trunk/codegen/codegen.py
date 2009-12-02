@@ -162,17 +162,17 @@ def beautify_func_list(self, func_list):
                         f._transformer_creators.append(FT.input_array1d('sizes', 'dims'))
                         break
 
-    # function argument [const] cv::Mat &xyz, etc into ndarray
-    # for f in func_list:
-        # for arg in f.arguments:
-            # if is_arg_touched(f, arg.name):
-                # continue
-            # for typename in ("::cv::Mat", "::CvMat", "::IplImage", "::CvArr", "::std::vector<int"):
-                # if typename in arg.type.decl_string:
-                    # break
-            # else:
-                # continue
-            # f._transformer_creators.append(FT.input_ndarray(arg.name))
+    # function argument IplImage *, CvMat *, CvArr *, and std::vector<> into cv::Mat
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            for typename in ("::IplImage", "::CvArr", "::CvMat ", "::std::vector<"):
+                if typename in arg.type.decl_string:
+                    break
+            else:
+                continue
+            f._transformer_creators.append(FT.input_as_Mat(arg.name))
 
     # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
     for f in func_list:
@@ -196,17 +196,6 @@ def beautify_func_list(self, func_list):
                 if not f.ignore:
                     mb.add_doc(f.name, "'data' is represented by a string")
                     
-    # return type Scalar, Mat, MatND
-    # for f in func_list:
-        # for z in ('::cv::Scalar', '::cv::Mat', '::cv::MatND'):
-            # if f.return_type== D.dummy_type_t(z):
-                # break
-        # else:
-            # continue
-            
-        # if f.call_policies.is_default():
-            # f.call_policies = CP.custom_call_policies( "bp::return_value_policy<bp::return_by_value>", "opencv_extra.hpp" )
-
     # final step: apply all the function transformations
     for f in func_list:
         if len(f._transformer_creators) > 0:
@@ -335,8 +324,6 @@ mb.beautify_func_list(opencv_funs)
 #=============================================================================
 # Final tasks
 #=============================================================================
-
-# mb.add_registration_code("boost::python::numeric::array::set_module_and_type(\"numpy\", \"ndarray\");")
 
 
 

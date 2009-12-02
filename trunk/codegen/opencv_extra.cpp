@@ -10,7 +10,6 @@
 #include <cstring>
 
 #include "opencv_extra.hpp"
-#include "ndarray.hpp"
 
 
 // ================================================================================================
@@ -36,3 +35,43 @@ float CV_CDECL sdDistanceFunction( const float* a, const float*b, void* user_par
 }
 
 // ================================================================================================
+
+template void convert_Mat( const cv::Mat &in_arr, std::vector<char> &out_arr );
+template void convert_Mat( const cv::Mat &in_arr, std::vector<unsigned char> &out_arr );
+template void convert_Mat( const cv::Mat &in_arr, std::vector<short> &out_arr );
+template void convert_Mat( const cv::Mat &in_arr, std::vector<unsigned short> &out_arr );
+template void convert_Mat( const cv::Mat &in_arr, std::vector<long> &out_arr );
+template void convert_Mat( const cv::Mat &in_arr, std::vector<unsigned long> &out_arr );
+template void convert_Mat( const cv::Mat &in_arr, std::vector<int> &out_arr );
+template void convert_Mat( const cv::Mat &in_arr, std::vector<unsigned int> &out_arr );
+template void convert_Mat( const cv::Mat &in_arr, std::vector<float> &out_arr );
+template void convert_Mat( const cv::Mat &in_arr, std::vector<double> &out_arr );
+
+// ================================================================================================
+
+template void convert_Mat( const std::vector<char> &in_arr, cv::Mat &out_arr );
+template void convert_Mat( const std::vector<unsigned char> &in_arr, cv::Mat &out_arr );
+template void convert_Mat( const std::vector<short> &in_arr, cv::Mat &out_arr );
+template void convert_Mat( const std::vector<unsigned short> &in_arr, cv::Mat &out_arr );
+template void convert_Mat( const std::vector<long> &in_arr, cv::Mat &out_arr );
+template void convert_Mat( const std::vector<unsigned long> &in_arr, cv::Mat &out_arr );
+template void convert_Mat( const std::vector<int> &in_arr, cv::Mat &out_arr );
+template void convert_Mat( const std::vector<unsigned int> &in_arr, cv::Mat &out_arr );
+template void convert_Mat( const std::vector<float> &in_arr, cv::Mat &out_arr );
+template void convert_Mat( const std::vector<double> &in_arr, cv::Mat &out_arr );
+
+// ================================================================================================
+
+template void convert_Mat( const cv::Mat &in_arr, char *&out_arr );
+template void convert_Mat( const cv::Mat &in_arr, unsigned char *&out_arr );
+template void convert_Mat( const cv::Mat &in_arr, short *&out_arr );
+template void convert_Mat( const cv::Mat &in_arr, unsigned short *&out_arr );
+template void convert_Mat( const cv::Mat &in_arr, long *&out_arr );
+template void convert_Mat( const cv::Mat &in_arr, unsigned long *&out_arr );
+template void convert_Mat( const cv::Mat &in_arr, int *&out_arr );
+template void convert_Mat( const cv::Mat &in_arr, unsigned int *&out_arr );
+template void convert_Mat( const cv::Mat &in_arr, float *&out_arr );
+template void convert_Mat( const cv::Mat &in_arr, double *&out_arr );
+
+// ================================================================================================
+

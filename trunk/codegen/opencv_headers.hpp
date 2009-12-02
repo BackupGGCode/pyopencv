@@ -1,8 +1,6 @@
 #ifndef SDOPENCV_HEADERS_H
 #define SDOPENCV_HEADERS_H
 
-// #define SWIG // this was activated when building the official Windows release of OpenCV 2.0
-
 #include "cxtypes.h"
 #include "cxcore.h"
 #include "cxoperations.hpp"

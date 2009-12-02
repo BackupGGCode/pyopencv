@@ -50,37 +50,20 @@ convertImage = cvConvertImage
 
     # functions
     for z in (
-        'namedWindow', 'imshow', 'imread', 'imdecode', 'waitKey',
+        'namedWindow', 'imshow', 'imread', 'imwrite', 'imencode', 'imdecode', 'waitKey',
         ):
         mb.free_fun(z).include()
         
-    # FT.expose_func(mb.free_fun('imencode'), return_pointee=False, transformer_creators=[FT.output_ndarray('buf')])
-    # FT.expose_func(mb.free_fun('imwrite'), return_pointee=False, transformer_creators=[FT.output_ndarray('buf')])
+    # FT.expose_func(mb.free_fun('imencode'), return_pointee=False, transformer_creators=[FT.output_as_Mat('buf')])
         
     # VideoCapture
     z = mb.class_('VideoCapture')
     z.include()
     z.operator('>>').call_policies = CP.return_self()
     
-    # mb.init_class(z)
-    # FT.expose_rshift(z, '''    
-        # cv::Mat mat;
-        # (*this) >> mat;
-        # convert_ndarray(mat, FUNC_NAME_other);
-        # return FUNC_NAME_other;
-    # ''', 'query')
-    # mb.finalize_class(z)
-            
     # VideoWriter
     z = mb.class_('VideoWriter')
     z.include()
     z.operator('<<').call_policies = CP.return_self()
-    # mb.init_class(z)
-    # FT.expose_lshift(z, '''
-        # cv::Mat mat;
-        # convert_ndarray(other, mat);
-        # return bp::object((*this) << mat);
-    # ''', 'write')
-    # mb.finalize_class(z)
             
 

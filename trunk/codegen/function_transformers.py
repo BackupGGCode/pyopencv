@@ -1046,3 +1046,131 @@ def output_ndarray( *args, **keywd ):
     return creator
 
 
+
+    
+    
+    
+# input_as_Mat_t
+class input_as_Mat_t(transformer_t):
+    """Converts an input/inout argument type into a cv::Mat."""
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "input_as_Mat(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg(self.arg.name)
+        w_arg.type = _D.dummy_type_t( "::cv::Mat" )
+        dtype = self.arg.type
+        if dtype == _D.dummy_type_t("::IplImage *") \
+            or dtype == _D.dummy_type_t("::IplImage const *") \
+            or dtype == _D.dummy_type_t("::CvMat *") \
+            or dtype == _D.dummy_type_t("::CvMat const *") \
+            or dtype == _D.dummy_type_t("::CvArr *") \
+            or dtype == _D.dummy_type_t("::CvArr const *"):
+            
+            # default value
+            if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+                w_arg.default_value = 'cv::Mat()'
+                
+            # element type
+            etype = _D.remove_const(_D.remove_pointer(dtype))
+            if etype == _D.dummy_type_t("void"):
+                etype = _D.dummy_type_t("::CvMat")
+            
+            # code
+            v = controller.declare_variable( etype, self.arg.name )
+            controller.add_pre_call_code("convert_Mat(W, V);".replace("W", w_arg.name).replace("V", v))
+            controller.modify_arg_expression( self.arg_index, "&"+v)
+            
+            # is inout
+            if not 'const' in self.arg.type.partial_decl_string:
+                controller.add_post_call_code("convert_Mat(V, W);".replace("W", w_arg.name).replace("V", v))
+                controller.return_variable(w_arg.name)
+                
+        elif "::std::vector<" in dtype.decl_string:
+        
+            # be careful with this default value
+            if self.arg.default_value is not None: 
+                w_arg.default_value = 'cv::Mat()'
+                
+            # element type
+            etype = _D.remove_const(_D.remove_reference(dtype))
+            
+            v = controller.declare_variable( etype, self.arg.name )
+            controller.add_pre_call_code("convert_Mat(W, V);".replace("W", w_arg.name).replace("V", v))
+            controller.modify_arg_expression( self.arg_index, v)
+            
+            # is inout
+            if not 'const' in self.arg.type.partial_decl_string:
+                controller.add_post_call_code("convert_Mat(V, W);".replace("W", w_arg.name).replace("V", v))
+                controller.return_variable(w_arg.name)
+            
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_extra.hpp"]
+
+def input_as_Mat( *args, **keywd ):
+    def creator( function ):
+        return input_as_Mat_t( function, *args, **keywd )
+    return creator
+    
+# output_as_Mat_t
+class output_as_Mat_t(transformer_t):
+    """Converts an output argument type into a cv::Mat."""
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "output_as_Mat(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        controller.remove_wrapper_arg( self.arg.name )
+        etype = _D.remove_const(_D.remove_reference(self.arg.type))
+        w = controller.declare_variable( _D.dummy_type_t( "::cv::Mat" ), self.arg.name )
+        v = controller.declare_variable( etype, self.arg.name )
+        controller.add_post_call_code("convert_Mat(V, W);".replace("W", w).replace("V", v))
+        controller.modify_arg_expression( self.arg_index, v )
+        controller.return_variable(w)
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_extra.hpp"]
+
+def output_as_Mat( *args, **keywd ):
+    def creator( function ):
+        return output_as_Mat_t( function, *args, **keywd )
+    return creator
+
