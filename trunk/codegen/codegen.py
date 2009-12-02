@@ -290,7 +290,7 @@ cxcore_hpp.generate_code(mb, cc, D, FT, CP)
 # cv_h.generate_code(mb, cc, D, FT, CP)
 
 # cv.hpp
-# cv_hpp.generate_code(mb, cc, D, FT, CP)
+cv_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cvcompat.h
 # cvcompat_h.generate_code(mb, cc, D, FT, CP)
