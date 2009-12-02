@@ -937,10 +937,14 @@ class input_ndarray_t(transformer_t):
             or dtype == _D.dummy_type_t("::cv::MatND &") \
             or dtype == _D.dummy_type_t("::cv::MatND const &") \
             or dtype == _D.dummy_type_t("::cv::MatND") \
-            or dtype == _D.dummy_type_t("::cv::MatND const"):
+            or dtype == _D.dummy_type_t("::cv::MatND const") \
+            or dtype == _D.dummy_type_t("::cv::Scalar &") \
+            or dtype == _D.dummy_type_t("::cv::Scalar const &") \
+            or dtype == _D.dummy_type_t("::cv::Scalar") \
+            or dtype == _D.dummy_type_t("::cv::Scalar const"):
             
             # default value
-            if self.arg.default_value is not None: # TODO: not safe but for now assume default value is the default constructor
+            if self.arg.default_value is not None: # TODO: not safe but for now assume default value is the default constructor, check setIdentity()
                 w_arg.default_value = 'bp::object()'
                 
             # element type

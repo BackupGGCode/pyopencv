@@ -88,7 +88,7 @@ def generate_ti():
 
 
 def finalize_ti():
-    tif = open('opencv2_include/template_instantiations.h', 'wt')
+    tif = open('template_instantiations.hpp', 'wt')
     tif.write('''#ifndef SD_TEMPLATE_INSTANTIATIONS_H
 #define SD_TEMPlATE_INSTANTIATIONS_H
 

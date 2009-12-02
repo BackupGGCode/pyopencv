@@ -1,7 +1,7 @@
 #ifndef SDOPENCV_HEADERS_H
 #define SDOPENCV_HEADERS_H
 
-#define SWIG // this was activated when building the official Windows release of OpenCV 2.0
+// #define SWIG // this was activated when building the official Windows release of OpenCV 2.0
 
 #include "cxtypes.h"
 #include "cxcore.h"
@@ -52,6 +52,8 @@ struct CvVideoWriter {};
 namespace flann {
     class Index {};
 }
+
+# include "template_instantiations.hpp"
 
 
 #endif

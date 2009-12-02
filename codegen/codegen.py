@@ -163,16 +163,16 @@ def beautify_func_list(self, func_list):
                         break
 
     # function argument [const] cv::Mat &xyz, etc into ndarray
-    for f in func_list:
-        for arg in f.arguments:
-            if is_arg_touched(f, arg.name):
-                continue
-            for typename in ("::cv::Mat", "::CvMat", "::IplImage", "::CvArr", "::std::vector<int"):
-                if typename in arg.type.decl_string:
-                    break
-            else:
-                continue
-            f._transformer_creators.append(FT.input_ndarray(arg.name))
+    # for f in func_list:
+        # for arg in f.arguments:
+            # if is_arg_touched(f, arg.name):
+                # continue
+            # for typename in ("::cv::Mat", "::CvMat", "::IplImage", "::CvArr", "::std::vector<int"):
+                # if typename in arg.type.decl_string:
+                    # break
+            # else:
+                # continue
+            # f._transformer_creators.append(FT.input_ndarray(arg.name))
 
     # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
     for f in func_list:
@@ -196,11 +196,16 @@ def beautify_func_list(self, func_list):
                 if not f.ignore:
                     mb.add_doc(f.name, "'data' is represented by a string")
                     
-    # return type Mat
-    for f in func_list:
-        if f.return_type == D.dummy_type_t("::cv::Mat"):
-            if f.call_policies.is_default():
-                f.call_policies = CP.custom_call_policies( "bp::return_value_policy<bp::return_by_value>", "opencv_extra.hpp" )
+    # return type Scalar, Mat, MatND
+    # for f in func_list:
+        # for z in ('::cv::Scalar', '::cv::Mat', '::cv::MatND'):
+            # if f.return_type== D.dummy_type_t(z):
+                # break
+        # else:
+            # continue
+            
+        # if f.call_policies.is_default():
+            # f.call_policies = CP.custom_call_policies( "bp::return_value_policy<bp::return_by_value>", "opencv_extra.hpp" )
 
     # final step: apply all the function transformations
     for f in func_list:
@@ -350,4 +355,5 @@ mb.split_module( 'code' )
 # copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
 # copyfile('opencv_extra.hpp', 'code/opencv_extra.hpp')
 copyfile('opencv_extra.cpp', 'code/opencv_extra.cpp')
+copyfile('ndarray.cpp', 'code/ndarray.cpp')
 
