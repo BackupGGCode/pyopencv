@@ -24,8 +24,94 @@ def generate_code(mb, cc, D, FT, CP):
 
     ''')
 
-    # FT.expose_func(mb.free_fun('cvSegmentImage'), ward_indices=(5,))
+    #=============================================================================
+    # Structures
+    #=============================================================================
 
+    # Base...Filter
+    for t in ('BaseRowFilter', 'BaseColumn', 'BaseFilter'):
+        z = mb.class_(t)
+        z.include()
+        z.operator('()').exclude() # TODO: fix this function
+    
+    # FilterEngine
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('FilterEngine')
+    z.include()
+    z.decls().exclude()
+    
+    # Moments
+    z = mb.class_('Moments')
+    z.include()
+    z.operator(lambda x: x.name.endswith('::CvMoments')).rename('as_CvMoments')
+    
+    # KalmanFilter
+    z = mb.class_('KalmanFilter')
+    z.include()
+    for t in ('predict', 'correct'):
+        z.mem_fun(t).call_policies = CP.return_self()
+    
+    # FeatureEvaluator
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('FeatureEvaluator')
+    z.include()
+    z.decls().exclude()
+    
+    # CascadeClassifier
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('CascadeClassifier')
+    z.include()
+    z.decls().exclude()
+    
+    # StereoBM
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('StereoBM')
+    z.include()
+    z.decls().exclude()
+    
+    # KeyPoint
+    mb.class_('KeyPoint').include()
+    
+    # SURF
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('SURF')
+    z.include()
+    z.decls().exclude()
+    
+    # MSER
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('MSER')
+    z.include()
+    z.decls().exclude()
+    
+    # StarDetector
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('StarDetector')
+    z.include()
+    z.decls().exclude()
+    
+    # CvLevMarq
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('CvLevMarq')
+    z.include()
+    z.decls().exclude()
+    
+    # lsh_hash
+    mb.class_('lsh_hash').include()
+    
+    # CvLSHOperations
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('CvLSHOperations')
+    z.include()
+    z.decls().exclude()
+    
+    
+    #=============================================================================
+    # Free functions
+    #=============================================================================
+    
+
+    
     # TBD
     cc.write('''
 #-----------------------------------------------------------------------------
@@ -35,16 +121,3 @@ def generate_code(mb, cc, D, FT, CP):
     
     ''')
 
-    # classes
-    for t in (
-        'KeyPoint',
-        ):
-        z = mb.class_(t)
-        mb.init_class(z)
-        mb.finalize_class(z)
-
-
-
-
-        
-    # TODO: wrap the rest of cv.hpp
