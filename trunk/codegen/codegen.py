@@ -299,7 +299,7 @@ cv_hpp.generate_code(mb, cc, D, FT, CP)
 # cvaux_h.generate_code(mb, cc, D, FT, CP)
 
 # cvaux.hpp
-# cvaux_hpp.generate_code(mb, cc, D, FT, CP)
+cvaux_hpp.generate_code(mb, cc, D, FT, CP)
 
 # ml.h
 # ml_h.generate_code(mb, cc, D, FT, CP)
