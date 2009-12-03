@@ -8,9 +8,11 @@
 #include <boost/python/tuple.hpp>
 #include <boost/python/detail/raw_pyobject.hpp>
 #include <boost/python/extract.hpp>
-#include "ndarray.hpp"
-
+#include <boost/python/reference_existing_object.hpp>
+#include <boost/python/object/life_support.hpp>
 #include <arrayobject.h>
+
+#include "ndarray.hpp"
 
 namespace bp = boost::python;
 
@@ -404,6 +406,120 @@ template void convert_ndarray( const std::vector<int> &in_arr, ndarray &out_arr 
 template void convert_ndarray( const std::vector<unsigned int> &in_arr, ndarray &out_arr );
 template void convert_ndarray( const std::vector<float> &in_arr, ndarray &out_arr );
 template void convert_ndarray( const std::vector<double> &in_arr, ndarray &out_arr );
+
+// ================================================================================================
+
+ndarray as_ndarray(const object &obj)
+{
+    int nd, shape[CV_MAX_DIM], strides[CV_MAX_DIM];
+    ndarray result;
+    if(obj.ptr() == Py_None) return result;
+
+    extract<const cv::Scalar &> scalar(obj);
+    extract<const cv::Mat &> mat(obj);
+    if(scalar.check())
+    {
+        nd = 4;
+        result = new_(1, &nd, NPY_DOUBLE, 0, (void *)&scalar().val[0], NPY_C_CONTIGUOUS | NPY_WRITEABLE);
+    } else if(mat.check())
+    {
+        cv::Mat mat2 = mat();
+        if(!mat2.flags) return result; // empty cv::Mat
+        
+        if(mat2.channels() > 1)
+        {
+            nd = 3;
+            shape[0] = mat2.rows; shape[1] = mat2.cols; shape[2] = mat2.channels();
+            strides[0] = mat2.step; strides[1] = mat2.elemSize(); strides[2] = mat2.elemSize1();
+        }
+        else
+        {
+            nd = 2;
+            shape[0] = mat2.rows; shape[1] = mat2.cols; 
+            strides[0] = mat2.step; strides[1] = mat2.elemSize();
+        }
+        result = new_(nd, shape, convert_cvdepth_to_dtype(mat2.depth()), strides, mat2.data, NPY_WRITEABLE);
+    }
+    objects::make_nurse_and_patient(result.ptr(), obj.ptr());
+    return result;
+}
+
+// ================================================================================================
+
+object as_Scalar(const ndarray &arr)
+{
+    return object();
+}
+
+// ================================================================================================
+
+object as_Mat(const ndarray &arr)
+{
+    cv::Mat mat;
+    char s[1000];
+    
+    // checking
+    PyObject *obj = arr.ptr();
+    if(obj == Py_None) return object(mat); // ndarray = None
+    
+    int nd = arr.ndim();
+    if(nd < 2 || nd > 3)
+    {
+        sprintf(s, "Cannot convert from ndarray to Mat because ndim=%d, expecting 2 (single-channel) or 3 (multiple-channel) only.", nd);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    int nchannels;
+    const int *shape = arr.shape();
+    int itemsize = arr.itemsize();
+    const int *strides = arr.strides();
+    if(nd == 2)
+    {
+        if(strides[1] != itemsize)
+        {
+            sprintf(s, "Cannot convert from ndarray to Mat because the last (2nd) dimension is not contiguous: strides[1]=%d, itemsize=%d.", strides[1], itemsize);
+            PyErr_SetString(PyExc_TypeError, s);
+            throw error_already_set();
+        }
+        nchannels = 1;
+    }
+    else
+    {
+        if(strides[2] != itemsize)
+        {
+            sprintf(s, "Cannot convert from ndarray to Mat because the last (3rd) dimension is not contiguous: strides[2]=%d, itemsize=%d.", strides[2], itemsize);
+            PyErr_SetString(PyExc_TypeError, s);
+            throw error_already_set();
+        }
+        nchannels = shape[2];
+        if(nchannels < 1 || nchannels > 4)
+        {
+            sprintf(s, "Cannot convert from ndarray to Mat because the number of channels is not between 1 and 4 (nchannels=%d).", nchannels);
+            PyErr_SetString(PyExc_TypeError, s);
+            throw error_already_set();
+        }
+        if(strides[1] != itemsize*nchannels)
+        {
+            sprintf(s, "Cannot convert from ndarray to Mat because the second last (2nd) dimension is not contiguous: strides[2]=%d, itemsize=%d, nchannels=%d.", strides[2], itemsize, nchannels);
+            PyErr_SetString(PyExc_TypeError, s);
+            throw error_already_set();
+        }
+    }
+    
+    // wrapping
+    mat = cv::Mat(cv::Size(shape[0], shape[1]), CV_MAKETYPE(convert_dtype_to_cvdepth(arr.dtype()), nchannels), 
+        (void *)arr.data(), strides[0]);
+    object result(mat);
+    objects::make_nurse_and_patient(result.ptr(), obj);
+    return result;
+}
+
+// ================================================================================================
+
+object as_MatND(const ndarray &arr)
+{
+    return object();
+}
 
 // ================================================================================================
 
