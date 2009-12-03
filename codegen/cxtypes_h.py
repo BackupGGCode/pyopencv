@@ -48,7 +48,7 @@ def generate_code(mb, cc, D, FT, CP):
     ''')
 
     # CvArr
-    mb.class_('CvArr').include()
+    # mb.class_('CvArr').include()
 
     cc.write('''
 #-----------------------------------------------------------------------------
@@ -69,10 +69,7 @@ CV_LOG2 = 0.69314718055994530941723212145818
 # Random number generation
 #-----------------------------------------------------------------------------
 
-# Minh-Tri's note: I'd rather use a random generator other than CvRNG.
-# It's slow and doesn't guarrantee a large cycle.
-
-CvRNG = _CT.c_uint64
+CvRNG = RNG
 
 def cvRNG(seed=-1):
     """CvRNG cvRNG( int64 seed = CV_DEFAULT(-1))
@@ -88,17 +85,14 @@ def cvRandInt(rng):
     
     Returns random 32-bit unsigned integer. 
     """
-    temp = rng.value
-    temp = temp*4164903690 + (temp >> 32)
-    rng.value = temp
-    return _CT.c_uint32(temp).value
+    return rng.as_int()
     
 def cvRandReal(rng):
     """double cvRandReal( CvRNG rng )
     
     Returns random floating-point number between 0 and 1.
     """
-    return _CT.c_double(cvRandInt(rng).value*2.3283064365386962890625e-10) # 2^-32
+    return rng.as_double()
 
     
     ''')
@@ -328,7 +322,8 @@ CV_MAX_DIM_HEAP = (1 << 16)
 
     cvmatnd = mb.class_('CvMatND')
     cvmatnd.include()
-    for z in ('ptr', 's', 'i', 'fl', 'db', 'data'):
+    for z in ('ptr', 's', 'i', 'fl', 'db', 'data',
+        'size', 'step', 'dim',):
         cvmatnd.var(z).exclude()
     # deal with 'data'
     cvmatnd.include_files.append( "boost/python/object.hpp" )
@@ -423,7 +418,8 @@ CV_WHOLE_SEQ = cvSlice(0, CV_WHOLE_SEQ_END_INDEX)
         'cvRect', 'cvRectToROI', 'cvROIToRect'):
         mb.free_fun(z).include()
     for z in ('CvScalar', 'cvRealScalar', 
-        'CvPoint', 'cvPoint', 
+        'CvPoint', 
+        # 'cvPoint',  # TODO: fix it when this one is uncommented
         'CvSize', 'cvSize', 'CvBox2D',
         'CvTermCriteria', 'cvTermCriteria', 
         'CvLineIterator',
@@ -785,5 +781,4 @@ add_property( "data", bp::make_function(&CvString_wrapper::get_data) )
     for t in ('name', 'version'):
         FT.expose_member_as_str(z, t)
 
-    
     

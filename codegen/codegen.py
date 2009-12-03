@@ -304,7 +304,7 @@ for z in ('IPL_', 'CV_'):
 cxerror_h.generate_code(mb, cc, D, FT, CP)
 
 # cxtypes.h
-# cxtypes_h.generate_code(mb, cc, D, FT, CP)
+cxtypes_h.generate_code(mb, cc, D, FT, CP)
 
 # cxcore.h
 # cxcore_h.generate_code(mb, cc, D, FT, CP)
@@ -361,7 +361,7 @@ mb.beautify_func_list(opencv_funs)
 #=============================================================================
 
 
-mb.classes(lambda x: x.alias.startswith("vector_less")).exclude()
+# mb.classes(lambda x: x.alias.startswith("vector_less")).exclude()
 
 
 #=============================================================================
