@@ -203,21 +203,70 @@ KLASS.__repr__ = _KLASS__repr__
     z.decls(lambda x: 'uchar *' in x.decl_string).exclude()
     
     # MatND
-    # TODO: provide interface to ndarray
-    # TODO: fix the rest of the member declarations
     z = mb.class_('MatND')
-    z.include()
-    z.decls().exclude()
+    z.include_files.append("boost/python/make_function.hpp")
+    z.include_files.append("opencv_extra.hpp")
+    mb.init_class(z)
+    
+    z.constructors(lambda x: 'const *' in x.decl_string).exclude()
+    z.operator('()').exclude()
+    z.add_declaration_code('''
+static boost::shared_ptr<cv::MatND> MatND__init1__(const bp::tuple &_sizes, int _type)
+{
+    std::vector<int> _sizes2;
+    int len = bp::len(_sizes);
+    _sizes2.resize(len);
+    for(int i = 0; i < len; ++i) _sizes2[i] = bp::extract<int>(_sizes[i]);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(len, &_sizes2[0], _type));
+}
 
-    # z.constructor(lambda x: '::CvMatND' in x.decl_string).exclude()
-    # z.operator(lambda x: x.name.endswith('::CvMatND')).rename('as_CvMatND')
+static boost::shared_ptr<cv::MatND> MatND__init2__(const bp::tuple &_sizes, int _type, const cv::Scalar& _s)
+{
+    std::vector<int> _sizes2;
+    int len = bp::len(_sizes);
+    _sizes2.resize(len);
+    for(int i = 0; i < len; ++i) _sizes2[i] = bp::extract<int>(_sizes[i]);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(len, &_sizes2[0], _type, _s));
+}
+
+static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, const bp::tuple &_ranges)
+{
+    std::vector<cv::Range> _ranges2;
+    int len = bp::len(_ranges);
+    _ranges2.resize(len);
+    for(int i = 0; i < len; ++i) _ranges2[i] = bp::extract<cv::Range>(_ranges[i]);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(m, &_ranges2[0]));
+}
+
+static cv::MatND MatND__call__(const cv::MatND& inst, const bp::tuple &ranges)
+{
+    std::vector<cv::Range> ranges2;
+    int len = bp::len(ranges);
+    ranges2.resize(len);
+    for(int i = 0; i < len; ++i) ranges2[i] = bp::extract<cv::Range>(ranges[i]);
+    return inst(&ranges2[0]);
+}
+
+    ''')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init1__))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init2__))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init3__))')
+    z.add_registration_code('def("__call__", bp::make_function(&MatND__call__))')
     
-    # z.decls(lambda x: 'Range*' in x.decl_string).exclude()
+    z.constructor(lambda x: '::CvMatND' in x.decl_string).exclude()
+    z.operator(lambda x: x.name.endswith('::CvMatND')).rename('as_CvMatND')
+    z.mem_funs('setTo').call_policies = CP.return_self()
+    for t in ('ptr', 'data', 'refcount', 'datastart', 'dataend'):
+        z.decls(t).exclude()
+    mb.finalize_class(z)
+    mb.add_ndarray_interface(z)
+    cc.write('''
+def _MatND__repr__(self):
+    return "MatND(shape=" + repr(self.ndarray.shape) + ", nchannels=" + repr(self.channels()) \
+        + ", depth=" + repr(self.depth()) + "):\\n" + repr(self.ndarray)
+MatND.__repr__ = _MatND__repr__
+    ''')
     
-    # z.mem_funs('setTo').call_policies = CP.return_self()
-    # z.mem_funs('adjustROI').call_policies = CP.return_self()
-    # for t in ('ptr', 'data', 'refcount', 'datastart', 'dataend'):
-        # z.decls(t).exclude()
 
     # NAryMatNDIterator
     # TODO: fix the rest of the member declarations

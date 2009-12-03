@@ -45,6 +45,7 @@ public:
     const void *getptr1(int i1) const;
     const void *getptr2(int i1, int i2) const;
     const void *getptr3(int i1, int i2, int i3) const;
+    bool iscontiguous() const;
     
     bool last_dim_as_cvchannel() const;
     int cvrank() const; // = ndim() - last_dim_as_cvchannel()
