@@ -395,25 +395,25 @@ void mixChannels(const tuple src, tuple dst, const ndarray &fromTo)
         throw error_already_set();
     }
     
-    extract<cv::Mat> mat(src[0]);
-    extract<cv::MatND> matnd(src[0]);
+    extract<const cv::Mat &> mat(src[0]);
+    extract<const cv::MatND &> matnd(src[0]);
     int i, nsrc, ndst;
     if(mat.check())
     {
         std::vector<cv::Mat> src2, dst2;
         nsrc = len(src); src2.resize(nsrc);
-        for(i = 0; i < nsrc; ++i) src2[i] = extract<cv::Mat>(src[i]);
+        for(i = 0; i < nsrc; ++i) src2[i] = extract<const cv::Mat &>(src[i]);
         ndst = len(dst); dst2.resize(ndst);
-        for(i = 0; i < ndst; ++i) dst2[i] = extract<cv::Mat>(dst[i]);
+        for(i = 0; i < ndst; ++i) dst2[i] = extract<const cv::Mat &>(dst[i]);
         mixChannels(&src2[0], nsrc, &dst2[0], ndst, (const int *)fromTo.data(), shape[0]);
     }
     else if(matnd.check())
     {
         std::vector<cv::MatND> src3, dst3;
         nsrc = len(src); src3.resize(nsrc);
-        for(i = 0; i < nsrc; ++i) src3[i] = extract<cv::MatND>(src[i]);
+        for(i = 0; i < nsrc; ++i) src3[i] = extract<const cv::MatND &>(src[i]);
         ndst = len(dst); dst3.resize(ndst);
-        for(i = 0; i < ndst; ++i) dst3[i] = extract<cv::MatND>(dst[i]);
+        for(i = 0; i < ndst; ++i) dst3[i] = extract<const cv::MatND &>(dst[i]);
         mixChannels(&src3[0], nsrc, &dst3[0], ndst, (const int *)fromTo.data(), shape[0]);
     }
     else
@@ -423,6 +423,58 @@ void mixChannels(const tuple src, tuple dst, const ndarray &fromTo)
         throw error_already_set();
     }
 }
+
+tuple minMaxLoc(const object& a, const object& mask)
+{
+    double minVal, maxVal;
+    int minIdx[CV_MAX_DIM], maxIdx[CV_MAX_DIM];
+    int i, n;
+    cv::Point minLoc, maxLoc;
+    
+    tuple result;
+    
+    extract<const cv::Mat &> mat(a);
+    extract<const cv::MatND &> matnd(a);
+    extract<const cv::SparseMat &> smat(a);
+    if(mat.check())
+    {    
+        minMaxLoc(mat(), &minVal, &maxVal, &minLoc, &maxLoc, extract<const cv::Mat &>(mask));
+        result = make_tuple(object(minVal), object(maxVal), object(minLoc), object(maxLoc));
+    }
+    else if(matnd.check())
+    {
+        const cv::MatND &m = matnd();
+        minMaxLoc(m, &minVal, &maxVal, minIdx, maxIdx, extract<const cv::MatND &>(mask));
+        n = m.dims;
+        list l1, l2;
+        for(i = 0; i < n; ++i)
+        {
+            l1.append(object(minIdx[i]));
+            l2.append(object(maxIdx[i]));
+        }
+        result = make_tuple(object(minVal), object(maxVal), tuple(l1), tuple(l2));
+    }
+    else if(smat.check())
+    {
+        const cv::SparseMat &m2 = smat();
+        minMaxLoc(m2, &minVal, &maxVal, minIdx, maxIdx);
+        n = m2.dims();
+        list l1, l2;
+        for(i = 0; i < n; ++i)
+        {
+            l1.append(object(minIdx[i]));
+            l2.append(object(maxIdx[i]));
+        }
+        result = make_tuple(object(minVal), object(maxVal), tuple(l1), tuple(l2));
+    }
+    else
+    {
+        PyErr_SetString(PyExc_TypeError, "Cannot determine whether 'a' is Mat, MatND, or SparseMat.");
+        throw error_already_set();
+    }
+    return result;
+}
+
 
 // ================================================================================================
 

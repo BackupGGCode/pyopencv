@@ -336,7 +336,7 @@ MatND.__repr__ = _MatND__repr__
         # 'cvarrToMat', 'extractImageCOI', 'insertImageCOI', # removed, deal with cv::Mat instead
         'add', 'subtract', 'multiply', 'divide', 'scaleAdd', 'addWeighted',
         'convertScaleAbs', 'LUT', 'sum', 'countNonZero', 'mean', 'meanStdDev', 
-        'normalize', 'reduce', 'flip', 'repeat', 'bitwise_and', 'bitwise_or', 
+        'norm', 'normalize', 'reduce', 'flip', 'repeat', 'bitwise_and', 'bitwise_or', 
         'bitwise_xor', 'bitwise_not', 'absdiff', 'inRange', 'compare', 'min', 
         'max', 'sqrt', 'pow', 'exp', 'log', 'cubeRoot', 'fastAtan2',
         'polarToCart', 'cartToPolar', 'phase', 'magnitude', 'gemm',
@@ -349,14 +349,6 @@ MatND.__repr__ = _MatND__repr__
         ):
         mb.free_funs(z).include()
 
-    # minMaxLoc
-    for z in mb.free_funs('minMaxLoc'):
-        z.include()
-        z._transformer_creators.append(FT.output_type1(1))
-        z._transformer_creators.append(FT.output_type1(2))
-        z._transformer_creators.append(FT.output_type1(3))
-        z._transformer_creators.append(FT.output_type1(4))
-        
     # split
     for z in mb.free_funs('split'):
         if z.arguments[1].type == D.dummy_type_t('::cv::Mat *') or \
@@ -367,6 +359,10 @@ MatND.__repr__ = _MatND__repr__
     # mixChannels
     z = mb.free_funs('mixChannels').exclude()
     mb.add_registration_code('bp::def("mixChannels", &bp::mixChannels, ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo") ));')
+    
+    # minMaxLoc
+    z = mb.free_funs('minMaxLoc').exclude()
+    mb.add_registration_code('bp::def("minMaxLoc", &bp::minMaxLoc, ( bp::arg("a"), bp::arg("mask")=bp::object() ));')
     
     # checkRange
     for z in mb.free_funs('checkRange'):
@@ -413,10 +409,10 @@ MatND.__repr__ = _MatND__repr__
     z._transformer_creators.append(FT.output_type1('baseLine'))
     
     # missing functions; 'solveCubic', 'solvePoly'
-    # cc.write('''
-    # solveCubic = cvSolveCubic
-    # solvePoly = cvSolvePoly
+    cc.write('''
+solveCubic = cvSolveCubic
+solvePoly = cvSolvePoly
     
-    # ''')
+    ''')
 
     # TODO: do something with Seq<>

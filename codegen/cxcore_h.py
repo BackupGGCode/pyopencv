@@ -436,19 +436,37 @@ def cvAbs(src, dst):
     """
     cvAbsDiffS(src, dst, cvScalarAll(0))
 
+# new C++ interface
+
+cvAdd = add
+cvAddS = add
+cvSub = subtract
+cvSubS = subtract
+cvSubRS = subtract
+cvMul = multiply
+cvDiv = divide
+cvScaleAdd = scaleAdd
+cvAddWeighted = addWeighted
+cvAnd = bitwise_and
+cvAndS = bitwise_and
+cvOr = bitwise_or
+cvOrS = bitwise_or
+cvXor = bitwise_xor
+cvXorS = bitwise_xor
+cvNot = bitwise_not
+cvInRange = inRange
+cvInRangeS = inRange
+cvMin = min
+cvMinS = min
+cvMax = max
+cvMaxS = max
+cvAbsDiff = absdiff
+cvAbsDiffS = absdiff
+cvCmp = compare
+cvCmpS = compare
     
     ''')
         
-    # functions
-    for z in (
-        'cvAdd', 'cvAddS', 'cvSub', 'cvSubS', 'cvSubRS', 'cvMul', 'cvDiv', 
-        'cvScaleAdd', 'cvAddWeighted', 'cvDotProduct', 'cvAnd', 'cvAndS', 
-        'cvOr', 'cvOrS', 'cvXor', 'cvXorS', 'cvNot', 'cvInRange', 'cvInRangeS',
-        'cvCmp', 'cvCmpS', 'cvMin', 'cvMax', 'cvMinS', 'cvMaxS', 'cvAbsDiff', 'cvAbsDiffS', 
-        ):
-        mb.free_fun(z).include()
-
-
 
     # Math operations
     cc.write('''
@@ -470,12 +488,21 @@ CV_SORT_EVERY_COLUMN = 1
 CV_SORT_ASCENDING = 0
 CV_SORT_DESCENDING = 16
 
+# new C++ interface
+
+cvCartToPolar = cartToPolar
+cvPolarToCart = polarToCart
+cvPow = pow
+cvExp = exp
+cvLog = log
+cvFastArctan = fastAtan2
+cvCbrt = cubeRoot
+
     
     ''')
         
     # functions
     for z in (
-        'cvCartToPolar', 'cvPolarToCart', 'cvPow', 'cvExp', 'cvLog', 'cvFastArctan', 'cvCbrt', 
         'cvCheckArr', 'cvRandArr', 'cvRandShuffle', 'cvSort', 'cvSolveCubic', 'cvSolvePoly',
         ):
         mb.free_fun(z).include()
@@ -488,6 +515,45 @@ CV_SORT_DESCENDING = 16
 #-----------------------------------------------------------------------------
 
 
+# new C++ interface
+
+cvGEMM = gemm
+cvTransform = transform
+cvPerspectiveTransform = perspectiveTransform
+cvMulTransposed = mulTransposed
+cvTranspose = transpose
+cvCompleteSymm = completeSymm
+cvFlip = flip
+cvInvert = invert
+cvSolve = solve
+cvDet = determinant
+cvTrace = trace
+cvSetIdentity = setIdentity
+cvEigenVV = eigen
+cvMahalanobis = Mahalanobis
+cvMahalonobis = cvMahalanobis
+cvCalcCovarMatrix = calcCovarMatrix
+
+def _use_PCA_instead(*args, **kwds):
+    raise NotImplementedError, "Use class PCA instead."
+
+cvCalcPCA = _use_PCA_instead
+cvProjectPCA = _use_PCA_instead
+cvBackProjectPCA = _use_PCA_instead
+
+def _use_a_cross_b_instead(*args, **kwds):
+    raise NotImplementedError, "Use a.cross(b) instead."
+
+cvCrossProduct = _use_a_cross_b_instead
+
+def _use_SVD_instead(*args, **kwds):
+    raise NotImplementedError, "Use class SVD instead."
+
+cvSVD = _use_SVD_instead
+cvSVBkSb = _use_SVD_instead
+
+
+    
 CV_GEMM_A_T = 1
 CV_GEMM_B_T = 2
 CV_GEMM_C_T = 4
@@ -538,28 +604,11 @@ CV_PCA_DATA_AS_ROW = 0
 CV_PCA_DATA_AS_COL = 1
 CV_PCA_USE_AVG = 2
 
-cvMahalonobis = cvMahalanobis
-
-    
     ''')
-        
-    # functions
-    for z in (
-        'cvCrossProduct', 'cvGEMM', 'cvTransform', 'cvPerspectiveTransform', 'cvMulTransposed',
-        'cvTranspose', 'cvCompleteSymm', 'cvFlip', 'cvSVD', 'cvSVBkSb', 
-        'cvInvert', 'cvSolve', 'cvDet', 'cvTrace', 'cvEigenVV', 'cvSetIdentity',
-        'cvCalcPCA', 'cvProjectPCA', 'cvBackProjectPCA', 'cvMahalanobis',
-        ):
-        mb.free_fun(z).include()
-
+    
     # cvRange
     FT.expose_func(mb.free_fun('cvRange'), return_arg_index=1) 
 
-    # cvCalcCovarMatrix
-    z = mb.free_fun('cvCalcCovarMatrix')
-    z.include()
-    z._transformer_creators.append(FT.input_array1d('vects', 'count'))    
-        
         
     # Array Statistics
     cc.write('''
@@ -587,52 +636,18 @@ CV_REDUCE_AVG = 1
 CV_REDUCE_MAX = 2
 CV_REDUCE_MIN = 3
 
+# new C++ interface
 
-    ''')
-
-    # functions
-    for z in (
-        'cvSum', 'cvCountNonZero', 'cvAvg', 'cvAvgSdv',
-        'cvNorm', 'cvNormalize', 'cvReduce',
-        ):
-        mb.free_fun(z).include()
-
-    # cvMinMaxLoc
-    z = mb.free_fun('cvMinMaxLoc')
-    FT.add_underscore(z)
-    z._transformer_creators.append(FT.from_address('min_val'))
-    z._transformer_creators.append(FT.from_address('max_val'))
-    cc.write('''
-def cvMinMaxLoc(arr, return_min_loc=False, return_max_loc=False, mask=None):
-    """(double)min_val, (double)max_val[, (CvPoint)min_loc][, (CvPoint)max_loc] = cvMinMaxLoc((const CvArr)arr, (bool)return_min_loc=False, (bool)return_max_loc=False, const CvArr mask=None)
-
-    Finds global minimum and maximum in array or subarray, and optionally their locations
-    [pyopencv] 'min_loc' is returned if 'return_min_loc' is True. 
-    [pyopencv] 'max_loc' is returned if 'return_max_loc' is True. 
-    """
-    min_val_p = _CT.c_double()
-    max_val_p = _CT.c_double()
-
-    min_loc = CvPoint() if return_min_loc is None else None
-    max_loc = CvPoint() if return_max_loc is None else None
-    
-    _PE._cvMinMaxLoc(arr, min_val=_CT.addressof(min_val_p), max_val=_CT.addressof(max_val_p),
-        min_loc=min_loc, max_loc=max_loc, mask=mask)
-    
-    z = (min_val_p.value, max_val_p.value)
-    if min_loc is not None:
-        z.append(min_loc)
-    if max_loc is not None:
-        z.append(max_loc)
-
-    return z
-    
-    ''')
+cvSum = sum
+cvCountNonZero = countNonZero
+cvAvg = mean
+cvAvgSdv = meanStdDev
+cvNorm = norm
+cvNormalize = normalize
+cvReduce = reduce
+cvMinMaxLoc = minMaxLoc
 
 
-
-    # Discrete Linear Transforms and Related Functions
-    cc.write('''
 #-----------------------------------------------------------------------------
 # Discrete Linear Transforms and Related Functions
 #-----------------------------------------------------------------------------
@@ -647,20 +662,14 @@ CV_DXT_INVERSE_SCALE = CV_DXT_INV_SCALE
 CV_DXT_ROWS = 4     # transfor each row individually
 CV_DXT_MUL_CONJ = 8     # conjugate the second argument of cvMulSpectrums
 
+# new C++ interface
+cvDFT = dft
 cvFFT = cvDFT
+cvMulSpectrums = mulSpectrums
+cvGetOptimalDFTSize = getOptimalDFTSize
+cvDCT = dct
 
 
-    ''')
-
-    # functions
-    for z in (
-        'cvDFT', 'cvMulSpectrums', 'cvGetOptimalDFTSize', 'cvDCT',
-        ):
-        mb.free_fun(z).include()
-
-
-    # Dynamic Data Structure
-    cc.write('''
 #-----------------------------------------------------------------------------
 # Dynamic Data Structure
 #-----------------------------------------------------------------------------
@@ -764,12 +773,6 @@ CV_AA = 16
 def CV_RGB(r, g, b):
     return CvScalar(b, g, r)
 
-cvDrawRect = cvRectangle
-cvDrawLine = cvLine
-cvDrawCircle = cvCircle
-cvDrawEllipse = cvEllipse
-cvDrawPolyLine = cvPolyLine
-
 CV_FONT_HERSHEY_SIMPLEX = 0
 CV_FONT_HERSHEY_PLAIN = 1
 CV_FONT_HERSHEY_DUPLEX = 2
@@ -781,33 +784,33 @@ CV_FONT_HERSHEY_SCRIPT_COMPLEX = 7
 CV_FONT_ITALIC = 16
 CV_FONT_VECTOR0 = CV_FONT_HERSHEY_SIMPLEX
 
+# new C++ interface
+
+cvLine = line
+cvRectangle = rectangle
+cvCircle = circle
+cvEllipse = ellipse
+cvEllipseBox = ellipse
+cvClipLine = clipLine
+cvPutText = putText
+cvLUT = LUT
+cvFillConvexPoly = fillConvexPoly
+cvFillPoly = fillPoly
+cvPolyLine = polylines
+cvGetTextSize = getTextSize
+cvEllipse2Poly = ellipse2Poly
+
 
     ''')
 
     # functions
     for z in (
-        'cvLine', 'cvRectangle', 'cvCircle', 'cvEllipse', 'cvEllipseBox',
-        'cvClipLine', 'cvInitLineIterator',
-        'cvInitFont', 'cvFont', 'cvPutText',
+        'cvInitLineIterator',
+        'cvInitFont', 'cvFont', 
         'cvColorToScalar',
-        'cvDrawContours', 'cvLUT',
+        'cvDrawContours', 
         ):
         mb.free_fun(z).include()
-
-    # cvFillConvexPoly
-    z = mb.free_fun('cvFillConvexPoly')
-    z.include()
-    z._transformer_creators.append(FT.input_array1d('pts', 'npts'))
-
-    # cvFillPoly
-    z = mb.free_fun('cvFillPoly')
-    z.include()
-    z._transformer_creators.append(FT.input_array2d('pts', 'npts', 'contours'))
-
-    # cvPolyLine
-    z = mb.free_fun('cvPolyLine')
-    z.include()
-    z._transformer_creators.append(FT.input_array2d('pts', 'npts', 'contours'))
 
     # CvFont
     z = mb.class_('CvFont')
@@ -815,24 +818,6 @@ CV_FONT_VECTOR0 = CV_FONT_HERSHEY_SIMPLEX
     for t in ('ascii', 'greek', 'cyrillic'): # wait until requested 
         z.var(t).exclude()
 
-    # cvGetTextSize
-    z = mb.free_fun('cvGetTextSize')
-    FT.add_underscore(z)
-    z._transformer_creators.append(FT.from_address('baseline'))
-
-    def cvGetTextSize(text_string, font):
-        """(CvSize text_size, int baseline) = cvGetTextSize(string text_string, const CvFont font)
-
-        Retrieves width and height of text string
-        """
-        text_size = CvSize()
-        baseline = _CT.c_int()
-        _PE.cvGetTextSize(text_string, font, text_size, _CT.addressof(baseline))
-        return (text_size, baseline.value)
-
-
-        
-    # cvEllipse2Poly # TODO: fix
 
 
     # System Functions

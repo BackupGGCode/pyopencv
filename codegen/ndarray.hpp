@@ -182,6 +182,7 @@ object as_Mat(const ndarray &arr);
 object as_MatND(const ndarray &arr);
 
 void mixChannels(const tuple src, tuple dst, const ndarray &fromTo);
+tuple minMaxLoc(const object& a, const object& mask=object());
 
 }} // namespace boost::python
 
