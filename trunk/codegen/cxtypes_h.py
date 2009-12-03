@@ -419,13 +419,15 @@ CV_WHOLE_SEQ = cvSlice(0, CV_WHOLE_SEQ_END_INDEX)
         mb.free_fun(z).include()
     for z in ('CvScalar', 'cvRealScalar', 
         'CvPoint', 
-        # 'cvPoint',  # TODO: fix it when this one is uncommented
+        'cvPoint',  # TODO: fix it when this one is uncommented
         'CvSize', 'cvSize', 'CvBox2D',
         'CvTermCriteria', 'cvTermCriteria', 
         'CvLineIterator',
         'CvSlice', 'cvSlice',
         ):
         mb.decls(lambda decl: decl.name.startswith(z)).include()
+        
+    mb.free_fun('cvPointSeqFromMat').exclude()  # TODO: fix it when this one is uncommented
         
     mb.class_('CvLineIterator').var('ptr').exclude() # wait until requested
         

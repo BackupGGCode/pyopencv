@@ -307,13 +307,13 @@ cxerror_h.generate_code(mb, cc, D, FT, CP)
 cxtypes_h.generate_code(mb, cc, D, FT, CP)
 
 # cxcore.h
-# cxcore_h.generate_code(mb, cc, D, FT, CP)
+cxcore_h.generate_code(mb, cc, D, FT, CP)
 
 # cxcore.hpp
 cxcore_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cxflann.h
-# cxflann_h.generate_code(mb, cc, D, FT, CP)
+cxflann_h.generate_code(mb, cc, D, FT, CP)
 
 # cxmat.hpp
 # cxmat_hpp.generate_code(mb, cc, D, FT, CP)
