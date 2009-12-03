@@ -484,7 +484,7 @@ class input_array2d_t(transformer.transformer_t):
         controller.add_post_call_code(postcall_code)
         
 
-        controller.modify_arg_expression( self.arg_index, "buf_"+self.arg.name )
+        controller.modify_arg_expression( self.arg_index, "(%s) buf_%s" % (self.arg.type.decl_string, self.arg.name) )
         
         if self.remove_arg_ncnts and self.arg_ncnts is not None:
             controller.modify_arg_expression( self.arg_ncnts_index, "n1_"+self.arg.name )
@@ -548,7 +548,7 @@ class output_type1_t( transformer.transformer_t ):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return [ code_repository.convenience.file_name ]
+        return [ code_repository.convenience.file_name, "ndarray.hpp" ]
 
     def __configure_sealed( self, controller ):
         #removing arg from the function wrapper definition

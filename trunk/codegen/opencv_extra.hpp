@@ -115,6 +115,9 @@ extern template void convert_Mat( const cv::Mat &in_arr, std::vector<unsigned in
 extern template void convert_Mat( const cv::Mat &in_arr, std::vector<float> &out_arr );
 extern template void convert_Mat( const cv::Mat &in_arr, std::vector<double> &out_arr );
 
+// 1-row CV_32SC2 Mat
+template<> void convert_Mat<cv::Point>( const cv::Mat &in_arr, std::vector<cv::Point> &out_arr );
+
 // convert_Mat, std::vector case
 template<typename T>
 void convert_Mat( const std::vector<T> &in_arr, cv::Mat &out_arr )
@@ -135,6 +138,9 @@ extern template void convert_Mat( const std::vector<int> &in_arr, cv::Mat &out_a
 extern template void convert_Mat( const std::vector<unsigned int> &in_arr, cv::Mat &out_arr );
 extern template void convert_Mat( const std::vector<float> &in_arr, cv::Mat &out_arr );
 extern template void convert_Mat( const std::vector<double> &in_arr, cv::Mat &out_arr );
+
+// 1-row CV_32SC2 Mat
+template<> void convert_Mat<cv::Point>( const std::vector<cv::Point> &in_arr, cv::Mat &out_arr );
 
 // convert_Mat, T * case
 // Only from Mat to T* is implemented. The converse direction is UNSAFE.
