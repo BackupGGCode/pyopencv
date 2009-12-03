@@ -786,13 +786,18 @@ CV_FONT_VECTOR0 = CV_FONT_HERSHEY_SIMPLEX
 
     # functions
     for z in (
-        'cvLine', 'cvRectangle', 'cvCircle', 'cvEllipse', 'cvEllipseBox', 'cvFillConvexPoly',
+        'cvLine', 'cvRectangle', 'cvCircle', 'cvEllipse', 'cvEllipseBox',
         'cvClipLine', 'cvInitLineIterator',
         'cvInitFont', 'cvFont', 'cvPutText',
         'cvColorToScalar',
         'cvDrawContours', 'cvLUT',
         ):
         mb.free_fun(z).include()
+
+    # cvFillConvexPoly
+    z = mb.free_fun('cvFillConvexPoly')
+    z.include()
+    z._transformer_creators.append(FT.input_array1d('pts', 'npts'))
 
     # cvFillPoly
     z = mb.free_fun('cvFillPoly')

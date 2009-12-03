@@ -269,31 +269,31 @@ MatND.__repr__ = _MatND__repr__
     
 
     # NAryMatNDIterator
-    # TODO: fix the rest of the member declarations
+    # wait until requested: fix the rest of the member declarations
     z = mb.class_('NAryMatNDIterator')
     z.include()
     z.decls().exclude()
     
     # SparseMat
-    # TODO: fix the rest of the member declarations
+    # wait until requested: fix the rest of the member declarations
     z = mb.class_('SparseMat')
     z.include()
     z.decls().exclude()
     
     # SparseMatConstIterator
-    # TODO: fix the rest of the member declarations
+    # wait until requested: fix the rest of the member declarations
     z = mb.class_('SparseMatConstIterator')
     z.include()
     z.decls().exclude()
     
     # SparseMatIterator
-    # TODO: fix the rest of the member declarations
+    # wait until requested: fix the rest of the member declarations
     z = mb.class_('SparseMatIterator')
     z.include()
     z.decls().exclude()
     
     # KDTree
-    # TODO: fix the rest of the member declarations
+    # wait until requested: fix the rest of the member declarations
     z = mb.class_('KDTree')
     z.include()
     z.decls().exclude()
@@ -344,15 +344,79 @@ MatND.__repr__ = _MatND__repr__
         'completeSymm', 'setIdentity', 'determinant', 'trace', 'invert', 
         'solve', 'sort', 'sortIdx', 'eigen', 'Mahalanobis', 'Mahalonobis', 
         'dft', 'idft', 'dct', 'idct', 'mulSpectrums', 'getOptimalDFTSize',
-        'randu', 'randn', 'line', 'rectangle', 'circle', 'ellipse', 'clipLine',
-        'putText', 
+        'randu', 'randn', 'randShuffle', 'line', 'rectangle', 'circle', 
+        'ellipse', 'clipLine', 'putText', 'ellipse2Poly',
         ):
         mb.free_funs(z).include()
 
-    # TODO: 
-    # minMaxLoc, merge, split, mixChannels, checkRange, calcCovarMatrix, kmeans, theRNG
-    # randShuffle, fillConvexPoly, fillPoly, polylines, ellipse2Poly, getTextSize
+    # minMaxLoc
+    for z in mb.free_funs('minMaxLoc'):
+        z.include()
+        z._transformer_creators.append(FT.output_type1(1))
+        z._transformer_creators.append(FT.output_type1(2))
+        z._transformer_creators.append(FT.output_type1(3))
+        z._transformer_creators.append(FT.output_type1(4))
+        
+    # split
+    for z in mb.free_funs('split'):
+        if z.arguments[1].type == D.dummy_type_t('::cv::Mat *') or \
+            z.arguments[1].type == D.dummy_type_t('::cv::MatND *'):
+            z.include()
+            z._transformer_creators.append(FT.input_array1d(1))
     
-    # TODO: missing functions; 'solveCubic', 'solvePoly', 
+    # mixChannels
+    z = mb.free_funs('mixChannels').exclude()
+    mb.add_registration_code('bp::def("mixChannels", &bp::mixChannels, ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo") ));')
+    
+    # checkRange
+    for z in mb.free_funs('checkRange'):
+        z.include()
+        z._transformer_creators.append(FT.output_type1(2))
+    
+    # kmeans
+    z = mb.free_fun('kmeans')
+    z.include()
+    z._transformer_creators.append(FT.output_type1('centers'))
+    
+    # merge
+    for z in mb.free_funs('merge'):
+        if z.arguments[0].type == D.dummy_type_t('::cv::Mat const *') or \
+            z.arguments[0].type == D.dummy_type_t('::cv::MatND const *'):
+            z.include()
+            z._transformer_creators.append(FT.input_array1d(0, 'count'))
+            
+    # calcCovarMatrix
+    for z in mb.free_funs('calcCovarMatrix'):
+        z.include()
+        if z.arguments[0].type == D.dummy_type_t('::cv::Mat const *'):
+            z._transformer_creators.append(FT.input_array1d('samples', 'nsamples'))
+            
+    # theRNG
+    z = mb.free_fun('theRNG')
+    z.include()
+    z.call_policies = CP.return_value_policy(CP.reference_existing_object)
+    
+    # fillConvexPoly
+    z = mb.free_fun('fillConvexPoly')
+    z.include()
+    z._transformer_creators.append(FT.input_array1d('pts', 'npts'))
+    
+    # fillPoly
+    for t in ('fillPoly', 'polylines'):
+        z = mb.free_fun(t)
+        z.include()
+        z._transformer_creators.append(FT.input_array2d('pts', 'npts', 'ncontours'))
+        
+    # getTextSize
+    z = mb.free_fun('getTextSize')
+    z.include()
+    z._transformer_creators.append(FT.output_type1('baseLine'))
+    
+    # missing functions; 'solveCubic', 'solvePoly'
+    # cc.write('''
+    # solveCubic = cvSolveCubic
+    # solvePoly = cvSolvePoly
+    
+    # ''')
 
     # TODO: do something with Seq<>

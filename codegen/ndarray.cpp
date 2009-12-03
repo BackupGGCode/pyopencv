@@ -168,222 +168,6 @@ ndarray new_(int len, const int *shape, int dtype, const int *strides, void *dat
 
 // ================================================================================================
 
-template<> void convert_ndarray< cv::Scalar >( const ndarray &in_arr, cv::Scalar &out_arr )
-{
-    if(in_arr.dtype() != NPY_DOUBLE)
-    {
-        PyErr_SetString(PyExc_TypeError, "Input element type is not double.");
-        throw error_already_set(); 
-    }
-    if(in_arr.ndim() != 1)
-    {
-        PyErr_SetString(PyExc_TypeError, "Input is not 1D.");
-        throw error_already_set(); 
-    }
-    int len = in_arr.shape()[0];
-    if(len > 4) len = 4;
-    while(len-- > 0) out_arr[len] = *(double *)in_arr.getptr1(len);
-}
-
-// ================================================================================================
-
-template<> void convert_ndarray< cv::Scalar >( const cv::Scalar &in_arr, ndarray &out_arr )
-{
-    int len = 4;
-    out_arr = simplenew(1, &len, NPY_DOUBLE);
-    double *data = (double *)out_arr.data();
-    while(len-- > 0) data[len] = in_arr[len];
-}
-
-// ================================================================================================
-
-template<> void convert_ndarray< cv::Mat >( const ndarray &in_arr, cv::Mat &out_arr )
-{
-    // PyObject *arr = in_arr.ptr();
-    // char s[100];
-    // if(PyArray_Check(arr) != 1)
-    // {
-        // PyErr_SetString(PyExc_TypeError, "Input argument is not an ndarray.");
-        // throw bp::error_already_set(); 
-    // }
-    // bool lindex_is_channel = last_index_is_channel(in_arr);
-    // int nd = PyArray_NDIM(arr);
-    // if(nd != 2+lindex_is_channel)
-    // {
-        // sprintf( s, "Rank must be 2+last_index_is_channel. Detected rank=%d and last_index_is_channel=%d.", nd, lindex_is_channel);
-        // PyErr_SetString(PyExc_TypeError, s);
-        // throw bp::error_already_set(); 
-    // }
-    
-    // int nchannels;
-    // int *shape = PyArray_DIMS(arr);
-    // int itemsize = PyArray_ITEMSIZE(arr);
-    // int *strides = PyArray_STRIDES(arr);
-    
-    // if(nd == 2)
-    // {
-        // if(strides[1] != itemsize) // non-contiguous
-        // {
-            // sprintf(s, "The last (2nd) dimension must be contiguous (last stride=%d and itemsize=%d).", strides[1], itemsize);
-            // PyErr_SetString(PyExc_TypeError, s);
-            // throw bp::error_already_set(); 
-        // }
-        // nchannels = 1;
-    // }
-    // else
-    // {
-        // if(strides[2] != itemsize) // non-contiguous
-        // {
-            // sprintf(s, "The last (3rd) dimension must be contiguous (last stride=%d and itemsize=%d).", strides[2], itemsize);
-            // PyErr_SetString(PyExc_TypeError, s);
-            // throw bp::error_already_set(); 
-        // }
-        // nchannels = shape[2];
-        // if(strides[1] != itemsize*nchannels) // non-contiguous
-        // {
-            // sprintf(s, "The 2nd dimension must be contiguous (2nd stride=%d, itemsize=%d, nchannels=%d).", strides[1], itemsize, nchannels);
-            // throw bp::error_already_set(); 
-        // }
-    // }
-    // out_arr = cv::Mat(cv::Size(shape[1], shape[0]), 
-        // CV_MAKETYPE(convert_dtype_to_cvdepth(PyArray_TYPE(arr)), nchannels), PyArray_DATA(arr), strides[0]);
-}
-
-// ================================================================================================
-
-// bool is_Mat_same_shape_with_ndarray( const cv::Mat &in_arr, bp::object &out_arr )
-// {
-    // PyObject *arr = out_arr.ptr();
-    // if(PyArray_Check(arr) != 1) return false;
-    // int nd = PyArray_NDIM(arr);
-    // if(nd < 2 || nd > 3) return false;
-    // int nchannels;
-    // int *shape = PyArray_DIMS(arr);
-    // int itemsize = PyArray_ITEMSIZE(arr);
-    // int *strides = PyArray_STRIDES(arr);
-    // if(nd == 2)
-    // {
-        // if(strides[1] != itemsize) return false;
-        // nchannels = 1;
-    // }
-    // else
-    // {
-        // if(strides[2] != itemsize) return false;
-        // nchannels = shape[2];
-        // if(nchannels < 1 || nchannels > 4 || strides[1] != itemsize*nchannels) return false;
-    // }
-    // if(in_arr.cols != shape[1] || in_arr.rows != shape[0] || in_arr.step != strides[0] ||
-        // in_arr.channels() != nchannels || in_arr.depth() != convert_dtype_to_cvdepth(PyArray_TYPE(arr)))
-        // return false;
-    // return true;
-// }
-
-// TODO: later I will create a function to wrap around a cv::Mat, for the case of VideoCapture in highgui
-template<> void convert_ndarray< cv::Mat >( const cv::Mat &in_arr, ndarray &out_arr )
-{
-    // PyObject *arr;
-    // int rows = in_arr.rows, cols = in_arr.cols, nchannels = in_arr.channels();
-    // int i, rowlen = cols*in_arr.elemSize();
-    // if(is_Mat_same_shape_with_ndarray(in_arr, out_arr)) arr = out_arr.ptr();
-    // else
-    // {
-        // int shape[3];
-        // shape[0] = rows; shape[1] = cols;    
-        // if(nchannels == 1)
-            // arr = PyArray_SimpleNew(2, shape, convert_cvdepth_to_dtype(in_arr.depth()));
-        // else
-        // {
-            // shape[2] = nchannels;
-            // arr = PyArray_SimpleNew(3, shape, convert_cvdepth_to_dtype(in_arr.depth()));
-        // }
-        // out_arr = bp::object(bp::handle<>(arr));
-    // }
-    
-    // if(PyArray_DATA(arr) != (void *)in_arr.data)
-    // {
-        // for(i = 0; i < rows; ++i)
-            // std::memmove(PyArray_GETPTR1(arr, i), (const void *)in_arr.ptr(i), rowlen);
-    // }
-    // else // do nothing
-        // std::cout << "Same data location. No copy was needed." << std::endl;
-}
-
-// ================================================================================================
-
-template<> void convert_ndarray< cv::MatND >( const ndarray &in_arr, cv::MatND &out_arr )
-{
-    // PyObject *arr = in_arr.ptr();
-    // char s[100];
-    // if(PyArray_Check(arr) != 1)
-    // {
-        // PyErr_SetString(PyExc_TypeError, "Input argument is not an ndarray.");
-        // throw bp::error_already_set(); 
-    // }
-    // if(PyArray_ISCONTIGUOUS(arr) != true)
-    // {
-        // sprintf(s, "Cannot convert the ndarray into a cv::MatND because it is not C-style contiguous.");
-        // PyErr_SetString(PyExc_TypeError, s);
-        // throw bp::error_already_set(); 
-    // }
-    
-    // bool lindex_is_channel = last_index_is_channel(in_arr);
-    // int *shape = PyArray_DIMS(arr);
-    // int nd = PyArray_NDIM(arr);
-    // int nchannels = lindex_is_channel? shape[--nd]: 1;
-    
-    // int rshape[CV_MAX_DIM];    
-    // for(int i = 0; i < nd; ++i) rshape[i] = shape[nd-1-i];
-    
-    // CvMatND cvmatnd;
-    // cvInitMatNDHeader( &cvmatnd, nd, rshape, CV_MAKETYPE(convert_dtype_to_cvdepth(PyArray_TYPE(arr)), nchannels), PyArray_DATA(arr) );
-    
-    // out_arr = cv::MatND(&cvmatnd, false);
-}
-
-// ================================================================================================
-
-// bool is_MatND_same_shape_with_ndarray( const cv::MatND &in_arr, bp::object &out_arr )
-// {
-    // PyObject *arr = out_arr.ptr();
-    // if(PyArray_Check(arr) != 1 || PyArray_ISCONTIGUOUS(arr) != true || PyArray_ITEMSIZE(arr) != in_arr.elemSize1()) 
-        // return false;
-        
-    // bool lindex_is_channel = last_index_is_channel(out_arr);
-    // int *shape = PyArray_DIMS(arr);
-    // int nd = PyArray_NDIM(arr);
-    // int nchannels = lindex_is_channel? shape[--nd]: 1;
-    // if(nchannels != in_arr.channels()) return false;
-    
-    // for(int i = 0; i < nd; ++i) if(shape[i] != in_arr.size[nd-1-i]) return false;
-    
-    // return true;
-// }
-
-template<> void convert_ndarray< cv::MatND >( const cv::MatND &in_arr, ndarray &out_arr )
-{
-    // PyObject *arr;
-    // if(is_MatND_same_shape_with_ndarray(in_arr, out_arr)) arr = out_arr.ptr();
-    // else
-    // {
-        // int nd = in_arr.dims, shape[CV_MAX_DIM];
-        // for(int i = 0; i < nd; ++i) shape[i] = in_arr.size[nd-1-i];
-        // int nchannels = in_arr.channels();
-        // if(nchannels > 1) shape[nd++] = nchannels;
-        // arr = PyArray_SimpleNew(nd, shape, convert_cvdepth_to_dtype(in_arr.depth()));
-        
-        // out_arr = bp::object(bp::handle<>(arr));
-    // }
-    
-    // if(PyArray_DATA(arr) != (void *)in_arr.data)
-    // {
-        // int count = in_arr.step[in_arr.dims-1]*in_arr.size[in_arr.dims-1];
-        // std::memmove(PyArray_DATA(arr), (const void *)in_arr.data, count);
-    // }
-    // else do nothing
-}
-
-// ================================================================================================
-
 template void convert_ndarray( const ndarray &in_arr, std::vector<char> &out_arr );
 template void convert_ndarray( const ndarray &in_arr, std::vector<unsigned char> &out_arr );
 template void convert_ndarray( const ndarray &in_arr, std::vector<short> &out_arr );
@@ -594,6 +378,50 @@ object as_MatND(const ndarray &arr)
     object result(cv::MatND(&cvmatnd, false));
     objects::make_nurse_and_patient(result.ptr(), obj);
     return result;
+}
+
+// ================================================================================================
+
+void mixChannels(const tuple src, tuple dst, const ndarray &fromTo)
+{
+    char s[200];
+    
+    const int *shape = fromTo.shape();
+    
+    if(fromTo.ndim() != 2 || fromTo.dtype() != NPY_LONG || shape[1] != 2 || !fromTo.iscontiguous())
+    {
+        sprintf(s, "Wrong type! 'fromTo' is not a N-row 2-column int32 C-contiguous ndarray. ");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    
+    extract<cv::Mat> mat(src[0]);
+    extract<cv::MatND> matnd(src[0]);
+    int i, nsrc, ndst;
+    if(mat.check())
+    {
+        std::vector<cv::Mat> src2, dst2;
+        nsrc = len(src); src2.resize(nsrc);
+        for(i = 0; i < nsrc; ++i) src2[i] = extract<cv::Mat>(src[i]);
+        ndst = len(dst); dst2.resize(ndst);
+        for(i = 0; i < ndst; ++i) dst2[i] = extract<cv::Mat>(dst[i]);
+        mixChannels(&src2[0], nsrc, &dst2[0], ndst, (const int *)fromTo.data(), shape[0]);
+    }
+    else if(matnd.check())
+    {
+        std::vector<cv::MatND> src3, dst3;
+        nsrc = len(src); src3.resize(nsrc);
+        for(i = 0; i < nsrc; ++i) src3[i] = extract<cv::MatND>(src[i]);
+        ndst = len(dst); dst3.resize(ndst);
+        for(i = 0; i < ndst; ++i) dst3[i] = extract<cv::MatND>(dst[i]);
+        mixChannels(&src3[0], nsrc, &dst3[0], ndst, (const int *)fromTo.data(), shape[0]);
+    }
+    else
+    {
+        sprintf(s, "Cannot determine whether the 1st item of 'src' is Mat or MatND.");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
 }
 
 // ================================================================================================

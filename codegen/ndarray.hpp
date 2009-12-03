@@ -114,19 +114,6 @@ void convert_ndarray( const T &in_arr, ndarray &out_arr )
     throw error_already_set(); 
 }
 
-// convert_ndarray, cv::Scalar case
-template<> void convert_ndarray< cv::Scalar >( const ndarray &in_arr, cv::Scalar &out_arr );
-template<> void convert_ndarray< cv::Scalar >( const cv::Scalar &in_arr, ndarray &out_arr );
-
-// convert_ndarray, cv::Mat case
-template<> void convert_ndarray< cv::Mat >( const ndarray &in_arr, cv::Mat &out_arr );
-template<> void convert_ndarray< cv::Mat >( const cv::Mat &in_arr, ndarray &out_arr );
-
-// convert_ndarray, cv::MatND case
-template<> void convert_ndarray< cv::MatND >( const ndarray &in_arr, cv::MatND &out_arr );
-template<> void convert_ndarray< cv::MatND >( const cv::MatND &in_arr, ndarray &out_arr );
-
-
 // convert_ndarray, std::vector case
 // Note: because Python and C have different ways of allocating/reallocating memory,
 // it is UNSAFE to share data between ndarray and std::vector.
@@ -193,6 +180,8 @@ ndarray as_ndarray(const object &obj);
 object as_Scalar(const ndarray &arr);
 object as_Mat(const ndarray &arr);
 object as_MatND(const ndarray &arr);
+
+void mixChannels(const tuple src, tuple dst, const ndarray &fromTo);
 
 }} // namespace boost::python
 

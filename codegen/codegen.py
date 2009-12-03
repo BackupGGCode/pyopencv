@@ -361,6 +361,8 @@ mb.beautify_func_list(opencv_funs)
 #=============================================================================
 
 
+mb.classes(lambda x: x.alias.startswith("vector_less")).exclude()
+
 
 #=============================================================================
 # Build code
