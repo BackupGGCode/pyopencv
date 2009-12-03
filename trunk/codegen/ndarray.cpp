@@ -130,6 +130,7 @@ const void *ndarray::data() const { check(); return PyArray_DATA(ptr()); }
 const void *ndarray::getptr1(int i1) const { check(); return PyArray_GETPTR1(ptr(), i1); }
 const void *ndarray::getptr2(int i1, int i2) const { check(); return PyArray_GETPTR2(ptr(), i1, i2); }
 const void *ndarray::getptr3(int i1, int i2, int i3) const { check(); return PyArray_GETPTR3(ptr(), i1, i2, i3); }
+bool ndarray::iscontiguous() const { check(); return PyArray_ISCONTIGUOUS(ptr()); }
 
 // ================================================================================================
 
@@ -411,12 +412,14 @@ template void convert_ndarray( const std::vector<double> &in_arr, ndarray &out_a
 
 ndarray as_ndarray(const object &obj)
 {
+    int i;
     int nd, shape[CV_MAX_DIM], strides[CV_MAX_DIM];
     ndarray result;
     if(obj.ptr() == Py_None) return result;
 
     extract<const cv::Scalar &> scalar(obj);
     extract<const cv::Mat &> mat(obj);
+    extract<const cv::MatND &> matnd(obj);
     if(scalar.check())
     {
         nd = 4;
@@ -439,6 +442,24 @@ ndarray as_ndarray(const object &obj)
             strides[0] = mat2.step; strides[1] = mat2.elemSize();
         }
         result = new_(nd, shape, convert_cvdepth_to_dtype(mat2.depth()), strides, mat2.data, NPY_WRITEABLE);
+    } else if(matnd.check())
+    {
+        cv::MatND matnd2 = matnd();
+        if(!matnd2.flags) return result; // empty cv::MatND
+        
+        nd = matnd2.dims;
+        for(i = 0; i < nd; ++i)
+        {
+            shape[i] = matnd2.size[nd-1-i];
+            strides[i] = matnd2.step[nd-1-i];
+        }
+                
+        if(matnd2.channels() > 1)
+        {
+            shape[nd] = matnd2.channels();
+            strides[nd++] = matnd2.elemSize1();
+        }
+        result = new_(nd, shape, convert_cvdepth_to_dtype(matnd2.depth()), strides, matnd2.data, NPY_WRITEABLE);
     }
     objects::make_nurse_and_patient(result.ptr(), obj.ptr());
     return result;
@@ -448,7 +469,37 @@ ndarray as_ndarray(const object &obj)
 
 object as_Scalar(const ndarray &arr)
 {
-    return object();
+    char s[200];
+    
+    // checking
+    PyObject *obj = arr.ptr();
+    if(obj == Py_None) return object(cv::Scalar()); // ndarray = None
+    
+    int nd = arr.ndim();
+    if(nd != 1)
+    {
+        sprintf(s, "Cannot convert from ndarray to Scalar because ndim=%d (must be 1).", nd);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.dtype() != NPY_DOUBLE)
+    {
+        sprintf(s, "Element type must be NPY_DOUBLE, dtype=%d detected.", arr.dtype());
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(!arr.iscontiguous())
+    {
+        sprintf(s, "The ndarray to be converted must be contiguous .");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    
+    // wrapping
+    cv::Scalar *sc = (cv::Scalar *)arr.data();
+    object result(*sc);
+    objects::make_nurse_and_patient(result.ptr(), obj);
+    return result;
 }
 
 // ================================================================================================
@@ -518,7 +569,31 @@ object as_Mat(const ndarray &arr)
 
 object as_MatND(const ndarray &arr)
 {
-    return object();
+    char s[200];
+    
+    // checking
+    PyObject *obj = arr.ptr();
+    if(obj == Py_None) return object(cv::MatND()); // ndarray = None
+    
+    if(!arr.iscontiguous())
+    {
+        sprintf(s, "Cannot convert because the ndarray is not contiguous.");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    
+    int sizes[CV_MAX_DIM];    
+    int nd = arr.ndim();
+    const int *shape = arr.shape();
+    for(int i = 0; i < nd; ++i) sizes[i] = shape[nd-1-i];
+    
+    // wrapping
+    CvMatND cvmatnd;
+    cvInitMatNDHeader(&cvmatnd, nd, sizes, CV_MAKETYPE(convert_dtype_to_cvdepth(arr.dtype()), 1), 
+        (void *)arr.data());
+    object result(cv::MatND(&cvmatnd, false));
+    objects::make_nurse_and_patient(result.ptr(), obj);
+    return result;
 }
 
 // ================================================================================================

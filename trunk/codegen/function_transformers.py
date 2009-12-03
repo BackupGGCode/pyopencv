@@ -883,7 +883,6 @@ class input_as_Mat_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg(self.arg.name)
-        w_arg.type = _D.dummy_type_t( "::cv::Mat" )
         dtype = self.arg.type
         if dtype == _D.dummy_type_t("::IplImage *") \
             or dtype == _D.dummy_type_t("::IplImage const *") \
@@ -894,7 +893,10 @@ class input_as_Mat_t(transformer_t):
             
             # default value
             if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+                w_arg.type = _D.dummy_type_t( "::cv::Mat" )
                 w_arg.default_value = 'cv::Mat()'
+            else:
+                w_arg.type = _D.dummy_type_t( "::cv::Mat &" )
                 
             # element type
             etype = _D.remove_const(_D.remove_pointer(dtype))
@@ -915,7 +917,10 @@ class input_as_Mat_t(transformer_t):
         
             # be careful with this default value
             if self.arg.default_value is not None: 
+                w_arg.type = _D.dummy_type_t( "::cv::Mat" )
                 w_arg.default_value = 'cv::Mat()'
+            else:
+                w_arg.type = _D.dummy_type_t( "::cv::Mat &" )
                 
             # element type
             etype = _D.remove_const(_D.remove_reference(dtype))

@@ -178,6 +178,4 @@ extern template void convert_Mat( const cv::Mat &in_arr, float *&out_arr );
 extern template void convert_Mat( const cv::Mat &in_arr, double *&out_arr );
 
 
-
-
 #endif
