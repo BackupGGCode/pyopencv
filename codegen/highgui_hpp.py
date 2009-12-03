@@ -54,16 +54,18 @@ convertImage = cvConvertImage
         ):
         mb.free_fun(z).include()
         
-    # FT.expose_func(mb.free_fun('imencode'), return_pointee=False, transformer_creators=[FT.output_as_Mat('buf')])
-        
     # VideoCapture
     z = mb.class_('VideoCapture')
-    z.include()
-    z.operator('>>').call_policies = CP.return_self()
+    z.include()    
+    z.operator('>>').exclude()
+    z.add_wrapper_code('VideoCapture &rshift( cv::Mat &x ){ return *this >> x; }')
+    z.add_registration_code('def( "__rshift__", &VideoCapture_wrapper::rshift, bp::return_self<>() )')
     
     # VideoWriter
     z = mb.class_('VideoWriter')
     z.include()
-    z.operator('<<').call_policies = CP.return_self()
+    z.operator('<<').exclude()
+    z.add_wrapper_code('VideoWriter &lshift( cv::Mat const &x ){ return *this << x; }')
+    z.add_registration_code('def( "__lshift__", &VideoWriter_wrapper::lshift, bp::return_self<>() )')
             
 

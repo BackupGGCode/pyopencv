@@ -95,6 +95,27 @@ mb.cc = cc
 # Subroutines related to writing to the __init__.py file
 # -----------------------------------------------------------------------------------------------
 
+def add_ndarray_interface(self, klass):
+    klass.include_files.append("ndarray.hpp")
+    klass.add_registration_code('def("from_ndarray", &bp::as_KLASS)'.replace("KLASS", klass.alias))
+    klass.add_registration_code('staticmethod("from_ndarray")'.replace("KLASS", klass.alias))
+    self.add_doc(klass.alias+".from_ndarray", "Creates a %s view on an ndarray instance." % klass.alias)
+    klass.add_registration_code('add_property("ndarray", &bp::as_ndarray)')
+    self.add_doc(klass.alias, 
+        "Property 'ndarray' provides a numpy.ndarray view on the object.",
+        "If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!",
+        "",
+        "To create an instance of %s that shares the same data with an ndarray instance, just call:" % klass.alias,
+        "    b = %s.from_ndarray(a)" % klass.alias,
+        "where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted.")        
+    for t in ('getitem', 'setitem', 'getslice', 'setslice'):
+        cc.write('''    
+def _KLASS__FUNC__(self, *args, **kwds):
+    return self.ndarray.__FUNC__(*args, **kwds)
+KLASS.__FUNC__ = _KLASS__FUNC__
+        '''.replace('KLASS', klass.alias).replace('FUNC', t))
+module_builder.module_builder_t.add_ndarray_interface = add_ndarray_interface
+
 def add_doc(self, decl_name, *strings):
     """Adds a few strings to the docstring of declaration f"""
     if len(strings) == 0:
@@ -342,4 +363,5 @@ mb.split_module( 'code' )
 # copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
 # copyfile('opencv_extra.hpp', 'code/opencv_extra.hpp')
 copyfile('opencv_extra.cpp', 'code/opencv_extra.cpp')
+copyfile('ndarray.cpp', 'code/ndarray.cpp')
 

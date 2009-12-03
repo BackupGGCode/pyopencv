@@ -32,6 +32,8 @@ namespace aux
 struct ndarray : object
 {
 public:
+    ndarray() : object() {}
+
     void check() const;
 
     int ndim() const;
@@ -185,8 +187,11 @@ extern template void convert_ndarray( const std::vector<float> &in_arr, ndarray 
 extern template void convert_ndarray( const std::vector<double> &in_arr, ndarray &out_arr );
 
 
+ndarray as_ndarray(const object &obj);
 
-
+object as_Scalar(const ndarray &arr);
+object as_Mat(const ndarray &arr);
+object as_MatND(const ndarray &arr);
 
 }} // namespace boost::python
 
