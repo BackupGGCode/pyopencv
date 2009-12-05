@@ -187,6 +187,9 @@ def beautify_func_list(self, func_list):
                     if arg2.name == '_ndims' and D.is_integral(arg2.type):
                         f._transformer_creators.append(FT.input_array1d('_sizes', '_ndims'))
                         break
+                    if arg2.name == 'dims' and D.is_integral(arg2.type):
+                        f._transformer_creators.append(FT.input_array1d('_sizes', 'dims'))
+                        break
             if arg.name == '_newsz' and D.is_pointer(arg.type):
                 for arg2 in f.arguments:
                     if arg2.name == '_newndims' and D.is_integral(arg2.type):
@@ -208,6 +211,30 @@ def beautify_func_list(self, func_list):
             else:
                 continue
             f._transformer_creators.append(FT.input_as_Mat(arg.name))
+
+    # function argument CvRNG * or CvRNG &
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            for typename in ("::CvRNG *", "::CvRNG &"):
+                if typename in arg.type.decl_string:
+                    break
+            else:
+                continue
+            f._transformer_creators.append(FT.input_asRNG(arg.name))
+
+    # function argument CvSparseMat * or CvSparseMat &
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            for typename in ("::CvSparseMat *", "::CvSparseMat &"):
+                if arg.type == D.dummy_type_t(typename):
+                    break
+            else:
+                continue
+            f._transformer_creators.append(FT.input_asSparseMat(arg.name))
 
     # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
     for f in func_list:

@@ -27,6 +27,8 @@ try:
 except:
     Size2i = Size
 
+Point = Size2i
+
     ''')
     
     #=============================================================================
@@ -39,7 +41,6 @@ except:
     for z in zz:
         z.include()
         z.decl('val').exclude() # use operator[] instead
-        z.operator(lambda x: x.name.endswith('::CvScalar')).rename('as_CvScalar')
         
     # Complex et al
     zz = mb.classes(lambda z: z.name.startswith('Complex<'))
@@ -52,8 +53,7 @@ except:
     zz = mb.classes(lambda z: z.name.startswith('Point_<'))
     for z in zz:
         z.include()
-        z.operator(lambda x: x.name.endswith('::CvPoint')).rename('as_CvPoint')
-        z.operator(lambda x: x.name.endswith('::CvPoint2D32f')).rename('as_CvPoint2D32f')
+        z.decls(lambda x: 'CvPoint' in x.decl_string).exclude()
         z.operator(lambda x: '::cv::Vec<' in x.name).rename('as_Vec'+z.alias[-2:])
         cc.write('''
 def _KLASS__repr__(self):
@@ -67,7 +67,7 @@ KLASS.__repr__ = _KLASS__repr__
     zz = mb.classes(lambda z: z.name.startswith('Point3_<'))
     for z in zz:
         z.include()
-        z.operator(lambda x: x.name.endswith('::CvPoint3D32f')).rename('as_CvPoint3D32f')
+        z.decls(lambda x: 'CvPoint' in x.decl_string).exclude()
         z.operator(lambda x: '::cv::Vec<' in x.name).rename('as_Vec'+z.alias[-2:])
         cc.write('''
 def _KLASS__repr__(self):
@@ -81,8 +81,7 @@ KLASS.__repr__ = _KLASS__repr__
     zz = mb.classes(lambda z: z.name.startswith('Size_<'))
     for z in zz:
         z.include()
-        z.operator(lambda x: x.name.endswith('::CvSize')).rename('as_CvSize')
-        z.operator(lambda x: x.name.endswith('::CvSize2D32f')).rename('as_CvSize2D32f')
+        z.decls(lambda x: 'CvSize' in x.decl_string).exclude()
         cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
@@ -94,7 +93,7 @@ KLASS.__repr__ = _KLASS__repr__
     zz = mb.classes(lambda z: z.name.startswith('Rect_<'))
     for z in zz:
         z.include()
-        z.operator(lambda x: x.name.endswith('::CvRect')).rename('as_CvRect')
+        z.decls(lambda x: 'CvRect' in x.decl_string).exclude()
         cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + \\
@@ -143,11 +142,8 @@ KLASS.__repr__ = _KLASS__repr__
     # Mat
     z = mb.class_('Mat')
     z.include()
-    z.constructor(lambda x: '::IplImage' in x.decl_string).exclude()
-    z.constructor(lambda x: '::CvMat' in x.decl_string).exclude()
-    z.operator(lambda x: x.name.endswith('::CvMat')).rename('as_CvMat')
-    z.operator(lambda x: x.name.endswith('::IplImage')).rename('as_IplImage')
-    z.decls(lambda x: 'MatExpr' in x.decl_string).exclude()
+    for t in ('::IplImage', '::CvMat', 'MatExp'):
+        z.decls(lambda x: t in x.decl_string).exclude()
     z.mem_funs('setTo').call_policies = CP.return_self()
     z.mem_funs('adjustROI').call_policies = CP.return_self()
     for t in ('ptr', 'data', 'refcount', 'datastart', 'dataend'):
@@ -197,10 +193,16 @@ KLASS.__repr__ = _KLASS__repr__
         z.operator('()').call_policies = CP.return_self()
         
     # LineIterator
-    # pointers that point to a pixel of the input Mat, wait until requested
     z = mb.class_('LineIterator')
     z.include()
     z.decls(lambda x: 'uchar *' in x.decl_string).exclude()
+    # replace operator*() with 'get_pixel_addr', not the best solution, if you have a better one, send me a patch
+    z.add_wrapper_code('int get_pixel_addr() { return (int)(cv::LineIterator::operator*()); }')
+    z.add_registration_code('def("get_pixel_addr", &LineIterator_wrapper::get_pixel_addr)')
+    # replace operator++() with 'inc'
+    z.operators('++').exclude()
+    z.add_wrapper_code('LineIterator & inc() { return this->operator++(); }')
+    z.add_registration_code('def("inc", bp::make_function(&LineIterator_wrapper::inc, bp::return_self<>()) )')
     
     # MatND
     z = mb.class_('MatND')
@@ -253,8 +255,19 @@ static cv::MatND MatND__call__(const cv::MatND& inst, const bp::tuple &ranges)
     z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init3__))')
     z.add_registration_code('def("__call__", bp::make_function(&MatND__call__))')
     
-    z.constructor(lambda x: '::CvMatND' in x.decl_string).exclude()
-    z.operator(lambda x: x.name.endswith('::CvMatND')).rename('as_CvMatND')
+    mb.add_declaration_code('''
+struct CvMatND_to_python
+{
+    static PyObject* convert(CvMatND const& x)
+    {
+        return bp::incref(bp::object(cv::MatND(&x)).ptr());
+    }
+};
+
+    ''')
+    mb.add_registration_code('bp::to_python_converter<CvMatND, CvMatND_to_python, false>();')
+
+    z.decls(lambda x: 'CvMatND' in x.decl_string).exclude()
     z.mem_funs('setTo').call_policies = CP.return_self()
     for t in ('ptr', 'data', 'refcount', 'datastart', 'dataend'):
         z.decls(t).exclude()
@@ -278,7 +291,50 @@ MatND.__repr__ = _MatND__repr__
     # wait until requested: fix the rest of the member declarations
     z = mb.class_('SparseMat')
     z.include()
-    z.decls().exclude()
+    z.include_files.append("boost/python/make_function.hpp")
+    mb.init_class(z)
+    
+    z.constructors(lambda x: 'int const *' in x.decl_string).exclude()
+    for t in ('CvSparseMat', 'Node', 'Hdr'):
+        z.decls(lambda x: t in x.decl_string).exclude()
+    z.add_declaration_code('''
+static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(const bp::tuple &_sizes, int _type)
+{
+    std::vector<int> _sizes2;
+    int len = bp::len(_sizes);
+    _sizes2.resize(len);
+    for(int i = 0; i < len; ++i) _sizes2[i] = bp::extract<int>(_sizes[i]);
+    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(len, &_sizes2[0], _type));
+}
+
+    ''')
+    z.add_registration_code('def("__init__", bp::make_constructor(&SparseMat__init1__))')
+    
+    z.mem_funs('size').exclude()
+    z.add_wrapper_code('''
+    bp::object my_size(int i = -1) const
+    {
+        if(i >= 0) return bp::object(size(i));
+        
+        bp::list l;
+        const int *sz = size();
+        for(i = 0; i < dims(); ++i) l.append(bp::object(sz[i]));
+        return bp::tuple(l);
+    }
+    
+    ''')
+    z.add_registration_code('def("size", &SparseMat_wrapper::my_size, (bp::arg("i")=bp::object(-1)))')
+    z.mem_fun(lambda x: x.name == 'hash' and 'int const *' in x.arguments[0].type.decl_string) \
+        ._transformer_creators.append(FT.input_array1d('idx'))
+    for z2 in z.mem_funs('erase'):
+        z2._transformer_creators.append(FT.output_type1('hashval'))
+        if z2.arguments[0].name == 'idx':
+            z2._transformer_creators.append(FT.input_array1d('idx'))
+    for t in ('node', 'newNode', 'removeNode', 'hdr', 'ptr', 'begin', 'end'):
+        z.decls(t).exclude()
+            
+    
+    mb.finalize_class(z)
     
     # SparseMatConstIterator
     # wait until requested: fix the rest of the member declarations
@@ -408,11 +464,4 @@ MatND.__repr__ = _MatND__repr__
     z.include()
     z._transformer_creators.append(FT.output_type1('baseLine'))
     
-    # missing functions; 'solveCubic', 'solvePoly'
-    cc.write('''
-solveCubic = cvSolveCubic
-solvePoly = cvSolvePoly
-    
-    ''')
-
     # TODO: do something with Seq<>

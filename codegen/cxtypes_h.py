@@ -69,130 +69,20 @@ CV_LOG2 = 0.69314718055994530941723212145818
 # Random number generation
 #-----------------------------------------------------------------------------
 
-CvRNG = RNG
-
-def cvRNG(seed=-1):
-    """CvRNG cvRNG( int64 seed = CV_DEFAULT(-1))
-    
-    Initializes random number generator and returns the state. 
-    """
-    if seed != 0:
-        return CvRNG(seed)
-    return CvRNG(-1)
-
-def cvRandInt(rng):
-    """unsigned cvRandInt( CvRNG rng )
-    
-    Returns random 32-bit unsigned integer. 
-    """
-    return rng.as_int()
-    
-def cvRandReal(rng):
-    """double cvRandReal( CvRNG rng )
-    
-    Returns random floating-point number between 0 and 1.
-    """
-    return rng.as_double()
-
     
     ''')
-
-
-    # IplImage and IplROI
-    cc.write('''
-#-----------------------------------------------------------------------------
-# Image type (IplImage)
-#-----------------------------------------------------------------------------
-
-# Image type (IplImage)
-IPL_DEPTH_SIGN = -0x80000000
-
-IPL_DEPTH_1U =  1
-IPL_DEPTH_8U =  8
-IPL_DEPTH_16U = 16
-IPL_DEPTH_32F = 32
-IPL_DEPTH_64F = 64
-
-IPL_DEPTH_8S = IPL_DEPTH_SIGN + IPL_DEPTH_8U
-IPL_DEPTH_16S = IPL_DEPTH_SIGN + IPL_DEPTH_16U
-IPL_DEPTH_32S = IPL_DEPTH_SIGN + 32
-
-IPL_DATA_ORDER_PIXEL = 0
-IPL_DATA_ORDER_PLANE = 1
-
-IPL_ORIGIN_TL = 0
-IPL_ORIGIN_BL = 1
-
-IPL_ALIGN_4BYTES = 4
-IPL_ALIGN_8BYTES = 8
-IPL_ALIGN_16BYTES = 16
-IPL_ALIGN_32BYTES = 32
-
-IPL_ALIGN_DWORD = IPL_ALIGN_4BYTES
-IPL_ALIGN_QWORD = IPL_ALIGN_8BYTES
-
-IPL_BORDER_CONSTANT = 0
-IPL_BORDER_REPLICATE = 1
-IPL_BORDER_REFLECT = 2
-IPL_BORDER_WRAP = 3
-
-IPL_IMAGE_HEADER = 1
-IPL_IMAGE_DATA = 2
-IPL_IMAGE_ROI = 4
-
-IPL_BORDER_REFLECT_101    = 4
-
-CV_TYPE_NAME_IMAGE = "opencv-image"
-
-
-    ''')    
-
-    iplimage = mb.class_('_IplImage')
-    iplimage.rename('IplImage')
-    iplimage.include()
-    for z in ('imageId', 'imageData', 'imageDataOrigin', 'tileInfo', 'maskROI'): # don't need these attributes
-        iplimage.var(z).exclude()
-    FT.expose_member_as_pointee(iplimage, 'roi')
-    # deal with 'imageData' and 'roi'
-    iplimage.include_files.append( "boost/python/object.hpp" )
-    iplimage.include_files.append( "boost/python/str.hpp" )
-    iplimage.add_wrapper_code('''
-
-    static bp::object get_data( _IplImage const & inst ){        
-        return inst.imageData? bp::str(inst.imageData, inst.imageSize) : bp::object();
+    
+    mb.add_declaration_code('''
+struct CvRNG_to_python
+{
+    static PyObject* convert(CvRNG const& x)
+    {
+        return bp::incref(bp::object(cv::RNG(x)).ptr());
     }
+};
 
     ''')
-    iplimage.add_registration_code('''
-add_property( "data", bp::make_function(&_IplImage_wrapper::get_data) )
-    ''')
-
-    cc.write('''
-IplImage._ownershiplevel = 0 # default: owns nothing
-        
-def _IplImage__del__(self):
-    if self._ownershiplevel == 1: # own header only
-        _PE._cvReleaseImageHeader(self)
-    elif self._ownershiplevel == 2: # own data but not header
-        _PE._cvReleaseData(self)
-    elif self._ownershiplevel == 3: # own header and data
-        _PE._cvReleaseImage(self)
-IplImage.__del__ = _IplImage__del__
-
-    ''')
-    mb.add_doc('IplImage', "'data' is a read-only string representing the data of the image")
-
-    # IplROI
-    z = mb.class_('_IplROI')
-    z.rename('IplROI')
-    z.include()
-
-    # IplConvKernel
-    z = mb.class_('_IplConvKernel')
-    z.rename('IplConvKernel')
-    z.include()
-    z.var('values').exclude() # don't need this variable yet
-    mb.insert_del_interface('IplConvKernel', '_PE._cvReleaseStructuringElement')
+    mb.add_registration_code('bp::to_python_converter<CvRNG, CvRNG_to_python, false>();')
 
 
     # CvMat
@@ -281,32 +171,6 @@ CV_MAT_MAGIC_VAL = 0x42420000
 CV_TYPE_NAME_MAT = "opencv-matrix"
 
 
-    ''')
-
-    cvmat = mb.class_('CvMat')
-    cvmat.include()
-    for z in ('ptr', 's', 'i', 'fl', 'db', 'data'):
-        cvmat.var(z).exclude()
-    # deal with 'data'
-    cvmat.include_files.append( "boost/python/object.hpp" )
-    cvmat.include_files.append( "boost/python/str.hpp" )
-    cvmat.add_wrapper_code('''
-static bp::object get_data( CvMat const & inst ){        
-    return inst.data.ptr? bp::str((const char *)inst.data.ptr, (inst.step? inst.step: CV_ELEM_SIZE(inst.type)*inst.cols)*inst.rows) : bp::object();
-}
-    ''')
-    cvmat.add_registration_code('''
-add_property( "data", bp::make_function(&CvMat_wrapper::get_data) )
-    ''')
-    mb.insert_del_interface('CvMat', '_PE._cvReleaseMat')
-
-    # CvMat functions
-    for z in ('cvMat', 'cvmGet', 'cvmSet', 'cvIplDepth'):
-        mb.free_fun(z).include()
-
-
-    # CvMatND
-    cc.write('''
 #-----------------------------------------------------------------------------
 # Multi-dimensional dense array (CvMatND)
 #-----------------------------------------------------------------------------
@@ -318,29 +182,6 @@ CV_MAX_DIM = 32
 CV_MAX_DIM_HEAP = (1 << 16)
 
 
-    ''')
-
-    cvmatnd = mb.class_('CvMatND')
-    cvmatnd.include()
-    for z in ('ptr', 's', 'i', 'fl', 'db', 'data',
-        'size', 'step', 'dim',):
-        cvmatnd.var(z).exclude()
-    # deal with 'data'
-    cvmatnd.include_files.append( "boost/python/object.hpp" )
-    cvmatnd.include_files.append( "boost/python/str.hpp" )
-    cvmatnd.add_wrapper_code('''
-static bp::object get_data( CvMatND const & inst ){        
-    return inst.data.ptr? bp::str((const char *)inst.data.ptr, inst.dim[0].step*inst.dim[0].size): bp::object();
-}
-    ''')
-    cvmatnd.add_registration_code('''
-add_property( "data", bp::make_function(&CvMatND_wrapper::get_data) )
-    ''')
-    mb.insert_del_interface('CvMatND', '_PE._cvReleaseMatND')
-
-
-    # CvSparseMat
-    cc.write('''
 #-----------------------------------------------------------------------------
 # Multi-dimensional sparse array (CvSparseMat) 
 #-----------------------------------------------------------------------------
@@ -350,24 +191,6 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 
 
     ''')
-
-    cvsparsemat = mb.class_('CvSparseMat')
-    cvsparsemat.include()
-    for z in ('heap', 'hashtable'):
-        cvsparsemat.var(z).exclude()
-    mb.insert_del_interface('CvSparseMat', '_PE._cvReleaseSparseMat')
-
-    # CvSparseNode
-    z = mb.class_('CvSparseNode')
-    z.include()
-    FT.expose_member_as_pointee(z, 'next')
-
-    # CvSparseMatIterator
-    z = mb.class_('CvSparseMatIterator')
-    z.include()
-    FT.expose_member_as_pointee(z, 'mat')
-    FT.expose_member_as_pointee(z, 'node')
-
 
     # CvHistogram
     cvhistogram = mb.class_('CvHistogram')
@@ -402,9 +225,9 @@ CV_HIST_UNIFORM       = 1
 # Other supplementary data type definitions
 #-----------------------------------------------------------------------------
 
-CV_TERMCRIT_ITER    = 1
-CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
-CV_TERMCRIT_EPS     = 2
+# CV_TERMCRIT_ITER    = 1
+# CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
+# CV_TERMCRIT_EPS     = 2
 
 CV_WHOLE_SEQ_END_INDEX = 0x3fffffff
 CV_WHOLE_SEQ = cvSlice(0, CV_WHOLE_SEQ_END_INDEX)
@@ -412,24 +235,94 @@ CV_WHOLE_SEQ = cvSlice(0, CV_WHOLE_SEQ_END_INDEX)
 
     ''')
 
-    for z in ('CvRect',):
-        mb.class_(z).include()
-    for z in ('cvScalar', 'cvScalarAll', 
-        'cvRect', 'cvRectToROI', 'cvROIToRect'):
-        mb.free_fun(z).include()
-    for z in ('CvScalar', 'cvRealScalar', 
-        'CvPoint', 
-        'cvPoint',  # TODO: fix it when this one is uncommented
-        'CvSize', 'cvSize', 'CvBox2D',
-        'CvTermCriteria', 'cvTermCriteria', 
-        'CvLineIterator',
+    mb.add_declaration_code('''
+struct CvRect_to_python
+{
+    static PyObject* convert(CvRect const& x)
+    {
+        return bp::incref(bp::object(cv::Rect(x)).ptr());
+    }
+};
+
+struct CvScalar_to_python
+{
+    static PyObject* convert(CvScalar const& x)
+    {
+        return bp::incref(bp::object(cv::Scalar(x)).ptr());
+    }
+};
+
+struct CvPoint_to_python
+{
+    static PyObject* convert(CvPoint const& x)
+    {
+        return bp::incref(bp::object(cv::Point(x)).ptr());
+    }
+};
+
+struct CvPoint2D32f_to_python
+{
+    static PyObject* convert(CvPoint2D32f const& x)
+    {
+        return bp::incref(bp::object(cv::Point2f(x)).ptr());
+    }
+};
+
+struct CvPoint3D32f_to_python
+{
+    static PyObject* convert(CvPoint3D32f const& x)
+    {
+        return bp::incref(bp::object(cv::Point3f(x)).ptr());
+    }
+};
+
+
+struct CvSize_to_python
+{
+    static PyObject* convert(CvSize const& x)
+    {
+        return bp::incref(bp::object(cv::Size(x)).ptr());
+    }
+};
+
+struct CvBox2D_to_python
+{
+    static PyObject* convert(CvBox2D const& x)
+    {
+        return bp::incref(bp::object(cv::RotatedRect(x)).ptr());
+    }
+};
+
+struct CvTermCriteria_to_python
+{
+    static PyObject* convert(CvTermCriteria const& x)
+    {
+        return bp::incref(bp::object(cv::TermCriteria(x)).ptr());
+    }
+};
+
+    ''')
+    mb.add_registration_code('bp::to_python_converter<CvRect, CvRect_to_python, false>();')
+    mb.add_registration_code('bp::to_python_converter<CvScalar, CvScalar_to_python, false>();')
+    # mb.add_registration_code('bp::to_python_converter<CvPoint, CvPoint_to_python, false>();') # TODO: omit CvPoint, right now cannot
+    mb.add_registration_code('bp::to_python_converter<CvPoint2D32f, CvPoint2D32f_to_python, false>();')
+    mb.add_registration_code('bp::to_python_converter<CvPoint3D32f, CvPoint3D32f_to_python, false>();')
+    mb.add_registration_code('bp::to_python_converter<CvSize, CvSize_to_python, false>();')
+    mb.add_registration_code('bp::to_python_converter<CvBox2D, CvBox2D_to_python, false>();')
+    mb.add_registration_code('bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();')
+
+    for z in (
+        'CvPoint', # TODO: omit CvPoint, right now cannot
+        # 'cvPoint',  # TODO: fix it when this one is uncommented
         'CvSlice', 'cvSlice',
         ):
         mb.decls(lambda decl: decl.name.startswith(z)).include()
-        
+
+    mb.free_fun('cvPoint').include() # TODO: omit CvPoint, right now cannot
+    for t in ('CvPoint2D32f', 'CvPoint3D32f', 'CvPoint2D64f', 'CvPoint3D64f'):
+        mb.class_(t).exclude() # TODO: omit CvPoint, right now cannot
     mb.free_fun('cvPointSeqFromMat').exclude()  # TODO: fix it when this one is uncommented
-        
-    mb.class_('CvLineIterator').var('ptr').exclude() # wait until requested
+    mb.free_fun('cvPointPolygonTest').include()  # TODO: fix it when this one is uncommented
         
 
     # Dynamic Data structures
