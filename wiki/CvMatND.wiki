@@ -6,4 +6,6 @@ Structure CvMatND is replaced by the more robust and more efficient MatND class.
 
 || *OpenCV* || *PyOpenCV* ||
 || CvMatND || MatND ||
-|| cvMatND || (removed) ||
+|| cvMatND, cvCreateMatNDHeader, cvCreateMatND, cvInitMatNDHeader || MatND's constructors ||
+|| cvReleaseMatND || no need to call, but if you insist: MatND.release ||
+|| cvCloneMatND || MatND.clone ||
