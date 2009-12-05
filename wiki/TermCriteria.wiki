@@ -1,0 +1,10 @@
+#summary TermCriteria
+
+= Reference =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cv::TermCriteria || TermCriteria ||
+|| cv::TermCriteria || TermCriteria's constructor ||
+|| cv::TermCriteria::type || TermCriteria.type ||
+|| cv::TermCriteria::maxCount || TermCriteria.maxCount ||
+|| cv::TermCriteria::epsilon || TermCriteria.epsilon ||
