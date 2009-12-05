@@ -6,4 +6,4 @@ Structure CvScalar is replaced by class Scalar.
 
 || *OpenCV* || *PyOpenCV* ||
 || CvScalar || Scalar ||
-|| cvScalar || Scalar's constructor ||
+|| cvScalar, cvScalarAll || Scalar's constructors ||
