@@ -1,0 +1,38 @@
+#summary Mat
+
+= Reference =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cv::Mat || Mat ||
+|| cv::Mat's constructors || Mat's constructors ||
+|| cv::Mat::row || Mat.row ||
+|| cv::Mat::col || Mat.col ||
+|| cv::Mat::rowRange || Mat.rowRange ||
+|| cv::Mat::colRange || Mat.colRange ||
+|| cv::Mat::diag || Mat.diag ||
+|| cv::Mat::clone || Mat.clone ||
+|| cv::Mat::copyTo || Mat.copyTo ||
+|| cv::Mat::assignTo || Mat.assignTo ||
+|| cv::Mat::setTo || Mat.setTo ||
+|| cv::Mat::reshape || Mat.reshape ||
+|| cv::Mat::cross || Mat.cross ||
+|| cv::Mat::dot || Mat.dot ||
+|| cv::Mat::create || Mat.create ||
+|| cv::Mat::addref || Mat.addref ||
+|| cv::Mat::release || Mat.release ||
+|| cv::Mat::locateROI || Mat.locateROI ||
+|| cv::Mat::adjustROI || Mat.adjustROI ||
+|| cv::Mat::isContinuous || Mat.isContinuous ||
+|| cv::Mat::elemSize || Mat.elemSize ||
+|| cv::Mat::elemSize1 || Mat.elemSize1 ||
+|| cv::Mat::type || Mat.type ||
+|| cv::Mat::depth || Mat.depth ||
+|| cv::Mat::channels || Mat.channels ||
+|| cv::Mat::step1 || Mat.step1 ||
+|| cv::Mat::size || Mat.size ||
+|| cv::Mat::empty || Mat.empty ||
+|| cv::Mat::flags || Mat.flags ||
+|| cv::Mat::rows || Mat.rows ||
+|| cv::Mat::cols || Mat.cols ||
+|| cv::Mat::step || Mat.step ||
+||   || Mat.ndarray, a numpy view on Mat ||
