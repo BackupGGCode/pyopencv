@@ -1,0 +1,9 @@
+#summary Old-style CvSize2D32f
+
+= Reference =
+
+Structure CvSize2D32fis replaced by class Size2f.
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvSize2D32f || Size2f ||
+|| cvSize2D32f || Size2f's constructor ||
