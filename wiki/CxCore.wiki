@@ -30,6 +30,8 @@
 || cvScale, cvConvert, cvCvtScale, cvConvertScale || {Mat, MatND, SparseMat}.convertTo ||
 || cvConvertScaleAbs, cvCvtScaleAbs || convertScaleAbs ||
 || cvCheckTermCriteria || (removed) ||
+|| CvMixChannels || mixChannels ||
+
 
 
 
