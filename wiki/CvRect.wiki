@@ -7,3 +7,5 @@ Structure CvRect is replaced by class Rect.
 || *OpenCV* || *PyOpenCV* ||
 || CvRect || Rect ||
 || cvRect || Rect's constructor ||
+|| cvRectToROI || (removed) ||
+|| cvROIToRect || (removed) ||
