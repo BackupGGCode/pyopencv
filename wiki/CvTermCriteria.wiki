@@ -7,3 +7,4 @@ Structure CvTermCriteria is replaced by class TermCriteria.
 || *OpenCV* || *PyOpenCV* ||
 || CvTermCriteria || TermCriteria ||
 || CvTermCriteria || TermCriteria's constructor ||
+|| cvCheckTermCriteria || (removed) ||
