@@ -1,0 +1,11 @@
+#summary Range
+
+= Reference =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cv::Range || Range ||
+|| cv::Range::size || Range.size ||
+|| cv::Range::empty || Range.empty ||
+|| cv::Range::all || Range.all ||
+|| cv::Range::start || Range.start ||
+|| cv::Range::end || Range.end ||
