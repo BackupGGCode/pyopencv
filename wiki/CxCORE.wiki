@@ -1,12 +1,3 @@
-
-= Complex =
-
-Instantiations of class cv::Vec<> included in PyOpenCV: Complexf, Complexd.
-
-|| *OpenCV* || *PyOpenCV* ||
-|| cv::Complex || Complex ||
-|| cv::Complex::conj || Complex.conj ||
-
 = Point =
 
 Instantiations of class cv::Point_<> included in PyOpenCV: Point, Point2i, Point2f.
