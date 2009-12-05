@@ -10,6 +10,7 @@
 || cvGetCol || Mat.col ||
 || cvGetDiag || Mat.diag ||
 || cvScalarToRawData, cvRawDataToScalar || (removed,  too low-level) ||
+|| cvCrossProduct(x,y) || x.cross(y) ||
 
 
 
