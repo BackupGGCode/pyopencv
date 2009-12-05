@@ -1,0 +1,10 @@
+#summary Old-style CvSparseMat
+
+= Reference =
+
+Structure CvSparseMat is replaced by the more robust and more efficient Mat class. 
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvSparseMat || SparseMat ||
+|| CvSparseNode || SparseMat::Node ||
+|| CvSparseNodeIterator || SparseMatIterator, SparseMarConstIterator ||
