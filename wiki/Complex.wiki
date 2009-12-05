@@ -1,0 +1,9 @@
+#summary Complex<>
+
+= Reference =
+
+Instantiations of class cv::Complex<> included in PyOpenCV: Complexf, Complexd.
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cv::Complex || Complex ||
+|| cv::Complex::conj || Complex.conj ||
