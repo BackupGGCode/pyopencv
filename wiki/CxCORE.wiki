@@ -1,4 +1,4 @@
-#summary Free functions in CxCORE
+#summary Free functions in CxCore
 
 = Reference =
 
