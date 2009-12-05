@@ -9,4 +9,4 @@ Instantiations of class cv::Vec<> included in PyOpenCV: Vec2b, Vec3b, Vec4b, Vec
 || cv::Vec::all || Vec.all ||
 || cv::Vec::dot || Vec.dot ||
 || cv::Vec::ddot || Vec.ddot ||
-|| cvCrossProduct, cv::Vec::cross || Vec.cross ||
+|| cv::Vec::cross || Vec.cross ||
