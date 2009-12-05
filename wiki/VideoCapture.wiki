@@ -4,7 +4,8 @@
 
 || *OpenCV* || *PyOpenCV* ||
 || CvCapture, cv::VideoCapture || VideoCapture ||
-|| cvCreateFileCapture, cvCreateCameraCapture, cv::VideoCapture::open || VideoCapture.open ||
+|| cvCreateFileCapture, cvCreateCameraCapture || VideoCapture's constructors ||
+|| cv::VideoCapture::open || VideoCapture.open ||
 || cvGrabFrame, cv::VideoCapture::grab || VideoCapture.grab ||
 || cvRetrieveFrame, cv::VideoCapture::retrieve || VideoCapture.retrieve ||
 || cvQueryFrame, cv::VideoCapture::operator >> || VideoCapture.operator >> ||
