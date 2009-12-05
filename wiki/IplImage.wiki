@@ -7,3 +7,5 @@ Structure IplImage is replaced by the more robust and more efficient Mat class. 
 || *OpenCV* || *PyOpenCV* ||
 || IplImage || Mat ||
 || IplROI, IplConvKernel || (removed) ||
+|| cvReleaseImageHeader || (removed) ||
+|| cvReleaseImage || (removed) ||
