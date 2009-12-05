@@ -2,7 +2,7 @@
 
 = Reference =
 
-Structure CvSparseMat is replaced by the more robust and more efficient Mat class. 
+Structure CvSparseMat is replaced by the more robust and more efficient SparseMat class. 
 
 || *OpenCV* || *PyOpenCV* ||
 || CvSparseMat || SparseMat ||
