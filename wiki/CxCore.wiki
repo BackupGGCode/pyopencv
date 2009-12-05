@@ -2,6 +2,21 @@
 
 = Reference =
 
+== Old-style Functions ==
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cvGetSubRect, cvGetSubArr, cvGetRows, cvGetCols || Mat's indexing and slicing functionality ||
+|| cvGetRow || Mat.row ||
+|| cvGetCol || Mat.col ||
+|| cvGetDiag || Mat.diag ||
+|| cvScalarToRawData, cvRawDataToScalar || (removed,  too low-level) ||
+
+
+
+
+
+== New-style Functions ==
+
 || *OpenCV* || *PyOpenCV* ||
 || cv::fromUtf16 || fromUtf16 ||
 || cv::toUtf16 || toUtf16 ||
