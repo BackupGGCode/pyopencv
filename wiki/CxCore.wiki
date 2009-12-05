@@ -59,14 +59,14 @@
 || cvRandShuffle || randShuffle ||
 || cvSolveCubic || solveCubic ||
 || cvSolvePoly || solvePoly ||
-|| cvGEMM || gemm ||
-|| cvTransform || transform ||
+|| cvGEMM, cvMatMulAddEx, cvMatMulAdd, cvMatMul || gemm ||
+|| cvTransform, cvMatMulAddS || transform ||
 || cvPerspectiveTransform || perspectiveTransform ||
 || cvMulTransposed || mulTransposed ||
-|| cvTranspose || transpose ||
+|| cvTranspose, cvT || transpose ||
 || cvCompleteSymm || completeSymm ||
-|| cvFlip || flip ||
-|| cvInvert || invert ||
+|| cvFlip, cvMirror || flip ||
+|| cvInv, cvInvert || invert ||
 || cvSolve || solve ||
 || cvDet || determinant ||
 || cvTrace || trace ||
@@ -74,7 +74,9 @@
 || cvEigenVV || eigen ||
 || cvMahalonobis, cvMahalanobis || Mahalanobis ||
 || cvCalcCovarMatrix || calcCovarMatrix ||
-
+|| cvCalcPCA, cvProjectPCA, cvBackProjectPCA || PCA ||
+|| cvSVBkSb, cvSVD || SVD ||
+|| cvRange || range_ ||
 
 
 
