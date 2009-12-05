@@ -7,5 +7,5 @@ Structure CvRNG is replaced by class RNG.
 || *OpenCV* || *PyOpenCV* ||
 || CvRNG || RNG ||
 || cvRNG || RNG's constructors ||
-|| cvRandInt || RNG.as_int ||
-|| cvRandReal || RNG.as_float ||
+|| cvRandInt || RNG.next().as_int ||
+|| cvRandReal || RNG.next().as_float ||
