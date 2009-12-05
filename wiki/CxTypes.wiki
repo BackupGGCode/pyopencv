@@ -2,7 +2,7 @@
 
 || *OpenCV* || *PyOpenCV* ||
 || CvRNG, cv::RNG || RNG ||
-|| cvRNG, cv::RNG's constructors || RNG.__init__ ||
+|| cvRNG, cv::RNG's constructors || RNG's constructors ||
 || cv::theRNG || theRNG ||
 || cv::RNG::next || RNG.next ||
 || cv::RNG::operator uchar || RNG.as_uchar ||
