@@ -11,8 +11,15 @@
 || cvGetDiag || Mat.diag ||
 || cvScalarToRawData, cvRawDataToScalar || (removed,  too low-level) ||
 || cvCrossProduct(x,y) || x.cross(y) ||
-
-
+|| cvGetDimSize, cvGetDims || MatND.dims, SparseMat.dims ||
+|| cvGetDim || MatND.size, SparseMat.size ||
+|| cvPtr*D, cvGet*D, cvSet*D || Mat's indexing and slicing functionality ||
+|| cvGetND, cvGetRealND, cvSetND, cvSetRealND, cvClearND || MatND's indexing and slicing functionality ||
+|| cvGetMat, cvGetImage || (removed) ||
+|| cvReshape || Mat.reshape ||
+|| cvReshapeMatND || MatND.reshape ||
+|| cvGetSize || Mat.size ||
+|| cvRepeat || repeat ||
 
 
 
