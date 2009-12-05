@@ -76,7 +76,16 @@
 || cvCalcCovarMatrix || calcCovarMatrix ||
 || cvCalcPCA, cvProjectPCA, cvBackProjectPCA || PCA ||
 || cvSVBkSb, cvSVD || SVD ||
-|| cvRange || range_ ||
+|| cvRange || range\_ ||
+|| cvSum || sum ||
+|| cvCountNonZero || countNonZero ||
+|| cvAvg || mean ||
+|| cvAvgSdv || meanStdDev ||
+|| cvNorm || norm ||
+|| cvNormalize || normalize ||
+|| cvReduce || reduce ||
+|| cvMinMaxLoc || minMaxLoc ||
+
 
 
 
