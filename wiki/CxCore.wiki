@@ -20,6 +20,9 @@
 || cvReshapeMatND || MatND.reshape ||
 || cvGetSize || Mat.size ||
 || cvRepeat || repeat ||
+|| cvCreateData, cvSetData || Mat.create ||
+|| cvReleaseData || no need to invoke, but if you insist: Mat.release ||
+|| cvGetRawData || Mat.ndarray.data ||
 
 
 
