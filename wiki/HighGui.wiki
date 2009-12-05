@@ -1,0 +1,45 @@
+#summary HighGUI
+
+= Free Functions =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cvInitSystem || initSystem ||
+|| cvStartWindowThread || startWindowThread ||
+|| cvNamedWindow, cv::namedWindow || namedWindow ||
+|| cvShowImage, cv::imshow || imshow ||
+|| cvResizeWindow || resizeWindow ||
+|| cvMoveWindow || moveWindow ||
+|| cvDestroyWindow || destroyWindow ||
+|| cvDestroyAllWindows || destroyAllWindows ||
+|| cvCreateTrackbar, cvCreateTrackbar2, cv::createTrackbar || createTrackbar ||
+|| cvGetTrackbarPos, cv::getTrackbarPos || getTrackbarPos ||
+|| cvSetTrackbarPos, cv::setTrackbarPos || setTrackbarPos ||
+|| cvSetMouseCallback || setMouseCallback ||
+|| cvLoadImage, cvLoadImageM, cv::imread || imread ||
+|| cvSaveImage, cv::imwrite || imwrite ||
+|| cvDecodeImage, cvDecodeImageM, cv::imdecode || imdecode ||
+|| cvEncodeImage, cv::imencode || imencode ||
+|| cvConvertImage || convertImage ||
+|| cvWaitKey, cv::waitKey || waitKey ||
+
+
+= Video Capture =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvCapture, cv::VideoCapture || VideoCapture ||
+|| cvCreateFileCapture, cvCreateCameraCapture, cv::VideoCapture::open || VideoCapture.open ||
+|| cvGrabFrame, cv::VideoCapture::grab || VideoCapture.grab ||
+|| cvRetrieveFrame, cv::VideoCapture::retrieve || VideoCapture.retrieve ||
+|| cvQueryFrame, cv::VideoCapture::operator >> || VideoCapture.operator >> ||
+|| cvReleaseCapture, cv::VideoCapture::release || VideoCapture.release ||
+|| cvGetCaptureProperty, cv::VideoCapture::get || VideoCapture.get ||
+|| cvSetCaptureProperty, cv::VideoCapture::set || VideoCapture.set ||
+
+
+= Video Writer =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvVideoWriter, cv::VideoWriter || VideoWriter ||
+|| cvCreateVideoWriter, cv::VideoWriter::open || VideoWriter.open ||
+|| cvWriteFrame, cv::VideoWriter::operator << || VideoWriter.operator << ||
+|| cvReleaseVideoWriter, cv::VideoWriter::release || VideoWriter.release ||
