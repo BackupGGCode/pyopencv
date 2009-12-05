@@ -99,11 +99,6 @@ CV_HAAR_FEATURE_MAX  = 3
         ):
         mb.decl(z).include()
         
-    z = mb.class_('CvMatrix3')
-    z.include()
-    z.var('m').exclude() # wait until requested
-
-
     # pointers which are not Cv... * are excluded until further requested
     for z in (
         'CvMoments', 'CvHuMoments',

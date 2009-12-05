@@ -115,3 +115,4 @@ template void convert_Mat( const cv::Mat &in_arr, float *&out_arr );
 template void convert_Mat( const cv::Mat &in_arr, double *&out_arr );
 
 // ================================================================================================
+

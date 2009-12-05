@@ -867,6 +867,102 @@ def distance_function( *args, **keywd ):
 
 
 
+    
+# input_asSparseMat_t
+class input_asSparseMat_t(transformer_t):
+    """Converts an input argument type into a cv::SparseMat."""
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "input_asSparseMat(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg(self.arg.name)        
+        w_arg.type = _D.dummy_type_t( "::cv::SparseMat &" )
+        dtype = self.arg.type
+        
+        if dtype == _D.dummy_type_t("::CvSparseMat *"):
+            controller.modify_arg_expression( self.arg_index, "&%s.state" % w_arg.name )
+        elif dtype == _D.dummy_type_t("::CvSparseMat &") or dtype == _D.dummy_type_t("::CvSparseMat"):
+            controller.modify_arg_expression( self.arg_index, "%s.state" % w_arg.name )
+        else:
+            raise NotImplementedError("Input argument type %s is not convertible into cv::SparseMat." % dtype.decl_string)
+            
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return []
+
+def input_asSparseMat( *args, **keywd ):
+    def creator( function ):
+        return input_asSparseMat_t( function, *args, **keywd )
+    return creator
+    
+
+    
+# input_asRNG_t
+class input_asRNG_t(transformer_t):
+    """Converts an input argument type into a cv::RNG."""
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "input_asRNG(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg(self.arg.name)        
+        w_arg.type = _D.dummy_type_t( "::cv::RNG &" )
+        dtype = self.arg.type
+        
+        if dtype == _D.dummy_type_t("::CvRNG *"):
+            controller.modify_arg_expression( self.arg_index, "&%s.state" % w_arg.name )
+        elif dtype == _D.dummy_type_t("::CvRNG &") or dtype == _D.dummy_type_t("::CvRNG"):
+            controller.modify_arg_expression( self.arg_index, "%s.state" % w_arg.name )
+        else:
+            raise NotImplementedError("Input argument type %s is not convertible into cv::RNG." % dtype.decl_string)
+            
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return []
+
+def input_asRNG( *args, **keywd ):
+    def creator( function ):
+        return input_asRNG_t( function, *args, **keywd )
+    return creator
+    
+
 
     
 # input_as_Mat_t
@@ -904,14 +1000,7 @@ class input_as_Mat_t(transformer_t):
                 etype = _D.dummy_type_t("::CvMat")
             
             # code
-            v = controller.declare_variable( etype, self.arg.name )
-            controller.add_pre_call_code("convert_Mat(W, V);".replace("W", w_arg.name).replace("V", v))
-            controller.modify_arg_expression( self.arg_index, "&"+v)
-            
-            # is inout
-            if not 'const' in self.arg.type.partial_decl_string:
-                controller.add_post_call_code("convert_Mat(V, W);".replace("W", w_arg.name).replace("V", v))
-                controller.return_variable(w_arg.name)
+            controller.modify_arg_expression( self.arg_index, "&(%s)%s" % (etype.decl_string, w_arg.name))
                 
         elif "::std::vector<" in dtype.decl_string:
         
