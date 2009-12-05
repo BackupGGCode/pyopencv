@@ -29,7 +29,6 @@
 || cvMerge || merge ||
 || cvScale, cvConvert, cvCvtScale, cvConvertScale || {Mat, MatND, SparseMat}.convertTo ||
 || cvConvertScaleAbs, cvCvtScaleAbs || convertScaleAbs ||
-|| cvCheckTermCriteria || (removed) ||
 || CvMixChannels || mixChannels ||
 || cvAXPY, cvAbsDiff, cvAbsDiffS || scaleAdd ||
 || cvAbs, cvScaleAdd || absdiff ||
