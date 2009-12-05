@@ -1,9 +1,9 @@
 = Random Number Generator =
 
 || *OpenCV* || *PyOpenCV* ||
+|| cv::theRNG || theRNG ||
 || CvRNG, cv::RNG || RNG ||
 || cvRNG, cv::RNG's constructors || RNG's constructors ||
-|| cv::theRNG || theRNG ||
 || cv::RNG::next || RNG.next ||
 || cv::RNG::operator uchar || RNG.as_uchar ||
 || cv::RNG::operator schar || RNG.as_schar ||
