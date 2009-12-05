@@ -1,0 +1,9 @@
+#summary Old-style CvTermCriteria
+
+= Reference =
+
+Structure CvTermCriteria is replaced by class Size.
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvTermCriteria || TermCriteria ||
+|| CvTermCriteria || TermCriteria's constructor ||
