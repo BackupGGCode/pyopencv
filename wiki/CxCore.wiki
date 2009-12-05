@@ -101,8 +101,7 @@
 || cvPolyLine || polylines ||
 || cvGetTextSize || getTextSize ||
 || cvEllipse2Poly || ellipse2Poly ||
-
-
+|| cvInitFont, cvFont, CvFont || (removed) ||
 
 
 == New-style Functions ==
