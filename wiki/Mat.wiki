@@ -36,3 +36,4 @@
 || cv::Mat::cols || Mat.cols ||
 || cv::Mat::step || Mat.step ||
 ||   || Mat.ndarray, a numpy view on Mat ||
+|| cv::Mat::data || Mat.ndarray.data ||
