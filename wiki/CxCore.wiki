@@ -23,6 +23,14 @@
 || cvCreateData, cvSetData || Mat.create ||
 || cvReleaseData || no need to invoke, but if you insist: Mat.release ||
 || cvGetRawData || Mat.ndarray.data ||
+|| cvCopy || {Mat, MatND, SparseMat}.copyTo ||
+|| cvZero, cvSet, cvSetZero || {Mat, MatND, SparseMat}.setTo ||
+|| cvSplit || split ||
+|| cvMerge || merge ||
+|| cvScale, cvConvert, cvCvtScale, cvConvertScale || {Mat, MatND, SparseMat}.convertTo ||
+|| cvConvertScaleAbs, cvCvtScaleAbs || convertScaleAbs ||
+|| cvCheckTermCriteria || (removed) ||
+
 
 
 
