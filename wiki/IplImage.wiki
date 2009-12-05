@@ -9,3 +9,12 @@ Structure IplImage is replaced by the more robust and more efficient Mat class. 
 || IplROI, IplConvKernel || (removed) ||
 || cvReleaseImageHeader || (removed) ||
 || cvReleaseImage || (removed) ||
+|| cvInitImageHeader || (removed) ||
+|| cvCreateImageHeader || (removed) ||
+|| cvCreateImage || (removed) ||
+|| cvSetImageCOI || (removed) ||
+|| cvGetImageCOI || (removed) ||
+|| cvSetImageROI || (removed) ||
+|| cvResetImageROI || (removed) ||
+|| cvGetImageROI || (removed) ||
+|| cvCloneImage || (removed) ||
