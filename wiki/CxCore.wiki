@@ -85,6 +85,10 @@
 || cvNormalize || normalize ||
 || cvReduce || reduce ||
 || cvMinMaxLoc || minMaxLoc ||
+|| cvDFT, cvFFT || dft ||
+|| cvMulSpectrums || mulSpectrums ||
+|| cvGetOptimalDFTSize || getOptimalDFTSize ||
+|| cvDCT || dct ||
 
 
 
