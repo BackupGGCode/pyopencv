@@ -4,15 +4,15 @@
 
 || *OpenCV* || *PyOpenCV* ||
 || cv::theRNG || theRNG ||
-|| CvRNG, cv::RNG || RNG ||
-|| cvRNG, cv::RNG's constructors || RNG's constructors ||
+|| cv::RNG || RNG ||
+|| cv::RNG's constructors || RNG's constructors ||
 || cv::RNG::next || RNG.next ||
 || cv::RNG::operator uchar || RNG.as_uchar ||
 || cv::RNG::operator schar || RNG.as_schar ||
 || cv::RNG::operator ushort || RNG.as_ushort ||
 || cv::RNG::operator short || RNG.as_short ||
-|| cvRandInt, cv::RNG::operator int || RNG.as_int ||
-|| cvRandReal, cv::RNG::operator float || RNG.as_float ||
+|| cv::RNG::operator int || RNG.as_int ||
+|| cv::RNG::operator float || RNG.as_float ||
 || cv::RNG::operator double || RNG.as_double ||
 || cv::RNG::uniform || RNG.uniform ||
 || cv::RNG::fill || RNG.fill ||
