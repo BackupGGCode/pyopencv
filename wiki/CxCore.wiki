@@ -118,21 +118,71 @@
 || cv::getElemSize || getElemSize ||
 || cv::add || add ||
 || cv::subtract || subtract ||
-|| cv::multiply(a,b,c,scale) || c = scale*a*b ||
-|| cv::divide(a,b,c,scale) || c = scale*a/b ||
-|| cv::divide(scale,b,c) || c = scale/b ||
-|| cv::scaleAdd(a,alpha,b,c) || c = a*alpha+b ||
-|| cv::addWeighted(a,alpha,b,beta,gamma,c) || c = a*alpha+b*beta+gamma ||
+|| cv::multiply || multiply ||
+|| cv::divide || divide ||
+|| cv::scaleAdd || scaleAdd ||
+|| cv::addWeighted || addWeighted ||
 || cv::LUT || LUT ||
-|| cv::sum || numpy.sum ||
-|| cv::countNonZero || numpy.nonzero ||
+|| cv::sum || sum ||
+|| cv::countNonZero || nonzero ||
 || cv::mean || mean ||
 || cv::meanStdDev || meanStdDev ||
 || cv::norm || norm ||
 || cv::normalize || normalize ||
 || cv::minMaxLoc || minMaxLoc ||
 || cv::reduce || reduce ||
-|| cv::split(a) || use slices of a ||
-|| cv::merge(a1,a2,...) || numpy.array((a1,a2,...)) ||
-|| cv::mixChannels || similarly to 'split' and 'merge' ||
+|| cv::split || split ||
+|| cv::merge || merge ||
+|| cv::mixChannels || mixChannels ||
 || cv::repeat || repeat ||
+|| cv::bitwise_and || bitwise_and ||
+|| cv::bitwise_or || bitwise_or ||
+|| cv::bitwise_xor || bitwise_xor ||
+|| cv::bitwise_not || bitwise_not ||
+|| cv::absdiff || absdiff ||
+|| cv::inRange || inRange ||
+|| cv::compare || compare ||
+|| cv::min || min ||
+|| cv::max || max ||
+|| cv::sqrt || sqrt ||
+|| cv::pow || pow ||
+|| cv::exp || exp ||
+|| cv::log || log ||
+|| cv::cubeRoot || cubeRoot ||
+|| cv::fastAtan2 || fastAtan2 ||
+|| cv::polarToCart || polarToCart ||
+|| cv::cartToPolar || cartToPolar ||
+|| cv::phase || phase ||
+|| cv::magnitude || magnitude ||
+|| cv::gemm || gemm ||
+|| cv::mulTransposed || mulTransposed ||
+|| cv::transpose || transpose ||
+|| cv::transform || transform ||
+|| cv::perspectiveTransform || perspectiveTransform ||
+|| cv::completeSymm || completeSymm ||
+|| cv::setIdentity || setIdentity ||
+|| cv::determinant || determinant ||
+|| cv::trace || trace ||
+|| cv::invert || invert ||
+|| cv::solve || solve ||
+|| cv::sort || sort ||
+|| cv::sortIdx || sortIdx ||
+|| cv::eigen || eigen ||
+|| cv::Mahalanobis || Mahalanobis ||
+|| cv::Mahalonobis || Mahalonobis ||
+|| cv::dft || dft ||
+|| cv::idft || idft ||
+|| cv::dct || dct ||
+|| cv::idct || idct ||
+|| cv::mulSpectrums || mulSpectrums ||
+|| cv::getOptimalDFTSize || getOptimalDFTSize ||
+|| cv::randu || randu ||
+|| cv::randn || randn ||
+|| cv::randShuffle || randShuffle ||
+|| cv::line || line ||
+|| cv::rectangle || rectangle ||
+|| cv::circle || circle ||
+|| cv::ellipse || ellipse ||
+|| cv::clipLine || clipLine ||
+|| cv::putText || putText ||
+|| cv::ellipse2Poly || ellipse2Poly ||
