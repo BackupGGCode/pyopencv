@@ -1,0 +1,9 @@
+#summary Old-style CvMat
+
+= Reference =
+
+Structure CvMat is replaced by the more robust and more efficient Mat class. 
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvMat || Mat ||
+|| cvMat || (removed) ||
