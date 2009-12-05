@@ -6,4 +6,4 @@ Structure CvRect is replaced by class Rect.
 
 || *OpenCV* || *PyOpenCV* ||
 || CvRect || Rect ||
-|| cvRect || (removed) ||
+|| cvRect || Rect's constructor ||
