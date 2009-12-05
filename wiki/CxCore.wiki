@@ -46,7 +46,34 @@
 || cvMin, cvMinS || min ||
 || cvMax, cvMaxS || max ||
 || cvCmp, cvCmpS || compare ||
-
+|| cvCartToPolar || cartToPolar ||
+|| cvPolarToCart || polarToCart ||
+|| cvPow || pow ||
+|| cvExp || exp ||
+|| cvLog || log ||
+|| cvFastArctan || fastAtan2 ||
+|| cvCbrt || cubeRoot ||
+|| cvSort || sort, sortIdx ||
+|| cvCheckArray, cvCheckArr || checkRange ||
+|| cvRandArr || randArr ||
+|| cvRandShuffle || randShuffle ||
+|| cvSolveCubic || solveCubic ||
+|| cvSolvePoly || solvePoly ||
+|| cvGEMM || gemm ||
+|| cvTransform || transform ||
+|| cvPerspectiveTransform || perspectiveTransform ||
+|| cvMulTransposed || mulTransposed ||
+|| cvTranspose || transpose ||
+|| cvCompleteSymm || completeSymm ||
+|| cvFlip || flip ||
+|| cvInvert || invert ||
+|| cvSolve || solve ||
+|| cvDet || determinant ||
+|| cvTrace || trace ||
+|| cvSetIdentity || setIdentity ||
+|| cvEigenVV || eigen ||
+|| cvMahalonobis, cvMahalanobis || Mahalanobis ||
+|| cvCalcCovarMatrix || calcCovarMatrix ||
 
 
 
