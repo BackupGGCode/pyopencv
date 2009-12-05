@@ -28,7 +28,7 @@
 || cvCreateFileCapture, cvCreateCameraCapture, cv::VideoCapture::open || VideoCapture.open ||
 || cvGrabFrame, cv::VideoCapture::grab || VideoCapture.grab ||
 || cvRetrieveFrame, cv::VideoCapture::retrieve || VideoCapture.retrieve ||
-|| cvQueryFrame, cv::VideoCapture::operator >> || VideoCapture.query ||
+|| cvQueryFrame, cv::VideoCapture::operator >> || VideoCapture.operator >> ||
 || cvReleaseCapture, cv::VideoCapture::release || VideoCapture.release ||
 || cvGetCaptureProperty, cv::VideoCapture::get || VideoCapture.get ||
 || cvSetCaptureProperty, cv::VideoCapture::set || VideoCapture.set ||
@@ -39,5 +39,5 @@
 || *OpenCV* || *PyOpenCV* ||
 || CvVideoWriter, cv::VideoWriter || VideoWriter ||
 || cvCreateVideoWriter, cv::VideoWriter::open || VideoWriter.open ||
-|| cvWriteFrame, cv::VideoWriter::operator << || VideoWriter.write ||
+|| cvWriteFrame, cv::VideoWriter::operator << || VideoWriter.operator << ||
 || cvReleaseVideoWriter, cv::VideoWriter::release || VideoWriter.release ||
