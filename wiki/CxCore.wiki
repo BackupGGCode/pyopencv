@@ -31,6 +31,21 @@
 || cvConvertScaleAbs, cvCvtScaleAbs || convertScaleAbs ||
 || cvCheckTermCriteria || (removed) ||
 || CvMixChannels || mixChannels ||
+|| cvAXPY, cvAbsDiff, cvAbsDiffS || scaleAdd ||
+|| cvAbs, cvScaleAdd || absdiff ||
+|| cvAdd, cvAddS || add ||
+|| cvSub, cvSubR, cvSubRS || subtract ||
+|| cvMul || multiply ||
+|| cvDiv || divide ||
+|| cvAddWeighted || addWeighted ||
+|| cvAnd, cvAndS || bitwise_and ||
+|| cvOr, cvOrS || bitwise_or ||
+|| cvXor, cvXorS || bitwise_xor ||
+|| cvNot || bitwise_not ||
+|| cvInRange, cvInRangeS || inRange ||
+|| cvMin, cvMinS || min ||
+|| cvMax, cvMaxS || max ||
+|| cvCmp, cvCmpS || compare ||
 
 
 
