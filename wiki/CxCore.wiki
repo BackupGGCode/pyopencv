@@ -186,3 +186,13 @@
 || cv::clipLine || clipLine ||
 || cv::putText || putText ||
 || cv::ellipse2Poly || ellipse2Poly ||
+|| cv::split || split ||
+|| cv::mixChannels || mixChannels ||
+|| cv::minMaxLoc || minMaxLoc ||
+|| cv::checkRange || checkRange ||
+|| cv::kmeans || kmeans ||
+|| cv::merge || merge ||
+|| cv::calcCovarMatrix || calcCovarMatrix ||
+|| cv::fillConvexPoly || fillConvexPoly ||
+|| cv::fillPoly || fillPoly ||
+|| cv::getTextSize || getTextSize ||
