@@ -1,0 +1,9 @@
+#summary Old-style CvMatND
+
+= Reference =
+
+Structure CvMatND is replaced by the more robust and more efficient MatND class. 
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvMatND || MatND ||
+|| cvMatND || (removed) ||
