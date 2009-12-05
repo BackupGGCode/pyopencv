@@ -2,7 +2,7 @@
 
 = Reference =
 
-Structure CvTermCriteria is replaced by class Size.
+Structure CvTermCriteria is replaced by class TermCriteria.
 
 || *OpenCV* || *PyOpenCV* ||
 || CvTermCriteria || TermCriteria ||
