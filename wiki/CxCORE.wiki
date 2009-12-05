@@ -1,7 +1,9 @@
 = Exception =
 
 || *OpenCV* || *PyOpenCV* ||
-|| cv::Exception || Exception ||
+|| cv::Vec || Vec ||
+|| cv::Vec || Vec ||
+|| cv::Vec::dot || Vec.dot ||
 
 
 = 1D Array =
