@@ -1,7 +1,6 @@
+#summary Free functions in CxTypes
 
-
-
-= Free Functions =
+= References =
 
 || *OpenCV* || *PyOpenCV* ||
 || cvRound || cvRound ||
