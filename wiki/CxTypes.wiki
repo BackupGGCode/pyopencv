@@ -1,28 +1,4 @@
-= Random Number Generator =
 
-|| *OpenCV* || *PyOpenCV* ||
-|| cv::theRNG || theRNG ||
-|| CvRNG, cv::RNG || RNG ||
-|| cvRNG, cv::RNG's constructors || RNG's constructors ||
-|| cv::RNG::next || RNG.next ||
-|| cv::RNG::operator uchar || RNG.as_uchar ||
-|| cv::RNG::operator schar || RNG.as_schar ||
-|| cv::RNG::operator ushort || RNG.as_ushort ||
-|| cv::RNG::operator short || RNG.as_short ||
-|| cvRandInt, cv::RNG::operator int || RNG.as_int ||
-|| cvRandReal, cv::RNG::operator float || RNG.as_float ||
-|| cv::RNG::operator double || RNG.as_double ||
-|| cv::RNG::uniform || RNG.uniform ||
-|| cv::RNG::fill || RNG.fill ||
-|| cv::RNG::state || RNG.state ||
-
-= IplImage =
-
-Structure IplImage is replaced by the more robust and more efficient Mat class. Its related structures are removed. Every function argument that refers to an IplImage is replaced with one that refers to a Mat.
-
-|| *OpenCV* || *PyOpenCV* ||
-|| IplImage || Mat ||
-|| IplROI, IplConvKernel || (removed) ||
 
 
 = Free Functions =
