@@ -89,6 +89,18 @@
 || cvMulSpectrums || mulSpectrums ||
 || cvGetOptimalDFTSize || getOptimalDFTSize ||
 || cvDCT || dct ||
+|| cvLine || line ||
+|| cvRectangle || rectangle ||
+|| cvCircle || circle ||
+|| cvEllipse, cvEllipseBox || ellipse ||
+|| cvClipLine || clipLine ||
+|| cvPutText || putText ||
+|| cvLUT || LUT ||
+|| cvFillConvexPoly || fillConvexPoly ||
+|| cvFillPoly || fillPoly ||
+|| cvPolyLine || polylines ||
+|| cvGetTextSize || getTextSize ||
+|| cvEllipse2Poly || ellipse2Poly ||
 
 
 
