@@ -8,6 +8,6 @@ Structure CvMat is replaced by the more robust and more efficient Mat class.
 || CvMat || Mat ||
 || cvMat, cvCreateMatHeader, cvInitMatHeader, cvCreateMat || Mat's constructors ||
 || cvReleaseMat || no need to invoke but if you insist: Mat.release ||
-|| cvIncRefData ||  (removed) ||
-|| cvDecRefData || (removed) ||
+|| cvIncRefData ||  Mat.addref ||
+|| cvDecRefData || Mat.release ||
 || cvCloneMat|| Mat.clone ||
