@@ -8,4 +8,4 @@ Structure CvStereoBMState is replaced by the more robust and more efficient Ster
 || CvStereoBMState || StereoBM ||
 || cvCreateStereoBMState || StereoBM's constructor ||
 || cvReleaseStereoBMState(z) || no need to invoke but if you insist: del z ||
-|| cvFindStereoCorrespondenceBM || StereoBM's operator () ||
+|| cvFindStereoCorrespondenceBM || StereoBM.operator() ||
