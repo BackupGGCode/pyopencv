@@ -6,6 +6,6 @@ Structure CvStereoBMState is replaced by the more robust and more efficient Ster
 
 || *OpenCV* || *PyOpenCV* ||
 || CvStereoBMState || StereoBM ||
-|| cvCreateStereoBMState || StereoBM.__init__ ||
+|| cvCreateStereoBMState || StereoBM's constructor ||
 || cvReleaseStereoBMState(z) || no need to invoke but if you insist: del z ||
-|| cvFindStereoCorrespondenceBM || StereoBM.__call__ ||
+|| cvFindStereoCorrespondenceBM || StereoBM's operator () ||
