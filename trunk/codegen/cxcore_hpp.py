@@ -40,6 +40,7 @@ Point = Size2i
     zz = mb.classes(lambda z: z.name.startswith('Vec<'))
     for z in zz:
         z.include()
+        z.decls(lambda x: 'CvScalar' in x.decl_string).exclude()
         z.decl('val').exclude() # use operator[] instead
         
     # Complex et al
@@ -105,7 +106,7 @@ KLASS.__repr__ = _KLASS__repr__
     # RotatedRect
     z = mb.class_('RotatedRect')
     z.include()
-    z.operator(lambda x: x.name.endswith('::CvBox2D')).rename('as_CvBox2D')
+    z.decls(lambda x: 'CvBox2D' in x.decl_string).exclude()
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(center=" + repr(self.center) + ", size=" + repr(self.size) + \\
@@ -118,7 +119,7 @@ KLASS.__repr__ = _KLASS__repr__
     zz = mb.classes(lambda z: z.name.startswith('Scalar_<'))
     for z in zz:
         z.include()
-        z.operator(lambda x: x.name.endswith('::CvScalar')).rename('as_CvScalar')
+        z.decls(lambda x: 'CvScalar' in x.decl_string).exclude()
     z = mb.class_('::cv::Scalar_<double>')
     z.rename('Scalar')    
     mb.add_ndarray_interface(z)
@@ -177,7 +178,7 @@ KLASS.__repr__ = _KLASS__repr__
     # TermCriteria
     z = mb.class_('TermCriteria')
     z.include()
-    z.operator(lambda x: x.name.endswith('CvTermCriteria')).rename('as_CvTermCriteria')
+    z.decls(lambda x: 'CvTermCriteria' in x.decl_string).exclude()
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(type=" + repr(self.type) + ", maxCount=" + repr(self.maxCount) + \\
@@ -195,7 +196,8 @@ KLASS.__repr__ = _KLASS__repr__
     # LineIterator
     z = mb.class_('LineIterator')
     z.include()
-    z.decls(lambda x: 'uchar *' in x.decl_string).exclude()
+    z.operator('*').exclude()
+    z.var('ptr').exclude()
     # replace operator*() with 'get_pixel_addr', not the best solution, if you have a better one, send me a patch
     z.add_wrapper_code('int get_pixel_addr() { return (int)(cv::LineIterator::operator*()); }')
     z.add_registration_code('def("get_pixel_addr", &LineIterator_wrapper::get_pixel_addr)')

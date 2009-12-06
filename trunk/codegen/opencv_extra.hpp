@@ -13,6 +13,8 @@
 
 namespace bp = boost::python;
 
+#define BOOST_PYTHON_MAX_ARITY 30
+
 CV_INLINE CvPyramid sdCreatePyramid( const CvArr* img, int extra_layers, double rate,
                                 const CvSize* layer_sizes CV_DEFAULT(0),
                                 CvArr* bufarr CV_DEFAULT(0),

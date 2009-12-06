@@ -28,12 +28,6 @@ def generate_code(mb, cc, D, FT, CP):
     # Structures
     #=============================================================================
 
-    # TODO: Base...Filter
-    # for t in ('BaseRowFilter', 'BaseColumnFilter', 'BaseFilter'):
-        # z = mb.class_(t)
-        # z.include()
-        # z.operator('()').exclude() # TODO: fix this function
-    
     # FilterEngine
     # TODO: fix the rest of the member declarations
     z = mb.class_('FilterEngine')
@@ -43,7 +37,7 @@ def generate_code(mb, cc, D, FT, CP):
     # Moments
     z = mb.class_('Moments')
     z.include()
-    z.operator(lambda x: x.name.endswith('::CvMoments')).rename('as_CvMoments')
+    z.decls(lambda x: 'CvMoments' in x.decl_string).exclude()
     
     # KalmanFilter
     z = mb.class_('KalmanFilter')
