@@ -36,73 +36,6 @@ float CV_CDECL sdDistanceFunction( const float* a, const float*b, void* user_par
 
 // ================================================================================================
 
-template void convert_Mat( const cv::Mat &in_arr, std::vector<char> &out_arr );
-template void convert_Mat( const cv::Mat &in_arr, std::vector<unsigned char> &out_arr );
-template void convert_Mat( const cv::Mat &in_arr, std::vector<short> &out_arr );
-template void convert_Mat( const cv::Mat &in_arr, std::vector<unsigned short> &out_arr );
-template void convert_Mat( const cv::Mat &in_arr, std::vector<long> &out_arr );
-template void convert_Mat( const cv::Mat &in_arr, std::vector<unsigned long> &out_arr );
-template void convert_Mat( const cv::Mat &in_arr, std::vector<int> &out_arr );
-template void convert_Mat( const cv::Mat &in_arr, std::vector<unsigned int> &out_arr );
-template void convert_Mat( const cv::Mat &in_arr, std::vector<float> &out_arr );
-template void convert_Mat( const cv::Mat &in_arr, std::vector<double> &out_arr );
-
-// 1-row CV_32SC2 Mat
-template<> void convert_Mat<cv::Point>( const cv::Mat &in_arr, std::vector<cv::Point> &out_arr )
-{
-    char s[100];
-    if(in_arr.type() != CV_32SC2)
-    {
-        sprintf(s, "Mat must be of type CV_32SC2, type=%d detected.", in_arr.type());
-        PyErr_SetString(PyExc_TypeError, s);
-        throw bp::error_already_set(); 
-    }
-    if(in_arr.rows != 1)
-    {
-        sprintf(s, "Mat must be a row vector, rows=%d detected.", in_arr.rows);
-        PyErr_SetString(PyExc_TypeError, s);
-        throw bp::error_already_set(); 
-    }
-    out_arr.resize(in_arr.cols);
-    int *data = (int *)in_arr.data;
-    for(int i = 0; i < in_arr.cols; ++i)
-    {
-        out_arr[i] = cv::Point(data[0], data[1]);
-        data += 2;
-    }
-}
-
-
-// ================================================================================================
-
-template void convert_Mat( const std::vector<char> &in_arr, cv::Mat &out_arr );
-template void convert_Mat( const std::vector<unsigned char> &in_arr, cv::Mat &out_arr );
-template void convert_Mat( const std::vector<short> &in_arr, cv::Mat &out_arr );
-template void convert_Mat( const std::vector<unsigned short> &in_arr, cv::Mat &out_arr );
-template void convert_Mat( const std::vector<long> &in_arr, cv::Mat &out_arr );
-template void convert_Mat( const std::vector<unsigned long> &in_arr, cv::Mat &out_arr );
-template void convert_Mat( const std::vector<int> &in_arr, cv::Mat &out_arr );
-template void convert_Mat( const std::vector<unsigned int> &in_arr, cv::Mat &out_arr );
-template void convert_Mat( const std::vector<float> &in_arr, cv::Mat &out_arr );
-template void convert_Mat( const std::vector<double> &in_arr, cv::Mat &out_arr );
-
-// 1-row CV_32SC2 Mat
-template<> void convert_Mat<cv::Point>( const std::vector<cv::Point> &in_arr, cv::Mat &out_arr )
-{
-    int len = in_arr.size();
-    out_arr.create(cv::Size(1, len), CV_32SC2);
-    int *data = (int *)out_arr.data;
-    for(int i = 0; i < len; ++i)
-    {
-        data[0] = in_arr[i].x;
-        data[1] = in_arr[i].y;
-        data += 2;
-    }
-}
-
-
-// ================================================================================================
-
 template void convert_Mat( const cv::Mat &in_arr, char *&out_arr );
 template void convert_Mat( const cv::Mat &in_arr, unsigned char *&out_arr );
 template void convert_Mat( const cv::Mat &in_arr, short *&out_arr );
@@ -115,4 +48,35 @@ template void convert_Mat( const cv::Mat &in_arr, float *&out_arr );
 template void convert_Mat( const cv::Mat &in_arr, double *&out_arr );
 
 // ================================================================================================
+
+DEFINE_SEQUENCE_FOR_VECTOR(bool)
+DEFINE_SEQUENCE_FOR_VECTOR(char)
+DEFINE_SEQUENCE_FOR_VECTOR(uchar)
+DEFINE_SEQUENCE_FOR_VECTOR(short)
+DEFINE_SEQUENCE_FOR_VECTOR(ushort)
+DEFINE_SEQUENCE_FOR_VECTOR(int)
+DEFINE_SEQUENCE_FOR_VECTOR(unsigned)
+DEFINE_SEQUENCE_FOR_VECTOR(float)
+DEFINE_SEQUENCE_FOR_VECTOR(double)
+DEFINE_SEQUENCE_FOR_VECTOR_NS(cv, Vec2f)
+DEFINE_SEQUENCE_FOR_VECTOR_NS(cv, Vec3f)
+DEFINE_SEQUENCE_FOR_VECTOR_NS(cv, Vec4i)
+DEFINE_SEQUENCE_FOR_VECTOR_NS(cv, Scalar)
+DEFINE_SEQUENCE_FOR_VECTOR_NS(cv, Point2i)
+DEFINE_SEQUENCE_FOR_VECTOR_NS(cv, Point2f)
+DEFINE_SEQUENCE_FOR_VECTOR_NS(cv, Point3i)
+DEFINE_SEQUENCE_FOR_VECTOR_NS(cv, Point3f)
+DEFINE_SEQUENCE_FOR_VECTOR_NS(cv, Mat)
+DEFINE_SEQUENCE_FOR_VECTOR_NS(cv, MatND)
+DEFINE_SEQUENCE_FOR_VECTOR_NS(cv, KeyPoint)
+
+// ================================================================================================
+
+DEFINE_SEQUENCE_FOR_VECTOR_VECTOR(int)
+DEFINE_SEQUENCE_FOR_VECTOR_VECTOR(float)
+DEFINE_SEQUENCE_FOR_VECTOR_VECTOR_NS(cv, Point2f)
+DEFINE_SEQUENCE_FOR_VECTOR_VECTOR_NS(cv, Point3f)
+
+// ================================================================================================
+
 

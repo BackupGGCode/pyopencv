@@ -196,6 +196,16 @@ def beautify_func_list(self, func_list):
                         f._transformer_creators.append(FT.input_array1d('_newsz', '_newndims'))
                         break
 
+    # function argument std::vector<>
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            if arg.type.decl_string.startswith("::std::vector<std::vector<"):
+                f._transformer_creators.append(FT.input_std_vector_vector(arg.name))
+            elif arg.type.decl_string.startswith("::std::vector<"):
+                f._transformer_creators.append(FT.input_std_vector(arg.name))
+
     # function argument IplImage *, CvMat *, CvArr *, and std::vector<> into cv::Mat
     for f in func_list:
         for arg in f.arguments:
@@ -204,8 +214,7 @@ def beautify_func_list(self, func_list):
             for typename in ("::IplImage *", "::IplImage const *", 
                 "::CvArr *", "::CvArr const *", 
                 "::CvMat *", "::CvMat const *", 
-                "::cv::Range const *",
-                "::std::vector<"):
+                "::cv::Range const *",):
                 if typename in arg.type.decl_string:
                     break
             else:
@@ -388,7 +397,8 @@ mb.beautify_func_list(opencv_funs)
 #=============================================================================
 
 
-# mb.classes(lambda x: x.alias.startswith("vector_less")).exclude()
+mb.decls(lambda x: x.name.startswith("vector")).exclude()
+mb.decls(lambda x: x.name.startswith("vector")).set_already_exposed(True)
 for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION', 
     'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
     ):
