@@ -54,6 +54,8 @@ convertImage = cvConvertImage
         ):
         mb.free_fun(z).include()
         
+    mb.free_fun('imencode')._transformer_creators.append(FT.output_std_vector('buf'))
+        
     # VideoCapture
     z = mb.class_('VideoCapture')
     z.include()    

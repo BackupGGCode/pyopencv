@@ -28,12 +28,11 @@ def generate_code(mb, cc, D, FT, CP):
     # pointers which are not Cv... * are excluded until further requested
     for z in (
         'CvLSHOperations',
-        'CvSURFPoint', 'CvSURFParams',
+        'CvSURFPoint', 
         'CvMSERParams', 
         'CvStarKeypoint',
-        'CvStarDetectorParams', 
         'CvPOSITObject',
-        'CvStereoBMState', 'CvStereoGCState', 
+        'CvStereoGCState', 
         ):
         k = mb.class_(z)
         k.include()
@@ -620,9 +619,8 @@ CV_HOUGH_GRADIENT = 3
         'cvFitLine',
         'cvFindFeatures', 'cvFindFeaturesBoxed',
         'LSHSize', 'cvLSHAdd', 'cvLSHRemove', 'cvLSHQuery',
-        'cvSURFPoint', 'cvSURFParams',
-        'cvMSERParams',
-        'cvStarKeypoint', 'cvStarDetectorParams',
+        'cvSURFPoint',
+        'cvStarKeypoint', 
         ):
         mb.free_fun(z).include()
 

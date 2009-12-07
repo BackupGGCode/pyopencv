@@ -58,34 +58,89 @@ def generate_code(mb, cc, D, FT, CP):
     z.decls().exclude()
     
     # StereoBM
-    # TODO: fix the rest of the member declarations
     z = mb.class_('StereoBM')
     z.include()
-    z.decls().exclude()
+    z.var('state').exclude()
     
     # KeyPoint
     mb.class_('KeyPoint').include()
+    mb.class_(lambda x: x.name.startswith('vector<cv::KeyPoint')).exclude()
     
     # SURF
-    # TODO: fix the rest of the member declarations
     z = mb.class_('SURF')
     z.include()
-    z.decls().exclude()
+    z.operators().exclude()
+    z.include_files.append("opencv_extra.hpp")
+    z.add_declaration_code('''
+static boost::python::tuple call1( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask ){
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    inst.operator()(img, mask, keypoints2);
+    return convert_vector_to_seq(keypoints2);
+}
+
+static boost::python::tuple call2( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::tuple keypoints, bool useProvidedKeypoints=false ){
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    std::vector<float, std::allocator<float> > descriptors2;
+    convert_seq_to_vector(keypoints, keypoints2);
+    inst.operator()(img, mask, keypoints2, descriptors2, useProvidedKeypoints);
+    keypoints = convert_vector_to_seq(keypoints2);
+    return bp::make_tuple( keypoints, convert_vector_to_seq(descriptors2) );
+}
+
+    ''')
+    z.add_registration_code('''def( 
+            "__call__"
+            , (boost::python::object (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const & ))( &call1 )
+            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask") ) )''')
+    z.add_registration_code('''def( 
+            "__call__"
+            , (boost::python::tuple (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::tuple,bool ))( &call2 )
+            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("useProvidedKeypoints")=(bool)(false) ) )''')
+    mb.class_('CvSURFParams').include()
+
     
     # MSER
-    # TODO: fix the rest of the member declarations
     z = mb.class_('MSER')
-    z.include()
-    z.decls().exclude()
+    mb.init_class(z)
+    z.operators().exclude()
+    z.include_files.append("opencv_extra.hpp")
+    z.add_declaration_code('''
+static boost::python::object call1( ::cv::MSER const & inst, ::cv::Mat & image, ::cv::Mat const & mask ){
+    std::vector< std::vector< cv::Point > > msers2;
+    inst.operator()(image, msers2, mask);
+    return convert_vector_vector_to_seq(msers2);
+}
+
+    ''')
+    z.add_registration_code('''def( 
+            "__call__"
+            , (boost::python::object (*)( ::cv::MSER const &,::cv::Mat &,::cv::Mat const & ))( &call1 )
+            , ( bp::arg("inst"), bp::arg("image"), bp::arg("mask") ) )''')
+    mb.finalize_class(z)
+    mb.class_('CvMSERParams').include()
     
     # StarDetector
-    # TODO: fix the rest of the member declarations
     z = mb.class_('StarDetector')
-    z.include()
-    z.decls().exclude()
+    mb.init_class(z)
+    z.operators().exclude()
+    z.include_files.append("opencv_extra.hpp")
+    z.add_declaration_code('''
+static boost::python::object call1( ::cv::StarDetector const & inst, ::cv::Mat const & image ){
+    std::vector< cv::KeyPoint > keypoints2;
+    inst.operator()(image, keypoints2);
+    return convert_vector_to_seq(keypoints2);
+}
+
+    ''')
+    z.add_registration_code('''def( 
+            "__call__"
+            , (boost::python::object (*)( ::cv::StarDetector const &,::cv::Mat const & ))( &call1 )
+            , ( bp::arg("inst"), bp::arg("image") ) )''')
+    mb.finalize_class(z)
+    mb.class_('CvStarDetectorParams').include()
     
     # CvLevMarq
-    # TODO: fix the rest of the member declarations
+    # not yet documented, wait until requested: fix the rest of the member declarations
     z = mb.class_('CvLevMarq')
     z.include()
     z.decls().exclude()
@@ -94,7 +149,7 @@ def generate_code(mb, cc, D, FT, CP):
     mb.class_('lsh_hash').include()
     
     # CvLSHOperations
-    # TODO: fix the rest of the member declarations
+    # not yet documented, wait until requested: fix the rest of the member declarations
     z = mb.class_('CvLSHOperations')
     z.include()
     z.decls().exclude()
@@ -111,7 +166,8 @@ def generate_code(mb, cc, D, FT, CP):
         'copyMakeBorder', 'medianBlur', 'GaussianBlur', 'bilateralFilter',
         'boxFilter', 'blur', 'filter2D', 'sepFilter2D', 'Sobel', 'Scharr',
         'Laplacian', 'Canny', 'cornerMinEigenVal', 'cornerHarris', 
-        'cornerEigenValsAndVecs', 'preCornerDetect', 'erode', 'dilate', 
+        'cornerEigenValsAndVecs', 'preCornerDetect', 'cornerSubPix', 
+        'erode', 'dilate', 
         'morphologyEx', 'resize', 'warpAffine', 'warpPerspective', 'remap',
         'convertMaps', 'getRotationMatrix2D', 'invertAffineTransform', 
         'getRectSubPix', 'integral', 'accumulate', 'accumulateSquare', 
@@ -120,14 +176,16 @@ def generate_code(mb, cc, D, FT, CP):
         'initUndistortRectifyMap', 'getDefaultNewCameraMatrix', 
         'calcOpticalFlowFarneback', 'compareHist', 'equalizeHist', 'watershed',
         'inpaint', 'distanceTransform', 'cvtColor', 'moments', 'matchTemplate',
+        'drawContours', 
         'arcLength', 'boundingRect', 'contourArea', 'minAreaRect', 
         'minEnclosingCircle', 'matchShapes', 'isContourConvex', 'fitEllipse',
         'fitLine', 'pointPolygonTest', 'updateMotionHistory', 
         'calcMotionGradient', 'calcGlobalOrientation', 'CamShift', 'meanShift', 
+        'estimateAffine3D', 'groupRectangles',
         'Rodrigues', 'RQDecomp3x3', 'decomposeProjectionMatrix', 'matMulDeriv', 
-        'composeRT', 'solvePnP', 'drawChessboardCorners', 
-        'calibrationMatrixValues', 'stereoRectify', 'stereoRectifyUncalibrated', 
-        'reprojectImageTo3D', 
+        'composeRT', 'solvePnP', 'initCameraMatrix2D', 'drawChessboardCorners', 
+        'calibrationMatrixValues', 'stereoCalibrate', 'stereoRectify', 
+        'stereoRectifyUncalibrated', 'reprojectImageTo3D', 
         ):
         mb.free_funs(z).include()
 
@@ -135,14 +193,60 @@ def generate_code(mb, cc, D, FT, CP):
     # getLinearRowFilter, getLinearColumnFilter, getLinearFilter, createSeparableLinearFilter, createLinearFilter
     # createGaussianFilter,  createDerivFilter, getRowSumFilter, getColumnSumFilter, createBoxFilter
     # getMorphologyRowFilter, getMorphologyColumnFilter, getMorphologyFilter
-    # createMorphologyFilter,  cornerSubPix, goodFeaturesToTrack, HoughLines, HoughLinesP, HoughCircles,
-    # getPerspectiveTransform, getAffineTransform, buildPyramid, calcOpticalFlowPyrLK
-    # calcHist, calcBackProject, floodFill, HuMoments, findContours, drawContours, approxPolyDP
-    # convexHull, estimateAffine3D, groupRectangles, undistortPoints, findHomography
-    # projectPoints, initCameraMatrix2D, findChessboardCorners, calibrateCamera, stereoCalibrate
-    # convertPointsHomogeneous, findFundamentalMat, computeCorrespondEpilines
+    # createMorphologyFilter,  , 
+    
+    # getPerspectiveTransform, getAffineTransform
+    for t in ('getPerspectiveTransform', 'getAffineTransform'):
+        FT.expose_func(mb.free_fun(t), return_pointee=False, 
+            transformer_creators=[FT.input_array1d('src'), FT.input_array1d('dst')])
+            
+    # goodFeaturesToTrack
+    FT.expose_func(mb.free_fun('goodFeaturesToTrack'), return_pointee=False, transformer_creators=[FT.output_std_vector('corners')])
+
+    # 'HoughCircles', 'HoughLines', 'HoughLinesP'
+    FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, transformer_creators=[FT.output_std_vector('circles')])
+    FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, transformer_creators=[FT.output_std_vector('lines')])
+    FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, transformer_creators=[FT.output_std_vector('lines')])
+            
+    #buildPyramid
+    FT.expose_func(mb.free_fun('buildPyramid'), return_pointee=False, transformer_creators=[FT.output_std_vector('dst')])
+    
+    # calcOpticalFlowPyrLK
+    FT.expose_func(mb.free_fun('calcOpticalFlowPyrLK'), return_pointee=False, 
+        transformer_creators=[FT.output_std_vector('nextPts'), FT.output_std_vector('status'), 
+            FT.output_std_vector('err')])
+    
+    # TODO
+    # calcHist, calcBackProject, floodFill, 
+    
+    # HuMoments, 
+    FT.expose_func(mb.free_fun('HuMoments'), return_pointee=False,
+        transformer_creators=[FT.input_array1d('hu')])
+        
+    # TODO:
+    # findContours, , approxPolyDP
+    # convexHull, undistortPoints, findHomography
+    # projectPoints, 
+    
+    # findChessboardCorners
+    FT.expose_func(mb.free_fun('findChessboardCorners'), return_pointee=False,
+        transformer_creators=[FT.output_std_vector('corners')])
+        
+    # calibrateCamera
+    FT.expose_func(mb.free_fun('calibrateCamera'), return_pointee=False,
+        transformer_creators=[FT.output_std_vector('rvecs'), FT.output_std_vector('tvecs')])
+    
+    # TODO: 
+    # convertPointsHomogeneous, findFundamentalMat
+    
+    # computeCorrespondEpilines
+    FT.expose_func(mb.free_fun('computeCorrespondEpilines'), return_pointee=False,
+        transformer_creators=[FT.output_std_vector('lines')])
+    
+    
+    # TODO:
     # write, read
     
-    # TODO: missing functions
+    # wait until requested: missing functions
     # 'estimateRigidTransform', 
     

@@ -1087,3 +1087,211 @@ def output_as_Mat( *args, **keywd ):
         return output_as_Mat_t( function, *args, **keywd )
     return creator
 
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+# input_std_vector_t
+class input_std_vector_t(transformer_t):
+    """Provides a Python sequence interface to an input/inout argument of type std::vector."""
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "input_std_vector(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg(self.arg.name)
+        w_arg.type = _D.dummy_type_t("bp::tuple")
+
+        # default value
+        if self.arg.default_value is not None:
+            w_arg.default_value = 'convert_vector_to_seq(%s)' % self.arg.default_value
+
+        # intermediate variable
+        v = controller.declare_variable( _D.remove_const(_D.remove_reference(self.arg.type)), self.arg.name )
+        
+        # pre_call
+        controller.add_pre_call_code("convert_seq_to_vector(%s, %s);" % (w_arg.name, v))
+        
+        # call
+        controller.modify_arg_expression( self.arg_index, v)
+        
+        # is inout
+        if not 'const' in self.arg.type.partial_decl_string:
+            controller.add_post_call_code("%s = convert_vector_to_seq(%s);" % (w_arg.name, v))
+            controller.return_variable(w_arg.name)
+            
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_extra.hpp"]
+
+def input_std_vector( *args, **keywd ):
+    def creator( function ):
+        return input_std_vector_t( function, *args, **keywd )
+    return creator
+    
+# output_std_vector_t
+class output_std_vector_t(transformer_t):
+    """Provides a Python sequence interface to an output argument of type std::vector."""
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "output_std_vector(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        controller.remove_wrapper_arg( self.arg.name )
+        etype = _D.remove_const(_D.remove_reference(self.arg.type))
+        w = controller.declare_variable( _D.dummy_type_t( "bp::tuple" ), self.arg.name )
+        v = controller.declare_variable( etype, self.arg.name )
+        controller.add_post_call_code("%s = convert_vector_to_seq(%s);" % (w, v))
+        controller.modify_arg_expression( self.arg_index, v )
+        controller.return_variable(w)
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_extra.hpp"]
+
+def output_std_vector( *args, **keywd ):
+    def creator( function ):
+        return output_std_vector_t( function, *args, **keywd )
+    return creator
+
+    
+    
+# input_std_vector_vector_t
+class input_std_vector_vector_t(transformer_t):
+    """Provides a Python sequence interface to an input/inout argument of type std::vector_vector."""
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "input_std_vector_vector(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg(self.arg.name)
+        w_arg.type = _D.dummy_type_t("bp::tuple")
+
+        # default value
+        if self.arg.default_value is not None:
+            w_arg.default_value = 'convert_vector_vector_to_seq(%s)' % self.arg.default_value
+
+        # intermediate variable
+        v = controller.declare_variable( _D.remove_const(_D.remove_reference(self.arg.type)), self.arg.name )
+        
+        # pre_call
+        controller.add_pre_call_code("convert_seq_to_vector_vector(%s, %s);" % (w_arg.name, v))
+        
+        # call
+        controller.modify_arg_expression( self.arg_index, v)
+        
+        # is inout
+        if not 'const' in self.arg.type.partial_decl_string:
+            controller.add_post_call_code("%s = convert_vector_vector_to_seq(%s);" % (w_arg.name, v))
+            controller.return_variable(w_arg.name)
+            
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_extra.hpp"]
+
+def input_std_vector_vector( *args, **keywd ):
+    def creator( function ):
+        return input_std_vector_vector_t( function, *args, **keywd )
+    return creator
+    
+# output_std_vector_vector_t
+class output_std_vector_vector_t(transformer_t):
+    """Provides a Python sequence interface to an output argument of type std::vector_vector."""
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "output_std_vector_vector(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        controller.remove_wrapper_arg( self.arg.name )
+        etype = _D.remove_const(_D.remove_reference(self.arg.type))
+        w = controller.declare_variable( _D.dummy_type_t( "bp::tuple" ), self.arg.name )
+        v = controller.declare_variable( etype, self.arg.name )
+        controller.add_post_call_code("%s = convert_vector_vector_to_seq(%s);" % (w, v))
+        controller.modify_arg_expression( self.arg_index, v )
+        controller.return_variable(w)
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_extra.hpp"]
+
+def output_std_vector_vector( *args, **keywd ):
+    def creator( function ):
+        return output_std_vector_vector_t( function, *args, **keywd )
+    return creator
+
