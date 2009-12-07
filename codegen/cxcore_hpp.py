@@ -200,7 +200,7 @@ KLASS.__repr__ = _KLASS__repr__
     z.var('ptr').exclude()
     # replace operator*() with 'get_pixel_addr', not the best solution, if you have a better one, send me a patch
     z.add_wrapper_code('int get_pixel_addr() { return (int)(cv::LineIterator::operator*()); }')
-    z.add_registration_code('def("get_pixel_addr", &LineIterator_wrapper::get_pixel_addr)')
+    z.add_registration_code('def("__call__", &LineIterator_wrapper::get_pixel_addr)')
     # replace operator++() with 'inc'
     z.operators('++').exclude()
     z.add_wrapper_code('LineIterator & inc() { return this->operator++(); }')

@@ -217,7 +217,53 @@ static boost::python::object call1( ::cv::StarDetector const & inst, ::cv::Mat c
             FT.output_std_vector('err')])
     
     # TODO
-    # calcHist, calcBackProject, floodFill, 
+    # calcBackProject, floodFill, 
+    
+    # calcHist
+    mb.free_funs('calcHist').exclude()
+    mb.add_declaration_code('''
+static void sd_calcHist( bp::tuple const & images, bp::tuple const & channels, 
+    ::cv::Mat const & mask, bp::object &hist, int dims, bp::tuple const & histSize, 
+    bp::tuple const & ranges, bool uniform=true, bool accumulate=false ){
+    std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
+    std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
+    std::vector< int > histSize2; convert_seq_to_vector(histSize, histSize2);
+    std::vector< std::vector < float > > ranges2; convert_seq_to_vector_vector(ranges, ranges2);
+    std::vector< float const * > ranges3;
+    ranges3.resize(ranges2.size());
+    for(unsigned int i = 0; i < ranges2.size(); ++i ) ranges3[i] = &ranges2[i][0];
+    
+    bp::extract< ::cv::MatND & > hist_matnd(hist);
+    bp::extract< ::cv::SparseMat & > hist_sparsemat(hist);
+    
+    if(hist_matnd.check())
+    {
+        cv::MatND &hist_matnd2 = hist_matnd();
+        cv::calcHist(&images2[0], images2.size(), &channels2[0], mask,
+            hist_matnd2, dims, &histSize2[0], &ranges3[0], uniform, accumulate);
+    }
+    else if(hist_sparsemat.check())
+    {
+        cv::SparseMat &hist_sparsemat2 = hist_sparsemat();
+        cv::calcHist(&images2[0], images2.size(), &channels2[0], mask,
+            hist_sparsemat2, dims, &histSize2[0], &ranges3[0], uniform, accumulate);
+    }
+    else
+    {
+        PyErr_SetString(PyExc_NotImplementedError, "Only 'MatND' and 'SparseMat' are acceptable types for argument 'hist'.");
+        throw bp::error_already_set(); 
+    }
+}
+    ''')
+    mb.add_registration_code('''bp::def( 
+        "calcHist"
+        , (void (*)( bp::tuple const &, bp::tuple const &, ::cv::Mat const &, 
+            bp::object &, int, bp::tuple const &, bp::tuple const &, bool, 
+            bool ))( &sd_calcHist )
+        , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), 
+            bp::arg("hist"), bp::arg("dims"), bp::arg("histSize"), 
+            bp::arg("ranges"), bp::arg("uniform")=bp::object(true), 
+            bp::arg("accumulate")=bp::object(false) ) );''')
     
     # HuMoments, 
     FT.expose_func(mb.free_fun('HuMoments'), return_pointee=False,
