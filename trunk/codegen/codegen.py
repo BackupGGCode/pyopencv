@@ -160,6 +160,7 @@ def init_class(self, z):
         pass
     for fun in funs:
         fun._transformer_creators = []
+        fun._transformer_kwds = {}
     z._funs = funs
 module_builder.module_builder_t.init_class = init_class
 
@@ -270,7 +271,7 @@ def beautify_func_list(self, func_list):
     # final step: apply all the function transformations
     for f in func_list:
         if len(f._transformer_creators) > 0:
-            f.add_transformation(*f._transformer_creators)
+            f.add_transformation(*f._transformer_creators, **f._transformer_kwds)
             
 module_builder.module_builder_t.beautify_func_list = beautify_func_list
 
@@ -322,6 +323,7 @@ opencv_funs = mb.free_funs() # mb.free_funs(lambda decl: decl.name.startswith('c
 # initialize list of transformer creators for each function
 for z in opencv_funs:
     z._transformer_creators = []
+    z._transformer_kwds = {}
 
 # turn on 'most' of the constants
 for z in ('IPL_', 'CV_'):

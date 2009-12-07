@@ -445,7 +445,16 @@ static bp::object sd_findHomography( cv::Mat const &srcPoints, cv::Mat const &ds
             bp::arg("ransacReprojThreshold")=bp::object(0) ) );''')
         
     # TODO:
-    # projectPoints, 
+    # projectPoints
+    mb.free_funs('projectPoints').exclude()
+    z = mb.free_fun(lambda x: x.name=='projectPoints' and len(x.arguments)==6)
+    z._transformer_kwds['alias'] = 'projectPoints'
+    FT.expose_func(z, return_pointee=False, transformer_creators=[
+        FT.output_std_vector('imagePoints')])
+    z = mb.free_fun(lambda x: x.name=='projectPoints' and len(x.arguments)==12)
+    z._transformer_kwds['alias'] = 'projectPoints2'
+    FT.expose_func(z, return_pointee=False, transformer_creators=[
+        FT.output_std_vector('imagePoints')])
     
     # findChessboardCorners
     FT.expose_func(mb.free_fun('findChessboardCorners'), return_pointee=False,
