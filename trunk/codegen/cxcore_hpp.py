@@ -199,12 +199,12 @@ KLASS.__repr__ = _KLASS__repr__
     z.operator('*').exclude()
     z.var('ptr').exclude()
     # replace operator*() with 'get_pixel_addr', not the best solution, if you have a better one, send me a patch
-    z.add_wrapper_code('int get_pixel_addr() { return (int)(cv::LineIterator::operator*()); }')
-    z.add_registration_code('def("__call__", &LineIterator_wrapper::get_pixel_addr)')
+    z.add_declaration_code('static int get_pixel_addr(cv::LineIterator &inst) { return (int)(*inst); }')
+    z.add_registration_code('def("get_pixel_addr", &get_pixel_addr)')
     # replace operator++() with 'inc'
     z.operators('++').exclude()
-    z.add_wrapper_code('LineIterator & inc() { return this->operator++(); }')
-    z.add_registration_code('def("inc", bp::make_function(&LineIterator_wrapper::inc, bp::return_self<>()) )')
+    z.add_declaration_code('static cv::LineIterator & inc(cv::LineIterator &inst) { return ++inst; }')
+    z.add_registration_code('def("inc", bp::make_function(&inc, bp::return_self<>()) )')
     
     # MatND
     z = mb.class_('MatND')
@@ -313,19 +313,18 @@ static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(const bp::tuple &_siz
     z.add_registration_code('def("__init__", bp::make_constructor(&SparseMat__init1__))')
     
     z.mem_funs('size').exclude()
-    z.add_wrapper_code('''
-    bp::object my_size(int i = -1) const
-    {
-        if(i >= 0) return bp::object(size(i));
-        
-        bp::list l;
-        const int *sz = size();
-        for(i = 0; i < dims(); ++i) l.append(bp::object(sz[i]));
-        return bp::tuple(l);
-    }
+    z.add_declaration_code('''
+static bp::object my_size(cv::SparseMat const &inst, int i = -1)
+{
+    if(i >= 0) return bp::object(inst.size(i));
     
+    bp::list l;
+    const int *sz = inst.size();
+    for(i = 0; i < inst.dims(); ++i) l.append(bp::object(sz[i]));
+    return bp::tuple(l);
+}
     ''')
-    z.add_registration_code('def("size", &SparseMat_wrapper::my_size, (bp::arg("i")=bp::object(-1)))')
+    z.add_registration_code('def("size", (void (*)(int))(&my_size), (bp::arg("i")=bp::object(-1)))')
     z.mem_fun(lambda x: x.name == 'hash' and 'int const *' in x.arguments[0].type.decl_string) \
         ._transformer_creators.append(FT.input_array1d('idx'))
     for z2 in z.mem_funs('erase'):

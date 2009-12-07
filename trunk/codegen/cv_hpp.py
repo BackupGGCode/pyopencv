@@ -217,7 +217,7 @@ static boost::python::object call1( ::cv::StarDetector const & inst, ::cv::Mat c
             FT.output_std_vector('err')])
     
     # TODO
-    # calcBackProject, floodFill, 
+    # floodFill, 
     
     # calcHist
     mb.free_funs('calcHist').exclude()
@@ -264,6 +264,51 @@ static void sd_calcHist( bp::tuple const & images, bp::tuple const & channels,
             bp::arg("hist"), bp::arg("dims"), bp::arg("histSize"), 
             bp::arg("ranges"), bp::arg("uniform")=bp::object(true), 
             bp::arg("accumulate")=bp::object(false) ) );''')
+    
+    # calcBackProject
+    mb.free_funs('calcBackProject').exclude()
+    mb.add_declaration_code('''
+static void sd_calcBackProject( bp::tuple const & images, bp::tuple const & channels, 
+    bp::object &hist, cv::Mat &backProject, 
+    bp::tuple const & ranges, double scale=1, bool uniform=true ){
+    std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
+    std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
+    std::vector< std::vector < float > > ranges2; convert_seq_to_vector_vector(ranges, ranges2);
+    std::vector< float const * > ranges3;
+    ranges3.resize(ranges2.size());
+    for(unsigned int i = 0; i < ranges2.size(); ++i ) ranges3[i] = &ranges2[i][0];
+    
+    bp::extract< ::cv::MatND & > hist_matnd(hist);
+    bp::extract< ::cv::SparseMat & > hist_sparsemat(hist);
+    
+    if(hist_matnd.check())
+    {
+        cv::MatND &hist_matnd2 = hist_matnd();
+        cv::calcBackProject(&images2[0], images2.size(), &channels2[0], 
+            hist_matnd2, backProject, &ranges3[0], scale, uniform);
+    }
+    else if(hist_sparsemat.check())
+    {
+        cv::SparseMat &hist_sparsemat2 = hist_sparsemat();
+        cv::calcBackProject(&images2[0], images2.size(), &channels2[0], 
+            hist_sparsemat2, backProject, &ranges3[0], scale, uniform);
+    }
+    else
+    {
+        PyErr_SetString(PyExc_NotImplementedError, "Only 'MatND' and 'SparseMat' are acceptable types for argument 'hist'.");
+        throw bp::error_already_set(); 
+    }
+}
+    ''')
+    mb.add_registration_code('''bp::def( 
+        "calcBackProject"
+        , (void (*)( bp::tuple const &, bp::tuple const &, 
+            bp::object &, cv::Mat const &, bp::tuple const &, double, 
+            bool ))( &sd_calcBackProject )
+        , ( bp::arg("images"), bp::arg("channels"), 
+            bp::arg("hist"), bp::arg("backProject"), 
+            bp::arg("ranges"), bp::arg("scale")=bp::object(1.0), 
+            bp::arg("uniform")=bp::object(true) ) );''')
     
     # HuMoments, 
     FT.expose_func(mb.free_fun('HuMoments'), return_pointee=False,
