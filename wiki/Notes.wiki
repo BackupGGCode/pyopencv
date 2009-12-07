@@ -1,13 +1,8 @@
-==Notes to remind me how I should develop PyOpenCv==
+=Notes to remind me how I should develop PyOpenCv=
 
-1) Should I convert every OpenCV's array into a numpy array? It's is a lot more efficient to deal with numpy array than with a collection of (mutually inconsistent) past and current OpenCV arrays.
+==Function output argument==
 
-The following arrays will be replaced by numpy array:
- * CvMat
- * IplImage
- * cv::Mat-like
- * cv::Vec-like
- * std::vector < T >, where T is in (primitive data types and CvPoint-like types)
-
-VideoCapture::operator >> is replaced by VideoCapture::query()
-VideoWriter::operator << is replaced by VideoWriter::write()
+In PyOpenCV, every output argument is treated as an inout argument. This is to preserve  the calling sequence of the function in C++. If you do not know what to specify for an output argument, just key in None. For example, to generate a pyramid of images from a source image 'mat', invoke:
+{{{
+    pyr = buildPyramid(mat, None)
+}}}
