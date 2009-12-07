@@ -376,8 +376,60 @@ static bp::object sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool cl
         , (bp::object (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
         , ( bp::arg("curve"), bp::arg("epsilon"), bp::arg("closed") ) );''')
         
+    # convexHull
+    mb.free_funs('convexHull').exclude()
+    mb.add_declaration_code('''
+static bp::object sd_convexHullIdx( cv::Mat const &points, bool clockwise=false) {
+    std::vector<int> hull;
+    cv::convexHull(points, hull, clockwise);
+    return convert_vector_to_seq(hull);
+}    
+
+static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
+    std::vector<cv::Point> hull2i;
+    std::vector<cv::Point2f> hull2f;
+    bp::object obj;
+    if(points.type() == CV_32SC2)
+    {
+        cv::convexHull(points, hull2i, clockwise);
+        obj = convert_vector_to_seq(hull2i);
+    }
+    else
+    {
+        cv::convexHull(points, hull2f, clockwise);
+        obj = convert_vector_to_seq(hull2f);
+    }
+    return obj;
+}    
+    ''')
+    mb.add_registration_code('''bp::def( 
+        "convexHullIdx"
+        , (bp::object (*)( cv::Mat const &, bool ))( &sd_convexHullIdx )
+        , ( bp::arg("points"), bp::arg("clockwise")=bp::object(false) ) );''')
+    mb.add_registration_code('''bp::def( 
+        "convexHull"
+        , (bp::object (*)( cv::Mat const &, bool ))( &sd_convexHull )
+        , ( bp::arg("points"), bp::arg("clockwise")=bp::object(false) ) );''')
+        
+    # undistortPoints
+    mb.free_funs('undistortPoints').exclude()
+    mb.add_declaration_code('''
+static cv::Mat sd_undistortPoints( cv::Mat const &src, cv::Mat const &cameraMatrix, 
+    cv::Mat const &distCoeffs, cv::Mat const &R, cv::Mat const &P) {
+    cv::Mat dst;
+    cv::undistortPoints(src, dst, cameraMatrix, distCoeffs, R, P);
+    return dst;
+}    
+    ''')
+    mb.add_registration_code('''bp::def( 
+        "undistortPoints"
+        , (bp::object (*)( cv::Mat const &, cv::Mat const &, cv::Mat const &, 
+            cv::Mat const & ))( &sd_undistortPoints )
+        , ( bp::arg("src"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"),
+            bp::arg("R")=bp::object(cv::Mat()), bp::arg("P")=bp::object(cv::Mat()) ) );''')
+        
     # TODO:
-    # convexHull, undistortPoints, findHomography
+    # findHomography
     # projectPoints, 
     
     # findChessboardCorners
