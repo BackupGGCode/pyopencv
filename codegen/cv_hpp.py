@@ -308,48 +308,20 @@ static void sd_calcBackProject( bp::tuple const & images, bp::tuple const & chan
             bp::arg("uniform")=bp::object(true) ) );''')
             
     # floodFill
-    mb.free_funs('floodFill').exclude()
-    mb.add_declaration_code('''
-static bp::tuple sd_floodFill( cv::Mat &image, cv::Point const &seedPoint, 
-    cv::Scalar const &newVal, cv::Mat &mask, cv::Scalar const &loDiff, 
-    cv::Scalar const &upDiff, int flags) {
-    cv::Rect rect;
-    int result;
-    if(mask.empty()) result = cv::floodFill(image, seedPoint, newVal, &rect, loDiff, upDiff, flags);
-    else result = cv::floodFill(image, mask, seedPoint, newVal, &rect, loDiff, upDiff, flags);
-    return bp::make_tuple(result, rect);
-}    
-    ''')
-    mb.add_registration_code('''bp::def( 
-        "floodFill"
-        , (bp::tuple (*)( cv::Mat &, cv::Point const &, cv::Scalar const &, 
-            cv::Mat &, cv::Scalar const &, cv::Scalar const &, int ))( &sd_floodFill )
-        , ( bp::arg("images"), bp::arg("seedPoint"), 
-            bp::arg("newVal"), bp::arg("mask")=bp::object(cv::Mat()), 
-            bp::arg("loDiff")=bp::object(cv::Scalar()), 
-            bp::arg("upDiff")=bp::object(cv::Scalar()), 
-            bp::arg("flags")=bp::object(4) ) );''')
+    for z in mb.free_funs('floodFill'):
+        FT.expose_func(z, return_pointee=False, transformer_creators=[FT.output_type1('rect')])
+        z._transformer_kwds['alias'] = 'floodFill'
     
     # HuMoments, 
     FT.expose_func(mb.free_fun('HuMoments'), return_pointee=False,
         transformer_creators=[FT.input_array1d('hu')])
         
     # findContours
-    mb.free_funs('findContours').exclude()
-    mb.add_declaration_code('''
-static bp::tuple sd_findContours( cv::Mat const &image, int mode, int method, 
-    cv::Point const &offset) {
-    std::vector< std::vector< cv::Point > > contours;
-    std::vector < cv::Vec4i > hierarchy;
-    cv::findContours(image, contours, hierarchy, mode, method, offset);    
-    return bp::make_tuple(convert_vector_vector_to_seq(contours), convert_vector_to_seq(hierarchy));
-}    
-    ''')
-    mb.add_registration_code('''bp::def( 
-        "findContours"
-        , (bp::tuple (*)( cv::Mat &, int, int, cv::Point const & ))( &sd_findContours )
-        , ( bp::arg("images"), bp::arg("mode"), bp::arg("method"), 
-            bp::arg("offset")=bp::object(cv::Point()) ) );''')
+    z = mb.free_fun(lambda x: x.name=='findContours' and len(x.arguments)==6)
+    z.include()
+    z._transformer_kwds['alias'] = 'findContours'
+    z._transformer_creators.append(FT.output_std_vector_vector('contours'))
+    z._transformer_creators.append(FT.output_std_vector('hierarchy'))
         
     # approxPolyDP
     mb.free_funs('approxPolyDP').exclude()
@@ -378,13 +350,11 @@ static bp::object sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool cl
         
     # convexHull
     mb.free_funs('convexHull').exclude()
+    z = mb.free_fun(lambda x: x.name=='convexHull' and 'vector<int' in x.arguments[1].type.decl_string)
+    z._transformer_kwds['alias'] = 'convexHullIdx'
+    z._transformer_creators.append(FT.output_std_vector('hull'))
+    
     mb.add_declaration_code('''
-static bp::object sd_convexHullIdx( cv::Mat const &points, bool clockwise=false) {
-    std::vector<int> hull;
-    cv::convexHull(points, hull, clockwise);
-    return convert_vector_to_seq(hull);
-}    
-
 static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
     std::vector<cv::Point> hull2i;
     std::vector<cv::Point2f> hull2f;
@@ -403,48 +373,23 @@ static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
 }    
     ''')
     mb.add_registration_code('''bp::def( 
-        "convexHullIdx"
-        , (bp::object (*)( cv::Mat const &, bool ))( &sd_convexHullIdx )
-        , ( bp::arg("points"), bp::arg("clockwise")=bp::object(false) ) );''')
-    mb.add_registration_code('''bp::def( 
         "convexHull"
         , (bp::object (*)( cv::Mat const &, bool ))( &sd_convexHull )
         , ( bp::arg("points"), bp::arg("clockwise")=bp::object(false) ) );''')
         
     # undistortPoints
-    mb.free_funs('undistortPoints').exclude()
-    mb.add_declaration_code('''
-static cv::Mat sd_undistortPoints( cv::Mat const &src, cv::Mat const &cameraMatrix, 
-    cv::Mat const &distCoeffs, cv::Mat const &R, cv::Mat const &P) {
-    cv::Mat dst;
-    cv::undistortPoints(src, dst, cameraMatrix, distCoeffs, R, P);
-    return dst;
-}    
-    ''')
-    mb.add_registration_code('''bp::def( 
-        "undistortPoints"
-        , (cv::Mat (*)( cv::Mat const &, cv::Mat const &, cv::Mat const &, 
-            cv::Mat const &, cv::Mat const & ))( &sd_undistortPoints )
-        , ( bp::arg("src"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"),
-            bp::arg("R")=bp::object(cv::Mat()), bp::arg("P")=bp::object(cv::Mat()) ) );''')
+    mb.free_funs('undistortPoints').include()
+    z = mb.free_fun(lambda x: x.name=='undistortPoints' and 'vector' in x.decl_string)
+    z._transformer_kwds['alias'] = 'undistortPoints2'
+    z._transformer_creators.append(FT.output_std_vector('dst'))
         
     # findHomography
-    mb.free_funs('findHomography').exclude()
-    mb.add_declaration_code('''
-static bp::object sd_findHomography( cv::Mat const &srcPoints, cv::Mat const &dstPoints,
-   int method, double ransacReprojThreshold ) {
-    std::vector < uchar > mask;
-    cv::findHomography(srcPoints, dstPoints, mask, method, ransacReprojThreshold);
-    return convert_vector_to_seq(mask);
-}    
-    ''')
-    mb.add_registration_code('''bp::def( 
-        "findHomography"
-        , (bp::object (*)( cv::Mat const &, cv::Mat const &, int, int ))( &sd_findHomography )
-        , ( bp::arg("srcPoints"), bp::arg("dstPoints"), bp::arg("method")=bp::object(0),
-            bp::arg("ransacReprojThreshold")=bp::object(0) ) );''')
+    z = mb.free_fun(lambda x: x.name=='findHomography' and len(x.arguments)==4).include()
+    z = mb.free_fun(lambda x: x.name=='findHomography' and 'vector' in x.decl_string)
+    z.include()
+    z._transformer_kwds['alias'] = 'findHomography2'
+    z._transformer_creators.append(FT.output_std_vector('mask'))
         
-    # TODO:
     # projectPoints
     mb.free_funs('projectPoints').exclude()
     z = mb.free_fun(lambda x: x.name=='projectPoints' and len(x.arguments)==6)
@@ -464,8 +409,19 @@ static bp::object sd_findHomography( cv::Mat const &srcPoints, cv::Mat const &ds
     FT.expose_func(mb.free_fun('calibrateCamera'), return_pointee=False,
         transformer_creators=[FT.output_std_vector('rvecs'), FT.output_std_vector('tvecs')])
     
-    # TODO: 
-    # convertPointsHomogeneous, findFundamentalMat
+    # convertPointsHomogeneous
+    for z in mb.free_funs('convertPointsHomogeneous'):
+        z.include()
+        z._transformer_creators.append(FT.output_std_vector('dst'))
+        if 'Point3' in z.decl_string:
+            z._transformer_kwds['alias'] = 'convertPointsHomogeneous2'
+        
+    # findFundamentalMat
+    for z in mb.free_funs('findFundamentalMat'):
+        z.include()
+        if 'vector' in z.decl_string:
+            z._transformer_creators.append(FT.output_std_vector('mask'))
+            z._transformer_kwds['alias'] = 'findFundamentalMat2'
     
     # computeCorrespondEpilines
     FT.expose_func(mb.free_fun('computeCorrespondEpilines'), return_pointee=False,
@@ -475,6 +431,6 @@ static bp::object sd_findHomography( cv::Mat const &srcPoints, cv::Mat const &ds
     # TODO:
     # write, read
     
-    # wait until requested: missing functions
+    # TODO: missing functions
     # 'estimateRigidTransform', 
     
