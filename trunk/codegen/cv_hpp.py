@@ -216,9 +216,6 @@ static boost::python::object call1( ::cv::StarDetector const & inst, ::cv::Mat c
         transformer_creators=[FT.output_std_vector('nextPts'), FT.output_std_vector('status'), 
             FT.output_std_vector('err')])
     
-    # TODO
-    # floodFill, 
-    
     # calcHist
     mb.free_funs('calcHist').exclude()
     mb.add_declaration_code('''
@@ -309,6 +306,29 @@ static void sd_calcBackProject( bp::tuple const & images, bp::tuple const & chan
             bp::arg("hist"), bp::arg("backProject"), 
             bp::arg("ranges"), bp::arg("scale")=bp::object(1.0), 
             bp::arg("uniform")=bp::object(true) ) );''')
+            
+    # floodFill
+    mb.free_funs('floodFill').exclude()
+    mb.add_declaration_code('''
+static bp::tuple sd_floodFill( cv::Mat &image, cv::Point const &seedPoint, 
+    cv::Scalar const &newVal, cv::Mat &mask, cv::Scalar const &loDiff, 
+    cv::Scalar const &upDiff, int flags) {
+    cv::Rect rect;
+    int result;
+    if(mask.empty()) result = cv::floodFill(image, seedPoint, newVal, &rect, loDiff, upDiff, flags);
+    else result = cv::floodFill(image, mask, seedPoint, newVal, &rect, loDiff, upDiff, flags);
+    return bp::make_tuple(result, rect);
+}    
+    ''')
+    mb.add_registration_code('''bp::def( 
+        "floodFill"
+        , (bp::tuple (*)( cv::Mat &, cv::Point const &, cv::Scalar const &, 
+            cv::Mat &, cv::Scalar const &, cv::Scalar const &, int ))( &sd_floodFill )
+        , ( bp::arg("images"), bp::arg("seedPoint"), 
+            bp::arg("newVal"), bp::arg("mask")=bp::object(cv::Mat()), 
+            bp::arg("loDiff")=bp::object(cv::Scalar()), 
+            bp::arg("upDiff")=bp::object(cv::Scalar()), 
+            bp::arg("flags")=bp::object(4) ) );''')
     
     # HuMoments, 
     FT.expose_func(mb.free_fun('HuMoments'), return_pointee=False,
