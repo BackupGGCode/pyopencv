@@ -4,5 +4,5 @@
 
 || *OpenCV* || *PyOpenCV* ||
 || cv::LineIterator || LineIterator ||
-|| cv::LineIterator::operator* || LineIterator.get_pixel_addr ||
+|| cv::LineIterator::operator* || LineIterator.operator() ||
 || cv::LineIterator::operator++ || LineIterator.inc ||
