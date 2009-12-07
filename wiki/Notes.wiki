@@ -2,7 +2,7 @@
 
 ==Function output argument==
 
-In PyOpenCV, every output argument is treated as an inout argument. This is to preserve  the calling sequence of the function in C++. If you do not know what to specify for an output argument, just key in None. For example, to generate a pyramid of images from a source image 'mat', invoke:
+In PyOpenCV, sometimes an output argument is treated as an inout argument. This is to preserve the calling sequence of the function in C++. If you do not know what to specify for an output argument, just key in None. For example, to generate a pyramid of images from a source image 'mat', invoke:
 {{{
     pyr = buildPyramid(mat, None)
 }}}
