@@ -334,8 +334,49 @@ static bp::tuple sd_floodFill( cv::Mat &image, cv::Point const &seedPoint,
     FT.expose_func(mb.free_fun('HuMoments'), return_pointee=False,
         transformer_creators=[FT.input_array1d('hu')])
         
+    # findContours
+    mb.free_funs('findContours').exclude()
+    mb.add_declaration_code('''
+static bp::tuple sd_findContours( cv::Mat const &image, int mode, int method, 
+    cv::Point const &offset) {
+    std::vector< std::vector< cv::Point > > contours;
+    std::vector < cv::Vec4i > hierarchy;
+    cv::findContours(image, contours, hierarchy, mode, method, offset);    
+    return bp::make_tuple(convert_vector_vector_to_seq(contours), convert_vector_to_seq(hierarchy));
+}    
+    ''')
+    mb.add_registration_code('''bp::def( 
+        "findContours"
+        , (bp::tuple (*)( cv::Mat &, int, int, cv::Point const & ))( &sd_findContours )
+        , ( bp::arg("images"), bp::arg("mode"), bp::arg("method"), 
+            bp::arg("offset")=bp::object(cv::Point()) ) );''')
+        
+    # approxPolyDP
+    mb.free_funs('approxPolyDP').exclude()
+    mb.add_declaration_code('''
+static bp::object sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
+    std::vector<cv::Point> point2i;
+    std::vector<cv::Point2f> point2f;
+    bp::object obj;
+    if(curve.type() == CV_32SC2) 
+    {
+        cv::approxPolyDP(curve, point2i, epsilon, closed);
+        obj = convert_vector_to_seq(point2i);
+    }
+    else
+    {
+        cv::approxPolyDP(curve, point2f, epsilon, closed);
+        obj = convert_vector_to_seq(point2f);
+    }
+    return obj;
+}    
+    ''')
+    mb.add_registration_code('''bp::def( 
+        "approxPolyDP"
+        , (bp::object (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
+        , ( bp::arg("curve"), bp::arg("epsilon"), bp::arg("closed") ) );''')
+        
     # TODO:
-    # findContours, , approxPolyDP
     # convexHull, undistortPoints, findHomography
     # projectPoints, 
     
