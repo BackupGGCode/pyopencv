@@ -424,12 +424,27 @@ static cv::Mat sd_undistortPoints( cv::Mat const &src, cv::Mat const &cameraMatr
     mb.add_registration_code('''bp::def( 
         "undistortPoints"
         , (bp::object (*)( cv::Mat const &, cv::Mat const &, cv::Mat const &, 
-            cv::Mat const & ))( &sd_undistortPoints )
+            cv::Mat const &, cv::Mat const & ))( &sd_undistortPoints )
         , ( bp::arg("src"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"),
             bp::arg("R")=bp::object(cv::Mat()), bp::arg("P")=bp::object(cv::Mat()) ) );''')
         
-    # TODO:
     # findHomography
+    mb.free_funs('findHomography').exclude()
+    mb.add_declaration_code('''
+static cv::Mat sd_findHomography( const Mat& srcPoints, const Mat& dstPoints,
+   int method, double ransacReprojThreshold ) {
+    cv::Mat mask;
+    cv::findHomography(srcPoints, dstPoints, mask, method, ransacReprojThreshold);
+    return mask;
+}    
+    ''')
+    mb.add_registration_code('''bp::def( 
+        "findHomography"
+        , (bp::object (*)( cv::Mat const &, cv::Mat const &, int, int ))( &sd_findHomography )
+        , ( bp::arg("srcPoints"), bp::arg("dstPoints"), bp::arg("method")=bp::object(0),
+            bp::arg("ransacReprojThreshold")=bp::object(0) ) );''')
+        
+    # TODO:
     # projectPoints, 
     
     # findChessboardCorners
