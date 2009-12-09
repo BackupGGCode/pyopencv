@@ -145,7 +145,7 @@ CV_64FC3 = CV_MAKETYPE(CV_64F,3)
 CV_64FC4 = CV_MAKETYPE(CV_64F,4)
 
 CV_AUTOSTEP = 0x7fffffff
-CV_WHOLE_ARR  = cvSlice( 0, 0x3fffffff )
+CV_WHOLE_ARR  = _PE.Range( 0, 0x3fffffff )
 
 CV_MAT_CN_MASK = ((CV_CN_MAX - 1) << CV_CN_SHIFT)
 def CV_MAT_CN(flags):
@@ -230,7 +230,7 @@ CV_HIST_UNIFORM       = 1
 # CV_TERMCRIT_EPS     = 2
 
 CV_WHOLE_SEQ_END_INDEX = 0x3fffffff
-CV_WHOLE_SEQ = cvSlice(0, CV_WHOLE_SEQ_END_INDEX)
+CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
 
 
     ''')
@@ -301,28 +301,24 @@ struct CvTermCriteria_to_python
     }
 };
 
+struct CvSlice_to_python
+{
+    static PyObject* convert(CvSlice const& x)
+    {
+        return bp::incref(bp::object(cv::Range(x)).ptr());
+    }
+};
+
     ''')
     mb.add_registration_code('bp::to_python_converter<CvRect, CvRect_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvScalar, CvScalar_to_python, false>();')
-    # mb.add_registration_code('bp::to_python_converter<CvPoint, CvPoint_to_python, false>();') # TODO: omit CvPoint, right now cannot
+    mb.add_registration_code('bp::to_python_converter<CvPoint, CvPoint_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvPoint2D32f, CvPoint2D32f_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvPoint3D32f, CvPoint3D32f_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvSize, CvSize_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvBox2D, CvBox2D_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();')
-
-    for z in (
-        'CvPoint', # TODO: omit CvPoint, right now cannot
-        # 'cvPoint',  # TODO: fix it when this one is uncommented
-        'CvSlice', 'cvSlice',
-        ):
-        mb.decls(lambda decl: decl.name.startswith(z)).include()
-
-    mb.free_fun('cvPoint').include() # TODO: omit CvPoint, right now cannot
-    for t in ('CvPoint2D32f', 'CvPoint3D32f', 'CvPoint2D64f', 'CvPoint3D64f'):
-        mb.class_(t).exclude() # TODO: omit CvPoint, right now cannot
-    mb.free_fun('cvPointSeqFromMat').exclude()  # TODO: fix it when this one is uncommented
-        
+    mb.add_registration_code('bp::to_python_converter<CvSlice, CvSlice_to_python, false>();')        
 
     # Dynamic Data structures
     cc.write('''
