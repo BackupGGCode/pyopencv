@@ -322,7 +322,6 @@ struct CvTermCriteria_to_python
     for t in ('CvPoint2D32f', 'CvPoint3D32f', 'CvPoint2D64f', 'CvPoint3D64f'):
         mb.class_(t).exclude() # TODO: omit CvPoint, right now cannot
     mb.free_fun('cvPointSeqFromMat').exclude()  # TODO: fix it when this one is uncommented
-    mb.free_fun('cvPointPolygonTest').include()  # TODO: fix it when this one is uncommented
         
 
     # Dynamic Data structures

@@ -321,9 +321,9 @@ static void sd_calcBackProject( bp::tuple const & images, bp::tuple const & chan
         FT.expose_func(z, return_pointee=False, transformer_creators=[FT.output_type1('rect')])
         z._transformer_kwds['alias'] = 'floodFill'
     
-    # HuMoments, 
+    # HuMoments
     FT.expose_func(mb.free_fun('HuMoments'), return_pointee=False,
-        transformer_creators=[FT.input_array1d('hu')])
+        transformer_creators=[FT.output_static_array('hu', 7)])
         
     # findContours
     z = mb.free_fun(lambda x: x.name=='findContours' and len(x.arguments)==6)

@@ -27,12 +27,10 @@ def generate_code(mb, cc, D, FT, CP):
     # Data Structures in cv.h
     # pointers which are not Cv... * are excluded until further requested
     for z in (
-        'CvLSHOperations',
         'CvSURFPoint', 
         'CvMSERParams', 
         'CvStarKeypoint',
         'CvPOSITObject',
-        'CvStereoGCState', 
         ):
         k = mb.class_(z)
         k.include()
@@ -60,9 +58,6 @@ CV_BLUR = 1
 CV_GAUSSIAN = 2
 CV_MEDIAN = 3
 CV_BILATERAL = 4
-
-CV_INPAINT_NS = 0
-CV_INPAINT_TELEA = 1
 
 CV_SCHARR = -1
 CV_MAX_SOBEL_KSIZE = 7
@@ -161,11 +156,6 @@ CV_HLS2RGB =    61
 
 CV_COLORCVT_MAX = 100
 
-CV_INTER_NN     = 0
-CV_INTER_LINEAR = 1
-CV_INTER_CUBIC  = 2
-CV_INTER_AREA = 3
-
 CV_WARP_FILL_OUTLIERS = 8
 CV_WARP_INVERSE_MAP = 16
 
@@ -193,54 +183,16 @@ CV_TM_CCOEFF_NORMED = 5
 
     # functions
     for z in (
-        'cvCopyMakeBorder', 'cvSmooth', 'cvFilter2D', 'cvIntegral', 'cvPyrDown', 'cvPyrUp',
-        'cvPyrMeanShiftFiltering', 'cvWatershed', 'cvInpaint', 'cvSobel', 'cvLaplace',
-        'cvCvtColor', 'cvResize', 'cvWarpAffine', 'cvWarpPerspective',
-        'cvRemap', 'cvConvertMaps', 'cvLogPolar', 'cvLinearPolar',
-        'cvErode', 'cvDilate', 'cvMorphologyEx', 
-        'cvMoments', 'cvGetSpatialMoment', 'cvGetCentralMoment', 'cvGetNormalizedCentralMoment', 'cvGetHuMoments',
-        'cvSampleLine', 'cvGetRectSubPix', 'cvGetQuadrangleSubPix',
-        'cvMatchTemplate', 
+        'cvSmooth', 'cvPyrMeanShiftFiltering',         
+        'cvLogPolar', 'cvLinearPolar',
+        'cvSampleLine', 'cvGetQuadrangleSubPix',
         ):
         mb.free_fun(z).include()
         
 
-    # CvPyramid
-    z = mb.class_('CvPyramid')
-    z.include()
-    z.var('pyramid').exclude()
-
-    # cvCreatePyramid and cvReleasePyramid
-    mb.free_fun('cvCreatePyramid').exclude()
-    mb.free_fun('cvReleasePyramid').exclude()
-    z = mb.free_fun('sdCreatePyramid')
-    z.include()
-    z.rename('cvCreatePyramid')
-
-
     # cvPyrSegmentation
     FT.expose_func(mb.free_fun('cvPyrSegmentation'), ward_indices=(3,), transformer_creators=[
         FT.output_type1('comp', ignore_call_policies=False)])
-
-    # cvCreateStructuringElementEx
-    FT.expose_func(mb.free_fun('cvCreateStructuringElementEx'), ownershiplevel=1, transformer_creators=[
-        FT.input_array1d('values')])
-    
-
-    # cvReleaseStructuringElement
-    z = mb.free_fun('cvReleaseStructuringElement')
-    FT.add_underscore(z)
-    z._transformer_creators.append(FT.input_double_pointee('element'))
-
-
-    # cvGetAffineTransform
-    FT.expose_func(mb.free_fun('cvGetAffineTransform'), return_arg_index=3)
-
-    # cv2DRotationMatrix
-    FT.expose_func(mb.free_fun('cv2DRotationMatrix'), return_arg_index=4)
-    
-    # cvGetPerspectiveTransform
-    FT.expose_func(mb.free_fun('cvGetPerspectiveTransform'), return_arg_index=3)
 
     # cvCalcEMD2
     FT.expose_func(mb.free_fun('cvCalcEMD2'), return_pointee=False, transformer_creators=[
@@ -343,7 +295,6 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
     ''')
 
     for z in (
-        'cvCamShift', 'cvMeanShift', 
         'cvConDensUpdateByTime', 'cvConDensInitSampleSet',
         ):
         mb.free_fun(z).include()
@@ -356,20 +307,6 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
     z = mb.free_fun('cvReleaseConDensation')
     FT.add_underscore(z)
     z._transformer_creators.append(FT.input_double_pointee('condens'))
-
-    # cvCreateKalman
-    FT.expose_func(mb.free_fun('cvCreateKalman'), ownershiplevel=1)
-
-    # cvReleaseKalman
-    z = mb.free_fun('cvReleaseKalman')
-    FT.add_underscore(z)
-    z._transformer_creators.append(FT.input_double_pointee('kalman'))
-
-    # cvKalmanPredict
-    FT.expose_func(mb.free_fun('cvKalmanPredict'), ward_indices=(1,))
-
-    # cvKalmanCorrect
-    FT.expose_func(mb.free_fun('cvKalmanCorrect'), ward_indices=(1,))
 
 
     # Planar Subdivisions
@@ -443,64 +380,24 @@ CV_DIST_MASK_3 = 3
 CV_DIST_MASK_5 = 5
 CV_DIST_MASK_PRECISE = 0
 
-CV_THRESH_BINARY = 0      # value = (value > threshold) ? max_value : 0
-CV_THRESH_BINARY_INV = 1  # value = (value > threshold) ? 0 : max_value
-CV_THRESH_TRUNC = 2       # value = (value > threshold) ? threshold : value
-CV_THRESH_TOZERO = 3      # value = (value > threshold) ? value : 0
-CV_THRESH_TOZERO_INV = 4  # value = (value > threshold) ? 0 : value
-CV_THRESH_MASK = 7
-CV_THRESH_OTSU = 8        # use Otsu algorithm to choose the optimal threshold value
-
-CV_ADAPTIVE_THRESH_MEAN_C = 0
-CV_ADAPTIVE_THRESH_GAUSSIAN_C = 1
-
-CV_FLOODFILL_FIXED_RANGE = 1 << 16
-CV_FLOODFILL_MASK_ONLY = 1 << 17
-
     ''')
 
     for z in (
-        'cvBoundingRect', 'cvContourArea', 'cvMinAreaRect2',
-        'cvMatchContourTrees', 'cvCheckContourConvexity',
-        'cvFitEllipse2', 'cvMaxRect', 'cvBoxPoints', 'cvPointPolygonTest',
+        'cvMatchContourTrees', 
+        'cvMaxRect', 'cvBoxPoints', 
         'cvClearHist', 'cvNormalizeHist', 'cvThreshHist', 'cvCompareHist',
         'cvCalcProbDensity', 'cvEqualizeHist',
-        'cvThreshold', 'cvAdaptiveThreshold', 'cvFloodFill',
         ):
         mb.free_fun(z).include()
 
-    # cvMinEnclosingCircle
-    FT.expose_func(mb.free_fun('cvMinEnclosingCircle'), return_pointee=False, transformer_creators=[
-        FT.output_type1('center'), FT.output_type1('radius')])
-
-    # cvApproxPoly
-    FT.expose_func(mb.free_fun('cvApproxPoly'), ward_indices=(3,1), transformer_creators=[
-        FT.fix_type('src_seq', '::CvArr *')])
-
-    # cvArcLength
-    FT.expose_func(mb.free_fun('cvArcLength'), return_pointee=False, transformer_creators=[
-        FT.fix_type('curve', '::CvArr *')])
-    cc.write('''
-def cvContourPerimeter(contour):
-    return cvArcLength(contour, CV_WHOLE_SEQ, 1)
-    ''')
-
     # cvFindDominantPoints
     FT.expose_func(mb.free_fun('cvFindDominantPoints'), ward_indices=(2,))
-
-    # cvMatchshapes
-    FT.expose_func(mb.free_fun('cvMatchShapes'), return_pointee=False, transformer_creators=[
-        FT.fix_type('object1', '::CvArr *'), FT.fix_type('object2', '::CvArr *')])
 
     # cvCreateContourTree
     FT.expose_func(mb.free_fun('cvCreateContourTree'), ward_indices=(2,))
 
     # cvContourFromContourTree
     FT.expose_func(mb.free_fun('cvContourFromContourTree'), ward_indices=(2,))
-
-    # cvConvexHull2
-    FT.expose_func(mb.free_fun('cvConvexHull2'), ward_indices=(1,2), transformer_creators=[
-        FT.fix_type('hull_storage', '::CvArr *')])
 
     # cvConvexityDefects
     FT.expose_func(mb.free_fun('cvConvexityDefects'), ward_indices=(3,1,2))
@@ -614,21 +511,12 @@ CV_HOUGH_GRADIENT = 3
 
     # some functions
     for z in (
-        'cvCanny', 'cvPreCornerDetect', 'cvCornerEigenValsAndVecs', 'cvCornerMinEigenVal', 
-        'cvCornerHarris', 'cvFindCornerSubPix',
-        'cvFitLine',
         'cvFindFeatures', 'cvFindFeaturesBoxed',
         'LSHSize', 'cvLSHAdd', 'cvLSHRemove', 'cvLSHQuery',
         'cvSURFPoint',
         'cvStarKeypoint', 
         ):
         mb.free_fun(z).include()
-
-    # TODO: cvGoodFeatureToTrack
-
-    # cvHoughLines2
-    FT.expose_func(mb.free_fun('cvHoughLines2'), ward_indices=(2,1), transformer_creators=[
-        FT.fix_type('line_storage', '::CvArr *')])
 
     # cvHoughCircles
     FT.expose_func(mb.free_fun('cvHoughCircles'), ward_indices=(2,1), transformer_creators=[
@@ -656,34 +544,59 @@ CV_HOUGH_GRADIENT = 3
     # cvReleaseLSH
     FT.add_underscore(mb.free_fun('cvReleaseLSH'))
 
-    # cvExtractSURF
-    z = mb.free_fun('cvExtractSURF')
-    FT.add_underscore(z)
-    FT.expose_func(z, return_pointee=False, transformer_creators=[
-        FT.inout_type1('keypoints'), FT.output_type1('descriptors')])
+    # POSIT (POSe from ITeration)
     cc.write('''
-def cvExtractSURF(img, mask, keypoints, storage, params, useProvidedKeyPts=0):
-    keypoints, descriptors = _PE._cvExtractSURF(img, mask, keypoints, storage, params, useProvidedKeysPts=useProvidedKeyPts)
-    keypoints._depends = (storage,)
-    descriptors._depends = (storage,)
-    return keypoints, descriptors
-cvExtractSURF.__doc__ = _PE._cvExtractSURF.__doc__
-    ''')
-    mb.add_doc('cvExtractSURF', "both output 'keypoints' and 'descriptors' are returned")
+#-----------------------------------------------------------------------------
+# POSIT (POSe from ITeration)
+#-----------------------------------------------------------------------------
 
-    # cvExtractMSER
-    z = mb.free_fun('cvExtractMSER')
-    FT.add_underscore(z)
-    FT.expose_func(z, return_pointee=False, transformer_creators=[
-        FT.output_type1('contours')])
-    cc.write('''
-def cvExtractMSER(img, mask, storage, params):
-    contours = _PE._cvExtractMSER(img, mask, storage, params)
-    contours._depends = (storage,)
-cvExtractMSER.__doc__ = _PE._cvExtractMSER.__doc__
+
     ''')
 
-    # cvGetStarKeypoints
-    FT.expose_func(mb.free_fun('cvGetStarKeypoints'), ward_indices=(2,))
+    # CvPOSITObject
+    z = mb.class_('CvPOSITObject')
+    z.include()
+    mb.insert_del_interface('CvPOSITObject', '_PE._cvReleasePOSITObject')
+    
+    z = mb.free_fun('cvReleasePOSITObject')
+    FT.add_underscore(z)
+    z._transformer_creators.append(FT.input_double_pointee(0))
+    
+    # cvCreatePOSITObject
+    FT.expose_func(mb.free_fun('cvCreatePOSITObject'), ownershiplevel=1)
 
-    # TODO: wrap the rest of cv.h
+    # some functions
+    for t in (
+        'cvRANSACUpdateNumIters', 'cvConvertPointsHomogeneous', 'cvPOSIT',
+        'cvTriangulatePoints', 'cvCorrectMatches'):
+        mb.free_fun(t).include()
+
+    # Kolmogorov-Zabin stereo-correspondence algorithm (a.k.a. KZ1)
+    cc.write('''
+#-----------------------------------------------------------------------------
+# Kolmogorov-Zabin stereo-correspondence algorithm (a.k.a. KZ1)
+#-----------------------------------------------------------------------------
+
+
+    ''')
+
+    # CvStereoGCState
+    z = mb.class_('CvStereoGCState')
+    z.include()
+    for t in (
+        'left', 'right', 'dispLeft', 'dispRight', 'ptrLeft', 'ptrRight', 'vtxBuf', 'edgeBuf',
+        ):
+        z.var(t).exclude() # TODO: fix this
+    mb.insert_del_interface('CvStereoGCState', '_PE._cvReleaseStereoGCState')
+    
+    z = mb.free_fun('cvReleaseStereoGCState')
+    FT.add_underscore(z)
+    z._transformer_creators.append(FT.input_double_pointee(0))
+
+    # cvCreateStereoGCState
+    FT.expose_func(mb.free_fun('cvCreateStereoGCState'), ownershiplevel=1)
+
+    # some functions
+    for t in ('cvFindStereoCorrespondenceGC', 'cvReprojectImageTo3D'):
+        mb.free_fun(t).include()
+   
