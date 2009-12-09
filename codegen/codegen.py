@@ -116,6 +116,20 @@ KLASS.__FUNC__ = _KLASS__FUNC__
         '''.replace('KLASS', klass.alias).replace('FUNC', t))
 module_builder.module_builder_t.add_ndarray_interface = add_ndarray_interface
 
+def expose_class_Ptr(self, klass_name, ns=None):
+    if ns is None:
+        full_klass_name = klass_name
+    else:
+        full_klass_name = '%s::%s' % (ns, klass_name)
+    z = self.class_('Ptr<%s>' % full_klass_name)
+    z.rename('Ptr_%s' % klass_name)
+    z.include()
+    z.operators().exclude()
+    z.constructors(lambda x: '*' in x.decl_string).exclude()
+    z.add_declaration_code('%s const &pointee_%s(%s const &inst) { return *((%s const *)inst); }' % (full_klass_name, klass_name, z.decl_string[2:], full_klass_name))
+    z.add_registration_code('add_property("pointee", bp::make_function(&pointee_%s, bp::return_internal_reference<>()))' % klass_name)
+module_builder.module_builder_t.expose_class_Ptr = expose_class_Ptr
+
 def add_doc(self, decl_name, *strings):
     """Adds a few strings to the docstring of declaration f"""
     if len(strings) == 0:

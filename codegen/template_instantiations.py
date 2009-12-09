@@ -85,6 +85,8 @@ def generate_ti():
     add_ti('Vec', 'double, 3', 'Vec3d')
     add_ti('Vec', 'double, 4', 'Vec4d')
     add_ti('Vec', 'double, 6', 'Vec6d')
+    
+    add_ti('Ptr', 'FilterEngine')
 
 
 def finalize_ti():
