@@ -28,11 +28,21 @@ def generate_code(mb, cc, D, FT, CP):
     # Structures
     #=============================================================================
 
+    # BaseRowFilter, BaseColumnFilter, BaseFilter
+    for t in ('BaseRowFilter', 'BaseColumnFilter', 'BaseFilter'):
+        z = mb.class_(t)
+        # wait until requested: expose the members of the class
+        # z.include()
+        # z.constructors().exclude()
+        # z.operators().exclude()
+        mb.expose_class_Ptr(t, 'cv')
+    
     # FilterEngine
-    # TODO: fix the rest of the member declarations
+    # wait until requested: fix the rest of the member declarations
     z = mb.class_('FilterEngine')
     z.include()
     z.decls().exclude()
+    mb.expose_class_Ptr('FilterEngine', 'cv')
     
     # Moments
     z = mb.class_('Moments')
@@ -46,21 +56,20 @@ def generate_code(mb, cc, D, FT, CP):
         z.mem_fun(t).call_policies = CP.return_self()
     
     # FeatureEvaluator
-    # TODO: fix the rest of the member declarations
-    z = mb.class_('FeatureEvaluator')
-    z.include()
-    z.decls().exclude()
+    mb.class_('FeatureEvaluator').include()
+    mb.expose_class_Ptr('FeatureEvaluator', 'cv')
     
     # CascadeClassifier
-    # TODO: fix the rest of the member declarations
     z = mb.class_('CascadeClassifier')
-    z.include()
-    z.decls().exclude()
+    mb.init_class(z)
+    z.mem_fun('detectMultiScale')._transformer_creators.append(FT.output_std_vector('objects'))
+    mb.finalize_class(z)
+    mb.expose_class_Ptr('CvHaarClassifierCascade')
     
     # StereoBM
     z = mb.class_('StereoBM')
     z.include()
-    z.var('state').exclude()
+    mb.expose_class_Ptr('CvStereoBMState')
     
     # KeyPoint
     mb.class_('KeyPoint').include()
@@ -154,14 +163,20 @@ static boost::python::object call1( ::cv::StarDetector const & inst, ::cv::Mat c
     z.include()
     z.decls().exclude()
     
-    
     #=============================================================================
     # Free functions
     #=============================================================================
     
     # free functions
     for z in (
-        'getKernelType', 'getGaussianKernel', 'getDerivKernels', 
+        'borderInterpolate', 'getKernelType', 'getLinearRowFilter',
+        'getLinearColumnFilter', 'getLinearFilter',
+        'createSeparableLinearFilter', 'createLinearFilter',
+        'getGaussianKernel', 'createGaussianFilter', 'getDerivKernels', 
+        'createDerivFilter', 'getRowSumFilter', 'getColumnSumFilter',
+        'createBoxFilter', 'getMorphologyRowFilter', 
+        'getMorphologyColumnFilter', 'getMorphologyFilter', 
+        'createMorphologyFilter',
         'morphologyDefaultBorderValue', 'getStructuringElement',
         'copyMakeBorder', 'medianBlur', 'GaussianBlur', 'bilateralFilter',
         'boxFilter', 'blur', 'filter2D', 'sepFilter2D', 'Sobel', 'Scharr',
@@ -185,16 +200,10 @@ static boost::python::object call1( ::cv::StarDetector const & inst, ::cv::Mat c
         'Rodrigues', 'RQDecomp3x3', 'decomposeProjectionMatrix', 'matMulDeriv', 
         'composeRT', 'solvePnP', 'initCameraMatrix2D', 'drawChessboardCorners', 
         'calibrationMatrixValues', 'stereoCalibrate', 'stereoRectify', 
-        'stereoRectifyUncalibrated', 'reprojectImageTo3D', 
+        'stereoRectifyUncalibrated', 'reprojectImageTo3D', 'write', 'read',
         ):
         mb.free_funs(z).include()
 
-    # TODO:
-    # getLinearRowFilter, getLinearColumnFilter, getLinearFilter, createSeparableLinearFilter, createLinearFilter
-    # createGaussianFilter,  createDerivFilter, getRowSumFilter, getColumnSumFilter, createBoxFilter
-    # getMorphologyRowFilter, getMorphologyColumnFilter, getMorphologyFilter
-    # createMorphologyFilter,  , 
-    
     # getPerspectiveTransform, getAffineTransform
     for t in ('getPerspectiveTransform', 'getAffineTransform'):
         FT.expose_func(mb.free_fun(t), return_pointee=False, 
@@ -426,10 +435,6 @@ static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
     # computeCorrespondEpilines
     FT.expose_func(mb.free_fun('computeCorrespondEpilines'), return_pointee=False,
         transformer_creators=[FT.output_std_vector('lines')])
-    
-    
-    # TODO:
-    # write, read
     
     # TODO: missing functions
     # 'estimateRigidTransform', 

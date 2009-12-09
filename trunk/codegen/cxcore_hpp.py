@@ -140,6 +140,8 @@ KLASS.__repr__ = _KLASS__repr__
         
     '''.replace("KLASS", z.alias))
     
+    # Ptr -- already exposed by mb.expose_class_Ptr
+
     # Mat
     z = mb.class_('Mat')
     z.include()
@@ -338,40 +340,54 @@ static bp::object my_size(cv::SparseMat const &inst, int i = -1)
     mb.finalize_class(z)
     
     # SparseMatConstIterator
-    # wait until requested: fix the rest of the member declarations
+    # TODO: fix the rest of the member declarations
     z = mb.class_('SparseMatConstIterator')
     z.include()
     z.decls().exclude()
     
     # SparseMatIterator
-    # wait until requested: fix the rest of the member declarations
+    # TODO: fix the rest of the member declarations
     z = mb.class_('SparseMatIterator')
     z.include()
     z.decls().exclude()
     
     # KDTree
-    # wait until requested: fix the rest of the member declarations
+    # TODO: fix the rest of the member declarations
     z = mb.class_('KDTree')
     z.include()
     z.decls().exclude()
     
     # FileStorage
-    # TODO: fix the rest of the member declarations
+    # TODO: wrap writeRaw and writeObj
     z = mb.class_('FileStorage')
     z.include()
-    z.decls().exclude()
-    
+    z.constructor(lambda x: 'CvFileStorage' in x.decl_string).exclude()
+    z.operators(lambda x: 'char' in x.decl_string).exclude()
+    z.operators('*').exclude()
+    for t in ('writeRaw', 'writeObj'):
+        z.decl(t).exclude()
+    mb.expose_class_Ptr('CvFileStorage')
+   
     # FileNode
-    # TODO: fix the rest of the member declarations
+    # TODO: wrap readRaw and readObj, and fix the problem with operator float and double at the same time
     z = mb.class_('FileNode')
     z.include()
-    z.decls().exclude()
-    
-    # FileNodeIterator
-    # TODO: fix the rest of the member declarations
-    z = mb.class_('FileNodeIterator')
-    z.include()
-    z.decls().exclude()
+    z.constructors(lambda x: len(x.arguments)==2).exclude()
+    z.operators(lambda x: 'char' in x.decl_string).exclude()
+    z.operators('*').exclude()
+    z.mem_fun('rawDataSize').exclude() # missing function    
+    for t in ('readRaw', 'readObj', 'fs', 'node', 'begin', 'end'):
+        z.decl(t).exclude()
+    z.add_declaration_code('''
+static bp::tuple children(cv::FileNode const &inst)
+{
+    bp::list l;
+    for(cv::FileNodeIterator i = inst.begin(); i != inst.end(); ++i)
+        l.append(bp::object(*i));
+    return bp::tuple(l);
+}
+    ''')
+    z.add_registration_code('def("children", &::children)')
     
     
     #=============================================================================
