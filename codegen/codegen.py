@@ -23,20 +23,20 @@ import function_transformers as FT
 from pyplusplus.module_builder import call_policies as CP
 from shutil import copyfile
 
-import cxerror_h # done
-import cxtypes_h # done
+import cxerror_h
+import cxtypes_h
 import cxcore_h
 import cxcore_hpp
-import cxflann_h # done
+import cxflann_h
 import cxmat_hpp
-import cvtypes_h # done
+import cvtypes_h
 import cv_h
 import cv_hpp
 import cvcompat_h
 import cvaux_h
 import cvaux_hpp
-import highgui_h # done
-import highgui_hpp # done
+import highgui_h
+import highgui_hpp
 # import ml_h
 
 #Creating an instance of class that will help you to expose your declarations
@@ -371,10 +371,10 @@ cxflann_h.generate_code(mb, cc, D, FT, CP)
 # cxmat_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cvtypes.h
-# cvtypes_h.generate_code(mb, cc, D, FT, CP)
+cvtypes_h.generate_code(mb, cc, D, FT, CP)
 
 # cv.h
-# cv_h.generate_code(mb, cc, D, FT, CP)
+cv_h.generate_code(mb, cc, D, FT, CP)
 
 # cv.hpp
 cv_hpp.generate_code(mb, cc, D, FT, CP)

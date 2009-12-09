@@ -101,12 +101,8 @@ CV_HAAR_FEATURE_MAX  = 3
         
     # pointers which are not Cv... * are excluded until further requested
     for z in (
-        'CvMoments', 'CvHuMoments',
-        'CvHaarFeature', 
         'CvAvgComp',
-        'CvKalman',
         'CvHaarClassifier', 'CvHaarStageClassifier', 'CvHaarClassifierCascade',
-        'CvAvgComp',
         ):
         k = mb.class_(z)
         k.include()
@@ -117,12 +113,19 @@ CV_HAAR_FEATURE_MAX  = 3
                 else:
                     v.exclude()
 
+    # CvHaarFeature
+    z = mb.class_('CvHaarFeature')
+    z.include()
+    for t in ('r', 'weight', 'rect'): # wait until requested: expose the member variables
+        z.decl(t).exclude()
+
+    
+                    
+    # CvConDensation
     z = mb.class_('CvConDensation')
     z.include()
     for arg in z.vars():
         if D.is_pointer(arg.type):
             arg.exclude() # wait until requested
     mb.insert_del_interface('CvConDensation', '_PE._cvReleaseConDensation')
-
-    mb.insert_del_interface('CvKalman', '_PE._cvReleaseKalman')
 
