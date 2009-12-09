@@ -137,45 +137,20 @@ bp::tuple convert_vector_to_seq( const std::vector<T> &in_arr )
     return bp::tuple(out_arr);
 }
 
+template<class T>
+struct vector_to_python {
+    static PyObject* convert(std::vector<T> const &x) {
+        return bp::incref(convert_vector_to_seq(x).ptr());
+    }
+};
+
 #define DECLARE_SEQUENCE_FOR_VECTOR(CLASS) \
 extern template void convert_seq_to_vector( const bp::object &in_arr, std::vector<CLASS> &out_arr ); \
-extern template bp::tuple convert_vector_to_seq( const std::vector<CLASS> &in_arr ); \
- \
-namespace boost { namespace python { \
- \
-struct vector_##CLASS##_to_python \
-{ \
-    static PyObject* convert(std::vector<CLASS> const& x) \
-    { \
-        return bp::incref(convert_vector_to_seq(x).ptr()); \
-    } \
-}; \
- \
-}}
+extern template bp::tuple convert_vector_to_seq( const std::vector<CLASS> &in_arr );
 
 #define DEFINE_SEQUENCE_FOR_VECTOR(CLASS) \
 template void convert_seq_to_vector( const bp::object &in_arr, std::vector<CLASS> &out_arr ); \
 template bp::tuple convert_vector_to_seq( const std::vector<CLASS> &in_arr );
-
-#define DECLARE_SEQUENCE_FOR_VECTOR_NS(NS, CLASS) \
-extern template void convert_seq_to_vector( const bp::object &in_arr, std::vector<NS::CLASS> &out_arr ); \
-extern template bp::tuple convert_vector_to_seq( const std::vector<NS::CLASS> &in_arr ); \
- \
-namespace boost { namespace python { \
- \
-struct vector_##CLASS##_to_python \
-{ \
-    static PyObject* convert(std::vector<NS::CLASS> const& x) \
-    { \
-        return bp::incref(convert_vector_to_seq(x).ptr()); \
-    } \
-}; \
- \
-}}
-
-#define DEFINE_SEQUENCE_FOR_VECTOR_NS(NS, CLASS) \
-template void convert_seq_to_vector( const bp::object &in_arr, std::vector<NS::CLASS> &out_arr ); \
-template bp::tuple convert_vector_to_seq( const std::vector<NS::CLASS> &in_arr );
 
 DECLARE_SEQUENCE_FOR_VECTOR(bool)
 DECLARE_SEQUENCE_FOR_VECTOR(char)
@@ -186,17 +161,20 @@ DECLARE_SEQUENCE_FOR_VECTOR(int)
 DECLARE_SEQUENCE_FOR_VECTOR(unsigned)
 DECLARE_SEQUENCE_FOR_VECTOR(float)
 DECLARE_SEQUENCE_FOR_VECTOR(double)
-DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, Vec2f)
-DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, Vec3f)
-DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, Vec4i)
-DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, Scalar)
-DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, Point2i)
-DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, Point2f)
-DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, Point3i)
-DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, Point3f)
-DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, Mat)
-DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, MatND)
-DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, KeyPoint)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::Vec2f)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::Vec3f)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::Vec4i)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::Scalar)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::Point2i)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::Point2f)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::Point3i)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::Point3f)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::Mat)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::MatND)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::KeyPoint)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::CascadeClassifier::DTreeNode)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::CascadeClassifier::DTree)
+DECLARE_SEQUENCE_FOR_VECTOR(cv::CascadeClassifier::Stage)
 
 
 
@@ -205,9 +183,6 @@ DECLARE_SEQUENCE_FOR_VECTOR_NS(cv, KeyPoint)
 // vector<CvFuzzyRule*, std::allocator<CvFuzzyRule*> > --- ::std::vector<CvFuzzyRul
 // vector<CvFuzzyCurve, std::allocator<CvFuzzyCurve> > --- ::std::vector<CvFuzzyCur
 // vector<CvFuzzyPoint, std::allocator<CvFuzzyPoint> > --- ::std::vector<CvFuzzyPoi
-// vector<cv::CascadeClassifier::DTreeNode, std::allocator<cv::CascadeClassifier::D
-// vector<cv::CascadeClassifier::DTree, std::allocator<cv::CascadeClassifier::DTree
-// vector<cv::CascadeClassifier::Stage, std::allocator<cv::CascadeClassifier::Stage
 // vector<unsigned char*, std::allocator<unsigned char*> > --- ::std::vector<unsign
 // vector<cv::KDTree::Node, std::allocator<cv::KDTree::Node> > --- ::std::vector<cv
 
@@ -237,21 +212,16 @@ bp::tuple convert_vector_vector_to_seq( const std::vector < std::vector < T > > 
     return bp::tuple(out_arr);
 }
 
+template<class T>
+struct vector_vector_to_python {
+    static PyObject* convert(std::vector< std::vector<T> > const &x) {
+        return bp::incref(convert_vector_vector_to_seq(x).ptr());
+    }
+};
+
 #define DECLARE_SEQUENCE_FOR_VECTOR_VECTOR(CLASS) \
 extern template void convert_seq_to_vector_vector( const bp::object &in_arr, std::vector< std::vector< CLASS > > &out_arr ); \
-extern template bp::tuple convert_vector_to_seq( const std::vector< std::vector< CLASS > > &in_arr ); \
- \
-namespace boost { namespace python { \
- \
-struct vector_vector_##CLASS##_to_python \
-{ \
-    static PyObject* convert(std::vector< std::vector< CLASS > > const& x) \
-    { \
-        return bp::incref(convert_vector_vector_to_seq(x).ptr()); \
-    } \
-}; \
- \
-}}
+extern template bp::tuple convert_vector_to_seq( const std::vector< std::vector< CLASS > > &in_arr );
 
 #define DEFINE_SEQUENCE_FOR_VECTOR_VECTOR(CLASS) \
 template void convert_seq_to_vector_vector( const bp::object &in_arr, std::vector< std::vector< CLASS > > &out_arr ); \
@@ -259,29 +229,8 @@ template bp::tuple convert_vector_to_seq( const std::vector< std::vector< CLASS 
 
 DECLARE_SEQUENCE_FOR_VECTOR_VECTOR(int)
 DECLARE_SEQUENCE_FOR_VECTOR_VECTOR(float)
-
-#define DECLARE_SEQUENCE_FOR_VECTOR_VECTOR_NS(NS, CLASS) \
-extern template void convert_seq_to_vector_vector( const bp::object &in_arr, std::vector< std::vector< NS::CLASS > > &out_arr ); \
-extern template bp::tuple convert_vector_to_seq( const std::vector< std::vector< NS::CLASS > > &in_arr ); \
- \
-namespace boost { namespace python { \
- \
-struct vector_vector_##CLASS##_to_python \
-{ \
-    static PyObject* convert(std::vector< std::vector< NS::CLASS > > const& x) \
-    { \
-        return bp::incref(convert_vector_vector_to_seq(x).ptr()); \
-    } \
-}; \
- \
-}}
-
-#define DEFINE_SEQUENCE_FOR_VECTOR_VECTOR_NS(NS, CLASS) \
-template void convert_seq_to_vector_vector( const bp::object &in_arr, std::vector< std::vector< NS::CLASS > > &out_arr ); \
-template bp::tuple convert_vector_to_seq( const std::vector< std::vector< NS::CLASS > > &in_arr );
-
-DECLARE_SEQUENCE_FOR_VECTOR_VECTOR_NS(cv, Point2f)
-DECLARE_SEQUENCE_FOR_VECTOR_VECTOR_NS(cv, Point3f)
+DECLARE_SEQUENCE_FOR_VECTOR_VECTOR(cv::Point2f)
+DECLARE_SEQUENCE_FOR_VECTOR_VECTOR(cv::Point3f)
 
 
 #endif
