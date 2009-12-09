@@ -420,9 +420,13 @@ mb.beautify_func_list(opencv_funs)
 # Final tasks
 #=============================================================================
 
+for t in ('char', 'uchar', 'int', 
+    'cv::CascadeClassifier::DTreeNode', 'cv::CascadeClassifier::DTree', 'cv::CascadeClassifier::Stage'):
+    mb.add_registration_code('bp::to_python_converter< std::vector< %s >, vector_to_python< %s > >();' % (t,t))
 
-mb.decls(lambda x: x.name.startswith("vector")).exclude()
-mb.decls(lambda x: x.name.startswith("vector")).set_already_exposed(True)
+z = mb.decls(lambda x: x.name.startswith("vector"))
+z.exclude()
+z.set_already_exposed(True)
 for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION', 
     'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
     ):
