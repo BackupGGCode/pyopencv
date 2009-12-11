@@ -1,0 +1,3 @@
+#summary a library of programming functions for real time computer vision.
+
+Link: http://opencv.willowgarage.com
