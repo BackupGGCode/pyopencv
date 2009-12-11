@@ -1,3 +1,0 @@
-#summary A fundamental package needed for scientific computing with Python.
-
-Link: http://numpy.scipy.org
