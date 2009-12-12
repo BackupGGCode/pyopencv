@@ -1,7 +1,9 @@
 #ifndef SDOPENCV_EXTRA_H
 #define SDOPENCV_EXTRA_H
 
+#include <cstdio>
 #include <vector>
+#include <typeinfo>
 
 #include "boost/python.hpp"
 #include "boost/python/object.hpp"
@@ -15,19 +17,6 @@ namespace bp = boost::python;
 
 #define BOOST_PYTHON_MAX_ARITY 30
 
-CV_INLINE CvPyramid sdCreatePyramid( const CvArr* img, int extra_layers, double rate,
-                                const CvSize* layer_sizes CV_DEFAULT(0),
-                                CvArr* bufarr CV_DEFAULT(0),
-                                int calc CV_DEFAULT(1),
-                                int filter CV_DEFAULT(CV_GAUSSIAN_5x5) )
-{
-    CvPyramid pyr;
-    pyr.pyramid = cvCreatePyramid(img, extra_layers, rate, layer_sizes, bufarr, calc, filter);
-    pyr.extra_layers = extra_layers;
-    return pyr;
-}
-
-
 void CV_CDECL sdTrackbarCallback2(int pos, void* userdata);
 void CV_CDECL sdMouseCallback(int event, int x, int y, int flags, void* param);
 float CV_CDECL sdDistanceFunction( const float* a, const float*b, void* user_param );
@@ -38,8 +27,9 @@ float CV_CDECL sdDistanceFunction( const float* a, const float*b, void* user_par
 template<typename T>
 inline int cvtypeof()
 {
-    const char message[] = "Instantiation of function cvtypeof() for the given class is not yet implemented.";
-    PyErr_SetString(PyExc_NotImplementedError, message);
+    char s[300];
+    sprintf( s, "Instantiation of function cvtypeof() for class '%s' is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
     throw bp::error_already_set(); 
 }
 
@@ -58,16 +48,18 @@ template<> inline int cvtypeof<double>() { return CV_64F; }
 template<typename T>
 void convert_Mat( const cv::Mat &in_arr, T &out_arr )
 {
-    const char message[] = "Instantiation of function convert_Mat() for the given class is not yet implemented.";
-    PyErr_SetString(PyExc_NotImplementedError, message);
+    char s[300];
+    sprintf( s, "Instantiation of function convert_Mat() for class '%s' is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
     throw bp::error_already_set(); 
 }
 
 template<typename T>
 void convert_Mat( const T &in_arr, cv::Mat &out_arr )
 {
-    const char message[] = "Instantiation of function convert_Mat() for the given class is not yet implemented.";
-    PyErr_SetString(PyExc_NotImplementedError, message);
+    char s[300];
+    sprintf( s, "Instantiation of function convert_Mat() for class '%s' is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
     throw bp::error_already_set(); 
 }
 

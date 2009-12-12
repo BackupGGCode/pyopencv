@@ -331,7 +331,7 @@ module_builder.module_builder_t.finalize_class = finalize_class
 mb.decls().exclude()
 
 # disable some warnings
-mb.decls().disable_warnings(messages.W1027, messages.W1025)
+# mb.decls().disable_warnings(messages.W1027, messages.W1025)
 
 # expose 'this'
 mb.classes().expose_this = True
@@ -353,6 +353,11 @@ for z in ('IPL_', 'CV_'):
         mb.decls(lambda decl: decl.name.startswith(z)).include()
     except RuntimeError:
         pass
+
+# too many issues when exposing a std::vector as a member variable
+for z in mb.classes(lambda x: x.name.startswith('vector<')):
+    z.exclude() 
+    z.set_already_exposed(True)
 
 
 
@@ -391,7 +396,7 @@ cv_hpp.generate_code(mb, cc, D, FT, CP)
 # cvcompat_h.generate_code(mb, cc, D, FT, CP)
 
 # cvaux.h
-# cvaux_h.generate_code(mb, cc, D, FT, CP)
+cvaux_h.generate_code(mb, cc, D, FT, CP)
 
 # cvaux.hpp
 cvaux_hpp.generate_code(mb, cc, D, FT, CP)
@@ -420,13 +425,18 @@ mb.beautify_func_list(opencv_funs)
 # Final tasks
 #=============================================================================
 
-for t in ('char', 'uchar', 'int', 
-    'cv::CascadeClassifier::DTreeNode', 'cv::CascadeClassifier::DTree', 'cv::CascadeClassifier::Stage'):
-    mb.add_registration_code('bp::to_python_converter< std::vector< %s >, vector_to_python< %s > >();' % (t,t))
 
-z = mb.decls(lambda x: x.name.startswith("vector"))
-z.exclude()
-z.set_already_exposed(True)
+# fixing aliases
+# _vector_rename_dict = {
+    # 'Rect_<int': 'Rect',
+    # 'Point3_<int': 'Point3',
+    # 'Vec<float, 2': 'Vec2f',
+    # 'Vec<float, 3': 'Vec3f',
+    # 'Point_<float': 'Point2f',
+# }
+# for key in _vector_rename_dict:
+    # mb.class_(lambda x: x.name.startswith(key)).rename(_vector_rename_dict[key])
+
 for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION', 
     'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
     ):
