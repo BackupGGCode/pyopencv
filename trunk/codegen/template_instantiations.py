@@ -32,7 +32,7 @@ def add_ti(class_, element_type, new_name=None):
 def generate_ti():
     # template instantiations
     basic_types = ('bool', 'uchar', 'schar', 'ushort', 'short', 'int', 'float', 'double')
-    for z1 in ('DataDepth', 'DataType', 'vector'):
+    for z1 in ('DataDepth', 'DataType'):
         for z2 in basic_types:
             add_ti(z1, z2)
     add_ti('DataType', 'Range')
@@ -87,6 +87,46 @@ def generate_ti():
     add_ti('Vec', 'double, 6', 'Vec6d')
     
     add_ti('Ptr', 'FilterEngine')
+    
+    # add_ti('vector', 'char', 'vector_int8')
+    # add_ti('vector', 'unsigned char', 'vector_uint8')
+    # add_ti('vector', 'short', 'vector_int16')
+    # add_ti('vector', 'unsigned short', 'vector_uint16')
+    # add_ti('vector', 'int', 'vector_int')
+    # add_ti('vector', 'unsigned int', 'vector_uint')
+    # add_ti('vector', 'long', 'vector_int32')
+    # add_ti('vector', 'unsigned long', 'vector_uint32')
+    # add_ti('vector', 'long long', 'vector_int64')
+    # add_ti('vector', 'unsigned long long', 'vector_uint64')
+    # add_ti('vector', 'float', 'vector_float32')
+    # add_ti('vector', 'double', 'vector_float64')
+    
+    # add_ti('vector', 'Vec2f', 'vector_Vec2f')
+    # add_ti('vector', 'Vec3f', 'vector_Vec3f')
+    # add_ti('vector', 'Vec4i', 'vector_Vec4i')
+    # add_ti('vector', 'Point2i', 'vector_Point')
+    # add_ti('vector', 'Point2f', 'vector_Point2f')
+    # add_ti('vector', 'Point3i', 'vector_Point3')
+    # add_ti('vector', 'Point3f', 'vector_Point3f')
+    # add_ti('vector', 'Mat', 'vector_Mat')
+    # add_ti('vector', 'MatND', 'vector_MatND')
+    # add_ti('vector', 'KeyPoint', 'vector_KeyPoint')
+    # add_ti('vector', 'CascadeClassifier::DTreeNode', 'vector_CascadeClassifier_DTreeNode')
+    # add_ti('vector', 'CascadeClassifier::DTree', 'vector_CascadeClassifier_DTree')
+    # add_ti('vector', 'CascadeClassifier::Stage', 'vector_CascadeClassifier_Stage')
+    # add_ti('vector', 'FernClassifier::Feature', 'vector_FernClassifier_Feature')
+    # add_ti('vector', 'Octree::Node', 'vector_Octree_Node')
+    # add_ti('vector', 'CvFuzzyRule*', 'vector_CvFuzzyRule_Ptr')
+    # add_ti('vector', 'CvFuzzyCurve', 'vector_CvFuzzyCurve')
+    # add_ti('vector', 'CvFuzzyPoint', 'vector_CvFuzzyPoint')
+    # add_ti('vector', 'unsigned char *', 'vector_string')
+    # add_ti('vector', 'KDTree::Node', 'vector_KDTree_Node')
+    # add_ti('vector', 'vector_int', 'vector_vector_int')
+    # add_ti('vector', 'vector_float32', 'vector_vector_float32')
+    # add_ti('vector', 'vector_Point', 'vector_vector_Point')
+    # add_ti('vector', 'vector_Point2f', 'vector_vector_Point2f')
+    # add_ti('vector', 'vector_Point3f', 'vector_vector_Point3f')
+    # add_ti('vector', 'Rect', 'vector_Rect')
 
 
 def finalize_ti():

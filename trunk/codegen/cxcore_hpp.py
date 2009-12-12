@@ -27,7 +27,7 @@ try:
 except:
     Size2i = Size
 
-Point = Size2i
+Point = Point2i
 
     ''')
     

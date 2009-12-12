@@ -79,8 +79,9 @@ ndarray new_(int len, const int *shape, int dtype, const int *strides, void *dat
 template<typename T>
 int dtypeof()
 {
-    const char message[] = "Instantiation of function dtypeof() for the given class is not yet implemented.";
-    PyErr_SetString(PyExc_NotImplementedError, message);
+    char s[300];
+    sprintf( s, "Instantiation of function dtypeof() for class '%s' is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
     throw error_already_set(); 
 }
 
@@ -101,16 +102,18 @@ template<> int dtypeof<double>();
 template<typename T>
 void convert_ndarray( const ndarray &in_arr, T &out_arr )
 {
-    const char message[] = "Instantiation of function convert_ndarray() for the given class is not yet implemented.";
-    PyErr_SetString(PyExc_NotImplementedError, message);
+    char s[300];
+    sprintf( s, "Instantiation of function convert_ndarray() for class '%s' is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
     throw error_already_set(); 
 }
 
 template<typename T>
 void convert_ndarray( const T &in_arr, ndarray &out_arr )
 {
-    const char message[] = "Instantiation of function convert_ndarray() for the given class is not yet implemented.";
-    PyErr_SetString(PyExc_NotImplementedError, message);
+    char s[300];
+    sprintf( s, "Instantiation of function convert_ndarray() for class '%s' is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
     throw error_already_set(); 
 }
 
