@@ -426,17 +426,6 @@ mb.beautify_func_list(opencv_funs)
 #=============================================================================
 
 
-# fixing aliases
-# _vector_rename_dict = {
-    # 'Rect_<int': 'Rect',
-    # 'Point3_<int': 'Point3',
-    # 'Vec<float, 2': 'Vec2f',
-    # 'Vec<float, 3': 'Vec3f',
-    # 'Point_<float': 'Point2f',
-# }
-# for key in _vector_rename_dict:
-    # mb.class_(lambda x: x.name.startswith(key)).rename(_vector_rename_dict[key])
-
 for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION', 
     'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
     ):

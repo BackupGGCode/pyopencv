@@ -436,6 +436,4 @@ static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
     FT.expose_func(mb.free_fun('computeCorrespondEpilines'), return_pointee=False,
         transformer_creators=[FT.output_std_vector('lines')])
     
-    # TODO: missing functions
-    # 'estimateRigidTransform', 
     
