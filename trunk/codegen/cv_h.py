@@ -266,11 +266,15 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
 
     for z in (
         'cvCalcOpticalFlowLK', 'cvCalcOpticalFlowBM', 'cvCalcOpticalFlowHS',
-        'cvEstimateRigidTransform',
         'cvUpdateMotionHistory', 'cvCalcMotionGradient', 'cvCalcGlobalOrientation',
         'cvAcc', 'cvSquareAcc', 'cvMultiplyAcc', 'cvRunningAvg',
         ):
         mb.free_fun(z).include()
+
+    # estimateRigidTransform
+    z = mb.free_fun('cvEstimateRigidTransform')
+    z.include()
+    z.rename('estimateRigidTransform')
 
 
     # cvCalcOpticalFlowPyrLK
