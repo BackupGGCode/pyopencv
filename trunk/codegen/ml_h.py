@@ -71,30 +71,30 @@ CV_TS_CONCENTRIC_SPHERES = 0
 CV_COUNT     = 0
 CV_PORTION   = 1
 
-StatModel = CvStatModel
-ParamGrid = CvParamGrid
-NormalBayesClassifier = CvNormalBayesClassifier
-KNearest = CvKNearest
-SVMParams = CvSVMParams
-SVMKernel = CvSVMKernel
-SVMSolver = CvSVMSolver
-SVM = CvSVM
-EMParams = CvEMParams
-ExpectationMaximization = CvEM
-DTreeParams = CvDTreeParams
-TrainData = CvMLData
-DecisionTree = CvDTree
-ForestTree = CvForestTree
-RandomTreeParams = CvRTParams
-RandomTrees = CvRTrees
-ERTreeTrainData = CvERTreeTrainData
-ERTree = CvForestERTree
-ERTrees = CvERTrees
-BoostParams = CvBoostParams
-BoostTree = CvBoostTree
-Boost = CvBoost
-ANN_MLP_TrainParams = CvANN_MLP_TrainParams
-NeuralNet_MLP = CvANN_MLP
+# StatModel = CvStatModel
+# ParamGrid = CvParamGrid
+# NormalBayesClassifier = CvNormalBayesClassifier
+# KNearest = CvKNearest
+# SVMParams = CvSVMParams
+# SVMKernel = CvSVMKernel
+# SVMSolver = CvSVMSolver
+# SVM = CvSVM
+# EMParams = CvEMParams
+# ExpectationMaximization = CvEM
+# DTreeParams = CvDTreeParams
+# TrainData = CvMLData
+# DecisionTree = CvDTree
+# ForestTree = CvForestTree
+# RandomTreeParams = CvRTParams
+# RandomTrees = CvRTrees
+# ERTreeTrainData = CvERTreeTrainData
+# ERTree = CvForestERTree
+# ERTrees = CvERTrees
+# BoostParams = CvBoostParams
+# BoostTree = CvBoostTree
+# Boost = CvBoost
+# ANN_MLP_TrainParams = CvANN_MLP_TrainParams
+# NeuralNet_MLP = CvANN_MLP
 
     ''')
 
@@ -104,14 +104,6 @@ NeuralNet_MLP = CvANN_MLP
     for t in ('ptr', 'fl', 'db', 'data'): # wait until requested
         z.var(t).exclude()
 
-
-    # TODO: fix member functions with arguments Cv... *
-    for z in (
-        'CvStatModel', 'CvParamGrid',
-        'CvNormalBayesClassifier', 
-        ):
-        mb.class_(z).include()
-        
     # ParamLattice, may or may not be available
     try:
         mb.class_('CvParamLattice').include()
@@ -119,136 +111,165 @@ NeuralNet_MLP = CvANN_MLP
         mb.free_fun('cvDefaultParamLattice').include()
     except:
         pass
-
-    # CvKNearest
-    z = mb.class_('CvKNearest')
-    mb.init_class(z)
-    for t in (
-        'write_results', 'find_neighbors_direct',
-        'find_nearest', # TODO: fix this find_nearest function
-        ):
-        z.mem_fun(t).exclude()
+        
+    # CvStarModel
+    z = mb.class_('CvStatModel')
+    mb.init_class(z)    
     mb.finalize_class(z)
+    
+    # CvNormalBayesClassifier
+    mb.class_('CvParamGrid').include()
+    z = mb.class_('CvNormalBayesClassifier')
+    mb.init_class(z)
+    z.constructors(lambda x: 'Mat' in x.decl_string).exclude()
+    for t in ('predict', 'train'):
+        z.mem_fun(lambda x: t==x.name and 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
+    z.decls(lambda x: 'cv::Mat' in x.decl_string).exclude()
+    z.add_wrapper_code('''
+    CvNormalBayesClassifier_wrapper(cv::Mat const & _train_data, cv::Mat const & _responses, cv::Mat const _var_idx, cv::Mat const & _sample_idx )
+    : CvNormalBayesClassifier( &(::CvMat)(_train_data), &(::CvMat)(_responses), _var_idx.empty()? 0: &(::CvMat)_var_idx, _sample_idx.empty()? 0: &(::CvMat)_sample_idx )
+      , bp::wrapper< CvNormalBayesClassifier >() { }
+    ''')
+    z.add_registration_code('''def( bp::init< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const & >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat() )) )
+    ''')
+    mb.finalize_class(z)
+
+    # TODO: fix member functions with arguments Cv... *
+    # for z in (
+        # 'CvStatModel', 'CvParamGrid',
+        # 'CvNormalBayesClassifier', 
+        # ):
+        # mb.class_(z).include()
+        
+    # CvKNearest
+    # z = mb.class_('CvKNearest')
+    # mb.init_class(z)
+    # for t in (
+        # 'write_results', 'find_neighbors_direct',
+        # 'find_nearest', # TODO: fix this find_nearest function
+        # ):
+        # z.mem_fun(t).exclude()
+    # mb.finalize_class(z)
 
     # CvSVMParams
-    z = mb.class_('CvSVMParams')
-    z.include()
-    FT.expose_member_as_pointee(z, 'class_weights')
+    # z = mb.class_('CvSVMParams')
+    # z.include()
+    # FT.expose_member_as_pointee(z, 'class_weights')
 
     # CvSVMKernel # TODO: fix the members of this class
-    z = mb.class_('CvSVMKernel')
-    z.include()
-    z.decls().exclude()
+    # z = mb.class_('CvSVMKernel')
+    # z.include()
+    # z.decls().exclude()
 
     # CvSVMKernelRow
-    z = mb.class_('CvSVMKernelRow')
-    for t in ('prev', 'next'):
-        FT.expose_member_as_pointee(z, t)
-    z.var('data').expose_address = True # wait until requested
+    # z = mb.class_('CvSVMKernelRow')
+    # for t in ('prev', 'next'):
+        # FT.expose_member_as_pointee(z, t)
+    # z.var('data').expose_address = True # wait until requested
 
     # CvSVMSolver # ToDO: fix this class' members
-    z = mb.class_('CvSVMSolver')
-    z.include()
-    z.decls().exclude()
+    # z = mb.class_('CvSVMSolver')
+    # z.include()
+    # z.decls().exclude()
 
     # CvSVMDecisionFunc
-    z = mb.class_('CvSVMDecisionFunc')
-    z.include()
-    for t in ('alpha', 'sv_index'):
-        FT.expose_member_as_pointee(z, t)
+    # z = mb.class_('CvSVMDecisionFunc')
+    # z.include()
+    # for t in ('alpha', 'sv_index'):
+        # FT.expose_member_as_pointee(z, t)
 
     # CvSVM # TODO: fix this class' members
-    z = mb.class_('CvSVM')
-    mb.init_class(z)
-    z.mem_fun('get_support_vector').exclude() # TODO: fix this function
-    mb.finalize_class(z)
+    # z = mb.class_('CvSVM')
+    # mb.init_class(z)
+    # z.mem_fun('get_support_vector').exclude() # TODO: fix this function
+    # mb.finalize_class(z)
 
     # CvEMParams # TODO: expose this class' members
-    z = mb.class_('CvEMParams')
-    z.include()
-    z.decls().exclude()
+    # z = mb.class_('CvEMParams')
+    # z.include()
+    # z.decls().exclude()
 
     # CvEM
-    z = mb.class_('CvEM')
-    mb.init_class(z)
-    z.mem_fun('get_covs').exclude() # TODO: get_covs()
-    mb.finalize_class(z)
+    # z = mb.class_('CvEM')
+    # mb.init_class(z)
+    # z.mem_fun('get_covs').exclude() # TODO: get_covs()
+    # mb.finalize_class(z)
 
     # CvPair16u32s # TODO: expose members
-    z = mb.class_('CvPair16u32s')
-    z.include()
-    z.decls().exclude()
+    # z = mb.class_('CvPair16u32s')
+    # z.include()
+    # z.decls().exclude()
 
     # CvDTreeSplit
-    z = mb.class_('CvDTreeSplit')
-    mb.init_class(z)
-    FT.expose_member_as_pointee(z, 'next')
-    for t in ('subset', 'c', 'split_point'):
-        z.var(t).exclude() # TODO: fix these members
-    mb.finalize_class(z)
+    # z = mb.class_('CvDTreeSplit')
+    # mb.init_class(z)
+    # FT.expose_member_as_pointee(z, 'next')
+    # for t in ('subset', 'c', 'split_point'):
+        # z.var(t).exclude() # TODO: fix these members
+    # mb.finalize_class(z)
 
     # CvDTreeNode
-    z = mb.class_('CvDTreeNode')
-    for t in ('parent', 'left', 'right', 'split'):
-        FT.expose_member_as_pointee(z, t)
-    for t in ('num_valid', 'cv_Tn', 'cv_node_risk', 'cv_node_error'):
-        z.var(t).exclude() # TODO: expose these members
+    # z = mb.class_('CvDTreeNode')
+    # for t in ('parent', 'left', 'right', 'split'):
+        # FT.expose_member_as_pointee(z, t)
+    # for t in ('num_valid', 'cv_Tn', 'cv_node_risk', 'cv_node_error'):
+        # z.var(t).exclude() # TODO: expose these members
 
     # CvDTreeParams # TODO: expose 'priors'
-    z = mb.class_('CvDTreeParams')
-    z.include()
+    # z = mb.class_('CvDTreeParams')
+    # z.include()
 
     # CvDTreeTrainData
-    z = mb.class_('CvDTreeTrainData')
-    mb.init_class(z)
-    for t in (
-        'get_pred_float_buf', 'get_pred_int_buf', 'get_resp_float_buf', 'get_resp_int_buf', 
-        'get_cv_lables_buf', 'get_sample_idx_buf',
-        ):
-        z.mem_fun(t).exclude() # TODO: fix these functions
-    for t in (
-        'responses_copy', 'cat_count', 'cat_ofs', 'cat_map', 'counts', 'buf', 'direction', 'split_buf', 
-        'var_idx', 'var_type', 'priors', 'priors_mult', 'tree_storage', 'temp_storage', 'data_root',
-        'node_heap', 'split_heap', 'cv_heap', 'nv_heap',
-        ):
-        FT.expose_member_as_pointee(z, t)
-    mb.finalize_class(z)
+    # z = mb.class_('CvDTreeTrainData')
+    # mb.init_class(z)
+    # for t in (
+        # 'get_pred_float_buf', 'get_pred_int_buf', 'get_resp_float_buf', 'get_resp_int_buf', 
+        # 'get_cv_lables_buf', 'get_sample_idx_buf',
+        # ):
+        # z.mem_fun(t).exclude() # TODO: fix these functions
+    # for t in (
+        # 'responses_copy', 'cat_count', 'cat_ofs', 'cat_map', 'counts', 'buf', 'direction', 'split_buf', 
+        # 'var_idx', 'var_type', 'priors', 'priors_mult', 'tree_storage', 'temp_storage', 'data_root',
+        # 'node_heap', 'split_heap', 'cv_heap', 'nv_heap',
+        # ):
+        # FT.expose_member_as_pointee(z, t)
+    # mb.finalize_class(z)
 
     # straightforward classes
-    for t in (
-        'CvDTree', 'CvForestTree', 'CvRTParams', 'CvRTrees',
-        'CvForestERTree', 'CvERTrees',
-        'CvBoostParams', 'CvBoostTree', 'CvBoost',
-        'CvANN_MLP_TrainParams', 'CvANN_MLP',
-        'CvMLData',
-        ):
-        z = mb.class_(t)
-        mb.init_class(z)
-        mb.finalize_class(z)
+    # for t in (
+        # 'CvDTree', 'CvForestTree', 'CvRTParams', 'CvRTrees',
+        # 'CvForestERTree', 'CvERTrees',
+        # 'CvBoostParams', 'CvBoostTree', 'CvBoost',
+        # 'CvANN_MLP_TrainParams', 'CvANN_MLP',
+        # 'CvMLData',
+        # ):
+        # z = mb.class_(t)
+        # mb.init_class(z)
+        # mb.finalize_class(z)
 
-    mb.class_('CvRTrees').mem_fun('get_rng').exclude() # TODO: fix CvRNG first, then fix this get_rng function
+    # mb.class_('CvRTrees').mem_fun('get_rng').exclude() # TODO: fix CvRNG first, then fix this get_rng function
 
     # CvERTreeTrainData
-    z = mb.class_('CvERTreeTrainData')
-    mb.init_class(z)
-    FT.expose_member_as_pointee(z, 'missing_mask')
-    mb.finalize_class(z)
+    # z = mb.class_('CvERTreeTrainData')
+    # mb.init_class(z)
+    # FT.expose_member_as_pointee(z, 'missing_mask')
+    # mb.finalize_class(z)
 
-    mb.class_('CvANN_MLP').mem_fun('get_weights').exclude() # TODO: fix this func somehow
+    # mb.class_('CvANN_MLP').mem_fun('get_weights').exclude() # TODO: fix this func somehow
 
     # Convolutional Neural Network, Estimate classifiers algorithms, and Cross validation are not yet enabled
 
     # Auxilary functions declarations
-    for z in (
-        'cvRandMVNormal',
-        ):
-        mb.free_fun(z).include()
+    # for z in (
+        # 'cvRandMVNormal',
+        # ):
+        # mb.free_fun(z).include()
 
     # TODO: fix these functions
     # cvRandGaussMixture, cvCreateTestSet
 
     # CvTrainTestSplit # TODO: fix these member variables
-    z = mb.class_('CvTrainTestSplit')
-    for t in ('train_sample_part', 'count', 'portion', 'class_part'):
-        z.vars(t).exclude()
+    # z = mb.class_('CvTrainTestSplit')
+    # for t in ('train_sample_part', 'count', 'portion', 'class_part'):
+        # z.vars(t).exclude()
 

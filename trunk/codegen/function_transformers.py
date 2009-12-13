@@ -915,6 +915,49 @@ def input_asSparseMat( *args, **keywd ):
     return creator
     
 
+
+# input_as_FileStorage_t
+class input_as_FileStorage_t(transformer_t):
+    """Converts an input argument type CvFileStorage * into a cv::FileStorage."""
+
+    def __init__(self, function, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+    def __str__(self):
+        return "input_as_FileStorage(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg(self.arg.name)        
+        w_arg.type = _D.dummy_type_t( "::cv::FileStorage &" )
+        
+        controller.modify_arg_expression( self.arg_index, "%s.fs" % w_arg.name )
+            
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return []
+
+def input_as_FileStorage( *args, **keywd ):
+    def creator( function ):
+        return input_as_FileStorage_t( function, *args, **keywd )
+    return creator
+    
+    
+    
     
 # input_asRNG_t
 class input_asRNG_t(transformer_t):
