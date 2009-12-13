@@ -137,7 +137,9 @@ CV_PORTION   = 1
     z = mb.class_('CvKNearest')
     z.include_files.append('opencv_extra.hpp')
     mb.init_class(z)
-    z.decls().exclude()
+    z.constructors().exclude()
+    for t in ('train', 'find_nearest'):
+        z.mem_funs(t).exclude()
     z.constructor(lambda x: len(x.arguments) == 0).include()
     z1 = z.mem_fun(lambda x: x.name=='train' and 'CvMat' in x.decl_string)
     z1.include()
