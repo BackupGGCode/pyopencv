@@ -17,7 +17,14 @@
 
 #include "cxflann.h"
 
+// We never know whether the user turns SWIG on or not. To be on the safe side, just turn SWIG on temporarily.
+#ifdef SWIG
 #include "ml.h"
+#else
+#define SWIG
+#include "ml.h"
+#undef SWIG
+#endif
 
 
 #include "cvaux.hpp"

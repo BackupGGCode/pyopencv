@@ -112,7 +112,7 @@ CV_PORTION   = 1
     except:
         pass
         
-    # CvStarModel
+    # CvStatModel
     z = mb.class_('CvStatModel')
     mb.init_class(z)    
     mb.finalize_class(z)
@@ -122,9 +122,6 @@ CV_PORTION   = 1
     z = mb.class_('CvNormalBayesClassifier')
     mb.init_class(z)
     z.constructors(lambda x: 'Mat' in x.decl_string).exclude()
-    for t in ('predict', 'train'):
-        z.mem_fun(lambda x: t==x.name and 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
-    z.decls(lambda x: 'cv::Mat' in x.decl_string).exclude()
     z.add_wrapper_code('''
     CvNormalBayesClassifier_wrapper(cv::Mat const & _train_data, cv::Mat const & _responses, cv::Mat const _var_idx, cv::Mat const & _sample_idx )
     : CvNormalBayesClassifier( &(::CvMat)(_train_data), &(::CvMat)(_responses), _var_idx.empty()? 0: &(::CvMat)_var_idx, _sample_idx.empty()? 0: &(::CvMat)_sample_idx )
@@ -134,16 +131,12 @@ CV_PORTION   = 1
     mb.finalize_class(z)
 
     # CvKNearest
+    # TODO: fix the output of find_nearest(), not correct for now
     z = mb.class_('CvKNearest')
     z.include_files.append('opencv_extra.hpp')
     mb.init_class(z)
-    z.constructors().exclude()
-    for t in ('train', 'find_nearest'):
-        z.mem_funs(t).exclude()
-    z.constructor(lambda x: len(x.arguments) == 0).include()
-    z1 = z.mem_fun(lambda x: x.name=='train' and 'CvMat' in x.decl_string)
-    z1.include()
-    z1._transformer_kwds['alias'] = 'train'
+    z.constructors(lambda x: len(x.arguments) > 0).exclude()
+    z.mem_fun('find_nearest').exclude()
     z.add_wrapper_code('''
     CvKNearest_wrapper( cv::Mat const & _train_data, cv::Mat const & _responses,
                 cv::Mat const & _sample_idx, bool _is_regression, int max_k )
