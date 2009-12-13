@@ -130,26 +130,41 @@ CV_PORTION   = 1
     : CvNormalBayesClassifier( &(::CvMat)(_train_data), &(::CvMat)(_responses), _var_idx.empty()? 0: &(::CvMat)_var_idx, _sample_idx.empty()? 0: &(::CvMat)_sample_idx )
       , bp::wrapper< CvNormalBayesClassifier >() { }
     ''')
-    z.add_registration_code('''def( bp::init< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const & >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat() )) )
-    ''')
+    z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const & >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat() )) )')
     mb.finalize_class(z)
 
-    # TODO: fix member functions with arguments Cv... *
-    # for z in (
-        # 'CvStatModel', 'CvParamGrid',
-        # 'CvNormalBayesClassifier', 
-        # ):
-        # mb.class_(z).include()
-        
     # CvKNearest
-    # z = mb.class_('CvKNearest')
-    # mb.init_class(z)
-    # for t in (
-        # 'write_results', 'find_neighbors_direct',
-        # 'find_nearest', # TODO: fix this find_nearest function
-        # ):
-        # z.mem_fun(t).exclude()
-    # mb.finalize_class(z)
+    z = mb.class_('CvKNearest')
+    z.include_files.append('opencv_extra.hpp')
+    mb.init_class(z)
+    z.decls().exclude()
+    z.constructor(lambda x: len(x.arguments) == 0).include()
+    z1 = z.mem_fun(lambda x: x.name=='train' and 'CvMat' in x.decl_string)
+    z1.include()
+    z1._transformer_kwds['alias'] = 'train'
+    z.add_wrapper_code('''
+    CvKNearest_wrapper( cv::Mat const & _train_data, cv::Mat const & _responses,
+                cv::Mat const & _sample_idx, bool _is_regression, int max_k )
+    : CvKNearest( &(::CvMat)(_train_data), &(::CvMat)(_responses), _sample_idx.empty()? 0: &(::CvMat)_sample_idx, _is_regression, max_k )
+      , bp::wrapper< CvKNearest >() { }
+      
+    bp::object sd_find_nearest( cv::Mat const & _samples, int k, cv::Mat &results, 
+        bool return_neighbors_by_addr, cv::Mat &neighbor_responses, cv::Mat &dist ) {
+        CvMat *_samples2 = _samples.empty()? 0: &(::CvMat)_samples;
+        std::vector<int> neighbors2;
+        CvMat *results2 = results.empty()? 0: &(::CvMat)results;
+        CvMat *neighbor_responses2 = neighbor_responses.empty()? 0: &(::CvMat)neighbor_responses;
+        CvMat *dist2 = dist.empty()? 0: &(::CvMat)dist;
+        if(!return_neighbors_by_addr) return bp::object(find_nearest(_samples2, k, results2, 0, neighbor_responses2, dist2));
+        neighbors2.resize(k*_samples.rows);
+        float return_value = find_nearest(_samples2, k, results2, (const float **)&neighbors2[0], neighbor_responses2, dist2);
+        return bp::make_tuple(bp::object(return_value), convert_vector_to_seq(neighbors2));
+    }
+    ''')
+    z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, cv::Mat const &, bool, int >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_is_regression")=false, bp::arg("max_k")=32 )) )')
+    z.add_registration_code('''def("find_nearest", &CvKNearest_wrapper::sd_find_nearest
+        , (bp::arg("_samples"), bp::arg("k"), bp::arg("results"), bp::arg("return_neighbors_by_addr")=false, bp::arg("neighbor_response")=cv::Mat(), bp::arg("dist")=cv::Mat() ))''')
+    mb.finalize_class(z)
 
     # CvSVMParams
     # z = mb.class_('CvSVMParams')
