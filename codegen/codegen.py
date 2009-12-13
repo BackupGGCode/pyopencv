@@ -37,7 +37,7 @@ import cvaux_h
 import cvaux_hpp
 import highgui_h
 import highgui_hpp
-# import ml_h
+import ml_h
 
 #Creating an instance of class that will help you to expose your declarations
 mb = module_builder.module_builder_t(
@@ -256,6 +256,12 @@ def beautify_func_list(self, func_list):
                 continue
             f._transformer_creators.append(FT.input_asRNG(arg.name))
 
+    # function argument CvFileStorage *
+    for f in func_list:
+        for arg in f.arguments:
+            if not is_arg_touched(f, arg.name) and arg.type == D.dummy_type_t("::CvFileStorage *"):
+                f._transformer_creators.append(FT.input_as_FileStorage(arg.name))
+
     # function argument CvSparseMat * or CvSparseMat &
     for f in func_list:
         for arg in f.arguments:
@@ -402,7 +408,7 @@ cvaux_h.generate_code(mb, cc, D, FT, CP)
 cvaux_hpp.generate_code(mb, cc, D, FT, CP)
 
 # ml.h
-# ml_h.generate_code(mb, cc, D, FT, CP)
+ml_h.generate_code(mb, cc, D, FT, CP)
 
 # highgui.h
 highgui_h.generate_code(mb, cc, D, FT, CP)
