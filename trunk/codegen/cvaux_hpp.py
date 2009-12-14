@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# pyopencv - A Python wrapper for OpenCV 2.0 using Boost.Python and ctypes
+# PyOpencv - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
 # Copyright (c) 2009, Minh-Tri Pham
 # All rights reserved.
@@ -77,31 +77,54 @@ def generate_code(mb, cc, D, FT, CP):
     z.mem_fun('getPointsWithinSphere')._transformer_creators.append(FT.output_std_vector('points'))
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
     z.mem_fun('getNodes').exclude()
-    z.add_wrapper_code('''
-    Octree_wrapper( bp::tuple const &points, int maxLevels, int minPoints )
-        : Octree(), bp::wrapper< Octree >() {
-        std::vector<cv::Point3f> points2;
-        convert_seq_to_vector(points, points2);
-        buildTree(points2, maxLevels, minPoints );
-    }
-    
-    bp::tuple sd_getNodes() { return convert_vector_to_seq(getNodes()); }
+    z.add_declaration_code('''
+static boost::shared_ptr<cv::Octree> Octree_init1( bp::tuple const &points, int maxLevels=10, int minPoints=20 )
+{
+    std::vector<cv::Point3f> points2;
+    convert_seq_to_vector(points, points2);
+    return boost::shared_ptr<cv::Octree>(new cv::Octree(points2, maxLevels, minPoints ));
+}
+
+static bp::tuple sd_getNodes(cv::Octree const &inst) { return convert_vector_to_seq(inst.getNodes()); }
     ''')
-    z.add_registration_code('def( bp::init< bp::tuple, int, int >(( bp::arg("points"), bp::arg("maxLevels")=10, bp::arg("minPoints")=20 )) )')
-    z.add_registration_code('def( "getNodes", &Octree_wrapper::sd_getNodes)')
+    z.add_registration_code('def("__init__", bp::make_constructor(&Octree_init1, bp::default_call_policies(), ( bp::arg("points"), bp::arg("maxLevels")=10, bp::arg("maxPoints")=20 )))')
+    z.add_registration_code('def( "getNodes", &sd_getNodes)')
     mb.finalize_class(z)
     
     # Mesh3D
-    # TODO: fix the rest of the member declarations
     z = mb.class_('Mesh3D')
-    z.include()
-    z.decls().exclude()
+    mb.init_class(z)
+    z.constructor(lambda x: 'vector' in x.decl_string).exclude()
+    for t in ('vtx', 'normals'):
+        z.var(t).exclude()
+    z.add_declaration_code('''
+static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::tuple const &vtx)
+{
+    std::vector<cv::Point3f> vtx2;
+    convert_seq_to_vector(vtx, vtx2);
+    return boost::shared_ptr<cv::Mesh3D>(new cv::Mesh3D(vtx2));
+}
+
+static bp::tuple get_vtx(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.vtx); }
+static bp::tuple get_normals(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.normals); }
+
+    ''')
+    z.add_registration_code('def("__init__", bp::make_constructor(&Mesh3D_init1, bp::default_call_policies(), ( bp::arg("vtx") ))  )')
+    z.add_registration_code('add_property("vtx", &get_vtx)')
+    z.add_registration_code('add_property("normals", &get_normals)')
+    for z1 in z.mem_funs('computeNormals'):
+        z1._transformer_kwds['alias'] = 'computeNormals'
+    mb.finalize_class(z)
     
     # SpinImageModel
-    # TODO: fix the rest of the member declarations
     z = mb.class_('SpinImageModel')
-    z.include()
-    z.decls().exclude()
+    mb.init_class(z)
+    z.mem_fun('setLogger').exclude() # wait until requested
+    z.mem_fun('match')._transformer_creators.append(FT.output_std_vector_vector('result'))
+    for t in ('calcSpinMapCoo', 'geometricConsistency', 'groupingCreteria'):
+        z.mem_fun(t).exclude() # wait until requested: not available in OpenCV's Windows package
+    z.var('lambda').rename('lambda_') # to avoid a conflict with keyword lambda
+    mb.finalize_class(z)
     
     # TickMeter
     mb.class_('TickMeter').include()
