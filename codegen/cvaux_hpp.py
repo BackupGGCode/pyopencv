@@ -71,10 +71,25 @@ def generate_code(mb, cc, D, FT, CP):
     z.decls().exclude()
     
     # Octree
-    # TODO: fix the rest of the member declarations
     z = mb.class_('Octree')
-    z.include()
-    z.decls().exclude()
+    z.include_files.append('opencv_extra.hpp')
+    mb.init_class(z)
+    z.mem_fun('getPointsWithinSphere')._transformer_creators.append(FT.output_std_vector('points'))
+    z.constructor(lambda x: len(x.arguments) > 1).exclude()
+    z.mem_fun('getNodes').exclude()
+    z.add_wrapper_code('''
+    Octree_wrapper( bp::tuple const &points, int maxLevels, int minPoints )
+        : Octree(), bp::wrapper< Octree >() {
+        std::vector<cv::Point3f> points2;
+        convert_seq_to_vector(points, points2);
+        buildTree(points2, maxLevels, minPoints );
+    }
+    
+    bp::tuple sd_getNodes() { return convert_vector_to_seq(getNodes()); }
+    ''')
+    z.add_registration_code('def( bp::init< bp::tuple, int, int >(( bp::arg("points"), bp::arg("maxLevels")=10, bp::arg("minPoints")=20 )) )')
+    z.add_registration_code('def( "getNodes", &Octree_wrapper::sd_getNodes)')
+    mb.finalize_class(z)
     
     # Mesh3D
     # TODO: fix the rest of the member declarations
