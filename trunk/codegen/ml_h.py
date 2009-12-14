@@ -116,12 +116,24 @@ CV_PORTION   = 1
     z = mb.class_('CvStatModel')
     mb.init_class(z)    
     mb.finalize_class(z)
+
+    # CvParamGrid
+    mb.class_('CvParamGrid').include()
+    cc.write('''
+def _KLASS__repr__(self):
+    return "KLASS(min_val=" + repr(self.min_val) + ", max_val=" + repr(self.max_val) \
+        + ", step=" + repr(self.step) + ")"
+KLASS.__repr__ = _KLASS__repr__
+        
+    '''.replace("KLASS", 'CvParamGrid'))
     
     # CvNormalBayesClassifier
-    mb.class_('CvParamGrid').include()
     z = mb.class_('CvNormalBayesClassifier')
     mb.init_class(z)
     z.constructors(lambda x: 'Mat' in x.decl_string).exclude()
+    for t in ('predict', 'train'):
+        z.mem_fun(lambda x: t==x.name and 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
+    z.decls(lambda x: 'cv::Mat' in x.decl_string).exclude()
     z.add_wrapper_code('''
     CvNormalBayesClassifier_wrapper(cv::Mat const & _train_data, cv::Mat const & _responses, cv::Mat const _var_idx, cv::Mat const & _sample_idx )
     : CvNormalBayesClassifier( &(::CvMat)(_train_data), &(::CvMat)(_responses), _var_idx.empty()? 0: &(::CvMat)_var_idx, _sample_idx.empty()? 0: &(::CvMat)_sample_idx )
@@ -135,8 +147,13 @@ CV_PORTION   = 1
     z = mb.class_('CvKNearest')
     z.include_files.append('opencv_extra.hpp')
     mb.init_class(z)
-    z.constructors(lambda x: len(x.arguments) > 0).exclude()
-    z.mem_fun('find_nearest').exclude()
+    z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    for t in ('train', 'find_nearest'):
+        z.mem_funs(t).exclude()
+    z1 = z.mem_fun(lambda x: x.name=='train' and 'CvMat' in x.decl_string)
+    z1.include()
+    z1._transformer_kwds['alias'] = 'train'
+    z.mem_funs('find_nearest').exclude()
     z.add_wrapper_code('''
     CvKNearest_wrapper( cv::Mat const & _train_data, cv::Mat const & _responses,
                 cv::Mat const & _sample_idx, bool _is_regression, int max_k )
@@ -162,37 +179,79 @@ CV_PORTION   = 1
     mb.finalize_class(z)
 
     # CvSVMParams
-    # z = mb.class_('CvSVMParams')
-    # z.include()
-    # FT.expose_member_as_pointee(z, 'class_weights')
+    z = mb.class_('CvSVMParams')
+    z.include()
+    z.var('class_weights').exclude()
+    z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    z.add_wrapper_code('''
+    
+    cv::Mat get_class_weights() { return class_weights? cv::Mat(class_weights) : cv::Mat(); }
+    cv::TermCriteria get_term_crit() { return cv::TermCriteria(term_crit); }
+    
+    CvSVMParams_wrapper(int _svm_type, int _kernel_type, double _degree, double _gamma, double _coef0, double _C, double _nu, double _p, cv::Mat const & _class_weights, cv::TermCriteria const &_term_crit )
+    : CvSVMParams( _svm_type, _kernel_type, _degree, _gamma, _coef0, _C, _nu, _p, &(::CvMat)_class_weights, (CvTermCriteria)_term_crit )
+      , bp::wrapper< CvSVMParams >(){
+        // constructor
+    
+    }
+    ''')
+    z.add_registration_code('add_property("class_weights", &CvSVMParams_wrapper::get_class_weights)')
+    z.add_registration_code('add_property("term_crit", &CvSVMParams_wrapper::get_term_crit)')
+    z.add_registration_code('def( bp::init< int, int, double, double, double, double, double, double, cv::Mat const &, cv::TermCriteria const & >(( bp::arg("_svm_type"), bp::arg("_kernel_type"), bp::arg("_degree"), bp::arg("_gamma"), bp::arg("_coef0"), bp::arg("_C"), bp::arg("_nu"), bp::arg("_p"), bp::arg("_class_weights"), bp::arg("_term_crit") )) )')
 
-    # CvSVMKernel # TODO: fix the members of this class
+    # CvSVMKernel -- too low-level, wait until requested
     # z = mb.class_('CvSVMKernel')
+    # mb.add_doc('CvSVMKernel', "the user must use CvSVMParams to specify the kernel type,",
+        # "which defines which Calc function to be used")
     # z.include()
-    # z.decls().exclude()
+    # z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    # z.mem_funs().exclude()
+    # z.vars().exclude()
+    # z.add_wrapper_code('''
+    # CvSVMKernel_wrapper(CvSVMParams const &_params) : CvSVMKernel(&params, 0), bp::wrapper< CvSVMKernel >() {}    
+    # bool sd_create(CvSVMParams const &_params) { return CvSVMKernel::create(&params, 0); }    
+    # CvSVMParams get_params() { return *params; }
+    # ''')
+    # z.add_registration_code('def( bp::init< CvSVMParams const & >(( bp::arg("_params") )) )')
+    # z.add_registration_code('def( "create", &CvSVMParams_wrapper::sd_create )')
+    # z.add_registration_code('add_property( "params", &CvSVMParams_wrapper::get_params )')
 
-    # CvSVMKernelRow
+    # CvSVMKernelRow -- too low-level, wait until requested
     # z = mb.class_('CvSVMKernelRow')
     # for t in ('prev', 'next'):
         # FT.expose_member_as_pointee(z, t)
     # z.var('data').expose_address = True # wait until requested
+    
+    # CvSVMSolutionInfo -- too low-level, wait until requested
+    # mb.class_('CvSVMSolutionInfo').include()
 
-    # CvSVMSolver # ToDO: fix this class' members
-    # z = mb.class_('CvSVMSolver')
-    # z.include()
-    # z.decls().exclude()
+    # CvSVMSolver -- too low-level, wait until requested
 
-    # CvSVMDecisionFunc
+    # CvSVMDecisionFunc -- too low-level, wait until requested
     # z = mb.class_('CvSVMDecisionFunc')
     # z.include()
     # for t in ('alpha', 'sv_index'):
         # FT.expose_member_as_pointee(z, t)
 
-    # CvSVM # TODO: fix this class' members
-    # z = mb.class_('CvSVM')
-    # mb.init_class(z)
-    # z.mem_fun('get_support_vector').exclude() # TODO: fix this function
-    # mb.finalize_class(z)
+    # CvSVM
+    z = mb.class_('CvSVM')
+    mb.init_class(z)
+    z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    z.mem_funs(lambda x: 'cv::Mat' in x.decl_string).exclude()
+    for t in ('train', 'train_auto', 'predict'):
+        z.mem_fun(lambda x: x.name==t and 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
+    z.add_wrapper_code('''    
+    CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx, ::cv::Mat const & _sample_idx, ::CvSVMParams _params )
+    : CvSVM( &(::CvMat)(_train_data), &(::CvMat)(_responses), &(::CvMat)(_var_idx), &(::CvMat)(_sample_idx), _params ) , bp::wrapper< CvSVM >(){ }
+    
+    int get_support_vector_addr(int i) const { return (int)get_support_vector(i); }
+      
+    ''')
+    z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const &, CvSVMParams >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) )')
+    # wait until requested: get_support_vector
+    z.mem_fun('get_support_vector').exclude()
+    z.add_registration_code('def( "get_support_vector_addr", &CvSVM_wrapper::get_support_vector_addr )')
+    mb.finalize_class(z)
 
     # CvEMParams # TODO: expose this class' members
     # z = mb.class_('CvEMParams')

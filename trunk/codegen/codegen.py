@@ -262,6 +262,13 @@ def beautify_func_list(self, func_list):
             if not is_arg_touched(f, arg.name) and arg.type == D.dummy_type_t("::CvFileStorage *"):
                 f._transformer_creators.append(FT.input_as_FileStorage(arg.name))
 
+    # function argument CvFileNode *
+    for f in func_list:
+        for arg in f.arguments:
+            if not is_arg_touched(f, arg.name) and \
+            (arg.type == D.dummy_type_t("::CvFileNode *") or arg.type == D.dummy_type_t("::CvFileNode const *")):
+                f._transformer_creators.append(FT.input_as_FileNode(arg.name))
+
     # function argument CvSparseMat * or CvSparseMat &
     for f in func_list:
         for arg in f.arguments:
