@@ -179,6 +179,7 @@ KLASS.__repr__ = _KLASS__repr__
     mb.finalize_class(z)
 
     # CvSVMParams
+    # TODO: CvMat *_class_weights passed by the long constructor must exist  throughout the lifetime of CvSVMParams
     z = mb.class_('CvSVMParams')
     z.include()
     z.var('class_weights').exclude()
@@ -187,6 +188,7 @@ KLASS.__repr__ = _KLASS__repr__
     
     cv::Mat get_class_weights() { return class_weights? cv::Mat(class_weights) : cv::Mat(); }
     cv::TermCriteria get_term_crit() { return cv::TermCriteria(term_crit); }
+    void set_term_crit(cv::TermCriteria const &_term_crit) { term_crit = _term_crit; }
     
     CvSVMParams_wrapper(int _svm_type, int _kernel_type, double _degree, double _gamma, double _coef0, double _C, double _nu, double _p, cv::Mat const & _class_weights, cv::TermCriteria const &_term_crit )
     : CvSVMParams( _svm_type, _kernel_type, _degree, _gamma, _coef0, _C, _nu, _p, &(::CvMat)_class_weights, (CvTermCriteria)_term_crit )
@@ -196,7 +198,7 @@ KLASS.__repr__ = _KLASS__repr__
     }
     ''')
     z.add_registration_code('add_property("class_weights", &CvSVMParams_wrapper::get_class_weights)')
-    z.add_registration_code('add_property("term_crit", &CvSVMParams_wrapper::get_term_crit)')
+    z.add_registration_code('add_property("term_crit", &CvSVMParams_wrapper::get_term_crit, &CvSVMParams_wrapper::set_term_crit)')
     z.add_registration_code('def( bp::init< int, int, double, double, double, double, double, double, cv::Mat const &, cv::TermCriteria const & >(( bp::arg("_svm_type"), bp::arg("_kernel_type"), bp::arg("_degree"), bp::arg("_gamma"), bp::arg("_coef0"), bp::arg("_C"), bp::arg("_nu"), bp::arg("_p"), bp::arg("_class_weights"), bp::arg("_term_crit") )) )')
 
     # CvSVMKernel -- too low-level, wait until requested
@@ -253,16 +255,41 @@ KLASS.__repr__ = _KLASS__repr__
     z.add_registration_code('def( "get_support_vector_addr", &CvSVM_wrapper::get_support_vector_addr )')
     mb.finalize_class(z)
 
-    # CvEMParams # TODO: expose this class' members
-    # z = mb.class_('CvEMParams')
-    # z.include()
-    # z.decls().exclude()
+    # CvEMParams 
+    # wait until requested: probs, weights, means, covs are turned off for now, the user should use CvEM's member functions instead
+    z = mb.class_('CvEMParams')
+    z.include()
+    z.constructor(lambda x: len(x.arguments) > 1).exclude()
+    for t in ('probs', 'weights', 'means', 'covs', 'term_crit'):
+        z.var(t).exclude()
+    z.add_wrapper_code('''
+    CvEMParams_wrapper(int _nclusters, int _cov_mat_type, int _start_step)
+        : CvEMParams(_nclusters, _cov_mat_type, _start_step), bp::wrapper< CvEMParams >() { }
+    
+    cv::TermCriteria get_term_crit() { return cv::TermCriteria(term_crit); }
+    void set_term_crit(cv::TermCriteria const &_term_crit) { term_crit = _term_crit; }
+    ''')
+    z.add_registration_code('def( bp::init< int, int, int >(( bp::arg("_nclusters"), bp::arg("_cov_mat_type")=1, bp::arg("_start_step")=0 )) )')
+    z.add_registration_code('add_property("term_crit", &CvEMParams_wrapper::get_term_crit, &CvEMParams_wrapper::set_term_crit)')
 
     # CvEM
-    # z = mb.class_('CvEM')
-    # mb.init_class(z)
-    # z.mem_fun('get_covs').exclude() # TODO: get_covs()
-    # mb.finalize_class(z)
+    z = mb.class_('CvEM')
+    mb.init_class(z)
+    z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    z.mem_funs(lambda x: 'cv::Mat' in x.decl_string).exclude()
+    for t in ('train', 'predict'):
+        z.mem_fun(lambda x: x.name==t and 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
+    z.add_wrapper_code('''
+    CvEM_wrapper( cv::Mat const & samples, cv::Mat const & sample_idx, CvEMParams params, cv::Mat const & labels )
+        : CvEM( &(::CvMat)samples, &(::CvMat)sample_idx, params, &(::CvMat)labels )
+        , bp::wrapper< CvEM >() { }
+            
+    ''')
+    z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, CvEMParams, cv::Mat const & >(( bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=CvEMParams(), bp::arg("labels")=cv::Mat() )) )')
+    # wait until requested: enable these functions
+    for t in ('get_means', 'get_covs', 'get_weights', 'get_probs'):
+        z.mem_fun(t).exclude()
+    mb.finalize_class(z)
 
     # CvPair16u32s # TODO: expose members
     # z = mb.class_('CvPair16u32s')
