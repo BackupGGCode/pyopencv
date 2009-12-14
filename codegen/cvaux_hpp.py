@@ -159,6 +159,22 @@ static bp::tuple get_svmDetector(cv::HOGDescriptor const &inst) { return convert
     # LDetector
     z = mb.class_('LDetector')
     mb.init_class(z)
+    z.operators().exclude()
+    z.add_declaration_code('''
+static bp::tuple LDetector_call1( ::cv::LDetector const & inst, bp::object const & image_or_pyr, int maxCount=0, bool scaleCoords=true ){
+    std::vector< cv::KeyPoint > keypoints;
+    bp::extract<const cv::Mat &> image(image_or_pyr);
+    if(image.check()) inst(image(), keypoints, maxCount, scaleCoords);
+    else {
+        std::vector< cv::Mat > pyr;
+        convert_seq_to_vector(image_or_pyr, pyr);
+        inst(pyr, keypoints, maxCount, scaleCoords);
+    }
+    return convert_vector_to_seq(keypoints);
+}
+
+    ''')
+    z.add_registration_code('def("__call__", &LDetector_call1, (bp::arg("image_or_pyr"), bp::arg("maxCount")=0, bp::arg("scaleCoords")=true))')
     mb.finalize_class(z)
     
     # FernClassifier
