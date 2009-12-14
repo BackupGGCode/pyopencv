@@ -130,10 +130,23 @@ static bp::tuple get_normals(cv::Mesh3D const &inst) { return convert_vector_to_
     mb.class_('TickMeter').include()
     
     # HOGDescriptor
-    # TODO: fix the rest of the member declarations
     z = mb.class_('HOGDescriptor')
-    z.include()
-    z.decls().exclude()
+    z.include_files.append('opencv_extra.hpp')
+    mb.init_class(z)
+    z.mem_fun('getDefaultPeopleDetector').exclude()
+    z.var('svmDetector').exclude()
+    z.add_declaration_code('''
+static bp::tuple getDefaultPeopleDetector() {
+    return convert_vector_to_seq(cv::HOGDescriptor::getDefaultPeopleDetector());
+}
+
+static bp::tuple get_svmDetector(cv::HOGDescriptor const &inst) { return convert_vector_to_seq(inst.svmDetector); }
+
+    ''')
+    z.add_registration_code('def("getDefaultPeopleDetector", &::getDefaultPeopleDetector)')
+    z.add_registration_code('staticmethod("getDefaultPeopleDetector")')
+    z.add_registration_code('add_property("svmDetector", &::get_svmDetector)')
+    mb.finalize_class(z)
     
     # SelfSimDescriptor
     # TODO: fix the rest of the member declarations
