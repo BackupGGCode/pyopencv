@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# pyopencv - A Python wrapper for OpenCV 2.0 using Boost.Python and ctypes
+# PyOpencv - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
 # Copyright (c) 2009, Minh-Tri Pham
 # All rights reserved.
@@ -54,7 +54,7 @@ mb = module_builder.module_builder_t(
 
 cc = open('pyopencv/__init__.py', 'w')
 cc.write('''#!/usr/bin/env python
-# pyopencv - A Python wrapper for OpenCV 2.0 using Boost.Python and ctypes
+# PyOpencv - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
 # Copyright (c) 2009, Minh-Tri Pham
 # All rights reserved.
