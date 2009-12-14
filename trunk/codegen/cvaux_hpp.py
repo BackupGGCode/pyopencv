@@ -149,19 +149,17 @@ static bp::tuple get_svmDetector(cv::HOGDescriptor const &inst) { return convert
     mb.finalize_class(z)
     
     # SelfSimDescriptor
-    # TODO: fix the rest of the member declarations
     z = mb.class_('SelfSimDescriptor')
-    z.include()
-    z.decls().exclude()
+    mb.init_class(z)
+    mb.finalize_class(z)
     
     # PatchGenerator
     mb.class_('PatchGenerator').include()
     
     # LDetector
-    # TODO: fix the rest of the member declarations
     z = mb.class_('LDetector')
-    z.include()
-    z.decls().exclude()
+    mb.init_class(z)
+    mb.finalize_class(z)
     
     # FernClassifier
     # TODO: fix the rest of the member declarations
