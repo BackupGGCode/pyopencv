@@ -180,6 +180,14 @@ extern template void convert_ndarray( const std::vector<double> &in_arr, ndarray
 
 ndarray as_ndarray(const object &obj);
 
+object as_Point2i(const ndarray &arr);
+object as_Point2f(const ndarray &arr);
+object as_Point2d(const ndarray &arr);
+
+object as_Point3i(const ndarray &arr);
+object as_Point3f(const ndarray &arr);
+object as_Point3d(const ndarray &arr);
+
 object as_Scalar(const ndarray &arr);
 object as_Mat(const ndarray &arr);
 object as_MatND(const ndarray &arr);

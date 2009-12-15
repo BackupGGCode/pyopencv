@@ -132,6 +132,7 @@ static bp::tuple get_normals(cv::Mesh3D const &inst) { return convert_vector_to_
     # HOGDescriptor
     z = mb.class_('HOGDescriptor')
     z.include_files.append('opencv_extra.hpp')
+    # z.include_files.append('_cvaux.h')
     mb.init_class(z)
     z.mem_fun('getDefaultPeopleDetector').exclude()
     z.var('svmDetector').exclude()
@@ -145,7 +146,7 @@ static bp::tuple get_svmDetector(cv::HOGDescriptor const &inst) { return convert
     ''')
     z.add_registration_code('def("getDefaultPeopleDetector", &::getDefaultPeopleDetector)')
     z.add_registration_code('staticmethod("getDefaultPeopleDetector")')
-    z.add_registration_code('add_property("svmDetector", &::get_svmDetector)')
+    z.add_registration_code('add_property("svmDetector", &::get_svmDetector)')    
     mb.finalize_class(z)
     
     # SelfSimDescriptor
@@ -176,6 +177,9 @@ static bp::tuple LDetector_call1( ::cv::LDetector const & inst, bp::object const
     ''')
     z.add_registration_code('def("__call__", &LDetector_call1, (bp::arg("image_or_pyr"), bp::arg("maxCount")=0, bp::arg("scaleCoords")=true))')
     mb.finalize_class(z)
+    cc.write('''
+YAPE = LDetector
+    ''')
     
     # FernClassifier
     # TODO: fix the rest of the member declarations
@@ -221,4 +225,8 @@ static bp::tuple LDetector_call1( ::cv::LDetector const & inst, bp::object const
     # TODO:
     # TickMeter's operator <<
     # findOneWayDescriptor
+    
     # FAST
+    z = mb.free_fun('FAST')
+    z.include()
+    z._transformer_creators.append(FT.output_std_vector('keypoints'))

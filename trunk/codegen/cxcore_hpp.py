@@ -62,6 +62,7 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
+        mb.add_ndarray_interface(z)
     
     # Point3 et al
     mb.class_('::cv::Point3_<float>').rename('Point3f')
@@ -76,6 +77,7 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
+        mb.add_ndarray_interface(z)
     
     # Size et al
     mb.class_('::cv::Size_<int>').rename('Size2i')
