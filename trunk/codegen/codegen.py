@@ -252,6 +252,14 @@ def beautify_func_list(self, func_list):
                 continue
             f._transformer_creators.append(FT.input_as_Mat(arg.name))
 
+    # function argument CvPoint2D32f
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            if arg.type == D.dummy_type_t("::CvPoint2D32f"):
+                f._transformer_creators.append(FT.input_as_Point2f(arg.name))
+
     # function argument CvRNG * or CvRNG &
     for f in func_list:
         for arg in f.arguments:
