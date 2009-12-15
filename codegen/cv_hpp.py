@@ -198,7 +198,7 @@ static boost::python::object call1( ::cv::StarDetector const & inst, ::cv::Mat c
         'calcMotionGradient', 'calcGlobalOrientation', 'CamShift', 'meanShift', 
         'estimateAffine3D', 'groupRectangles',
         'Rodrigues', 'RQDecomp3x3', 'decomposeProjectionMatrix', 'matMulDeriv', 
-        'composeRT', 'solvePnP', 'initCameraMatrix2D', 'drawChessboardCorners', 
+        'composeRT', 'solvePnP', 'initCameraMatrix2D', 
         'calibrationMatrixValues', 'stereoCalibrate', 'stereoRectify', 
         'stereoRectifyUncalibrated', 'reprojectImageTo3D', 'write', 'read',
         ):
@@ -413,6 +413,18 @@ static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
     # findChessboardCorners
     FT.expose_func(mb.free_fun('findChessboardCorners'), return_pointee=False,
         transformer_creators=[FT.output_std_vector('corners')])
+        
+    # drawChessboardCorners
+    mb.free_fun('drawChessboardCorners').exclude()
+    mb.add_declaration_code('''
+void drawChessboardCorners( cv::Mat& image, cv::Size patternSize, bp::tuple const &corners, bool patternWasFound )
+{
+    std::vector<cv::Point2f> corners2; convert_seq_to_vector(corners, corners2);
+    ::cvDrawChessboardCorners( &(::CvMat)image, patternSize, (CvPoint2D32f*)&corners2[0],
+        corners2.size(), patternWasFound );
+}
+    ''')
+    mb.add_registration_code('bp::def("drawChessboardCorners", &::drawChessboardCorners, (bp::arg("image"), bp::arg("patternSize"), bp::arg("corners"), bp::arg("patternWasFound")));')
         
     # calibrateCamera
     FT.expose_func(mb.free_fun('calibrateCamera'), return_pointee=False,
