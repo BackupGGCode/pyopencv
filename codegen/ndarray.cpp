@@ -201,10 +201,40 @@ ndarray as_ndarray(const object &obj)
     ndarray result;
     if(obj.ptr() == Py_None) return result;
 
+    extract<const cv::Point2i &> pt2i(obj);
+    extract<const cv::Point2f &> pt2f(obj);
+    extract<const cv::Point2d &> pt2d(obj);
+    extract<const cv::Point3i &> pt3i(obj);
+    extract<const cv::Point3f &> pt3f(obj);
+    extract<const cv::Point3d &> pt3d(obj);
     extract<const cv::Scalar &> scalar(obj);
     extract<const cv::Mat &> mat(obj);
     extract<const cv::MatND &> matnd(obj);
-    if(scalar.check())
+    if(pt2i.check())
+    {
+        nd = 2;
+        result = new_(1, &nd, NPY_LONG, 0, (void *)&(pt2i()), NPY_C_CONTIGUOUS | NPY_WRITEABLE);
+    } else if(pt2f.check())
+    {
+        nd = 2;
+        result = new_(1, &nd, NPY_FLOAT, 0, (void *)&(pt2f()), NPY_C_CONTIGUOUS | NPY_WRITEABLE);
+    } else if(pt2d.check())
+    {
+        nd = 2;
+        result = new_(1, &nd, NPY_DOUBLE, 0, (void *)&(pt2d()), NPY_C_CONTIGUOUS | NPY_WRITEABLE);
+    } else if(pt3i.check())
+    {
+        nd = 3;
+        result = new_(1, &nd, NPY_LONG, 0, (void *)&(pt3i()), NPY_C_CONTIGUOUS | NPY_WRITEABLE);
+    } else if(pt3f.check())
+    {
+        nd = 3;
+        result = new_(1, &nd, NPY_FLOAT, 0, (void *)&(pt3f()), NPY_C_CONTIGUOUS | NPY_WRITEABLE);
+    } else if(pt3d.check())
+    {
+        nd = 3;
+        result = new_(1, &nd, NPY_DOUBLE, 0, (void *)&(pt3d()), NPY_C_CONTIGUOUS | NPY_WRITEABLE);
+    } else if(scalar.check())
     {
         nd = 4;
         result = new_(1, &nd, NPY_DOUBLE, 0, (void *)&scalar().val[0], NPY_C_CONTIGUOUS | NPY_WRITEABLE);
@@ -246,6 +276,264 @@ ndarray as_ndarray(const object &obj)
         result = new_(nd, shape, convert_cvdepth_to_dtype(matnd2.depth()), strides, matnd2.data, NPY_WRITEABLE);
     }
     objects::make_nurse_and_patient(result.ptr(), obj.ptr());
+    return result;
+}
+
+// ================================================================================================
+
+object as_Point2i(const ndarray &arr)
+{
+    char s[200];
+    
+    // checking
+    PyObject *obj = arr.ptr();
+    if(obj == Py_None) return object(cv::Point2i()); // ndarray = None
+    
+    int nd = arr.ndim();
+    if(nd != 1)
+    {
+        sprintf(s, "Cannot convert from ndarray to Point2i because ndim=%d (must be 1).", nd);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.dtype() != NPY_LONG)
+    {
+        sprintf(s, "Element type must be NPY_LONG, dtype=%d detected.", arr.dtype());
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(!arr.iscontiguous())
+    {
+        sprintf(s, "The ndarray to be converted must be contiguous .");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.shape()[0] != 2)
+    {
+        sprintf(s, "Number of elements must be 2, shape[0]=%d detected.", arr.shape()[0]);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    
+    // wrapping
+    cv::Point2i *pt = (cv::Point2i *)arr.data();
+    object result(*pt);
+    objects::make_nurse_and_patient(result.ptr(), obj);
+    return result;
+}
+
+// ================================================================================================
+
+object as_Point2f(const ndarray &arr)
+{
+    char s[200];
+    
+    // checking
+    PyObject *obj = arr.ptr();
+    if(obj == Py_None) return object(cv::Point2f()); // ndarray = None
+    
+    int nd = arr.ndim();
+    if(nd != 1)
+    {
+        sprintf(s, "Cannot convert from ndarray to Point2f because ndim=%d (must be 1).", nd);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.dtype() != NPY_FLOAT)
+    {
+        sprintf(s, "Element type must be NPY_FLOAT, dtype=%d detected.", arr.dtype());
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(!arr.iscontiguous())
+    {
+        sprintf(s, "The ndarray to be converted must be contiguous .");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.shape()[0] != 2)
+    {
+        sprintf(s, "Number of elements must be 2, shape[0]=%d detected.", arr.shape()[0]);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    
+    // wrapping
+    cv::Point2f *pt = (cv::Point2f *)arr.data();
+    object result(*pt);
+    objects::make_nurse_and_patient(result.ptr(), obj);
+    return result;
+}
+
+// ================================================================================================
+
+object as_Point2d(const ndarray &arr)
+{
+    char s[200];
+    
+    // checking
+    PyObject *obj = arr.ptr();
+    if(obj == Py_None) return object(cv::Point2d()); // ndarray = None
+    
+    int nd = arr.ndim();
+    if(nd != 1)
+    {
+        sprintf(s, "Cannot convert from ndarray to Point2d because ndim=%d (must be 1).", nd);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.dtype() != NPY_DOUBLE)
+    {
+        sprintf(s, "Element type must be NPY_DOUBLE, dtype=%d detected.", arr.dtype());
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(!arr.iscontiguous())
+    {
+        sprintf(s, "The ndarray to be converted must be contiguous .");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.shape()[0] != 2)
+    {
+        sprintf(s, "Number of elements must be 2, shape[0]=%d detected.", arr.shape()[0]);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    
+    // wrapping
+    cv::Point2d *pt = (cv::Point2d *)arr.data();
+    object result(*pt);
+    objects::make_nurse_and_patient(result.ptr(), obj);
+    return result;
+}
+
+// ================================================================================================
+
+object as_Point3i(const ndarray &arr)
+{
+    char s[200];
+    
+    // checking
+    PyObject *obj = arr.ptr();
+    if(obj == Py_None) return object(cv::Point3i()); // ndarray = None
+    
+    int nd = arr.ndim();
+    if(nd != 1)
+    {
+        sprintf(s, "Cannot convert from ndarray to Point3i because ndim=%d (must be 1).", nd);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.dtype() != NPY_LONG)
+    {
+        sprintf(s, "Element type must be NPY_LONG, dtype=%d detected.", arr.dtype());
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(!arr.iscontiguous())
+    {
+        sprintf(s, "The ndarray to be converted must be contiguous .");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.shape()[0] != 3)
+    {
+        sprintf(s, "Number of elements must be 3, shape[0]=%d detected.", arr.shape()[0]);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    
+    // wrapping
+    cv::Point3i *pt = (cv::Point3i *)arr.data();
+    object result(*pt);
+    objects::make_nurse_and_patient(result.ptr(), obj);
+    return result;
+}
+
+// ================================================================================================
+
+object as_Point3f(const ndarray &arr)
+{
+    char s[200];
+    
+    // checking
+    PyObject *obj = arr.ptr();
+    if(obj == Py_None) return object(cv::Point3f()); // ndarray = None
+    
+    int nd = arr.ndim();
+    if(nd != 1)
+    {
+        sprintf(s, "Cannot convert from ndarray to Point3f because ndim=%d (must be 1).", nd);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.dtype() != NPY_FLOAT)
+    {
+        sprintf(s, "Element type must be NPY_FLOAT, dtype=%d detected.", arr.dtype());
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(!arr.iscontiguous())
+    {
+        sprintf(s, "The ndarray to be converted must be contiguous .");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.shape()[0] != 3)
+    {
+        sprintf(s, "Number of elements must be 3, shape[0]=%d detected.", arr.shape()[0]);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    
+    // wrapping
+    cv::Point3f *pt = (cv::Point3f *)arr.data();
+    object result(*pt);
+    objects::make_nurse_and_patient(result.ptr(), obj);
+    return result;
+}
+
+// ================================================================================================
+
+object as_Point3d(const ndarray &arr)
+{
+    char s[200];
+    
+    // checking
+    PyObject *obj = arr.ptr();
+    if(obj == Py_None) return object(cv::Point3d()); // ndarray = None
+    
+    int nd = arr.ndim();
+    if(nd != 1)
+    {
+        sprintf(s, "Cannot convert from ndarray to Point3d because ndim=%d (must be 1).", nd);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.dtype() != NPY_DOUBLE)
+    {
+        sprintf(s, "Element type must be NPY_DOUBLE, dtype=%d detected.", arr.dtype());
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(!arr.iscontiguous())
+    {
+        sprintf(s, "The ndarray to be converted must be contiguous .");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    if(arr.shape()[0] != 3)
+    {
+        sprintf(s, "Number of elements must be 3, shape[0]=%d detected.", arr.shape()[0]);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    
+    // wrapping
+    cv::Point3d *pt = (cv::Point3d *)arr.data();
+    object result(*pt);
+    objects::make_nurse_and_patient(result.ptr(), obj);
     return result;
 }
 

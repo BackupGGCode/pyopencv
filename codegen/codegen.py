@@ -45,7 +45,7 @@ mb = module_builder.module_builder_t(
     gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe",
     working_directory=r"M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen",
     include_paths=[
-        r"M:\programming\packages\OpenCV\build\2.0_mgw440\include",
+        r"M:\programming\packages\OpenCV\build\2.0\include",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++\mingw32",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include",
@@ -70,6 +70,14 @@ cc.write('''#!/usr/bin/env python
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
+try:
+    import numpy as _NP
+except ImportError:
+    raise ImportError("NumPy is not found in your system. Please install NumPy of version at least 1.2.0.")
+    
+if _NP.version.version < '1.2.0':
+    raise ImportError("NumPy is installed but its version is too old (%s detected). Please install NumPy of version at least 1.2.0." % _NP.version.version)
+    
 from pyopencvext import *
 import pyopencvext as _PE
 import math as _Math
@@ -366,8 +374,21 @@ for z in ('IPL_', 'CV_'):
         mb.decls(lambda decl: decl.name.startswith(z)).include()
     except RuntimeError:
         pass
+        
+# rename some classes
+_class_rename = {
+    'Point_<float>': 'Point2f',
+    'Point3_<int>': 'Point3i',
+    'Rect_<int>': 'Rect',
+    'Vec<int, 2>': 'Vec2i',
+    'Vec<float, 2>': 'Vec2f',
+    'Vec<float, 3>': 'Vec3f',
+}
+for t in _class_rename:
+    mb.class_(t).rename(_class_rename[t])
 
 # too many issues when exposing a std::vector as a member variable
+# to name a few: missing operators like ==
 for z in mb.classes(lambda x: x.name.startswith('vector<')):
     z.exclude() 
     z.set_already_exposed(True)
