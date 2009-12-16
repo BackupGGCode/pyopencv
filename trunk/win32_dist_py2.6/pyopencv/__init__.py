@@ -957,6 +957,16 @@ CV_CHAIN_APPROX_TC89_L1     = 3
 CV_CHAIN_APPROX_TC89_KCOS   = 4
 CV_LINK_RUNS                = 5
 
+# Defines for Distance Transform
+CV_DIST_USER    = -1
+CV_DIST_L1      = 1
+CV_DIST_L2      = 2
+CV_DIST_C       = 3
+CV_DIST_L12     = 4
+CV_DIST_FAIR    = 5
+CV_DIST_WELSCH  = 6
+CV_DIST_HUBER   = 7
+
 # Haar-like Object Detection structures
 
 CV_HAAR_MAGIC_VAL    = 0x42500000

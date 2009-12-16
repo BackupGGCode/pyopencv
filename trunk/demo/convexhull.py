@@ -43,14 +43,14 @@ if __name__ == '__main__':
 
         for i in range (count):
             # draw all the points
-            circle (image, Point.from_ndarray(points[0,i]), 2, Scalar (0, 0, 255, 0), CV_FILLED, CV_AA, 0)
+            circle (image, Point.from_ndarray(points[0,i]), 2, Scalar (0, 0, 255), CV_FILLED, CV_AA, 0)
 
         # start the line from the last point
         pt0 = hull[-1]
         
         for pt1 in hull:
             # draw
-            line (image, pt0, pt1, Scalar (0, 255, 0, 0), 1, CV_AA, 0)
+            line (image, pt0, pt1, Scalar (0, 255, 0), 1, CV_AA, 0)
 
             # now, current one will be the previous one for the next iteration
             pt0 = pt1
