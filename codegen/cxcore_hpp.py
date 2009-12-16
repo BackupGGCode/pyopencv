@@ -431,6 +431,7 @@ static bp::tuple children(cv::FileNode const &inst)
             z.arguments[1].type == D.dummy_type_t('::cv::MatND *'):
             z.include()
             z._transformer_creators.append(FT.input_array1d(1))
+            z._transformer_kwds['alias'] = 'split'
     
     # mixChannels
     z = mb.free_funs('mixChannels').exclude()
@@ -444,6 +445,7 @@ static bp::tuple children(cv::FileNode const &inst)
     for z in mb.free_funs('checkRange'):
         z.include()
         z._transformer_creators.append(FT.output_type1(2))
+        z._transformer_kwds['alias'] = 'checkRange'
     
     # kmeans
     z = mb.free_fun('kmeans')
@@ -456,12 +458,14 @@ static bp::tuple children(cv::FileNode const &inst)
             z.arguments[0].type == D.dummy_type_t('::cv::MatND const *'):
             z.include()
             z._transformer_creators.append(FT.input_array1d(0, 'count'))
+            z._transformer_kwds['alias'] = 'merge'
             
     # calcCovarMatrix
     for z in mb.free_funs('calcCovarMatrix'):
         z.include()
         if z.arguments[0].type == D.dummy_type_t('::cv::Mat const *'):
             z._transformer_creators.append(FT.input_array1d('samples', 'nsamples'))
+        z._transformer_kwds['alias'] = 'calcCovarMatrix'
             
     # theRNG
     z = mb.free_fun('theRNG')
@@ -478,6 +482,7 @@ static bp::tuple children(cv::FileNode const &inst)
         z = mb.free_fun(t)
         z.include()
         z._transformer_creators.append(FT.input_array2d('pts', 'npts', 'ncontours'))
+        z._transformer_kwds['alias'] = 'fillPoly'
         
     # getTextSize
     z = mb.free_fun('getTextSize')

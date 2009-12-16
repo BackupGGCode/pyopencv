@@ -360,6 +360,7 @@ static bp::object sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool cl
     # convexHull
     mb.free_funs('convexHull').exclude()
     z = mb.free_fun(lambda x: x.name=='convexHull' and 'vector<int' in x.arguments[1].type.decl_string)
+    z.include()
     z._transformer_kwds['alias'] = 'convexHullIdx'
     z._transformer_creators.append(FT.output_std_vector('hull'))
     
