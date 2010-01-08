@@ -197,7 +197,7 @@ CV_TM_CCOEFF_NORMED = 5
     # cvCalcEMD2
     FT.expose_func(mb.free_fun('cvCalcEMD2'), return_pointee=False, transformer_creators=[
         FT.distance_function('distance_func', 'userdata')])
-    mb.add_doc('cvCalcEMD2', 
+    mb.add_doc('calcEMD2', 
         "'distance_func' is a Python function declared as follows:",
         "    def distance_func((int)a, (int)b, (object)userdata) -> (float)x",
         "where",
@@ -238,11 +238,11 @@ CV_TM_CCOEFF_NORMED = 5
     z.rename('_cvEndFindContours')
     FT.add_underscore(z)
     cc.write('''
-def cvEndFindContours(scanner):
+def endFindContours(scanner):
     z = _PE._cvEndFindContours(scanner)
     scanner._ownershiplevel = 0 # not owning the structure anymore
     return z
-cvEndFindContours.__doc__ = _PE._cvEndFindContours.__doc__
+endFindContours.__doc__ = _PE._cvEndFindContours.__doc__
     ''')
 
     # cvApproxChains
@@ -274,7 +274,6 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
     # estimateRigidTransform
     z = mb.free_fun('cvEstimateRigidTransform')
     z.include()
-    z.rename('estimateRigidTransform')
 
 
     # cvCalcOpticalFlowPyrLK
@@ -430,8 +429,8 @@ CV_DIST_MASK_PRECISE = 0
     z._transformer_creators.append(FT.from_address('min_idx'))
     z._transformer_creators.append(FT.from_address('max_idx'))
     cc.write('''
-def cvGetMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
-    """(float) min_value, (float) max_value[, (tuple_of_ints)min_idx][, (tuple_of_ints)max_idx] = cvGetMinMaxHistValue((CvHistogram) hist, (bool)return_min_idx=False, (bool)return_max_idx=False)
+def getMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
+    """(float) min_value, (float) max_value[, (tuple_of_ints)min_idx][, (tuple_of_ints)max_idx] = getMinMaxHistValue((CvHistogram) hist, (bool)return_min_idx=False, (bool)return_max_idx=False)
 
     Finds the minimum and maximum histogram bins
     [pyopencv] 'min_idx' is returned if 'return_min_idx' is True. 
@@ -479,8 +478,8 @@ def cvGetMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
     for z in ('cvCalcArrBackProject', 'cvCalcArrBackProjectPatch'):
         FT.expose_func(mb.free_fun(z), return_pointee=False, transformer_creators=[FT.input_array1d('image')])
     cc.write('''
-cvBackProject = cvCalcArrBackProject
-cvCalcBackProjectPatch = cvCalcArrBackProjectPatch
+backProject = calcArrBackProject
+backProjectPatch = calcArrBackProjectPatch
     ''')
 
 

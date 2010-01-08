@@ -15,8 +15,8 @@ def on_mouse( event, x, y, flags, param ):
         return;
 
     if event==CV_EVENT_LBUTTONDOWN:
-        cvLogPolar( src, dst, Point2f(x,y), 40, INTER_LINEAR+CV_WARP_FILL_OUTLIERS )
-        cvLogPolar( dst, src2, Point2f(x,y), 40, INTER_LINEAR+CV_WARP_FILL_OUTLIERS+CV_WARP_INVERSE_MAP )
+        logPolar( src, dst, Point2f(x,y), 40, INTER_LINEAR+CV_WARP_FILL_OUTLIERS )
+        logPolar( dst, src2, Point2f(x,y), 40, INTER_LINEAR+CV_WARP_FILL_OUTLIERS+CV_WARP_INVERSE_MAP )
         imshow( "log-polar", dst )
         imshow( "inverse log-polar", src2 )
 

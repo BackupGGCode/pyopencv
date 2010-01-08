@@ -90,17 +90,8 @@ CV_RAND_NORMAL = 1
     ''')
         
     # missing functions
-    z = mb.free_fun('cvRandArr')
-    z.include()
-    z.rename('randArr')
-    
-    z = mb.free_fun('cvSolveCubic')
-    z.include()
-    z.rename('solveCubic')
-    
-    z = mb.free_fun('cvSolvePoly')
-    z.include()
-    z.rename('solvePoly')
+    for z in ('cvRandArr', 'cvSolveCubic', 'cvSolvePoly'):
+        mb.free_fun(z).include()
 
 
     # Matrix operations
@@ -124,7 +115,9 @@ CV_PCA_USE_AVG = 2
     ''')
     
     # cvRange
-    FT.expose_func(mb.free_fun('cvRange'), return_arg_index=1)
+    z = mb.free_fun('cvRange')
+    FT.expose_func(z, return_arg_index=1)
+    z.rename('range_') # to avoid conflict with Python's range builtin function
 
         
     # Array Statistics

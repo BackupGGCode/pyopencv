@@ -15,7 +15,7 @@ trackbar_name = "Threshold"
 
 # the callback on the trackbar
 def on_trackbar (position, param):
-    cvSmooth (gray, edge, CV_BLUR, 3, 3, 0)
+    smooth (gray, edge, CV_BLUR, 3, 3, 0)
     bitwise_not (gray, edge)
 
     # run the edge dector on gray scale
