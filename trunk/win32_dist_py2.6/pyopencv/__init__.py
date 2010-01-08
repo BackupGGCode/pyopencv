@@ -588,17 +588,17 @@ def _Point2d__repr__(self):
 Point2d.__repr__ = _Point2d__repr__
         
         
-str = "\n    [pyopencv] Creates a Point2d view on an ndarray instance."
+_str = "\n    [pyopencv] Creates a Point2d view on an ndarray instance."
 if Point2d.from_ndarray.__doc__ is None:
-    Point2d.from_ndarray.__doc__ = str
+    Point2d.from_ndarray.__doc__ = _str
 else:
-    Point2d.from_ndarray.__doc__ += str
+    Point2d.from_ndarray.__doc__ += _str
 
-str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point2d that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point2d.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point2d that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point2d.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
 if Point2d.__doc__ is None:
-    Point2d.__doc__ = str
+    Point2d.__doc__ = _str
 else:
-    Point2d.__doc__ += str
+    Point2d.__doc__ += _str
     
 def _Point2d__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
@@ -621,17 +621,17 @@ def _Point2f__repr__(self):
 Point2f.__repr__ = _Point2f__repr__
         
         
-str = "\n    [pyopencv] Creates a Point2f view on an ndarray instance."
+_str = "\n    [pyopencv] Creates a Point2f view on an ndarray instance."
 if Point2f.from_ndarray.__doc__ is None:
-    Point2f.from_ndarray.__doc__ = str
+    Point2f.from_ndarray.__doc__ = _str
 else:
-    Point2f.from_ndarray.__doc__ += str
+    Point2f.from_ndarray.__doc__ += _str
 
-str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point2f that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point2f.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point2f that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point2f.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
 if Point2f.__doc__ is None:
-    Point2f.__doc__ = str
+    Point2f.__doc__ = _str
 else:
-    Point2f.__doc__ += str
+    Point2f.__doc__ += _str
     
 def _Point2f__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
@@ -654,17 +654,17 @@ def _Point2i__repr__(self):
 Point2i.__repr__ = _Point2i__repr__
         
         
-str = "\n    [pyopencv] Creates a Point2i view on an ndarray instance."
+_str = "\n    [pyopencv] Creates a Point2i view on an ndarray instance."
 if Point2i.from_ndarray.__doc__ is None:
-    Point2i.from_ndarray.__doc__ = str
+    Point2i.from_ndarray.__doc__ = _str
 else:
-    Point2i.from_ndarray.__doc__ += str
+    Point2i.from_ndarray.__doc__ += _str
 
-str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point2i that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point2i.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point2i that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point2i.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
 if Point2i.__doc__ is None:
-    Point2i.__doc__ = str
+    Point2i.__doc__ = _str
 else:
-    Point2i.__doc__ += str
+    Point2i.__doc__ += _str
     
 def _Point2i__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
@@ -687,17 +687,17 @@ def _Point3d__repr__(self):
 Point3d.__repr__ = _Point3d__repr__
         
         
-str = "\n    [pyopencv] Creates a Point3d view on an ndarray instance."
+_str = "\n    [pyopencv] Creates a Point3d view on an ndarray instance."
 if Point3d.from_ndarray.__doc__ is None:
-    Point3d.from_ndarray.__doc__ = str
+    Point3d.from_ndarray.__doc__ = _str
 else:
-    Point3d.from_ndarray.__doc__ += str
+    Point3d.from_ndarray.__doc__ += _str
 
-str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point3d that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point3d.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point3d that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point3d.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
 if Point3d.__doc__ is None:
-    Point3d.__doc__ = str
+    Point3d.__doc__ = _str
 else:
-    Point3d.__doc__ += str
+    Point3d.__doc__ += _str
     
 def _Point3d__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
@@ -720,17 +720,17 @@ def _Point3f__repr__(self):
 Point3f.__repr__ = _Point3f__repr__
         
         
-str = "\n    [pyopencv] Creates a Point3f view on an ndarray instance."
+_str = "\n    [pyopencv] Creates a Point3f view on an ndarray instance."
 if Point3f.from_ndarray.__doc__ is None:
-    Point3f.from_ndarray.__doc__ = str
+    Point3f.from_ndarray.__doc__ = _str
 else:
-    Point3f.from_ndarray.__doc__ += str
+    Point3f.from_ndarray.__doc__ += _str
 
-str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point3f that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point3f.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point3f that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point3f.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
 if Point3f.__doc__ is None:
-    Point3f.__doc__ = str
+    Point3f.__doc__ = _str
 else:
-    Point3f.__doc__ += str
+    Point3f.__doc__ += _str
     
 def _Point3f__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
@@ -753,17 +753,17 @@ def _Point3i__repr__(self):
 Point3i.__repr__ = _Point3i__repr__
         
         
-str = "\n    [pyopencv] Creates a Point3i view on an ndarray instance."
+_str = "\n    [pyopencv] Creates a Point3i view on an ndarray instance."
 if Point3i.from_ndarray.__doc__ is None:
-    Point3i.from_ndarray.__doc__ = str
+    Point3i.from_ndarray.__doc__ = _str
 else:
-    Point3i.from_ndarray.__doc__ += str
+    Point3i.from_ndarray.__doc__ += _str
 
-str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point3i that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point3i.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point3i that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Point3i.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
 if Point3i.__doc__ is None:
-    Point3i.__doc__ = str
+    Point3i.__doc__ = _str
 else:
-    Point3i.__doc__ += str
+    Point3i.__doc__ += _str
     
 def _Point3i__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
@@ -820,17 +820,17 @@ def _RotatedRect__repr__(self):
 RotatedRect.__repr__ = _RotatedRect__repr__
         
     
-str = "\n    [pyopencv] Creates a Scalar view on an ndarray instance."
+_str = "\n    [pyopencv] Creates a Scalar view on an ndarray instance."
 if Scalar.from_ndarray.__doc__ is None:
-    Scalar.from_ndarray.__doc__ = str
+    Scalar.from_ndarray.__doc__ = _str
 else:
-    Scalar.from_ndarray.__doc__ += str
+    Scalar.from_ndarray.__doc__ += _str
 
-str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Scalar that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Scalar.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Scalar that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Scalar.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
 if Scalar.__doc__ is None:
-    Scalar.__doc__ = str
+    Scalar.__doc__ = _str
 else:
-    Scalar.__doc__ += str
+    Scalar.__doc__ += _str
     
 def _Scalar__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
@@ -857,17 +857,17 @@ def _Range__repr__(self):
 Range.__repr__ = _Range__repr__
         
     
-str = "\n    [pyopencv] Creates a Mat view on an ndarray instance."
+_str = "\n    [pyopencv] Creates a Mat view on an ndarray instance."
 if Mat.from_ndarray.__doc__ is None:
-    Mat.from_ndarray.__doc__ = str
+    Mat.from_ndarray.__doc__ = _str
 else:
-    Mat.from_ndarray.__doc__ += str
+    Mat.from_ndarray.__doc__ += _str
 
-str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Mat that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Mat.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Mat that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = Mat.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
 if Mat.__doc__ is None:
-    Mat.__doc__ = str
+    Mat.__doc__ = _str
 else:
-    Mat.__doc__ += str
+    Mat.__doc__ += _str
     
 def _Mat__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
@@ -900,17 +900,17 @@ def _TermCriteria__repr__(self):
 TermCriteria.__repr__ = _TermCriteria__repr__
         
     
-str = "\n    [pyopencv] Creates a MatND view on an ndarray instance."
+_str = "\n    [pyopencv] Creates a MatND view on an ndarray instance."
 if MatND.from_ndarray.__doc__ is None:
-    MatND.from_ndarray.__doc__ = str
+    MatND.from_ndarray.__doc__ = _str
 else:
-    MatND.from_ndarray.__doc__ += str
+    MatND.from_ndarray.__doc__ += _str
 
-str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of MatND that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = MatND.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of MatND that shares the same data with an ndarray instance, just call:\n    [pyopencv]     b = MatND.from_ndarray(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep 'a' unchanged until 'b' is deleted."
 if MatND.__doc__ is None:
-    MatND.__doc__ = str
+    MatND.__doc__ = _str
 else:
-    MatND.__doc__ += str
+    MatND.__doc__ += _str
     
 def _MatND__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
@@ -1127,11 +1127,11 @@ CV_TM_CCOEFF_NORMED = 5
 
 
     
-str = "\n    [pyopencv] 'distance_func' is a Python function declared as follows:\n    [pyopencv]     def distance_func((int)a, (int)b, (object)userdata) -> (float)x\n    [pyopencv] where\n    [pyopencv]     'a' : the address of a C array of C floats representing the first vector\n    [pyopencv]     'b' : the address of a C array of C floats representing the second vector\n    [pyopencv]     'userdata' : the 'userdata' parameter of cvCalcEMD2()\n    [pyopencv]     'x' : the resultant distance"
-if cvCalcEMD2.__doc__ is None:
-    cvCalcEMD2.__doc__ = str
+_str = "\n    [pyopencv] 'distance_func' is a Python function declared as follows:\n    [pyopencv]     def distance_func((int)a, (int)b, (object)userdata) -> (float)x\n    [pyopencv] where\n    [pyopencv]     'a' : the address of a C array of C floats representing the first vector\n    [pyopencv]     'b' : the address of a C array of C floats representing the second vector\n    [pyopencv]     'userdata' : the 'userdata' parameter of cvCalcEMD2()\n    [pyopencv]     'x' : the resultant distance"
+if calcEMD2.__doc__ is None:
+    calcEMD2.__doc__ = _str
 else:
-    cvCalcEMD2.__doc__ += str
+    calcEMD2.__doc__ += _str
 
 #-----------------------------------------------------------------------------
 # Contours Retrieving
@@ -1139,11 +1139,11 @@ else:
 
 
     
-def cvEndFindContours(scanner):
+def endFindContours(scanner):
     z = _PE._cvEndFindContours(scanner)
     scanner._ownershiplevel = 0 # not owning the structure anymore
     return z
-cvEndFindContours.__doc__ = _PE._cvEndFindContours.__doc__
+endFindContours.__doc__ = _PE._cvEndFindContours.__doc__
     
 #-----------------------------------------------------------------------------
 # Motion Analysis
@@ -1200,8 +1200,8 @@ CV_DIST_MASK_5 = 5
 CV_DIST_MASK_PRECISE = 0
 
     
-def cvGetMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
-    """(float) min_value, (float) max_value[, (tuple_of_ints)min_idx][, (tuple_of_ints)max_idx] = cvGetMinMaxHistValue((CvHistogram) hist, (bool)return_min_idx=False, (bool)return_max_idx=False)
+def getMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
+    """(float) min_value, (float) max_value[, (tuple_of_ints)min_idx][, (tuple_of_ints)max_idx] = getMinMaxHistValue((CvHistogram) hist, (bool)return_min_idx=False, (bool)return_max_idx=False)
 
     Finds the minimum and maximum histogram bins
     [pyopencv] 'min_idx' is returned if 'return_min_idx' is True. 
@@ -1231,8 +1231,8 @@ def cvGetMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
         z.append(tuple(max_idx))
     return z
     
-cvBackProject = cvCalcArrBackProject
-cvCalcBackProjectPatch = cvCalcArrBackProjectPatch
+backProject = calcArrBackProject
+backProjectPatch = calcArrBackProjectPatch
     
 #-----------------------------------------------------------------------------
 # Feature detection
@@ -1498,18 +1498,8 @@ def CV_FOURCC(c1,c2,c3,c4):
 CV_FOURCC_PROMPT = -1 # Windows only
 CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
 
-# for backward compatibility only
-cvNamedWindow = namedWindow
-cvShowImage = imshow
-cvLoadImage = imread
-cvLoadImageM = imread
-cvDecodeImage = imdecode
-cvDecodeImageM = imdecode
-cvSaveImage = imwrite
-cvEncodeImage = imencode
-
     
-def cvCreateTrackbar2(trackbar_name, window_name, value, count, on_change, userdata=None):
+def createTrackbar(trackbar_name, window_name, value, count, on_change, userdata=None):
     if not isinstance(value, _CT.c_int):
         value = _CT.c_int(value)
 
@@ -1518,31 +1508,28 @@ def cvCreateTrackbar2(trackbar_name, window_name, value, count, on_change, userd
         cb_key = 'tracker-' + trackbar_name
         _windows_callbacks.setdefault(window_name,{})[cb_key] = z
     return result
-cvCreateTrackbar2.__doc__ = _PE._cvCreateTrackbar2.__doc__
+createTrackbar.__doc__ = _PE._cvCreateTrackbar2.__doc__
     
-str = "\n    [pyopencv] 'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_int, it keeps the current position of the trackbar at any time."
-if cvCreateTrackbar2.__doc__ is None:
-    cvCreateTrackbar2.__doc__ = str
+_str = "\n    [pyopencv] 'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_int, it keeps the current position of the trackbar at any time."
+if createTrackbar.__doc__ is None:
+    createTrackbar.__doc__ = _str
 else:
-    cvCreateTrackbar2.__doc__ += str
+    createTrackbar.__doc__ += _str
 
-cvCreateTrackbar = cvCreateTrackbar2
-
-    
-def cvSetMouseCallback(window_name, on_mouse, param=None):
+def setMouseCallback(window_name, on_mouse, param=None):
     _windows_callbacks.setdefault(window_name,{})["mouse"] = _PE._cvSetMouseCallback(window_name, on_mouse, param=param)
-cvSetMouseCallback.__doc__ = _PE._cvSetMouseCallback.__doc__
+setMouseCallback.__doc__ = _PE._cvSetMouseCallback.__doc__
     
-def cvDestroyWindow(name):
+def destroyWindow(name):
     _PE._cvDestroyWindow(name)
     if name in _windows_callbacks:
         _windows_callbacks.pop(name)
-cvDestroyWindow.__doc__ = _PE._cvDestroyWindow.__doc__        
+destroyWindow.__doc__ = _PE._cvDestroyWindow.__doc__        
     
-def cvDestroyAllWindows():
+def destroyAllWindows():
     _PE._cvDestroyAllWindows()
     _windows_callbacks.clear()
-cvDestroyAllWindows.__doc__ = _PE._cvDestroyAllWindows.__doc__        
+destroyAllWindows.__doc__ = _PE._cvDestroyAllWindows.__doc__        
 
     
 # Automatically destroy any remaining tracked windows at process exit,
@@ -1551,7 +1538,7 @@ cvDestroyAllWindows.__doc__ = _PE._cvDestroyAllWindows.__doc__
 # exposed to exceptions.
 
 import atexit
-atexit.register(cvDestroyAllWindows)
+atexit.register(destroyAllWindows)
     
 #=============================================================================
 # highgui.hpp
@@ -1563,19 +1550,4 @@ atexit.register(cvDestroyAllWindows)
 # C++ Interface
 #-----------------------------------------------------------------------------
 
-createTrackbar = cvCreateTrackbar2
-
-# don't know why they haven't exported these function
-initSystem = cvInitSystem
-startWindowThread = cvStartWindowThread
-resizeWindow = cvResizeWindow
-moveWindow = cvMoveWindow
-getWindowName = cvGetWindowName
-getTrackbarPos = cvGetTrackbarPos 
-setTrackbarpos = cvSetTrackbarPos
-setMouseCallback = cvSetMouseCallback
-destroyWindow = cvDestroyWindow
-destroyAllWindows = cvDestroyAllWindows
-convertImage = cvConvertImage
-    
     

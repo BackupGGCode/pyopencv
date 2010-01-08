@@ -144,11 +144,11 @@ def add_doc(self, decl_name, *strings):
         return
     s = reduce(lambda x, y: x+y, ["\\n    [pyopencv] "+x for x in strings])
     self.cc.write('''
-str = "STR"
+_str = "STR"
 if DECL.__doc__ is None:
-    DECL.__doc__ = str
+    DECL.__doc__ = _str
 else:
-    DECL.__doc__ += str
+    DECL.__doc__ += _str
 '''.replace("DECL", decl_name).replace("STR", str(s)))
 module_builder.module_builder_t.add_doc = add_doc
 
@@ -474,6 +474,15 @@ for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
     mb.enums(lambda x: x.name.startswith(z)).exclude()
 mb.enums(lambda x: x.decl_string.startswith('::std')).exclude()
 mb.enums(lambda x: x.decl_string.startswith('::tag')).exclude()
+
+# rename functions that starts with 'cv'
+for z in mb.free_funs():
+    if z.alias[:2] == 'cv'and z.alias[2].isupper():
+        zz = z.alias[2:]
+        if len(zz) > 1 and zz[1].islower():
+            zz = zz[0].lower()+zz[1:]
+        # print "Old name=", z.alias, " new name=", zz
+        z.rename(zz)
 
 
 #=============================================================================

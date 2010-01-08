@@ -31,21 +31,6 @@ def generate_code(mb, cc, D, FT, CP):
 # C++ Interface
 #-----------------------------------------------------------------------------
 
-createTrackbar = cvCreateTrackbar2
-
-# don't know why they haven't exported these function
-initSystem = cvInitSystem
-startWindowThread = cvStartWindowThread
-resizeWindow = cvResizeWindow
-moveWindow = cvMoveWindow
-getWindowName = cvGetWindowName
-getTrackbarPos = cvGetTrackbarPos 
-setTrackbarpos = cvSetTrackbarPos
-setMouseCallback = cvSetMouseCallback
-destroyWindow = cvDestroyWindow
-destroyAllWindows = cvDestroyAllWindows
-convertImage = cvConvertImage
-    
     ''')
 
     # functions

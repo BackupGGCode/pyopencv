@@ -122,24 +122,14 @@ def CV_FOURCC(c1,c2,c3,c4):
 CV_FOURCC_PROMPT = -1 # Windows only
 CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
 
-# for backward compatibility only
-cvNamedWindow = namedWindow
-cvShowImage = imshow
-cvLoadImage = imread
-cvLoadImageM = imread
-cvDecodeImage = imdecode
-cvDecodeImageM = imdecode
-cvSaveImage = imwrite
-cvEncodeImage = imencode
-
     ''')
 
     # functions
     for z in (
         'cvStartWindowThread', 'cvResizeWindow', 'cvMoveWindow', 
         'cvGetWindowName', 'cvGetTrackbarPos', 'cvSetTrackbarPos',
-        'cvConvertImage', 'cvWaitKey',
-        # 'cvGrabFrame', 'cvGetCaptureProperty', 'cvSetCaptureProperty', 'cvGetCaptureDomain',
+        'cvConvertImage', 
+        # 'cvWaitKey', 'cvGrabFrame', 'cvGetCaptureProperty', 'cvSetCaptureProperty', 'cvGetCaptureDomain',
         # 'cvWriteFrame',
         ):
         mb.free_fun(z).include()
@@ -160,13 +150,13 @@ cvEncodeImage = imencode
 
     # cvGetWindowHandle, wait until requested
 
-    # cvCreateTrackbar2
+    # createTrackbar from cvCreateTrackbar2
     z = mb.free_fun('cvCreateTrackbar2')
     FT.expose_func(z, return_pointee=False, transformer_creators=[
         FT.trackbar_callback2_func('on_change', 'userdata'), FT.from_address('value')])
     FT.add_underscore(z)
     cc.write('''
-def cvCreateTrackbar2(trackbar_name, window_name, value, count, on_change, userdata=None):
+def createTrackbar(trackbar_name, window_name, value, count, on_change, userdata=None):
     if not isinstance(value, _CT.c_int):
         value = _CT.c_int(value)
 
@@ -175,43 +165,39 @@ def cvCreateTrackbar2(trackbar_name, window_name, value, count, on_change, userd
         cb_key = 'tracker-' + trackbar_name
         _windows_callbacks.setdefault(window_name,{})[cb_key] = z
     return result
-cvCreateTrackbar2.__doc__ = _PE._cvCreateTrackbar2.__doc__
+createTrackbar.__doc__ = _PE._cvCreateTrackbar2.__doc__
     ''')
-    mb.add_doc('cvCreateTrackbar2', "'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_int, it keeps the current position of the trackbar at any time.")
-    cc.write('''
-cvCreateTrackbar = cvCreateTrackbar2
+    mb.add_doc('createTrackbar', "'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_int, it keeps the current position of the trackbar at any time.")
 
-    ''')
-
-    # cvSetMouseCallback
+    # setMouseCallback
     z = mb.free_fun('cvSetMouseCallback')
     FT.expose_func(z, transformer_creators=[FT.mouse_callback_func('on_mouse', 'param')])
     FT.add_underscore(z)
     cc.write('''
-def cvSetMouseCallback(window_name, on_mouse, param=None):
+def setMouseCallback(window_name, on_mouse, param=None):
     _windows_callbacks.setdefault(window_name,{})["mouse"] = _PE._cvSetMouseCallback(window_name, on_mouse, param=param)
-cvSetMouseCallback.__doc__ = _PE._cvSetMouseCallback.__doc__
+setMouseCallback.__doc__ = _PE._cvSetMouseCallback.__doc__
     ''')
 
-    # cvDestroyWindow
+    # destroyWindow
     z = mb.free_fun('cvDestroyWindow')
     FT.add_underscore(z)
     cc.write('''
-def cvDestroyWindow(name):
+def destroyWindow(name):
     _PE._cvDestroyWindow(name)
     if name in _windows_callbacks:
         _windows_callbacks.pop(name)
-cvDestroyWindow.__doc__ = _PE._cvDestroyWindow.__doc__        
+destroyWindow.__doc__ = _PE._cvDestroyWindow.__doc__        
     ''')
 
-    # cvDestroyAllWindows
+    # destroyAllWindows
     z = mb.free_fun('cvDestroyAllWindows')
     FT.add_underscore(z)
     cc.write('''
-def cvDestroyAllWindows():
+def destroyAllWindows():
     _PE._cvDestroyAllWindows()
     _windows_callbacks.clear()
-cvDestroyAllWindows.__doc__ = _PE._cvDestroyAllWindows.__doc__        
+destroyAllWindows.__doc__ = _PE._cvDestroyAllWindows.__doc__        
 
     ''')
 
@@ -223,13 +209,6 @@ cvDestroyAllWindows.__doc__ = _PE._cvDestroyAllWindows.__doc__
 # exposed to exceptions.
 
 import atexit
-atexit.register(cvDestroyAllWindows)
+atexit.register(destroyAllWindows)
     ''')
-
-    # for z in ('cvRetrieveFrame', 'cvQueryFrame'):
-        # FT.expose_func(mb.free_fun(z), ward_indices=(1,))
-
-    # for z in ('cvCreateFileCapture', 'cvCreateCameraCapture', 'cvCreateVideoWriter'):
-        # FT.expose_func(mb.free_fun(z))
-
 
