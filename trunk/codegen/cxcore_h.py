@@ -240,7 +240,7 @@ CV_AA = 16
 
 # Constructs a color value
 def CV_RGB(r, g, b):
-    return CvScalar(b, g, r)
+    return Scalar(b, g, r)
 
     
     ''')

@@ -630,7 +630,7 @@ object as_Mat(const ndarray &arr)
     }
     
     // wrapping
-    mat = cv::Mat(cv::Size(shape[0], shape[1]), CV_MAKETYPE(convert_dtype_to_cvdepth(arr.dtype()), nchannels), 
+    mat = cv::Mat(cv::Size(shape[1], shape[0]), CV_MAKETYPE(convert_dtype_to_cvdepth(arr.dtype()), nchannels), 
         (void *)arr.data(), strides[0]);
     object result(mat);
     objects::make_nurse_and_patient(result.ptr(), obj);
