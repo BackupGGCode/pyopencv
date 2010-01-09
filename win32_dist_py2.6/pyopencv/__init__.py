@@ -548,7 +548,7 @@ CV_AA = 16
 
 # Constructs a color value
 def CV_RGB(r, g, b):
-    return CvScalar(b, g, r)
+    return Scalar(b, g, r)
 
     
     
@@ -886,7 +886,7 @@ def _Mat__setslice__(self, *args, **kwds):
 Mat.__setslice__ = _Mat__setslice__
         
 def _Mat__repr__(self):
-    return "Mat()" if self.empty() else "Mat(rows=" + repr(self.rows) + ",         cols=" + repr(self.cols) + ", nchannels=" + repr(self.channels())         + ", depth=" + repr(self.depth()) + "):\n" + repr(self.ndarray)
+    return "Mat()" if self.empty() else "Mat(rows=" + repr(self.rows)         + ", cols=" + repr(self.cols) + ", nchannels=" + repr(self.channels())         + ", depth=" + repr(self.depth()) + "):\n" + repr(self.ndarray)
 Mat.__repr__ = _Mat__repr__
     
 def _RNG__repr__(self):

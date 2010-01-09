@@ -156,8 +156,8 @@ KLASS.__repr__ = _KLASS__repr__
     mb.add_ndarray_interface(z)
     cc.write('''
 def _Mat__repr__(self):
-    return "Mat()" if self.empty() else "Mat(rows=" + repr(self.rows) + ", \
-        cols=" + repr(self.cols) + ", nchannels=" + repr(self.channels()) \
+    return "Mat()" if self.empty() else "Mat(rows=" + repr(self.rows) \
+        + ", cols=" + repr(self.cols) + ", nchannels=" + repr(self.channels()) \
         + ", depth=" + repr(self.depth()) + "):\\n" + repr(self.ndarray)
 Mat.__repr__ = _Mat__repr__
     ''')
