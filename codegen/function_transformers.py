@@ -672,9 +672,9 @@ def inout_type1( *args, **keywd ):
     
 # trackbar_callback2_func_t
 class trackbar_callback2_func_t(transformer.transformer_t):
-    """Handles a CvMouseCallback argument.
+    """Handles a CvTrackbarCallback argument.
 
-    void do_something(CvMouseCallback on_mouse, void* param) ->  do_something((Python function) on_mouse, (object) param)
+    void do_something(CvTrackbarCallback on_change, void* param) ->  do_something((Python function) on_change, (object) param)
     """
 
     def __init__(self, function, arg_on_mouse, arg_user_data):
