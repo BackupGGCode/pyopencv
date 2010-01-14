@@ -1,7 +1,7 @@
 =Notes to remind me how I should develop PyOpenCv=
 
 ==Output and Inout Argument==
-Should output/inout arguments be allocated by pyopencv or by the user. Sometimes, for performance purposes, it is better to let the user allocate the arguments. Sometimes, for efficiency in writing code, it is better that pyopencv does the allocation job. What's the bes solution for the problem? Pass by None? No, I should create a FunctionArgument class that may have an integer flag to take care of the issue. However, I should resolve this problem after the first release.
+Should output/inout arguments be allocated by pyopencv or by the user? Sometimes, for performance purposes, it is better to let the user allocate the arguments. Sometimes, for efficiency in writing code, it is better that pyopencv does the allocation job. What's the bes solution for the problem? Pass by None? No, I should create a FunctionArgument class that may have an integer flag to take care of the issue. However, I should resolve this problem after the first release.
 
 ==Crash issue with CV_SSE2==
 During the compile time of OpenCV 2.0, if CV_SSE2 is enabled, assembly SSE2 code is used instead of C code. This works fine in C/C++ but *crashes* in Python. Therefore, disabling SSE2 when compiling OpenCV 2.0 is a must.
