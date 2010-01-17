@@ -40,9 +40,10 @@ def findSquares4( img, thresh ):
     # down-scale and upscale the image to filter out the noise
     pyrDown( timg, pyr, pyr.size() )
     pyrUp( pyr, subimage, subimage.size() )
-    tgray = Mat(sz, CV_8UC1)
     # extract the color planes
+    tgrays = [Mat(sz, CV_8UC1) for i in range(3)]
     channels = [Mat(sz, CV_8UC1) for i in range(3)]
+    split( timg, tgrays )
     split( subimage, channels ) 
     # find squares in every color plane of the image
     for c in range(3):
@@ -52,17 +53,17 @@ def findSquares4( img, thresh ):
             if( l == 0 ):
                 # apply Canny. Take the upper threshold from slider
                 # and set the lower to 0 (which forces edges merging)
-                Canny( tgray, gray, 0, thresh, 5 )
+                Canny( tgrays[c], gray, 0, thresh, 5 )
                 # dilate canny output to remove potential
                 # holes between edge segments
                 dilate( gray, gray, Mat() )
             else:
                 # apply threshold if l!=0:
                 #     tgray(x,y) = gray(x,y) < (l+1)*255/N ? 255 : 0
-                threshold( tgray, gray, (l+1)*255/N, 255, THRESH_BINARY )
+                threshold( tgrays[c], gray, (l+1)*255/N, 255, THRESH_BINARY )
 
             # find contours and store them all as a list
-            contours, hierarchy = findContours(gray, mode=RETR_CCOMP, method=CHAIN_APPROX_SIMPLE)
+            contours, hierarchy = findContours(gray, mode=RETR_LIST, method=CHAIN_APPROX_SIMPLE)
 
             if len(contours) == 0:
                 continue
