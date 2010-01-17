@@ -24,20 +24,6 @@ def generate_code(mb, cc, D, FT, CP):
 #=============================================================================
 
 
-# contour retrieval mode
-CV_RETR_EXTERNAL = 0
-CV_RETR_LIST     = 1
-CV_RETR_CCOMP    = 2
-CV_RETR_TREE     = 3
-
-# contour approximation method
-CV_CHAIN_CODE               = 0
-CV_CHAIN_APPROX_NONE        = 1
-CV_CHAIN_APPROX_SIMPLE      = 2
-CV_CHAIN_APPROX_TC89_L1     = 3
-CV_CHAIN_APPROX_TC89_KCOS   = 4
-CV_LINK_RUNS                = 5
-
 # Defines for Distance Transform
 CV_DIST_USER    = -1
 CV_DIST_L1      = 1
