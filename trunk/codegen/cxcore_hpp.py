@@ -493,7 +493,7 @@ static bp::tuple children(cv::FileNode const &inst)
         z = mb.free_fun(t)
         z.include()
         z._transformer_creators.append(FT.input_array2d('pts', 'npts', 'ncontours'))
-        z._transformer_kwds['alias'] = 'fillPoly'
+        z._transformer_kwds['alias'] = t
         
     # getTextSize
     z = mb.free_fun('getTextSize')
