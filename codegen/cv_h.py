@@ -499,13 +499,6 @@ backProjectPatch = calcArrBackProjectPatch
 #-----------------------------------------------------------------------------
 
 
-CV_POLY_APPROX_DP = 0
-
-CV_HOUGH_STANDARD = 0
-CV_HOUGH_PROBABILISTIC = 1
-CV_HOUGH_MULTI_SCALE = 2
-CV_HOUGH_GRADIENT = 3
-
     ''')
 
     # some functions
@@ -517,10 +510,6 @@ CV_HOUGH_GRADIENT = 3
         ):
         mb.free_fun(z).include()
 
-    # cvHoughCircles
-    FT.expose_func(mb.free_fun('cvHoughCircles'), ward_indices=(2,1), transformer_creators=[
-        FT.fix_type('circle_storage', '::CvArr *')])
-    
     # CvFeatureTree
     mb.class_('CvFeatureTree').include()
     mb.insert_del_interface('CvFeatureTree', '_PE._cvReleaseFeatureTree')
