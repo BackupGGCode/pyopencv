@@ -146,6 +146,7 @@ KLASS.__repr__ = _KLASS__repr__
 
     # Mat
     z = mb.class_('Mat')
+    z.include_files.append("opencv_extra.hpp")
     z.include()
     for t in ('::IplImage', '::CvMat', 'MatExp'):
         z.decls(lambda x: t in x.decl_string).exclude()
@@ -161,6 +162,16 @@ def _Mat__repr__(self):
         + ", depth=" + repr(self.depth()) + "):\\n" + repr(self.ndarray)
 Mat.__repr__ = _Mat__repr__
     ''')
+    z.add_declaration_code('''
+static boost::shared_ptr<cv::Mat> Mat__init1__(const bp::object &seq)
+{
+    cv::Mat *result = new cv::Mat();
+    convert_Mat(seq, *result);
+    return boost::shared_ptr<cv::Mat>(result);
+}
+
+    ''')
+    z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("seq") )))')
 
     # RNG
     z = mb.class_('RNG')

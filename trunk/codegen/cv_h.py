@@ -222,10 +222,6 @@ CV_TM_CCOEFF_NORMED = 5
         mb.free_fun(z).include()
 
 
-    # cvFindContours, # warning: first_contour not linked to storage, wait until requested # TODO: similar to cvExtractSURF
-    FT.expose_func(mb.free_fun('cvFindContours'), return_pointee=False, transformer_creators=[
-        FT.output_type1('first_contour')])
-
     # cvStartFindContours
     FT.expose_func(mb.free_fun('cvStartFindContours'), ownershiplevel=1, ward_indices=(2,))
 
