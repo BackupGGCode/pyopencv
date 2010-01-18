@@ -5,7 +5,13 @@
 import python ;
 
 #  MinGW configuration
-using gcc ;
+# using gcc ;
+using gcc :  :  g++ :
+# uncomment the following 2 lines if your OpenCV 2.0 build does not have OpenMP flag checked
+#		<compileflags>-fopenmp -D_GLIBCXX_PARALLEL
+#		<linkflags>-fopenmp -D_GLIBCXX_PARALLEL
+; 
+
 
 if ! [ python.configured ]
 {

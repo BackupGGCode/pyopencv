@@ -1225,13 +1225,6 @@ backProjectPatch = calcArrBackProjectPatch
 #-----------------------------------------------------------------------------
 
 
-CV_POLY_APPROX_DP = 0
-
-CV_HOUGH_STANDARD = 0
-CV_HOUGH_PROBABILISTIC = 1
-CV_HOUGH_MULTI_SCALE = 2
-CV_HOUGH_GRADIENT = 3
-
     
 CvFeatureTree._ownershiplevel = 0
 

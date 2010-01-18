@@ -7,3 +7,9 @@ SWIG was used when building the ML component of the official Windows binary rele
 Perhaps, TDM-GCC builds differently from MinGW GCC when mangling the C++ declaration names. Seems like C++ functions are not properly detected from the official library using MinGW. I'll work with _just the C interface_ for now.
 
 It seems the problem is at the default value. std::allocator in std::vector always creates a problem, both in compiling and in running. Let's remove it. std::basic_string<char ....>() should be replaced by std::string().
+
+Mat(int __rows, int __cols, int __type) hangs due to an unknown cause!!
+---------------------------
+How to turn on OpenMP?
+OpenMP off -- cannot turn it on. Basically cmake's OpenMP =-fopenmp and -D_GLIBCXX_PARALLEL. The first flag turns on OpenMP but I've got problems linking with OpenMP using -lgomp. The latter uses "parallel mode" STL containers, which e.g. converts std::vector into std::__cxx1998::vector, which creates a lot of linking problems. One of which is that Boost.Python is often not compiled with -D_GLIBCXX_PARALLEL.
+- Also, the default OpenCV 2.0 builds don't have -D_GLIBCXX_PARALLEL on either. It may have -fopenmp on though.
