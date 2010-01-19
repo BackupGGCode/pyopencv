@@ -42,6 +42,12 @@ Point = Point2i
         z.include()
         z.decls(lambda x: 'CvScalar' in x.decl_string).exclude()
         z.decl('val').exclude() # use operator[] instead
+        mb.add_ndarray_interface(z)
+        cc.write('''
+def _KLASS__repr__(self):
+    return "KLASS(" + self.ndarray.__str__() + ")"
+KLASS.__repr__ = _KLASS__repr__
+        '''.replace('KLASS', z.alias))
         
     # Complex et al
     zz = mb.classes(lambda z: z.name.startswith('Complex<'))

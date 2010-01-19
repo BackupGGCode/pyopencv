@@ -11,5 +11,6 @@ It seems the problem is at the default value. std::allocator in std::vector alwa
 Mat(int __rows, int __cols, int __type) hangs due to an unknown cause!!
 ---------------------------
 How to turn on OpenMP?
-OpenMP off -- cannot turn it on. Basically cmake's OpenMP =-fopenmp and -D_GLIBCXX_PARALLEL. The first flag turns on OpenMP but I've got problems linking with OpenMP using -lgomp. The latter uses "parallel mode" STL containers, which e.g. converts std::vector into std::__cxx1998::vector, which creates a lot of linking problems. One of which is that Boost.Python is often not compiled with -D_GLIBCXX_PARALLEL.
+OpenMP on -- with -D_GLIBCXX_PARALLEL removed from CMakeLists.txt. Basically cmake's OpenMP =-fopenmp and -D_GLIBCXX_PARALLEL. The first flag turns on OpenMP. The latter uses "parallel mode" STL containers, which e.g. converts std::vector into std::__cxx1998::vector, which creates a lot of linking problems. One of which is that Boost.Python is often not compiled with -D_GLIBCXX_PARALLEL.
 - Also, the default OpenCV 2.0 builds don't have -D_GLIBCXX_PARALLEL on either. It may have -fopenmp on though.
+- Use PyCUDA Installation instruction to install Boost Python and NumPy.
