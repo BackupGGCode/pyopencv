@@ -26,7 +26,12 @@ In addition, we use NumPy to provide fast indexing and slicing functionality to 
 
 DOCLINES = __doc__.split("\n")
 
-from distutils.core import setup
+from distutils.core import setup, Extension
+from glob import glob
+from os.path import join
+import sys
+from shutil import copyfile
+from config import *
 
 CLASSIFIERS = """\
 Development Status :: 4 - Beta
@@ -50,6 +55,28 @@ Topic :: Scientific/Engineering :: Human Machine Interfaces
 Topic :: Software Development :: Libraries :: Python Modules
 """
 
+pyopencvext = Extension(name='pyopencvext',
+    sources=glob(join('pyopencv', 'pyopencvext', '*.cpp')),
+    include_dirs=opencv_include_dirs+boost_include_dirs+['pyopencv', 
+        join('pyopencv', 'pyopencvext'), join('pyopencv', 'pyopencvext', 'numpy_include')],
+    library_dirs=opencv_library_dirs+boost_library_dirs,
+    libraries=opencv_libraries+boost_libraries,
+    runtime_library_dirs=opencv_runtime_library_dirs+boost_runtime_library_dirs,
+    extra_compile_args=['-ftemplate-depth-128','-O3','-finline-functions','-Wno-inline', 
+        '-Wall','-DNDEBUG'],
+    # define_macros=[('BOOST_PYTHON_STATIC_LIB', None)],
+
+#    extra_link_args=['-Wl,-Bstatic','-Wl,-Bdynamic'],
+)
+
+# fix a bug of distutils on Windows
+if sys.platform == 'win32':
+    from distutils import sysconfig
+    sysconfig._init_nt()
+    sysconfig._config_vars['CC'] = 'gcc'
+    
+# copy config.py to pyopencv/
+copyfile('config.py', join('pyopencv/', 'config.py'))
 
 setup(name = 'pyopencv',
 	version = '2.0.0.py1.0.0',
@@ -62,6 +89,8 @@ setup(name = 'pyopencv',
 	classifiers = filter(None, CLASSIFIERS.split('\n')),
 	long_description = "\n".join(DOCLINES[2:]),
 	packages = ['pyopencv'],
+    ext_package='pyopencv',
+    ext_modules=[pyopencvext],
     data_files=[('doc/pyopencv', ['AUTHORS', 'ChangeLog', 'COPYING', 'README', 'THANKS', 'TODO'])],
 )
 
