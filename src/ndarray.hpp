@@ -177,20 +177,113 @@ extern template void convert_ndarray( const std::vector<unsigned int> &in_arr, n
 extern template void convert_ndarray( const std::vector<float> &in_arr, ndarray &out_arr );
 extern template void convert_ndarray( const std::vector<double> &in_arr, ndarray &out_arr );
 
+// ================================================================================================
 
-ndarray as_ndarray(const object &obj);
+// as_ndarray -- convert but share data
+template<typename T>
+ndarray as_ndarray(const object &obj)
+{
+    char s[300];
+    sprintf( s, "Instantiation of function as_ndarray< cv::%s >() is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
+    throw error_already_set(); 
+}
 
-object as_Point2i(const ndarray &arr);
-object as_Point2f(const ndarray &arr);
-object as_Point2d(const ndarray &arr);
+#define AS_NDARRAY(Type) template<> ndarray as_ndarray<Type>(const object &obj)
 
-object as_Point3i(const ndarray &arr);
-object as_Point3f(const ndarray &arr);
-object as_Point3d(const ndarray &arr);
+// Vec-like
+AS_NDARRAY(cv::Vec2b);
+AS_NDARRAY(cv::Vec3b);
+AS_NDARRAY(cv::Vec4b);
+AS_NDARRAY(cv::Vec2s);
+AS_NDARRAY(cv::Vec3s);
+AS_NDARRAY(cv::Vec4s);
+AS_NDARRAY(cv::Vec2w);
+AS_NDARRAY(cv::Vec3w);
+AS_NDARRAY(cv::Vec4w);
+AS_NDARRAY(cv::Vec2i);
+AS_NDARRAY(cv::Vec3i);
+AS_NDARRAY(cv::Vec4i);
+AS_NDARRAY(cv::Vec2f);
+AS_NDARRAY(cv::Vec3f);
+AS_NDARRAY(cv::Vec4f);
+AS_NDARRAY(cv::Vec6f);
+AS_NDARRAY(cv::Vec2d);
+AS_NDARRAY(cv::Vec3d);
+AS_NDARRAY(cv::Vec4d);
+AS_NDARRAY(cv::Vec6d);
 
-object as_Scalar(const ndarray &arr);
-object as_Mat(const ndarray &arr);
-object as_MatND(const ndarray &arr);
+// Point-like
+AS_NDARRAY(cv::Point2i);
+AS_NDARRAY(cv::Point2f);
+AS_NDARRAY(cv::Point2d);
+AS_NDARRAY(cv::Point3i);
+AS_NDARRAY(cv::Point3f);
+AS_NDARRAY(cv::Point3d);
+
+// Scalar
+AS_NDARRAY(cv::Scalar);
+
+// Mat
+AS_NDARRAY(cv::Mat);
+
+// MatND
+AS_NDARRAY(cv::MatND);
+
+// ================================================================================================
+
+// from_ndarray -- convert but share data
+template<typename T>
+object from_ndarray(const ndarray &arr)
+{
+    char s[300];
+    sprintf( s, "Instantiation of function from_ndarray< cv::%s >() is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
+    throw error_already_set(); 
+}
+
+#define FROM_NDARRAY(Type) template<> object from_ndarray<Type>(const ndarray &arr)
+
+// Vec-like
+FROM_NDARRAY(cv::Vec2b);
+FROM_NDARRAY(cv::Vec3b);
+FROM_NDARRAY(cv::Vec4b);
+FROM_NDARRAY(cv::Vec2s);
+FROM_NDARRAY(cv::Vec3s);
+FROM_NDARRAY(cv::Vec4s);
+FROM_NDARRAY(cv::Vec2w);
+FROM_NDARRAY(cv::Vec3w);
+FROM_NDARRAY(cv::Vec4w);
+FROM_NDARRAY(cv::Vec2i);
+FROM_NDARRAY(cv::Vec3i);
+FROM_NDARRAY(cv::Vec4i);
+FROM_NDARRAY(cv::Vec2f);
+FROM_NDARRAY(cv::Vec3f);
+FROM_NDARRAY(cv::Vec4f);
+FROM_NDARRAY(cv::Vec6f);
+FROM_NDARRAY(cv::Vec2d);
+FROM_NDARRAY(cv::Vec3d);
+FROM_NDARRAY(cv::Vec4d);
+FROM_NDARRAY(cv::Vec6d);
+
+// Point-like
+FROM_NDARRAY(cv::Point2i);
+FROM_NDARRAY(cv::Point2f);
+FROM_NDARRAY(cv::Point2d);
+FROM_NDARRAY(cv::Point3i);
+FROM_NDARRAY(cv::Point3f);
+FROM_NDARRAY(cv::Point3d);
+
+// Scalar
+FROM_NDARRAY(cv::Scalar);
+
+// Mat
+FROM_NDARRAY(cv::Mat);
+
+// MatND
+FROM_NDARRAY(cv::MatND);
+
+// ================================================================================================
 
 void mixChannels(const tuple src, tuple dst, const ndarray &fromTo);
 tuple minMaxLoc(const object& a, const object& mask=object());

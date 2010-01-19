@@ -63,6 +63,10 @@ void convert_Mat( const T &in_arr, cv::Mat &out_arr )
     throw bp::error_already_set(); 
 }
 
+// convert a Python sequence into a cv::Mat
+template<> void convert_Mat<bp::object>( const bp::object &in_arr, cv::Mat &out_arr );
+
+
 // convert_Mat, T * case
 // Only from Mat to T* is implemented. The converse direction is UNSAFE.
 template<typename T>
