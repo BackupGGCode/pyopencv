@@ -15,6 +15,7 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
+from os.path import join
 
 # -----------------------------------------------------------------------------------------------
 # Subroutines related to writing to the opencv2_include\template_instantiations.h file
@@ -132,7 +133,7 @@ def generate_ti():
 
 
 def finalize_ti():
-    tif = open('../src/pyopencvext/template_instantiations.hpp', 'wt')
+    tif = open(join('..', 'src', 'pyopencv', 'pyopencvext', 'template_instantiations.hpp'), 'wt')
     tif.write('''#ifndef SD_TEMPLATE_INSTANTIATIONS_H
 #define SD_TEMPlATE_INSTANTIATIONS_H
 
