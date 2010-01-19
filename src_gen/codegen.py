@@ -71,6 +71,7 @@ cc.write('''#!/usr/bin/env python
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
+# Try to import numpy
 try:
     import numpy as _NP
 except ImportError:
@@ -79,8 +80,21 @@ except ImportError:
 if _NP.version.version < '1.2.0':
     raise ImportError("NumPy is installed but its version is too old (%s detected). Please install NumPy of version at least 1.2.0." % _NP.version.version)
     
+    
+# Try to import pyopencvext
+import os as _os
+_seperator = ';' if _os.name == 'nt' else ':'
+_old_sys_path = _os.environ['PATH']
+_sys_path = _old_sys_path
+import config as _config
+for x in _config.opencv_runtime_library_dirs + _config.boost_runtime_library_dirs:
+    _sys_path = x + _seperator + _sys_path
+_os.environ['PATH'] =  + _sys_path
+print("New path=",_sys_path)
 from pyopencvext import *
 import pyopencvext as _PE
+_os.environ['PATH'] = _old_sys_path
+
 import math as _Math
 import ctypes as _CT
 
