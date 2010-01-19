@@ -51,8 +51,8 @@ Topic :: Software Development :: Libraries :: Python Modules
 """
 
 
-setup(name = pyopencv',
-	version = '2.0.0-py1.0.0',
+setup(name = 'pyopencv',
+	version = '2.0.0.py1.0.0',
 	description = DOCLINES[0],
 	author = 'Minh-Tri Pham',
 	author_email = 'pmtri80@gmail.com',
@@ -62,6 +62,6 @@ setup(name = pyopencv',
 	classifiers = filter(None, CLASSIFIERS.split('\n')),
 	long_description = "\n".join(DOCLINES[2:]),
 	packages = ['pyopencv'],
-    data_files=[('doc/ctypes_opencv', ['AUTHORS', 'ChangeLog', 'COPYING', 'README', 'THANKS', 'TODO'])],
+    data_files=[('doc/pyopencv', ['AUTHORS', 'ChangeLog', 'COPYING', 'README', 'THANKS', 'TODO'])],
 )
 
