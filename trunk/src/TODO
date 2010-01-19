@@ -1,3 +1,7 @@
+=======================================================================
+PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
+=======================================================================
+
 Provide an interface for machine learning classes. Atm, it's pretty tough. Perhaps, Boost.Python is the right choice. But Boost.Python does not support some C features.
 
 NDarray slicing and indexing for CvMatND

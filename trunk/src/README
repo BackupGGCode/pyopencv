@@ -1,6 +1,6 @@
-========================================================
-ctypes-opencv - A Python wrapper for OpenCV using ctypes
-========================================================
+=======================================================================
+PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
+=======================================================================
 
 ctypes-opencv is a package that brings Intel's (now Willow Garage's) Open Source Computer Vision Library (OpenCV) to Python. OpenCV is a collection of algorithms and sample code for various computer vision problems. The goal of ctypes-opencv is to provide Python access to all documented functionality of OpenCV.
 
