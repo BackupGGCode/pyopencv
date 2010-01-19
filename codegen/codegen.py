@@ -105,10 +105,10 @@ mb.cc = cc
 
 def add_ndarray_interface(self, klass):
     klass.include_files.append("ndarray.hpp")
-    klass.add_registration_code('def("from_ndarray", &bp::as_KLASS)'.replace("KLASS", klass.alias))
+    klass.add_registration_code('def("from_ndarray", &bp::from_ndarray< cv::%s > )' % klass.alias)
     klass.add_registration_code('staticmethod("from_ndarray")'.replace("KLASS", klass.alias))
     self.add_doc(klass.alias+".from_ndarray", "Creates a %s view on an ndarray instance." % klass.alias)
-    klass.add_registration_code('add_property("ndarray", &bp::as_ndarray)')
+    klass.add_registration_code('add_property("ndarray", &bp::as_ndarray< cv::%s >)' % klass.alias)
     self.add_doc(klass.alias, 
         "Property 'ndarray' provides a numpy.ndarray view on the object.",
         "If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!",
