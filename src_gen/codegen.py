@@ -16,7 +16,7 @@
 # ----------------------------------------------------------------------------
 
 
-import os
+from os.path import join
 from pygccxml import declarations as D
 from pyplusplus import module_builder, messages
 import function_transformers as FT
@@ -52,7 +52,7 @@ mb = module_builder.module_builder_t(
     ],
     define_symbols=[] )
 
-cc = open('../src/__init__.py', 'w')
+cc = open(join('..', 'src', '__init__.py'), 'w')
 cc.write('''#!/usr/bin/env python
 # PyOpencv - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
@@ -494,7 +494,7 @@ for z in mb.free_funs():
 mb.build_code_creator( module_name='pyopencvext' )
 
 #Writing code to file.
-mb.split_module( '../src/pyopencvext' )
+mb.split_module( join('..', 'src', 'pyopencvext') )
 
 #Write the remaining files
 # copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
