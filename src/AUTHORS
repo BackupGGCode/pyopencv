@@ -1,18 +1,19 @@
-========================================================
-ctypes-opencv - A Python wrapper for OpenCV using ctypes
-========================================================
+=======================================================================
+PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
+=======================================================================
 
-The ctypes-opencv package has been developed and programmed by Minh-Tri
-Pham, School of Computer Engineering, Nanyang Technological University,
-Singapore. It was based from the CVtypes package of Gary Bishop released 
-in 2007.
+
+The PyOpenCV package has been developed by Minh-Tri Pham. It was 
+started when he was working at Surrey Space Centre, University of 
+Surrey, UK. 
 
 E-mail:         <mtpham@ieee.org>, <pmtri80@gmail.com>
 
-Paper mail:     Center for Multimedia and Network Technology
-                Nanyang Technological University
-                Block N4, #b2c-06, Nanyang Avenue
-                Singapore 639398
+Paper mail:     Surrey Space Centre
+                University of Surrey
+                Guildford
+                Surrey
+                United Kingdom, GU2 7XH.
 
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 Version: GnuPG v1.4.9 (MingW32)
