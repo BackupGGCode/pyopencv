@@ -59,9 +59,9 @@ void register_Point3f_class(){
         Point3f_exposer.def_readwrite( "x", &cv::Point3_< float >::x );
         Point3f_exposer.def_readwrite( "y", &cv::Point3_< float >::y );
         Point3f_exposer.def_readwrite( "z", &cv::Point3_< float >::z );
-        Point3f_exposer.def("from_ndarray", &bp::as_Point3f);
+        Point3f_exposer.def("from_ndarray", &bp::from_ndarray< cv::Point3f > );
         Point3f_exposer.staticmethod("from_ndarray");
-        Point3f_exposer.add_property("ndarray", &bp::as_ndarray);
+        Point3f_exposer.add_property("ndarray", &bp::as_ndarray< cv::Point3f >);
     }
 
 }

@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "ndarray.hpp"
 #include "vec3w.pypp.hpp"
 
 namespace bp = boost::python;
@@ -97,6 +98,9 @@ void register_Vec3w_class(){
         
         }
         Vec3w_exposer.staticmethod( "all" );
+        Vec3w_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec3w > );
+        Vec3w_exposer.staticmethod("from_ndarray");
+        Vec3w_exposer.add_property("ndarray", &bp::as_ndarray< cv::Vec3w >);
     }
 
 }

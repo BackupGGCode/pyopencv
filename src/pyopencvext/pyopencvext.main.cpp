@@ -26,345 +26,345 @@
 
 #include "opencv_headers.hpp"
 
-#include "code/autotunedindexparams.pypp.hpp"
+#include "../src/pyopencvext/autotunedindexparams.pypp.hpp"
 
-#include "code/cascadeclassifier.pypp.hpp"
+#include "../src/pyopencvext/cascadeclassifier.pypp.hpp"
 
-#include "code/complexd.pypp.hpp"
+#include "../src/pyopencvext/complexd.pypp.hpp"
 
-#include "code/complexf.pypp.hpp"
+#include "../src/pyopencvext/complexf.pypp.hpp"
 
-#include "code/compositeindexparams.pypp.hpp"
+#include "../src/pyopencvext/compositeindexparams.pypp.hpp"
 
-#include "code/cvadaptiveskindetector.pypp.hpp"
+#include "../src/pyopencvext/cvadaptiveskindetector.pypp.hpp"
 
-#include "code/cvattrlist.pypp.hpp"
+#include "../src/pyopencvext/cvattrlist.pypp.hpp"
 
-#include "code/cvavgcomp.pypp.hpp"
+#include "../src/pyopencvext/cvavgcomp.pypp.hpp"
 
-#include "code/cvcamshifttracker.pypp.hpp"
+#include "../src/pyopencvext/cvcamshifttracker.pypp.hpp"
 
-#include "code/cvchain.pypp.hpp"
+#include "../src/pyopencvext/cvchain.pypp.hpp"
 
-#include "code/cvchainptreader.pypp.hpp"
+#include "../src/pyopencvext/cvchainptreader.pypp.hpp"
 
-#include "code/cvcondensation.pypp.hpp"
+#include "../src/pyopencvext/cvcondensation.pypp.hpp"
 
-#include "code/cvconnectedcomp.pypp.hpp"
+#include "../src/pyopencvext/cvconnectedcomp.pypp.hpp"
 
-#include "code/cvcontour.pypp.hpp"
+#include "../src/pyopencvext/cvcontour.pypp.hpp"
 
-#include "code/cvcontourscanner.pypp.hpp"
+#include "../src/pyopencvext/cvcontourscanner.pypp.hpp"
 
-#include "code/cvcontourtree.pypp.hpp"
+#include "../src/pyopencvext/cvcontourtree.pypp.hpp"
 
-#include "code/cvconvexitydefect.pypp.hpp"
+#include "../src/pyopencvext/cvconvexitydefect.pypp.hpp"
 
-#include "code/cvem.pypp.hpp"
+#include "../src/pyopencvext/cvem.pypp.hpp"
 
-#include "code/cvemparams.pypp.hpp"
+#include "../src/pyopencvext/cvemparams.pypp.hpp"
 
-#include "code/cvfeaturetree.pypp.hpp"
+#include "../src/pyopencvext/cvfeaturetree.pypp.hpp"
 
-#include "code/cvfilenode.pypp.hpp"
+#include "../src/pyopencvext/cvfilenode.pypp.hpp"
 
-#include "code/cvfilestorage.pypp.hpp"
+#include "../src/pyopencvext/cvfilestorage.pypp.hpp"
 
-#include "code/cvfuzzycontroller.pypp.hpp"
+#include "../src/pyopencvext/cvfuzzycontroller.pypp.hpp"
 
-#include "code/cvfuzzycurve.pypp.hpp"
+#include "../src/pyopencvext/cvfuzzycurve.pypp.hpp"
 
-#include "code/cvfuzzyfunction.pypp.hpp"
+#include "../src/pyopencvext/cvfuzzyfunction.pypp.hpp"
 
-#include "code/cvfuzzymeanshifttracker.pypp.hpp"
+#include "../src/pyopencvext/cvfuzzymeanshifttracker.pypp.hpp"
 
-#include "code/cvfuzzypoint.pypp.hpp"
+#include "../src/pyopencvext/cvfuzzypoint.pypp.hpp"
 
-#include "code/cvfuzzyrule.pypp.hpp"
+#include "../src/pyopencvext/cvfuzzyrule.pypp.hpp"
 
-#include "code/cvgenerichash.pypp.hpp"
+#include "../src/pyopencvext/cvgenerichash.pypp.hpp"
 
-#include "code/cvgraph.pypp.hpp"
+#include "../src/pyopencvext/cvgraph.pypp.hpp"
 
-#include "code/cvgraphedge.pypp.hpp"
+#include "../src/pyopencvext/cvgraphedge.pypp.hpp"
 
-#include "code/cvgraphscanner.pypp.hpp"
+#include "../src/pyopencvext/cvgraphscanner.pypp.hpp"
 
-#include "code/cvgraphvtx.pypp.hpp"
+#include "../src/pyopencvext/cvgraphvtx.pypp.hpp"
 
-#include "code/cvgraphvtx2d.pypp.hpp"
+#include "../src/pyopencvext/cvgraphvtx2d.pypp.hpp"
 
-#include "code/cvhaarclassifier.pypp.hpp"
+#include "../src/pyopencvext/cvhaarclassifier.pypp.hpp"
 
-#include "code/cvhaarclassifiercascade.pypp.hpp"
+#include "../src/pyopencvext/cvhaarclassifiercascade.pypp.hpp"
 
-#include "code/cvhaarfeature.pypp.hpp"
+#include "../src/pyopencvext/cvhaarfeature.pypp.hpp"
 
-#include "code/cvhaarstageclassifier.pypp.hpp"
+#include "../src/pyopencvext/cvhaarstageclassifier.pypp.hpp"
 
-#include "code/cvhistogram.pypp.hpp"
+#include "../src/pyopencvext/cvhistogram.pypp.hpp"
 
-#include "code/cvknearest.pypp.hpp"
+#include "../src/pyopencvext/cvknearest.pypp.hpp"
 
-#include "code/cvlevmarq.pypp.hpp"
+#include "../src/pyopencvext/cvlevmarq.pypp.hpp"
 
-#include "code/cvlsh.pypp.hpp"
+#include "../src/pyopencvext/cvlsh.pypp.hpp"
 
-#include "code/cvlshoperations.pypp.hpp"
+#include "../src/pyopencvext/cvlshoperations.pypp.hpp"
 
-#include "code/cvmemblock.pypp.hpp"
+#include "../src/pyopencvext/cvmemblock.pypp.hpp"
 
-#include "code/cvmemstorage.pypp.hpp"
+#include "../src/pyopencvext/cvmemstorage.pypp.hpp"
 
-#include "code/cvmemstoragepos.pypp.hpp"
+#include "../src/pyopencvext/cvmemstoragepos.pypp.hpp"
 
-#include "code/cvmodule.pypp.hpp"
+#include "../src/pyopencvext/cvmodule.pypp.hpp"
 
-#include "code/cvmoduleinfo.pypp.hpp"
+#include "../src/pyopencvext/cvmoduleinfo.pypp.hpp"
 
-#include "code/cvmserparams.pypp.hpp"
+#include "../src/pyopencvext/cvmserparams.pypp.hpp"
 
-#include "code/cvnarrayiterator.pypp.hpp"
+#include "../src/pyopencvext/cvnarrayiterator.pypp.hpp"
 
-#include "code/cvnormalbayesclassifier.pypp.hpp"
+#include "../src/pyopencvext/cvnormalbayesclassifier.pypp.hpp"
 
-#include "code/cvparamgrid.pypp.hpp"
+#include "../src/pyopencvext/cvparamgrid.pypp.hpp"
 
-#include "code/cvpluginfuncinfo.pypp.hpp"
+#include "../src/pyopencvext/cvpluginfuncinfo.pypp.hpp"
 
-#include "code/cvpositobject.pypp.hpp"
+#include "../src/pyopencvext/cvpositobject.pypp.hpp"
 
-#include "code/cvquadedge2d.pypp.hpp"
+#include "../src/pyopencvext/cvquadedge2d.pypp.hpp"
 
-#include "code/cvseq.pypp.hpp"
+#include "../src/pyopencvext/cvseq.pypp.hpp"
 
-#include "code/cvseqblock.pypp.hpp"
+#include "../src/pyopencvext/cvseqblock.pypp.hpp"
 
-#include "code/cvseqreader.pypp.hpp"
+#include "../src/pyopencvext/cvseqreader.pypp.hpp"
 
-#include "code/cvseqwriter.pypp.hpp"
+#include "../src/pyopencvext/cvseqwriter.pypp.hpp"
 
-#include "code/cvset.pypp.hpp"
+#include "../src/pyopencvext/cvset.pypp.hpp"
 
-#include "code/cvsetelem.pypp.hpp"
+#include "../src/pyopencvext/cvsetelem.pypp.hpp"
 
-#include "code/cvstardetectorparams.pypp.hpp"
+#include "../src/pyopencvext/cvstardetectorparams.pypp.hpp"
 
-#include "code/cvstarkeypoint.pypp.hpp"
+#include "../src/pyopencvext/cvstarkeypoint.pypp.hpp"
 
-#include "code/cvstatmodel.pypp.hpp"
+#include "../src/pyopencvext/cvstatmodel.pypp.hpp"
 
-#include "code/cvstereogcstate.pypp.hpp"
+#include "../src/pyopencvext/cvstereogcstate.pypp.hpp"
 
-#include "code/cvstring.pypp.hpp"
+#include "../src/pyopencvext/cvstring.pypp.hpp"
 
-#include "code/cvstringhashnode.pypp.hpp"
+#include "../src/pyopencvext/cvstringhashnode.pypp.hpp"
 
-#include "code/cvsubdiv2d.pypp.hpp"
+#include "../src/pyopencvext/cvsubdiv2d.pypp.hpp"
 
-#include "code/cvsubdiv2dpoint.pypp.hpp"
+#include "../src/pyopencvext/cvsubdiv2dpoint.pypp.hpp"
 
-#include "code/cvsurfparams.pypp.hpp"
+#include "../src/pyopencvext/cvsurfparams.pypp.hpp"
 
-#include "code/cvsurfpoint.pypp.hpp"
+#include "../src/pyopencvext/cvsurfpoint.pypp.hpp"
 
-#include "code/cvsvm.pypp.hpp"
+#include "../src/pyopencvext/cvsvm.pypp.hpp"
 
-#include "code/cvsvmparams.pypp.hpp"
+#include "../src/pyopencvext/cvsvmparams.pypp.hpp"
 
-#include "code/cvtreenodeiterator.pypp.hpp"
+#include "../src/pyopencvext/cvtreenodeiterator.pypp.hpp"
 
-#include "code/cvtype.pypp.hpp"
+#include "../src/pyopencvext/cvtype.pypp.hpp"
 
-#include "code/cvtypeinfo.pypp.hpp"
+#include "../src/pyopencvext/cvtypeinfo.pypp.hpp"
 
-#include "code/cvvectors.pypp.hpp"
+#include "../src/pyopencvext/cvvectors.pypp.hpp"
 
-#include "code/featureevaluator.pypp.hpp"
+#include "../src/pyopencvext/featureevaluator.pypp.hpp"
 
-#include "code/fernclassifier.pypp.hpp"
+#include "../src/pyopencvext/fernclassifier.pypp.hpp"
 
-#include "code/filenode.pypp.hpp"
+#include "../src/pyopencvext/filenode.pypp.hpp"
 
-#include "code/filestorage.pypp.hpp"
+#include "../src/pyopencvext/filestorage.pypp.hpp"
 
-#include "code/filterengine.pypp.hpp"
+#include "../src/pyopencvext/filterengine.pypp.hpp"
 
-#include "code/flann_index.pypp.hpp"
+#include "../src/pyopencvext/flann_index.pypp.hpp"
 
-#include "code/hogdescriptor.pypp.hpp"
+#include "../src/pyopencvext/hogdescriptor.pypp.hpp"
 
-#include "code/index.pypp.hpp"
+#include "../src/pyopencvext/index.pypp.hpp"
 
-#include "code/kalmanfilter.pypp.hpp"
+#include "../src/pyopencvext/kalmanfilter.pypp.hpp"
 
-#include "code/kdtree.pypp.hpp"
+#include "../src/pyopencvext/kdtree.pypp.hpp"
 
-#include "code/kdtreeindexparams.pypp.hpp"
+#include "../src/pyopencvext/kdtreeindexparams.pypp.hpp"
 
-#include "code/keypoint.pypp.hpp"
+#include "../src/pyopencvext/keypoint.pypp.hpp"
 
-#include "code/kmeansindexparams.pypp.hpp"
+#include "../src/pyopencvext/kmeansindexparams.pypp.hpp"
 
-#include "code/ldetector.pypp.hpp"
+#include "../src/pyopencvext/ldetector.pypp.hpp"
 
-#include "code/levmarqsparse.pypp.hpp"
+#include "../src/pyopencvext/levmarqsparse.pypp.hpp"
 
-#include "code/linearindexparams.pypp.hpp"
+#include "../src/pyopencvext/linearindexparams.pypp.hpp"
 
-#include "code/lineiterator.pypp.hpp"
+#include "../src/pyopencvext/lineiterator.pypp.hpp"
 
-#include "code/lsh_hash.pypp.hpp"
+#include "../src/pyopencvext/lsh_hash.pypp.hpp"
 
-#include "code/mat.pypp.hpp"
+#include "../src/pyopencvext/mat.pypp.hpp"
 
-#include "code/matnd.pypp.hpp"
+#include "../src/pyopencvext/matnd.pypp.hpp"
 
-#include "code/mesh3d.pypp.hpp"
+#include "../src/pyopencvext/mesh3d.pypp.hpp"
 
-#include "code/moments.pypp.hpp"
+#include "../src/pyopencvext/moments.pypp.hpp"
 
-#include "code/mser.pypp.hpp"
+#include "../src/pyopencvext/mser.pypp.hpp"
 
-#include "code/narymatnditerator.pypp.hpp"
+#include "../src/pyopencvext/narymatnditerator.pypp.hpp"
 
-#include "code/octree.pypp.hpp"
+#include "../src/pyopencvext/octree.pypp.hpp"
 
-#include "code/onewaydescriptor.pypp.hpp"
+#include "../src/pyopencvext/onewaydescriptor.pypp.hpp"
 
-#include "code/onewaydescriptorbase.pypp.hpp"
+#include "../src/pyopencvext/onewaydescriptorbase.pypp.hpp"
 
-#include "code/onewaydescriptorobject.pypp.hpp"
+#include "../src/pyopencvext/onewaydescriptorobject.pypp.hpp"
 
-#include "code/patchgenerator.pypp.hpp"
+#include "../src/pyopencvext/patchgenerator.pypp.hpp"
 
-#include "code/pca.pypp.hpp"
+#include "../src/pyopencvext/pca.pypp.hpp"
 
-#include "code/planarobjectdetector.pypp.hpp"
+#include "../src/pyopencvext/planarobjectdetector.pypp.hpp"
 
-#include "code/point2d.pypp.hpp"
+#include "../src/pyopencvext/point2d.pypp.hpp"
 
-#include "code/point2f.pypp.hpp"
+#include "../src/pyopencvext/point2f.pypp.hpp"
 
-#include "code/point2i.pypp.hpp"
+#include "../src/pyopencvext/point2i.pypp.hpp"
 
-#include "code/point3d.pypp.hpp"
+#include "../src/pyopencvext/point3d.pypp.hpp"
 
-#include "code/point3f.pypp.hpp"
+#include "../src/pyopencvext/point3f.pypp.hpp"
 
-#include "code/point3i.pypp.hpp"
+#include "../src/pyopencvext/point3i.pypp.hpp"
 
-#include "code/ptr_basecolumnfilter.pypp.hpp"
+#include "../src/pyopencvext/ptr_basecolumnfilter.pypp.hpp"
 
-#include "code/ptr_basefilter.pypp.hpp"
+#include "../src/pyopencvext/ptr_basefilter.pypp.hpp"
 
-#include "code/ptr_baserowfilter.pypp.hpp"
+#include "../src/pyopencvext/ptr_baserowfilter.pypp.hpp"
 
-#include "code/ptr_cvfilestorage.pypp.hpp"
+#include "../src/pyopencvext/ptr_cvfilestorage.pypp.hpp"
 
-#include "code/ptr_cvhaarclassifiercascade.pypp.hpp"
+#include "../src/pyopencvext/ptr_cvhaarclassifiercascade.pypp.hpp"
 
-#include "code/ptr_cvstereobmstate.pypp.hpp"
+#include "../src/pyopencvext/ptr_cvstereobmstate.pypp.hpp"
 
-#include "code/ptr_featureevaluator.pypp.hpp"
+#include "../src/pyopencvext/ptr_featureevaluator.pypp.hpp"
 
-#include "code/ptr_filterengine.pypp.hpp"
+#include "../src/pyopencvext/ptr_filterengine.pypp.hpp"
 
-#include "code/pyopencvext_enumerations.pypp.hpp"
+#include "../src/pyopencvext/pyopencvext_enumerations.pypp.hpp"
 
-#include "code/pyopencvext_free_functions.pypp.hpp"
+#include "../src/pyopencvext/pyopencvext_free_functions.pypp.hpp"
 
-#include "code/pyopencvext_global_variables.pypp.hpp"
+#include "../src/pyopencvext/pyopencvext_global_variables.pypp.hpp"
 
-#include "code/range.pypp.hpp"
+#include "../src/pyopencvext/range.pypp.hpp"
 
-#include "code/rect.pypp.hpp"
+#include "../src/pyopencvext/rect.pypp.hpp"
 
-#include "code/rectd.pypp.hpp"
+#include "../src/pyopencvext/rectd.pypp.hpp"
 
-#include "code/rectf.pypp.hpp"
+#include "../src/pyopencvext/rectf.pypp.hpp"
 
-#include "code/rng.pypp.hpp"
+#include "../src/pyopencvext/rng.pypp.hpp"
 
-#include "code/rotatedrect.pypp.hpp"
+#include "../src/pyopencvext/rotatedrect.pypp.hpp"
 
-#include "code/savedindexparams.pypp.hpp"
+#include "../src/pyopencvext/savedindexparams.pypp.hpp"
 
-#include "code/scalar.pypp.hpp"
+#include "../src/pyopencvext/scalar.pypp.hpp"
 
-#include "code/searchparams.pypp.hpp"
+#include "../src/pyopencvext/searchparams.pypp.hpp"
 
-#include "code/selfsimdescriptor.pypp.hpp"
+#include "../src/pyopencvext/selfsimdescriptor.pypp.hpp"
 
-#include "code/size2d.pypp.hpp"
+#include "../src/pyopencvext/size2d.pypp.hpp"
 
-#include "code/size2f.pypp.hpp"
+#include "../src/pyopencvext/size2f.pypp.hpp"
 
-#include "code/size2i.pypp.hpp"
+#include "../src/pyopencvext/size2i.pypp.hpp"
 
-#include "code/sparsemat.pypp.hpp"
+#include "../src/pyopencvext/sparsemat.pypp.hpp"
 
-#include "code/sparsematconstiterator.pypp.hpp"
+#include "../src/pyopencvext/sparsematconstiterator.pypp.hpp"
 
-#include "code/sparsematiterator.pypp.hpp"
+#include "../src/pyopencvext/sparsematiterator.pypp.hpp"
 
-#include "code/spinimagemodel.pypp.hpp"
+#include "../src/pyopencvext/spinimagemodel.pypp.hpp"
 
-#include "code/stardetector.pypp.hpp"
+#include "../src/pyopencvext/stardetector.pypp.hpp"
 
-#include "code/stereobm.pypp.hpp"
+#include "../src/pyopencvext/stereobm.pypp.hpp"
 
-#include "code/surf.pypp.hpp"
+#include "../src/pyopencvext/surf.pypp.hpp"
 
-#include "code/svd.pypp.hpp"
+#include "../src/pyopencvext/svd.pypp.hpp"
 
-#include "code/termcriteria.pypp.hpp"
+#include "../src/pyopencvext/termcriteria.pypp.hpp"
 
-#include "code/tickmeter.pypp.hpp"
+#include "../src/pyopencvext/tickmeter.pypp.hpp"
 
-#include "code/vec2b.pypp.hpp"
+#include "../src/pyopencvext/vec2b.pypp.hpp"
 
-#include "code/vec2d.pypp.hpp"
+#include "../src/pyopencvext/vec2d.pypp.hpp"
 
-#include "code/vec2f.pypp.hpp"
+#include "../src/pyopencvext/vec2f.pypp.hpp"
 
-#include "code/vec2i.pypp.hpp"
+#include "../src/pyopencvext/vec2i.pypp.hpp"
 
-#include "code/vec2s.pypp.hpp"
+#include "../src/pyopencvext/vec2s.pypp.hpp"
 
-#include "code/vec2w.pypp.hpp"
+#include "../src/pyopencvext/vec2w.pypp.hpp"
 
-#include "code/vec3b.pypp.hpp"
+#include "../src/pyopencvext/vec3b.pypp.hpp"
 
-#include "code/vec3d.pypp.hpp"
+#include "../src/pyopencvext/vec3d.pypp.hpp"
 
-#include "code/vec3f.pypp.hpp"
+#include "../src/pyopencvext/vec3f.pypp.hpp"
 
-#include "code/vec3i.pypp.hpp"
+#include "../src/pyopencvext/vec3i.pypp.hpp"
 
-#include "code/vec3s.pypp.hpp"
+#include "../src/pyopencvext/vec3s.pypp.hpp"
 
-#include "code/vec3w.pypp.hpp"
+#include "../src/pyopencvext/vec3w.pypp.hpp"
 
-#include "code/vec4b.pypp.hpp"
+#include "../src/pyopencvext/vec4b.pypp.hpp"
 
-#include "code/vec4d.pypp.hpp"
+#include "../src/pyopencvext/vec4d.pypp.hpp"
 
-#include "code/vec4f.pypp.hpp"
+#include "../src/pyopencvext/vec4f.pypp.hpp"
 
-#include "code/vec4i.pypp.hpp"
+#include "../src/pyopencvext/vec4i.pypp.hpp"
 
-#include "code/vec4s.pypp.hpp"
+#include "../src/pyopencvext/vec4s.pypp.hpp"
 
-#include "code/vec4w.pypp.hpp"
+#include "../src/pyopencvext/vec4w.pypp.hpp"
 
-#include "code/vec6d.pypp.hpp"
+#include "../src/pyopencvext/vec6d.pypp.hpp"
 
-#include "code/vec6f.pypp.hpp"
+#include "../src/pyopencvext/vec6f.pypp.hpp"
 
-#include "code/videocapture.pypp.hpp"
+#include "../src/pyopencvext/videocapture.pypp.hpp"
 
-#include "code/videowriter.pypp.hpp"
+#include "../src/pyopencvext/videowriter.pypp.hpp"
 
 namespace bp = boost::python;
 
@@ -738,12 +738,6 @@ static boost::python::object cvEstimateRigidTransform_2f885814bd847b94c8621a570a
     return bp::object( result );
 }
 
-static boost::python::tuple cvFindContours_ce2587f04bef567753308bb3ff770019( ::cv::Mat & image, ::CvMemStorage * storage, int header_size=88u, int mode=1, int method=2, ::CvPoint offset=cv::Point(0, 0) ){
-    CvSeq * first_contour2=(::CvSeq *)0;
-    int result = ::cvFindContours(&(::CvMat)image, storage, &first_contour2, header_size, mode, method, offset);
-    return bp::make_tuple( result, first_contour2 );
-}
-
 static void cvFindFeatures_3cdcd7c246944a80a295b6f20e448cfc( ::CvFeatureTree * tr, ::cv::Mat & query_points, ::cv::Mat & indices, ::cv::Mat & dist, int k, int emax=20 ){
     ::cvFindFeatures(tr, &(::CvMat)query_points, &(::CvMat)indices, &(::CvMat)dist, k, emax);
 }
@@ -797,12 +791,6 @@ static void cvGetMinMaxHistValue_a31aae680af640edcfcb77bf873f90f6( ::CvHistogram
 
 static void cvGetQuadrangleSubPix_fe2b1a5028fa8b02301dc960cdfbc131( ::cv::Mat & src, ::cv::Mat & dst, ::cv::Mat & map_matrix ){
     ::cvGetQuadrangleSubPix(&(::CvMat)src, &(::CvMat)dst, &(::CvMat)map_matrix);
-}
-
-static boost::python::object cvHoughCircles_c2edda086e3d870cd62521bac24962a9( ::cv::Mat & image, ::CvArr * circle_storage, int method, double dp, double min_dist, double param1=100, double param2=100, int min_radius=0, int max_radius=0 ){
-    ::CvSeq * result = ::cvHoughCircles(&(::CvMat)image, circle_storage, method, dp, min_dist, param1, param2, min_radius, max_radius);
-    typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
-    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
 static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc53b( boost::python::object arrs, ::cv::Mat & mask, ::CvMatND * stubs, ::CvNArrayIterator * array_iterator, int flags=0 ){
@@ -2473,17 +2461,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
-    { //::cvFindContours
-    
-        typedef boost::python::tuple ( *findContours_function_type )( ::cv::Mat &,::CvMemStorage *,int,int,int,::CvPoint );
-        
-        bp::def( 
-            "findContours"
-            , findContours_function_type( &cvFindContours_ce2587f04bef567753308bb3ff770019 )
-            , ( bp::arg("image"), bp::arg("storage"), bp::arg("header_size")=(int)(88u), bp::arg("mode")=(int)(1), bp::arg("method")=(int)(2), bp::arg("offset")=cv::Point(0, 0) ) );
-    
-    }
-
     { //::cvFindFeatures
     
         typedef void ( *findFeatures_function_type )( ::CvFeatureTree *,::cv::Mat &,::cv::Mat &,::cv::Mat &,int,int );
@@ -2602,17 +2579,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "getQuadrangleSubPix"
             , getQuadrangleSubPix_function_type( &cvGetQuadrangleSubPix_fe2b1a5028fa8b02301dc960cdfbc131 )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("map_matrix") ) );
-    
-    }
-
-    { //::cvHoughCircles
-    
-        typedef boost::python::object ( *houghCircles_function_type )( ::cv::Mat &,::CvArr *,int,double,double,double,double,int,int );
-        
-        bp::def( 
-            "houghCircles"
-            , houghCircles_function_type( &cvHoughCircles_c2edda086e3d870cd62521bac24962a9 )
-            , ( bp::arg("image"), bp::arg("circle_storage"), bp::arg("method"), bp::arg("dp"), bp::arg("min_dist"), bp::arg("param1")=100, bp::arg("param2")=100, bp::arg("min_radius")=(int)(0), bp::arg("max_radius")=(int)(0) ) );
     
     }
 
@@ -3454,11 +3420,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::polylines
     
-        typedef void ( *fillPoly_function_type )( ::cv::Mat &,boost::python::object,bool,::cv::Scalar const &,int,int,int );
+        typedef void ( *polylines_function_type )( ::cv::Mat &,boost::python::object,bool,::cv::Scalar const &,int,int,int );
         
         bp::def( 
-            "fillPoly"
-            , fillPoly_function_type( &polylines_4b2b9aca4a0ee1864678eae6b982fcc0 )
+            "polylines"
+            , polylines_function_type( &polylines_4b2b9aca4a0ee1864678eae6b982fcc0 )
             , ( bp::arg("img"), bp::arg("pts"), bp::arg("isClosed"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) ) );
     
     }
