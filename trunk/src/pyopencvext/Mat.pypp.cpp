@@ -3,10 +3,18 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "opencv_extra.hpp"
 #include "ndarray.hpp"
 #include "mat.pypp.hpp"
 
 namespace bp = boost::python;
+
+static boost::shared_ptr<cv::Mat> Mat__init1__(const bp::object &seq)
+{
+    cv::Mat *result = new cv::Mat();
+    convert_Mat(seq, *result);
+    return boost::shared_ptr<cv::Mat>(result);
+}
 
 void register_Mat_class(){
 
@@ -384,9 +392,10 @@ void register_Mat_class(){
         Mat_exposer.def_readwrite( "rows", &cv::Mat::rows );
         Mat_exposer.def_readwrite( "step", &cv::Mat::step );
         Mat_exposer.staticmethod( "diag" );
-        Mat_exposer.def("from_ndarray", &bp::as_Mat);
+        Mat_exposer.def("from_ndarray", &bp::from_ndarray< cv::Mat > );
         Mat_exposer.staticmethod("from_ndarray");
-        Mat_exposer.add_property("ndarray", &bp::as_ndarray);
+        Mat_exposer.add_property("ndarray", &bp::as_ndarray< cv::Mat >);
+        Mat_exposer.def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("seq") )));
     }
 
 }

@@ -41,9 +41,9 @@ void register_Scalar_class(){
         
         }
         Scalar_exposer.staticmethod( "all" );
-        Scalar_exposer.def("from_ndarray", &bp::as_Scalar);
+        Scalar_exposer.def("from_ndarray", &bp::from_ndarray< cv::Scalar > );
         Scalar_exposer.staticmethod("from_ndarray");
-        Scalar_exposer.add_property("ndarray", &bp::as_ndarray);
+        Scalar_exposer.add_property("ndarray", &bp::as_ndarray< cv::Scalar >);
     }
 
 }

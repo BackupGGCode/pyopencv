@@ -69,9 +69,9 @@ void register_Point2d_class(){
         }
         Point2d_exposer.def_readwrite( "x", &cv::Point_< double >::x );
         Point2d_exposer.def_readwrite( "y", &cv::Point_< double >::y );
-        Point2d_exposer.def("from_ndarray", &bp::as_Point2d);
+        Point2d_exposer.def("from_ndarray", &bp::from_ndarray< cv::Point2d > );
         Point2d_exposer.staticmethod("from_ndarray");
-        Point2d_exposer.add_property("ndarray", &bp::as_ndarray);
+        Point2d_exposer.add_property("ndarray", &bp::as_ndarray< cv::Point2d >);
     }
 
 }
