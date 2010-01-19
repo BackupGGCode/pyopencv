@@ -52,7 +52,7 @@ mb = module_builder.module_builder_t(
     ],
     define_symbols=[] )
 
-cc = open('pyopencv/__init__.py', 'w')
+cc = open('../src/__init__.py', 'w')
 cc.write('''#!/usr/bin/env python
 # PyOpencv - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
@@ -494,11 +494,11 @@ for z in mb.free_funs():
 mb.build_code_creator( module_name='pyopencvext' )
 
 #Writing code to file.
-mb.split_module( 'code' )
+mb.split_module( '../src/pyopencvext' )
 
 #Write the remaining files
 # copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
 # copyfile('opencv_extra.hpp', 'code/opencv_extra.hpp')
-copyfile('opencv_extra.cpp', 'code/opencv_extra.cpp')
-copyfile('ndarray.cpp', 'code/ndarray.cpp')
+# copyfile('opencv_extra.cpp', 'code/opencv_extra.cpp')
+# copyfile('ndarray.cpp', 'code/ndarray.cpp')
 

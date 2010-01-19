@@ -132,7 +132,7 @@ def generate_ti():
 
 
 def finalize_ti():
-    tif = open('../src/template_instantiations.hpp', 'wt')
+    tif = open('../src/pyopencvext/template_instantiations.hpp', 'wt')
     tif.write('''#ifndef SD_TEMPLATE_INSTANTIATIONS_H
 #define SD_TEMPlATE_INSTANTIATIONS_H
 
