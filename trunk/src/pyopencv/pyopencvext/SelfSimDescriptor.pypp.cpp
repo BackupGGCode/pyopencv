@@ -45,7 +45,7 @@ struct SelfSimDescriptor_wrapper : cv::SelfSimDescriptor, bp::wrapper< cv::SelfS
         cv::SelfSimDescriptor::SSD( boost::ref(img), pt, boost::ref(ssd) );
     }
 
-    virtual void compute( ::cv::Mat const & img, ::std::vector< float > & descriptors, ::cv::Size winStride=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >() ) const  {
+    virtual void compute( ::cv::Mat const & img, ::std::vector< float > & descriptors, ::cv::Size winStride=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point>() ) const  {
         namespace bpl = boost::python;
         if( bpl::override func_compute = this->get_override( "compute" ) ){
             bpl::object py_result = bpl::call<bpl::object>( func_compute.ptr(), img, descriptors, winStride, locations );
@@ -55,7 +55,7 @@ struct SelfSimDescriptor_wrapper : cv::SelfSimDescriptor, bp::wrapper< cv::SelfS
         }
     }
     
-    static boost::python::object default_compute( ::cv::SelfSimDescriptor const & inst, ::cv::Mat const & img, bp::tuple descriptors, ::cv::Size winStride=cv::Size_<int>(), bp::tuple locations=convert_vector_to_seq(std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >()) ){
+    static boost::python::object default_compute( ::cv::SelfSimDescriptor const & inst, ::cv::Mat const & img, bp::tuple descriptors, ::cv::Size winStride=cv::Size_<int>(), bp::tuple locations=convert_vector_to_seq(std::vector<cv::Point>()) ){
         std::vector<float, std::allocator<float> > descriptors2;
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > locations2;
         convert_seq_to_vector(descriptors, descriptors2);
@@ -117,7 +117,7 @@ void register_SelfSimDescriptor_class(){
             SelfSimDescriptor_exposer.def( 
                 "compute"
                 , default_compute_function_type( &SelfSimDescriptor_wrapper::default_compute )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("descriptors"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("locations")=convert_vector_to_seq(std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >()) ) );
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("descriptors"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("locations")=convert_vector_to_seq(std::vector<cv::Point>()) ) );
         
         }
         { //::cv::SelfSimDescriptor::computeLogPolarMapping

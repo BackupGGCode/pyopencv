@@ -49,7 +49,7 @@ void register_LDetector_class(){
         .def( 
             "write"
             , (void ( ::cv::LDetector::* )( ::cv::FileStorage &,::cv::String const & ) const)( &::cv::LDetector::write )
-            , ( bp::arg("fs"), bp::arg("name")=std::basic_string<char, std::char_traits<char>, std::allocator<char> >() ) )    
+            , ( bp::arg("fs"), bp::arg("name")=std::string() ) )    
         .def_readwrite( "baseFeatureSize", &cv::LDetector::baseFeatureSize )    
         .def_readwrite( "clusteringDistance", &cv::LDetector::clusteringDistance )    
         .def_readwrite( "nOctaves", &cv::LDetector::nOctaves )    

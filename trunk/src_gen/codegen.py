@@ -15,9 +15,8 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
-
 from os import chdir, getcwd
-from os.path import join, split
+from os.path import join, abspath, split
 from pygccxml import declarations as D
 from pyplusplus import module_builder, messages
 import function_transformers as FT
@@ -40,20 +39,27 @@ import highgui_h
 import highgui_hpp
 import ml_h
 
+_cwd = getcwd()
+chdir(join(split(abspath(__file__))[0], '..', 'src', 'pyopencv'))
+_work_dir = getcwd()
+print("Working directory changed to: %s" % _work_dir)
+
 #Creating an instance of class that will help you to expose your declarations
 mb = module_builder.module_builder_t(
-    ["opencv_headers.hpp",],
+    ["opencv_headers.hpp"],
     gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe",
-    working_directory=r"M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen",
+    working_directory=join(_work_dir, 'pyopencvext'),
     include_paths=[
         r"M:\programming\packages\OpenCV\build\2.0\include",
-        r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++",
-        r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++\mingw32",
-        r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include",
+        # r"M:\programming\builders\MinGW\gcc\gcc-4.3.3-tdm-1-sjlj\lib\gcc\mingw32\4.3.3\include\c++",
+        # r"M:\programming\builders\MinGW\gcc\gcc-4.3.3-tdm-1-sjlj\lib\gcc\mingw32\4.3.3\include\c++\mingw32",
+        # r"M:\programming\builders\MinGW\gcc\gcc-4.3.3-tdm-1-sjlj\lib\gcc\mingw32\4.3.3\include",
     ],
-    define_symbols=[] )
+    # compiler="g++",
+    # define_symbols=['__GCCXML__=030405', '__GCCXML_GNUC__=3'],
+    ) # simulate g++ 3.4.5 
 
-cc = open(join('..', 'src', 'pyopencv', '__init__.py'), 'w')
+cc = open('__init__.py', 'w')
 cc.write('''#!/usr/bin/env python
 # PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
@@ -89,8 +95,8 @@ _sys_path = _old_sys_path
 import config as _config
 for x in _config.opencv_runtime_library_dirs + _config.boost_runtime_library_dirs:
     _sys_path = x + _seperator + _sys_path
-_os.environ['PATH'] =  + _sys_path
-print("New path=",_sys_path)
+_os.environ['PATH'] = _sys_path
+# print("New path=",_sys_path)
 from pyopencvext import *
 import pyopencvext as _PE
 _os.environ['PATH'] = _old_sys_path
@@ -214,9 +220,20 @@ def beautify_func_list(self, func_list):
     for f in func_list:
         for arg in f.arguments:
             if isinstance(arg.default_value, str):
-                arg.default_value = arg.default_value.replace('cvPoint', 'cv::Point'). \
-                    replace('cvTermCriteria', 'cv::TermCriteria'). \
-                    replace('CV_WHOLE_SEQ', 'cv::Range(0, 0x3fffffff)')
+                repl_list = {
+                    'std::basic_string<char, std::char_traits<char>, std::allocator<char> >': 'std::string',
+                    'std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >': 'std::vector<cv::Point>',
+                    'cvPoint': 'cv::Point',
+                    'cvTermCriteria': 'cv::TermCriteria',
+                    'CV_WHOLE_SEQ': 'cv::Range(0, 0x3fffffff)',
+                    'std::vector<cv::Scalar_<double>, std::allocator<cv::Scalar_<double> > >': 'std::vector<cv::Scalar>',
+                    'std::vector<int, std::allocator<int> >': 'std::vector<int>',
+                    'std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > >': 'std::vector<cv::Vec4i>',
+                }
+                for z in repl_list:
+                    arg.default_value = arg.default_value.replace(z, repl_list[z])
+                if ", std::allocator<" in arg.default_value: # std::allocator
+                    print("func=%s arg.name=%s arg.default_value=%s" % (f.alias, arg.name, arg.default_value))
             
     # function argument int *sizes and int dims
     for f in func_list:
@@ -509,11 +526,7 @@ for z in mb.free_funs():
 mb.build_code_creator( module_name='pyopencvext' )
 
 #Writing code to file.
-old_dir = getcwd()
-new_dir, _ = split(__file__)
-chdir(join(new_dir, '..', 'src', 'pyopencv'))
 mb.split_module('pyopencvext')
-chdir(old_dir)
 
 #Write the remaining files
 # copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
@@ -521,3 +534,4 @@ chdir(old_dir)
 # copyfile('opencv_extra.cpp', 'code/opencv_extra.cpp')
 # copyfile('ndarray.cpp', 'code/ndarray.cpp')
 
+chdir(_cwd)

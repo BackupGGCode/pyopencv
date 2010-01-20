@@ -41,7 +41,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     
     }
 
-    virtual void compute( ::cv::Mat const & img, ::std::vector< float > & descriptors, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >() ) const  {
+    virtual void compute( ::cv::Mat const & img, ::std::vector< float > & descriptors, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point>() ) const  {
         namespace bpl = boost::python;
         if( bpl::override func_compute = this->get_override( "compute" ) ){
             bpl::object py_result = bpl::call<bpl::object>( func_compute.ptr(), img, descriptors, winStride, padding, locations );
@@ -51,7 +51,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, bp::tuple descriptors, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::tuple locations=convert_vector_to_seq(std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >()) ){
+    static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, bp::tuple descriptors, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::tuple locations=convert_vector_to_seq(std::vector<cv::Point>()) ){
         std::vector<float, std::allocator<float> > descriptors2;
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > locations2;
         convert_seq_to_vector(descriptors, descriptors2);
@@ -78,7 +78,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         cv::HOGDescriptor::computeGradient( boost::ref(img), boost::ref(grad), boost::ref(angleOfs), paddingTL, paddingBR );
     }
 
-    virtual void detect( ::cv::Mat const & img, ::std::vector< cv::Point_<int> > & foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & searchLocations=std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >() ) const  {
+    virtual void detect( ::cv::Mat const & img, ::std::vector< cv::Point_<int> > & foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & searchLocations=std::vector<cv::Point>() ) const  {
         namespace bpl = boost::python;
         if( bpl::override func_detect = this->get_override( "detect" ) ){
             bpl::object py_result = bpl::call<bpl::object>( func_detect.ptr(), img, foundLocations, hitThreshold, winStride, padding, searchLocations );
@@ -88,7 +88,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, bp::tuple foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::tuple searchLocations=convert_vector_to_seq(std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >()) ){
+    static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, bp::tuple foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::tuple searchLocations=convert_vector_to_seq(std::vector<cv::Point>()) ){
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > foundLocations2;
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > searchLocations2;
         convert_seq_to_vector(foundLocations, foundLocations2);
@@ -126,7 +126,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         return bp::object( foundLocations );
     }
 
-    virtual bool load( ::cv::String const & filename, ::cv::String const & objname=std::basic_string<char, std::char_traits<char>, std::allocator<char> >() ) {
+    virtual bool load( ::cv::String const & filename, ::cv::String const & objname=std::string() ) {
         if( bp::override func_load = this->get_override( "load" ) )
             return func_load( filename, objname );
         else{
@@ -134,11 +134,11 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    bool default_load( ::cv::String const & filename, ::cv::String const & objname=std::basic_string<char, std::char_traits<char>, std::allocator<char> >() ) {
+    bool default_load( ::cv::String const & filename, ::cv::String const & objname=std::string() ) {
         return cv::HOGDescriptor::load( filename, objname );
     }
 
-    virtual void save( ::cv::String const & filename, ::cv::String const & objname=std::basic_string<char, std::char_traits<char>, std::allocator<char> >() ) const  {
+    virtual void save( ::cv::String const & filename, ::cv::String const & objname=std::string() ) const  {
         if( bp::override func_save = this->get_override( "save" ) )
             func_save( filename, objname );
         else{
@@ -146,7 +146,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    void default_save( ::cv::String const & filename, ::cv::String const & objname=std::basic_string<char, std::char_traits<char>, std::allocator<char> >() ) const  {
+    void default_save( ::cv::String const & filename, ::cv::String const & objname=std::string() ) const  {
         cv::HOGDescriptor::save( filename, objname );
     }
 
@@ -206,7 +206,7 @@ void register_HOGDescriptor_class(){
             HOGDescriptor_exposer.def( 
                 "compute"
                 , default_compute_function_type( &HOGDescriptor_wrapper::default_compute )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("descriptors"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=convert_vector_to_seq(std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >()) ) );
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("descriptors"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=convert_vector_to_seq(std::vector<cv::Point>()) ) );
         
         }
         { //::cv::HOGDescriptor::computeGradient
@@ -228,7 +228,7 @@ void register_HOGDescriptor_class(){
             HOGDescriptor_exposer.def( 
                 "detect"
                 , default_detect_function_type( &HOGDescriptor_wrapper::default_detect )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("foundLocations"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=convert_vector_to_seq(std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >()) ) );
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("foundLocations"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=convert_vector_to_seq(std::vector<cv::Point>()) ) );
         
         }
         { //::cv::HOGDescriptor::detectMultiScale
@@ -268,7 +268,7 @@ void register_HOGDescriptor_class(){
                 "load"
                 , load_function_type(&::cv::HOGDescriptor::load)
                 , default_load_function_type(&HOGDescriptor_wrapper::default_load)
-                , ( bp::arg("filename"), bp::arg("objname")=std::basic_string<char, std::char_traits<char>, std::allocator<char> >() ) );
+                , ( bp::arg("filename"), bp::arg("objname")=std::string() ) );
         
         }
         { //::cv::HOGDescriptor::save
@@ -280,7 +280,7 @@ void register_HOGDescriptor_class(){
                 "save"
                 , save_function_type(&::cv::HOGDescriptor::save)
                 , default_save_function_type(&HOGDescriptor_wrapper::default_save)
-                , ( bp::arg("filename"), bp::arg("objname")=std::basic_string<char, std::char_traits<char>, std::allocator<char> >() ) );
+                , ( bp::arg("filename"), bp::arg("objname")=std::string() ) );
         
         }
         { //::cv::HOGDescriptor::setSVMDetector
