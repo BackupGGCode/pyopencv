@@ -2,7 +2,7 @@
 
 These notes describe installing PyOpenCV from source on the following platforms:
 
-    * Windows
+    * [Installation_Windows Windows]
     * Linux
     * Mac OS X
 
