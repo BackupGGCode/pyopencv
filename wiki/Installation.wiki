@@ -1,9 +1,9 @@
 #summary General instructions on installing PyOpenCV.
 
-These notes describe installing SciPy from source on the following platforms:
+These notes describe installing PyOpenCV from source on the following platforms:
 
+    * Windows
     * Linux
-    * Windows 
     * Mac OS X
 
 See also the general building instructions and the FAQ entries on installation.
