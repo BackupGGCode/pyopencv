@@ -1,0 +1,9 @@
+#summary General instructions on installing PyOpenCV on Windows.
+
+Right now, only gcc 4.x compilers are supported, which include TDM GCC and MinGW.
+
+=Using MinGW or TDM GCC=
+
+==Install OpenCV 2.0==
+
+The pre-compiled OpenCV 2.0 build for Windows that came from Willow Garage is not suitable for PyOpenCV. It is highly likely that you need to build OpenCV 2.0 from source for your own, or download 
