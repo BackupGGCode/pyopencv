@@ -17,14 +17,16 @@
 
 # OpenCV 2.0 library
 opencv_include_dirs = ["M:/programming/packages/opencv/build/2.0/include/opencv"]
-opencv_library_dirs = ["M:/programming/packages/opencv/build/2.0_for_python/lib"]
-opencv_runtime_library_dirs = ["M:/programming/packages/opencv/build/2.0_for_python/bin"]
+opencv_library_dirs = ["M:/programming/packages/opencv/build/2.0_tdm433_no_openmp/lib"]
+opencv_runtime_library_dirs = ["M:/programming/packages/opencv/build/2.0_tdm433_no_openmp/bin"]
+# opencv_library_dirs = ["M:/programming/packages/opencv/build/2.0_for_python/lib"]
+# opencv_runtime_library_dirs = ["M:/programming/packages/opencv/build/2.0_for_python/bin"]
 opencv_libraries = ["cvaux200.dll", "ml200.dll", "highgui200.dll", "cv200.dll", "cxcore200.dll"]
 
 # Boost.Python library
 boost_include_dirs = ["M:/programming/packages/scipack/boost/boost_1_40_0"]
 # boost_library_dirs = ["M:/programming/packages/scipack/boost/boost_1_40_0/bin.v2/libs/python/build/gcc-mingw-4.4.0/release/link-static"]
-boost_library_dirs = ["M:/programming/packages/scipack/boost/boost_1_40_0/stage/lib"]
-boost_runtime_library_dirs = ["M:/programming/packages/scipack/boost/boost_1_40_0/stage/lib"]
+boost_library_dirs = ["M:/programming/packages/scipack/boost/boost_1_40_0/tdm_stage/lib"]
+boost_runtime_library_dirs = ["M:/programming/packages/scipack/boost/boost_1_40_0/tdm_stage/lib"]
 # boost_libraries = ["libboost_python-mgw44-1_40"]
-boost_libraries = ["boost_python-mgw44"]
+boost_libraries = ["boost_python-mgw43"]

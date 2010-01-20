@@ -1094,7 +1094,7 @@ static void cvWriteString_72043510addf587750a274c07091202d( ::cv::FileStorage & 
     ::cvWriteString(fs.fs, name, str, quote);
 }
 
-static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::tuple contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, bp::tuple hierarchy=convert_vector_to_seq(std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > >()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
+static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::tuple contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, bp::tuple hierarchy=convert_vector_to_seq(std::vector<cv::Vec4i>()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
     std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > contours2;
     std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > > hierarchy2;
     convert_seq_to_vector_vector(contours, contours2);
@@ -1251,7 +1251,7 @@ static boost::python::object groupRectangles_daddb1eb144574c44042d3cef39f8656( b
     return bp::object( rectList );
 }
 
-static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::string const & ext, ::cv::Mat const & img, bp::tuple params=convert_vector_to_seq(std::vector<int, std::allocator<int> >()) ){
+static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::string const & ext, ::cv::Mat const & img, bp::tuple params=convert_vector_to_seq(std::vector<int>()) ){
     bp::tuple buf2;
     std::vector<unsigned char, std::allocator<unsigned char> > buf3;
     std::vector<int, std::allocator<int> > params2;
@@ -1261,7 +1261,7 @@ static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::st
     return bp::make_tuple( result, buf2 );
 }
 
-static boost::python::object imwrite_08123c4d4c07e7af51577328378c9683( ::std::string const & filename, ::cv::Mat const & img, bp::tuple params=convert_vector_to_seq(std::vector<int, std::allocator<int> >()) ){
+static boost::python::object imwrite_08123c4d4c07e7af51577328378c9683( ::std::string const & filename, ::cv::Mat const & img, bp::tuple params=convert_vector_to_seq(std::vector<int>()) ){
     std::vector<int, std::allocator<int> > params2;
     convert_seq_to_vector(params, params2);
     bool result = ::cv::imwrite(filename, img, params2);
@@ -3183,7 +3183,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "drawContours"
             , drawContours_function_type( &drawContours_03a5aed7ca57b253d8b3346ee2f05f74 )
-            , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_vector_to_seq(std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > >()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() ) );
+            , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_vector_to_seq(std::vector<cv::Vec4i>()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() ) );
     
     }
 
@@ -3359,7 +3359,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "imencode"
             , imencode_function_type( &imencode_7058867f40db2ceceebdc74b4943c841 )
-            , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_vector_to_seq(std::vector<int, std::allocator<int> >()) ) );
+            , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_vector_to_seq(std::vector<int>()) ) );
     
     }
 
@@ -3370,7 +3370,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "imwrite"
             , imwrite_function_type( &imwrite_08123c4d4c07e7af51577328378c9683 )
-            , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_vector_to_seq(std::vector<int, std::allocator<int> >()) ) );
+            , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_vector_to_seq(std::vector<int>()) ) );
     
     }
 

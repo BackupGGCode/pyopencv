@@ -15,7 +15,7 @@ static void computeNormals_0372659dbb67ca1f98a084bb3e33c861( ::cv::Mesh3D & inst
     inst.computeNormals(subset2, normalRadius, minNeighbors);
 }
 
-static void writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a( ::cv::Mesh3D const & inst, ::cv::String const & file, bp::tuple colors=convert_vector_to_seq(std::vector<cv::Scalar_<double>, std::allocator<cv::Scalar_<double> > >()) ){
+static void writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a( ::cv::Mesh3D const & inst, ::cv::String const & file, bp::tuple colors=convert_vector_to_seq(std::vector<cv::Scalar>()) ){
     std::vector<cv::Scalar_<double>, std::allocator<cv::Scalar_<double> > > colors2;
     convert_seq_to_vector(colors, colors2);
     inst.writeAsVrml(file, colors2);
@@ -95,7 +95,7 @@ void register_Mesh3D_class(){
             Mesh3D_exposer.def( 
                 "writeAsVrml"
                 , writeAsVrml_function_type( &writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a )
-                , ( bp::arg("inst"), bp::arg("file"), bp::arg("colors")=convert_vector_to_seq(std::vector<cv::Scalar_<double>, std::allocator<cv::Scalar_<double> > >()) ) );
+                , ( bp::arg("inst"), bp::arg("file"), bp::arg("colors")=convert_vector_to_seq(std::vector<cv::Scalar>()) ) );
         
         }
         Mesh3D_exposer.def_readonly( "allzero", cv::Mesh3D::allzero );

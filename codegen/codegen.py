@@ -197,11 +197,15 @@ def is_arg_touched(f, arg_name):
 def beautify_func_list(self, func_list):
     # fix default values
     for f in func_list:
-        for arg in f.arguments:
+        for arg in f.arguments:        
             if isinstance(arg.default_value, str):
-                arg.default_value = arg.default_value.replace('cvPoint', 'cv::Point'). \
-                    replace('cvTermCriteria', 'cv::TermCriteria'). \
-                    replace('CV_WHOLE_SEQ', 'cv::Range(0, 0x3fffffff)')
+                # string
+                if arg.default_value == 'std::basic_string<char, std::char_traits<char>, std::allocator<char> >':
+                    arg.default_value = 'std::string<char>'
+                else:            
+                    arg.default_value = arg.default_value.replace('cvPoint', 'cv::Point'). \
+                        replace('cvTermCriteria', 'cv::TermCriteria'). \
+                        replace('CV_WHOLE_SEQ', 'cv::Range(0, 0x3fffffff)')
             
     # function argument int *sizes and int dims
     for f in func_list:
