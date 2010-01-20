@@ -104,7 +104,7 @@ class MyMingw32CCompiler (ccc.CygwinCCompiler):
             entry_point = ''
 
         self.set_executables(compiler='gcc -mno-cygwin -O -Wall',
-                             compiler_so='gcc -mno-cygwin -O -Wall', # Minh-Tri removed '-mdll' for Boost.Python to work flawlessly
+                             compiler_so='gcc -mno-cygwin -O -Wall', # Minh-Tri: removed '-mdll' for so that any Boost.Python's extension (e.g. pyopencvext) can work flawlessly, if '-mdll' is set, the code still can be compiled but the system may crash (i don't know why though)
                              compiler_cxx='g++ -mno-cygwin -O -Wall',
                              linker_exe='gcc -mno-cygwin',
                              linker_so='%s -mno-cygwin %s %s'
