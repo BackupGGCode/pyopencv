@@ -75,6 +75,59 @@ if sys.platform == 'win32':
     sysconfig._init_nt()
     sysconfig._config_vars['CC'] = 'gcc'
     
+# fix another bug of distutils on Windows
+# the same as cygwin plus some additional parameters
+from distutils import cygwinccompiler as ccc
+class MyMingw32CCompiler (ccc.CygwinCCompiler):
+
+    compiler_type = 'mingw32'
+
+    def __init__ (self,
+                  verbose=0,
+                  dry_run=0,
+                  force=0):
+
+        ccc.CygwinCCompiler.__init__ (self, verbose, dry_run, force)
+
+        # ld_version >= "2.13" support -shared so use it instead of
+        # -mdll -static
+        if self.ld_version >= "2.13":
+            shared_option = "-shared"
+        else:
+            shared_option = "-mdll -static"
+
+        # A real mingw32 doesn't need to specify a different entry point,
+        # but cygwin 2.91.57 in no-cygwin-mode needs it.
+        if self.gcc_version <= "2.91.57":
+            entry_point = '--entry _DllMain@12'
+        else:
+            entry_point = ''
+
+        self.set_executables(compiler='gcc -mno-cygwin -O -Wall',
+                             compiler_so='gcc -mno-cygwin -O -Wall', # Minh-Tri removed '-mdll' for Boost.Python to work flawlessly
+                             compiler_cxx='g++ -mno-cygwin -O -Wall',
+                             linker_exe='gcc -mno-cygwin',
+                             linker_so='%s -mno-cygwin %s %s'
+                                        % (self.linker_dll, shared_option,
+                                           entry_point))
+        # Maybe we should also append -mthreads, but then the finished
+        # dlls need another dll (mingwm10.dll see Mingw32 docs)
+        # (-mthreads: Support thread-safe exception handling on `Mingw32')
+
+        # no additional libraries needed
+        self.dll_libraries=[]
+
+        # Include the appropriate MSVC runtime library if Python was built
+        # with MSVC 7.0 or later.
+        self.dll_libraries = ccc.get_msvcr()
+
+    # __init__ ()
+from distutils.ccompiler import compiler_class
+ccc.MyMingw32CCompiler = MyMingw32CCompiler
+compiler_class['mingw32'] = ('cygwinccompiler', 'MyMingw32CCompiler',
+                               "Mingw32 port of GNU C Compiler for Win32")
+
+    
 # copy config.py to pyopencv/
 copyfile('config.py', join('pyopencv/', 'config.py'))
 
