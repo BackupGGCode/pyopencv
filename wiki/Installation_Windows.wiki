@@ -16,11 +16,11 @@ If you have decided to build OpenCV 2.0 from source, take note of the followings
   # Edit file CMakeLists.txt, search for "-D_GLIBCXX_PARALLEL" and remove it. Basically, when this option is set, "parallel mode" STL containers are used, which are incompatible with the standard "serialized mode" STL containers used by Boost.Python and other libraries. Of course, if you could recompile every single library that is connected to OpenCV with option "-D_GLIBCXX_PARALLEL" set, then it would be another matter.
     * TDM GCC 4.3.3: include "-lpthread" next to "-lgomp" in the CMakeLists.txt file.
   # When using cmake to build, uncheck USE_SSE and USE_SSE2. Do not use -msse2 or any automatic way to generate code using SSE or SSE2. For some unidentified reasons, invoking functions utilizing SSE and SSE2 code from Python may result in a system crash.
-  # Do not use -mtune=pentium3 or above ---> system crashes ---> same reason as in (3).
-  # The libvideoInput.a library file provided by Willow Garage was built with the SJLJ exception handling method. Therefore, you cannot link against it using compilers that provide the Dwarf exception handling method like MinGW 4.4.0, unless you could rebuild this file. In addition, to have videoInput included in OpenCV 2.0:
+  # Do not use -mtune=pentium3 or above ---> system crashes ---> same reason as in (2).
+  # The libvideoInput.a library file provided by Willow Garage was built with the SJLJ exception handling method. Therefore, you cannot link against it using compilers that provide the Dwarf exception handling method like MinGW 4.4.0, unless you could rebuild this libvideoInput.a file. In addition, to have videoInput included in OpenCV 2.0:
     * Edit file src/highgui/CMakeLists.txt
-    * At line 199, insert " ole32 oleaut32 uuid" at the end of the list of libraries to be linked against. The developers have forgotten to insert them.
-  # Turn off the SWIG flag, so that extra C++ member functions of classes in the ML component can be exposed. 
+    * At line 199, insert " ole32 oleaut32 uuid" at the end of the list of libraries to be linked against (i.e. after "videoInput strmiids"). The developers have forgotten to insert them.
+  # Uncheck the SWIG flag, so that extra C++ member functions of classes in the ML component can be exposed. 
 
 
 ===Download a pre-compiled OpenCV 2.0 build===
