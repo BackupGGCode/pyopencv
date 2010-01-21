@@ -34,7 +34,7 @@ Download [http://www.boost.org Boost]. Build the Boost.Python library using eith
 cd c:\boost_1_39_0
 bjam toolset=gcc –with-python –build-type=complete stage
 }}}
-This should create libraries in the stage\lib directory prefixed with boost_python-mgw4X, where 'X' corresponds to the minor version of your compiler.
+This should create libraries in the stage\lib directory prefixed with boost_python-mgw4X, where 'X' corresponds to the minor version of your compiler. Alternatively, you could use [http://www.boostpro.com BoostPro] installer as that enables you to just install the Boost library you need (much faster than compiling all of Boost!) 
 
 ==Edit config.py==
 
