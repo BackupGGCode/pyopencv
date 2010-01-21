@@ -17,11 +17,10 @@ If you have decided to build OpenCV 2.0 from source, take note of the followings
     * TDM GCC 4.3.3: include "-lpthread" next to "-lgomp" in the CMakeLists.txt file.
   # When using cmake to build, uncheck USE_SSE and USE_SSE2. For some unidentified reasons, builds that have any of these flags enabled end up crashing when called from Python.
   # Do not use -mtune=pentium3 or above ---> system crashes ---> same reason as in (3).
-  # To have videoInput included in OpenCV 2.0:
+  # The libvideoInput.a library file provided by Willow Garage was built with the SJLJ exception handling method. Therefore, you cannot link against it using compilers that provide the Dwarf exception handling method like MinGW 4.4.0, unless you could rebuild this file. In addition, to have videoInput included in OpenCV 2.0:
     * Edit file src/highgui/CMakeLists.txt
     * At line 199, insert " ole32 oleaut32 uuid" at the end of the list of libraries to be linked against. The developers have forgotten to insert them.
   # Turn off the SWIG flag, so that extra C++ member functions of classes in the ML component can be exposed. 
-  # The libvideoInput.a library file provided by Willow Garage was built with the SJLJ exception handling method. Therefore, you cannot link against it using compilers that provide the Dwarf exception handling method like MinGW 4.4.0, unless you could rebuild this file. 
 
 
 ===Download a pre-compiled OpenCV 2.0 build===
