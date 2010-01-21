@@ -21,8 +21,18 @@ If you have decided to build OpenCV 2.0 from source, take note of the followings
     * Edit file src/highgui/CMakeLists.txt
     * At line 199, insert " ole32 oleaut32 uuid" at the end of the list of libraries to be linked against.
   # Turn off the SWIG flag, so that extra C++ member functions of classes in the ML component can be exposed. 
+  # The libvideoInput.a library file provided by Willow Garage was built with the SJLJ exception handling method. Therefore, you cannot link against it using compilers that provide the Dwarf exception handling method like MinGW 4.4.0, unless you could rebuild this file. In addition, at line 199 of file src/highgui/CMakeLists.txt, insert 3 more libraries "ole32 oleaut32 uuid" after library "strmiids". The developers have forgotten to insert them.
 
 
 ===Download pre-compiled OpenCV 2.0===
 
 There is a faster and trouble-free way to install OpenCV 2.0 that is suitable for PyOpenCV. Just go to the [http://code.google.com/p/pyopencv/downloads/list Downloads] page, download a pre-compiled OpenCV 2.0 build for Windows of your choice, and follow the instructions inside the file to install. I have gone through most of the troubles that could have happened to build them. You do not have to go through the same pain again.
+
+==Install Boost.Python==
+
+Build the Boost.Python libraries using either MinGW or TDM GCC, and the toolset=gcc command line argument with bjam. For example, assuming boost is installed in C:\boost_1_39_0:
+{{{
+    cd c:\boost_1_39_0
+    bjam toolset=gcc –with-python –build-type=complete stage
+    This should create libs in the stage\lib directory prefixed with boost_python-mgw34. 
+}}}
