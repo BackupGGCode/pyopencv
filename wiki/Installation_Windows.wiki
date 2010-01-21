@@ -13,7 +13,7 @@ Willow Garage's pre-compiled OpenCV 2.0 builds for Windows are not suitable for 
 ===Build OpenCV 2.0 from source===
 
 If you have decided to build OpenCV 2.0 from source, take note of the followings:
-  # Edit file CMakeLists.txt, search for "-D_GLIBCXX_PARALLEL" and remove it. Basically, when this flag is set, "parallel mode" STL containers are used, which are incompatible with the standard "serialized mode" STL containers used by Boost.Python and other libraries. Of course, if you could recompile every single library that is involved with OpenCV with "-D_GLIBCXX_PARALLEL" flag on, then it is another matter.
+  # Edit file CMakeLists.txt, search for "-D_GLIBCXX_PARALLEL" and remove it. Basically, when this flag is set, "parallel mode" STL containers are used, which are incompatible with the standard "serialized mode" STL containers used by Boost.Python and other libraries. Of course, if you could recompile every single library that is connected to OpenCV with "-D_GLIBCXX_PARALLEL" flag set, then it would be another matter.
     * TDM GCC 4.3.3: include "-lpthread" next to "-lgomp" in the CMakeLists.txt file.
   # When using cmake to build, uncheck USE_SSE and USE_SSE2. For some unidentified reasons, builds that have any of these flags enabled end up crashing when called from Python.
   # Do not use -mtune=pentium3 or above ---> system crashes ---> same reason as in (3).
