@@ -70,7 +70,7 @@ To build PyOpenCV, issue the command
 {{{
 python setup.py build -c mingw32
 }}}
-It should take some time between 10-45 minutes to build PyOpenCV. Go grab yourself a cup of coffee, sit back, and take a break.
+It should take some time between 10 minutes and 45 minutes to build PyOpenCV. Go grab yourself a cup of coffee, sit back, and take a break.
 
 To install PyOpenCV, issue the command
 {{{
