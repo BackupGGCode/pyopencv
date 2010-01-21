@@ -30,9 +30,28 @@ There is a faster and trouble-free way to install OpenCV 2.0 that is suitable fo
 
 ==Install Boost.Python==
 
-Build the Boost.Python libraries using either MinGW or TDM GCC, and the toolset=gcc command line argument with bjam. For example, assuming boost is installed in C:\boost_1_39_0:
+Build the Boost.Python library using either MinGW or TDM GCC, and the toolset=gcc command line argument with bjam. For example, assuming boost is installed in C:\boost_1_39_0:
 {{{
     cd c:\boost_1_39_0
     bjam toolset=gcc –with-python –build-type=complete stage
 }}}
 This should create libraries in the stage\lib directory prefixed with boost_python-mgw4X, where 'X' corresponds to the minor version of your compiler.
+
+==Edit config.py==
+
+PyOpenCV needs to be told where to find OpenCV 2.0 and Boost.Python. It needs to know the libraries to link against and the directories to search for those libraries. Put this text into file config.py located at PyOpenCV's source directory (potentially with adapted paths and libraries): 
+{{{
+# OpenCV 2.0 library
+opencv_include_dirs = ["C:/Program Files/OpenCV/include/opencv"]
+opencv_library_dirs = ["C:/Program Files/OpenCV/lib"]
+opencv_runtime_library_dirs = ["C:/Program Files/OpenCV/bin"]
+opencv_libraries = ["cvaux200.dll", "ml200.dll", "highgui200.dll", "cv200.dll", "cxcore200.dll"]
+
+# Boost.Python library
+boost_include_dirs = ["C:/boost_1_40_0"]
+boost_library_dirs = ["C:/boost_1_40_0/stage/lib"]
+boost_runtime_library_dirs = ["C:/boost_1_40_0/stage/lib"]
+boost_libraries = ["boost_python-mgw44"]
+}}}
+
+The libraries options suffixed with 'libraries' are lists of libraries to link against, those suffixed with 'library_dirs' are lists of directories to search for libraries at link-time, and those suffixed with 'runtime_library_dirs' are lists of directories to search for shared (dynamically loaded) libraries at run-time.
