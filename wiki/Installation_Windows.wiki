@@ -29,16 +29,16 @@ There is a faster and trouble-free way to install OpenCV 2.0 that is suitable fo
 
 ==Install Boost.Python==
 
-Download [http://www.boost.org Boost]. Build the Boost.Python library using either MinGW or TDM GCC, and the toolset=gcc command line argument with bjam. For example, assuming boost is installed in C:\boost_1_39_0:
+Download [http://www.boost.org Boost]. Build the Boost.Python library using either MinGW or TDM GCC, and the toolset=gcc command line argument with Boost's bjam. For example, assuming boost is installed in C:\boost_1_39_0:
 {{{
 cd c:\boost_1_39_0
 bjam toolset=gcc –with-python –build-type=complete stage
 }}}
-This should create libraries in the stage\lib directory prefixed with boost_python-mgw4X, where 'X' corresponds to the minor version of your compiler. Alternatively, you could use [http://www.boostpro.com BoostPro] installer as that enables you to just install the Boost library you need (much faster than compiling all of Boost!) 
+This should create libraries in the stage\lib directory prefixed with boost_python-mgw4X, where 'X' corresponds to the minor version of your compiler. Alternatively, you could use [http://www.boostpro.com BoostPro] installer as that enables you to just install the Boost library you need (much faster than compiling all of Boost!).
 
 ==Download PyOpenCV==
 
-Download a PyOpenCV source archive from the [http://code.google.com/p/pyopencv/downloads/list Downloads] page, and extract it. Alternatively, to get the latest source code, use this command to anonymously check out the latest project source code:
+Download a PyOpenCV source archive from the [http://code.google.com/p/pyopencv/downloads/list Downloads] page, and extract it. Alternatively, use this command to anonymously check out the latest project source code:
 {{{
 svn checkout http://pyopencv.googlecode.com/svn/trunk/src/ pyopencv
 }}}
