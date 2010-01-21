@@ -62,14 +62,14 @@ Follow the instructions at the [http://www.scipy.org/Installing_SciPy/Windows Sc
 
 ==Build and Install PyOpenCV==
 
-Now that you have obtained all the necessary libraries, the remaining steps are straight forward.
+Now that you have obtained all the necessary libraries, the remaining steps are straight forward. First, download a PyOpenCV source archive from the [http://code.google.com/p/pyopencv/downloads/list Downloads] page.
 
-To build PyOpenCV, send the command
+To build PyOpenCV, issue the command
 {{{
     python setup.py build -c mingw32
 }}}
 
-To install PyOpenCV, send the command
+To install PyOpenCV, issue the command
 {{{
     python setup.py install
 }}}
