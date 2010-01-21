@@ -6,7 +6,7 @@ Right now, only gcc 4.x compilers are supported, which include TDM GCC and MinGW
 
 ==Install OpenCV 2.0==
 
-Willow Garage's pre-compiled OpenCV 2.0 builds for Windows are not suitable for PyOpenCV. The reasons are mainly due to SSE2 and multi-threading (see explanations below). It is likely that you need to either 1) build OpenCV 2.0 from source, or 2) download one of our pre-compiled OpenCV 2.0 builds on the [http://code.google.com/p/pyopencv/downloads/list Downloads] page. Do not worry though, you can still use your current OpenCV 2.0 build (if any) in other applications. PyOpenCV always tries to load the build you have specified in the 'config.py' file instead of other builds.
+Willow Garage's pre-compiled OpenCV 2.0 builds for Windows are not suitable for PyOpenCV. The reasons are mainly due to SSE2 and multi-threading (see explanations below). It is likely that you need to either 1) build OpenCV 2.0 from source, or 2) download one of our pre-compiled OpenCV 2.0 builds from the [http://code.google.com/p/pyopencv/downloads/list Downloads] page. Do not worry though, you can still use your current OpenCV 2.0 build (if any) in other applications. PyOpenCV always tries to load the build you have specified in the 'config.py' file instead of other builds.
 
   # Multi-threading (implying the use of OpenMP) is always a risky idea to try. Both OpenCV 2.0 and Boost.Python are not fully thread-safe. If you insist on using multi-threading and OpenMP, remember that your system may sometimes *crash*.
 
