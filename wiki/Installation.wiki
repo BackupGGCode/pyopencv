@@ -1,5 +1,12 @@
 #summary General instructions for installing PyOpenCV.
 
+In summary, there are four major steps to install PyOpenCV:
+
+    # Install OpenCV 2.0
+    # Install Boost.Python
+    # Install PyOpenCV
+    # Install NumPy
+
 These notes describe installing PyOpenCV from source on the following platforms:
 
     * [Installation_Windows Windows]
