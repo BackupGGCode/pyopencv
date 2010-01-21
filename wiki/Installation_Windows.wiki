@@ -31,8 +31,8 @@ There is a faster and trouble-free way to install OpenCV 2.0 that is suitable fo
 
 Download [http://www.boost.org Boost]. Build the Boost.Python library using either MinGW or TDM GCC, and the toolset=gcc command line argument with bjam. For example, assuming boost is installed in C:\boost_1_39_0:
 {{{
-    cd c:\boost_1_39_0
-    bjam toolset=gcc –with-python –build-type=complete stage
+cd c:\boost_1_39_0
+bjam toolset=gcc –with-python –build-type=complete stage
 }}}
 This should create libraries in the stage\lib directory prefixed with boost_python-mgw4X, where 'X' corresponds to the minor version of your compiler.
 
@@ -61,14 +61,14 @@ Follow the instructions at the [http://www.scipy.org/Installing_SciPy/Windows Sc
 
 ==Download PyOpenCV==
 
-Use this command to anonymously check out the latest project source code:
+Download a PyOpenCV source archive from the [http://code.google.com/p/pyopencv/downloads/list Downloads] page, and extract it. Alternatively, to get the latest source code, use this command to anonymously check out the latest project source code:
 {{{
 svn checkout http://pyopencv.googlecode.com/svn/trunk/src/ pyopencv
 }}}
 
 ==Build and Install PyOpenCV==
 
-Now that you have obtained all the necessary libraries, the remaining steps are straight forward. Download a PyOpenCV source archive from the [http://code.google.com/p/pyopencv/downloads/list Downloads] page.
+Now that you have obtained all the necessary libraries, the remaining steps are straight forward. 
 
 To build PyOpenCV, issue the command
 {{{
