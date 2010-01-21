@@ -57,7 +57,7 @@ The libraries options suffixed with 'libraries' are lists of libraries to link a
 
 ==Install NumPy==
 
-Follow the instructions at the [http://www.scipy.org/Installing_SciPy/Windows SciPy installation for Windows] page to install NumPy. Though, only NumPy is needed by PyOpenCV.
+Follow the instructions at [http://www.scipy.org/Installing_SciPy/Windows SciPy Installation Page for Windows] to install NumPy. It is not necessary to install SciPy though.
 
 ==Download PyOpenCV==
 
@@ -72,10 +72,10 @@ Now that you have obtained all the necessary libraries, the remaining steps are 
 
 To build PyOpenCV, issue the command
 {{{
-    python setup.py build -c mingw32
+python setup.py build -c mingw32
 }}}
 
 To install PyOpenCV, issue the command
 {{{
-    python setup.py install
+python setup.py install
 }}}
