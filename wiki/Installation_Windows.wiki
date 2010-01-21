@@ -34,5 +34,6 @@ Build the Boost.Python libraries using either MinGW or TDM GCC, and the toolset=
 {{{
     cd c:\boost_1_39_0
     bjam toolset=gcc –with-python –build-type=complete stage
-    This should create libs in the stage\lib directory prefixed with boost_python-mgw4X, where 'X' corresponds to the minor version of your compiler.
+    This should create libs in the stage\lib directory prefixed with boost_python-mgw4X, 
+      where 'X' corresponds to the minor version of your compiler.
 }}}
