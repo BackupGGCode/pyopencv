@@ -8,7 +8,7 @@ Right now, only gcc 4.x compilers are supported, which include TDM GCC and MinGW
 
 Willow Garage's pre-compiled OpenCV 2.0 builds for Windows are not suitable for PyOpenCV. The reasons are mainly due to the use of SSE2 and multi-threading (see explanations below). It is very likely that you have to 1) build OpenCV 2.0 from source, or 2) download one of our pre-compiled OpenCV 2.0 builds on the [http://code.google.com/p/pyopencv/downloads/list Downloads] page. Do not worry though, you still can use your current build (if any) in other applications. PyOpenCV always tries to load the build you have specified in the 'config.py' file instead of other builds.
 
-  # Multi-threading (implying the use of OpenMP) is always a risky idea to try. Both OpenCV 2.0 and Boost.Python are not fully thread-safe. If you really insist on using multi-threading and OpenMP, remember that your system may sometimes *crash*.
+  # Multi-threading (implying the use of OpenMP) is always a risky idea to try. Both OpenCV 2.0 and Boost.Python are not fully thread-safe. If you insist on using multi-threading and OpenMP, remember that your system may sometimes *crash*.
 
 ===Build OpenCV 2.0 from source===
 
@@ -21,3 +21,8 @@ If you have decided to build OpenCV 2.0 from source, take note of the followings
     * Edit file src/highgui/CMakeLists.txt
     * At line 199, insert " ole32 oleaut32 uuid" at the end of the list of libraries to be linked against.
   # Turn off the SWIG flag, so that extra C++ member functions of classes in the ML component can be exposed. 
+
+
+===Download pre-compiled OpenCV 2.0===
+
+There is a faster and trouble-free way to install OpenCV 2.0 that is suitable for PyOpenCV. Just go to the [http://code.google.com/p/pyopencv/downloads/list Downloads] page, download a pre-compiled OpenCV 2.0 build for Windows of your choice, and follow the instructions inside the file to install. I have gone through most of the troubles that could have happened to build them. You do not have to go through the same pain again.
