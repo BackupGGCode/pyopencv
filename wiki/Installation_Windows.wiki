@@ -1,6 +1,6 @@
 #summary General instructions for installing PyOpenCV on Windows.
 
-Right now, only gcc 4.x compilers are supported, which include TDM GCC and MinGW.
+Right now, only gcc 4.x compilers are supported, which include TDM GCC and MinGW. The only reason for this limitation is that I have not tried other C++ compilers. If you have successfully built PyOpenCV with another C++ compiler, please let feel free to contribute your knowledge to this page.
 
 =Using MinGW or TDM GCC=
 
