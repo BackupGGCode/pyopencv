@@ -1,6 +1,6 @@
 #summary General instructions for installing PyOpenCV.
 
-In summary, there are four major steps to install PyOpenCV:
+In short, there are four major steps:
 
     # Install OpenCV 2.0
     # Install Boost.Python
@@ -13,4 +13,4 @@ These notes describe installing PyOpenCV from source on the following platforms:
     * Linux
     * Mac OS X
 
-See also the general building instructions and the FAQ entries on installation.
+See also the FAQ entries on installation.
