@@ -1,4 +1,4 @@
-#summary General instructions on installing PyOpenCV.
+#summary General instructions for installing PyOpenCV.
 
 These notes describe installing PyOpenCV from source on the following platforms:
 
