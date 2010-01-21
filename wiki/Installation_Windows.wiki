@@ -55,3 +55,21 @@ boost_libraries = ["boost_python-mgw44"]
 }}}
 
 The libraries options suffixed with 'libraries' are lists of libraries to link against, those suffixed with 'library_dirs' are lists of directories to search for libraries at link-time, and those suffixed with 'runtime_library_dirs' are lists of directories to search for shared (dynamically loaded) libraries at run-time.
+
+==Install NumPy==
+
+Follow the instructions at the [http://www.scipy.org/Installing_SciPy/Windows SciPy installation for Windows] page to install NumPy. Though, only NumPy is needed by PyOpenCV.
+
+==Build and Install PyOpenCV==
+
+Now that you have obtained all the necessary libraries, the remaining steps are straight forward.
+
+To build PyOpenCV, send the command
+{{{
+    python setup.py build -c mingw32
+}}}
+
+To install PyOpenCV, send the command
+{{{
+    python setup.py install
+}}}
