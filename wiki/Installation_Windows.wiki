@@ -30,7 +30,7 @@ There is a faster and trouble-free way to install OpenCV 2.0 that is suitable fo
 
 ==Install Boost.Python==
 
-Build the Boost.Python library using either MinGW or TDM GCC, and the toolset=gcc command line argument with bjam. For example, assuming boost is installed in C:\boost_1_39_0:
+Download [http://www.boost.org Boost]. Build the Boost.Python library using either MinGW or TDM GCC, and the toolset=gcc command line argument with bjam. For example, assuming boost is installed in C:\boost_1_39_0:
 {{{
     cd c:\boost_1_39_0
     bjam toolset=gcc –with-python –build-type=complete stage
