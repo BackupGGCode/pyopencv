@@ -28,8 +28,7 @@ DOCLINES = __doc__.split("\n")
 
 from distutils.core import setup, Extension
 from glob import glob
-from os.path import join
-import sys
+import sys, copy, os
 from shutil import copyfile
 from config import *
 
@@ -56,14 +55,15 @@ Topic :: Software Development :: Libraries :: Python Modules
 """
 
 pyopencvext = Extension(name='pyopencvext',
-    sources=glob(join('pyopencv', 'pyopencvext', '*.cpp')),
+    sources=glob(os.path.join('pyopencv', 'pyopencvext', '*.cpp')),
     include_dirs=opencv_include_dirs+boost_include_dirs+['pyopencv', 
-        join('pyopencv', 'pyopencvext'), join('pyopencv', 'pyopencvext', 'numpy_include')],
+        os.path.join('pyopencv', 'pyopencvext'), os.path.join('pyopencv', 'pyopencvext', 'numpy_include')],
     library_dirs=opencv_library_dirs+boost_library_dirs,
     libraries=opencv_libraries+boost_libraries,
     runtime_library_dirs=opencv_runtime_library_dirs+boost_runtime_library_dirs,
     extra_compile_args=['-ftemplate-depth-128','-O3','-finline-functions','-Wno-inline', 
-        '-Wall','-DNDEBUG'],
+        '-Wall','-DNDEBUG', '-shared-libgcc', '-mtune=i386', '-v'],
+    extra_link_args=['-shared-libgcc', '-mtune=i386', '-v'],
     # define_macros=[('BOOST_PYTHON_STATIC_LIB', None)],
 
 #    extra_link_args=['-Wl,-Bstatic','-Wl,-Bdynamic'],
@@ -121,7 +121,102 @@ class MyMingw32CCompiler (ccc.CygwinCCompiler):
         # with MSVC 7.0 or later.
         self.dll_libraries = ccc.get_msvcr()
 
-    # __init__ ()
+    def link (self,
+              target_desc,
+              objects,
+              output_filename,
+              output_dir=None,
+              libraries=None,
+              library_dirs=None,
+              runtime_library_dirs=None,
+              export_symbols=None,
+              debug=0,
+              extra_preargs=None,
+              extra_postargs=None,
+              build_temp=None,
+              target_lang=None):
+
+        # use separate copies, so we can modify the lists
+        extra_preargs = copy.copy(extra_preargs or [])
+        libraries = copy.copy(libraries or [])
+        objects = copy.copy(objects or [])
+
+        # Additional libraries
+        libraries.extend(self.dll_libraries)
+
+        # handle export symbols by creating a def-file
+        # with executables this only works with gcc/ld as linker
+        if ((export_symbols is not None) and
+            (target_desc != self.EXECUTABLE or self.linker_dll == "gcc")):
+            # (The linker doesn't do anything if output is up-to-date.
+            # So it would probably better to check if we really need this,
+            # but for this we had to insert some unchanged parts of
+            # UnixCCompiler, and this is not what we want.)
+
+            # we want to put some files in the same directory as the
+            # object files are, build_temp doesn't help much
+            # where are the object files
+            temp_dir = os.path.dirname(objects[0])
+            # name of dll to give the helper files the same base name
+            (dll_name, dll_extension) = os.path.splitext(
+                os.path.basename(output_filename))
+
+            # generate the filenames for these files
+            def_file = os.path.join(temp_dir, dll_name + ".def")
+            lib_file = os.path.join(temp_dir, 'lib' + dll_name + ".a")
+
+            # Generate .def file
+            contents = [
+                "LIBRARY %s" % os.path.basename(output_filename),
+                "EXPORTS"]
+            for sym in export_symbols:
+                contents.append(sym)
+            self.execute(ccc.write_file, (def_file, contents),
+                         "writing %s" % def_file)
+
+            # next add options for def-file and to creating import libraries
+
+            # dllwrap uses different options than gcc/ld
+            if self.linker_dll == "dllwrap":
+                extra_preargs.extend(["--output-lib", lib_file])
+                # for dllwrap we have to use a special option
+                extra_preargs.extend(["--def", def_file])
+            # we use gcc/ld here and can be sure ld is >= 2.9.10
+            else:
+                # doesn't work: bfd_close build\...\libfoo.a: Invalid operation
+                #extra_preargs.extend(["-Wl,--out-implib,%s" % lib_file])
+                # for gcc/ld the def-file is specified as any object files
+                objects.append(def_file)
+
+        #end: if ((export_symbols is not None) and
+        #        (target_desc != self.EXECUTABLE or self.linker_dll == "gcc")):
+
+        # Minh-Tri: this "-s" option is removed
+        
+        # who wants symbols and a many times larger output file
+        # should explicitly switch the debug mode on
+        # otherwise we let dllwrap/ld strip the output file
+        # (On my machine: 10KB < stripped_file < ??100KB
+        #   unstripped_file = stripped_file + XXX KB
+        #  ( XXX=254 for a typical python extension))
+        # if not debug:
+            # extra_preargs.append("-s")
+
+        ccc.UnixCCompiler.link(self,
+                           target_desc,
+                           objects,
+                           output_filename,
+                           output_dir,
+                           libraries,
+                           library_dirs,
+                           runtime_library_dirs,
+                           None, # export_symbols, we do this in our def-file
+                           debug,
+                           extra_preargs,
+                           extra_postargs,
+                           build_temp,
+                           target_lang)
+        
 from distutils.ccompiler import compiler_class
 ccc.MyMingw32CCompiler = MyMingw32CCompiler
 compiler_class['mingw32'] = ('cygwinccompiler', 'MyMingw32CCompiler',
@@ -129,7 +224,7 @@ compiler_class['mingw32'] = ('cygwinccompiler', 'MyMingw32CCompiler',
 
     
 # copy config.py to pyopencv/
-copyfile('config.py', join('pyopencv/', 'config.py'))
+copyfile('config.py', os.path.join('pyopencv', 'config.py'))
 
 setup(name = 'pyopencv',
 	version = '2.0.0.py1.0.0',
