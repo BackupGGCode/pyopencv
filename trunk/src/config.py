@@ -19,8 +19,8 @@
 
 # OpenCV 2.0 library
 opencv_include_dirs = ["M:/programming/packages/opencv/build/2.0/include/opencv"]
-opencv_library_dirs = ["M:/programming/packages/opencv/build/2.0_tdm433_p2_videoinput/lib"]
-opencv_runtime_library_dirs = ["M:/programming/packages/opencv/build/2.0_tdm433_p2_videoinput/bin"]
+opencv_library_dirs = ["M:/programming/packages/opencv/build/2.0_mgw440/lib"]
+opencv_runtime_library_dirs = ["M:/programming/packages/opencv/build/2.0_mgw440/bin"]
 opencv_libraries = ["cvaux200.dll", "ml200.dll", "highgui200.dll", "cv200.dll", "cxcore200.dll"]
 
 # Boost.Python library
