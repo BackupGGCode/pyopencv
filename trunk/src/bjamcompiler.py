@@ -73,6 +73,12 @@ explicit test_ext test_embed test ;
 ''')
         f.close()
         
+        # boost-build.jam
+        f = open('boost-build.jam', 'wt')
+        f.write('''
+boost-build %s/tools/build/v2 ;
+''' % (boost_dir, ))
+        
         # script to get the extension
         f = open('_get_ext.py', 'wt')
         f.write('''
@@ -86,6 +92,7 @@ _D.copy_file(_P.__file__, '%s')
         self.spawn(['bjam', 'release', 'test', 'link=static'])
         
         # delete temp files
+        os.remove('boost-build.jam')
         os.remove('Jamroot')
         os.remove('_get_ext.py')
         
