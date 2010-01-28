@@ -15,16 +15,37 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
-# My configuration file
+# This is the configuration file that provides PyOpenCV information about OpenCV and Boost libraries installed on the user's platform.
+# The file is a Python sript so the user can freely program to generate the required information automatically or manually.
 
-# OpenCV 2.0 library
-opencv_include_dirs = ["M:/programming/packages/opencv/build/2.0/include/opencv"]
-opencv_library_dirs = ["M:/programming/packages/opencv/build/2.0_mgw440/lib"]
-opencv_runtime_library_dirs = ["M:/programming/packages/opencv/build/2.0_mgw440/bin"]
-opencv_libraries = ["cvaux200.dll", "ml200.dll", "highgui200.dll", "cv200.dll", "cxcore200.dll"]
+# Eventually, the file should have the following variables (each of which is a list/tuple of strings) exposed:
 
-# Boost.Python library
+#  - opencv_include_dirs == list of folders that contain OpenCV's include header files
+#  - opencv_library_dirs == list of folders that contain OpenCV's library files to be linked against (e.g. a folder containing files like cv200.lib, libcv200.dll.a, or libcv200.a)
+#  - opencv_libraries == list of library files that are to be linked against. If you use bjam as the compiler (i.e. you have specified '-c bjam' in the build command), you must list each library file in full name. Do not hope that bjam will figure out the full file name by itself. For example, put 'libcv200.dll.a' instead of 'cv200.dll'. This requirement does not apply to other compilers.
+#  - opencv_runtime_library_dirs == list of folders that contain OpenCV's shared library files that are actually loaded at run-time (e.g. cv200.dll, libcv200.so, or libcv200.dylib)
+#  - opencv_runtime_libraries_to_be_bundled == list of shared library files that are actually loaded at run-time. If this variable is an empty list (i.e. []), all the folders specified in the 'opencv_runtime_library_dirs' variable are inserted at the front of the PATH environment whenever PyOpenCV is imported. Otherwise, these shared library files are bundled with PyOpenCV at install-time.
+
+#  - boost_include_dirs == list of folders that contain Boost's include header files. The first item of the list must be the root path of Boost.
+#  - boost_library_dirs == list of folders that contain Boost.Python's library files to be linked against (e.g. a folder containing files like libboostpython.a or boost_python-mgw44-mt.lib). This variable is ignored if bjam is used as the compiler.
+#  - boost_libraries == list of library files that are to be linked against. This variable is ignored if bjam is used as the compiler.
+#  - boost_runtime_library_dirs == list of folders that contain Boost.Python's shared library files that are actually loaded at run-time (e.g. boost_python-mgw44-mt-1_40.dll). This variable is ignored if bjam is used as the compiler.
+#  - boost_runtime_libraries_to_be_bundled == list of shared library files that are actually loaded at run-time. If this variable is an empty list (i.e. []), all the folders specified in the 'boost_runtime_library_dirs' variable are inserted at the front of the PATH environment whenever PyOpenCV is imported. Otherwise, these shared library files are bundled with PyOpenCV at install-time. This variable is ignored if bjam is used as the compiler.
+
+import os
+from glob import glob
+
+# OpenCV 2.0 library, to be linked against using bjam+gcc and bundled with
+opencv_dir = "M:/programming/packages/opencv/build/2.0_tdm433_openmp"
+opencv_include_dirs = [opencv_dir+"/include/opencv"]
+opencv_library_dirs = [opencv_dir+"/lib"]
+opencv_libraries = [os.path.split(x)[1] for x in glob(opencv_dir+"/lib/*.a")]
+opencv_runtime_library_dirs = [opencv_dir+"/bin"]
+opencv_runtime_libraries_to_be_bundled = [os.path.split(x)[1] for x in glob(opencv_dir+"/bin/*.dll")]
+
+# Boost.Python library, to be linked against using bjam+gcc and bundled with
 boost_include_dirs = ["M:/programming/packages/scipack/boost/boost_1_40_0"]
-boost_library_dirs = ["M:/programming/packages/scipack/boost/boost_1_40_0/stage/lib"]
-boost_runtime_library_dirs = ["M:/programming/packages/scipack/boost/boost_1_40_0/stage/lib"]
-boost_libraries = ["boost_python-mgw44"]
+boost_library_dirs = []
+boost_libraries = []
+boost_runtime_library_dirs = ['tada']
+boost_runtime_libraries_to_be_bundled = []
