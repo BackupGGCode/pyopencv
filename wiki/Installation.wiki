@@ -3,14 +3,14 @@
 In short, there are four major steps:
 
     # Install OpenCV 2.0
-    # Install Boost.Python
+    # Install Boost.Python (including Boost.Build and bjam)
     # Install PyOpenCV
     # Install NumPy <-- you can do it _after_ PyOpenCV is installed
 
 These notes describe installing PyOpenCV from source on the following platforms:
 
     * [Installation_Windows Windows]
-    * Linux
+    * [Installation_Linux Linux]
     * Mac OS X
 
 See also the FAQ entries on installation.
