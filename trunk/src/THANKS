@@ -2,10 +2,6 @@
 PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 =======================================================================
 
-Gary Bishop (and former contributors) for his CVtypes package, which precedes ctypes-opencv
-
-Jérémy Bethmont for his contributions in conversion between IplImage and PIL's Image, and in detection of OpenCV's libraries
-
-David Bolen for his many suggestions and contributions
-
-Many people in the ctypes-opencv Google group for their invaluable discussion and idea contributions
+Thanks go to many people in the ctypes-opencv Google group as well as
+those have contacted me via email for their invaluable discussion and 
+idea contributions.
