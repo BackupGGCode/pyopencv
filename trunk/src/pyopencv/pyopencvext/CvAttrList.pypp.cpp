@@ -7,7 +7,7 @@
 #include "boost/python/str.hpp"
 #include "boost/python/list.hpp"
 #include "boost/python/tuple.hpp"
-#include "cvattrlist.pypp.hpp"
+#include "CvAttrList.pypp.hpp"
 
 namespace bp = boost::python;
 

@@ -4,7 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "opencv_extra.hpp"
-#include "surf.pypp.hpp"
+#include "SURF.pypp.hpp"
 
 namespace bp = boost::python;
 

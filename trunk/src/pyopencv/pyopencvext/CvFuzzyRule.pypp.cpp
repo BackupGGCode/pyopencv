@@ -3,7 +3,7 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "cvfuzzyrule.pypp.hpp"
+#include "CvFuzzyRule.pypp.hpp"
 
 namespace bp = boost::python;
 

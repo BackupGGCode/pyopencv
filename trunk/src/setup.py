@@ -48,8 +48,7 @@ Topic :: Software Development :: Libraries :: Python Modules
 """
 
 from glob import glob
-import sys, copy, os
-from shutil import copyfile
+import os
 from config import *
 
 
@@ -72,7 +71,7 @@ pyopencvext = Extension('pyopencv.pyopencvext',
 
 setup(
     name = "pyopencv",
-	version = '2.0.0.py1.0.0',
+	version = '2.0.0.wr1.0.0',
 	description = DOCLINES[0],
 	author = 'Minh-Tri Pham',
 	author_email = 'pmtri80@gmail.com',

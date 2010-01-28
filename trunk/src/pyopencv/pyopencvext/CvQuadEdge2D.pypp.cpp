@@ -7,7 +7,7 @@
 #include "boost/python/object.hpp"
 #include "boost/python/list.hpp"
 #include "boost/python/tuple.hpp"
-#include "cvquadedge2d.pypp.hpp"
+#include "CvQuadEdge2D.pypp.hpp"
 
 namespace bp = boost::python;
 

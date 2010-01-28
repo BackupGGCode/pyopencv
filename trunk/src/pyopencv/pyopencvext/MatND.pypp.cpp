@@ -8,7 +8,7 @@
 #include "boost/python/make_function.hpp"
 #include "opencv_extra.hpp"
 #include "ndarray.hpp"
-#include "matnd.pypp.hpp"
+#include "MatND.pypp.hpp"
 
 namespace bp = boost::python;
 

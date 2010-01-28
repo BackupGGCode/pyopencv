@@ -4,7 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "ndarray.hpp"
-#include "point3f.pypp.hpp"
+#include "Point3f.pypp.hpp"
 
 namespace bp = boost::python;
 

@@ -4,7 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "boost/python/object.hpp"
-#include "cvmemstoragepos.pypp.hpp"
+#include "CvMemStoragePos.pypp.hpp"
 
 namespace bp = boost::python;
 

@@ -77,7 +77,7 @@ explicit test_ext test_embed test ;
         f = open('_get_ext.py', 'wt')
         f.write('''
 import pyopencvext as _P
-from distutils.file_util as _D
+import distutils.file_util as _D
 _D.copy_file(_P.__file__, '%s')
 ''' % mypath(os.path.abspath(output_filename)))
         f.close()

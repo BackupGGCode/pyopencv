@@ -6,7 +6,7 @@
 #include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "cvsvm.pypp.hpp"
+#include "CvSVM.pypp.hpp"
 
 namespace bp = boost::python;
 

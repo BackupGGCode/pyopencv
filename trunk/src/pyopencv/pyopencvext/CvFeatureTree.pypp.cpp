@@ -3,7 +3,7 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "cvfeaturetree.pypp.hpp"
+#include "CvFeatureTree.pypp.hpp"
 
 namespace bp = boost::python;
 

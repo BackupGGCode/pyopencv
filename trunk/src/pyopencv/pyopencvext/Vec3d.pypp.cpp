@@ -4,7 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "ndarray.hpp"
-#include "vec3d.pypp.hpp"
+#include "Vec3d.pypp.hpp"
 
 namespace bp = boost::python;
 

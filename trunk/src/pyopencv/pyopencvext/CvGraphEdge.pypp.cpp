@@ -6,7 +6,7 @@
 #include "boost/python/object.hpp"
 #include "boost/python/list.hpp"
 #include "boost/python/tuple.hpp"
-#include "cvgraphedge.pypp.hpp"
+#include "CvGraphEdge.pypp.hpp"
 
 namespace bp = boost::python;
 

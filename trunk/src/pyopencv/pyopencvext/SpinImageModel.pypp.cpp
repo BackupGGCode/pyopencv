@@ -5,7 +5,7 @@
 #include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "spinimagemodel.pypp.hpp"
+#include "SpinImageModel.pypp.hpp"
 
 namespace bp = boost::python;
 
