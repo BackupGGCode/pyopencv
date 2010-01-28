@@ -45,7 +45,7 @@ if __name__ == "__main__":
     else:
         lines = HoughLinesP( dst, 1, CV_PI/180, 50, 50, 10 )
         for l in lines:
-            line( color_dst, Point(l[0], l[1]), Point(l[2], l[3]), CV_RGB(255,0,0), 3, 8 )
+            line( color_dst, Point(int(l[0]), int(l[1])), Point(int(l[2]), int(l[3])), CV_RGB(255,0,0), 3, 8 )
 
     namedWindow( "Source", 1 )
     imshow( "Source", src )
