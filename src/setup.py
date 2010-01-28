@@ -56,8 +56,8 @@ import config as C
 import ez_setup
 ez_setup.use_setuptools()
 
-import bjamcompiler
-bjamcompiler.boost_dir = C.boost_include_dirs[0]
+import bjamcompiler as BJ
+BJ.boost_dir = C.boost_include_dirs[0]
 
 from setuptools import setup, find_packages, Extension
 
@@ -84,13 +84,29 @@ path_ext = []
 ''')
 if not C.opencv_runtime_libraries_to_be_bundled:
     for path in C.opencv_runtime_library_dirs:
-        f.write('path_ext.append("%s")\n' % bjamcompiler.mypath(OP.abspath(path)))
+        f.write('path_ext.append("%s")\n' % BJ.mypath(OP.abspath(path)))
 if not C.boost_runtime_libraries_to_be_bundled:
     for path in C.boost_runtime_library_dirs:
-        f.write('path_ext.append("%s")\n' % bjamcompiler.mypath(OP.abspath(path)))
+        f.write('path_ext.append("%s")\n' % BJ.mypath(OP.abspath(path)))
 f.close()
 
-# package data
+import distutils.file_util as D
+
+def find_libraries(library_dirs, libraries):
+    files = []
+    for lib in libraries:
+        for dir in library_dirs:
+            if OP.exists(OP.join(dir, lib)):
+                D.copy_file(OP.join(dir, lib), 'pyopencv')
+                files.append(lib)
+                break
+        else:
+            raise IOError("Library %s not found." % lib)
+    return files
+
+bundled_files = find_libraries(C.opencv_runtime_library_dirs, C.opencv_runtime_libraries_to_be_bundled) + \
+    find_libraries(C.boost_runtime_library_dirs, C.boost_runtime_libraries_to_be_bundled)
+print "bundled_files=", bundled_files
 
 setup(
     name = "pyopencv",
@@ -105,6 +121,8 @@ setup(
 	long_description = "\n".join(DOCLINES[2:]),
     ext_modules=[pyopencvext],
     # install_requires = ['numpy>=1.2.0'],
+    package_data = {'pyopencv': bundled_files},
+    # include_package_data = True,
     packages = find_packages(),
 )
 
