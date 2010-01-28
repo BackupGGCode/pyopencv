@@ -36,7 +36,7 @@ import os
 from glob import glob
 
 # OpenCV 2.0 library, to be linked against using bjam+gcc and bundled with
-opencv_dir = "M:/programming/packages/opencv/build/2.0_tdm433_openmp"
+opencv_dir = "M:/programming/packages/opencv/build/2.0_tdm441"
 opencv_include_dirs = [opencv_dir+"/include/opencv"]
 opencv_library_dirs = [opencv_dir+"/lib"]
 opencv_libraries = ["highgui200.dll", "ml200.dll", "cvaux200.dll", "cv200.dll", "cxcore200.dll"]
