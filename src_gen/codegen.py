@@ -506,6 +506,7 @@ mb.beautify_func_list(opencv_funs)
 
 for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION', 
     'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
+    'STUB_PHASE',
     ):
     mb.enums(lambda x: x.name.startswith(z)).exclude()
 mb.enums(lambda x: x.decl_string.startswith('::std')).exclude()

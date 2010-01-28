@@ -100,14 +100,6 @@ void register_enumerations(){
         .export_values()
         ;
 
-    bp::enum_< STUB_PHASE>("STUB_PHASE")
-        .value("STUB_UNMARSHAL", STUB_UNMARSHAL)
-        .value("STUB_CALL_SERVER", STUB_CALL_SERVER)
-        .value("STUB_MARSHAL", STUB_MARSHAL)
-        .value("STUB_CALL_SERVER_NO_HRESULT", STUB_CALL_SERVER_NO_HRESULT)
-        .export_values()
-        ;
-
     bp::enum_< cv::flann::flann_algorithm_t>("flann_algorithm_t")
         .value("LINEAR", cv::flann::LINEAR)
         .value("KDTREE", cv::flann::KDTREE)
