@@ -106,7 +106,6 @@ def find_libraries(library_dirs, libraries):
 
 bundled_files = find_libraries(C.opencv_runtime_library_dirs, C.opencv_runtime_libraries_to_be_bundled) + \
     find_libraries(C.boost_runtime_library_dirs, C.boost_runtime_libraries_to_be_bundled)
-print "bundled_files=", bundled_files
 
 setup(
     name = "pyopencv",
