@@ -86,7 +86,7 @@ if __name__ == "__main__":
             while idx >= 0:
                 # there's a bug with not specifying maxLevel
                 drawContours( markers, contours, idx, comp_count+1, CV_FILLED, 8, hierarchy, 0 )
-                idx = hierarchy[idx][0]
+                idx = int(hierarchy[idx][0])
                 comp_count += 1
                 
             t = getTickCount()
