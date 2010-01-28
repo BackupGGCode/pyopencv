@@ -5,7 +5,7 @@
 #include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "cascadeclassifier.pypp.hpp"
+#include "CascadeClassifier.pypp.hpp"
 
 namespace bp = boost::python;
 

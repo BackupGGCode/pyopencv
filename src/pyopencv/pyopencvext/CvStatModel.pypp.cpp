@@ -5,7 +5,7 @@
 #include "__convenience.pypp.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "cvstatmodel.pypp.hpp"
+#include "CvStatModel.pypp.hpp"
 
 namespace bp = boost::python;
 

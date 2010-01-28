@@ -5,7 +5,7 @@
 #include "opencv_headers.hpp"
 #include "boost/python/object.hpp"
 #include "boost/python/str.hpp"
-#include "cvsubdiv2d.pypp.hpp"
+#include "CvSubdiv2D.pypp.hpp"
 
 namespace bp = boost::python;
 

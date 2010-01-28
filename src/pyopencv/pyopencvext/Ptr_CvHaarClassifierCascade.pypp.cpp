@@ -3,7 +3,7 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "ptr_cvhaarclassifiercascade.pypp.hpp"
+#include "Ptr_CvHaarClassifierCascade.pypp.hpp"
 
 namespace bp = boost::python;
 

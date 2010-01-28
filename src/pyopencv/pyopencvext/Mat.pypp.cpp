@@ -5,7 +5,7 @@
 #include "opencv_headers.hpp"
 #include "opencv_extra.hpp"
 #include "ndarray.hpp"
-#include "mat.pypp.hpp"
+#include "Mat.pypp.hpp"
 
 namespace bp = boost::python;
 

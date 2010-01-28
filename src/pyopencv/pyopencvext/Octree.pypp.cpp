@@ -8,7 +8,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "opencv_extra.hpp"
-#include "octree.pypp.hpp"
+#include "Octree.pypp.hpp"
 
 namespace bp = boost::python;
 

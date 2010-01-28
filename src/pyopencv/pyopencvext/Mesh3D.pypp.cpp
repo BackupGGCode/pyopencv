@@ -5,7 +5,7 @@
 #include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "mesh3d.pypp.hpp"
+#include "Mesh3D.pypp.hpp"
 
 namespace bp = boost::python;
 

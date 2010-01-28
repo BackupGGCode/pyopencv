@@ -6,7 +6,7 @@
 #include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "selfsimdescriptor.pypp.hpp"
+#include "SelfSimDescriptor.pypp.hpp"
 
 namespace bp = boost::python;
 

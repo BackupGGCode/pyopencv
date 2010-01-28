@@ -5,7 +5,7 @@
 #include "opencv_headers.hpp"
 #include "boost/python/object.hpp"
 #include "boost/python/str.hpp"
-#include "cvseqwriter.pypp.hpp"
+#include "CvSeqWriter.pypp.hpp"
 
 namespace bp = boost::python;
 

@@ -6,7 +6,7 @@
 #include "opencv_headers.hpp"
 #include "boost/python/object.hpp"
 #include "boost/python/str.hpp"
-#include "cvcontour.pypp.hpp"
+#include "CvContour.pypp.hpp"
 
 namespace bp = boost::python;
 

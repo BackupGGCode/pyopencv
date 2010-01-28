@@ -3,7 +3,7 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "range.pypp.hpp"
+#include "Range.pypp.hpp"
 
 namespace bp = boost::python;
 

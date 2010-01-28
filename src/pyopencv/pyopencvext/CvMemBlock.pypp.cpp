@@ -4,7 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "boost/python/object.hpp"
-#include "cvmemblock.pypp.hpp"
+#include "CvMemBlock.pypp.hpp"
 
 namespace bp = boost::python;
 

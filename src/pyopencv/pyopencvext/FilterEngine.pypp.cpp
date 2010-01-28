@@ -3,7 +3,7 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "filterengine.pypp.hpp"
+#include "FilterEngine.pypp.hpp"
 
 namespace bp = boost::python;
 
