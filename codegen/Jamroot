@@ -10,6 +10,8 @@ using gcc :  :  g++ :
 # uncomment the following 2 lines if your OpenCV 2.0 build does not have OpenMP flag checked
 #		<compileflags>-fopenmp -D_GLIBCXX_PARALLEL
 #		<linkflags>-fopenmp -D_GLIBCXX_PARALLEL
+		<compileflags>-v
+		<linkflags>-v
 ; 
 
 
@@ -34,7 +36,7 @@ project
 # OpenCV library
 lib opencv
   :
-  : <include>M:/programming/packages/opencv/build/2.0_mgw440_p2_openmp/include/opencv <file>M:/programming/packages/opencv/build/2.0_mgw440_p2_openmp/lib/libhighgui200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440_p2_openmp/lib/libml200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440_p2_openmp/lib/libcvaux200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440_p2_openmp/lib/libcv200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440_p2_openmp/lib/libcxcore200.dll.a
+  : <include>M:/programming/packages/opencv/build/2.0_mgw440/include/opencv <file>M:/programming/packages/opencv/build/2.0_mgw440/lib/libhighgui200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440/lib/libml200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440/lib/libcvaux200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440/lib/libcv200.dll.a <file>M:/programming/packages/opencv/build/2.0_mgw440/lib/libcxcore200.dll.a
   ;
   
 # Declare the three extension modules.  You can specify multiple
@@ -42,7 +44,7 @@ lib opencv
 python-extension pyopencvext 
   : [ glob M:/programming/mypackages/pyopencv/svn_workplace/trunk/codegen/code/*.cpp ] opencv 
 #  : opencv 
-  : <include>M:/programming/packages/opencv/2.0/include <include>numpy_include <link>shared
+  : <include>M:/programming/packages/opencv/2.0/include <include>numpy_include <link>static
   : ;
 
 # A little "rule" (function) to clean up the syntax of declaring tests

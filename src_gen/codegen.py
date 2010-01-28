@@ -16,7 +16,7 @@
 # ----------------------------------------------------------------------------
 
 from os import chdir, getcwd
-from os.path import join, abspath, split
+import os.path as OP
 from pygccxml import declarations as D
 from pyplusplus import module_builder, messages
 import function_transformers as FT
@@ -40,7 +40,7 @@ import highgui_hpp
 import ml_h
 
 _cwd = getcwd()
-chdir(join(split(abspath(__file__))[0], '..', 'src', 'pyopencv'))
+chdir(OP.join(OP.split(OP.abspath(__file__))[0], '..', 'src', 'pyopencv'))
 _work_dir = getcwd()
 print("Working directory changed to: %s" % _work_dir)
 
@@ -48,16 +48,14 @@ print("Working directory changed to: %s" % _work_dir)
 mb = module_builder.module_builder_t(
     ["opencv_headers.hpp"],
     gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe",
-    working_directory=join(_work_dir, 'pyopencvext'),
+    working_directory=OP.join(_work_dir, 'pyopencvext'),
     include_paths=[
         r"M:\programming\packages\OpenCV\build\2.0\include",
-        # r"M:\programming\builders\MinGW\gcc\gcc-4.3.3-tdm-1-sjlj\lib\gcc\mingw32\4.3.3\include\c++",
-        # r"M:\programming\builders\MinGW\gcc\gcc-4.3.3-tdm-1-sjlj\lib\gcc\mingw32\4.3.3\include\c++\mingw32",
-        # r"M:\programming\builders\MinGW\gcc\gcc-4.3.3-tdm-1-sjlj\lib\gcc\mingw32\4.3.3\include",
+        r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++",
+        r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++\mingw32",
+        r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include",
     ],
-    # compiler="g++",
-    # define_symbols=['__GCCXML__=030405', '__GCCXML_GNUC__=3'],
-    ) # simulate g++ 3.4.5 
+    )
 
 cc = open('__init__.py', 'w')
 cc.write('''#!/usr/bin/env python
@@ -525,8 +523,17 @@ for z in mb.free_funs():
 #Creating code creator. After this step you should not modify/customize declarations.
 mb.build_code_creator( module_name='pyopencvext' )
 
+#Hack os.path.normcase
+_old_normcase = OP.normcase
+def _new_normcase(s):
+    return s
+OP.normcase = _new_normcase
+
 #Writing code to file.
 mb.split_module('pyopencvext')
+
+#Return old normcase
+OP.normcase = _old_normcase
 
 #Write the remaining files
 # copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
