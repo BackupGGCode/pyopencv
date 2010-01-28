@@ -22,7 +22,7 @@
 
 #  - opencv_include_dirs == list of folders that contain OpenCV's include header files
 #  - opencv_library_dirs == list of folders that contain OpenCV's library files to be linked against (e.g. a folder containing files like cv200.lib, libcv200.dll.a, or libcv200.a)
-#  - opencv_libraries == list of library files that are to be linked against. If you use bjam as the compiler (i.e. you have specified '-c bjam' in the build command), you must list each library file in full name. Do not hope that bjam will figure out the full file name by itself. For example, put 'libcv200.dll.a' instead of 'cv200.dll'. This requirement does not apply to other compilers.
+#  - opencv_libraries == list of library files that are to be linked against. 
 #  - opencv_runtime_library_dirs == list of folders that contain OpenCV's shared library files that are actually loaded at run-time (e.g. cv200.dll, libcv200.so, or libcv200.dylib)
 #  - opencv_runtime_libraries_to_be_bundled == list of shared library files that are actually loaded at run-time. If this variable is an empty list (i.e. []), all the folders specified in the 'opencv_runtime_library_dirs' variable are inserted at the front of the PATH environment whenever PyOpenCV is imported. Otherwise, these shared library files are bundled with PyOpenCV at install-time.
 
@@ -39,7 +39,7 @@ from glob import glob
 opencv_dir = "M:/programming/packages/opencv/build/2.0_tdm433_openmp"
 opencv_include_dirs = [opencv_dir+"/include/opencv"]
 opencv_library_dirs = [opencv_dir+"/lib"]
-opencv_libraries = [os.path.split(x)[1] for x in glob(opencv_dir+"/lib/*.a")]
+opencv_libraries = ["highgui200.dll", "ml200.dll", "cvaux200.dll", "cv200.dll", "cxcore200.dll"]
 opencv_runtime_library_dirs = [opencv_dir+"/bin"]
 opencv_runtime_libraries_to_be_bundled = [os.path.split(x)[1] for x in glob(opencv_dir+"/bin/*.dll")]
 
