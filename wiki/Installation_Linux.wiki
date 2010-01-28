@@ -70,4 +70,4 @@ python setup.py install
 
 ==Install NumPy==
 
-NumPy is *required at run-time* but not at compile-time of PyOpenCV. Follow the instructions at [http://www.scipy.org/Installing_SciPy/Windows SciPy Installation Page for Windows] to install NumPy. It is not necessary to install SciPy though.
+NumPy is *required at run-time* but not at compile-time of PyOpenCV. Follow the instructions at [http://www.scipy.org/Installing_SciPy/Linux SciPy Installation Page for Linux] to install NumPy. It is not necessary to install SciPy though.
