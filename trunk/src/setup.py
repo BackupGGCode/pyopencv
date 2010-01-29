@@ -1,4 +1,4 @@
-﻿#!/usr/bin/env python
+#!/usr/bin/env python
 
 # PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
