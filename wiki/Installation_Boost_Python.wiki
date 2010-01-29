@@ -10,7 +10,7 @@
 
 ==Get bjam==
 
-  # PyOpenCV relies on Boost.Python to interface with OpenCV, and on Boost.Jam (or bjam) to compile its internal Python extension. The recommended way to get Boost.Jam is to [http://sourceforge.net/project/showfiles.php?group_id=7586&package_id=72941 download a prebuilt executable] from SourceForge. If a prebuilt executable is not provided for your platform or you are using Boost's sources in an unreleased state, it may be necessary to [build bjam from source http://www.boost.org/doc/tools/build/doc/html/jam/building.html] included in the Boost source tree.
+  # PyOpenCV relies on Boost.Python to interface with OpenCV, and on Boost.Jam (or bjam) to compile its internal Python extension. The recommended way to get Boost.Jam is to [http://sourceforge.net/project/showfiles.php?group_id=7586&package_id=72941 download a prebuilt executable] from SourceForge. If a prebuilt executable is not provided for your platform or you are using Boost's sources in an unreleased state, it may be necessary to [http://www.boost.org/doc/tools/build/doc/html/jam/building.html build bjam from source] included in the Boost source tree.
   # To install Boost.Jam, copy the executable, called `bjam` or `bjam.exe` to a location accessible in your PATH. Go to the `<boost_dir>/tools/build/v2` directory and run `bjam --version`. You should see something like:
 {{{
             Boost.Build V2 (Milestone N)
