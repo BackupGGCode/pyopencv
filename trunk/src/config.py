@@ -36,7 +36,7 @@ import os
 from glob import glob
 
 # OpenCV 2.0 library, to be linked against using bjam+gcc and bundled with
-opencv_dir = "M:/programming/packages/opencv/build/2.0_tdm441"
+opencv_dir = "M:/programming/packages/opencv/build/2.0_mgw440_openmp"
 opencv_include_dirs = [opencv_dir+"/include/opencv"]
 opencv_library_dirs = [opencv_dir+"/lib"]
 opencv_libraries = ["highgui200.dll", "ml200.dll", "cvaux200.dll", "cv200.dll", "cxcore200.dll"]
@@ -44,8 +44,8 @@ opencv_runtime_library_dirs = [opencv_dir+"/bin"]
 opencv_runtime_libraries_to_be_bundled = [os.path.split(x)[1] for x in glob(opencv_dir+"/bin/*.dll")]
 
 # Boost.Python library, to be linked against using bjam+gcc and bundled with
-boost_include_dirs = ["M:/programming/packages/scipack/boost/boost_1_40_0"]
+boost_include_dirs = ["M:/programming/packages/scipack/boost/boost_1_41_0"]
 boost_library_dirs = []
 boost_libraries = []
-boost_runtime_library_dirs = ['tada']
+boost_runtime_library_dirs = []
 boost_runtime_libraries_to_be_bundled = []
