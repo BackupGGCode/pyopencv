@@ -9,3 +9,5 @@ Bring over conversion modules from ctypes-opencv
 Provide more demos
 
 Fix squares.py demo, something's wrong with the algorithm. It's running but too slow.
+
+Mat(int __rows, int __cols, int __type) hangs due to a not-yet-identified cause!!
