@@ -1,6 +1,19 @@
 #summary General instructions for installing PyOpenCV.
 
-Like other packages, PyOpenCV can be installed from a binary distribution or a source distribution.
+=Prerequisites=
+
+==Supporting platforms==
+
+PyOpenCV is designed to be cross-platform. The official supporting platforms are Windows, Linux, and Mac OS. However, on Mac OS, I can mostly speculate since I barely have access to Mac OS at all. 
+
+==Software requirements==
+
+    # [http://www.python.org Python] version 2.5 or later. Python 3 is theoretically supported but not yet tested with.
+    # [http://numpy.scipy.org NumPy] version 1.2.0 or later. However, you can install NumPy after PyOpenCV is installed. PyOpenCV requires and detects NumPy at run-time, not at install-time. There are many ways to install NumPy. For example, you could follow [http://www.scipy.org/Installing_SciPy/ SciPy's Installation page]. You do not need to install SciPy though. 
+
+=Installation=
+
+Like other packages, PyOpenCV can be installed from a binary distribution or from a source distribution.
 
 ==Install from a binary distribution==
 
@@ -8,13 +21,12 @@ This is the preferred way. Check the [http://code.google.com/p/pyopencv/download
 
 ==Install from a source distribution==
 
-Right now, only gcc 4.x compilers are supported. The reason for this limitation is that I have not tried other C++ compilers. If you have successfully built PyOpenCV with another C++ compiler, your knowledge contribution to this page is much appreciated.
+Right now, only gcc 4.x compilers are supported. The reason is that I have not tried other C++ compilers. If you have successfully built PyOpenCV using another C++ compiler, your knowledge contribution is much appreciated.
 
-In short, there are four major steps:
+In short, there are three major steps:
 
     # [Installation_OpenCV Install OpenCV 2.0]
-    # [Installation_Boost_Python Install Boost.Python]
-    # [Installation_PyOpenCV Download, configure, and install PyOpenCV]
-    # [Installation_NumPy Install NumPy] <-- you can do it _after_ PyOpenCV is installed
+    # [Installation_Boost_Python Install Boost and bjam]
+    # [Installation_PyOpenCV Download, configure, build, and install PyOpenCV]
 
 See also the FAQ entries on installation.
