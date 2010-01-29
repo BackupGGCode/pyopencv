@@ -1,0 +1,13 @@
+#summary Instructions for downloading, configuring, and installing PyOpenCV
+
+==Download PyOpenCV==
+
+TBD
+
+==Configure `config.py` file==
+
+TBD
+
+==Install PyOpenCV==
+
+TBD
