@@ -1,5 +1,7 @@
 #summary General instructions for installing PyOpenCV.
 
+Right now, only gcc 4.x compilers are supported. The reason for this limitation is that I have not tried other C++ compilers. If you have successfully built PyOpenCV with another C++ compiler, your knowledge contribution to this page is much appreciated.
+
 In short, there are four major steps:
 
     # Install OpenCV 2.0
