@@ -1,6 +1,6 @@
-#summary Instructions for installing OpenCV so that it is usable by PyOpenCV
+#summary Instructions for installing OpenCV 2.0 so that it is usable by PyOpenCV
 
-=Installation of OpenCV=
+=Installation of OpenCV 2.0=
 
 Willow Garage's pre-compiled OpenCV 2.0 builds are in general not suitable for PyOpenCV. The reasons are mainly due to the use of SSE2 and "parallel mode" STL containers (see explanations below). It is likely that you require a new OpenCV 2.0 build that is compiled from source. Do not worry though, you can still use your current OpenCV 2.0 build (if any) in other applications. PyOpenCV always tries to load the build you have specified in the `config.py` file instead of other builds.
 
