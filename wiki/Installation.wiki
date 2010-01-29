@@ -15,11 +15,11 @@ PyOpenCV is designed to be cross-platform. The official supporting platforms are
 
 Like other packages, PyOpenCV can be installed from a binary distribution or from a source distribution.
 
-==Install from a binary distribution==
+==Installing from a binary distribution==
 
 This is the preferred way. Check the [http://code.google.com/p/pyopencv/downloads/list Downloads] page to see if there is a binary distribution of PyOpenCV suitable for your platform.
 
-==Install from a source distribution==
+==Installing from a source distribution==
 
 Right now, only gcc 4.x compilers are supported. The reason is that I have not tried other C++ compilers. If you have successfully built PyOpenCV using another C++ compiler, your knowledge contribution is much appreciated.
 
