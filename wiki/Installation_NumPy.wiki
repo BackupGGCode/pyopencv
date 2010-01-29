@@ -2,4 +2,4 @@
 
 ==Install NumPy==
 
-Follow SciPy's [http://www.scipy.org/Installing_SciPy/ Installation] page to install NumPy. You do not need to install SciPy though. However, only NumPy version 1.2.0 and later are compatible with PyOpenCV.
+Follow [http://www.scipy.org/Installing_SciPy/ SciPy's Installation page] to install NumPy. You do not need to install SciPy though. However, only NumPy version 1.2.0 and later are compatible with PyOpenCV.
