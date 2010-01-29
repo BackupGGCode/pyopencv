@@ -15,11 +15,12 @@ If you have decided to build OpenCV 2.0 from source, take note of the followings
   # When using `cmake` to build, uncheck `USE_SSE` and `USE_SSE2`. Do not use `-msse2` or any automatic way to generate code using SSE or SSE2. For some unidentified reasons, invoking functions utilizing SSE and SSE2 code from Python may result in a segmentation fault.
   # Do not use `-mtune=pentium3` or above ---> system crashes ---> same reason as in (2).
   # Uncheck the SWIG flag, so that extra C++ member functions of classes in the ML component can be available.
-  # *On Windows:* The `libvideoInput.a` library file provided by Willow Garage was built with the SJLJ exception handling method. Therefore, you cannot link against it using compilers that use the Dwarf exception handling method like MinGW 4.4.0, unless you could rebuild the `libvideoInput.a` file using MinGW. The best bet for compilers using Dwarf is not to use videoInput at all. This can be done by following the step below:
-    * Comment the line 101, containing "#define HAVE_VIDEOINPUT 1", in file `src/highgui/_highgui.h`. 
-  In contrast, for compilers using SJLJ like TDM, to have videoInput included in OpenCV 2.0:
-    * Edit file `src/highgui/CMakeLists.txt`
-    * At line 199, insert " ole32 oleaut32 uuid" at the end of the list of libraries to be linked against (i.e. after "videoInput strmiids"). The developers have forgotten to insert them.
+  # *On Windows:* The `libvideoInput.a` library file provided by Willow Garage was built with the SJLJ exception handling method. Therefore, you cannot link against it using compilers that use the Dwarf exception handling method like MinGW 4.4.0, unless you could rebuild the `libvideoInput.a` file using MinGW. 
+    * The best bet for compilers using Dwarf is not to use videoInput at all. This can be done by following the step below:
+      # Comment the line 101, containing "#define HAVE_VIDEOINPUT 1", in file `src/highgui/_highgui.h`. 
+    * In contrast, for compilers using SJLJ like TDM, to have videoInput included in OpenCV 2.0:
+      # Edit file `src/highgui/CMakeLists.txt`
+      # At line 199, insert " ole32 oleaut32 uuid" at the end of the list of libraries to be linked against (i.e. after "videoInput strmiids"). The developers have forgotten to insert them.
   # Use `cmake` to build OpenCV and install it on your platform.
 
 ===Downloading a pre-compiled OpenCV 2.0 build===
