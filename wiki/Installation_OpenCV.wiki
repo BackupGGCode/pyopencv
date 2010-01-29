@@ -1,6 +1,6 @@
 #summary Instructions for installing OpenCV 2.0 so that it is usable by PyOpenCV
 
-==Installation of OpenCV 2.0==
+==Installing OpenCV 2.0==
 
 Willow Garage's pre-compiled OpenCV 2.0 builds are in general not suitable for PyOpenCV. The reasons are mainly due to the use of SSE2 and "parallel mode" STL containers (see explanations below). It is likely that you require a new OpenCV 2.0 build that is compiled from source. Do not worry though, you can still use your current OpenCV 2.0 build (if any) in other applications. PyOpenCV always tries to load the build you have specified in the `config.py` file instead of other builds.
 
@@ -8,7 +8,7 @@ Willow Garage's pre-compiled OpenCV 2.0 builds are in general not suitable for P
 
 You have two options to obtain a usable OpenCV build for PyOpenCV: build OpenCV 2.0 from source, or download a pre-compiled build.
 
-===Build OpenCV 2.0 from source===
+===Building OpenCV 2.0 from source===
 
 If you have decided to build OpenCV 2.0 from source, take note of the followings:
   # Edit file `CMakeLists.txt`, search for "-D_GLIBCXX_PARALLEL" and remove it. Basically, when this option is set, "parallel mode" STL containers are used, which are incompatible with the standard "serialized mode" STL containers used by Boost.Python and other libraries. Of course, if you could recompile every single library that is connected to OpenCV with option "-D_GLIBCXX_PARALLEL" set, then it would be another matter.    
@@ -22,6 +22,6 @@ If you have decided to build OpenCV 2.0 from source, take note of the followings
     * At line 199, insert " ole32 oleaut32 uuid" at the end of the list of libraries to be linked against (i.e. after "videoInput strmiids"). The developers have forgotten to insert them.
   # Use `cmake` to build OpenCV and install it on your platform.
 
-===Download a pre-compiled OpenCV 2.0 build===
+===Downloading a pre-compiled OpenCV 2.0 build===
 
 In some cases, there is a faster and trouble-free way to install OpenCV 2.0 that is suitable for PyOpenCV. Just go to the [http://code.google.com/p/pyopencv/downloads/list Downloads] page, download a pre-compiled OpenCV 2.0 suitable for your platform, and follow the instructions inside the file to install. I have gone through most of the troubles that could have happened to build them. You do not have to go through the same pain.
