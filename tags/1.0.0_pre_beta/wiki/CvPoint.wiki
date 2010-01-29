@@ -1,0 +1,9 @@
+#summary Old-style CvPoint
+
+= Reference =
+
+Structure CvPoint is replaced by class Point.
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvPoint || Point ||
+|| cvPoint || Point's constructor ||

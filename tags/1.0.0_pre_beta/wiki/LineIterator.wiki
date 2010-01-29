@@ -1,0 +1,8 @@
+#summary LineIterator
+
+= Reference =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cv::LineIterator || LineIterator ||
+|| cv::LineIterator::operator* || LineIterator.get_pixel_addr ||
+|| cv::LineIterator::operator++ || LineIterator.inc ||

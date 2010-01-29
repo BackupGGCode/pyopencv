@@ -1,0 +1,14 @@
+#summary Free functions in Cv
+
+= Reference =
+
+== Old-style Functions ==
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cvfindContours || findContours ||
+
+
+== New-style Functions ==
+
+|| *OpenCV* || *PyOpenCV* ||
+|| findContours || findContours ||

@@ -1,0 +1,23 @@
+#summary Free functions in HighGUI
+
+= Free Functions =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cvInitSystem || initSystem ||
+|| cvStartWindowThread || startWindowThread ||
+|| cvNamedWindow, cv::namedWindow || namedWindow ||
+|| cvShowImage, cv::imshow || imshow ||
+|| cvResizeWindow || resizeWindow ||
+|| cvMoveWindow || moveWindow ||
+|| cvDestroyWindow || destroyWindow ||
+|| cvDestroyAllWindows || destroyAllWindows ||
+|| cvCreateTrackbar, cvCreateTrackbar2, cv::createTrackbar || createTrackbar ||
+|| cvGetTrackbarPos, cv::getTrackbarPos || getTrackbarPos ||
+|| cvSetTrackbarPos, cv::setTrackbarPos || setTrackbarPos ||
+|| cvSetMouseCallback || setMouseCallback ||
+|| cvLoadImage, cvLoadImageM, cv::imread || imread ||
+|| cvSaveImage, cv::imwrite || imwrite ||
+|| cvDecodeImage, cvDecodeImageM, cv::imdecode || imdecode ||
+|| cvEncodeImage, cv::imencode || imencode ||
+|| cvConvertImage || convertImage ||
+|| cvWaitKey, cv::waitKey || waitKey ||

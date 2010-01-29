@@ -1,0 +1,28 @@
+#summary Instructions for installing OpenCV 2.0 so that it is usable by PyOpenCV
+
+==Installing OpenCV 2.0==
+
+Willow Garage's pre-compiled OpenCV 2.0 builds are in general not suitable for PyOpenCV. The reasons are mainly due to the use of SSE2 and "parallel mode" STL containers (see explanations below). It is likely that you require a new OpenCV 2.0 build that is compiled from source. Do not worry though, you can still use your current OpenCV 2.0 build (if any) in other applications. PyOpenCV always tries to load the build you have specified in the `config.py` file instead of other builds.
+
+  # Multi-threading (implying the use of OpenMP) is a risky idea to try. Despite a great amount of effort, both OpenCV 2.0 and Boost.Python are still not fully thread-safe. If you insist on using multi-threading and OpenMP, remember that your system could potentially _crash_.
+
+You have two options to obtain a usable OpenCV build for PyOpenCV: build OpenCV 2.0 from source, or download a pre-compiled build.
+
+===Building OpenCV 2.0 from source===
+
+If you have decided to build OpenCV 2.0 from source, take note of the followings:
+  # Edit file `CMakeLists.txt`, search for "-D_GLIBCXX_PARALLEL" and remove it. Basically, when this option is set, "parallel mode" STL containers are used, which are incompatible with the standard "serialized mode" STL containers used by Boost.Python and other libraries. Of course, if you could recompile every single library that is connected to OpenCV with option "-D_GLIBCXX_PARALLEL" set, then it would be another matter.    
+  # When using `cmake` to build, uncheck `USE_SSE` and `USE_SSE2`. Do not use `-msse2` or any automatic way to generate code using SSE or SSE2. For some unidentified reasons, invoking functions utilizing SSE and SSE2 code from Python may result in a segmentation fault.
+  # Do not use `-mtune=pentium3` or above ---> system crashes ---> same reason as in (2).
+  # Uncheck the SWIG flag, so that extra C++ member functions of classes in the ML component can be available.
+  # *On Windows:* The `libvideoInput.a` library file provided by Willow Garage was built with the SJLJ exception handling method. Therefore, you cannot link against it using compilers that use the Dwarf exception handling method like MinGW 4.4.0, unless you could rebuild the `libvideoInput.a` file using MinGW. 
+    * The best bet for compilers using Dwarf is not to use videoInput at all. This can be done by following the step below:
+      # Comment the line 101, containing "#define HAVE_VIDEOINPUT 1", in file `src/highgui/_highgui.h`. 
+    * In contrast, for compilers using SJLJ like TDM, to have videoInput included in OpenCV 2.0:
+      # Edit file `src/highgui/CMakeLists.txt`
+      # At line 199, insert " ole32 oleaut32 uuid" at the end of the list of libraries to be linked against (i.e. after "videoInput strmiids"). The developers have forgotten to insert them.
+  # Use `cmake` to build OpenCV and install it on your platform.
+
+===Downloading a pre-compiled OpenCV 2.0 build===
+
+In some cases, there is a faster and trouble-free way to install OpenCV 2.0 that is suitable for PyOpenCV. Just go to the [http://code.google.com/p/pyopencv/downloads/list Downloads] page, download a pre-compiled OpenCV 2.0 suitable for your platform, and follow the instructions inside the file to install. I have gone through most of the troubles that could have happened to build them. You do not have to go through the same pain.

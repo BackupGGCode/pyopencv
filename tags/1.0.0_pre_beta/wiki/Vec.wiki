@@ -1,0 +1,13 @@
+#summary Vec<>
+
+= Reference =
+
+Instantiations of class cv::Vec<> included in PyOpenCV: Vec2b, Vec3b, Vec4b, Vec2s, Vec3s, Vec4s, Vec2w, Vec3w, Vec4w, Vec2i, Vec3i, Vec4i, Vec2f, Vec3f, Vec4f, Vec6f, Vec2d, Vec3d, Vec4d, Vec6d.
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cv::Vec || Vec ||
+|| cv::Vec::all || Vec.all ||
+|| cv::Vec::dot || Vec.dot ||
+|| cv::Vec::ddot || Vec.ddot ||
+|| cv::Vec::cross || Vec.cross ||
+|| cv::Vec::val || Vec's indexing functionality ||

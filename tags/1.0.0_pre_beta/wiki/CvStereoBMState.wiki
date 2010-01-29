@@ -1,0 +1,11 @@
+#summary Old-style CvStereoBMState
+
+= Reference =
+
+Structure CvStereoBMState is replaced by the more robust and more efficient StereoBM class. 
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvStereoBMState || StereoBM ||
+|| cvCreateStereoBMState || StereoBM's constructor ||
+|| cvReleaseStereoBMState(z) || no need to invoke but if you insist: del z ||
+|| cvFindStereoCorrespondenceBM || StereoBM.operator() ||

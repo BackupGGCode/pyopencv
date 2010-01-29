@@ -1,0 +1,11 @@
+#summary Size_<>
+
+= Reference =
+
+Instantiations of class cv::Size_<> included in PyOpenCV: Size, Size2i, Size2f.
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cv::Size_ || Size ||
+|| cv::Size::area || Size.area ||
+|| cv::Size::width || Size.width ||
+|| cv::Size::height || Size.height ||
