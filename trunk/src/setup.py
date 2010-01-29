@@ -120,7 +120,7 @@ setup(
 	long_description = "\n".join(DOCLINES[2:]),
     ext_modules=[pyopencvext],
     # install_requires = ['numpy>=1.2.0'],
-    package_data = {'pyopencv': bundled_files},
+    package_data = {'pyopencv': bundled_files, '': ['AUTHORS', 'ChangeLog', 'COPYING', 'README', 'THANKS', 'TODO']},
     # include_package_data = True,
     packages = find_packages(),
 )
