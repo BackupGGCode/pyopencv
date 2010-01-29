@@ -1,4 +1,4 @@
-#summary Instructions for installing OpenCV that is usable by PyOpenCV
+#summary Instructions for installing OpenCV so that it is usable by PyOpenCV
 
 =Installation of OpenCV=
 
@@ -6,7 +6,7 @@ Willow Garage's pre-compiled OpenCV 2.0 builds are not in general suitable for P
 
   # Multi-threading (implying the use of OpenMP) is always a risky idea to try. Both OpenCV 2.0 and Boost.Python are not fully thread-safe. If you insist on using multi-threading and OpenMP, remember that your system may sometimes *crash*.
 
-===Build OpenCV 2.0 from source===
+==Build OpenCV 2.0 from source==
 
 If you have decided to build OpenCV 2.0 from source, take note of the followings:
   # Edit file CMakeLists.txt, search for "-D_GLIBCXX_PARALLEL" and remove it. Basically, when this option is set, "parallel mode" STL containers are used, which are incompatible with the standard "serialized mode" STL containers used by Boost.Python and other libraries. Of course, if you could recompile every single library that is connected to OpenCV with option "-D_GLIBCXX_PARALLEL" set, then it would be another matter.    
@@ -14,6 +14,6 @@ If you have decided to build OpenCV 2.0 from source, take note of the followings
   # Do not use -mtune=pentium3 or above ---> system crashes ---> same reason as in (2).
   # Uncheck the SWIG flag, so that extra C++ member functions of classes in the ML component can be available. 
 
-===Download a pre-compiled OpenCV 2.0 build===
+==Download a pre-compiled OpenCV 2.0 build==
 
 There is a faster and trouble-free way to install OpenCV 2.0 that is suitable for PyOpenCV. Just go to the [http://code.google.com/p/pyopencv/downloads/list Downloads] page, download a pre-compiled OpenCV 2.0 build for Windows of your choice, and follow the instructions inside the file to install. I have gone through most of the troubles that could have happened to build them. You do not have to go through the same pain again.
