@@ -97,7 +97,7 @@ namespace aux
 {
     bool array_object_manager_traits::check(PyObject* obj)
     {
-        return obj == Py_None || PyArray_Check(obj) == 1; // None or ndarray
+        return PyArray_Check(obj) == 1;
     }
 
     python::detail::new_non_null_reference
