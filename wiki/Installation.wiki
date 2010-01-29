@@ -4,7 +4,7 @@ Like other packages, PyOpenCV can be installed from a binary distribution or a s
 
 ==Install from a binary distribution==
 
-This is the preferred way. Check the [Downloads Downloads] page to see if there is a binary distribution of PyOpenCV suitable for your platform.
+This is the preferred way. Check the [http://code.google.com/p/pyopencv/downloads/list Downloads] page to see if there is a binary distribution of PyOpenCV suitable for your platform.
 
 ==Install from a source distribution==
 
@@ -14,13 +14,7 @@ In short, there are four major steps:
 
     # [Installation_OpenCV Install OpenCV 2.0]
     # [Installation_Boost_Python Install Boost.Python]
-    # Install PyOpenCV
-    # Install NumPy <-- you can do it _after_ PyOpenCV is installed
-
-These notes describe installing PyOpenCV from source on the following platforms:
-
-    * [Installation_Windows Windows]
-    * [Installation_Linux Linux]
-    * Mac OS X
+    # [Installation_PyOpenCV Download, configure, and install PyOpenCV]
+    # [Installation_NumPy Install NumPy] <-- you can do it _after_ PyOpenCV is installed
 
 See also the FAQ entries on installation.
