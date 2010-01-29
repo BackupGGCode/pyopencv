@@ -1,0 +1,19 @@
+#summary Instructions for installing Boost.Python
+
+=Installation of Boost.Python=
+
+==Get Boost==
+
+  # Go to www.boost.org.
+  # Download Boost version 1.41.0 or later.
+  # Extract Boost to somewhere on your platform.
+
+==Install Boost.Build==
+
+  # Follow the instructions blah blah
+  # *On Ubuntu*: blah blah
+
+==Install bjam==
+
+  # Follow the instructions blah blah
+  # *On Ubuntu*: blah blah
