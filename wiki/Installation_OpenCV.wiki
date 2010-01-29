@@ -2,9 +2,11 @@
 
 =Installation of OpenCV=
 
-Willow Garage's pre-compiled OpenCV 2.0 builds are not in general suitable for PyOpenCV. The reasons are mainly due to the use of SSE2 and "parallel mode" STL containers (see explanations below). It is likely that you require a new OpenCV 2.0 build that is compiled from source. Do not worry though, you can still use your current OpenCV 2.0 build (if any) in other applications. PyOpenCV always tries to load the build you have specified in the 'config.py' file instead of other builds.
+Willow Garage's pre-compiled OpenCV 2.0 builds are in general not suitable for PyOpenCV. The reasons are mainly due to the use of SSE2 and "parallel mode" STL containers (see explanations below). It is likely that you require a new OpenCV 2.0 build that is compiled from source. Do not worry though, you can still use your current OpenCV 2.0 build (if any) in other applications. PyOpenCV always tries to load the build you have specified in the 'config.py' file instead of other builds.
 
-  # Multi-threading (implying the use of OpenMP) is always a risky idea to try. Both OpenCV 2.0 and Boost.Python are not fully thread-safe. If you insist on using multi-threading and OpenMP, remember that your system could potentially _crash_.
+  # Multi-threading (implying the use of OpenMP) is a risky idea to try. Despite a great amount of effort, both OpenCV 2.0 and Boost.Python are still not fully thread-safe. If you insist on using multi-threading and OpenMP, remember that your system could potentially _crash_.
+
+You have two options to obtain a usable OpenCV build for PyOpenCV: build OpenCV 2.0 from source, or download a pre-compiled build.
 
 ==Build OpenCV 2.0 from source==
 
@@ -12,7 +14,8 @@ If you have decided to build OpenCV 2.0 from source, take note of the followings
   # Edit file CMakeLists.txt, search for "-D_GLIBCXX_PARALLEL" and remove it. Basically, when this option is set, "parallel mode" STL containers are used, which are incompatible with the standard "serialized mode" STL containers used by Boost.Python and other libraries. Of course, if you could recompile every single library that is connected to OpenCV with option "-D_GLIBCXX_PARALLEL" set, then it would be another matter.    
   # When using cmake to build, uncheck USE_SSE and USE_SSE2. Do not use -msse2 or any automatic way to generate code using SSE or SSE2. For some unidentified reasons, invoking functions utilizing SSE and SSE2 code from Python may result in a system crash.
   # Do not use -mtune=pentium3 or above ---> system crashes ---> same reason as in (2).
-  # Uncheck the SWIG flag, so that extra C++ member functions of classes in the ML component can be available. 
+  # Uncheck the SWIG flag, so that extra C++ member functions of classes in the ML component can be available.
+  # On Windows:
 
 ==Download a pre-compiled OpenCV 2.0 build==
 
