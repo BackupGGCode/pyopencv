@@ -4,8 +4,8 @@
 
 ==Get Boost==
 
-  # Go to www.boost.org.
-  # Download Boost version 1.41.0 or later.
+  # Go to http://www.boost.org.
+  # Download Boost version [http://sourceforge.net/projects/boost/files/boost/1.41.0/ 1.41.0] or later.
   # Extract Boost to somewhere on your platform.
 
 ==Install Boost.Build==
