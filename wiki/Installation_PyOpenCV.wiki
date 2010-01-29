@@ -2,12 +2,41 @@
 
 ==Download PyOpenCV==
 
-TBD
+Download a PyOpenCV source archive from the [http://code.google.com/p/pyopencv/downloads/list Downloads] page, and extract it. Alternatively, use this command to anonymously check out the latest project source code:
+{{{
+svn checkout http://pyopencv.googlecode.com/svn/trunk/src/ pyopencv
+}}}
 
-==Configure `config.py` file==
+===Edit file `config.py`===
 
-TBD
+PyOpenCV needs to be told where to find OpenCV 2.0 and Boost.Python. It needs to know the libraries to link against and the directories to search for those libraries. Put this text into file config.py located at PyOpenCV's source directory (potentially with adapted paths and libraries): 
+{{{
+# OpenCV 2.0 library
+opencv_include_dirs = ["C:/Program Files/OpenCV/include/opencv"]
+opencv_library_dirs = ["C:/Program Files/OpenCV/lib"]
+opencv_runtime_library_dirs = ["C:/Program Files/OpenCV/bin"]
+opencv_libraries = ["cvaux200.dll", "ml200.dll", "highgui200.dll", "cv200.dll", "cxcore200.dll"]
 
-==Install PyOpenCV==
+# Boost.Python library
+boost_include_dirs = ["C:/boost_1_40_0"]
+boost_library_dirs = ["C:/boost_1_40_0/stage/lib"]
+boost_runtime_library_dirs = ["C:/boost_1_40_0/stage/lib"]
+boost_libraries = ["boost_python-mgw44"]
+}}}
 
-TBD
+The libraries options suffixed with 'libraries' are lists of libraries to link against, those suffixed with 'library_dirs' are lists of directories to search for libraries at link-time, and those suffixed with 'runtime_library_dirs' are lists of directories to search for shared (dynamically loaded) libraries at run-time.
+
+==Build and Install PyOpenCV==
+
+Now that you have obtained all the necessary libraries, the remaining steps are straight forward. 
+
+To build PyOpenCV, issue the command
+{{{
+python setup.py build
+}}}
+It should take some time between 10 minutes and 45 minutes to build PyOpenCV. Go grab yourself a cup of coffee, sit back, and take a break.
+
+To install PyOpenCV, issue the command
+{{{
+python setup.py install
+}}}
