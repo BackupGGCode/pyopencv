@@ -154,6 +154,9 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('Mat')
     z.include_files.append("opencv_extra.hpp")
     z.include()
+    for t in z.constructors():
+        if 'void *' in t.decl_string:
+            t.exclude()
     for t in ('::IplImage', '::CvMat', 'MatExp'):
         z.decls(lambda x: t in x.decl_string).exclude()
     z.mem_funs('setTo').call_policies = CP.return_self()
@@ -176,8 +179,15 @@ static boost::shared_ptr<cv::Mat> Mat__init1__(const bp::object &seq)
     return boost::shared_ptr<cv::Mat>(result);
 }
 
+static boost::shared_ptr<cv::Mat> Mat__init3__(int _rows, int _cols, int _type)
+{
+    cv::Mat *result = new cv::Mat(_rows, _cols, _type);
+    return boost::shared_ptr<cv::Mat>(result);
+}
+
     ''')
     z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("seq") )))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init3__, bp::default_call_policies(), ( bp::arg("_rows"), bp::arg("_cols"), bp::arg("_type") )))') # workaround to fix a bug in invoking Mat(int, int, int)
 
     # RNG
     z = mb.class_('RNG')

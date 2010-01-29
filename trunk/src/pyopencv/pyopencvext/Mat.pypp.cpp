@@ -16,6 +16,12 @@ static boost::shared_ptr<cv::Mat> Mat__init1__(const bp::object &seq)
     return boost::shared_ptr<cv::Mat>(result);
 }
 
+static boost::shared_ptr<cv::Mat> Mat__init3__(int _rows, int _cols, int _type)
+{
+    cv::Mat *result = new cv::Mat(_rows, _cols, _type);
+    return boost::shared_ptr<cv::Mat>(result);
+}
+
 void register_Mat_class(){
 
     { //::cv::Mat
@@ -31,8 +37,6 @@ void register_Mat_class(){
         Mat_exposer.def( bp::init< cv::Size, int >(( bp::arg("_size"), bp::arg("_type") )) );
         Mat_exposer.def( bp::init< cv::Size, int, cv::Scalar const & >(( bp::arg("_size"), bp::arg("_type"), bp::arg("_s") )) );
         Mat_exposer.def( bp::init< cv::Mat const & >(( bp::arg("m") )) );
-        Mat_exposer.def( bp::init< int, int, int, void *, bp::optional< size_t > >(( bp::arg("_rows"), bp::arg("_cols"), bp::arg("_type"), bp::arg("_data"), bp::arg("_step")=(::size_t)(::size_t(::cv::Mat::AUTO_STEP)) )) );
-        Mat_exposer.def( bp::init< cv::Size, int, void *, bp::optional< size_t > >(( bp::arg("_size"), bp::arg("_type"), bp::arg("_data"), bp::arg("_step")=(::size_t)(::size_t(::cv::Mat::AUTO_STEP)) )) );
         Mat_exposer.def( bp::init< cv::Mat const &, cv::Range const &, cv::Range const & >(( bp::arg("m"), bp::arg("rowRange"), bp::arg("colRange") )) );
         Mat_exposer.def( bp::init< cv::Mat const &, cv::Rect const & >(( bp::arg("m"), bp::arg("roi") )) );
         { //::cv::Mat::addref
@@ -396,6 +400,7 @@ void register_Mat_class(){
         Mat_exposer.staticmethod("from_ndarray");
         Mat_exposer.add_property("ndarray", &bp::as_ndarray< cv::Mat >);
         Mat_exposer.def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("seq") )));
+        Mat_exposer.def("__init__", bp::make_constructor(&Mat__init3__, bp::default_call_policies(), ( bp::arg("_rows"), bp::arg("_cols"), bp::arg("_type") )));
     }
 
 }
