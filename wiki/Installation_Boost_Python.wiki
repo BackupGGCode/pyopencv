@@ -5,7 +5,7 @@
 ==Get Boost==
 
   # Go to http://www.boost.org.
-  # Download Boost version [http://sourceforge.net/projects/boost/files/boost/1.41.0/ 1.41.0] or later.
+  # Download Boost version [http://sourceforge.net/projects/boost/files/boost/1.41.0/ 1.41.0] or later. There is a bug in using Boost.Python under Python 2.6.3 and later that has only been fixed very recently in Boost 1.41.0 (thanks to Guy K. Kloss for having pointed it out).
   # Extract Boost to somewhere on your platform.
 
 ==Install Boost.Build==
