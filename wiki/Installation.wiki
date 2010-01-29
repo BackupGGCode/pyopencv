@@ -3,7 +3,7 @@
 In short, there are four major steps:
 
     # Install OpenCV 2.0
-    # Install Boost.Python (including Boost.Build and bjam) -- only Boost 1.37.0 and above works
+    # Install Boost.Python (including Boost.Build and bjam) -- only Boost 1.41.0 and above works. There's a bug that has only been fixed in Boost 1.41.0.
     # Install PyOpenCV
     # Install NumPy <-- you can do it _after_ PyOpenCV is installed
 
