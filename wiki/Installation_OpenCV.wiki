@@ -16,7 +16,7 @@ If you have decided to build OpenCV 2.0 from source, take note of the followings
   # Do not use -mtune=pentium3 or above ---> system crashes ---> same reason as in (2).
   # Uncheck the SWIG flag, so that extra C++ member functions of classes in the ML component can be available.
   # *On Windows:* The libvideoInput.a library file provided by Willow Garage was built with the SJLJ exception handling method. Therefore, you cannot link against it using compilers that use the Dwarf exception handling method like MinGW 4.4.0, unless you could rebuild this libvideoInput.a file. The best bet for compilers using Dwarf is not to use videoInput at all. This can be done by following the step below:
-    * Comment the line 101, containing "#define HAVE_VIDEOINPUT 1", in file /src/highgui/\_highgui.h. 
+    * Comment the line 101, containing "#define HAVE_VIDEOINPUT 1", in file /src/highgui/__highgui.h. 
   In contrast, for compilers using Dwarf like TDM and mingw-w64, to have videoInput included in OpenCV 2.0:
     * Edit file src/highgui/CMakeLists.txt
     * At line 199, insert " ole32 oleaut32 uuid" at the end of the list of libraries to be linked against (i.e. after "videoInput strmiids"). The developers have forgotten to insert them.
