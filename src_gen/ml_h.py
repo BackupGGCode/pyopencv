@@ -232,6 +232,9 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvSVM
     z = mb.class_('CvSVM')
+    z.include_files.append( "boost/python/object/life_support.hpp" )
+    z.include_files.append( "arrayobject.h" ) # to get NumPy's flags
+    z.include_files.append( "ndarray.hpp" )
     mb.init_class(z)
     z.constructors(lambda x: len(x.arguments) > 1).exclude()
     z.mem_funs(lambda x: 'cv::Mat' in x.decl_string).exclude()
@@ -240,24 +243,30 @@ KLASS.__repr__ = _KLASS__repr__
     z.add_wrapper_code('''    
     CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx, ::cv::Mat const & _sample_idx, ::CvSVMParams _params )
     : CvSVM( &(::CvMat)(_train_data), &(::CvMat)(_responses), &(::CvMat)(_var_idx), &(::CvMat)(_sample_idx), _params ) , bp::wrapper< CvSVM >(){ }
-    
-    int get_support_vector_addr(int i) const { return (int)get_support_vector(i); }
       
+    bp::object get_support_vector_(int i) {
+        int len = get_var_count();
+        bp::object result = bp::new_(1, &len, NPY_FLOAT, 0, (void *)get_support_vector(i), NPY_C_CONTIGUOUS);
+        bp::objects::make_nurse_and_patient(result.ptr(), bp::object(bp::ptr(this)).ptr());
+        return result;
+    }
     ''')
     z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const &, CvSVMParams >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) )')
-    # wait until requested: get_support_vector
+    # get_support_vector
     z.mem_fun('get_support_vector').exclude()
-    z.add_registration_code('def( "get_support_vector_addr", &CvSVM_wrapper::get_support_vector_addr )')
+    z.add_registration_code('def( "get_support_vector", &CvSVM_wrapper::get_support_vector_, (bp::arg("i")) )')
     mb.finalize_class(z)
 
     # CvEMParams 
-    # wait until requested: probs, weights, means, covs are turned off for now, the user should use CvEM's member functions instead
     z = mb.class_('CvEMParams')
     z.include()
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
-    for t in ('probs', 'weights', 'means', 'covs', 'term_crit'):
-        z.var(t).exclude()
+    for t in ('probs', 'weights', 'means'):
+        FT.expose_member_as_Mat(z, t)
+    # wait until requested: 'covs' is turned off for now, the user should use CvEM's member functions instead
+    z.var('covs').exclude()
     FT.expose_member_as_TermCriteria(z, 'term_crit')
+    # wait until requested, can't expose cv::TermCriteria with a default value
     z.add_wrapper_code('''
     CvEMParams_wrapper(int _nclusters, int _cov_mat_type, int _start_step)
         : CvEMParams(_nclusters, _cov_mat_type, _start_step), bp::wrapper< CvEMParams >() { }

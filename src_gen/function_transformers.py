@@ -103,7 +103,6 @@ def expose_addressof_member(klass, member_name, exclude_member=True):
     # TODO: finish the wrapping with ctypes code
     
 def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True):
-    klass.include_files.append( "boost/python/object/life_support.hpp" )
     klass.var(member_name).exclude()
     CvMat = 'CvMat' if is_CvMat_ptr else 'IplImage'
     klass.add_wrapper_code('''
@@ -125,7 +124,6 @@ def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True):
         &CLASS_TYPE_wrapper::set_MEMBER_NAME)'''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
     
 def expose_member_as_TermCriteria(klass, member_name):
-    klass.include_files.append( "boost/python/object/life_support.hpp" )
     klass.var(member_name).exclude()
     klass.add_wrapper_code('''
     cv::TermCriteria get_MEMBER_NAME() { return cv::TermCriteria(MEMBER_NAME); }

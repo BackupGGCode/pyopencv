@@ -6,6 +6,9 @@
 #include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "boost/python/object/life_support.hpp"
+#include "arrayobject.h"
+#include "ndarray.hpp"
 #include "CvSVM.pypp.hpp"
 
 namespace bp = boost::python;
@@ -192,8 +195,13 @@ struct CvSVM_wrapper : CvSVM, bp::wrapper< CvSVM > {
 
     CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx, ::cv::Mat const & _sample_idx, ::CvSVMParams _params )
     : CvSVM( &(::CvMat)(_train_data), &(::CvMat)(_responses), &(::CvMat)(_var_idx), &(::CvMat)(_sample_idx), _params ) , bp::wrapper< CvSVM >(){ }
-    
-    int get_support_vector_addr(int i) const { return (int)get_support_vector(i); }
+      
+    bp::object get_support_vector_(int i) {
+        int len = get_var_count();
+        bp::object result = bp::new_(1, &len, NPY_FLOAT, 0, (void *)get_support_vector(i), NPY_C_CONTIGUOUS);
+        bp::objects::make_nurse_and_patient(result.ptr(), bp::object(bp::ptr(this)).ptr());
+        return result;
+    }
 
 };
 
@@ -347,7 +355,7 @@ void register_CvSVM_class(){
         }
         CvSVM_exposer.staticmethod( "get_default_grid" );
         CvSVM_exposer.def( bp::init< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const &, CvSVMParams >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) );
-        CvSVM_exposer.def( "get_support_vector_addr", &CvSVM_wrapper::get_support_vector_addr );
+        CvSVM_exposer.def( "get_support_vector", &CvSVM_wrapper::get_support_vector_, (bp::arg("i")) );
     }
 
 }
