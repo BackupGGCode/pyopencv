@@ -179,7 +179,6 @@ KLASS.__repr__ = _KLASS__repr__
     mb.finalize_class(z)
 
     # CvSVMParams
-    # TODO: CvMat *_class_weights passed by the long constructor must exist  throughout the lifetime of CvSVMParams
     z = mb.class_('CvSVMParams')
     z.include()
     z.var('class_weights').exclude()
@@ -237,12 +236,17 @@ KLASS.__repr__ = _KLASS__repr__
     z.include_files.append( "ndarray.hpp" )
     mb.init_class(z)
     z.constructors(lambda x: len(x.arguments) > 1).exclude()
-    z.mem_funs(lambda x: 'cv::Mat' in x.decl_string).exclude()
+    z.mem_funs(lambda t: '::CvMat const *' in t.decl_string).exclude()
     for t in ('train', 'train_auto', 'predict'):
-        z.mem_fun(lambda x: x.name==t and 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
+        for t2 in z.mem_funs(t):
+            t2._transformer_kwds['alias'] = t
     z.add_wrapper_code('''    
-    CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx, ::cv::Mat const & _sample_idx, ::CvSVMParams _params )
-    : CvSVM( &(::CvMat)(_train_data), &(::CvMat)(_responses), &(::CvMat)(_var_idx), &(::CvMat)(_sample_idx), _params ) , bp::wrapper< CvSVM >(){ }
+    CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::CvSVMParams _params=::CvSVMParams( ) )
+    : CvSVM()
+      , bp::wrapper< CvSVM >(){
+        // constructor
+        train( _train_data, _responses, _var_idx, _sample_idx, _params );        
+    }
       
     bp::object get_support_vector_(int i) {
         int len = get_var_count();
@@ -251,7 +255,8 @@ KLASS.__repr__ = _KLASS__repr__
         return result;
     }
     ''')
-    z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const &, CvSVMParams >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) )')
+    # workaround for the long constructor (their code not yet implemented)
+    z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const &, CvSVMParams > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) )')
     # get_support_vector
     z.mem_fun('get_support_vector').exclude()
     z.add_registration_code('def( "get_support_vector", &CvSVM_wrapper::get_support_vector_, (bp::arg("i")) )')
