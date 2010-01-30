@@ -5,54 +5,54 @@
 #include "__convenience.pypp.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "CvForestTree.pypp.hpp"
+#include "CvBoostTree.pypp.hpp"
 
 namespace bp = boost::python;
 
-struct CvForestTree_wrapper : CvForestTree, bp::wrapper< CvForestTree > {
+struct CvBoostTree_wrapper : CvBoostTree, bp::wrapper< CvBoostTree > {
 
-    CvForestTree_wrapper(CvForestTree const & arg )
-    : CvForestTree( arg )
-      , bp::wrapper< CvForestTree >(){
+    CvBoostTree_wrapper(CvBoostTree const & arg )
+    : CvBoostTree( arg )
+      , bp::wrapper< CvBoostTree >(){
         // copy constructor
         
     }
 
-    CvForestTree_wrapper( )
-    : CvForestTree( )
-      , bp::wrapper< CvForestTree >(){
+    CvBoostTree_wrapper( )
+    : CvBoostTree( )
+      , bp::wrapper< CvBoostTree >(){
         // null constructor
     
     }
 
-    virtual int get_var_count(  ) const  {
-        if( bp::override func_get_var_count = this->get_override( "get_var_count" ) )
-            return func_get_var_count(  );
+    virtual void clear(  ) {
+        if( bp::override func_clear = this->get_override( "clear" ) )
+            func_clear(  );
         else{
-            return this->CvForestTree::get_var_count(  );
+            this->CvBoostTree::clear(  );
         }
     }
     
-    int default_get_var_count(  ) const  {
-        return CvForestTree::get_var_count( );
+    void default_clear(  ) {
+        CvBoostTree::clear( );
     }
 
-    virtual void read( ::CvFileStorage * fs, ::CvFileNode * node, ::CvRTrees * forest, ::CvDTreeTrainData * _data ) {
+    virtual void read( ::CvFileStorage * fs, ::CvFileNode * node, ::CvBoost * ensemble, ::CvDTreeTrainData * _data ) {
         namespace bpl = boost::python;
         if( bpl::override func_read = this->get_override( "read" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_read.ptr(), fs, node, forest, _data );
+            bpl::object py_result = bpl::call<bpl::object>( func_read.ptr(), fs, node, ensemble, _data );
         }
         else{
-            CvForestTree::read( boost::python::ptr(fs), boost::python::ptr(node), boost::python::ptr(forest), boost::python::ptr(_data) );
+            CvBoostTree::read( boost::python::ptr(fs), boost::python::ptr(node), boost::python::ptr(ensemble), boost::python::ptr(_data) );
         }
     }
     
-    static void default_read_8d6757d6bbd70f87efa21a9a88d7b91b( ::CvForestTree & inst, ::cv::FileStorage & fs, ::cv::FileNode & node, ::CvRTrees * forest, ::CvDTreeTrainData * _data ){
-        if( dynamic_cast< CvForestTree_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvForestTree::read(fs.fs, *(node), forest, _data);
+    static void default_read_8b11dd2a0d1066814c3b544147bcd2d1( ::CvBoostTree & inst, ::cv::FileStorage & fs, ::cv::FileNode & node, ::CvBoost * ensemble, ::CvDTreeTrainData * _data ){
+        if( dynamic_cast< CvBoostTree_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvBoostTree::read(fs.fs, *(node), ensemble, _data);
         }
         else{
-            inst.read(fs.fs, *(node), forest, _data);
+            inst.read(fs.fs, *(node), ensemble, _data);
         }
     }
 
@@ -62,13 +62,13 @@ struct CvForestTree_wrapper : CvForestTree, bp::wrapper< CvForestTree > {
             bpl::object py_result = bpl::call<bpl::object>( func_read.ptr(), fs, node );
         }
         else{
-            CvForestTree::read( boost::python::ptr(fs), boost::python::ptr(node) );
+            CvBoostTree::read( boost::python::ptr(fs), boost::python::ptr(node) );
         }
     }
     
-    static void default_read_21f4d9d118da24ef774e945ac72443bf( ::CvForestTree & inst, ::cv::FileStorage & fs, ::cv::FileNode & node ){
-        if( dynamic_cast< CvForestTree_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvForestTree::read(fs.fs, *(node));
+    static void default_read_93f028bf66aae7b24915780d90476481( ::CvBoostTree & inst, ::cv::FileStorage & fs, ::cv::FileNode & node ){
+        if( dynamic_cast< CvBoostTree_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvBoostTree::read(fs.fs, *(node));
         }
         else{
             inst.read(fs.fs, *(node));
@@ -81,29 +81,29 @@ struct CvForestTree_wrapper : CvForestTree, bp::wrapper< CvForestTree > {
             bpl::object py_result = bpl::call<bpl::object>( func_read.ptr(), fs, node, data );
         }
         else{
-            CvForestTree::read( boost::python::ptr(fs), boost::python::ptr(node), boost::python::ptr(data) );
+            CvBoostTree::read( boost::python::ptr(fs), boost::python::ptr(node), boost::python::ptr(data) );
         }
     }
     
-    static void default_read_f1eddefe30282eed3e835c344b312841( ::CvForestTree & inst, ::cv::FileStorage & fs, ::cv::FileNode & node, ::CvDTreeTrainData * data ){
-        if( dynamic_cast< CvForestTree_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvForestTree::read(fs.fs, *(node), data);
+    static void default_read_2a3ca3cc513554db6e212a9addc77685( ::CvBoostTree & inst, ::cv::FileStorage & fs, ::cv::FileNode & node, ::CvDTreeTrainData * data ){
+        if( dynamic_cast< CvBoostTree_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvBoostTree::read(fs.fs, *(node), data);
         }
         else{
             inst.read(fs.fs, *(node), data);
         }
     }
 
-    virtual void clear(  ) {
-        if( bp::override func_clear = this->get_override( "clear" ) )
-            func_clear(  );
+    virtual void scale( double s ) {
+        if( bp::override func_scale = this->get_override( "scale" ) )
+            func_scale( s );
         else{
-            this->CvDTree::clear(  );
+            this->CvBoostTree::scale( s );
         }
     }
     
-    void default_clear(  ) {
-        CvDTree::clear( );
+    void default_scale( double s ) {
+        CvBoostTree::scale( s );
     }
 
     virtual void load( char const * filename, char const * name=0 ) {
@@ -177,7 +177,7 @@ struct CvForestTree_wrapper : CvForestTree, bp::wrapper< CvForestTree > {
     }
     
     static void default_write_d5b05f94ebb65d268cbd4756fe0d6221( ::CvDTree const & inst, ::cv::FileStorage & fs, char const * name ){
-        if( dynamic_cast< CvForestTree_wrapper const* >( boost::addressof( inst ) ) ){
+        if( dynamic_cast< CvBoostTree_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::CvDTree::write(fs.fs, name);
         }
         else{
@@ -196,7 +196,7 @@ struct CvForestTree_wrapper : CvForestTree, bp::wrapper< CvForestTree > {
     }
     
     static void default_write_d1e064f966d50e01902f80ef0f045741( ::CvDTree const & inst, ::cv::FileStorage & fs ){
-        if( dynamic_cast< CvForestTree_wrapper const* >( boost::addressof( inst ) ) ){
+        if( dynamic_cast< CvBoostTree_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::CvDTree::write(fs.fs);
         }
         else{
@@ -206,63 +206,64 @@ struct CvForestTree_wrapper : CvForestTree, bp::wrapper< CvForestTree > {
 
 };
 
-void register_CvForestTree_class(){
+void register_CvBoostTree_class(){
 
-    bp::class_< CvForestTree_wrapper, bp::bases< CvDTree > >( "CvForestTree", bp::init< >() )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvForestTree >() )    
-        .def( 
-            "get_var_count"
-            , (int ( ::CvForestTree::* )(  ) const)(&::CvForestTree::get_var_count)
-            , (int ( CvForestTree_wrapper::* )(  ) const)(&CvForestTree_wrapper::default_get_var_count) )    
-        .def( 
-            "read_8d6757d6bbd70f87efa21a9a88d7b91b"
-            , (void (*)( ::CvForestTree &,::cv::FileStorage &,::cv::FileNode &,::CvRTrees *,::CvDTreeTrainData * ))( &CvForestTree_wrapper::default_read_8d6757d6bbd70f87efa21a9a88d7b91b )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node"), bp::arg("forest"), bp::arg("_data") ) )    
-        .def( 
-            "read_21f4d9d118da24ef774e945ac72443bf"
-            , (void (*)( ::CvForestTree &,::cv::FileStorage &,::cv::FileNode & ))( &CvForestTree_wrapper::default_read_21f4d9d118da24ef774e945ac72443bf )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") ) )    
-        .def( 
-            "read_f1eddefe30282eed3e835c344b312841"
-            , (void (*)( ::CvForestTree &,::cv::FileStorage &,::cv::FileNode &,::CvDTreeTrainData * ))( &CvForestTree_wrapper::default_read_f1eddefe30282eed3e835c344b312841 )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node"), bp::arg("data") ) )    
+    bp::class_< CvBoostTree_wrapper, bp::bases< CvDTree > >( "CvBoostTree", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBoostTree >() )    
         .def( 
             "clear"
-            , (void ( ::CvDTree::* )(  ) )(&::CvDTree::clear)
-            , (void ( CvForestTree_wrapper::* )(  ) )(&CvForestTree_wrapper::default_clear) )    
+            , (void ( ::CvBoostTree::* )(  ) )(&::CvBoostTree::clear)
+            , (void ( CvBoostTree_wrapper::* )(  ) )(&CvBoostTree_wrapper::default_clear) )    
+        .def( 
+            "read_8b11dd2a0d1066814c3b544147bcd2d1"
+            , (void (*)( ::CvBoostTree &,::cv::FileStorage &,::cv::FileNode &,::CvBoost *,::CvDTreeTrainData * ))( &CvBoostTree_wrapper::default_read_8b11dd2a0d1066814c3b544147bcd2d1 )
+            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node"), bp::arg("ensemble"), bp::arg("_data") ) )    
+        .def( 
+            "read_93f028bf66aae7b24915780d90476481"
+            , (void (*)( ::CvBoostTree &,::cv::FileStorage &,::cv::FileNode & ))( &CvBoostTree_wrapper::default_read_93f028bf66aae7b24915780d90476481 )
+            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") ) )    
+        .def( 
+            "read_2a3ca3cc513554db6e212a9addc77685"
+            , (void (*)( ::CvBoostTree &,::cv::FileStorage &,::cv::FileNode &,::CvDTreeTrainData * ))( &CvBoostTree_wrapper::default_read_2a3ca3cc513554db6e212a9addc77685 )
+            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node"), bp::arg("data") ) )    
+        .def( 
+            "scale"
+            , (void ( ::CvBoostTree::* )( double ) )(&::CvBoostTree::scale)
+            , (void ( CvBoostTree_wrapper::* )( double ) )(&CvBoostTree_wrapper::default_scale)
+            , ( bp::arg("s") ) )    
         .def( 
             "load"
             , (void ( ::CvStatModel::* )( char const *,char const * ) )(&::CvStatModel::load)
-            , (void ( CvForestTree_wrapper::* )( char const *,char const * ) )(&CvForestTree_wrapper::default_load)
+            , (void ( CvBoostTree_wrapper::* )( char const *,char const * ) )(&CvBoostTree_wrapper::default_load)
             , ( bp::arg("filename"), bp::arg("name")=bp::object() ) )    
         .def( 
             "predict"
             , (::CvDTreeNode * ( ::CvDTree::* )( ::cv::Mat const &,::cv::Mat const &,bool ) const)(&::CvDTree::predict)
-            , (::CvDTreeNode * ( CvForestTree_wrapper::* )( ::cv::Mat const &,::cv::Mat const &,bool ) const)(&CvForestTree_wrapper::default_predict)
+            , (::CvDTreeNode * ( CvBoostTree_wrapper::* )( ::cv::Mat const &,::cv::Mat const &,bool ) const)(&CvBoostTree_wrapper::default_predict)
             , ( bp::arg("_sample"), bp::arg("_missing_data_mask")=cv::Mat(), bp::arg("preprocessed_input")=(bool)(false) )
             , bp::return_internal_reference< >() )    
         .def( 
             "save"
             , (void ( ::CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
-            , (void ( CvForestTree_wrapper::* )( char const *,char const * ) const)(&CvForestTree_wrapper::default_save)
+            , (void ( CvBoostTree_wrapper::* )( char const *,char const * ) const)(&CvBoostTree_wrapper::default_save)
             , ( bp::arg("filename"), bp::arg("name")=bp::object() ) )    
         .def( 
             "train"
             , (bool ( ::CvDTree::* )( ::CvMLData *,::CvDTreeParams ) )(&::CvDTree::train)
-            , (bool ( CvForestTree_wrapper::* )( ::CvMLData *,::CvDTreeParams ) )(&CvForestTree_wrapper::default_train)
+            , (bool ( CvBoostTree_wrapper::* )( ::CvMLData *,::CvDTreeParams ) )(&CvBoostTree_wrapper::default_train)
             , ( bp::arg("_data"), bp::arg("_params")=::CvDTreeParams( ) ) )    
         .def( 
             "train"
             , (bool ( ::CvDTree::* )( ::cv::Mat const &,int,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvDTreeParams ) )(&::CvDTree::train)
-            , (bool ( CvForestTree_wrapper::* )( ::cv::Mat const &,int,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvDTreeParams ) )(&CvForestTree_wrapper::default_train)
+            , (bool ( CvBoostTree_wrapper::* )( ::cv::Mat const &,int,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvDTreeParams ) )(&CvBoostTree_wrapper::default_train)
             , ( bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvDTreeParams( ) ) )    
         .def( 
             "write_d5b05f94ebb65d268cbd4756fe0d6221"
-            , (void (*)( ::CvDTree const &,::cv::FileStorage &,char const * ))( &CvForestTree_wrapper::default_write_d5b05f94ebb65d268cbd4756fe0d6221 )
+            , (void (*)( ::CvDTree const &,::cv::FileStorage &,char const * ))( &CvBoostTree_wrapper::default_write_d5b05f94ebb65d268cbd4756fe0d6221 )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") ) )    
         .def( 
             "write_d1e064f966d50e01902f80ef0f045741"
-            , (void (*)( ::CvDTree const &,::cv::FileStorage & ))( &CvForestTree_wrapper::default_write_d1e064f966d50e01902f80ef0f045741 )
+            , (void (*)( ::CvDTree const &,::cv::FileStorage & ))( &CvBoostTree_wrapper::default_write_d1e064f966d50e01902f80ef0f045741 )
             , ( bp::arg("inst"), bp::arg("fs") ) );
 
 }

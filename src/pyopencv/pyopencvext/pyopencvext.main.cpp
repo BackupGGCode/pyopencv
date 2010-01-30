@@ -2,11 +2,11 @@
 
 #include "boost/python.hpp"
 
-#include "__array_1.pypp.hpp"
-
 #include "__call_policies.pypp.hpp"
 
 #include "__convenience.pypp.hpp"
+
+#include "__array_1.pypp.hpp"
 
 #include "opencv_extra.hpp"
 
@@ -42,6 +42,12 @@
 
 #include "pyopencvext/CvAvgComp.pypp.hpp"
 
+#include "pyopencvext/CvBoost.pypp.hpp"
+
+#include "pyopencvext/CvBoostParams.pypp.hpp"
+
+#include "pyopencvext/CvBoostTree.pypp.hpp"
+
 #include "pyopencvext/CvCamShiftTracker.pypp.hpp"
 
 #include "pyopencvext/CvChain.pypp.hpp"
@@ -72,11 +78,15 @@
 
 #include "pyopencvext/CvEMParams.pypp.hpp"
 
+#include "pyopencvext/CvERTrees.pypp.hpp"
+
 #include "pyopencvext/CvFeatureTree.pypp.hpp"
 
 #include "pyopencvext/CvFileNode.pypp.hpp"
 
 #include "pyopencvext/CvFileStorage.pypp.hpp"
+
+#include "pyopencvext/CvForestERTree.pypp.hpp"
 
 #include "pyopencvext/CvForestTree.pypp.hpp"
 
@@ -1610,6 +1620,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvAvgComp_class();
 
+    register_CvDTreeParams_class();
+
+    register_CvBoostParams_class();
+
+    register_CvStatModel_class();
+
+    register_Mat_class();
+
+    register_CvBoost_class();
+
+    register_CvDTreeSplit_class();
+
+    register_CvDTree_class();
+
+    register_CvBoostTree_class();
+
     register_CvCamShiftTracker_class();
 
     register_CvChain_class();
@@ -1626,21 +1652,17 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvConvexityDefect_class();
 
-    register_CvDTreeParams_class();
-
-    register_CvDTreeSplit_class();
-
-    register_CvStatModel_class();
-
-    register_Mat_class();
-
-    register_CvDTree_class();
-
     register_CvDTreeTrainData_class();
 
     register_CvEMParams_class();
 
     register_CvEM_class();
+
+    register_CvRTParams_class();
+
+    register_CvRTrees_class();
+
+    register_CvERTrees_class();
 
     register_CvFeatureTree_class();
 
@@ -1649,6 +1671,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvFileStorage_class();
 
     register_CvForestTree_class();
+
+    register_CvForestERTree_class();
 
     register_CvFuzzyController_class();
 
@@ -1715,10 +1739,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvPluginFuncInfo_class();
 
     register_CvQuadEdge2D_class();
-
-    register_CvRTParams_class();
-
-    register_CvRTrees_class();
 
     register_CvSURFParams_class();
 
