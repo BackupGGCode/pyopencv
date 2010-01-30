@@ -16,7 +16,7 @@ opencv_dir = <opencv_dir> # the root dir of your OpenCV build
 opencv_include_dirs = [opencv_dir+"/include/opencv"]
 opencv_library_dirs = [opencv_dir+"/lib"]
 opencv_libraries = ["cvaux", "ml", "highgui", "cv", "cxcore"]
-opencv_runtime_library_dirs = []
+opencv_runtime_library_dirs = [opencv_dir+"/bin"]
 opencv_runtime_libraries_to_be_bundled = []
 
 # Boost.Python library
