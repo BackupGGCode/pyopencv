@@ -328,10 +328,43 @@ KLASS.__repr__ = _KLASS__repr__
         ):
         FT.expose_member_as_pointee(z, t) # TODO: fix these variables
     mb.finalize_class(z)
+    
+    # CvDTree
+    z = mb.class_('CvDTree')
+    mb.init_class(z)
+    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
+    z.mem_funs(lambda x: 'CvMLData *' in x.decl_string).exclude() # TODO: fix these functions
+    for t in ('train', 'predict'):
+        for t2 in z.mem_funs(t):
+            t2._transformer_kwds['alias'] = t
+    mb.finalize_class(z)
+
+    # CvForestTree
+    z = mb.class_('CvForestTree')
+    mb.init_class(z)
+    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
+    for t in z.mem_funs('train'):
+        t._transformer_kwds['alias'] = 'train'
+    mb.finalize_class(z)
+
+    # CvRTParams # TODO: expose 'priors', fix the longer constructor
+    z = mb.class_('CvRTParams')
+    z.include()
+
+    # CvRTrees
+    z = mb.class_('CvRTrees')
+    mb.init_class(z)
+    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
+    z.mem_funs(lambda x: 'CvMLData *' in x.decl_string).exclude() # TODO: fix these functions
+    z.mem_funs(lambda x: 'CvRNG' in x.decl_string).exclude() # TODO: fix these functions
+    for t in ('train', 'predict', 'predict_prob'):
+        for t2 in z.mem_funs(t):
+            t2._transformer_kwds['alias'] = t
+    mb.finalize_class(z)
 
     # straightforward classes
     # for t in (
-        # 'CvDTree', 'CvForestTree', 'CvRTParams', 'CvRTrees',
+        # 'CvRTrees',
         # 'CvForestERTree', 'CvERTrees',
         # 'CvBoostParams', 'CvBoostTree', 'CvBoost',
         # 'CvANN_MLP_TrainParams', 'CvANN_MLP',
