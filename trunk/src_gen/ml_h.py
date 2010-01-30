@@ -333,7 +333,7 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('CvDTree')
     mb.init_class(z)
     z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
-    z.mem_funs(lambda x: 'CvMLData *' in x.decl_string).exclude() # TODO: fix these functions
+    z.mem_fun('calc_error').exclude() # TODO: fix this function
     for t in ('train', 'predict'):
         for t2 in z.mem_funs(t):
             t2._transformer_kwds['alias'] = t
@@ -355,32 +355,59 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('CvRTrees')
     mb.init_class(z)
     z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
-    z.mem_funs(lambda x: 'CvMLData *' in x.decl_string).exclude() # TODO: fix these functions
+    z.mem_fun('calc_error').exclude() # TODO: fix this function
     z.mem_funs(lambda x: 'CvRNG' in x.decl_string).exclude() # TODO: fix these functions
     for t in ('train', 'predict', 'predict_prob'):
         for t2 in z.mem_funs(t):
             t2._transformer_kwds['alias'] = t
     mb.finalize_class(z)
 
+    # CvERTreeTrainData
+    z = mb.class_('CvERTreeTrainData')
+    z.decls().exclude() # TODO: fix this class
+
+    # CvForestERTree
+    z = mb.class_('CvForestERTree')
+    mb.init_class(z)
+    mb.finalize_class(z)
+
+    # CvERTrees
+    z = mb.class_('CvERTrees')
+    mb.init_class(z)
+    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude()
+    mb.finalize_class(z)
+
+    # CvBoostParams # TODO: expose 'priors', fix the longer constructor
+    z = mb.class_('CvBoostParams')
+    z.include()
+
+    # CvBoostTree
+    z = mb.class_('CvBoostTree')
+    mb.init_class(z)
+    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
+    mb.finalize_class(z)
+
+    # CvBoost
+    z = mb.class_('CvBoost')
+    mb.init_class(z)
+    z.constructors(lambda x: 'CvMat' in x.decl_string).exclude()
+    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
+    z.mem_fun('calc_error').exclude() # TODO: fix this function
+    z.mem_funs(lambda x: 'CvSeq' in x.decl_string).exclude() # TODO: fix these functions
+    z.mem_funs(lambda x: 'CvSlice' in x.decl_string).exclude() # TODO: fix these functions
+    for t in ('train', 'predict'):
+        for t2 in z.mem_funs(t):
+            t2._transformer_kwds['alias'] = t
+    mb.finalize_class(z)
+
     # straightforward classes
     # for t in (
-        # 'CvRTrees',
-        # 'CvForestERTree', 'CvERTrees',
-        # 'CvBoostParams', 'CvBoostTree', 'CvBoost',
         # 'CvANN_MLP_TrainParams', 'CvANN_MLP',
         # 'CvMLData',
         # ):
         # z = mb.class_(t)
         # mb.init_class(z)
         # mb.finalize_class(z)
-
-    # mb.class_('CvRTrees').mem_fun('get_rng').exclude() # TODO: fix CvRNG first, then fix this get_rng function
-
-    # CvERTreeTrainData
-    # z = mb.class_('CvERTreeTrainData')
-    # mb.init_class(z)
-    # FT.expose_member_as_pointee(z, 'missing_mask')
-    # mb.finalize_class(z)
 
     # mb.class_('CvANN_MLP').mem_fun('get_weights').exclude() # TODO: fix this func somehow
 

@@ -92,6 +92,18 @@ struct CvRTrees_wrapper : CvRTrees, bp::wrapper< CvRTrees > {
         }
     }
 
+    virtual bool train( ::CvMLData * data, ::CvRTParams params=::CvRTParams( ) ) {
+        if( bp::override func_train = this->get_override( "train" ) )
+            return func_train( boost::python::ptr(data), params );
+        else{
+            return this->CvRTrees::train( boost::python::ptr(data), params );
+        }
+    }
+    
+    bool default_train( ::CvMLData * data, ::CvRTParams params=::CvRTParams( ) ) {
+        return CvRTrees::train( boost::python::ptr(data), params );
+    }
+
     virtual bool train( ::cv::Mat const & _train_data, int _tflag, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::cv::Mat const & _var_type=cv::Mat(), ::cv::Mat const & _missing_mask=cv::Mat(), ::CvRTParams params=::CvRTParams( ) ) {
         if( bp::override func_train = this->get_override( "train" ) )
             return func_train( boost::ref(_train_data), _tflag, boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), boost::ref(_var_type), boost::ref(_missing_mask), params );
@@ -183,6 +195,11 @@ void register_CvRTrees_class(){
             "read"
             , (void (*)( ::CvRTrees &,::cv::FileStorage &,::cv::FileNode & ))( &CvRTrees_wrapper::default_read )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") ) )    
+        .def( 
+            "train"
+            , (bool ( ::CvRTrees::* )( ::CvMLData *,::CvRTParams ) )(&::CvRTrees::train)
+            , (bool ( CvRTrees_wrapper::* )( ::CvMLData *,::CvRTParams ) )(&CvRTrees_wrapper::default_train)
+            , ( bp::arg("data"), bp::arg("params")=::CvRTParams( ) ) )    
         .def( 
             "train"
             , (bool ( ::CvRTrees::* )( ::cv::Mat const &,int,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvRTParams ) )(&::CvRTrees::train)
