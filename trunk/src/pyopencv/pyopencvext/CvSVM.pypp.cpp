@@ -3,7 +3,6 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
-#include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "boost/python/object/life_support.hpp"
@@ -65,26 +64,16 @@ struct CvSVM_wrapper : CvSVM, bp::wrapper< CvSVM > {
         return CvSVM::get_support_vector_count( );
     }
 
-    virtual float predict( ::CvMat const * _sample, bool returnDFVal=false ) const  {
-        namespace bpl = boost::python;
-        if( bpl::override func_predict = this->get_override( "predict" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_predict.ptr(), _sample, returnDFVal );
-            return bpl::extract< float >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
+    virtual float predict( ::cv::Mat const & _sample, bool returnDFVal=false ) const  {
+        if( bp::override func_predict = this->get_override( "predict" ) )
+            return func_predict( boost::ref(_sample), returnDFVal );
         else{
-            return CvSVM::predict( boost::python::ptr(_sample), returnDFVal );
+            return this->CvSVM::predict( boost::ref(_sample), returnDFVal );
         }
     }
     
-    static boost::python::object default_predict_c02d4fcfe9f774ce1816d6b16d2df3c5( ::CvSVM const & inst, ::cv::Mat & _sample, bool returnDFVal=false ){
-        float result;
-        if( dynamic_cast< CvSVM_wrapper const* >( boost::addressof( inst ) ) ){
-            result = inst.::CvSVM::predict(&(::CvMat)_sample, returnDFVal);
-        }
-        else{
-            result = inst.predict(&(::CvMat)_sample, returnDFVal);
-        }
-        return bp::object( result );
+    float default_predict( ::cv::Mat const & _sample, bool returnDFVal=false ) const  {
+        return CvSVM::predict( boost::ref(_sample), returnDFVal );
     }
 
     virtual void read( ::CvFileStorage * storage, ::CvFileNode * node ) {
@@ -106,48 +95,28 @@ struct CvSVM_wrapper : CvSVM, bp::wrapper< CvSVM > {
         }
     }
 
-    virtual bool train( ::CvMat const * _train_data, ::CvMat const * _responses, ::CvMat const * _var_idx=0, ::CvMat const * _sample_idx=0, ::CvSVMParams _params=::CvSVMParams( ) ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_train = this->get_override( "train" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_train.ptr(), _train_data, _responses, _var_idx, _sample_idx, _params );
-            return bpl::extract< bool >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
+    virtual bool train( ::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::CvSVMParams _params=::CvSVMParams( ) ) {
+        if( bp::override func_train = this->get_override( "train" ) )
+            return func_train( boost::ref(_train_data), boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), _params );
         else{
-            return CvSVM::train( boost::python::ptr(_train_data), boost::python::ptr(_responses), boost::python::ptr(_var_idx), boost::python::ptr(_sample_idx), _params );
+            return this->CvSVM::train( boost::ref(_train_data), boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), _params );
         }
     }
     
-    static boost::python::object default_train_a051ed21e9e7670e8100d8bda1f730ea( ::CvSVM & inst, ::cv::Mat & _train_data, ::cv::Mat & _responses, ::cv::Mat _var_idx=cv::Mat(), ::cv::Mat _sample_idx=cv::Mat(), ::CvSVMParams _params=::CvSVMParams( ) ){
-        bool result;
-        if( dynamic_cast< CvSVM_wrapper * >( boost::addressof( inst ) ) ){
-            result = inst.::CvSVM::train(&(::CvMat)_train_data, &(::CvMat)_responses, &(::CvMat)_var_idx, &(::CvMat)_sample_idx, _params);
-        }
-        else{
-            result = inst.train(&(::CvMat)_train_data, &(::CvMat)_responses, &(::CvMat)_var_idx, &(::CvMat)_sample_idx, _params);
-        }
-        return bp::object( result );
+    bool default_train( ::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::CvSVMParams _params=::CvSVMParams( ) ) {
+        return CvSVM::train( boost::ref(_train_data), boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), _params );
     }
 
-    virtual bool train_auto( ::CvMat const * _train_data, ::CvMat const * _responses, ::CvMat const * _var_idx, ::CvMat const * _sample_idx, ::CvSVMParams _params, int k_fold=10, ::CvParamGrid C_grid=CvSVM::get_default_grid(0), ::CvParamGrid gamma_grid=CvSVM::get_default_grid(1), ::CvParamGrid p_grid=CvSVM::get_default_grid(2), ::CvParamGrid nu_grid=CvSVM::get_default_grid(3), ::CvParamGrid coef_grid=CvSVM::get_default_grid(4), ::CvParamGrid degree_grid=CvSVM::get_default_grid(5) ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_train_auto = this->get_override( "train_auto" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_train_auto.ptr(), _train_data, _responses, _var_idx, _sample_idx, _params, k_fold, C_grid, gamma_grid, p_grid, nu_grid, coef_grid, degree_grid );
-            return bpl::extract< bool >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
+    virtual bool train_auto( ::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx, ::cv::Mat const & _sample_idx, ::CvSVMParams _params, int k_fold=10, ::CvParamGrid C_grid=CvSVM::get_default_grid(0), ::CvParamGrid gamma_grid=CvSVM::get_default_grid(1), ::CvParamGrid p_grid=CvSVM::get_default_grid(2), ::CvParamGrid nu_grid=CvSVM::get_default_grid(3), ::CvParamGrid coef_grid=CvSVM::get_default_grid(4), ::CvParamGrid degree_grid=CvSVM::get_default_grid(5) ) {
+        if( bp::override func_train_auto = this->get_override( "train_auto" ) )
+            return func_train_auto( boost::ref(_train_data), boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), _params, k_fold, C_grid, gamma_grid, p_grid, nu_grid, coef_grid, degree_grid );
         else{
-            return CvSVM::train_auto( boost::python::ptr(_train_data), boost::python::ptr(_responses), boost::python::ptr(_var_idx), boost::python::ptr(_sample_idx), _params, k_fold, C_grid, gamma_grid, p_grid, nu_grid, coef_grid, degree_grid );
+            return this->CvSVM::train_auto( boost::ref(_train_data), boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), _params, k_fold, C_grid, gamma_grid, p_grid, nu_grid, coef_grid, degree_grid );
         }
     }
     
-    static boost::python::object default_train_auto_8b5d0a3d89137f3ac15eb66fedb4914d( ::CvSVM & inst, ::cv::Mat & _train_data, ::cv::Mat & _responses, ::cv::Mat & _var_idx, ::cv::Mat & _sample_idx, ::CvSVMParams _params, int k_fold=10, ::CvParamGrid C_grid=CvSVM::get_default_grid(0), ::CvParamGrid gamma_grid=CvSVM::get_default_grid(1), ::CvParamGrid p_grid=CvSVM::get_default_grid(2), ::CvParamGrid nu_grid=CvSVM::get_default_grid(3), ::CvParamGrid coef_grid=CvSVM::get_default_grid(4), ::CvParamGrid degree_grid=CvSVM::get_default_grid(5) ){
-        bool result;
-        if( dynamic_cast< CvSVM_wrapper * >( boost::addressof( inst ) ) ){
-            result = inst.::CvSVM::train_auto(&(::CvMat)_train_data, &(::CvMat)_responses, &(::CvMat)_var_idx, &(::CvMat)_sample_idx, _params, k_fold, C_grid, gamma_grid, p_grid, nu_grid, coef_grid, degree_grid);
-        }
-        else{
-            result = inst.train_auto(&(::CvMat)_train_data, &(::CvMat)_responses, &(::CvMat)_var_idx, &(::CvMat)_sample_idx, _params, k_fold, C_grid, gamma_grid, p_grid, nu_grid, coef_grid, degree_grid);
-        }
-        return bp::object( result );
+    bool default_train_auto( ::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx, ::cv::Mat const & _sample_idx, ::CvSVMParams _params, int k_fold=10, ::CvParamGrid C_grid=CvSVM::get_default_grid(0), ::CvParamGrid gamma_grid=CvSVM::get_default_grid(1), ::CvParamGrid p_grid=CvSVM::get_default_grid(2), ::CvParamGrid nu_grid=CvSVM::get_default_grid(3), ::CvParamGrid coef_grid=CvSVM::get_default_grid(4), ::CvParamGrid degree_grid=CvSVM::get_default_grid(5) ) {
+        return CvSVM::train_auto( boost::ref(_train_data), boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), _params, k_fold, C_grid, gamma_grid, p_grid, nu_grid, coef_grid, degree_grid );
     }
 
     virtual void write( ::CvFileStorage * storage, char const * name ) const  {
@@ -193,8 +162,12 @@ struct CvSVM_wrapper : CvSVM, bp::wrapper< CvSVM > {
         CvStatModel::save( filename, name );
     }
 
-    CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx, ::cv::Mat const & _sample_idx, ::CvSVMParams _params )
-    : CvSVM( &(::CvMat)(_train_data), &(::CvMat)(_responses), &(::CvMat)(_var_idx), &(::CvMat)(_sample_idx), _params ) , bp::wrapper< CvSVM >(){ }
+    CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::CvSVMParams _params=::CvSVMParams( ) )
+    : CvSVM()
+      , bp::wrapper< CvSVM >(){
+        // constructor
+        train( _train_data, _responses, _var_idx, _sample_idx, _params );        
+    }
       
     bp::object get_support_vector_(int i) {
         int len = get_var_count();
@@ -281,12 +254,14 @@ void register_CvSVM_class(){
         }
         { //::CvSVM::predict
         
-            typedef boost::python::object ( *default_predict_function_type )( ::CvSVM const &,::cv::Mat &,bool );
+            typedef float ( ::CvSVM::*predict_function_type )( ::cv::Mat const &,bool ) const;
+            typedef float ( CvSVM_wrapper::*default_predict_function_type )( ::cv::Mat const &,bool ) const;
             
             CvSVM_exposer.def( 
                 "predict"
-                , default_predict_function_type( &CvSVM_wrapper::default_predict_c02d4fcfe9f774ce1816d6b16d2df3c5 )
-                , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("returnDFVal")=(bool)(false) ) );
+                , predict_function_type(&::CvSVM::predict)
+                , default_predict_function_type(&CvSVM_wrapper::default_predict)
+                , ( bp::arg("_sample"), bp::arg("returnDFVal")=(bool)(false) ) );
         
         }
         { //::CvSVM::read
@@ -301,22 +276,26 @@ void register_CvSVM_class(){
         }
         { //::CvSVM::train
         
-            typedef boost::python::object ( *default_train_function_type )( ::CvSVM &,::cv::Mat &,::cv::Mat &,::cv::Mat,::cv::Mat,::CvSVMParams );
+            typedef bool ( ::CvSVM::*train_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvSVMParams ) ;
+            typedef bool ( CvSVM_wrapper::*default_train_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvSVMParams ) ;
             
             CvSVM_exposer.def( 
                 "train"
-                , default_train_function_type( &CvSVM_wrapper::default_train_a051ed21e9e7670e8100d8bda1f730ea )
-                , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) ) );
+                , train_function_type(&::CvSVM::train)
+                , default_train_function_type(&CvSVM_wrapper::default_train)
+                , ( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) ) );
         
         }
         { //::CvSVM::train_auto
         
-            typedef boost::python::object ( *default_train_auto_function_type )( ::CvSVM &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::CvSVMParams,int,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid );
+            typedef bool ( ::CvSVM::*train_auto_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvSVMParams,int,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid ) ;
+            typedef bool ( CvSVM_wrapper::*default_train_auto_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvSVMParams,int,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid ) ;
             
             CvSVM_exposer.def( 
                 "train_auto"
-                , default_train_auto_function_type( &CvSVM_wrapper::default_train_auto_8b5d0a3d89137f3ac15eb66fedb4914d )
-                , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx"), bp::arg("_sample_idx"), bp::arg("_params"), bp::arg("k_fold")=(int)(10), bp::arg("C_grid")=CvSVM::get_default_grid(0), bp::arg("gamma_grid")=CvSVM::get_default_grid(1), bp::arg("p_grid")=CvSVM::get_default_grid(2), bp::arg("nu_grid")=CvSVM::get_default_grid(3), bp::arg("coef_grid")=CvSVM::get_default_grid(4), bp::arg("degree_grid")=CvSVM::get_default_grid(5) ) );
+                , train_auto_function_type(&::CvSVM::train_auto)
+                , default_train_auto_function_type(&CvSVM_wrapper::default_train_auto)
+                , ( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx"), bp::arg("_sample_idx"), bp::arg("_params"), bp::arg("k_fold")=(int)(10), bp::arg("C_grid")=CvSVM::get_default_grid(0), bp::arg("gamma_grid")=CvSVM::get_default_grid(1), bp::arg("p_grid")=CvSVM::get_default_grid(2), bp::arg("nu_grid")=CvSVM::get_default_grid(3), bp::arg("coef_grid")=CvSVM::get_default_grid(4), bp::arg("degree_grid")=CvSVM::get_default_grid(5) ) );
         
         }
         { //::CvSVM::write
@@ -354,7 +333,7 @@ void register_CvSVM_class(){
         
         }
         CvSVM_exposer.staticmethod( "get_default_grid" );
-        CvSVM_exposer.def( bp::init< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const &, CvSVMParams >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) );
+        CvSVM_exposer.def( bp::init< cv::Mat const &, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const &, CvSVMParams > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) );
         CvSVM_exposer.def( "get_support_vector", &CvSVM_wrapper::get_support_vector_, (bp::arg("i")) );
     }
 
