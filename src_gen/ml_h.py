@@ -148,23 +148,17 @@ KLASS.__repr__ = _KLASS__repr__
     mb.finalize_class(z)
 
     # CvKNearest
-    # TODO: fix the output of find_nearest(), not correct for now
     z = mb.class_('CvKNearest')
     z.include_files.append('opencv_extra.hpp')
     mb.init_class(z)
-    z.constructors(lambda x: len(x.arguments) > 1).exclude()
-    for t in ('train', 'find_nearest'):
+    z.constructors(lambda x: 'CvMat' in x.decl_string).exclude()
+    for t in ('find_nearest', 'train'):
         z.mem_funs(t).exclude()
-    z1 = z.mem_fun(lambda x: x.name=='train' and 'CvMat' in x.decl_string)
-    z1.include()
-    z1._transformer_kwds['alias'] = 'train'
-    z.mem_funs('find_nearest').exclude()
+    t = z.mem_fun(lambda x: x.name=='train' and not 'CvMat' in x.decl_string)
+    t.include()
+    t._transformer_kwds['alias'] = 'train'
+    # TODO: fix the output of find_nearest(), not correct for now
     z.add_wrapper_code('''
-    CvKNearest_wrapper( cv::Mat const & _train_data, cv::Mat const & _responses,
-                cv::Mat const & _sample_idx, bool _is_regression, int max_k )
-    : CvKNearest( &(::CvMat)(_train_data), &(::CvMat)(_responses), _sample_idx.empty()? 0: &(::CvMat)_sample_idx, _is_regression, max_k )
-      , bp::wrapper< CvKNearest >() { }
-      
     bp::object sd_find_nearest( cv::Mat const & _samples, int k, cv::Mat &results, 
         bool return_neighbors_by_addr, cv::Mat &neighbor_responses, cv::Mat &dist ) {
         CvMat *_samples2 = _samples.empty()? 0: &(::CvMat)_samples;
@@ -178,7 +172,6 @@ KLASS.__repr__ = _KLASS__repr__
         return bp::make_tuple(bp::object(return_value), convert_vector_to_seq(neighbors2));
     }
     ''')
-    z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, cv::Mat const &, bool, int >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_is_regression")=false, bp::arg("max_k")=32 )) )')
     z.add_registration_code('''def("find_nearest", &CvKNearest_wrapper::sd_find_nearest
         , (bp::arg("_samples"), bp::arg("k"), bp::arg("results"), bp::arg("return_neighbors_by_addr")=false, bp::arg("neighbor_response")=cv::Mat(), bp::arg("dist")=cv::Mat() ))''')
     mb.finalize_class(z)
