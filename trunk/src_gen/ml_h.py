@@ -400,22 +400,38 @@ KLASS.__repr__ = _KLASS__repr__
             t2._transformer_kwds['alias'] = t
     mb.finalize_class(z)
 
-    # straightforward classes
-    # for t in (
-        # 'CvANN_MLP_TrainParams', 'CvANN_MLP',
-        # 'CvMLData',
-        # ):
-        # z = mb.class_(t)
-        # mb.init_class(z)
-        # mb.finalize_class(z)
+    # CvANN_MLP_TrainParams
+    z = mb.class_('CvANN_MLP_TrainParams')
+    mb.init_class(z)
+    z.decls(lambda x: 'CvTermCriteria' in x.decl_string).exclude() # TODO: fix these declarations
+    mb.finalize_class(z)
 
-    # mb.class_('CvANN_MLP').mem_fun('get_weights').exclude() # TODO: fix this func somehow
+    # CvANN_MLP
+    z = mb.class_('CvANN_MLP')
+    mb.init_class(z)
+    z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
+    for t in ('create', 'train', 'predict'):
+        for t2 in z.mem_funs(t):
+            t2._transformer_kwds['alias'] = t
+    z.mem_fun('get_weights').exclude() # TODO: fix this func somehow
+    z.add_wrapper_code('''    
+    CvANN_MLP_wrapper(::cv::Mat const & _layer_sizes, int _activ_func=int(::CvANN_MLP::SIGMOID_SYM), double _f_param1=0, double _f_param2=0 )
+    : CvANN_MLP()
+      , bp::wrapper< CvANN_MLP >(){
+        // constructor
+        create( _layer_sizes, _activ_func, _f_param1, _f_param2 );
+    }
+    ''')
+    # workaround for the long constructor (their code not yet implemented)
+    z.add_registration_code('def( bp::init< cv::Mat const &, bp::optional< int, double, double > >(( bp::arg("_layer_sizes"), bp::arg("_activ_func")=int(::CvANN_MLP::SIGMOID_SYM), bp::arg("_f_param1")=0, bp::arg("_f_param2")=0 )) )')
+    mb.finalize_class(z)
 
     # Convolutional Neural Network, Estimate classifiers algorithms, and Cross validation are not yet enabled
 
-    # Auxilary functions declarations
+    # Auxilary functions declarations # TODO: fix these functions
     # for z in (
-        # 'cvRandMVNormal',
+        # 'cvRandMVNormal', 'cvRandGaussMixture', 'cvCreateTestSet',
         # ):
         # mb.free_fun(z).include()
 
@@ -423,7 +439,13 @@ KLASS.__repr__ = _KLASS__repr__
     # cvRandGaussMixture, cvCreateTestSet
 
     # CvTrainTestSplit # TODO: fix these member variables
-    # z = mb.class_('CvTrainTestSplit')
-    # for t in ('train_sample_part', 'count', 'portion', 'class_part'):
-        # z.vars(t).exclude()
+    z = mb.class_('CvTrainTestSplit')
+    for t in ('train_sample_part', 'count', 'portion', 'class_part'):
+        z.vars(t).exclude()
+
+    # CvMLData
+    z = mb.class_('CvMLData')
+    mb.init_class(z)
+    z.decls(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these declarations
+    mb.finalize_class(z)
 
