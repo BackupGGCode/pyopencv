@@ -36,6 +36,10 @@
 
 #include "pyopencvext/CompositeIndexParams.pypp.hpp"
 
+#include "pyopencvext/CvANN_MLP.pypp.hpp"
+
+#include "pyopencvext/CvANN_MLP_TrainParams.pypp.hpp"
+
 #include "pyopencvext/CvAdaptiveSkinDetector.pypp.hpp"
 
 #include "pyopencvext/CvAttrList.pypp.hpp"
@@ -131,6 +135,8 @@
 #include "pyopencvext/CvLSHOperations.pypp.hpp"
 
 #include "pyopencvext/CvLevMarq.pypp.hpp"
+
+#include "pyopencvext/CvMLData.pypp.hpp"
 
 #include "pyopencvext/CvMSERParams.pypp.hpp"
 
@@ -1614,6 +1620,14 @@ void drawChessboardCorners( cv::Mat& image, cv::Size patternSize, bp::tuple cons
 BOOST_PYTHON_MODULE(pyopencvext){
     register_enumerations();
 
+    register_CvANN_MLP_TrainParams_class();
+
+    register_CvStatModel_class();
+
+    register_Mat_class();
+
+    register_CvANN_MLP_class();
+
     register_CvAdaptiveSkinDetector_class();
 
     register_CvAttrList_class();
@@ -1623,10 +1637,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvDTreeParams_class();
 
     register_CvBoostParams_class();
-
-    register_CvStatModel_class();
-
-    register_Mat_class();
 
     register_CvBoost_class();
 
@@ -1715,6 +1725,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvLSHOperations_class();
 
     register_CvLevMarq_class();
+
+    register_CvMLData_class();
 
     register_CvMSERParams_class();
 
