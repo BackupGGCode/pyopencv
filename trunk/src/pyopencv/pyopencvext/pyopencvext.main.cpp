@@ -64,6 +64,8 @@
 
 #include "pyopencvext/CvDTreeSplit.pypp.hpp"
 
+#include "pyopencvext/CvDTreeTrainData.pypp.hpp"
+
 #include "pyopencvext/CvEM.pypp.hpp"
 
 #include "pyopencvext/CvEMParams.pypp.hpp"
@@ -1619,6 +1621,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvDTreeParams_class();
 
     register_CvDTreeSplit_class();
+
+    register_CvDTreeTrainData_class();
 
     register_CvEMParams_class();
 

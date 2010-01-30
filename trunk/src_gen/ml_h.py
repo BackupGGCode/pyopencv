@@ -312,20 +312,22 @@ KLASS.__repr__ = _KLASS__repr__
     z.include()
 
     # CvDTreeTrainData
-    # z = mb.class_('CvDTreeTrainData')
-    # mb.init_class(z)
-    # for t in (
-        # 'get_pred_float_buf', 'get_pred_int_buf', 'get_resp_float_buf', 'get_resp_int_buf', 
-        # 'get_cv_lables_buf', 'get_sample_idx_buf',
-        # ):
-        # z.mem_fun(t).exclude() # TODO: fix these functions
-    # for t in (
-        # 'responses_copy', 'cat_count', 'cat_ofs', 'cat_map', 'counts', 'buf', 'direction', 'split_buf', 
-        # 'var_idx', 'var_type', 'priors', 'priors_mult', 'tree_storage', 'temp_storage', 'data_root',
-        # 'node_heap', 'split_heap', 'cv_heap', 'nv_heap',
-        # ):
-        # FT.expose_member_as_pointee(z, t)
-    # mb.finalize_class(z)
+    z = mb.class_('CvDTreeTrainData')
+    mb.init_class(z)
+    z.constructors(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these long constructors
+    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these long member functions
+    for t in (
+        'get_pred_float_buf', 'get_pred_int_buf', 'get_resp_float_buf', 'get_resp_int_buf', 
+        'get_cv_lables_buf', 'get_sample_idx_buf',
+        ):
+        z.mem_fun(t).exclude() # TODO: fix these functions
+    for t in (
+        'responses_copy', 'cat_count', 'cat_ofs', 'cat_map', 'counts', 'buf', 'direction', 'split_buf', 
+        'var_idx', 'var_type', 'priors', 'priors_mult', 'tree_storage', 'temp_storage', 'data_root',
+        'node_heap', 'split_heap', 'cv_heap', 'nv_heap', 'rng',
+        ):
+        FT.expose_member_as_pointee(z, t) # TODO: fix these variables
+    mb.finalize_class(z)
 
     # straightforward classes
     # for t in (
