@@ -236,8 +236,7 @@ KLASS.__repr__ = _KLASS__repr__
     z.constructors(lambda x: len(x.arguments) > 1).exclude()
     z.mem_funs(lambda t: '::CvMat const *' in t.decl_string).exclude()
     for t in ('train', 'train_auto', 'predict'):
-        for t2 in z.mem_funs(t):
-            t2._transformer_kwds['alias'] = t
+        z.mem_fun(lambda x: x.name==t and not 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
     z.add_wrapper_code('''    
     CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::CvSVMParams _params=::CvSVMParams( ) )
     : CvSVM()
@@ -279,45 +278,38 @@ KLASS.__repr__ = _KLASS__repr__
     # CvEM
     z = mb.class_('CvEM')
     mb.init_class(z)
-    z.constructors(lambda x: len(x.arguments) > 1).exclude()
-    z.mem_funs(lambda x: 'cv::Mat' in x.decl_string).exclude()
+    z.constructors(lambda x: 'CvMat' in x.decl_string).exclude()
+    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude()
     for t in ('train', 'predict'):
-        z.mem_fun(lambda x: x.name==t and 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
-    z.add_wrapper_code('''
-    CvEM_wrapper( cv::Mat const & samples, cv::Mat const & sample_idx, CvEMParams params, cv::Mat const & labels )
-        : CvEM( &(::CvMat)samples, &(::CvMat)sample_idx, params, &(::CvMat)labels )
-        , bp::wrapper< CvEM >() { }
-            
-    ''')
-    z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, CvEMParams, cv::Mat const & >(( bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=CvEMParams(), bp::arg("labels")=cv::Mat() )) )')
+        z.mem_fun(lambda x: x.name==t and not 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
     # wait until requested: enable these functions
     for t in ('get_means', 'get_covs', 'get_weights', 'get_probs'):
         z.mem_fun(t).exclude()
     mb.finalize_class(z)
 
-    # CvPair16u32s # TODO: expose members
+    # CvPair16u32s # do not expose this old struct
     # z = mb.class_('CvPair16u32s')
     # z.include()
     # z.decls().exclude()
 
     # CvDTreeSplit
-    # z = mb.class_('CvDTreeSplit')
-    # mb.init_class(z)
-    # FT.expose_member_as_pointee(z, 'next')
-    # for t in ('subset', 'c', 'split_point'):
-        # z.var(t).exclude() # TODO: fix these members
-    # mb.finalize_class(z)
+    z = mb.class_('CvDTreeSplit')
+    mb.init_class(z)
+    FT.expose_member_as_pointee(z, 'next')
+    for t in ('subset', 'c', 'split_point'):
+        z.var(t).exclude() # TODO: fix these members
+    mb.finalize_class(z)
 
     # CvDTreeNode
-    # z = mb.class_('CvDTreeNode')
-    # for t in ('parent', 'left', 'right', 'split'):
-        # FT.expose_member_as_pointee(z, t)
-    # for t in ('num_valid', 'cv_Tn', 'cv_node_risk', 'cv_node_error'):
-        # z.var(t).exclude() # TODO: expose these members
+    z = mb.class_('CvDTreeNode')
+    for t in ('parent', 'left', 'right', 'split'):
+        FT.expose_member_as_pointee(z, t)
+    for t in ('num_valid', 'cv_Tn', 'cv_node_risk', 'cv_node_error'):
+        z.var(t).exclude() # TODO: expose these members
 
-    # CvDTreeParams # TODO: expose 'priors'
-    # z = mb.class_('CvDTreeParams')
-    # z.include()
+    # CvDTreeParams # TODO: expose 'priors', fix the longer constructor
+    z = mb.class_('CvDTreeParams')
+    z.include()
 
     # CvDTreeTrainData
     # z = mb.class_('CvDTreeTrainData')

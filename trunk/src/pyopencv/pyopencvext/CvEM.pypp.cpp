@@ -3,7 +3,6 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
-#include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "CvEM.pypp.hpp"
@@ -26,6 +25,13 @@ struct CvEM_wrapper : CvEM, bp::wrapper< CvEM > {
     
     }
 
+    CvEM_wrapper(::cv::Mat const & samples, ::cv::Mat const & sample_idx=cv::Mat(), ::CvEMParams params=::CvEMParams( ), ::cv::Mat * labels=0 )
+    : CvEM( boost::ref(samples), boost::ref(sample_idx), params, boost::python::ptr(labels) )
+      , bp::wrapper< CvEM >(){
+        // constructor
+    
+    }
+
     virtual void clear(  ) {
         if( bp::override func_clear = this->get_override( "clear" ) )
             func_clear(  );
@@ -38,48 +44,28 @@ struct CvEM_wrapper : CvEM, bp::wrapper< CvEM > {
         CvEM::clear( );
     }
 
-    virtual float predict( ::CvMat const * sample, ::CvMat * probs ) const  {
-        namespace bpl = boost::python;
-        if( bpl::override func_predict = this->get_override( "predict" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_predict.ptr(), sample, probs );
-            return bpl::extract< float >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
+    virtual float predict( ::cv::Mat const & sample, ::cv::Mat * probs ) const  {
+        if( bp::override func_predict = this->get_override( "predict" ) )
+            return func_predict( boost::ref(sample), boost::python::ptr(probs) );
         else{
-            return CvEM::predict( boost::python::ptr(sample), boost::python::ptr(probs) );
+            return this->CvEM::predict( boost::ref(sample), boost::python::ptr(probs) );
         }
     }
     
-    static boost::python::object default_predict_e2a6ccb3e80d0945b65e2adfc4d80129( ::CvEM const & inst, ::cv::Mat & sample, ::cv::Mat & probs ){
-        float result;
-        if( dynamic_cast< CvEM_wrapper const* >( boost::addressof( inst ) ) ){
-            result = inst.::CvEM::predict(&(::CvMat)sample, &(::CvMat)probs);
-        }
-        else{
-            result = inst.predict(&(::CvMat)sample, &(::CvMat)probs);
-        }
-        return bp::object( result );
+    float default_predict( ::cv::Mat const & sample, ::cv::Mat * probs ) const  {
+        return CvEM::predict( boost::ref(sample), boost::python::ptr(probs) );
     }
 
-    virtual bool train( ::CvMat const * samples, ::CvMat const * sample_idx=0, ::CvEMParams params=::CvEMParams( ), ::CvMat * labels=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_train = this->get_override( "train" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_train.ptr(), samples, sample_idx, params, labels );
-            return bpl::extract< bool >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
+    virtual bool train( ::cv::Mat const & samples, ::cv::Mat const & sample_idx=cv::Mat(), ::CvEMParams params=::CvEMParams( ), ::cv::Mat * labels=0 ) {
+        if( bp::override func_train = this->get_override( "train" ) )
+            return func_train( boost::ref(samples), boost::ref(sample_idx), params, boost::python::ptr(labels) );
         else{
-            return CvEM::train( boost::python::ptr(samples), boost::python::ptr(sample_idx), params, boost::python::ptr(labels) );
+            return this->CvEM::train( boost::ref(samples), boost::ref(sample_idx), params, boost::python::ptr(labels) );
         }
     }
     
-    static boost::python::object default_train_ad96ec9280c0f7571752ed3a0ca86d28( ::CvEM & inst, ::cv::Mat & samples, ::cv::Mat sample_idx=cv::Mat(), ::CvEMParams params=::CvEMParams( ), ::cv::Mat labels=cv::Mat() ){
-        bool result;
-        if( dynamic_cast< CvEM_wrapper * >( boost::addressof( inst ) ) ){
-            result = inst.::CvEM::train(&(::CvMat)samples, &(::CvMat)sample_idx, params, &(::CvMat)labels);
-        }
-        else{
-            result = inst.train(&(::CvMat)samples, &(::CvMat)sample_idx, params, &(::CvMat)labels);
-        }
-        return bp::object( result );
+    bool default_train( ::cv::Mat const & samples, ::cv::Mat const & sample_idx=cv::Mat(), ::CvEMParams params=::CvEMParams( ), ::cv::Mat * labels=0 ) {
+        return CvEM::train( boost::ref(samples), boost::ref(sample_idx), params, boost::python::ptr(labels) );
     }
 
     virtual void load( char const * filename, char const * name=0 ) {
@@ -144,10 +130,6 @@ struct CvEM_wrapper : CvEM, bp::wrapper< CvEM > {
         }
     }
 
-    CvEM_wrapper( cv::Mat const & samples, cv::Mat const & sample_idx, CvEMParams params, cv::Mat const & labels )
-        : CvEM( &(::CvMat)samples, &(::CvMat)sample_idx, params, &(::CvMat)labels )
-        , bp::wrapper< CvEM >() { }
-
 };
 
 void register_CvEM_class(){
@@ -163,6 +145,7 @@ void register_CvEM_class(){
         bp::scope().attr("START_E_STEP") = (int)CvEM::START_E_STEP;
         bp::scope().attr("START_M_STEP") = (int)CvEM::START_M_STEP;
         bp::scope().attr("START_AUTO_STEP") = (int)CvEM::START_AUTO_STEP;
+        CvEM_exposer.def( bp::init< cv::Mat const &, bp::optional< cv::Mat const &, CvEMParams, cv::Mat * > >(( bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() )) );
         { //::CvEM::clear
         
             typedef void ( ::CvEM::*clear_function_type )(  ) ;
@@ -194,22 +177,26 @@ void register_CvEM_class(){
         }
         { //::CvEM::predict
         
-            typedef boost::python::object ( *default_predict_function_type )( ::CvEM const &,::cv::Mat &,::cv::Mat & );
+            typedef float ( ::CvEM::*predict_function_type )( ::cv::Mat const &,::cv::Mat * ) const;
+            typedef float ( CvEM_wrapper::*default_predict_function_type )( ::cv::Mat const &,::cv::Mat * ) const;
             
             CvEM_exposer.def( 
                 "predict"
-                , default_predict_function_type( &CvEM_wrapper::default_predict_e2a6ccb3e80d0945b65e2adfc4d80129 )
-                , ( bp::arg("inst"), bp::arg("sample"), bp::arg("probs") ) );
+                , predict_function_type(&::CvEM::predict)
+                , default_predict_function_type(&CvEM_wrapper::default_predict)
+                , ( bp::arg("sample"), bp::arg("probs") ) );
         
         }
         { //::CvEM::train
         
-            typedef boost::python::object ( *default_train_function_type )( ::CvEM &,::cv::Mat &,::cv::Mat,::CvEMParams,::cv::Mat );
+            typedef bool ( ::CvEM::*train_function_type )( ::cv::Mat const &,::cv::Mat const &,::CvEMParams,::cv::Mat * ) ;
+            typedef bool ( CvEM_wrapper::*default_train_function_type )( ::cv::Mat const &,::cv::Mat const &,::CvEMParams,::cv::Mat * ) ;
             
             CvEM_exposer.def( 
                 "train"
-                , default_train_function_type( &CvEM_wrapper::default_train_ad96ec9280c0f7571752ed3a0ca86d28 )
-                , ( bp::arg("inst"), bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=cv::Mat() ) );
+                , train_function_type(&::CvEM::train)
+                , default_train_function_type(&CvEM_wrapper::default_train)
+                , ( bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() ) );
         
         }
         { //::CvStatModel::load
@@ -256,7 +243,6 @@ void register_CvEM_class(){
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") ) );
         
         }
-        CvEM_exposer.def( bp::init< cv::Mat const &, cv::Mat const &, CvEMParams, cv::Mat const & >(( bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=CvEMParams(), bp::arg("labels")=cv::Mat() )) );
     }
 
 }

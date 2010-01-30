@@ -60,6 +60,10 @@
 
 #include "pyopencvext/CvConvexityDefect.pypp.hpp"
 
+#include "pyopencvext/CvDTreeParams.pypp.hpp"
+
+#include "pyopencvext/CvDTreeSplit.pypp.hpp"
+
 #include "pyopencvext/CvEM.pypp.hpp"
 
 #include "pyopencvext/CvEMParams.pypp.hpp"
@@ -1611,6 +1615,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvContourTree_class();
 
     register_CvConvexityDefect_class();
+
+    register_CvDTreeParams_class();
+
+    register_CvDTreeSplit_class();
 
     register_CvEMParams_class();
 
