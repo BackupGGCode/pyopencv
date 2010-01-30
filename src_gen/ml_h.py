@@ -130,16 +130,21 @@ KLASS.__repr__ = _KLASS__repr__
     # CvNormalBayesClassifier
     z = mb.class_('CvNormalBayesClassifier')
     mb.init_class(z)
-    z.constructors(lambda x: 'Mat' in x.decl_string).exclude()
+    z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude()
     for t in ('predict', 'train'):
-        z.mem_fun(lambda x: t==x.name and 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
-    z.decls(lambda x: 'cv::Mat' in x.decl_string).exclude()
-    z.add_wrapper_code('''
-    CvNormalBayesClassifier_wrapper(cv::Mat const & _train_data, cv::Mat const & _responses, cv::Mat const _var_idx, cv::Mat const & _sample_idx )
-    : CvNormalBayesClassifier( &(::CvMat)(_train_data), &(::CvMat)(_responses), _var_idx.empty()? 0: &(::CvMat)_var_idx, _sample_idx.empty()? 0: &(::CvMat)_sample_idx )
-      , bp::wrapper< CvNormalBayesClassifier >() { }
+        for t2 in z.mem_funs(t):
+            t2._transformer_kwds['alias'] = t
+    z.add_wrapper_code('''    
+    CvNormalBayesClassifier_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat() )
+    : CvNormalBayesClassifier()
+      , bp::wrapper< CvNormalBayesClassifier >(){
+        // constructor
+        train( _train_data, _responses, _var_idx, _sample_idx );
+    }
     ''')
-    z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const & >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat() )) )')
+    # workaround for the long constructor (their code not yet implemented)
+    z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const & > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat() )) )')
     mb.finalize_class(z)
 
     # CvKNearest
