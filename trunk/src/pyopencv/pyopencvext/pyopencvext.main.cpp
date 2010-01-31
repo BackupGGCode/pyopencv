@@ -675,10 +675,6 @@ static void cvConvertImage_9d5028440635df77832885475bf0ea00( ::cv::Mat & src, ::
     ::cvConvertImage(&(::CvMat)src, &(::CvMat)dst, flags);
 }
 
-static void cvConvertPointsHomogeneous_50429d77a2325ca912911827cffc41c5( ::cv::Mat & src, ::cv::Mat & dst ){
-    ::cvConvertPointsHomogeneous(&(::CvMat)src, &(::CvMat)dst);
-}
-
 static boost::python::object cvConvexityDefects_cc97bf52cc42e365950605a23b42e95a( ::cv::Mat & contour, ::cv::Mat & convexhull, ::CvMemStorage * storage=0 ){
     ::CvSeq * result = ::cvConvexityDefects(&(::CvMat)contour, &(::CvMat)convexhull, storage);
     typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::with_custodian_and_ward_postcall< 0, 1, bp::with_custodian_and_ward_postcall< 0, 3, bp::return_value_policy< bp::reference_existing_object > > > > call_policies_t;
@@ -1372,12 +1368,84 @@ static boost::python::object projectPoints_ce9cea7b4fadb5986d2a47a4d012fac0( ::c
     return bp::object( imagePoints2 );
 }
 
-static boost::python::object read_19f776a07d0494421b17575379bc2106( ::cv::FileNode const & node, bp::tuple keypoints ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
-    convert_seq_to_vector(keypoints, keypoints2);
-    ::cv::read(node, keypoints2);
-    keypoints = convert_vector_to_seq(keypoints2);
-    return bp::object( keypoints );
+static boost::python::object read_19f776a07d0494421b17575379bc2106( ::cv::FileNode const & node ){
+    bp::tuple keypoints2;
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints3;
+    ::cv::read(node, keypoints3);
+    keypoints2 = convert_vector_to_seq(keypoints3);
+    return bp::object( keypoints2 );
+}
+
+static boost::python::object read_70c5e2668ef6bb953f654143837a7095( ::cv::FileNode const & node, ::cv::SparseMat const & default_mat=cv::SparseMat() ){
+    cv::SparseMat mat2;
+    ::cv::read(node, mat2, default_mat);
+    return bp::object( mat2 );
+}
+
+static boost::python::object read_fcf3602693271e7c8a4e15ff65aede4c( ::cv::FileNode const & node, ::cv::MatND const & default_mat=cv::MatND() ){
+    cv::MatND mat2;
+    ::cv::read(node, mat2, default_mat);
+    return bp::object( mat2 );
+}
+
+static boost::python::object read_fd962997898e5b5f59cbef9efc942bcd( ::cv::FileNode const & node, ::cv::Mat const & default_mat=cv::Mat() ){
+    cv::Mat mat2;
+    ::cv::read(node, mat2, default_mat);
+    return bp::object( mat2 );
+}
+
+static boost::python::object read_31e582223a7f98972af6d67b7558569e( ::cv::FileNode const & node, ::std::string const & default_value ){
+    std::basic_string<char,std::char_traits<char>,std::allocator<char> > value2;
+    ::cv::read(node, value2, default_value);
+    return bp::object( value2 );
+}
+
+static boost::python::object read_9a054275260bdb7b0741c9b9e8cf5aae( ::cv::FileNode const & node, double default_value ){
+    double value2;
+    ::cv::read(node, value2, default_value);
+    return bp::object( value2 );
+}
+
+static boost::python::object read_9b06f36c44aa0d63d7f9f36cebc8d25f( ::cv::FileNode const & node, float default_value ){
+    float value2;
+    ::cv::read(node, value2, default_value);
+    return bp::object( value2 );
+}
+
+static boost::python::object read_29c2b389d482b9f6d13cfbe5d7264926( ::cv::FileNode const & node, int default_value ){
+    int value2;
+    ::cv::read(node, value2, default_value);
+    return bp::object( value2 );
+}
+
+static boost::python::object read_62eac78db6563e1e714f1e282bf790db( ::cv::FileNode const & node, short int default_value ){
+    short int value2;
+    ::cv::read(node, value2, default_value);
+    return bp::object( value2 );
+}
+
+static boost::python::object read_81b0a1f4d595a311c77148001bd0046d( ::cv::FileNode const & node, ::ushort default_value ){
+    short unsigned int value2;
+    ::cv::read(node, value2, default_value);
+    return bp::object( value2 );
+}
+
+static boost::python::object read_b68923bb48bf8de904fed0f0570414f5( ::cv::FileNode const & node, ::schar default_value ){
+    signed char value2;
+    ::cv::read(node, value2, default_value);
+    return bp::object( value2 );
+}
+
+static boost::python::object read_e3dbdb6033985682cd13b98ac06df84e( ::cv::FileNode const & node, ::uchar default_value ){
+    unsigned char value2;
+    ::cv::read(node, value2, default_value);
+    return bp::object( value2 );
+}
+
+static boost::python::object read_2ba57a356ec17a70685f21fbad5a9438( ::cv::FileNode const & node, bool default_value ){
+    bool value2;
+    ::cv::read(node, value2, default_value);
+    return bp::object( value2 );
 }
 
 static void split_2e154aaf70f5c323ceec9f447e404d8a( ::cv::MatND const & m, boost::python::object mv ){
@@ -2386,17 +2454,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "convertImage"
             , convertImage_function_type( &cvConvertImage_9d5028440635df77832885475bf0ea00 )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0) ) );
-    
-    }
-
-    { //::cvConvertPointsHomogeneous
-    
-        typedef void ( *convertPointsHomogeneous_function_type )( ::cv::Mat &,::cv::Mat & );
-        
-        bp::def( 
-            "convertPointsHomogeneous"
-            , convertPointsHomogeneous_function_type( &cvConvertPointsHomogeneous_50429d77a2325ca912911827cffc41c5 )
-            , ( bp::arg("src"), bp::arg("dst") ) );
     
     }
 
@@ -3513,12 +3570,144 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_19f776a07d0494421b17575379bc2106_function_type )( ::cv::FileNode const &,bp::tuple );
+        typedef boost::python::object ( *read_KeyPoints_function_type )( ::cv::FileNode const & );
         
         bp::def( 
-            "read_19f776a07d0494421b17575379bc2106"
-            , read_19f776a07d0494421b17575379bc2106_function_type( &read_19f776a07d0494421b17575379bc2106 )
-            , ( bp::arg("node"), bp::arg("keypoints") ) );
+            "read_KeyPoints"
+            , read_KeyPoints_function_type( &read_19f776a07d0494421b17575379bc2106 )
+            , ( bp::arg("node") ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_SparseMat_function_type )( ::cv::FileNode const &,::cv::SparseMat const & );
+        
+        bp::def( 
+            "read_SparseMat"
+            , read_SparseMat_function_type( &read_70c5e2668ef6bb953f654143837a7095 )
+            , ( bp::arg("node"), bp::arg("default_mat")=cv::SparseMat() ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_MatND_function_type )( ::cv::FileNode const &,::cv::MatND const & );
+        
+        bp::def( 
+            "read_MatND"
+            , read_MatND_function_type( &read_fcf3602693271e7c8a4e15ff65aede4c )
+            , ( bp::arg("node"), bp::arg("default_mat")=cv::MatND() ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_Mat_function_type )( ::cv::FileNode const &,::cv::Mat const & );
+        
+        bp::def( 
+            "read_Mat"
+            , read_Mat_function_type( &read_fd962997898e5b5f59cbef9efc942bcd )
+            , ( bp::arg("node"), bp::arg("default_mat")=cv::Mat() ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_str_function_type )( ::cv::FileNode const &,::std::string const & );
+        
+        bp::def( 
+            "read_str"
+            , read_str_function_type( &read_31e582223a7f98972af6d67b7558569e )
+            , ( bp::arg("node"), bp::arg("default_value") ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_double_function_type )( ::cv::FileNode const &,double );
+        
+        bp::def( 
+            "read_double"
+            , read_double_function_type( &read_9a054275260bdb7b0741c9b9e8cf5aae )
+            , ( bp::arg("node"), bp::arg("default_value") ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_float_function_type )( ::cv::FileNode const &,float );
+        
+        bp::def( 
+            "read_float"
+            , read_float_function_type( &read_9b06f36c44aa0d63d7f9f36cebc8d25f )
+            , ( bp::arg("node"), bp::arg("default_value") ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_inst_function_type )( ::cv::FileNode const &,int );
+        
+        bp::def( 
+            "read_inst"
+            , read_inst_function_type( &read_29c2b389d482b9f6d13cfbe5d7264926 )
+            , ( bp::arg("node"), bp::arg("default_value") ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_short_function_type )( ::cv::FileNode const &,short int );
+        
+        bp::def( 
+            "read_short"
+            , read_short_function_type( &read_62eac78db6563e1e714f1e282bf790db )
+            , ( bp::arg("node"), bp::arg("default_value") ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_ushort_function_type )( ::cv::FileNode const &,::ushort );
+        
+        bp::def( 
+            "read_ushort"
+            , read_ushort_function_type( &read_81b0a1f4d595a311c77148001bd0046d )
+            , ( bp::arg("node"), bp::arg("default_value") ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_schar_function_type )( ::cv::FileNode const &,::schar );
+        
+        bp::def( 
+            "read_schar"
+            , read_schar_function_type( &read_b68923bb48bf8de904fed0f0570414f5 )
+            , ( bp::arg("node"), bp::arg("default_value") ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_uchar_function_type )( ::cv::FileNode const &,::uchar );
+        
+        bp::def( 
+            "read_uchar"
+            , read_uchar_function_type( &read_e3dbdb6033985682cd13b98ac06df84e )
+            , ( bp::arg("node"), bp::arg("default_value") ) );
+    
+    }
+
+    { //::cv::read
+    
+        typedef boost::python::object ( *read_bool_function_type )( ::cv::FileNode const &,bool );
+        
+        bp::def( 
+            "read_bool"
+            , read_bool_function_type( &read_2ba57a356ec17a70685f21fbad5a9438 )
+            , ( bp::arg("node"), bp::arg("default_value") ) );
     
     }
 
@@ -3568,11 +3757,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::write
     
-        typedef void ( *write_df76e3ba45561ddd23c917a610929778_function_type )( ::cv::FileStorage &,::std::string const &,bp::tuple );
+        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,bp::tuple );
         
         bp::def( 
-            "write_df76e3ba45561ddd23c917a610929778"
-            , write_df76e3ba45561ddd23c917a610929778_function_type( &write_df76e3ba45561ddd23c917a610929778 )
+            "write"
+            , write_function_type( &write_df76e3ba45561ddd23c917a610929778 )
             , ( bp::arg("fs"), bp::arg("name"), bp::arg("keypoints") ) );
     
     }
