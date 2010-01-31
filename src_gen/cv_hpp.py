@@ -200,9 +200,40 @@ static boost::python::object call1( ::cv::StarDetector const & inst, ::cv::Mat c
         'Rodrigues', 'RQDecomp3x3', 'decomposeProjectionMatrix', 'matMulDeriv', 
         'composeRT', 'solvePnP', 'initCameraMatrix2D', 
         'calibrationMatrixValues', 'stereoCalibrate', 'stereoRectify', 
-        'stereoRectifyUncalibrated', 'reprojectImageTo3D', 'write', 'read',
+        'stereoRectifyUncalibrated', 'reprojectImageTo3D', 
         ):
         mb.free_funs(z).include()
+        
+    # FileStorage's 'write' functions
+    for z in mb.free_funs('write'):
+        if 'cv::FileStorage' in z.arguments[0].type.decl_string:
+            z.include()
+            z._transformer_kwds['alias'] = 'write'
+    
+    # FileNode's 'read' functions
+    z = mb.free_fun(lambda x: x.name=='read' and 'cv::FileNode' in x.arguments[0].type.decl_string and x.arguments[1].name=='keypoints')
+    z.include()
+    z._transformer_creators.append(FT.output_std_vector('keypoints'))
+    z._transformer_kwds['alias'] = 'read_KeyPoints'
+    read_rename_dict = {
+        '::cv::SparseMat &': 'SparseMat',
+        '::cv::MatND &': 'MatND',
+        '::cv::Mat &': 'Mat',
+        '::std::string &': 'str',
+        'double &': 'double',
+        'float &': 'float',
+        'int &': 'inst',
+        'short int &': 'short',
+        '::ushort &': 'ushort',
+        '::schar &': 'schar',
+        '::uchar &': 'uchar',
+        'bool &': 'bool',
+    }
+    for elem in read_rename_dict:
+        z = mb.free_fun(lambda x: x.name=='read' and 'cv::FileNode' in x.arguments[0].type.decl_string and x.arguments[1].type.decl_string==elem)
+        z.include()
+        z._transformer_creators.append(FT.output(z.arguments[1].name))
+        z._transformer_kwds['alias'] = 'read_'+read_rename_dict[elem]
 
     # getPerspectiveTransform, getAffineTransform
     for t in ('getPerspectiveTransform', 'getAffineTransform'):

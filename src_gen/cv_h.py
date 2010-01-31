@@ -555,7 +555,7 @@ backProjectPatch = calcArrBackProjectPatch
 
     # some functions
     for t in (
-        'cvRANSACUpdateNumIters', 'cvConvertPointsHomogeneous', 'cvPOSIT',
+        'cvRANSACUpdateNumIters', 'cvPOSIT',
         'cvTriangulatePoints', 'cvCorrectMatches'):
         mb.free_fun(t).include()
 
