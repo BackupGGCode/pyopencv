@@ -465,7 +465,7 @@ void drawChessboardCorners( cv::Mat& image, cv::Size patternSize, bp::tuple cons
     # convertPointsHomogeneous
     for z in mb.free_funs('convertPointsHomogeneous'):
         z.include()        
-        z._transformer_kwds['alias'] = 'convertPointsHomogeneous3D' if 'Point3f' in z.decl_string else 'convertPointsHomogeneous2D'
+        z._transformer_kwds['alias'] = 'convertPointsHomogeneous3D' if 'Point3' in z.decl_string else 'convertPointsHomogeneous2D'
         z._transformer_creators.append(FT.output_std_vector('dst'))
         
     # findFundamentalMat

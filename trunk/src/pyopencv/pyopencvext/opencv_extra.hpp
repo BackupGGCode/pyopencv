@@ -174,4 +174,8 @@ struct vector_vector_to_python {
 };
 
 
+CvMat * get_CvMat_ptr(cv::Mat &mat);
+IplImage * get_IplImage_ptr(cv::Mat &mat);
+
+
 #endif
