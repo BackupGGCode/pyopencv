@@ -2228,22 +2228,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::convertPointsHomogeneous
     
-        typedef boost::python::object ( *convertPointsHomogeneous_a80a768ed55e897cac15946457cd1696_function_type )( ::cv::Mat const & );
+        typedef boost::python::object ( *convertPointsHomogeneous2D_function_type )( ::cv::Mat const & );
         
         bp::def( 
-            "convertPointsHomogeneous_a80a768ed55e897cac15946457cd1696"
-            , convertPointsHomogeneous_a80a768ed55e897cac15946457cd1696_function_type( &convertPointsHomogeneous_a80a768ed55e897cac15946457cd1696 )
+            "convertPointsHomogeneous2D"
+            , convertPointsHomogeneous2D_function_type( &convertPointsHomogeneous_a80a768ed55e897cac15946457cd1696 )
             , ( bp::arg("src") ) );
     
     }
 
     { //::cv::convertPointsHomogeneous
     
-        typedef boost::python::object ( *convertPointsHomogeneous2_function_type )( ::cv::Mat const & );
+        typedef boost::python::object ( *convertPointsHomogeneous2D_function_type )( ::cv::Mat const & );
         
         bp::def( 
-            "convertPointsHomogeneous2"
-            , convertPointsHomogeneous2_function_type( &convertPointsHomogeneous_d220e3269e8c59fdb5b2dc2f830579b0 )
+            "convertPointsHomogeneous2D"
+            , convertPointsHomogeneous2D_function_type( &convertPointsHomogeneous_d220e3269e8c59fdb5b2dc2f830579b0 )
             , ( bp::arg("src") ) );
     
     }
