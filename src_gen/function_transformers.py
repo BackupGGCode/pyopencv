@@ -1135,8 +1135,19 @@ class input_as_Mat_t(transformer_t):
         w_arg = controller.find_wrapper_arg(self.arg.name)
         dtype = self.arg.type
         if dtype == _D.dummy_type_t("::IplImage *") \
-            or dtype == _D.dummy_type_t("::IplImage const *") \
-            or dtype == _D.dummy_type_t("::CvMat *") \
+            or dtype == _D.dummy_type_t("::IplImage const *"):
+            
+            # default value
+            if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+                w_arg.type = _D.dummy_type_t( "::cv::Mat" )
+                w_arg.default_value = 'cv::Mat()'
+            else:
+                w_arg.type = _D.dummy_type_t( "::cv::Mat &" )
+                
+            # code
+            controller.modify_arg_expression( self.arg_index, "get_IplImage_ptr(%s)" % w_arg.name)
+                
+        elif dtype == _D.dummy_type_t("::CvMat *") \
             or dtype == _D.dummy_type_t("::CvMat const *") \
             or dtype == _D.dummy_type_t("::CvArr *") \
             or dtype == _D.dummy_type_t("::CvArr const *"):
@@ -1148,13 +1159,8 @@ class input_as_Mat_t(transformer_t):
             else:
                 w_arg.type = _D.dummy_type_t( "::cv::Mat &" )
                 
-            # element type
-            etype = _D.remove_const(_D.remove_pointer(dtype))
-            if etype == _D.dummy_type_t("void"):
-                etype = _D.dummy_type_t("::CvMat")
-            
             # code
-            controller.modify_arg_expression( self.arg_index, "&(%s)%s" % (etype.decl_string, w_arg.name))
+            controller.modify_arg_expression( self.arg_index, "get_CvMat_ptr(%s)" % w_arg.name)
                 
         elif "::std::vector<" in dtype.decl_string:
         

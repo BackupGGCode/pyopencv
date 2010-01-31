@@ -36,14 +36,6 @@ struct CvLSH {};
 struct CvPOSITObject {};
 
 
-struct CvPyramid
-{
-    CvMat **pyramid;
-    int extra_layers;
-    
-    ~CvPyramid() { if (pyramid) cvReleasePyramid(&pyramid, extra_layers); }
-};
-
 struct CvCapture {};
 struct CvVideoWriter {};
 

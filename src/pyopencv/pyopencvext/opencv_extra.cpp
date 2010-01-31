@@ -122,4 +122,27 @@ template<> void convert_Mat<bp::object>( const bp::object &in_arr, cv::Mat &out_
 
 // ================================================================================================
 
+// workaround for getting a CvMat pointer
+CvMat * get_CvMat_ptr(cv::Mat &mat)
+{
+    static int cnt = 0;
+    static CvMat arr[1024];
+    CvMat *result = &(arr[cnt] = mat);
+    cnt = (cnt+1) & 1023;
+    return result;
+}
+
+
+// workaround for getting an IplImage pointer
+IplImage * get_IplImage_ptr(cv::Mat &mat)
+{
+    static int cnt = 0;
+    static IplImage arr[1024];
+    IplImage *result = &(arr[cnt] = mat);
+    cnt = (cnt+1) & 1023;
+    return result;
+}
+
+
+// ================================================================================================
 
