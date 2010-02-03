@@ -55,7 +55,7 @@ struct SelfSimDescriptor_wrapper : cv::SelfSimDescriptor, bp::wrapper< cv::SelfS
         }
     }
     
-    static boost::python::object default_compute( ::cv::SelfSimDescriptor const & inst, ::cv::Mat const & img, bp::tuple descriptors, ::cv::Size winStride=cv::Size_<int>(), bp::tuple locations=convert_vector_to_seq(std::vector<cv::Point>()) ){
+    static boost::python::object default_compute( ::cv::SelfSimDescriptor const & inst, ::cv::Mat const & img, bp::sequence descriptors, ::cv::Size winStride=cv::Size_<int>(), bp::sequence locations=convert_vector_to_seq(std::vector<cv::Point>()) ){
         std::vector<float, std::allocator<float> > descriptors2;
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > locations2;
         convert_seq_to_vector(descriptors, descriptors2);
@@ -112,7 +112,7 @@ void register_SelfSimDescriptor_class(){
         }
         { //::cv::SelfSimDescriptor::compute
         
-            typedef boost::python::object ( *default_compute_function_type )( ::cv::SelfSimDescriptor const &,::cv::Mat const &,bp::tuple,::cv::Size,bp::tuple );
+            typedef boost::python::object ( *default_compute_function_type )( ::cv::SelfSimDescriptor const &,::cv::Mat const &,bp::sequence,::cv::Size,bp::sequence );
             
             SelfSimDescriptor_exposer.def( 
                 "compute"

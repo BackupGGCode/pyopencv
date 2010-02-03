@@ -81,13 +81,13 @@ def generate_code(mb, cc, D, FT, CP):
     z.operators().exclude()
     z.include_files.append("opencv_extra.hpp")
     z.add_declaration_code('''
-static boost::python::tuple call1( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask ){
+static boost::python::sequence call1( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask ){
     std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
     inst.operator()(img, mask, keypoints2);
     return convert_vector_to_seq(keypoints2);
 }
 
-static boost::python::tuple call2( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::tuple keypoints, bool useProvidedKeypoints=false ){
+static boost::python::tuple call2( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::sequence keypoints, bool useProvidedKeypoints=false ){
     std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
     std::vector<float, std::allocator<float> > descriptors2;
     convert_seq_to_vector(keypoints, keypoints2);
@@ -99,11 +99,11 @@ static boost::python::tuple call2( ::cv::SURF const & inst, ::cv::Mat const & im
     ''')
     z.add_registration_code('''def( 
             "__call__"
-            , (boost::python::object (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const & ))( &call1 )
+            , (bp::sequence (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const & ))( &call1 )
             , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask") ) )''')
     z.add_registration_code('''def( 
             "__call__"
-            , (boost::python::tuple (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::tuple,bool ))( &call2 )
+            , (bp::tuple (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::sequence,bool ))( &call2 )
             , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("useProvidedKeypoints")=(bool)(false) ) )''')
     mb.class_('CvSURFParams').include()
 
@@ -114,7 +114,7 @@ static boost::python::tuple call2( ::cv::SURF const & inst, ::cv::Mat const & im
     z.operators().exclude()
     z.include_files.append("opencv_extra.hpp")
     z.add_declaration_code('''
-static boost::python::object call1( ::cv::MSER const & inst, ::cv::Mat & image, ::cv::Mat const & mask ){
+static bp::sequence call1( ::cv::MSER const & inst, ::cv::Mat & image, ::cv::Mat const & mask ){
     std::vector< std::vector< cv::Point > > msers2;
     inst.operator()(image, msers2, mask);
     return convert_vector_vector_to_seq(msers2);
@@ -123,7 +123,7 @@ static boost::python::object call1( ::cv::MSER const & inst, ::cv::Mat & image, 
     ''')
     z.add_registration_code('''def( 
             "__call__"
-            , (boost::python::object (*)( ::cv::MSER const &,::cv::Mat &,::cv::Mat const & ))( &call1 )
+            , (bp::sequence (*)( ::cv::MSER const &,::cv::Mat &,::cv::Mat const & ))( &call1 )
             , ( bp::arg("inst"), bp::arg("image"), bp::arg("mask") ) )''')
     mb.finalize_class(z)
     mb.class_('CvMSERParams').include()
@@ -134,7 +134,7 @@ static boost::python::object call1( ::cv::MSER const & inst, ::cv::Mat & image, 
     z.operators().exclude()
     z.include_files.append("opencv_extra.hpp")
     z.add_declaration_code('''
-static boost::python::object call1( ::cv::StarDetector const & inst, ::cv::Mat const & image ){
+static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & image ){
     std::vector< cv::KeyPoint > keypoints2;
     inst.operator()(image, keypoints2);
     return convert_vector_to_seq(keypoints2);
@@ -143,7 +143,7 @@ static boost::python::object call1( ::cv::StarDetector const & inst, ::cv::Mat c
     ''')
     z.add_registration_code('''def( 
             "__call__"
-            , (boost::python::object (*)( ::cv::StarDetector const &,::cv::Mat const & ))( &call1 )
+            , (bp::sequence (*)( ::cv::StarDetector const &,::cv::Mat const & ))( &call1 )
             , ( bp::arg("inst"), bp::arg("image") ) )''')
     mb.finalize_class(z)
     mb.class_('CvStarDetectorParams').include()
@@ -428,10 +428,10 @@ void cv::findContours( const Mat& image, vector<vector<Point> >& contours,
     # approxPolyDP
     mb.free_funs('approxPolyDP').exclude()
     mb.add_declaration_code('''
-static bp::object sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
+static bp::sequence sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
     std::vector<cv::Point> point2i;
     std::vector<cv::Point2f> point2f;
-    bp::object obj;
+    bp::sequence obj;
     if(curve.type() == CV_32SC2) 
     {
         cv::approxPolyDP(curve, point2i, epsilon, closed);
@@ -447,7 +447,7 @@ static bp::object sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool cl
     ''')
     mb.add_registration_code('''bp::def( 
         "approxPolyDP"
-        , (bp::object (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
+        , (bp::sequence (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
         , ( bp::arg("curve"), bp::arg("epsilon"), bp::arg("closed") ) );''')
         
     # convexHull

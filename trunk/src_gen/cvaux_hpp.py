@@ -85,7 +85,7 @@ static boost::shared_ptr<cv::Octree> Octree_init1( bp::tuple const &points, int 
     return boost::shared_ptr<cv::Octree>(new cv::Octree(points2, maxLevels, minPoints ));
 }
 
-static bp::tuple sd_getNodes(cv::Octree const &inst) { return convert_vector_to_seq(inst.getNodes()); }
+static bp::sequence sd_getNodes(cv::Octree const &inst) { return convert_vector_to_seq(inst.getNodes()); }
     ''')
     z.add_registration_code('def("__init__", bp::make_constructor(&Octree_init1, bp::default_call_policies(), ( bp::arg("points"), bp::arg("maxLevels")=10, bp::arg("maxPoints")=20 )))')
     z.add_registration_code('def( "getNodes", &sd_getNodes)')
@@ -105,8 +105,8 @@ static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::tuple const &vtx)
     return boost::shared_ptr<cv::Mesh3D>(new cv::Mesh3D(vtx2));
 }
 
-static bp::tuple get_vtx(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.vtx); }
-static bp::tuple get_normals(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.normals); }
+static bp::sequence get_vtx(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.vtx); }
+static bp::sequence get_normals(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.normals); }
 
     ''')
     z.add_registration_code('def("__init__", bp::make_constructor(&Mesh3D_init1, bp::default_call_policies(), ( bp::arg("vtx") ))  )')
@@ -137,11 +137,11 @@ static bp::tuple get_normals(cv::Mesh3D const &inst) { return convert_vector_to_
     z.mem_fun('getDefaultPeopleDetector').exclude()
     z.var('svmDetector').exclude()
     z.add_declaration_code('''
-static bp::tuple getDefaultPeopleDetector() {
+static bp::sequence getDefaultPeopleDetector() {
     return convert_vector_to_seq(cv::HOGDescriptor::getDefaultPeopleDetector());
 }
 
-static bp::tuple get_svmDetector(cv::HOGDescriptor const &inst) { return convert_vector_to_seq(inst.svmDetector); }
+static bp::sequence get_svmDetector(cv::HOGDescriptor const &inst) { return convert_vector_to_seq(inst.svmDetector); }
 
     ''')
     z.add_registration_code('def("getDefaultPeopleDetector", &::getDefaultPeopleDetector)')
@@ -162,7 +162,7 @@ static bp::tuple get_svmDetector(cv::HOGDescriptor const &inst) { return convert
     mb.init_class(z)
     z.operators().exclude()
     z.add_declaration_code('''
-static bp::tuple LDetector_call1( ::cv::LDetector const & inst, bp::object const & image_or_pyr, int maxCount=0, bool scaleCoords=true ){
+static bp::sequence LDetector_call1( ::cv::LDetector const & inst, bp::object const & image_or_pyr, int maxCount=0, bool scaleCoords=true ){
     std::vector< cv::KeyPoint > keypoints;
     bp::extract<const cv::Mat &> image(image_or_pyr);
     if(image.check()) inst(image(), keypoints, maxCount, scaleCoords);

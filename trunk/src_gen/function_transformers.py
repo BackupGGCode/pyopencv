@@ -1271,7 +1271,7 @@ class input_std_vector_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg(self.arg.name)
-        w_arg.type = _D.dummy_type_t("bp::tuple")
+        w_arg.type = _D.dummy_type_t("bp::sequence")
 
         # default value
         if self.arg.default_value is not None:
@@ -1328,7 +1328,7 @@ class output_std_vector_t(transformer_t):
     def __configure_sealed( self, controller ):
         controller.remove_wrapper_arg( self.arg.name )
         etype = _D.remove_const(_D.remove_reference(self.arg.type))
-        w = controller.declare_variable( _D.dummy_type_t( "bp::tuple" ), self.arg.name )
+        w = controller.declare_variable( _D.dummy_type_t( "bp::sequence" ), self.arg.name )
         v = controller.declare_variable( etype, self.arg.name )
         controller.add_post_call_code("%s = convert_vector_to_seq(%s);" % (w, v))
         controller.modify_arg_expression( self.arg_index, v )
@@ -1371,7 +1371,7 @@ class input_std_vector_vector_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg(self.arg.name)
-        w_arg.type = _D.dummy_type_t("bp::tuple")
+        w_arg.type = _D.dummy_type_t("bp::sequence")
 
         # default value
         if self.arg.default_value is not None:
@@ -1428,7 +1428,7 @@ class output_std_vector_vector_t(transformer_t):
     def __configure_sealed( self, controller ):
         controller.remove_wrapper_arg( self.arg.name )
         etype = _D.remove_const(_D.remove_reference(self.arg.type))
-        w = controller.declare_variable( _D.dummy_type_t( "bp::tuple" ), self.arg.name )
+        w = controller.declare_variable( _D.dummy_type_t( "bp::sequence" ), self.arg.name )
         v = controller.declare_variable( etype, self.arg.name )
         controller.add_post_call_code("%s = convert_vector_vector_to_seq(%s);" % (w, v))
         controller.modify_arg_expression( self.arg_index, v )

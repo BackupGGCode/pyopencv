@@ -61,7 +61,7 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
         }
     }
     
-    static void default_buildTree( ::cv::Octree & inst, bp::tuple points, int maxLevels=10, int minPoints=20 ){
+    static void default_buildTree( ::cv::Octree & inst, bp::sequence points, int maxLevels=10, int minPoints=20 ){
         std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > points2;
         convert_seq_to_vector(points, points2);
         if( dynamic_cast< Octree_wrapper * >( boost::addressof( inst ) ) ){
@@ -83,7 +83,7 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
     }
     
     static boost::python::object default_getPointsWithinSphere( ::cv::Octree const & inst, ::cv::Point3f const & center, float radius ){
-        bp::tuple points2;
+        bp::sequence points2;
         std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > points3;
         if( dynamic_cast< Octree_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::Octree::getPointsWithinSphere(center, radius, points3);
@@ -104,7 +104,7 @@ static boost::shared_ptr<cv::Octree> Octree_init1( bp::tuple const &points, int 
     return boost::shared_ptr<cv::Octree>(new cv::Octree(points2, maxLevels, minPoints ));
 }
 
-static bp::tuple sd_getNodes(cv::Octree const &inst) { return convert_vector_to_seq(inst.getNodes()); }
+static bp::sequence sd_getNodes(cv::Octree const &inst) { return convert_vector_to_seq(inst.getNodes()); }
 
 void register_Octree_class(){
 
@@ -140,7 +140,7 @@ void register_Octree_class(){
         }
         { //::cv::Octree::buildTree
         
-            typedef void ( *default_buildTree_function_type )( ::cv::Octree &,bp::tuple,int,int );
+            typedef void ( *default_buildTree_function_type )( ::cv::Octree &,bp::sequence,int,int );
             
             Octree_exposer.def( 
                 "buildTree"
