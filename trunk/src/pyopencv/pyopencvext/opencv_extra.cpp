@@ -10,6 +10,7 @@
 #include <cstring>
 
 #include "opencv_extra.hpp"
+#include "ndarray.hpp"
 
 
 // ================================================================================================
@@ -142,6 +143,30 @@ IplImage * get_IplImage_ptr(cv::Mat &mat)
     cnt = (cnt+1) & 1023;
     return result;
 }
+
+
+// ================================================================================================
+
+// convert_vector_to_seq
+
+#define CONVERT_VECTOR_TO_NDARRAY(VectType) \
+CONVERT_VECTOR_TO_SEQ(VectType) \
+{ \
+    bp::ndarray out_arr; \
+    convert_ndarray(in_arr, out_arr); \
+    return bp::sequence(out_arr); \
+}
+
+CONVERT_VECTOR_TO_NDARRAY(char);
+CONVERT_VECTOR_TO_NDARRAY(unsigned char);
+CONVERT_VECTOR_TO_NDARRAY(short);
+CONVERT_VECTOR_TO_NDARRAY(unsigned short);
+CONVERT_VECTOR_TO_NDARRAY(long);
+CONVERT_VECTOR_TO_NDARRAY(unsigned long);
+CONVERT_VECTOR_TO_NDARRAY(int);
+CONVERT_VECTOR_TO_NDARRAY(unsigned int);
+CONVERT_VECTOR_TO_NDARRAY(float);
+CONVERT_VECTOR_TO_NDARRAY(double);
 
 
 // ================================================================================================
