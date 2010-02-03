@@ -135,6 +135,20 @@ bp::sequence convert_vector_to_seq( const std::vector<T> &in_arr )
     return bp::sequence(out_arr);
 }
 
+#define CONVERT_VECTOR_TO_SEQ(Type) template<> bp::sequence convert_vector_to_seq<Type>( const std::vector<Type> &in_arr )
+
+CONVERT_VECTOR_TO_SEQ(char);
+CONVERT_VECTOR_TO_SEQ(unsigned char);
+CONVERT_VECTOR_TO_SEQ(short);
+CONVERT_VECTOR_TO_SEQ(unsigned short);
+CONVERT_VECTOR_TO_SEQ(long);
+CONVERT_VECTOR_TO_SEQ(unsigned long);
+CONVERT_VECTOR_TO_SEQ(int);
+CONVERT_VECTOR_TO_SEQ(unsigned int);
+CONVERT_VECTOR_TO_SEQ(float);
+CONVERT_VECTOR_TO_SEQ(double);
+
+
 template<class T>
 struct vector_to_python {
     static PyObject* convert(std::vector<T> const &x) {
