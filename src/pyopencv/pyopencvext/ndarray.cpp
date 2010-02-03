@@ -158,29 +158,180 @@ ndarray new_(int len, const int *shape, int dtype, const int *strides, void *dat
 
 // ================================================================================================
 
-template void convert_ndarray( const ndarray &in_arr, std::vector<char> &out_arr );
-template void convert_ndarray( const ndarray &in_arr, std::vector<unsigned char> &out_arr );
-template void convert_ndarray( const ndarray &in_arr, std::vector<short> &out_arr );
-template void convert_ndarray( const ndarray &in_arr, std::vector<unsigned short> &out_arr );
-template void convert_ndarray( const ndarray &in_arr, std::vector<long> &out_arr );
-template void convert_ndarray( const ndarray &in_arr, std::vector<unsigned long> &out_arr );
-template void convert_ndarray( const ndarray &in_arr, std::vector<int> &out_arr );
-template void convert_ndarray( const ndarray &in_arr, std::vector<unsigned int> &out_arr );
-template void convert_ndarray( const ndarray &in_arr, std::vector<float> &out_arr );
-template void convert_ndarray( const ndarray &in_arr, std::vector<double> &out_arr );
+// ndarray_to_vector, convert from an ndarray to a std::vector of fixed-size elements
+// Note: because Python and C have different ways of allocating/reallocating memory,
+// it is UNSAFE to share data between ndarray and std::vector.
+// In this implementation, data is allocated and copied instead.
+
+// basic
+template<typename Type>
+void ndarray_to_vector_basic( const ndarray &in_arr, std::vector<Type> &out_arr )
+{
+    char s[100];
+    int nd = in_arr.ndim();
+    if(nd != 1)
+    {
+        sprintf(s, "Ndarray must be of rank 1, rank %d detected.", nd);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set(); 
+    }
+    if(in_arr.dtype() != dtypeof<Type>())
+    {
+        sprintf(s, "Ndarray's element type is not the same as that of std::vector. ndarray's dtype=%d, vector's dtype=%d.", in_arr.dtype(), dtypeof<Type>());
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set(); 
+    }
+    
+    int len = in_arr.shape()[0];
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) out_arr[i] = *(Type *)in_arr.getptr1(i);
+}
+
+#define NDARRAY_TO_VECTOR_BASIC(Type) \
+NDARRAY_TO_VECTOR(Type) { ndarray_to_vector_basic<Type>(in_arr, out_arr); }
+
+NDARRAY_TO_VECTOR_BASIC(char);
+NDARRAY_TO_VECTOR_BASIC(unsigned char);
+NDARRAY_TO_VECTOR_BASIC(short);
+NDARRAY_TO_VECTOR_BASIC(unsigned short);
+NDARRAY_TO_VECTOR_BASIC(long);
+NDARRAY_TO_VECTOR_BASIC(unsigned long);
+NDARRAY_TO_VECTOR_BASIC(int);
+NDARRAY_TO_VECTOR_BASIC(unsigned int);
+NDARRAY_TO_VECTOR_BASIC(float);
+NDARRAY_TO_VECTOR_BASIC(double);
+
+// array
+template<typename VectType, int NumpyType, int VectLen>
+void ndarray_to_vector_array( const ndarray &in_arr, std::vector<VectType> &out_arr )
+{
+    char s[100];
+    if(!in_arr.ndim()) { out_arr.clear(); return; }
+
+    if(in_arr.dtype() != NumpyType)
+    {
+        sprintf(s, "Ndarray's element type is not the same as that of std::vector. ndarray's dtype=%d, vector's dtype=%d.", in_arr.dtype(), NumpyType);
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set(); 
+    }
+    
+    int len = in_arr.shape()[0];
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) out_arr[i] = *(VectType *)in_arr.getptr1(i); // this is UNSAFE, but I don't have time to fix yet
+}
+
+#define NDARRAY_TO_VECTOR_ARRAY(VectType, NumpyType, VectLen) \
+NDARRAY_TO_VECTOR(VectType) { ndarray_to_vector_array<VectType, NumpyType, VectLen>(in_arr, out_arr); }
+
+// Vec-like
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec2b, NPY_UBYTE, 2);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec3b, NPY_UBYTE, 3);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec4b, NPY_UBYTE, 4);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec2s, NPY_SHORT, 2);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec3s, NPY_SHORT, 3);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec4s, NPY_SHORT, 4);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec2w, NPY_USHORT, 2);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec3w, NPY_USHORT, 3);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec4w, NPY_USHORT, 4);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec2i, NPY_LONG, 2);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec3i, NPY_LONG, 3);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec4i, NPY_LONG, 4);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec2f, NPY_FLOAT, 2);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec3f, NPY_FLOAT, 3);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec4f, NPY_FLOAT, 4);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec6f, NPY_FLOAT, 6);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec2d, NPY_DOUBLE, 2);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec3d, NPY_DOUBLE, 3);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec4d, NPY_DOUBLE, 4);
+NDARRAY_TO_VECTOR_ARRAY(cv::Vec6d, NPY_DOUBLE, 6);
+
+// Point-like
+NDARRAY_TO_VECTOR_ARRAY(cv::Point2i, NPY_LONG, 2);
+NDARRAY_TO_VECTOR_ARRAY(cv::Point2f, NPY_FLOAT, 2);
+NDARRAY_TO_VECTOR_ARRAY(cv::Point2d, NPY_DOUBLE, 2);
+NDARRAY_TO_VECTOR_ARRAY(cv::Point3i, NPY_LONG, 3);
+NDARRAY_TO_VECTOR_ARRAY(cv::Point3f, NPY_FLOAT, 3);
+NDARRAY_TO_VECTOR_ARRAY(cv::Point3d, NPY_DOUBLE, 3);
+
+// Scalar
+NDARRAY_TO_VECTOR_ARRAY(cv::Scalar, NPY_DOUBLE, 4);
+
 
 // ================================================================================================
 
-template void convert_ndarray( const std::vector<char> &in_arr, ndarray &out_arr );
-template void convert_ndarray( const std::vector<unsigned char> &in_arr, ndarray &out_arr );
-template void convert_ndarray( const std::vector<short> &in_arr, ndarray &out_arr );
-template void convert_ndarray( const std::vector<unsigned short> &in_arr, ndarray &out_arr );
-template void convert_ndarray( const std::vector<long> &in_arr, ndarray &out_arr );
-template void convert_ndarray( const std::vector<unsigned long> &in_arr, ndarray &out_arr );
-template void convert_ndarray( const std::vector<int> &in_arr, ndarray &out_arr );
-template void convert_ndarray( const std::vector<unsigned int> &in_arr, ndarray &out_arr );
-template void convert_ndarray( const std::vector<float> &in_arr, ndarray &out_arr );
-template void convert_ndarray( const std::vector<double> &in_arr, ndarray &out_arr );
+// vector_to_ndarray, convert from a std::vector of fixed-size elements to an ndarray
+
+// basic
+template<typename Type>
+void vector_to_ndarray_basic( const std::vector<Type> &in_arr, ndarray &out_arr )
+{
+    int len = in_arr.size();
+    out_arr = simplenew(1, &len, dtypeof<Type>());
+    Type *data = (Type *)out_arr.data();
+    for(int i = 0; i < len; ++i) data[i] = in_arr[i];
+}
+
+#define VECTOR_TO_NDARRAY_BASIC(Type) \
+VECTOR_TO_NDARRAY(Type) { vector_to_ndarray_basic<Type>(in_arr, out_arr); }
+
+VECTOR_TO_NDARRAY_BASIC(char);
+VECTOR_TO_NDARRAY_BASIC(unsigned char);
+VECTOR_TO_NDARRAY_BASIC(short);
+VECTOR_TO_NDARRAY_BASIC(unsigned short);
+VECTOR_TO_NDARRAY_BASIC(long);
+VECTOR_TO_NDARRAY_BASIC(unsigned long);
+VECTOR_TO_NDARRAY_BASIC(int);
+VECTOR_TO_NDARRAY_BASIC(unsigned int);
+VECTOR_TO_NDARRAY_BASIC(float);
+VECTOR_TO_NDARRAY_BASIC(double);
+
+// array
+template<typename VectType, int NumpyType, int VectLen>
+void vector_to_ndarray_array( const std::vector<VectType> &in_arr, ndarray &out_arr )
+{
+    int len = in_arr.size();
+    int arr[2]; arr[0] = len; arr[1] = VectLen;
+    out_arr = simplenew(2, arr, NumpyType);
+    VectType *data = (VectType *)out_arr.data();
+    for(int i = 0; i < len; ++i) data[i] = in_arr[i];
+}
+
+#define VECTOR_TO_NDARRAY_ARRAY(VectType, NumpyType, VectLen) \
+VECTOR_TO_NDARRAY(VectType) { vector_to_ndarray_array<VectType, NumpyType, VectLen>(in_arr, out_arr); }
+
+// Vec-like
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec2b, NPY_UBYTE, 2);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec3b, NPY_UBYTE, 3);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec4b, NPY_UBYTE, 4);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec2s, NPY_SHORT, 2);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec3s, NPY_SHORT, 3);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec4s, NPY_SHORT, 4);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec2w, NPY_USHORT, 2);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec3w, NPY_USHORT, 3);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec4w, NPY_USHORT, 4);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec2i, NPY_LONG, 2);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec3i, NPY_LONG, 3);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec4i, NPY_LONG, 4);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec2f, NPY_FLOAT, 2);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec3f, NPY_FLOAT, 3);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec4f, NPY_FLOAT, 4);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec6f, NPY_FLOAT, 6);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec2d, NPY_DOUBLE, 2);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec3d, NPY_DOUBLE, 3);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec4d, NPY_DOUBLE, 4);
+VECTOR_TO_NDARRAY_ARRAY(cv::Vec6d, NPY_DOUBLE, 6);
+
+// Point-like
+VECTOR_TO_NDARRAY_ARRAY(cv::Point2i, NPY_LONG, 2);
+VECTOR_TO_NDARRAY_ARRAY(cv::Point2f, NPY_FLOAT, 2);
+VECTOR_TO_NDARRAY_ARRAY(cv::Point2d, NPY_DOUBLE, 2);
+VECTOR_TO_NDARRAY_ARRAY(cv::Point3i, NPY_LONG, 3);
+VECTOR_TO_NDARRAY_ARRAY(cv::Point3f, NPY_FLOAT, 3);
+VECTOR_TO_NDARRAY_ARRAY(cv::Point3d, NPY_DOUBLE, 3);
+
+// Scalar
+VECTOR_TO_NDARRAY_ARRAY(cv::Scalar, NPY_DOUBLE, 4);
+
 
 // ================================================================================================
 
@@ -297,7 +448,6 @@ object ndarray_as_Vect(const ndarray &arr)
     
     // checking
     PyObject *obj = arr.ptr();
-    if(obj == Py_None) return object(VectType()); // ndarray = None
     
     int nd = arr.ndim();
     if(nd != 1)

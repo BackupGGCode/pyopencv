@@ -117,65 +117,124 @@ void convert_ndarray( const T &in_arr, ndarray &out_arr )
     throw error_already_set(); 
 }
 
-// convert_ndarray, std::vector case
-// Note: because Python and C have different ways of allocating/reallocating memory,
-// it is UNSAFE to share data between ndarray and std::vector.
-// In this implementation, data is allocated and copied instead.
+// ================================================================================================
+
+// ndarray_to_vector, convert from an ndarray to a std::vector of fixed-size elements
 template<typename T>
-void convert_ndarray( const ndarray &in_arr, std::vector<T> &out_arr )
+void ndarray_to_vector( const ndarray &in_arr, std::vector<T> &out_arr )
 {
-    char s[100];
-    int nd = in_arr.ndim();
-    if(nd != 1)
-    {
-        sprintf(s, "Rank must be 1, rank=%d detected.", nd);
-        PyErr_SetString(PyExc_TypeError, s);
-        throw error_already_set(); 
-    }
-    if(in_arr.dtype() != dtypeof<T>())
-    {
-        sprintf(s, "Ndarray's element type is not the same as that of std::vector. ndarray's dtype=%d, vector's dtype=%d.", in_arr.dtype(), dtypeof<T>());
-        PyErr_SetString(PyExc_TypeError, s);
-        throw error_already_set(); 
-    }
-    
-    int len = in_arr.shape()[0];
-    
-    out_arr.resize(len);
-    for(int i = 0; i < len; ++i) out_arr[i] = *(T *)in_arr.getptr1(i);
+    char s[300];
+    sprintf( s, "Instantiation of function ndarray_to_vector() for class std::vector< '%s' > is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
+    throw error_already_set(); 
 }
 
-extern template void convert_ndarray( const ndarray &in_arr, std::vector<char> &out_arr );
-extern template void convert_ndarray( const ndarray &in_arr, std::vector<unsigned char> &out_arr );
-extern template void convert_ndarray( const ndarray &in_arr, std::vector<short> &out_arr );
-extern template void convert_ndarray( const ndarray &in_arr, std::vector<unsigned short> &out_arr );
-extern template void convert_ndarray( const ndarray &in_arr, std::vector<long> &out_arr );
-extern template void convert_ndarray( const ndarray &in_arr, std::vector<unsigned long> &out_arr );
-extern template void convert_ndarray( const ndarray &in_arr, std::vector<int> &out_arr );
-extern template void convert_ndarray( const ndarray &in_arr, std::vector<unsigned int> &out_arr );
-extern template void convert_ndarray( const ndarray &in_arr, std::vector<float> &out_arr );
-extern template void convert_ndarray( const ndarray &in_arr, std::vector<double> &out_arr );
+#define NDARRAY_TO_VECTOR(Type) template<> void ndarray_to_vector<Type>( const ndarray &in_arr, std::vector<Type> &out_arr )
 
-// convert_ndarray, std::vector case
+// basic
+NDARRAY_TO_VECTOR(char);
+NDARRAY_TO_VECTOR(unsigned char);
+NDARRAY_TO_VECTOR(short);
+NDARRAY_TO_VECTOR(unsigned short);
+NDARRAY_TO_VECTOR(long);
+NDARRAY_TO_VECTOR(unsigned long);
+NDARRAY_TO_VECTOR(int);
+NDARRAY_TO_VECTOR(unsigned int);
+NDARRAY_TO_VECTOR(float);
+NDARRAY_TO_VECTOR(double);
+
+// Vec-like
+NDARRAY_TO_VECTOR(cv::Vec2b);
+NDARRAY_TO_VECTOR(cv::Vec3b);
+NDARRAY_TO_VECTOR(cv::Vec4b);
+NDARRAY_TO_VECTOR(cv::Vec2s);
+NDARRAY_TO_VECTOR(cv::Vec3s);
+NDARRAY_TO_VECTOR(cv::Vec4s);
+NDARRAY_TO_VECTOR(cv::Vec2w);
+NDARRAY_TO_VECTOR(cv::Vec3w);
+NDARRAY_TO_VECTOR(cv::Vec4w);
+NDARRAY_TO_VECTOR(cv::Vec2i);
+NDARRAY_TO_VECTOR(cv::Vec3i);
+NDARRAY_TO_VECTOR(cv::Vec4i);
+NDARRAY_TO_VECTOR(cv::Vec2f);
+NDARRAY_TO_VECTOR(cv::Vec3f);
+NDARRAY_TO_VECTOR(cv::Vec4f);
+NDARRAY_TO_VECTOR(cv::Vec6f);
+NDARRAY_TO_VECTOR(cv::Vec2d);
+NDARRAY_TO_VECTOR(cv::Vec3d);
+NDARRAY_TO_VECTOR(cv::Vec4d);
+NDARRAY_TO_VECTOR(cv::Vec6d);
+
+// Point-like
+NDARRAY_TO_VECTOR(cv::Point2i);
+NDARRAY_TO_VECTOR(cv::Point2f);
+NDARRAY_TO_VECTOR(cv::Point2d);
+NDARRAY_TO_VECTOR(cv::Point3i);
+NDARRAY_TO_VECTOR(cv::Point3f);
+NDARRAY_TO_VECTOR(cv::Point3d);
+
+// Scalar
+NDARRAY_TO_VECTOR(cv::Scalar);
+
+// ================================================================================================
+
+// vector_to_ndarray, convert from a std::vector of fixed-size elements to an ndarray
 template<typename T>
-void convert_ndarray( const std::vector<T> &in_arr, ndarray &out_arr )
+void vector_to_ndarray( const std::vector<T> &in_arr, ndarray &out_arr )
 {
-    int len = in_arr.size();
-    out_arr = simplenew(1, &len, dtypeof<T>());
-    T *data = (T *)out_arr.data();
-    for(int i = 0; i < len; ++i) data[i] = in_arr[i];
+    char s[300];
+    sprintf( s, "Instantiation of function vector_to_ndarray() for class std::vector< '%s' > is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
+    throw error_already_set(); 
 }
 
-extern template void convert_ndarray( const std::vector<char> &in_arr, ndarray &out_arr );
-extern template void convert_ndarray( const std::vector<unsigned char> &in_arr, ndarray &out_arr );
-extern template void convert_ndarray( const std::vector<short> &in_arr, ndarray &out_arr );
-extern template void convert_ndarray( const std::vector<unsigned short> &in_arr, ndarray &out_arr );
-extern template void convert_ndarray( const std::vector<long> &in_arr, ndarray &out_arr );
-extern template void convert_ndarray( const std::vector<unsigned long> &in_arr, ndarray &out_arr );
-extern template void convert_ndarray( const std::vector<int> &in_arr, ndarray &out_arr );
-extern template void convert_ndarray( const std::vector<unsigned int> &in_arr, ndarray &out_arr );
-extern template void convert_ndarray( const std::vector<float> &in_arr, ndarray &out_arr );
-extern template void convert_ndarray( const std::vector<double> &in_arr, ndarray &out_arr );
+#define VECTOR_TO_NDARRAY(Type) template<> void vector_to_ndarray<Type>( const std::vector<Type> &in_arr, ndarray &out_arr )
+
+// basic
+VECTOR_TO_NDARRAY(char);
+VECTOR_TO_NDARRAY(unsigned char);
+VECTOR_TO_NDARRAY(short);
+VECTOR_TO_NDARRAY(unsigned short);
+VECTOR_TO_NDARRAY(long);
+VECTOR_TO_NDARRAY(unsigned long);
+VECTOR_TO_NDARRAY(int);
+VECTOR_TO_NDARRAY(unsigned int);
+VECTOR_TO_NDARRAY(float);
+VECTOR_TO_NDARRAY(double);
+
+// Vec-like
+VECTOR_TO_NDARRAY(cv::Vec2b);
+VECTOR_TO_NDARRAY(cv::Vec3b);
+VECTOR_TO_NDARRAY(cv::Vec4b);
+VECTOR_TO_NDARRAY(cv::Vec2s);
+VECTOR_TO_NDARRAY(cv::Vec3s);
+VECTOR_TO_NDARRAY(cv::Vec4s);
+VECTOR_TO_NDARRAY(cv::Vec2w);
+VECTOR_TO_NDARRAY(cv::Vec3w);
+VECTOR_TO_NDARRAY(cv::Vec4w);
+VECTOR_TO_NDARRAY(cv::Vec2i);
+VECTOR_TO_NDARRAY(cv::Vec3i);
+VECTOR_TO_NDARRAY(cv::Vec4i);
+VECTOR_TO_NDARRAY(cv::Vec2f);
+VECTOR_TO_NDARRAY(cv::Vec3f);
+VECTOR_TO_NDARRAY(cv::Vec4f);
+VECTOR_TO_NDARRAY(cv::Vec6f);
+VECTOR_TO_NDARRAY(cv::Vec2d);
+VECTOR_TO_NDARRAY(cv::Vec3d);
+VECTOR_TO_NDARRAY(cv::Vec4d);
+VECTOR_TO_NDARRAY(cv::Vec6d);
+
+// Point-like
+VECTOR_TO_NDARRAY(cv::Point2i);
+VECTOR_TO_NDARRAY(cv::Point2f);
+VECTOR_TO_NDARRAY(cv::Point2d);
+VECTOR_TO_NDARRAY(cv::Point3i);
+VECTOR_TO_NDARRAY(cv::Point3f);
+VECTOR_TO_NDARRAY(cv::Point3d);
+
+// Scalar
+VECTOR_TO_NDARRAY(cv::Scalar);
+
 
 // ================================================================================================
 
