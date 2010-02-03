@@ -35,6 +35,7 @@ import cv_hpp
 import cvcompat_h
 import cvaux_h
 import cvaux_hpp
+import cvvidsurv_hpp
 import highgui_h
 import highgui_hpp
 import ml_h
@@ -478,6 +479,9 @@ cvaux_h.generate_code(mb, cc, D, FT, CP)
 
 # cvaux.hpp
 cvaux_hpp.generate_code(mb, cc, D, FT, CP)
+
+# cvvidsurv.hpp
+cvvidsurv_hpp.generate_code(mb, cc, D, FT, CP)
 
 # ml.h
 ml_h.generate_code(mb, cc, D, FT, CP)

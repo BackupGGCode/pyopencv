@@ -46,6 +46,14 @@
 
 #include "pyopencvext/CvAvgComp.pypp.hpp"
 
+#include "pyopencvext/CvBlob.pypp.hpp"
+
+#include "pyopencvext/CvBlobSeq.pypp.hpp"
+
+#include "pyopencvext/CvBlobTrack.pypp.hpp"
+
+#include "pyopencvext/CvBlobTrackSeq.pypp.hpp"
+
 #include "pyopencvext/CvBoost.pypp.hpp"
 
 #include "pyopencvext/CvBoostParams.pypp.hpp"
@@ -77,6 +85,10 @@
 #include "pyopencvext/CvDTreeSplit.pypp.hpp"
 
 #include "pyopencvext/CvDTreeTrainData.pypp.hpp"
+
+#include "pyopencvext/CvDefParam.pypp.hpp"
+
+#include "pyopencvext/CvDetectedBlob.pypp.hpp"
 
 #include "pyopencvext/CvEM.pypp.hpp"
 
@@ -154,6 +166,8 @@
 
 #include "pyopencvext/CvNormalBayesClassifier.pypp.hpp"
 
+#include "pyopencvext/CvObjectDetector.pypp.hpp"
+
 #include "pyopencvext/CvPOSITObject.pypp.hpp"
 
 #include "pyopencvext/CvParamGrid.pypp.hpp"
@@ -207,6 +221,8 @@
 #include "pyopencvext/CvType.pypp.hpp"
 
 #include "pyopencvext/CvTypeInfo.pypp.hpp"
+
+#include "pyopencvext/CvVSModule.pypp.hpp"
 
 #include "pyopencvext/CvVectors.pypp.hpp"
 
@@ -1644,6 +1660,63 @@ static void sd_calcBackProject( bp::tuple const & images, bp::tuple const & chan
     }
 }
 
+namespace cv
+{
+static void
+_findContours( const Mat& image, vector<vector<Point> >& contours,
+               vector<Vec4i>* hierarchy, int mode, int method, Point offset )
+{
+    MemStorage storage(cvCreateMemStorage());
+    CvMat _image = image;
+    CvSeq* _contours = 0;
+    if( hierarchy )
+        hierarchy->clear();
+    cvFindContours(&_image, storage, &_contours, sizeof(CvContour), mode, method, offset);
+    if( !_contours )
+    {
+        contours.clear();
+        return;
+    }
+    Seq<CvSeq*> all_contours(cvTreeToNodeSeq( _contours, sizeof(CvSeq), storage ));
+    size_t i, total = all_contours.size();
+    contours.resize(total);
+    SeqIterator<CvSeq*> it = all_contours.begin();
+    for( i = 0; i < total; i++, ++it )
+    {
+        CvSeq* c = *it;
+        ((CvContour*)c)->color = (int)i;
+        Seq<Point>(c).copyTo(contours[i]);
+    }
+
+    if( hierarchy )
+    {
+        hierarchy->resize(total);
+        it = all_contours.begin();
+        for( i = 0; i < total; i++, ++it )
+        {
+            CvSeq* c = *it;
+            int h_next = c->h_next ? ((CvContour*)c->h_next)->color : -1;
+            int h_prev = c->h_prev ? ((CvContour*)c->h_prev)->color : -1;
+            int v_next = c->v_next ? ((CvContour*)c->v_next)->color : -1;
+            int v_prev = c->v_prev ? ((CvContour*)c->v_prev)->color : -1;
+            (*hierarchy)[i] = Vec4i(h_next, h_prev, v_next, v_prev);
+        }
+    }
+}
+}
+
+void cv::findContours( const Mat& image, vector<vector<Point> >& contours,
+                   vector<Vec4i>& hierarchy, int mode, int method, Point offset )
+{
+    _findContours(image, contours, &hierarchy, mode, method, offset);
+}
+
+void cv::findContours( const Mat& image, vector<vector<Point> >& contours,
+                   int mode, int method, Point offset)
+{
+    _findContours(image, contours, 0, mode, method, offset);
+}
+
 static bp::object sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
     std::vector<cv::Point> point2i;
     std::vector<cv::Point2f> point2f;
@@ -1702,6 +1775,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvAvgComp_class();
 
+    register_CvBlob_class();
+
+    register_CvBlobSeq_class();
+
+    register_CvBlobTrack_class();
+
+    register_CvBlobTrackSeq_class();
+
     register_CvDTreeParams_class();
 
     register_CvBoostParams_class();
@@ -1731,6 +1812,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvConvexityDefect_class();
 
     register_CvDTreeTrainData_class();
+
+    register_CvDefParam_class();
+
+    register_CvDetectedBlob_class();
 
     register_CvEMParams_class();
 
@@ -1812,6 +1897,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvNormalBayesClassifier_class();
 
+    register_CvObjectDetector_class();
+
     register_CvPOSITObject_class();
 
     register_CvParamGrid_class();
@@ -1859,6 +1946,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvType_class();
 
     register_CvTypeInfo_class();
+
+    register_CvVSModule_class();
 
     register_CvVectors_class();
 
