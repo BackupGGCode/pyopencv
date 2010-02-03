@@ -967,6 +967,17 @@ void register_free_functions(){
     
     }
 
+    { //::cvBlob
+    
+        typedef ::CvBlob ( *blob_function_type )( float,float,float,float );
+        
+        bp::def( 
+            "blob"
+            , blob_function_type( &::cvBlob )
+            , ( bp::arg("x"), bp::arg("y"), bp::arg("w"), bp::arg("h") ) );
+    
+    }
+
     { //::cvBoxPoints
     
         typedef void ( *boxPoints_function_type )( ::CvBox2D,::CvPoint2D32f * );
@@ -1285,6 +1296,17 @@ void register_free_functions(){
             "_cvDestroyWindow"
             , _cvDestroyWindow_function_type( &::cvDestroyWindow )
             , ( bp::arg("name") ) );
+    
+    }
+
+    { //::cvDetectedBlob
+    
+        typedef ::CvDetectedBlob ( *detectedBlob_function_type )( float,float,float,float,int,float );
+        
+        bp::def( 
+            "detectedBlob"
+            , detectedBlob_function_type( &::cvDetectedBlob )
+            , ( bp::arg("x"), bp::arg("y"), bp::arg("w"), bp::arg("h"), bp::arg("ID")=(int)(0), bp::arg("response")=0.0f ) );
     
     }
 
