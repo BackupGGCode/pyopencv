@@ -259,9 +259,9 @@ static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & im
     # calcHist
     mb.free_funs('calcHist').exclude()
     mb.add_declaration_code('''
-static void sd_calcHist( bp::tuple const & images, bp::tuple const & channels, 
-    ::cv::Mat const & mask, bp::object &hist, int dims, bp::tuple const & histSize, 
-    bp::tuple const & ranges, bool uniform=true, bool accumulate=false ){
+static void sd_calcHist( bp::sequence const & images, bp::sequence const & channels, 
+    ::cv::Mat const & mask, bp::object &hist, int dims, bp::sequence const & histSize, 
+    bp::sequence const & ranges, bool uniform=true, bool accumulate=false ){
     std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
     std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
     std::vector< int > histSize2; convert_seq_to_vector(histSize, histSize2);
@@ -294,8 +294,8 @@ static void sd_calcHist( bp::tuple const & images, bp::tuple const & channels,
     ''')
     mb.add_registration_code('''bp::def( 
         "calcHist"
-        , (void (*)( bp::tuple const &, bp::tuple const &, ::cv::Mat const &, 
-            bp::object &, int, bp::tuple const &, bp::tuple const &, bool, 
+        , (void (*)( bp::sequence const &, bp::sequence const &, ::cv::Mat const &, 
+            bp::object &, int, bp::sequence const &, bp::sequence const &, bool, 
             bool ))( &sd_calcHist )
         , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), 
             bp::arg("hist"), bp::arg("dims"), bp::arg("histSize"), 
@@ -305,9 +305,9 @@ static void sd_calcHist( bp::tuple const & images, bp::tuple const & channels,
     # calcBackProject
     mb.free_funs('calcBackProject').exclude()
     mb.add_declaration_code('''
-static void sd_calcBackProject( bp::tuple const & images, bp::tuple const & channels, 
+static void sd_calcBackProject( bp::sequence const & images, bp::sequence const & channels, 
     bp::object &hist, cv::Mat &backProject, 
-    bp::tuple const & ranges, double scale=1, bool uniform=true ){
+    bp::sequence const & ranges, double scale=1, bool uniform=true ){
     std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
     std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
     std::vector< std::vector < float > > ranges2; convert_seq_to_vector_vector(ranges, ranges2);
@@ -339,8 +339,8 @@ static void sd_calcBackProject( bp::tuple const & images, bp::tuple const & chan
     ''')
     mb.add_registration_code('''bp::def( 
         "calcBackProject"
-        , (void (*)( bp::tuple const &, bp::tuple const &, 
-            bp::object &, cv::Mat const &, bp::tuple const &, double, 
+        , (void (*)( bp::sequence const &, bp::sequence const &, 
+            bp::object &, cv::Mat const &, bp::sequence const &, double, 
             bool ))( &sd_calcBackProject )
         , ( bp::arg("images"), bp::arg("channels"), 
             bp::arg("hist"), bp::arg("backProject"), 
@@ -511,7 +511,7 @@ static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
     # drawChessboardCorners
     mb.free_fun('drawChessboardCorners').exclude()
     mb.add_declaration_code('''
-void drawChessboardCorners( cv::Mat& image, cv::Size patternSize, bp::tuple const &corners, bool patternWasFound )
+void drawChessboardCorners( cv::Mat& image, cv::Size patternSize, bp::sequence const &corners, bool patternWasFound )
 {
     std::vector<cv::Point2f> corners2; convert_seq_to_vector(corners, corners2);
     ::cvDrawChessboardCorners( &(::CvMat)image, patternSize, (CvPoint2D32f*)&corners2[0],

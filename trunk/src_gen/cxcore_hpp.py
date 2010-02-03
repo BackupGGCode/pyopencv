@@ -247,59 +247,47 @@ KLASS.__repr__ = _KLASS__repr__
     z.constructors(lambda x: 'const *' in x.decl_string).exclude()
     z.operator('()').exclude()
     z.add_declaration_code('''
-static boost::shared_ptr<cv::MatND> MatND__init1__(const bp::tuple &_sizes, int _type)
+static boost::shared_ptr<cv::MatND> MatND__init1__(const bp::sequence &_sizes, int _type)
 {
-    std::vector<int> _sizes2;
-    int len = bp::len(_sizes);
-    _sizes2.resize(len);
-    for(int i = 0; i < len; ++i) _sizes2[i] = bp::extract<int>(_sizes[i]);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(len, &_sizes2[0], _type));
+    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes2.size(), &_sizes2[0], _type));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init2__(const bp::tuple &_sizes, int _type, const cv::Scalar& _s)
+static boost::shared_ptr<cv::MatND> MatND__init2__(const bp::sequence &_sizes, int _type, const cv::Scalar& _s)
 {
-    std::vector<int> _sizes2;
-    int len = bp::len(_sizes);
-    _sizes2.resize(len);
-    for(int i = 0; i < len; ++i) _sizes2[i] = bp::extract<int>(_sizes[i]);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(len, &_sizes2[0], _type, _s));
+    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes2.size(), &_sizes2[0], _type, _s));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, const bp::tuple &_ranges)
+static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, const bp::sequence &_ranges)
 {
-    std::vector<cv::Range> _ranges2;
-    int len = bp::len(_ranges);
-    _ranges2.resize(len);
-    for(int i = 0; i < len; ++i) _ranges2[i] = bp::extract<cv::Range>(_ranges[i]);
+    std::vector<cv::Range> _ranges2; convert_seq_to_vector(_ranges, _ranges2);
     return boost::shared_ptr<cv::MatND>(new cv::MatND(m, &_ranges2[0]));
 }
 
-static cv::MatND MatND__call__(const cv::MatND& inst, const bp::tuple &ranges)
+static cv::MatND MatND__call__(const cv::MatND& inst, const bp::sequence &ranges)
 {
-    std::vector<cv::Range> ranges2;
-    int len = bp::len(ranges);
-    ranges2.resize(len);
-    for(int i = 0; i < len; ++i) ranges2[i] = bp::extract<cv::Range>(ranges[i]);
+    std::vector<cv::Range> ranges2; convert_seq_to_vector(ranges, ranges2);
     return inst(&ranges2[0]);
 }
 
     ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init1__))')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init2__))')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init3__))')
-    z.add_registration_code('def("__call__", bp::make_function(&MatND__call__))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )))')
+    z.add_registration_code('def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))))')
     
-    mb.add_declaration_code('''
-struct CvMatND_to_python
-{
-    static PyObject* convert(CvMatND const& x)
-    {
-        return bp::incref(bp::object(cv::MatND(&x)).ptr());
-    }
-};
+    # mb.add_declaration_code('''
+# struct CvMatND_to_python
+# {
+    # static PyObject* convert(CvMatND const& x)
+    # {
+        # return bp::incref(bp::object(cv::MatND(&x)).ptr());
+    # }
+# };
 
-    ''')
-    mb.add_registration_code('bp::to_python_converter<CvMatND, CvMatND_to_python, false>();')
+    # ''')
+    # mb.add_registration_code('bp::to_python_converter<CvMatND, CvMatND_to_python, false>();')
 
     z.decls(lambda x: 'CvMatND' in x.decl_string).exclude()
     z.mem_funs('setTo').call_policies = CP.return_self()
@@ -324,6 +312,7 @@ MatND.__repr__ = _MatND__repr__
     # SparseMat
     # wait until requested: fix the rest of the member declarations
     z = mb.class_('SparseMat')
+    z.include_files.append("opencv_extra.hpp")
     z.include()
     z.include_files.append("boost/python/make_function.hpp")
     mb.init_class(z)
@@ -332,17 +321,14 @@ MatND.__repr__ = _MatND__repr__
     for t in ('CvSparseMat', 'Node', 'Hdr'):
         z.decls(lambda x: t in x.decl_string).exclude()
     z.add_declaration_code('''
-static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(const bp::tuple &_sizes, int _type)
+static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(const bp::sequence &_sizes, int _type)
 {
-    std::vector<int> _sizes2;
-    int len = bp::len(_sizes);
-    _sizes2.resize(len);
-    for(int i = 0; i < len; ++i) _sizes2[i] = bp::extract<int>(_sizes[i]);
-    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(len, &_sizes2[0], _type));
+    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
+    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(_sizes2.size(), &_sizes2[0], _type));
 }
 
     ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&SparseMat__init1__))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&SparseMat__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )))')
     
     z.mem_funs('size').exclude()
     z.add_declaration_code('''

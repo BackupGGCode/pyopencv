@@ -6,6 +6,7 @@
 #include "ndarray.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "opencv_extra.hpp"
 #include "boost/python/make_function.hpp"
 #include "SparseMat.pypp.hpp"
 
@@ -53,13 +54,10 @@ static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::Sparse
     return bp::object( result );
 }
 
-static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(const bp::tuple &_sizes, int _type)
+static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(const bp::sequence &_sizes, int _type)
 {
-    std::vector<int> _sizes2;
-    int len = bp::len(_sizes);
-    _sizes2.resize(len);
-    for(int i = 0; i < len; ++i) _sizes2[i] = bp::extract<int>(_sizes[i]);
-    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(len, &_sizes2[0], _type));
+    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
+    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(_sizes2.size(), &_sizes2[0], _type));
 }
 
 static bp::object my_size(cv::SparseMat const &inst, int i = -1)
@@ -380,7 +378,7 @@ void register_SparseMat_class(){
         
         }
         SparseMat_exposer.def_readwrite( "flags", &cv::SparseMat::flags );
-        SparseMat_exposer.def("__init__", bp::make_constructor(&SparseMat__init1__));
+        SparseMat_exposer.def("__init__", bp::make_constructor(&SparseMat__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )));
         SparseMat_exposer.def("size", (void (*)(int))(&my_size), (bp::arg("i")=bp::object(-1)));
     }
 

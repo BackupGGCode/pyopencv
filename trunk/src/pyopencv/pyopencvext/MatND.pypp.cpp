@@ -59,39 +59,27 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
 
 };
 
-static boost::shared_ptr<cv::MatND> MatND__init1__(const bp::tuple &_sizes, int _type)
+static boost::shared_ptr<cv::MatND> MatND__init1__(const bp::sequence &_sizes, int _type)
 {
-    std::vector<int> _sizes2;
-    int len = bp::len(_sizes);
-    _sizes2.resize(len);
-    for(int i = 0; i < len; ++i) _sizes2[i] = bp::extract<int>(_sizes[i]);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(len, &_sizes2[0], _type));
+    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes2.size(), &_sizes2[0], _type));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init2__(const bp::tuple &_sizes, int _type, const cv::Scalar& _s)
+static boost::shared_ptr<cv::MatND> MatND__init2__(const bp::sequence &_sizes, int _type, const cv::Scalar& _s)
 {
-    std::vector<int> _sizes2;
-    int len = bp::len(_sizes);
-    _sizes2.resize(len);
-    for(int i = 0; i < len; ++i) _sizes2[i] = bp::extract<int>(_sizes[i]);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(len, &_sizes2[0], _type, _s));
+    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes2.size(), &_sizes2[0], _type, _s));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, const bp::tuple &_ranges)
+static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, const bp::sequence &_ranges)
 {
-    std::vector<cv::Range> _ranges2;
-    int len = bp::len(_ranges);
-    _ranges2.resize(len);
-    for(int i = 0; i < len; ++i) _ranges2[i] = bp::extract<cv::Range>(_ranges[i]);
+    std::vector<cv::Range> _ranges2; convert_seq_to_vector(_ranges, _ranges2);
     return boost::shared_ptr<cv::MatND>(new cv::MatND(m, &_ranges2[0]));
 }
 
-static cv::MatND MatND__call__(const cv::MatND& inst, const bp::tuple &ranges)
+static cv::MatND MatND__call__(const cv::MatND& inst, const bp::sequence &ranges)
 {
-    std::vector<cv::Range> ranges2;
-    int len = bp::len(ranges);
-    ranges2.resize(len);
-    for(int i = 0; i < len; ++i) ranges2[i] = bp::extract<cv::Range>(ranges[i]);
+    std::vector<cv::Range> ranges2; convert_seq_to_vector(ranges, ranges2);
     return inst(&ranges2[0]);
 }
 
@@ -311,10 +299,10 @@ void register_MatND_class(){
                 , bp::make_function( array_wrapper_creator(&MatND_wrapper::pyplusplus_step_wrapper)
                                     , bp::with_custodian_and_ward_postcall< 0, 1 >() ) );
         }
-        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init1__));
-        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init2__));
-        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init3__));
-        MatND_exposer.def("__call__", bp::make_function(&MatND__call__));
+        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )));
+        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )));
+        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )));
+        MatND_exposer.def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))));
         MatND_exposer.def("from_ndarray", &bp::from_ndarray< cv::MatND > );
         MatND_exposer.staticmethod("from_ndarray");
         MatND_exposer.add_property("ndarray", &bp::as_ndarray< cv::MatND >);
