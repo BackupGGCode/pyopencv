@@ -153,10 +153,11 @@ IplImage * get_IplImage_ptr(cv::Mat &mat)
 CONVERT_VECTOR_TO_SEQ(VectType) \
 { \
     bp::ndarray out_arr; \
-    convert_ndarray(in_arr, out_arr); \
+    bp::vector_to_ndarray(in_arr, out_arr); \
     return bp::sequence(out_arr); \
 }
 
+// basic
 CONVERT_VECTOR_TO_NDARRAY(char);
 CONVERT_VECTOR_TO_NDARRAY(unsigned char);
 CONVERT_VECTOR_TO_NDARRAY(short);
@@ -167,6 +168,40 @@ CONVERT_VECTOR_TO_NDARRAY(int);
 CONVERT_VECTOR_TO_NDARRAY(unsigned int);
 CONVERT_VECTOR_TO_NDARRAY(float);
 CONVERT_VECTOR_TO_NDARRAY(double);
+
+// Vec-like
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec2b);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec3b);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec4b);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec2s);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec3s);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec4s);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec2w);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec3w);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec4w);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec2i);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec3i);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec4i);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec2f);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec3f);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec4f);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec6f);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec2d);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec3d);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec4d);
+CONVERT_VECTOR_TO_NDARRAY(cv::Vec6d);
+
+// Point-like
+CONVERT_VECTOR_TO_NDARRAY(cv::Point2i);
+CONVERT_VECTOR_TO_NDARRAY(cv::Point2f);
+CONVERT_VECTOR_TO_NDARRAY(cv::Point2d);
+CONVERT_VECTOR_TO_NDARRAY(cv::Point3i);
+CONVERT_VECTOR_TO_NDARRAY(cv::Point3f);
+CONVERT_VECTOR_TO_NDARRAY(cv::Point3d);
+
+// Scalar
+CONVERT_VECTOR_TO_NDARRAY(cv::Scalar);
+
 
 
 // ================================================================================================

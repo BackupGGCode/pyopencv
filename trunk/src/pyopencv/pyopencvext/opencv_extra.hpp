@@ -125,7 +125,7 @@ void convert_seq_to_vector( const bp::object &in_arr, std::vector<T> &out_arr )
     bp::extract<bp::ndarray> in_ndarray(in_arr);
     if(in_ndarray.check())
     {
-        bp::convert_ndarray<T>(in_ndarray(), out_arr);
+        bp::ndarray_to_vector<T>(in_ndarray(), out_arr);
         return;
     }
     
@@ -149,6 +149,7 @@ bp::sequence convert_vector_to_seq( const std::vector<T> &in_arr )
 
 #define CONVERT_VECTOR_TO_SEQ(Type) template<> bp::sequence convert_vector_to_seq<Type>( const std::vector<Type> &in_arr )
 
+// basic
 CONVERT_VECTOR_TO_SEQ(char);
 CONVERT_VECTOR_TO_SEQ(unsigned char);
 CONVERT_VECTOR_TO_SEQ(short);
@@ -159,6 +160,39 @@ CONVERT_VECTOR_TO_SEQ(int);
 CONVERT_VECTOR_TO_SEQ(unsigned int);
 CONVERT_VECTOR_TO_SEQ(float);
 CONVERT_VECTOR_TO_SEQ(double);
+
+// Vec-like
+CONVERT_VECTOR_TO_SEQ(cv::Vec2b);
+CONVERT_VECTOR_TO_SEQ(cv::Vec3b);
+CONVERT_VECTOR_TO_SEQ(cv::Vec4b);
+CONVERT_VECTOR_TO_SEQ(cv::Vec2s);
+CONVERT_VECTOR_TO_SEQ(cv::Vec3s);
+CONVERT_VECTOR_TO_SEQ(cv::Vec4s);
+CONVERT_VECTOR_TO_SEQ(cv::Vec2w);
+CONVERT_VECTOR_TO_SEQ(cv::Vec3w);
+CONVERT_VECTOR_TO_SEQ(cv::Vec4w);
+CONVERT_VECTOR_TO_SEQ(cv::Vec2i);
+CONVERT_VECTOR_TO_SEQ(cv::Vec3i);
+CONVERT_VECTOR_TO_SEQ(cv::Vec4i);
+CONVERT_VECTOR_TO_SEQ(cv::Vec2f);
+CONVERT_VECTOR_TO_SEQ(cv::Vec3f);
+CONVERT_VECTOR_TO_SEQ(cv::Vec4f);
+CONVERT_VECTOR_TO_SEQ(cv::Vec6f);
+CONVERT_VECTOR_TO_SEQ(cv::Vec2d);
+CONVERT_VECTOR_TO_SEQ(cv::Vec3d);
+CONVERT_VECTOR_TO_SEQ(cv::Vec4d);
+CONVERT_VECTOR_TO_SEQ(cv::Vec6d);
+
+// Point-like
+CONVERT_VECTOR_TO_SEQ(cv::Point2i);
+CONVERT_VECTOR_TO_SEQ(cv::Point2f);
+CONVERT_VECTOR_TO_SEQ(cv::Point2d);
+CONVERT_VECTOR_TO_SEQ(cv::Point3i);
+CONVERT_VECTOR_TO_SEQ(cv::Point3f);
+CONVERT_VECTOR_TO_SEQ(cv::Point3d);
+
+// Scalar
+CONVERT_VECTOR_TO_SEQ(cv::Scalar);
 
 
 template<class T>
