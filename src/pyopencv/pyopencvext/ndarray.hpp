@@ -33,8 +33,8 @@ struct ndarray : object
 {
 public:
     ndarray() : object() {}
-
-    void check() const;
+    template <class T>
+    explicit ndarray(T const& x) : object(x) {}
 
     int ndim() const;
     const int *shape() const;

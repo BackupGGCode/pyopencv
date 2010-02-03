@@ -14,6 +14,7 @@
 
 #include "opencv_headers.hpp"
 #include "sequence.hpp"
+#include "ndarray.hpp"
 
 namespace bp = boost::python;
 
@@ -116,8 +117,19 @@ extern template void convert_Mat( const cv::Mat &in_arr, double *&out_arr );
 template<typename T>
 void convert_seq_to_vector( const bp::object &in_arr, std::vector<T> &out_arr )
 {
+    // None
     out_arr.clear();
     if(in_arr.ptr() == Py_None) return;
+    
+    // ndarray
+    bp::extract<bp::ndarray> in_ndarray(in_arr);
+    if(in_ndarray.check())
+    {
+        bp::convert_ndarray<T>(in_ndarray(), out_arr);
+        return;
+    }
+    
+    // others
     int len = bp::len(in_arr);
     if(!len) return;
     out_arr.resize(len);

@@ -113,32 +113,21 @@ namespace aux
     }
 }
 
-void ndarray::check() const
-{
-    if(PyArray_Check(ptr()) != 1)
-    {
-        PyErr_SetString(PyExc_TypeError, "The variable is not an ndarray.");
-        throw error_already_set(); 
-    }
-}
-
-int ndarray::ndim() const { check(); return PyArray_NDIM(ptr()); }
-const int* ndarray::shape() const { check(); return PyArray_DIMS(ptr()); }
-const int* ndarray::strides() const { check(); return PyArray_STRIDES(ptr()); }
-int ndarray::itemsize() const { check(); return PyArray_ITEMSIZE(ptr()); }
-int ndarray::dtype() const { check(); return PyArray_TYPE(ptr()); }
-const void *ndarray::data() const { check(); return PyArray_DATA(ptr()); }
-const void *ndarray::getptr1(int i1) const { check(); return PyArray_GETPTR1(ptr(), i1); }
-const void *ndarray::getptr2(int i1, int i2) const { check(); return PyArray_GETPTR2(ptr(), i1, i2); }
-const void *ndarray::getptr3(int i1, int i2, int i3) const { check(); return PyArray_GETPTR3(ptr(), i1, i2, i3); }
-bool ndarray::iscontiguous() const { check(); return PyArray_ISCONTIGUOUS(ptr()); }
+int ndarray::ndim() const { return PyArray_NDIM(ptr()); }
+const int* ndarray::shape() const { return PyArray_DIMS(ptr()); }
+const int* ndarray::strides() const { return PyArray_STRIDES(ptr()); }
+int ndarray::itemsize() const { return PyArray_ITEMSIZE(ptr()); }
+int ndarray::dtype() const { return PyArray_TYPE(ptr()); }
+const void *ndarray::data() const { return PyArray_DATA(ptr()); }
+const void *ndarray::getptr1(int i1) const { return PyArray_GETPTR1(ptr(), i1); }
+const void *ndarray::getptr2(int i1, int i2) const { return PyArray_GETPTR2(ptr(), i1, i2); }
+const void *ndarray::getptr3(int i1, int i2, int i3) const { return PyArray_GETPTR3(ptr(), i1, i2, i3); }
+bool ndarray::iscontiguous() const { return PyArray_ISCONTIGUOUS(ptr()); }
 
 // ================================================================================================
 
 bool ndarray::last_dim_as_cvchannel() const
 {
-    check();
-    
     int nd = ndim();
     if(!nd) return false;
     
@@ -152,7 +141,7 @@ bool ndarray::last_dim_as_cvchannel() const
     return is == st[nd-1] && nchannels*is == st[nd-2];
 }
 
-int ndarray::cvrank() const { check(); return ndim()-last_dim_as_cvchannel(); }
+int ndarray::cvrank() const { return ndim()-last_dim_as_cvchannel(); }
 
 // ================================================================================================
 
