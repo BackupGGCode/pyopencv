@@ -10,14 +10,14 @@
 namespace bp = boost::python;
 
 static boost::python::object match_86773a6b4d89ae97806d1109a2438811( ::cv::SpinImageModel & inst, ::cv::SpinImageModel const & scene ){
-    bp::tuple result3;
+    bp::sequence result3;
     std::vector<std::vector<cv::Vec<int, 2>, std::allocator<cv::Vec<int, 2> > >, std::allocator<std::vector<cv::Vec<int, 2>, std::allocator<cv::Vec<int, 2> > > > > result4;
     inst.match(scene, result4);
     result3 = convert_vector_vector_to_seq(result4);
     return bp::object( result3 );
 }
 
-static void setSubset_89bf1b6d328936932f08aaf660288e7a( ::cv::SpinImageModel & inst, bp::tuple subset ){
+static void setSubset_89bf1b6d328936932f08aaf660288e7a( ::cv::SpinImageModel & inst, bp::sequence subset ){
     std::vector<int, std::allocator<int> > subset2;
     convert_seq_to_vector(subset, subset2);
     inst.setSubset(subset2);
@@ -134,7 +134,7 @@ void register_SpinImageModel_class(){
         }
         { //::cv::SpinImageModel::setSubset
         
-            typedef void ( *setSubset_function_type )( ::cv::SpinImageModel &,bp::tuple );
+            typedef void ( *setSubset_function_type )( ::cv::SpinImageModel &,bp::sequence );
             
             SpinImageModel_exposer.def( 
                 "setSubset"

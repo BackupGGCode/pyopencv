@@ -10,7 +10,7 @@
 namespace bp = boost::python;
 
 static boost::python::object detectMultiScale_4883d9b6ffcbae071fd606555194ef27( ::cv::CascadeClassifier & inst, ::cv::Mat const & image, double scaleFactor=1.10000000000000008881784197001252323389053344727e+0, int minNeighbors=3, int flags=0, ::cv::Size minSize=cv::Size_<int>() ){
-    bp::tuple objects2;
+    bp::sequence objects2;
     std::vector<cv::Rect_<int>, std::allocator<cv::Rect_<int> > > objects3;
     inst.detectMultiScale(image, objects3, scaleFactor, minNeighbors, flags, minSize);
     objects2 = convert_vector_to_seq(objects3);

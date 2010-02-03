@@ -9,9 +9,11 @@
 #include "boost/python/object.hpp"
 #include "boost/python/str.hpp"
 #include "boost/python/tuple.hpp"
+#include "boost/python/list.hpp"
 #include "boost/python/to_python_value.hpp"
 
 #include "opencv_headers.hpp"
+#include "sequence.hpp"
 
 namespace bp = boost::python;
 
@@ -124,13 +126,13 @@ void convert_seq_to_vector( const bp::object &in_arr, std::vector<T> &out_arr )
 
 // convert_vector_to_seq
 template<typename T>
-bp::tuple convert_vector_to_seq( const std::vector<T> &in_arr )
+bp::sequence convert_vector_to_seq( const std::vector<T> &in_arr )
 {
     bp::list out_arr;
     int len = in_arr.size();
-    if(!len) return bp::tuple();
+    if(!len) return bp::sequence(bp::list());
     for(int i = 0; i < len; ++i) out_arr.append(bp::object(in_arr[i]));
-    return bp::tuple(out_arr);
+    return bp::sequence(out_arr);
 }
 
 template<class T>
@@ -157,13 +159,13 @@ void convert_seq_to_vector_vector( const bp::object &in_arr, std::vector < std::
 
 // convert_vector_vector_to_seq
 template<typename T>
-bp::tuple convert_vector_vector_to_seq( const std::vector < std::vector < T > > &in_arr )
+bp::sequence convert_vector_vector_to_seq( const std::vector < std::vector < T > > &in_arr )
 {
     bp::list out_arr;
     int len = in_arr.size();
-    if(!len) return bp::tuple();
+    if(!len) return bp::sequence(bp::list());
     for(int i = 0; i < len; ++i) out_arr.append(convert_vector_to_seq(in_arr[i]));
-    return bp::tuple(out_arr);
+    return bp::sequence(out_arr);
 }
 
 template<class T>

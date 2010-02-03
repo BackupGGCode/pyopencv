@@ -8,7 +8,7 @@
 
 namespace bp = boost::python;
 
-static boost::python::object call1( ::cv::StarDetector const & inst, ::cv::Mat const & image ){
+static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & image ){
     std::vector< cv::KeyPoint > keypoints2;
     inst.operator()(image, keypoints2);
     return convert_vector_to_seq(keypoints2);
@@ -21,7 +21,7 @@ void register_StarDetector_class(){
         .def( bp::init< int, int, int, int, int >(( bp::arg("_maxSize"), bp::arg("_responseThreshold"), bp::arg("_lineThresholdProjected"), bp::arg("_lineThresholdBinarized"), bp::arg("_suppressNonmaxSize") )) )    
         .def( 
             "__call__"
-            , (boost::python::object (*)( ::cv::StarDetector const &,::cv::Mat const & ))( &call1 )
+            , (bp::sequence (*)( ::cv::StarDetector const &,::cv::Mat const & ))( &call1 )
             , ( bp::arg("inst"), bp::arg("image") ) );
 
 }

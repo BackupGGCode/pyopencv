@@ -9,13 +9,13 @@
 
 namespace bp = boost::python;
 
-static void computeNormals_0372659dbb67ca1f98a084bb3e33c861( ::cv::Mesh3D & inst, bp::tuple subset, float normalRadius, int minNeighbors=20 ){
+static void computeNormals_0372659dbb67ca1f98a084bb3e33c861( ::cv::Mesh3D & inst, bp::sequence subset, float normalRadius, int minNeighbors=20 ){
     std::vector<int, std::allocator<int> > subset2;
     convert_seq_to_vector(subset, subset2);
     inst.computeNormals(subset2, normalRadius, minNeighbors);
 }
 
-static void writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a( ::cv::Mesh3D const & inst, ::cv::String const & file, bp::tuple colors=convert_vector_to_seq(std::vector<cv::Scalar>()) ){
+static void writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a( ::cv::Mesh3D const & inst, ::cv::String const & file, bp::sequence colors=convert_vector_to_seq(std::vector<cv::Scalar>()) ){
     std::vector<cv::Scalar_<double>, std::allocator<cv::Scalar_<double> > > colors2;
     convert_seq_to_vector(colors, colors2);
     inst.writeAsVrml(file, colors2);
@@ -28,8 +28,8 @@ static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::tuple const &vtx)
     return boost::shared_ptr<cv::Mesh3D>(new cv::Mesh3D(vtx2));
 }
 
-static bp::tuple get_vtx(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.vtx); }
-static bp::tuple get_normals(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.normals); }
+static bp::sequence get_vtx(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.vtx); }
+static bp::sequence get_normals(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.normals); }
 
 void register_Mesh3D_class(){
 
@@ -70,7 +70,7 @@ void register_Mesh3D_class(){
         }
         { //::cv::Mesh3D::computeNormals
         
-            typedef void ( *computeNormals_function_type )( ::cv::Mesh3D &,bp::tuple,float,int );
+            typedef void ( *computeNormals_function_type )( ::cv::Mesh3D &,bp::sequence,float,int );
             
             Mesh3D_exposer.def( 
                 "computeNormals"
@@ -90,7 +90,7 @@ void register_Mesh3D_class(){
         }
         { //::cv::Mesh3D::writeAsVrml
         
-            typedef void ( *writeAsVrml_function_type )( ::cv::Mesh3D const &,::cv::String const &,bp::tuple );
+            typedef void ( *writeAsVrml_function_type )( ::cv::Mesh3D const &,::cv::String const &,bp::sequence );
             
             Mesh3D_exposer.def( 
                 "writeAsVrml"

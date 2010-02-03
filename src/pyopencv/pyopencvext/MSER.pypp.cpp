@@ -8,7 +8,7 @@
 
 namespace bp = boost::python;
 
-static boost::python::object call1( ::cv::MSER const & inst, ::cv::Mat & image, ::cv::Mat const & mask ){
+static bp::sequence call1( ::cv::MSER const & inst, ::cv::Mat & image, ::cv::Mat const & mask ){
     std::vector< std::vector< cv::Point > > msers2;
     inst.operator()(image, msers2, mask);
     return convert_vector_vector_to_seq(msers2);
@@ -21,7 +21,7 @@ void register_MSER_class(){
         .def( bp::init< int, int, int, float, float, int, double, double, int >(( bp::arg("_delta"), bp::arg("_min_area"), bp::arg("_max_area"), bp::arg("_max_variation"), bp::arg("_min_diversity"), bp::arg("_max_evolution"), bp::arg("_area_threshold"), bp::arg("_min_margin"), bp::arg("_edge_blur_size") )) )    
         .def( 
             "__call__"
-            , (boost::python::object (*)( ::cv::MSER const &,::cv::Mat &,::cv::Mat const & ))( &call1 )
+            , (bp::sequence (*)( ::cv::MSER const &,::cv::Mat &,::cv::Mat const & ))( &call1 )
             , ( bp::arg("inst"), bp::arg("image"), bp::arg("mask") ) );
 
 }

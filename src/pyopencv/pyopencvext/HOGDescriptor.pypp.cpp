@@ -51,7 +51,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, bp::tuple descriptors, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::tuple locations=convert_vector_to_seq(std::vector<cv::Point>()) ){
+    static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, bp::sequence descriptors, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::sequence locations=convert_vector_to_seq(std::vector<cv::Point>()) ){
         std::vector<float, std::allocator<float> > descriptors2;
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > locations2;
         convert_seq_to_vector(descriptors, descriptors2);
@@ -88,7 +88,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, bp::tuple foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::tuple searchLocations=convert_vector_to_seq(std::vector<cv::Point>()) ){
+    static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, bp::sequence foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::sequence searchLocations=convert_vector_to_seq(std::vector<cv::Point>()) ){
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > foundLocations2;
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > searchLocations2;
         convert_seq_to_vector(foundLocations, foundLocations2);
@@ -113,7 +113,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    static boost::python::object default_detectMultiScale( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, bp::tuple foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), double scale=1.05000000000000004440892098500626161694526672363e+0, int groupThreshold=2 ){
+    static boost::python::object default_detectMultiScale( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, bp::sequence foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), double scale=1.05000000000000004440892098500626161694526672363e+0, int groupThreshold=2 ){
         std::vector<cv::Rect_<int>, std::allocator<cv::Rect_<int> > > foundLocations2;
         convert_seq_to_vector(foundLocations, foundLocations2);
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
@@ -160,7 +160,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    static void default_setSVMDetector( ::cv::HOGDescriptor & inst, bp::tuple _svmdetector ){
+    static void default_setSVMDetector( ::cv::HOGDescriptor & inst, bp::sequence _svmdetector ){
         std::vector<float, std::allocator<float> > _svmdetector2;
         convert_seq_to_vector(_svmdetector, _svmdetector2);
         if( dynamic_cast< HOGDescriptor_wrapper * >( boost::addressof( inst ) ) ){
@@ -173,11 +173,11 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
 
 };
 
-static bp::tuple getDefaultPeopleDetector() {
+static bp::sequence getDefaultPeopleDetector() {
     return convert_vector_to_seq(cv::HOGDescriptor::getDefaultPeopleDetector());
 }
 
-static bp::tuple get_svmDetector(cv::HOGDescriptor const &inst) { return convert_vector_to_seq(inst.svmDetector); }
+static bp::sequence get_svmDetector(cv::HOGDescriptor const &inst) { return convert_vector_to_seq(inst.svmDetector); }
 
 void register_HOGDescriptor_class(){
 
@@ -201,7 +201,7 @@ void register_HOGDescriptor_class(){
         }
         { //::cv::HOGDescriptor::compute
         
-            typedef boost::python::object ( *default_compute_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,bp::tuple,::cv::Size,::cv::Size,bp::tuple );
+            typedef boost::python::object ( *default_compute_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,bp::sequence,::cv::Size,::cv::Size,bp::sequence );
             
             HOGDescriptor_exposer.def( 
                 "compute"
@@ -223,7 +223,7 @@ void register_HOGDescriptor_class(){
         }
         { //::cv::HOGDescriptor::detect
         
-            typedef boost::python::object ( *default_detect_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,bp::tuple,double,::cv::Size,::cv::Size,bp::tuple );
+            typedef boost::python::object ( *default_detect_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,bp::sequence,double,::cv::Size,::cv::Size,bp::sequence );
             
             HOGDescriptor_exposer.def( 
                 "detect"
@@ -233,7 +233,7 @@ void register_HOGDescriptor_class(){
         }
         { //::cv::HOGDescriptor::detectMultiScale
         
-            typedef boost::python::object ( *default_detectMultiScale_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,bp::tuple,double,::cv::Size,::cv::Size,double,int );
+            typedef boost::python::object ( *default_detectMultiScale_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,bp::sequence,double,::cv::Size,::cv::Size,double,int );
             
             HOGDescriptor_exposer.def( 
                 "detectMultiScale"
@@ -285,7 +285,7 @@ void register_HOGDescriptor_class(){
         }
         { //::cv::HOGDescriptor::setSVMDetector
         
-            typedef void ( *default_setSVMDetector_function_type )( ::cv::HOGDescriptor &,bp::tuple );
+            typedef void ( *default_setSVMDetector_function_type )( ::cv::HOGDescriptor &,bp::sequence );
             
             HOGDescriptor_exposer.def( 
                 "setSVMDetector"
