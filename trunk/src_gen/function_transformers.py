@@ -322,7 +322,7 @@ class input_array1d_t(transformer.transformer_t):
     where v2 is a Python sequence of N items, each of which is of type 'data_type'.
     Note that if 'data_type' is replaced by 'CvSomething *', each element of v2 is still of type 'CvSomething' (i.e. the pointer is taken care of).
     output_arrays : set of arguments (which are arrays) to be returned as output
-    output_as_tuple : the above output array arguments will be treated as tuples rather than bp::sequences
+        output_arrays is a dictionary of (key,value) pairs. A key is an output argument's name. Its associated value is the number of times that the array's size is multiplied with.
     """
 
     def __init__(self, function, arg_ref, arg_size_ref=None, remove_arg_size=True, output_arrays={}):
