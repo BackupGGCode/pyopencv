@@ -18,6 +18,10 @@
 
 #include "with_ownershiplevel_postcall.hpp"
 
+#include "boost/python/str.hpp"
+
+#include "boost/python/extract.hpp"
+
 #include "__ctypes_integration.pypp.hpp"
 
 #include "opencv_headers.hpp"
@@ -1086,8 +1090,8 @@ static void cvUpdateMotionHistory_fb635b1eb55f77d94f46a70f41eac0b3( ::cv::Mat & 
     ::cvUpdateMotionHistory(get_CvMat_ptr(silhouette), get_CvMat_ptr(mhi), timestamp, duration);
 }
 
-static void cvWrite_00335cc764e72fb9408450c10fffab4a( ::cv::FileStorage & fs, char const * name, void const * ptr, ::CvAttrList attributes=cvAttrList(0u, 0u) ){
-    ::cvWrite(fs.fs, name, ptr, attributes);
+static void cvWrite_00335cc764e72fb9408450c10fffab4a( ::cv::FileStorage & fs, char const * name, const char * ptr, ::CvAttrList attributes=cvAttrList(0u, 0u) ){
+    ::cvWrite(fs.fs, name, ((void const *) ptr), attributes);
 }
 
 static void cvWriteComment_3e89473031f5fbea0ed6232440721138( ::cv::FileStorage & fs, char const * comment, int eol_comment ){
@@ -3269,7 +3273,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvWrite
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,char const *,void const *,::CvAttrList );
+        typedef void ( *write_function_type )( ::cv::FileStorage &,char const *,const char *,::CvAttrList );
         
         bp::def( 
             "write"

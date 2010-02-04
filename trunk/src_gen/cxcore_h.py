@@ -305,9 +305,8 @@ CV_ErrModeSilent = 2
 
     # cvWrite
     z = mb.free_fun('cvWrite')
-    z.rename('write')
     z.include()
-    # z._transformer_creators.append(FT.input_string('ptr'))
+    z._transformer_creators.append(FT.input_string('ptr'))
 
     for z in (
         'cvGetHashedKey', 'cvGetRootFileNode', 'cvGetFileNode', 'cvGetFileNodeByName',
