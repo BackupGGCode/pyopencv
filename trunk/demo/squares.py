@@ -72,9 +72,9 @@ def findSquares4( img, thresh ):
             for contour in contours:
                 # approximate contour with accuracy proportional
                 # to the contour perimeter
-                mat_contour = Mat(contour)
+                mat_contour = asMat(contour)
                 result = approxPolyDP( mat_contour, arcLength(mat_contour, False)*0.02, False )
-                mat_result = Mat(result)
+                mat_result = asMat(result)
                 # square contours should have 4 vertices after approximation
                 # relatively large area (to filter out noisy contours)
                 # and be convex.
@@ -95,7 +95,7 @@ def findSquares4( img, thresh ):
                     # (all angles are ~90 degree) then write quandrange
                     # vertices to resultant sequence
                     if( s < 0.3 ):
-                        squares.append(result)
+                        squares.append([asPoint(x) for x in result])
 
     return squares
 
