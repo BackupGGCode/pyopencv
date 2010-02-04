@@ -517,65 +517,105 @@ NDARRAY_AS_VECT(cv::Point3d, NPY_DOUBLE, 3);
 // Scalar
 NDARRAY_AS_VECT(cv::Scalar, NPY_DOUBLE, 4);
 
+// ndarray's shape and strides arrays are big-endian
+// OpenCV's MatND's shape and strides arrays are little-endian
+void convert_shape_from_ndarray_to_opencv(const ndarray &arr, std::vector<int> &shape, 
+    std::vector<int> &strides, int &nchannels, std::vector<bool> &contiguous)
+{
+    int nd = arr.ndim();
+    
+    if(!nd)
+    {
+        shape.clear();
+        strides.clear();
+        contiguous.clear();
+        nchannels = 0; // no element at all
+        return;
+    }
+    
+    const int *arr_shape = arr.shape();
+    const int *arr_strides = arr.strides();
+    int arr_itemsize = arr.itemsize();
+    
+    if(nd==1)
+    {
+        if(arr_strides[0] == arr_itemsize // is contiguous
+            && 1 <= arr_shape[0] && arr_shape[0] <= 4) // with number of items between 1 and 4
+        { // this only dimension is a mutil-channel
+            shape.clear();
+            strides.clear();
+            contiguous.clear();
+            nchannels = arr_shape[0];
+            return;
+        }
+
+        // non-contiguous or number of items > 4
+        shape.resize(1);
+        shape[0] = arr_shape[0];
+        strides.resize(1);
+        strides[0] = arr_strides[0];
+        contiguous.resize(1);
+        contiguous[0] = (arr_strides[0] == arr_itemsize);
+        nchannels = 1;
+        return;
+    }
+    
+    // n >= 2
+    if(arr_strides[nd-1] == arr_itemsize // lowest dimension is contiguous
+        && 1 <= arr_shape[nd-1] && arr_shape[nd-1] <= 4 // with number of items between 1 and 4
+        && arr_strides[nd-2] == arr_itemsize*arr_shape[nd-1]) // second lowest dimension is also contiguous
+    { // then lowest dimension is a multi-channel
+        nchannels = arr_shape[--nd];
+        arr_itemsize *= arr_shape[nd];
+    }
+    else
+        nchannels = 1;
+    
+    // prepare shape and strides
+    int i;
+    shape.resize(nd);
+    strides.resize(nd);
+    for(i = 0; i < nd; ++i)
+    {
+        shape[i] = arr_shape[nd-1-i];
+        strides[i] = arr_strides[nd-1-i];
+    }
+    
+    // prepare contiguous
+    contiguous.resize(nd);
+    contiguous[0] = (strides[0] == arr_itemsize);
+    for(i = 1; i < nd; ++i) contiguous[i] = (strides[i] == strides[i-1]*shape[i-1]);
+}
+
+
 // Mat
 FROM_NDARRAY(cv::Mat)
 {
-    cv::Mat mat;
-    char s[1000];
+    std::vector<int> shape, strides;
+    int nd, nchannels;
+    std::vector<bool> contiguous;
+    convert_shape_from_ndarray_to_opencv(arr, shape, strides, nchannels, contiguous);
+    nd = shape.size();
     
     // checking
-    PyObject *obj = arr.ptr();
-    if(obj == Py_None) return object(mat); // ndarray = None
-    
-    int nd = arr.ndim();
-    if(nd < 2 || nd > 3)
+    for(int i = 0; i < nd; ++i) if(i != 1 && !contiguous[i])
     {
-        sprintf(s, "Cannot convert from ndarray to Mat because ndim=%d, expecting 2 (single-channel) or 3 (multiple-channel) only.", nd);
+        char s[1000];    
+        sprintf(s, "Cannot convert from ndarray to Mat because the dimension %d is not contiguous.", i);
         PyErr_SetString(PyExc_TypeError, s);
         throw error_already_set();
     }
-    int nchannels;
-    const int *shape = arr.shape();
-    int itemsize = arr.itemsize();
-    const int *strides = arr.strides();
-    if(nd == 2)
-    {
-        if(strides[1] != itemsize)
-        {
-            sprintf(s, "Cannot convert from ndarray to Mat because the last (2nd) dimension is not contiguous: strides[1]=%d, itemsize=%d.", strides[1], itemsize);
-            PyErr_SetString(PyExc_TypeError, s);
-            throw error_already_set();
-        }
-        nchannels = 1;
-    }
-    else
-    {
-        if(strides[2] != itemsize)
-        {
-            sprintf(s, "Cannot convert from ndarray to Mat because the last (3rd) dimension is not contiguous: strides[2]=%d, itemsize=%d.", strides[2], itemsize);
-            PyErr_SetString(PyExc_TypeError, s);
-            throw error_already_set();
-        }
-        nchannels = shape[2];
-        if(nchannels < 1 || nchannels > 4)
-        {
-            sprintf(s, "Cannot convert from ndarray to Mat because the number of channels is not between 1 and 4 (nchannels=%d).", nchannels);
-            PyErr_SetString(PyExc_TypeError, s);
-            throw error_already_set();
-        }
-        if(strides[1] != itemsize*nchannels)
-        {
-            sprintf(s, "Cannot convert from ndarray to Mat because the second last (2nd) dimension is not contiguous: strides[2]=%d, itemsize=%d, nchannels=%d.", strides[2], itemsize, nchannels);
-            PyErr_SetString(PyExc_TypeError, s);
-            throw error_already_set();
-        }
-    }
     
     // wrapping
-    mat = cv::Mat(cv::Size(shape[1], shape[0]), CV_MAKETYPE(convert_dtype_to_cvdepth(arr.dtype()), nchannels), 
-        (void *)arr.data(), strides[0]);
+    int cvdepth = CV_MAKETYPE(convert_dtype_to_cvdepth(arr.dtype()), nchannels);
+    void *data = (void *)arr.data();
+    cv::Mat mat;
+    if(!nd) mat = cv::Mat(1, 1, cvdepth, data);
+    else if(nd == 1) mat = cv::Mat(1, shape[0], cvdepth, data);
+    else mat = cv::Mat(shape[nd-1]*strides[nd-1]/strides[1], shape[0], cvdepth, data, strides[1]);
+    
     object result(mat);
-    objects::make_nurse_and_patient(result.ptr(), obj);
+    objects::make_nurse_and_patient(result.ptr(), arr.ptr());
     return result;
 }
 
@@ -585,9 +625,6 @@ FROM_NDARRAY(cv::MatND)
     char s[200];
     
     // checking
-    PyObject *obj = arr.ptr();
-    if(obj == Py_None) return object(cv::MatND()); // ndarray = None
-    
     if(!arr.iscontiguous())
     {
         sprintf(s, "Cannot convert because the ndarray is not contiguous.");
@@ -595,17 +632,20 @@ FROM_NDARRAY(cv::MatND)
         throw error_already_set();
     }
     
-    int sizes[CV_MAX_DIM];    
-    int nd = arr.ndim();
-    const int *shape = arr.shape();
-    for(int i = 0; i < nd; ++i) sizes[i] = shape[nd-1-i];
+    std::vector<int> shape, strides;
+    int nd, nchannels;
+    std::vector<bool> contiguous;
+    convert_shape_from_ndarray_to_opencv(arr, shape, strides, nchannels, contiguous);
+    
+    if(!shape.size()) { shape.resize(1); shape[0] = 1; }
+    nd = shape.size();
     
     // wrapping
     CvMatND cvmatnd;
-    cvInitMatNDHeader(&cvmatnd, nd, sizes, CV_MAKETYPE(convert_dtype_to_cvdepth(arr.dtype()), 1), 
+    cvInitMatNDHeader(&cvmatnd, nd, &shape[0], CV_MAKETYPE(convert_dtype_to_cvdepth(arr.dtype()), nchannels), 
         (void *)arr.data());
     object result(cv::MatND(&cvmatnd, false));
-    objects::make_nurse_and_patient(result.ptr(), obj);
+    objects::make_nurse_and_patient(result.ptr(), arr.ptr());
     return result;
 }
 
