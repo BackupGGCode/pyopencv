@@ -3867,6 +3867,122 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::to_python_converter<CvSlice, CvSlice_to_python, false>();
 
+    bp::def("asVec6d", &bp::from_ndarray< cv::Vec6d >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec6d >, (bp::arg("arr")) );
+
+    bp::def("asVec2d", &bp::from_ndarray< cv::Vec2d >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec2d >, (bp::arg("arr")) );
+
+    bp::def("asVec6f", &bp::from_ndarray< cv::Vec6f >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec6f >, (bp::arg("arr")) );
+
+    bp::def("asVec4f", &bp::from_ndarray< cv::Vec4f >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec4f >, (bp::arg("arr")) );
+
+    bp::def("asVec4i", &bp::from_ndarray< cv::Vec4i >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec4i >, (bp::arg("arr")) );
+
+    bp::def("asVec3i", &bp::from_ndarray< cv::Vec3i >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec3i >, (bp::arg("arr")) );
+
+    bp::def("asVec4w", &bp::from_ndarray< cv::Vec4w >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec4w >, (bp::arg("arr")) );
+
+    bp::def("asVec3w", &bp::from_ndarray< cv::Vec3w >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec3w >, (bp::arg("arr")) );
+
+    bp::def("asVec2w", &bp::from_ndarray< cv::Vec2w >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec2w >, (bp::arg("arr")) );
+
+    bp::def("asVec4s", &bp::from_ndarray< cv::Vec4s >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec4s >, (bp::arg("arr")) );
+
+    bp::def("asVec3s", &bp::from_ndarray< cv::Vec3s >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec3s >, (bp::arg("arr")) );
+
+    bp::def("asVec2s", &bp::from_ndarray< cv::Vec2s >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec2s >, (bp::arg("arr")) );
+
+    bp::def("asVec4b", &bp::from_ndarray< cv::Vec4b >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec4b >, (bp::arg("arr")) );
+
+    bp::def("asVec3b", &bp::from_ndarray< cv::Vec3b >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec3b >, (bp::arg("arr")) );
+
+    bp::def("asVec2b", &bp::from_ndarray< cv::Vec2b >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec2b >, (bp::arg("arr")) );
+
+    bp::def("asVec3d", &bp::from_ndarray< cv::Vec3d >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec3d >, (bp::arg("arr")) );
+
+    bp::def("asVec3f", &bp::from_ndarray< cv::Vec3f >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec3f >, (bp::arg("arr")) );
+
+    bp::def("asVec4d", &bp::from_ndarray< cv::Vec4d >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec4d >, (bp::arg("arr")) );
+
+    bp::def("asVec2f", &bp::from_ndarray< cv::Vec2f >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec2f >, (bp::arg("arr")) );
+
+    bp::def("asVec2i", &bp::from_ndarray< cv::Vec2i >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Vec2i >, (bp::arg("arr")) );
+
+    bp::def("asPoint2d", &bp::from_ndarray< cv::Point2d >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Point2d >, (bp::arg("arr")) );
+
+    bp::def("asPoint2f", &bp::from_ndarray< cv::Point2f >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Point2f >, (bp::arg("arr")) );
+
+    bp::def("asPoint2i", &bp::from_ndarray< cv::Point2i >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Point2i >, (bp::arg("arr")) );
+
+    bp::def("asPoint3d", &bp::from_ndarray< cv::Point3d >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Point3d >, (bp::arg("arr")) );
+
+    bp::def("asPoint3f", &bp::from_ndarray< cv::Point3f >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Point3f >, (bp::arg("arr")) );
+
+    bp::def("asPoint3i", &bp::from_ndarray< cv::Point3i >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Point3i >, (bp::arg("arr")) );
+
+    bp::def("asScalar", &bp::from_ndarray< cv::Scalar >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Scalar >, (bp::arg("arr")) );
+
+    bp::def("asMat", &bp::from_ndarray< cv::Mat >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Mat >, (bp::arg("arr")) );
+
+    bp::def("asMatND", &bp::from_ndarray< cv::MatND >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::MatND >, (bp::arg("arr")) );
+
     bp::def("mixChannels", &bp::mixChannels, ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo") ));
 
     bp::def("minMaxLoc", &bp::minMaxLoc, ( bp::arg("a"), bp::arg("mask")=bp::object() ));

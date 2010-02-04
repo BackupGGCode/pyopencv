@@ -22,13 +22,6 @@ def generate_code(mb, cc, D, FT, CP):
 # cxcore.hpp
 #=============================================================================
 
-try:
-    Size = Size2i
-except:
-    Size2i = Size
-
-Point = Point2i
-
     ''')
     
     #=============================================================================
@@ -70,6 +63,11 @@ KLASS.__repr__ = _KLASS__repr__
         '''.replace("KLASS", z.alias))
         mb.add_ndarray_interface(z)
     
+    cc.write('''
+Point = Point2i
+asPoint = asPoint2i
+    ''')
+    
     # Point3 et al
     mb.class_('::cv::Point3_<float>').rename('Point3f')
     zz = mb.classes(lambda z: z.name.startswith('Point3_<'))
@@ -97,6 +95,10 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
+        
+    cc.write('''
+Size = Size2i
+    ''')
     
     # Rect et al
     zz = mb.classes(lambda z: z.name.startswith('Rect_<'))
@@ -186,7 +188,7 @@ static boost::shared_ptr<cv::Mat> Mat__init3__(int _rows, int _cols, int _type)
 }
 
     ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("seq") )))')
+    # z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("seq") )))')
     z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init3__, bp::default_call_policies(), ( bp::arg("_rows"), bp::arg("_cols"), bp::arg("_type") )))') # workaround to fix a bug in invoking Mat(int, int, int)
 
     # RNG

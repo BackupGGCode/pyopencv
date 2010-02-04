@@ -98,7 +98,7 @@ void register_Vec6d_class(){
         
         }
         Vec6d_exposer.staticmethod( "all" );
-        Vec6d_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec6d > );
+        Vec6d_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec6d >, (bp::arg("arr")) );
         Vec6d_exposer.staticmethod("from_ndarray");
         Vec6d_exposer.add_property("ndarray", &bp::as_ndarray< cv::Vec6d >);
     }

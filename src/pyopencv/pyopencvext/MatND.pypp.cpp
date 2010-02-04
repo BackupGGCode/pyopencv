@@ -303,7 +303,7 @@ void register_MatND_class(){
         MatND_exposer.def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )));
         MatND_exposer.def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )));
         MatND_exposer.def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))));
-        MatND_exposer.def("from_ndarray", &bp::from_ndarray< cv::MatND > );
+        MatND_exposer.def("from_ndarray", &bp::from_ndarray< cv::MatND >, (bp::arg("arr")) );
         MatND_exposer.staticmethod("from_ndarray");
         MatND_exposer.add_property("ndarray", &bp::as_ndarray< cv::MatND >);
     }

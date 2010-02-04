@@ -59,7 +59,7 @@ void register_Point3i_class(){
         Point3i_exposer.def_readwrite( "x", &cv::Point3_< int >::x );
         Point3i_exposer.def_readwrite( "y", &cv::Point3_< int >::y );
         Point3i_exposer.def_readwrite( "z", &cv::Point3_< int >::z );
-        Point3i_exposer.def("from_ndarray", &bp::from_ndarray< cv::Point3i > );
+        Point3i_exposer.def("from_ndarray", &bp::from_ndarray< cv::Point3i >, (bp::arg("arr")) );
         Point3i_exposer.staticmethod("from_ndarray");
         Point3i_exposer.add_property("ndarray", &bp::as_ndarray< cv::Point3i >);
     }

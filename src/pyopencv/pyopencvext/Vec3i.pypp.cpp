@@ -98,7 +98,7 @@ void register_Vec3i_class(){
         
         }
         Vec3i_exposer.staticmethod( "all" );
-        Vec3i_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec3i > );
+        Vec3i_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec3i >, (bp::arg("arr")) );
         Vec3i_exposer.staticmethod("from_ndarray");
         Vec3i_exposer.add_property("ndarray", &bp::as_ndarray< cv::Vec3i >);
     }

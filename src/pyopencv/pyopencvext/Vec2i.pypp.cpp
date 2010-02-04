@@ -98,7 +98,7 @@ void register_Vec2i_class(){
         
         }
         Vec2i_exposer.staticmethod( "all" );
-        Vec2i_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec2i > );
+        Vec2i_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec2i >, (bp::arg("arr")) );
         Vec2i_exposer.staticmethod("from_ndarray");
         Vec2i_exposer.add_property("ndarray", &bp::as_ndarray< cv::Vec2i >);
     }

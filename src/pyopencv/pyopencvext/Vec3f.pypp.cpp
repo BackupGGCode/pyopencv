@@ -98,7 +98,7 @@ void register_Vec3f_class(){
         
         }
         Vec3f_exposer.staticmethod( "all" );
-        Vec3f_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec3f > );
+        Vec3f_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec3f >, (bp::arg("arr")) );
         Vec3f_exposer.staticmethod("from_ndarray");
         Vec3f_exposer.add_property("ndarray", &bp::as_ndarray< cv::Vec3f >);
     }
