@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
+#include "opencv_extra.hpp"
 #include "ndarray.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
@@ -15,10 +16,9 @@ namespace bp = boost::python;
 static void create_4e9dc46b2911de920c7af1dfbb19412a( ::cv::SparseMat & inst, boost::python::object _sizes, int _type ){
     bool b__sizes= _sizes.ptr() != Py_None;
     int l__sizes= b__sizes? bp::len(_sizes): 0;
-    std::vector< int > v__sizes(l__sizes);
-    if(l__sizes > 0) for(int i__sizes = 0; i__sizes < l__sizes; ++i__sizes) v__sizes[i__sizes] = bp::extract< int >(_sizes[i__sizes]);
+    std::vector< int > v__sizes(l__sizes); convert_seq_to_vector(_sizes, v__sizes);
     
-    inst.create(l__sizes, b__sizes? (& (v__sizes.front())): 0, _type);
+    inst.create(l__sizes, b__sizes? &v__sizes[0]: 0, _type);
 }
 
 static boost::python::object erase_ce64effe5fbeb3e9588310d12240ddce( ::cv::SparseMat & inst, int i0, int i1 ){
@@ -37,20 +37,18 @@ static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::Spars
     unsigned int hashval2;
     bool b_idx= idx.ptr() != Py_None;
     int l_idx= b_idx? bp::len(idx): 0;
-    std::vector< int > v_idx(l_idx);
-    if(l_idx > 0) for(int i_idx = 0; i_idx < l_idx; ++i_idx) v_idx[i_idx] = bp::extract< int >(idx[i_idx]);
+    std::vector< int > v_idx(l_idx); convert_seq_to_vector(idx, v_idx);
     
-    inst.erase(b_idx? (& (v_idx.front())): 0, &hashval2);
+    inst.erase(b_idx? &v_idx[0]: 0, &hashval2);
     return bp::object( hashval2 );
 }
 
 static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::SparseMat const & inst, boost::python::object idx ){
     bool b_idx= idx.ptr() != Py_None;
     int l_idx= b_idx? bp::len(idx): 0;
-    std::vector< int > v_idx(l_idx);
-    if(l_idx > 0) for(int i_idx = 0; i_idx < l_idx; ++i_idx) v_idx[i_idx] = bp::extract< int >(idx[i_idx]);
+    std::vector< int > v_idx(l_idx); convert_seq_to_vector(idx, v_idx);
     
-    ::size_t result = inst.hash(b_idx? (& (v_idx.front())): 0);
+    ::size_t result = inst.hash(b_idx? &v_idx[0]: 0);
     return bp::object( result );
 }
 

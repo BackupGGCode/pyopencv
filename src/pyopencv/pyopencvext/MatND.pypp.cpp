@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__array_1.pypp.hpp"
+#include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "boost/python/make_function.hpp"
@@ -31,19 +32,17 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
     static void create( ::cv::MatND & inst, boost::python::object _sizes, int _type ){
         bool b__sizes= _sizes.ptr() != Py_None;
         int l__sizes= b__sizes? bp::len(_sizes): 0;
-        std::vector< int > v__sizes(l__sizes);
-    if(l__sizes > 0) for(int i__sizes = 0; i__sizes < l__sizes; ++i__sizes) v__sizes[i__sizes] = bp::extract< int >(_sizes[i__sizes]);
+        std::vector< int > v__sizes(l__sizes); convert_seq_to_vector(_sizes, v__sizes);
     
-        inst.create(l__sizes, b__sizes? (& (v__sizes.front())): 0, _type);
+        inst.create(l__sizes, b__sizes? &v__sizes[0]: 0, _type);
     }
 
     static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, boost::python::object _newsz=bp::object() ){
         bool b__newsz= _newsz.ptr() != Py_None;
         int l__newsz= b__newsz? bp::len(_newsz): 0;
-        std::vector< int > v__newsz(l__newsz);
-    if(l__newsz > 0) for(int i__newsz = 0; i__newsz < l__newsz; ++i__newsz) v__newsz[i__newsz] = bp::extract< int >(_newsz[i__newsz]);
+        std::vector< int > v__newsz(l__newsz); convert_seq_to_vector(_newsz, v__newsz);
     
-        ::cv::MatND result = inst.reshape(_newcn, l__newsz, b__newsz? (& (v__newsz.front())): 0);
+        ::cv::MatND result = inst.reshape(_newcn, l__newsz, b__newsz? &v__newsz[0]: 0);
         return bp::object( result );
     }
 

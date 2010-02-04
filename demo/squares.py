@@ -95,7 +95,7 @@ def findSquares4( img, thresh ):
                     # (all angles are ~90 degree) then write quandrange
                     # vertices to resultant sequence
                     if( s < 0.3 ):
-                        squares.append([asPoint(x) for x in result])
+                        squares.append(result)
 
     return squares
 

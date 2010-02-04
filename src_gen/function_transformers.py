@@ -321,7 +321,8 @@ class input_array1d_t(transformer.transformer_t):
 
     where v2 is a Python sequence of N items, each of which is of type 'data_type'.
     Note that if 'data_type' is replaced by 'CvSomething *', each element of v2 is still of type 'CvSomething' (i.e. the pointer is taken care of).
-    output_arrays not yet documented, sorry. no time.
+    output_arrays : set of arguments (which are arrays) to be returned as output
+    output_as_tuple : the above output array arguments will be treated as tuples rather than bp::sequences
     """
 
     def __init__(self, function, arg_ref, arg_size_ref=None, remove_arg_size=True, output_arrays={}):
@@ -357,7 +358,7 @@ class input_array1d_t(transformer.transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return []
+        return ["opencv_extra.hpp"]
 
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
@@ -382,17 +383,16 @@ class input_array1d_t(transformer.transformer_t):
             controller.modify_arg_expression( self.function.arguments.index(oo_arg), "b_%s? (& (%s.front())): 0" % (self.arg.name, oa_arg) )
             controller.remove_wrapper_arg(key)
 
-            controller.return_variable("bp::tuple(%s)" % oa_arg) # TODO: check if this works
+            controller.return_variable("convert_vector_to_seq(%s)" % oa_arg)
         
         # Precall code
-        precall_code = """std::vector< ETYPE > v_ARRAY(l_ARRAY);
-    if(l_ARRAY > 0) for(int i_ARRAY = 0; i_ARRAY < l_ARRAY; ++i_ARRAY) v_ARRAY[i_ARRAY] = bp::extract< ETYPE >(ARRAY[i_ARRAY]);
+        precall_code = """std::vector< ETYPE > v_ARRAY(l_ARRAY); convert_seq_to_vector(ARRAY, v_ARRAY);
     """.replace("ETYPE", self.array_item_type.decl_string) \
         .replace("ARRAY", self.arg.name)
 
         controller.add_pre_call_code(precall_code)
             
-        controller.modify_arg_expression( self.arg_index, "b_ARRAY? (& (v_ARRAY.front())): 0".replace("ARRAY", self.arg.name) )
+        controller.modify_arg_expression( self.arg_index, "b_ARRAY? &v_ARRAY[0]: 0".replace("ARRAY", self.arg.name) )
         if self.remove_arg_size and self.arg_size is not None:
             controller.modify_arg_expression( self.arg_size_index, "l_ARRAY".replace("ARRAY", self.arg.name) )
 
@@ -468,14 +468,14 @@ class input_array2d_t(transformer.transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return [ code_repository.convenience.file_name ]
+        return [ code_repository.convenience.file_name, "opencv_extra.hpp" ]
 
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
-        w_arg.type = _D.dummy_type_t( "boost::python::object" )
+        w_arg.type = _D.dummy_type_t( "bp::sequence" )
 
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.default_value = 'bp::object()'
+            w_arg.default_value = 'bp::sequence()'
         
         if self.remove_arg_size and self.arg_size is not None:
             #removing arg_size from the function wrapper definition
@@ -486,38 +486,31 @@ class input_array2d_t(transformer.transformer_t):
             controller.remove_wrapper_arg( self.arg_ncnts.name )
         
         # precall_code
-        precall_code = """typedef ITEM_TYPE *LP_ARRAY;
-    bool b_ARRAY = (ARRAY.ptr() != Py_None);
-    int i_ARRAY, j_ARRAY, n0_ARRAY = b_ARRAY? bp::len(ARRAY): 0;
-    int *n1_ARRAY = b_ARRAY? new int [n0_ARRAY]: NULL;
-    LP_ARRAY *buf_ARRAY = b_ARRAY? new LP_ARRAY [n0_ARRAY]: NULL;
-    for(i_ARRAY = 0; i_ARRAY < n0_ARRAY; ++i_ARRAY)
+        precall_code = """bool b_ARRAY = (ARRAY.ptr() != Py_None);
+    std::vector<std::vector< ITEM_TYPE > > arr_ARRAY;
+    if(b_ARRAY) convert_seq_to_vector_vector(ARRAY, arr_ARRAY);
+    int n0_ARRAY = b_ARRAY? arr_ARRAY.size(): 0;
+    
+    std::vector< ITEM_TYPE * > buf_ARRAY;
+    std::vector<int> n1_ARRAY;
+    if(b_ARRAY)
     {
-        bp::object const &obj_ARRAY = ARRAY[i_ARRAY];
-        n1_ARRAY[i_ARRAY] = bp::len(obj_ARRAY);
-        buf_ARRAY[i_ARRAY] = new ITEM_TYPE [n1_ARRAY[i_ARRAY]];
-        for(j_ARRAY = 0; j_ARRAY < n1_ARRAY[i_ARRAY]; ++j_ARRAY)
-            buf_ARRAY[i_ARRAY][j_ARRAY] = bp::extract< ITEM_TYPE > ( obj_ARRAY[j_ARRAY] );
+        buf_ARRAY.resize(n0_ARRAY);
+        n1_ARRAY.resize(n0_ARRAY);
+        for(int i_ARRAY = 0; i_ARRAY < n0_ARRAY; ++i_ARRAY)
+        {
+            buf_ARRAY[i_ARRAY] = &arr_ARRAY[i_ARRAY][0];
+            n1_ARRAY[i_ARRAY] = arr_ARRAY[i_ARRAY].size();
+        }
     }
         """.replace("ARRAY", self.arg.name) \
             .replace("ITEM_TYPE", self.array_item_type.decl_string)
         controller.add_pre_call_code(precall_code)
         
-        # postcall_code
-        postcall_code = """if(b_ARRAY)
-    {
-        for(i_ARRAY = 0; i_ARRAY < n0_ARRAY; ++i_ARRAY) delete[] buf_ARRAY[i_ARRAY];
-        delete[] n1_ARRAY;
-        delete[] buf_ARRAY;
-    }
-        """.replace("ARRAY", self.arg.name)
-        controller.add_post_call_code(postcall_code)
-        
-
-        controller.modify_arg_expression( self.arg_index, "(%s) buf_%s" % (self.arg.type.decl_string, self.arg.name) )
+        controller.modify_arg_expression( self.arg_index, "(%s) &buf_%s[0]" % (self.arg.type.decl_string, self.arg.name) )
         
         if self.remove_arg_ncnts and self.arg_ncnts is not None:
-            controller.modify_arg_expression( self.arg_ncnts_index, "n1_"+self.arg.name )
+            controller.modify_arg_expression( self.arg_ncnts_index, "&n1_%s[0]" % self.arg.name )
 
         if self.remove_arg_size and self.arg_size is not None:
             controller.modify_arg_expression( self.arg_size_index, "n0_"+self.arg.name )

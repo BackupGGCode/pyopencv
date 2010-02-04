@@ -18,10 +18,6 @@
 
 #include "with_ownershiplevel_postcall.hpp"
 
-#include "boost/python/str.hpp"
-
-#include "boost/python/extract.hpp"
-
 #include "__ctypes_integration.pypp.hpp"
 
 #include "opencv_headers.hpp"
@@ -465,10 +461,9 @@ static boost::python::object buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac( ::cv
 static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( boost::python::object samples, ::cv::Mat & covar, ::cv::Mat & mean, int flags, int ctype=6 ){
     bool b_samples= samples.ptr() != Py_None;
     int l_samples= b_samples? bp::len(samples): 0;
-    std::vector< ::cv::Mat > v_samples(l_samples);
-    if(l_samples > 0) for(int i_samples = 0; i_samples < l_samples; ++i_samples) v_samples[i_samples] = bp::extract< ::cv::Mat >(samples[i_samples]);
+    std::vector< ::cv::Mat > v_samples(l_samples); convert_seq_to_vector(samples, v_samples);
     
-    ::cv::calcCovarMatrix(b_samples? (& (v_samples.front())): 0, l_samples, covar, mean, flags, ctype);
+    ::cv::calcCovarMatrix(b_samples? &v_samples[0]: 0, l_samples, covar, mean, flags, ctype);
 }
 
 static boost::python::tuple calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1( ::cv::Mat const & prevImg, ::cv::Mat const & nextImg, bp::sequence prevPts, ::cv::Size winSize=cv::Size_<int>(15, 15), int maxLevel=3, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), double derivLambda=5.0e-1, int flags=0 ){
@@ -565,41 +560,37 @@ static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4
     std::vector < float > track_error2(l_prev_features * 1);
     std::vector < ::CvPoint2D32f > curr_features2(l_prev_features * 1);
     std::vector < float > matrices2(l_prev_features * 1);
-    std::vector< ::CvPoint2D32f > v_prev_features(l_prev_features);
-    if(l_prev_features > 0) for(int i_prev_features = 0; i_prev_features < l_prev_features; ++i_prev_features) v_prev_features[i_prev_features] = bp::extract< ::CvPoint2D32f >(prev_features[i_prev_features]);
+    std::vector< ::CvPoint2D32f > v_prev_features(l_prev_features); convert_seq_to_vector(prev_features, v_prev_features);
     
-    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), b_prev_features? (& (v_prev_features.front())): 0, b_prev_features? (& (curr_features2.front())): 0, b_prev_features? (& (matrices2.front())): 0, l_prev_features, win_size, level, b_prev_features? (& (status2.front())): 0, b_prev_features? (& (track_error2.front())): 0, criteria, flags);
-    return bp::make_tuple( bp::tuple(status2)
-                            , bp::tuple(track_error2)
-                            , bp::tuple(curr_features2)
-                            , bp::tuple(matrices2) );
+    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), b_prev_features? &v_prev_features[0]: 0, b_prev_features? (& (curr_features2.front())): 0, b_prev_features? (& (matrices2.front())): 0, l_prev_features, win_size, level, b_prev_features? (& (status2.front())): 0, b_prev_features? (& (track_error2.front())): 0, criteria, flags);
+    return bp::make_tuple( convert_vector_to_seq(status2)
+                            , convert_vector_to_seq(track_error2)
+                            , convert_vector_to_seq(curr_features2)
+                            , convert_vector_to_seq(matrices2) );
 }
 
 static void cvCalcArrBackProject_5961923bfd62f49a1a0aa6e73fd2cee6( boost::python::object image, ::cv::Mat & dst, ::CvHistogram const * hist ){
     bool b_image= image.ptr() != Py_None;
     int l_image= b_image? bp::len(image): 0;
-    std::vector< void * > v_image(l_image);
-    if(l_image > 0) for(int i_image = 0; i_image < l_image; ++i_image) v_image[i_image] = bp::extract< void * >(image[i_image]);
+    std::vector< void * > v_image(l_image); convert_seq_to_vector(image, v_image);
     
-    ::cvCalcArrBackProject(b_image? (& (v_image.front())): 0, get_CvMat_ptr(dst), hist);
+    ::cvCalcArrBackProject(b_image? &v_image[0]: 0, get_CvMat_ptr(dst), hist);
 }
 
 static void cvCalcArrBackProjectPatch_5574debe9c7d943baa020075e0434b56( boost::python::object image, ::cv::Mat & dst, ::CvSize range, ::CvHistogram * hist, int method, double factor ){
     bool b_image= image.ptr() != Py_None;
     int l_image= b_image? bp::len(image): 0;
-    std::vector< void * > v_image(l_image);
-    if(l_image > 0) for(int i_image = 0; i_image < l_image; ++i_image) v_image[i_image] = bp::extract< void * >(image[i_image]);
+    std::vector< void * > v_image(l_image); convert_seq_to_vector(image, v_image);
     
-    ::cvCalcArrBackProjectPatch(b_image? (& (v_image.front())): 0, get_CvMat_ptr(dst), range, hist, method, factor);
+    ::cvCalcArrBackProjectPatch(b_image? &v_image[0]: 0, get_CvMat_ptr(dst), range, hist, method, factor);
 }
 
 static void cvCalcArrHist_1919ae68601cfdffd256e40ac0fbe86e( boost::python::object arr, ::CvHistogram * hist, int accumulate=0, ::cv::Mat mask=cv::Mat() ){
     bool b_arr= arr.ptr() != Py_None;
     int l_arr= b_arr? bp::len(arr): 0;
-    std::vector< void * > v_arr(l_arr);
-    if(l_arr > 0) for(int i_arr = 0; i_arr < l_arr; ++i_arr) v_arr[i_arr] = bp::extract< void * >(arr[i_arr]);
+    std::vector< void * > v_arr(l_arr); convert_seq_to_vector(arr, v_arr);
     
-    ::cvCalcArrHist(b_arr? (& (v_arr.front())): 0, hist, accumulate, get_CvMat_ptr(mask));
+    ::cvCalcArrHist(b_arr? &v_arr[0]: 0, hist, accumulate, get_CvMat_ptr(mask));
 }
 
 static void cvCalcBayesianProb_1195a20f1f016c88866792b21372e3f9( boost::python::object src, boost::python::object dst ){
@@ -607,13 +598,11 @@ static void cvCalcBayesianProb_1195a20f1f016c88866792b21372e3f9( boost::python::
     int l_src= b_src? bp::len(src): 0;
     bool b_dst= dst.ptr() != Py_None;
     int l_dst= b_dst? bp::len(dst): 0;
-    std::vector< ::CvHistogram * > v_src(l_src);
-    if(l_src > 0) for(int i_src = 0; i_src < l_src; ++i_src) v_src[i_src] = bp::extract< ::CvHistogram * >(src[i_src]);
+    std::vector< ::CvHistogram * > v_src(l_src); convert_seq_to_vector(src, v_src);
     
-    std::vector< ::CvHistogram * > v_dst(l_dst);
-    if(l_dst > 0) for(int i_dst = 0; i_dst < l_dst; ++i_dst) v_dst[i_dst] = bp::extract< ::CvHistogram * >(dst[i_dst]);
+    std::vector< ::CvHistogram * > v_dst(l_dst); convert_seq_to_vector(dst, v_dst);
     
-    ::cvCalcBayesianProb(b_src? (& (v_src.front())): 0, l_src, b_dst? (& (v_dst.front())): 0);
+    ::cvCalcBayesianProb(b_src? &v_src[0]: 0, l_src, b_dst? &v_dst[0]: 0);
 }
 
 static boost::python::object cvCalcEMD2_f4e5308a9258b3a75a06fb112d06a2e8( ::cv::Mat & signature1, ::cv::Mat & signature2, int distance_type, boost::python::object distance_func=bp::object(), ::cv::Mat cost_matrix=cv::Mat(), ::cv::Mat flow=cv::Mat(), float * lower_bound=0, boost::python::object userdata=bp::object() ){
@@ -632,10 +621,9 @@ static boost::python::object cvCalcGlobalOrientation_9d75a586d5a67c41e4450ccf9b8
 static void cvCalcHist_419724e5b83c7c4f7e5371b8d787f899( boost::python::object image, ::CvHistogram * hist, int accumulate=0, ::cv::Mat mask=cv::Mat() ){
     bool b_image= image.ptr() != Py_None;
     int l_image= b_image? bp::len(image): 0;
-    std::vector< ::_IplImage * > v_image(l_image);
-    if(l_image > 0) for(int i_image = 0; i_image < l_image; ++i_image) v_image[i_image] = bp::extract< ::_IplImage * >(image[i_image]);
+    std::vector< ::_IplImage * > v_image(l_image); convert_seq_to_vector(image, v_image);
     
-    ::cvCalcHist(b_image? (& (v_image.front())): 0, hist, accumulate, get_CvMat_ptr(mask));
+    ::cvCalcHist(b_image? &v_image[0]: 0, hist, accumulate, get_CvMat_ptr(mask));
 }
 
 static boost::python::object cvCalcImageHomography_a814cf819bbf03a0c8d0b4fd1b700335( boost::python::object line, ::CvPoint3D32f * center, boost::python::object intrinsic ){
@@ -674,13 +662,12 @@ static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b1283
     std::vector < char > status2(l_prev_features * 1);
     std::vector < float > track_error2(l_prev_features * 1);
     std::vector < ::CvPoint2D32f > curr_features2(l_prev_features * 1);
-    std::vector< ::CvPoint2D32f > v_prev_features(l_prev_features);
-    if(l_prev_features > 0) for(int i_prev_features = 0; i_prev_features < l_prev_features; ++i_prev_features) v_prev_features[i_prev_features] = bp::extract< ::CvPoint2D32f >(prev_features[i_prev_features]);
+    std::vector< ::CvPoint2D32f > v_prev_features(l_prev_features); convert_seq_to_vector(prev_features, v_prev_features);
     
-    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), b_prev_features? (& (v_prev_features.front())): 0, b_prev_features? (& (curr_features2.front())): 0, l_prev_features, win_size, level, b_prev_features? (& (status2.front())): 0, b_prev_features? (& (track_error2.front())): 0, criteria, flags);
-    return bp::make_tuple( bp::tuple(status2)
-                            , bp::tuple(track_error2)
-                            , bp::tuple(curr_features2) );
+    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), b_prev_features? &v_prev_features[0]: 0, b_prev_features? (& (curr_features2.front())): 0, l_prev_features, win_size, level, b_prev_features? (& (status2.front())): 0, b_prev_features? (& (track_error2.front())): 0, criteria, flags);
+    return bp::make_tuple( convert_vector_to_seq(status2)
+                            , convert_vector_to_seq(track_error2)
+                            , convert_vector_to_seq(curr_features2) );
 }
 
 static void cvConDensInitSampleSet_2b2c9d04e9f57fb36a248c795590341d( ::CvConDensation * condens, ::cv::Mat & lower_bound, ::cv::Mat & upper_bound ){
@@ -708,34 +695,30 @@ static void cvCorrectMatches_055faac2f695cea7fa86e829ba6bdc99( ::cv::Mat & F, ::
     ::cvCorrectMatches(get_CvMat_ptr(F), get_CvMat_ptr(points1), get_CvMat_ptr(points2), get_CvMat_ptr(new_points1), get_CvMat_ptr(new_points2));
 }
 
-static boost::python::object cvCreateHist_f2b39da376344404265809e761a6aaba( boost::python::object sizes, int type, boost::python::object ranges=bp::object(), int uniform=1 ){
+static boost::python::object cvCreateHist_f2b39da376344404265809e761a6aaba( boost::python::object sizes, int type, bp::sequence ranges=bp::sequence(), int uniform=1 ){
     bool b_sizes= sizes.ptr() != Py_None;
     int l_sizes= b_sizes? bp::len(sizes): 0;
-    typedef float *LP_ranges;
     bool b_ranges = (ranges.ptr() != Py_None);
-    int i_ranges, j_ranges, n0_ranges = b_ranges? bp::len(ranges): 0;
-    int *n1_ranges = b_ranges? new int [n0_ranges]: NULL;
-    LP_ranges *buf_ranges = b_ranges? new LP_ranges [n0_ranges]: NULL;
-    for(i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
-    {
-        bp::object const &obj_ranges = ranges[i_ranges];
-        n1_ranges[i_ranges] = bp::len(obj_ranges);
-        buf_ranges[i_ranges] = new float [n1_ranges[i_ranges]];
-        for(j_ranges = 0; j_ranges < n1_ranges[i_ranges]; ++j_ranges)
-            buf_ranges[i_ranges][j_ranges] = bp::extract< float > ( obj_ranges[j_ranges] );
-    }
-        
-    std::vector< int > v_sizes(l_sizes);
-    if(l_sizes > 0) for(int i_sizes = 0; i_sizes < l_sizes; ++i_sizes) v_sizes[i_sizes] = bp::extract< int >(sizes[i_sizes]);
+    std::vector<std::vector< float > > arr_ranges;
+    if(b_ranges) convert_seq_to_vector_vector(ranges, arr_ranges);
+    int n0_ranges = b_ranges? arr_ranges.size(): 0;
     
-    ::CvHistogram * result = ::cvCreateHist(l_sizes, b_sizes? (& (v_sizes.front())): 0, type, (float * *) buf_ranges, uniform);
+    std::vector< float * > buf_ranges;
+    std::vector<int> n1_ranges;
     if(b_ranges)
     {
-        for(i_ranges = 0; i_ranges < n0_ranges; ++i_ranges) delete[] buf_ranges[i_ranges];
-        delete[] n1_ranges;
-        delete[] buf_ranges;
+        buf_ranges.resize(n0_ranges);
+        n1_ranges.resize(n0_ranges);
+        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
+        {
+            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
+            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
+        }
     }
         
+    std::vector< int > v_sizes(l_sizes); convert_seq_to_vector(sizes, v_sizes);
+    
+    ::CvHistogram * result = ::cvCreateHist(l_sizes, b_sizes? &v_sizes[0]: 0, type, (float * *) &buf_ranges[0], uniform);
     typedef bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvHistogram * >( result ) );
 }
@@ -761,10 +744,9 @@ static boost::python::tuple cvCreateTrackbar2_c093a5d4e70019414d270b02dacaafb5( 
 static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, ::cv::Mat & dst, int distance_type=2, int mask_size=3, boost::python::object mask=bp::object(), ::cv::Mat labels=cv::Mat() ){
     bool b_mask= mask.ptr() != Py_None;
     int l_mask= b_mask? bp::len(mask): 0;
-    std::vector< float > v_mask(l_mask);
-    if(l_mask > 0) for(int i_mask = 0; i_mask < l_mask; ++i_mask) v_mask[i_mask] = bp::extract< float >(mask[i_mask]);
+    std::vector< float > v_mask(l_mask); convert_seq_to_vector(mask, v_mask);
     
-    ::cvDistTransform(get_CvMat_ptr(src), get_CvMat_ptr(dst), distance_type, mask_size, b_mask? (& (v_mask.front())): 0, get_CvMat_ptr(labels));
+    ::cvDistTransform(get_CvMat_ptr(src), get_CvMat_ptr(dst), distance_type, mask_size, b_mask? &v_mask[0]: 0, get_CvMat_ptr(labels));
 }
 
 static void cvEndWriteStruct_49df8f8a99539026dfbd302575d7a485( ::cv::FileStorage & fs ){
@@ -838,20 +820,18 @@ static void cvGetQuadrangleSubPix_fe2b1a5028fa8b02301dc960cdfbc131( ::cv::Mat & 
 static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc53b( boost::python::object arrs, ::cv::Mat & mask, ::CvMatND * stubs, ::CvNArrayIterator * array_iterator, int flags=0 ){
     bool b_arrs= arrs.ptr() != Py_None;
     int l_arrs= b_arrs? bp::len(arrs): 0;
-    std::vector< void * > v_arrs(l_arrs);
-    if(l_arrs > 0) for(int i_arrs = 0; i_arrs < l_arrs; ++i_arrs) v_arrs[i_arrs] = bp::extract< void * >(arrs[i_arrs]);
+    std::vector< void * > v_arrs(l_arrs); convert_seq_to_vector(arrs, v_arrs);
     
-    int result = ::cvInitNArrayIterator(l_arrs, b_arrs? (& (v_arrs.front())): 0, get_CvMat_ptr(mask), stubs, array_iterator, flags);
+    int result = ::cvInitNArrayIterator(l_arrs, b_arrs? &v_arrs[0]: 0, get_CvMat_ptr(mask), stubs, array_iterator, flags);
     return bp::object( result );
 }
 
 static boost::python::object cvInitSystem_f0aa383f9ae0b2f0bf89bbcb5e73da23( boost::python::object argv ){
     bool b_argv= argv.ptr() != Py_None;
     int l_argv= b_argv? bp::len(argv): 0;
-    std::vector< char * > v_argv(l_argv);
-    if(l_argv > 0) for(int i_argv = 0; i_argv < l_argv; ++i_argv) v_argv[i_argv] = bp::extract< char * >(argv[i_argv]);
+    std::vector< char * > v_argv(l_argv); convert_seq_to_vector(argv, v_argv);
     
-    int result = ::cvInitSystem(l_argv, b_argv? (& (v_argv.front())): 0);
+    int result = ::cvInitSystem(l_argv, b_argv? &v_argv[0]: 0);
     return bp::object( result );
 }
 
@@ -995,29 +975,26 @@ static void cvSeqInsertSlice_870f54253b0103a244c6ac596f2820c4( ::CvSeq * seq, in
     ::cvSeqInsertSlice(seq, before_index, get_CvMat_ptr(from_arr));
 }
 
-static void cvSetHistBinRanges_09cb8cb8a16af84266aeebdf9d86df3f( ::CvHistogram * hist, boost::python::object ranges, int uniform=1 ){
-    typedef float *LP_ranges;
+static void cvSetHistBinRanges_09cb8cb8a16af84266aeebdf9d86df3f( ::CvHistogram * hist, bp::sequence ranges, int uniform=1 ){
     bool b_ranges = (ranges.ptr() != Py_None);
-    int i_ranges, j_ranges, n0_ranges = b_ranges? bp::len(ranges): 0;
-    int *n1_ranges = b_ranges? new int [n0_ranges]: NULL;
-    LP_ranges *buf_ranges = b_ranges? new LP_ranges [n0_ranges]: NULL;
-    for(i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
-    {
-        bp::object const &obj_ranges = ranges[i_ranges];
-        n1_ranges[i_ranges] = bp::len(obj_ranges);
-        buf_ranges[i_ranges] = new float [n1_ranges[i_ranges]];
-        for(j_ranges = 0; j_ranges < n1_ranges[i_ranges]; ++j_ranges)
-            buf_ranges[i_ranges][j_ranges] = bp::extract< float > ( obj_ranges[j_ranges] );
-    }
-        
-    ::cvSetHistBinRanges(hist, (float * *) buf_ranges, uniform);
+    std::vector<std::vector< float > > arr_ranges;
+    if(b_ranges) convert_seq_to_vector_vector(ranges, arr_ranges);
+    int n0_ranges = b_ranges? arr_ranges.size(): 0;
+    
+    std::vector< float * > buf_ranges;
+    std::vector<int> n1_ranges;
     if(b_ranges)
     {
-        for(i_ranges = 0; i_ranges < n0_ranges; ++i_ranges) delete[] buf_ranges[i_ranges];
-        delete[] n1_ranges;
-        delete[] buf_ranges;
+        buf_ranges.resize(n0_ranges);
+        n1_ranges.resize(n0_ranges);
+        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
+        {
+            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
+            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
+        }
     }
         
+    ::cvSetHistBinRanges(hist, (float * *) &buf_ranges[0], uniform);
 }
 
 static boost::python::object cvSetMouseCallback_c212defec0903d7de57c5c0b0ee9b03d( char const * window_name, boost::python::object on_mouse, boost::python::object param=bp::object() ){
@@ -1038,16 +1015,13 @@ static void cvSnakeImage_12c505f189b0be3fa57d4cc42c364735( ::cv::Mat & image, ::
     int l_beta= b_beta? bp::len(beta): 0;
     bool b_gamma= gamma.ptr() != Py_None;
     int l_gamma= b_gamma? bp::len(gamma): 0;
-    std::vector< float > v_alpha(l_alpha);
-    if(l_alpha > 0) for(int i_alpha = 0; i_alpha < l_alpha; ++i_alpha) v_alpha[i_alpha] = bp::extract< float >(alpha[i_alpha]);
+    std::vector< float > v_alpha(l_alpha); convert_seq_to_vector(alpha, v_alpha);
     
-    std::vector< float > v_beta(l_beta);
-    if(l_beta > 0) for(int i_beta = 0; i_beta < l_beta; ++i_beta) v_beta[i_beta] = bp::extract< float >(beta[i_beta]);
+    std::vector< float > v_beta(l_beta); convert_seq_to_vector(beta, v_beta);
     
-    std::vector< float > v_gamma(l_gamma);
-    if(l_gamma > 0) for(int i_gamma = 0; i_gamma < l_gamma; ++i_gamma) v_gamma[i_gamma] = bp::extract< float >(gamma[i_gamma]);
+    std::vector< float > v_gamma(l_gamma); convert_seq_to_vector(gamma, v_gamma);
     
-    ::cvSnakeImage(get_IplImage_ptr(image), points, length, b_alpha? (& (v_alpha.front())): 0, b_beta? (& (v_beta.front())): 0, b_gamma? (& (v_gamma.front())): 0, coeff_usage, win, criteria, calc_gradient);
+    ::cvSnakeImage(get_IplImage_ptr(image), points, length, b_alpha? &v_alpha[0]: 0, b_beta? &v_beta[0]: 0, b_gamma? &v_gamma[0]: 0, coeff_usage, win, criteria, calc_gradient);
 }
 
 static boost::python::object cvSolveCubic_97d0ac3b0fc6ba46cd5b5f2eaea79583( ::cv::Mat & coeffs, ::cv::Mat & roots ){
@@ -1112,8 +1086,8 @@ static void cvUpdateMotionHistory_fb635b1eb55f77d94f46a70f41eac0b3( ::cv::Mat & 
     ::cvUpdateMotionHistory(get_CvMat_ptr(silhouette), get_CvMat_ptr(mhi), timestamp, duration);
 }
 
-static void cvWrite_00335cc764e72fb9408450c10fffab4a( ::cv::FileStorage & fs, char const * name, const char * ptr, ::CvAttrList attributes=cvAttrList(0u, 0u) ){
-    ::cvWrite(fs.fs, name, ((void const *) ptr), attributes);
+static void cvWrite_00335cc764e72fb9408450c10fffab4a( ::cv::FileStorage & fs, char const * name, void const * ptr, ::CvAttrList attributes=cvAttrList(0u, 0u) ){
+    ::cvWrite(fs.fs, name, ptr, attributes);
 }
 
 static void cvWriteComment_3e89473031f5fbea0ed6232440721138( ::cv::FileStorage & fs, char const * comment, int eol_comment ){
@@ -1163,35 +1137,31 @@ static boost::python::tuple estimateAffine3D_fd3dca5e5fd5d2ce4664db813a2c08bf( :
 static void fillConvexPoly_1312287b0cded13c02c57cc3d8ebf4b4( ::cv::Mat & img, boost::python::object pts, ::cv::Scalar const & color, int lineType=8, int shift=0 ){
     bool b_pts= pts.ptr() != Py_None;
     int l_pts= b_pts? bp::len(pts): 0;
-    std::vector< ::cv::Point_<int> > v_pts(l_pts);
-    if(l_pts > 0) for(int i_pts = 0; i_pts < l_pts; ++i_pts) v_pts[i_pts] = bp::extract< ::cv::Point_<int> >(pts[i_pts]);
+    std::vector< ::cv::Point_<int> > v_pts(l_pts); convert_seq_to_vector(pts, v_pts);
     
-    ::cv::fillConvexPoly(img, b_pts? (& (v_pts.front())): 0, l_pts, color, lineType, shift);
+    ::cv::fillConvexPoly(img, b_pts? &v_pts[0]: 0, l_pts, color, lineType, shift);
 }
 
-static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, boost::python::object pts, ::cv::Scalar const & color, int lineType=8, int shift=0, ::cv::Point offset=cv::Point_<int>() ){
-    typedef ::cv::Point_<int> *LP_pts;
+static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, bp::sequence pts, ::cv::Scalar const & color, int lineType=8, int shift=0, ::cv::Point offset=cv::Point_<int>() ){
     bool b_pts = (pts.ptr() != Py_None);
-    int i_pts, j_pts, n0_pts = b_pts? bp::len(pts): 0;
-    int *n1_pts = b_pts? new int [n0_pts]: NULL;
-    LP_pts *buf_pts = b_pts? new LP_pts [n0_pts]: NULL;
-    for(i_pts = 0; i_pts < n0_pts; ++i_pts)
-    {
-        bp::object const &obj_pts = pts[i_pts];
-        n1_pts[i_pts] = bp::len(obj_pts);
-        buf_pts[i_pts] = new ::cv::Point_<int> [n1_pts[i_pts]];
-        for(j_pts = 0; j_pts < n1_pts[i_pts]; ++j_pts)
-            buf_pts[i_pts][j_pts] = bp::extract< ::cv::Point_<int> > ( obj_pts[j_pts] );
-    }
-        
-    ::cv::fillPoly(img, (::cv::Point const * *) buf_pts, n1_pts, n0_pts, color, lineType, shift, offset);
+    std::vector<std::vector< ::cv::Point_<int> > > arr_pts;
+    if(b_pts) convert_seq_to_vector_vector(pts, arr_pts);
+    int n0_pts = b_pts? arr_pts.size(): 0;
+    
+    std::vector< ::cv::Point_<int> * > buf_pts;
+    std::vector<int> n1_pts;
     if(b_pts)
     {
-        for(i_pts = 0; i_pts < n0_pts; ++i_pts) delete[] buf_pts[i_pts];
-        delete[] n1_pts;
-        delete[] buf_pts;
+        buf_pts.resize(n0_pts);
+        n1_pts.resize(n0_pts);
+        for(int i_pts = 0; i_pts < n0_pts; ++i_pts)
+        {
+            buf_pts[i_pts] = &arr_pts[i_pts][0];
+            n1_pts[i_pts] = arr_pts[i_pts].size();
+        }
     }
         
+    ::cv::fillPoly(img, (::cv::Point const * *) &buf_pts[0], &n1_pts[0], n0_pts, color, lineType, shift, offset);
 }
 
 static boost::python::tuple findChessboardCorners_dbf15a4ace0e613206118382aa1793ea( ::cv::Mat const & image, ::cv::Size patternSize, int flags=3 ){
@@ -1246,13 +1216,11 @@ static boost::python::object getAffineTransform_aa493630c3e4efe1ff49141fe5060922
     int l_src= b_src? bp::len(src): 0;
     bool b_dst= dst.ptr() != Py_None;
     int l_dst= b_dst? bp::len(dst): 0;
-    std::vector< ::cv::Point_<float> > v_src(l_src);
-    if(l_src > 0) for(int i_src = 0; i_src < l_src; ++i_src) v_src[i_src] = bp::extract< ::cv::Point_<float> >(src[i_src]);
+    std::vector< ::cv::Point_<float> > v_src(l_src); convert_seq_to_vector(src, v_src);
     
-    std::vector< ::cv::Point_<float> > v_dst(l_dst);
-    if(l_dst > 0) for(int i_dst = 0; i_dst < l_dst; ++i_dst) v_dst[i_dst] = bp::extract< ::cv::Point_<float> >(dst[i_dst]);
+    std::vector< ::cv::Point_<float> > v_dst(l_dst); convert_seq_to_vector(dst, v_dst);
     
-    ::cv::Mat result = ::cv::getAffineTransform(b_src? (& (v_src.front())): 0, b_dst? (& (v_dst.front())): 0);
+    ::cv::Mat result = ::cv::getAffineTransform(b_src? &v_src[0]: 0, b_dst? &v_dst[0]: 0);
     return bp::object( result );
 }
 
@@ -1261,13 +1229,11 @@ static boost::python::object getPerspectiveTransform_c06a0392152cb20f6b57ae1ff2a
     int l_src= b_src? bp::len(src): 0;
     bool b_dst= dst.ptr() != Py_None;
     int l_dst= b_dst? bp::len(dst): 0;
-    std::vector< ::cv::Point_<float> > v_src(l_src);
-    if(l_src > 0) for(int i_src = 0; i_src < l_src; ++i_src) v_src[i_src] = bp::extract< ::cv::Point_<float> >(src[i_src]);
+    std::vector< ::cv::Point_<float> > v_src(l_src); convert_seq_to_vector(src, v_src);
     
-    std::vector< ::cv::Point_<float> > v_dst(l_dst);
-    if(l_dst > 0) for(int i_dst = 0; i_dst < l_dst; ++i_dst) v_dst[i_dst] = bp::extract< ::cv::Point_<float> >(dst[i_dst]);
+    std::vector< ::cv::Point_<float> > v_dst(l_dst); convert_seq_to_vector(dst, v_dst);
     
-    ::cv::Mat result = ::cv::getPerspectiveTransform(b_src? (& (v_src.front())): 0, b_dst? (& (v_dst.front())): 0);
+    ::cv::Mat result = ::cv::getPerspectiveTransform(b_src? &v_src[0]: 0, b_dst? &v_dst[0]: 0);
     return bp::object( result );
 }
 
@@ -1328,44 +1294,39 @@ static boost::python::tuple kmeans_7acc1faebc4e430dbd210d93113e85c9( ::cv::Mat c
 static void merge_3b2d3618a31ce673ada132517e890dcb( boost::python::object mvbegin, ::cv::MatND & dst ){
     bool b_mvbegin= mvbegin.ptr() != Py_None;
     int l_mvbegin= b_mvbegin? bp::len(mvbegin): 0;
-    std::vector< ::cv::MatND > v_mvbegin(l_mvbegin);
-    if(l_mvbegin > 0) for(int i_mvbegin = 0; i_mvbegin < l_mvbegin; ++i_mvbegin) v_mvbegin[i_mvbegin] = bp::extract< ::cv::MatND >(mvbegin[i_mvbegin]);
+    std::vector< ::cv::MatND > v_mvbegin(l_mvbegin); convert_seq_to_vector(mvbegin, v_mvbegin);
     
-    ::cv::merge(b_mvbegin? (& (v_mvbegin.front())): 0, l_mvbegin, dst);
+    ::cv::merge(b_mvbegin? &v_mvbegin[0]: 0, l_mvbegin, dst);
 }
 
 static void merge_a47eeb2aff422ee6c05b5574cb0848fe( boost::python::object mv, ::cv::Mat & dst ){
     bool b_mv= mv.ptr() != Py_None;
     int l_mv= b_mv? bp::len(mv): 0;
-    std::vector< ::cv::Mat > v_mv(l_mv);
-    if(l_mv > 0) for(int i_mv = 0; i_mv < l_mv; ++i_mv) v_mv[i_mv] = bp::extract< ::cv::Mat >(mv[i_mv]);
+    std::vector< ::cv::Mat > v_mv(l_mv); convert_seq_to_vector(mv, v_mv);
     
-    ::cv::merge(b_mv? (& (v_mv.front())): 0, l_mv, dst);
+    ::cv::merge(b_mv? &v_mv[0]: 0, l_mv, dst);
 }
 
-static void polylines_4b2b9aca4a0ee1864678eae6b982fcc0( ::cv::Mat & img, boost::python::object pts, bool isClosed, ::cv::Scalar const & color, int thickness=1, int lineType=8, int shift=0 ){
-    typedef ::cv::Point_<int> *LP_pts;
+static void polylines_4b2b9aca4a0ee1864678eae6b982fcc0( ::cv::Mat & img, bp::sequence pts, bool isClosed, ::cv::Scalar const & color, int thickness=1, int lineType=8, int shift=0 ){
     bool b_pts = (pts.ptr() != Py_None);
-    int i_pts, j_pts, n0_pts = b_pts? bp::len(pts): 0;
-    int *n1_pts = b_pts? new int [n0_pts]: NULL;
-    LP_pts *buf_pts = b_pts? new LP_pts [n0_pts]: NULL;
-    for(i_pts = 0; i_pts < n0_pts; ++i_pts)
-    {
-        bp::object const &obj_pts = pts[i_pts];
-        n1_pts[i_pts] = bp::len(obj_pts);
-        buf_pts[i_pts] = new ::cv::Point_<int> [n1_pts[i_pts]];
-        for(j_pts = 0; j_pts < n1_pts[i_pts]; ++j_pts)
-            buf_pts[i_pts][j_pts] = bp::extract< ::cv::Point_<int> > ( obj_pts[j_pts] );
-    }
-        
-    ::cv::polylines(img, (::cv::Point const * *) buf_pts, n1_pts, n0_pts, isClosed, color, thickness, lineType, shift);
+    std::vector<std::vector< ::cv::Point_<int> > > arr_pts;
+    if(b_pts) convert_seq_to_vector_vector(pts, arr_pts);
+    int n0_pts = b_pts? arr_pts.size(): 0;
+    
+    std::vector< ::cv::Point_<int> * > buf_pts;
+    std::vector<int> n1_pts;
     if(b_pts)
     {
-        for(i_pts = 0; i_pts < n0_pts; ++i_pts) delete[] buf_pts[i_pts];
-        delete[] n1_pts;
-        delete[] buf_pts;
+        buf_pts.resize(n0_pts);
+        n1_pts.resize(n0_pts);
+        for(int i_pts = 0; i_pts < n0_pts; ++i_pts)
+        {
+            buf_pts[i_pts] = &arr_pts[i_pts][0];
+            n1_pts[i_pts] = arr_pts[i_pts].size();
+        }
     }
         
+    ::cv::polylines(img, (::cv::Point const * *) &buf_pts[0], &n1_pts[0], n0_pts, isClosed, color, thickness, lineType, shift);
 }
 
 static boost::python::object projectPoints_c3cbd5f3e0c4a976b617302062632da4( ::cv::Mat const & objectPoints, ::cv::Mat const & rvec, ::cv::Mat const & tvec, ::cv::Mat const & cameraMatrix, ::cv::Mat const & distCoeffs, ::cv::Mat & dpdrot, ::cv::Mat & dpdt, ::cv::Mat & dpdf, ::cv::Mat & dpdc, ::cv::Mat & dpddist, double aspectRatio=0 ){
@@ -1467,19 +1428,17 @@ static boost::python::object read_2ba57a356ec17a70685f21fbad5a9438( ::cv::FileNo
 static void split_2e154aaf70f5c323ceec9f447e404d8a( ::cv::MatND const & m, boost::python::object mv ){
     bool b_mv= mv.ptr() != Py_None;
     int l_mv= b_mv? bp::len(mv): 0;
-    std::vector< ::cv::MatND > v_mv(l_mv);
-    if(l_mv > 0) for(int i_mv = 0; i_mv < l_mv; ++i_mv) v_mv[i_mv] = bp::extract< ::cv::MatND >(mv[i_mv]);
+    std::vector< ::cv::MatND > v_mv(l_mv); convert_seq_to_vector(mv, v_mv);
     
-    ::cv::split(m, b_mv? (& (v_mv.front())): 0);
+    ::cv::split(m, b_mv? &v_mv[0]: 0);
 }
 
 static void split_d88fca83dae3e7420e6688bbbcd2ac41( ::cv::Mat const & m, boost::python::object mvbegin ){
     bool b_mvbegin= mvbegin.ptr() != Py_None;
     int l_mvbegin= b_mvbegin? bp::len(mvbegin): 0;
-    std::vector< ::cv::Mat > v_mvbegin(l_mvbegin);
-    if(l_mvbegin > 0) for(int i_mvbegin = 0; i_mvbegin < l_mvbegin; ++i_mvbegin) v_mvbegin[i_mvbegin] = bp::extract< ::cv::Mat >(mvbegin[i_mvbegin]);
+    std::vector< ::cv::Mat > v_mvbegin(l_mvbegin); convert_seq_to_vector(mvbegin, v_mvbegin);
     
-    ::cv::split(m, b_mvbegin? (& (v_mvbegin.front())): 0);
+    ::cv::split(m, b_mvbegin? &v_mvbegin[0]: 0);
 }
 
 static void stereoCalibrate_14726b7172922289400130b4861f4a12( bp::sequence objectPoints, bp::sequence imagePoints1, bp::sequence imagePoints2, ::cv::Mat & cameraMatrix1, ::cv::Mat & distCoeffs1, ::cv::Mat & cameraMatrix2, ::cv::Mat & distCoeffs2, ::cv::Size imageSize, ::cv::Mat & R, ::cv::Mat & T, ::cv::Mat & E, ::cv::Mat & F, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), int flags=int(::cv::CALIB_FIX_INTRINSIC) ){
@@ -2573,12 +2532,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCreateHist
     
-        typedef boost::python::object ( *createHist_function_type )( boost::python::object,int,boost::python::object,int );
+        typedef boost::python::object ( *createHist_function_type )( boost::python::object,int,bp::sequence,int );
         
         bp::def( 
             "createHist"
             , createHist_function_type( &cvCreateHist_f2b39da376344404265809e761a6aaba )
-            , ( bp::arg("sizes"), bp::arg("type"), bp::arg("ranges")=bp::object(), bp::arg("uniform")=(int)(1) ) );
+            , ( bp::arg("sizes"), bp::arg("type"), bp::arg("ranges")=bp::sequence(), bp::arg("uniform")=(int)(1) ) );
     
     }
 
@@ -3123,7 +3082,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvSetHistBinRanges
     
-        typedef void ( *setHistBinRanges_function_type )( ::CvHistogram *,boost::python::object,int );
+        typedef void ( *setHistBinRanges_function_type )( ::CvHistogram *,bp::sequence,int );
         
         bp::def( 
             "setHistBinRanges"
@@ -3310,7 +3269,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvWrite
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,char const *,const char *,::CvAttrList );
+        typedef void ( *write_function_type )( ::cv::FileStorage &,char const *,void const *,::CvAttrList );
         
         bp::def( 
             "write"
@@ -3420,7 +3379,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::fillPoly
     
-        typedef void ( *fillPoly_function_type )( ::cv::Mat &,boost::python::object,::cv::Scalar const &,int,int,::cv::Point );
+        typedef void ( *fillPoly_function_type )( ::cv::Mat &,bp::sequence,::cv::Scalar const &,int,int,::cv::Point );
         
         bp::def( 
             "fillPoly"
@@ -3618,7 +3577,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::polylines
     
-        typedef void ( *polylines_function_type )( ::cv::Mat &,boost::python::object,bool,::cv::Scalar const &,int,int,int );
+        typedef void ( *polylines_function_type )( ::cv::Mat &,bp::sequence,bool,::cv::Scalar const &,int,int,int );
         
         bp::def( 
             "polylines"
