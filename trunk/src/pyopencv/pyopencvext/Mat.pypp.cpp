@@ -396,10 +396,9 @@ void register_Mat_class(){
         Mat_exposer.def_readwrite( "rows", &cv::Mat::rows );
         Mat_exposer.def_readwrite( "step", &cv::Mat::step );
         Mat_exposer.staticmethod( "diag" );
-        Mat_exposer.def("from_ndarray", &bp::from_ndarray< cv::Mat > );
+        Mat_exposer.def("from_ndarray", &bp::from_ndarray< cv::Mat >, (bp::arg("arr")) );
         Mat_exposer.staticmethod("from_ndarray");
         Mat_exposer.add_property("ndarray", &bp::as_ndarray< cv::Mat >);
-        Mat_exposer.def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("seq") )));
         Mat_exposer.def("__init__", bp::make_constructor(&Mat__init3__, bp::default_call_policies(), ( bp::arg("_rows"), bp::arg("_cols"), bp::arg("_type") )));
     }
 

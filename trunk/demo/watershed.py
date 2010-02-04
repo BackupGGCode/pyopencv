@@ -58,7 +58,7 @@ if __name__ == "__main__":
     markers2 = Mat(img.size(), CV_8UC1)
 
     # color table for LUT
-    color_tab = Mat.from_ndarray((NR.rand(1, 256, 3)*180+50).astype('uint8'))
+    color_tab = asMat((NR.rand(1, 256, 3)*180+50).astype('uint8'))
 
     cvtColor( img, marker_mask, CV_BGR2GRAY )
     cvtColor( marker_mask, img_gray, CV_GRAY2BGR )

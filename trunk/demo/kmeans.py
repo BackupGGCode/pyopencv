@@ -21,7 +21,7 @@ if __name__ == "__main__":
         for k in range(cluster_count):
             points[k] += (rng.as_unsigned()%img.cols, rng.as_unsigned()%img.rows)
         sample_count = points.size/2
-        points = Mat.from_ndarray(points.reshape(sample_count, 1, 2).astype('float32'))
+        points = asMat(points.reshape(sample_count, 1, 2).astype('float32'))
         randShuffle( points )
         
         # K Means Clustering
@@ -32,7 +32,7 @@ if __name__ == "__main__":
         img.setTo(0)
         pts = points[:].reshape(sample_count, 2).astype('int32')
         for i in range(sample_count):
-            circle(img, Point.from_ndarray(pts[i]), 2, color_tab[clusters[i,0]], CV_FILLED, CV_AA, 0)
+            circle(img, asPoint(pts[i]), 2, color_tab[clusters[i,0]], CV_FILLED, CV_AA, 0)
         
         imshow( "clusters", img )
 

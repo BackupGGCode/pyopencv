@@ -98,7 +98,7 @@ void register_Vec4b_class(){
         
         }
         Vec4b_exposer.staticmethod( "all" );
-        Vec4b_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec4b > );
+        Vec4b_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec4b >, (bp::arg("arr")) );
         Vec4b_exposer.staticmethod("from_ndarray");
         Vec4b_exposer.add_property("ndarray", &bp::as_ndarray< cv::Vec4b >);
     }
