@@ -132,9 +132,11 @@ static bp::sequence get_normals(cv::Mesh3D const &inst) { return convert_vector_
     # HOGDescriptor
     z = mb.class_('HOGDescriptor')
     z.include_files.append('opencv_extra.hpp')
-    # z.include_files.append('_cvaux.h')
     mb.init_class(z)
     z.mem_fun('getDefaultPeopleDetector').exclude()
+    z.mem_fun('compute')._transformer_creators.append(FT.output_std_vector('descriptors'))
+    for t in ('detect', 'detectMultiScale'):
+        z.mem_fun(t)._transformer_creators.append(FT.output_std_vector('foundLocations'))
     z.var('svmDetector').exclude()
     z.add_declaration_code('''
 static bp::sequence getDefaultPeopleDetector() {
