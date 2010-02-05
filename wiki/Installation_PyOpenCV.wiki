@@ -78,7 +78,7 @@ opencv_runtime_library_dirs = []
 opencv_runtime_libraries_to_be_bundled = []
 
 # Boost.Python library
-boost_dir = "/usr/include"
+boost_dir = "/home/user/boost_1_41_0"
 boost_include_dirs = [boost_dir]
 boost_library_dirs = []
 boost_libraries = []
