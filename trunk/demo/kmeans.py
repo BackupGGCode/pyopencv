@@ -27,7 +27,7 @@ if __name__ == "__main__":
         # K Means Clustering
         clusters = Mat(points.size(), CV_32SC1)
         compact, centers = kmeans(points, cluster_count, clusters, 
-            TermCriteria(TermCriteria.EPS+TermCriteria.MAX_ITER, 10, 1.0), 1, KMEANS_RANDOM_CENTERS)
+            TermCriteria(TermCriteria.EPS+TermCriteria.MAX_ITER, 10, 1.0), 3, KMEANS_RANDOM_CENTERS)
 
         img.setTo(0)
         pts = points[:].reshape(sample_count, 2).astype('int32')
