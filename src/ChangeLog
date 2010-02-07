@@ -5,6 +5,29 @@ PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 Change Log
 ==========
 
+pyopencv-2.0.wr1.0.1 beta release
+---------------------------------
+
+- fixed the demo files according to recent changes
+- improved conversion from ndarray to Mat and MatND
+- removed from_ndarray() functions
+- common std::vectors of primitive data types like 'int', 'float', etc and fixed-size data types like Vec-like, Point-like, Scalar are now represented as ndarrays
+- improved contours.py
+- added a few classes of cvvidsurv.hpp, fixed a bug in OpenCV's findContours() function, and added contours.py demo
+- fixed a bug in getting a temporary pointer to CvMat or IplImage, this patch will incur a complete rebuild if you are building pyopencv from source
+- renamed convertPointsHomogeneous functions
+- fixed read() and write() functions
+- added some more machine-learning classes
+- added a few tree-based classes
+- added CvDTreeTrainData
+- fixed a bug in CvEM
+- fixed a bug in CvKNearest
+- fixed a bug in CvNormalBayesClassifier
+- fixed a bug in CvSVM
+- added CvSVM::get_support_vector()
+- fixed a bug in CvSVMParams
+- fixed a bug in invoking Mat(int, int, int)
+
 pyopencv-2.0.wr1.0.0 pre-beta release
 -------------------------------------
 
