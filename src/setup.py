@@ -17,13 +17,36 @@
 # ----------------------------------------------------------------------------
 """PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
-PyOpenCV brings Willow Garage's Open Source Computer Vision Library (OpenCV) verion 2.0 to Python. The package takes a completely new and different approach in wrapping OpenCV than traditional swig-based and ctypes-based approaches. It is intended to be a successor of ctypes-opencv and to provide Python bindings for OpenCV 2.0. ctypes-based approaches like ctypes-opencv, while being very flexible at wrapping functions and structures, are weak at wrapping OpenCV's C++ interface. On the other hand, swig-based approaches flatten C++ classes and create countless memory management issues. In PyOpenCV, we use Boost.Python, a C++ library which enables seamless interoperability between C++ and Python. PyOpenCV will offer a better solution than both ctypes-based and swig-based wrappers:
+PyOpenCV brings Willow Garage's Open Source Computer Vision Library (OpenCV) 
+verion 2.0 to Python. The package takes a completely new and different 
+approach in wrapping [http://opencv.willowgarage.com OpenCV] from traditional 
+swig-based and ctypes-based approaches. It is intended to be a successor of 
+[http://code.google.com/p/ctypes-opencv/ ctypes-opencv] and to provide Python 
+bindings for OpenCV 2.0. ctypes-based approaches like ctypes-opencv, while 
+being very flexible at wrapping functions and structures, are weak at 
+wrapping OpenCV's C++ interface. On the other hand, swig-based approaches 
+flatten C++ classes and create countless memory management issues. In 
+PyOpenCV, we use Boost.Python, a C++ library which enables seamless 
+interoperability between C++ and Python. PyOpenCV will offer a better 
+solution than both ctypes-based and swig-based wrappers:
+  * Provide a Python interface similar to the new C++ interface of 
+    OpenCV 2.0, including features that are available in the existing C 
+    interface but not in the C++ interface,
+  * Preserve C++ data structures and avoid memory management issues,
+  * Run at a speed nearer to OpenCV's native speed than existing wrappers.
 
-    * Provide bindings for both the new C++ interface and the existing C interface of OpenCV 2.0,
-    * Preserve C++ data structures and avoid memory management issues,
-    * Run at a speed nearer to OpenCV's native speed than existing wrappers. 
-
-In addition, we use NumPy to provide fast indexing and slicing functionality to OpenCV's arrays like Scalar, Mat, and MatND, and to offer the user an option to work with their multi-dimensional arrays in NumPy. It is well-known that NumPy is one of the best packages (if not the best) for dealing with multi-dimensional arrays in Python. OpenCV 2.0 provides a new C++ generic programming approach for matrix manipulation (i.e. MatExpr). It is a good attempt in C++. However, in Python, a package like NumPy is without a doubt a better solution. By incorporating NumPy into PyOpenCV to replace OpenCV 2.0's MatExpr approach, we seek to bring OpenCV and NumPy closer together, and offer a package that inherits the best of both world: fast computer vision functionality (OpenCV) and fast multi-dimensional array computation (NumPy). """
+In addition, we use [http://numpy.scipy.org NumPy] to provide fast indexing 
+and slicing functionality to OpenCV's dense data types like Vec-like, 
+Point-like, Scalar, Mat, and MatND, and to offer the user an option to work 
+with their multi-dimensional arrays in NumPy. It is well-known that NumPy is 
+one of the best packages (if not the best) for dealing with multi-dimensional 
+arrays in Python. OpenCV 2.0 provides a new C++ generic programming approach 
+for matrix manipulation (i.e. MatExpr). It is a good attempt in C++. However, 
+in Python, a package like NumPy is without a doubt a better solution. By 
+incorporating NumPy into PyOpenCV to replace OpenCV 2.0's MatExpr approach, we 
+seek to bring OpenCV and NumPy closer together, and offer a package that 
+inherits the best of both world: fast computer vision functionality (OpenCV) 
+and fast multi-dimensional array computation (NumPy). """
 
 DOCLINES = __doc__.split("\n")
 
@@ -110,7 +133,7 @@ bundled_files = find_libraries(C.opencv_runtime_library_dirs, C.opencv_runtime_l
 
 setup(
     name = "pyopencv",
-	version = '2.0.wr1.0.0',
+	version = '2.0.wr1.0.1',
 	description = DOCLINES[0],
 	author = 'Minh-Tri Pham',
 	author_email = 'pmtri80@gmail.com',
