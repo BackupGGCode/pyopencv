@@ -239,5 +239,10 @@ struct vector_vector_to_python {
 CvMat * get_CvMat_ptr(cv::Mat &mat);
 IplImage * get_IplImage_ptr(cv::Mat &mat);
 
+// ================================================================================================
+
+bp::sequence mixChannels(const bp::sequence &src, bp::sequence &dst, const bp::ndarray &fromTo);
+bp::tuple minMaxLoc(const bp::object& a, const bp::object& mask=bp::object());
+
 
 #endif

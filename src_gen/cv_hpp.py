@@ -82,15 +82,13 @@ def generate_code(mb, cc, D, FT, CP):
     z.include_files.append("opencv_extra.hpp")
     z.add_declaration_code('''
 static boost::python::sequence call1( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
-    inst.operator()(img, mask, keypoints2);
+    std::vector<cv::KeyPoint> keypoints2; inst.operator()(img, mask, keypoints2);
     return convert_vector_to_seq(keypoints2);
 }
 
 static boost::python::tuple call2( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::sequence keypoints, bool useProvidedKeypoints=false ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
-    std::vector<float, std::allocator<float> > descriptors2;
-    convert_seq_to_vector(keypoints, keypoints2);
+    std::vector<cv::KeyPoint> keypoints2; convert_seq_to_vector(keypoints, keypoints2);
+    std::vector<float> descriptors2;    
     inst.operator()(img, mask, keypoints2, descriptors2, useProvidedKeypoints);
     keypoints = convert_vector_to_seq(keypoints2);
     return bp::make_tuple( keypoints, convert_vector_to_seq(descriptors2) );
