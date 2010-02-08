@@ -86,9 +86,11 @@ BJ.boost_dir = C.boost_include_dirs[0]
 from setuptools import setup, find_packages, Extension
 
 pyopencvext = Extension('pyopencv.pyopencvext',
-    sources=glob(OP.join('pyopencv', 'pyopencvext', '*.cpp')),
+    sources=glob(OP.join('pyopencv', 'pyopencvext', '*.cpp'))+\
+        glob(OP.join('pyopencv', 'pyopencvext', 'bp_extra', '*.cpp')),
     include_dirs=C.opencv_include_dirs+C.boost_include_dirs+['pyopencv', 
-        OP.join('pyopencv', 'pyopencvext'), OP.join('pyopencv', 'pyopencvext', 'numpy_include')],
+        OP.join('pyopencv', 'pyopencvext'), OP.join('pyopencv', 'pyopencvext', 'numpy_include'),
+        OP.join('pyopencv', 'pyopencvext', 'bp_extra')],
     library_dirs=C.opencv_library_dirs+C.boost_library_dirs,
     libraries=C.opencv_libraries+C.boost_libraries,
     runtime_library_dirs=C.opencv_runtime_library_dirs+C.boost_runtime_library_dirs,
