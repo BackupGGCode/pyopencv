@@ -133,7 +133,7 @@ def generate_ti():
 
 
 def finalize_ti():
-    tif = open(join('..', 'src', 'pyopencv', 'pyopencvext', 'template_instantiations.hpp'), 'wt')
+    tif = open(join('..', 'src', 'pyopencv', 'pyopencvext', 'core', 'template_instantiations.hpp'), 'wt')
     tif.write('''#ifndef SD_TEMPLATE_INSTANTIATIONS_H
 #define SD_TEMPlATE_INSTANTIATIONS_H
 
