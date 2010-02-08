@@ -342,10 +342,6 @@ FROM_NDARRAY(cv::Mat);
 // MatND
 FROM_NDARRAY(cv::MatND);
 
-// ================================================================================================
-
-void mixChannels(const tuple src, tuple dst, const ndarray &fromTo);
-tuple minMaxLoc(const object& a, const object& mask=object());
 
 }} // namespace boost::python
 

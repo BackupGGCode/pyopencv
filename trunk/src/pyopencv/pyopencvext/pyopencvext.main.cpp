@@ -3946,9 +3946,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asndarray", &bp::as_ndarray< cv::MatND >, (bp::arg("arr")) );
 
-    bp::def("mixChannels", &bp::mixChannels, ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo") ));
+    bp::def("mixChannels", &::mixChannels, ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo") ));
 
-    bp::def("minMaxLoc", &bp::minMaxLoc, ( bp::arg("a"), bp::arg("mask")=bp::object() ));
+    bp::def("minMaxLoc", &::minMaxLoc, ( bp::arg("a"), bp::arg("mask")=bp::object() ));
 
     bp::def( 
         "calcHist"

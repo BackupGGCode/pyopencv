@@ -450,11 +450,11 @@ static bp::tuple children(cv::FileNode const &inst)
     
     # mixChannels
     z = mb.free_funs('mixChannels').exclude()
-    mb.add_registration_code('bp::def("mixChannels", &bp::mixChannels, ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo") ));')
+    mb.add_registration_code('bp::def("mixChannels", &::mixChannels, ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo") ));')
     
     # minMaxLoc
     z = mb.free_funs('minMaxLoc').exclude()
-    mb.add_registration_code('bp::def("minMaxLoc", &bp::minMaxLoc, ( bp::arg("a"), bp::arg("mask")=bp::object() ));')
+    mb.add_registration_code('bp::def("minMaxLoc", &::minMaxLoc, ( bp::arg("a"), bp::arg("mask")=bp::object() ));')
     
     # checkRange
     for z in mb.free_funs('checkRange'):
