@@ -8,33 +8,13 @@
 
 namespace bp = boost::python;
 
-struct CvHaarClassifier_wrapper : CvHaarClassifier, bp::wrapper< CvHaarClassifier > {
-
-    CvHaarClassifier_wrapper(CvHaarClassifier const & arg )
-    : CvHaarClassifier( arg )
-      , bp::wrapper< CvHaarClassifier >(){
-        // copy constructor
-        
-    }
-
-    CvHaarClassifier_wrapper()
-    : CvHaarClassifier()
-      , bp::wrapper< CvHaarClassifier >(){
-        // null constructor
-        
-    }
-
-    static bp::object get_haar_feature( ::CvHaarClassifier const & inst ){        
-        return inst.haar_feature? bp::object(inst.haar_feature): bp::object();
-    }
-
-};
+static ::CvHaarFeature * get_haar_feature( ::CvHaarClassifier const & inst ) { return inst.haar_feature; }
 
 void register_CvHaarClassifier_class(){
 
-    bp::class_< CvHaarClassifier_wrapper >( "CvHaarClassifier" )    
+    bp::class_< CvHaarClassifier >( "CvHaarClassifier" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvHaarClassifier >() )    
         .def_readwrite( "count", &CvHaarClassifier::count )    
-        .add_property( "haar_feature", bp::make_function(&::CvHaarClassifier_wrapper::get_haar_feature) );
+        .add_property( "haar_feature", bp::make_function(&::get_haar_feature, bp::return_internal_reference<>()) );
 
 }

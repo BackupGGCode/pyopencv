@@ -8,43 +8,19 @@
 
 namespace bp = boost::python;
 
-struct CvConvexityDefect_wrapper : CvConvexityDefect, bp::wrapper< CvConvexityDefect > {
+static ::CvPoint * get_start( ::CvConvexityDefect const & inst ) { return inst.start; }
 
-    CvConvexityDefect_wrapper(CvConvexityDefect const & arg )
-    : CvConvexityDefect( arg )
-      , bp::wrapper< CvConvexityDefect >(){
-        // copy constructor
-        
-    }
+static ::CvPoint * get_end( ::CvConvexityDefect const & inst ) { return inst.end; }
 
-    CvConvexityDefect_wrapper()
-    : CvConvexityDefect()
-      , bp::wrapper< CvConvexityDefect >(){
-        // null constructor
-        
-    }
-
-    static bp::object get_start( ::CvConvexityDefect const & inst ){        
-        return inst.start? bp::object(inst.start): bp::object();
-    }
-
-    static bp::object get_end( ::CvConvexityDefect const & inst ){        
-        return inst.end? bp::object(inst.end): bp::object();
-    }
-
-    static bp::object get_depth_point( ::CvConvexityDefect const & inst ){        
-        return inst.depth_point? bp::object(inst.depth_point): bp::object();
-    }
-
-};
+static ::CvPoint * get_depth_point( ::CvConvexityDefect const & inst ) { return inst.depth_point; }
 
 void register_CvConvexityDefect_class(){
 
-    bp::class_< CvConvexityDefect_wrapper >( "CvConvexityDefect" )    
+    bp::class_< CvConvexityDefect >( "CvConvexityDefect" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvConvexityDefect >() )    
         .def_readwrite( "depth", &CvConvexityDefect::depth )    
-        .add_property( "start", bp::make_function(&::CvConvexityDefect_wrapper::get_start) )    
-        .add_property( "end", bp::make_function(&::CvConvexityDefect_wrapper::get_end) )    
-        .add_property( "depth_point", bp::make_function(&::CvConvexityDefect_wrapper::get_depth_point) );
+        .add_property( "start", bp::make_function(&::get_start, bp::return_internal_reference<>()) )    
+        .add_property( "end", bp::make_function(&::get_end, bp::return_internal_reference<>()) )    
+        .add_property( "depth_point", bp::make_function(&::get_depth_point, bp::return_internal_reference<>()) );
 
 }

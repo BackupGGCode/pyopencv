@@ -8,33 +8,13 @@
 
 namespace bp = boost::python;
 
-struct CvGraphVtx_wrapper : CvGraphVtx, bp::wrapper< CvGraphVtx > {
-
-    CvGraphVtx_wrapper(CvGraphVtx const & arg )
-    : CvGraphVtx( arg )
-      , bp::wrapper< CvGraphVtx >(){
-        // copy constructor
-        
-    }
-
-    CvGraphVtx_wrapper()
-    : CvGraphVtx()
-      , bp::wrapper< CvGraphVtx >(){
-        // null constructor
-        
-    }
-
-    static bp::object get_first( ::CvGraphVtx const & inst ){        
-        return inst.first? bp::object(inst.first): bp::object();
-    }
-
-};
+static ::CvGraphEdge * get_first( ::CvGraphVtx const & inst ) { return inst.first; }
 
 void register_CvGraphVtx_class(){
 
-    bp::class_< CvGraphVtx_wrapper >( "CvGraphVtx" )    
+    bp::class_< CvGraphVtx >( "CvGraphVtx" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvGraphVtx >() )    
         .def_readwrite( "flags", &CvGraphVtx::flags )    
-        .add_property( "first", bp::make_function(&::CvGraphVtx_wrapper::get_first) );
+        .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) );
 
 }

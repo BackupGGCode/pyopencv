@@ -25,14 +25,6 @@ struct CvChainPtReader_wrapper : CvChainPtReader, bp::wrapper< CvChainPtReader >
         
     }
 
-    static bp::object get_seq( ::CvChainPtReader const & inst ){        
-        return inst.seq? bp::object(inst.seq): bp::object();
-    }
-
-    static bp::object get_block( ::CvChainPtReader const & inst ){        
-        return inst.block? bp::object(inst.block): bp::object();
-    }
-
     static bp::object get_ptr( ::CvChainPtReader const & inst ){        
         return inst.ptr? bp::str(inst.ptr): bp::object();
     }
@@ -51,6 +43,10 @@ struct CvChainPtReader_wrapper : CvChainPtReader, bp::wrapper< CvChainPtReader >
 
 };
 
+static ::CvSeq * get_seq( ::CvChainPtReader const & inst ) { return inst.seq; }
+
+static ::CvSeqBlock * get_block( ::CvChainPtReader const & inst ) { return inst.block; }
+
 void register_CvChainPtReader_class(){
 
     bp::class_< CvChainPtReader_wrapper >( "CvChainPtReader" )    
@@ -59,8 +55,8 @@ void register_CvChainPtReader_class(){
         .def_readwrite( "delta_index", &CvChainPtReader::delta_index )    
         .def_readwrite( "header_size", &CvChainPtReader::header_size )    
         .def_readwrite( "pt", &CvChainPtReader::pt )    
-        .add_property( "seq", bp::make_function(&::CvChainPtReader_wrapper::get_seq) )    
-        .add_property( "block", bp::make_function(&::CvChainPtReader_wrapper::get_block) )    
+        .add_property( "seq", bp::make_function(&::get_seq, bp::return_internal_reference<>()) )    
+        .add_property( "block", bp::make_function(&::get_block, bp::return_internal_reference<>()) )    
         .add_property( "ptr", bp::make_function(&::CvChainPtReader_wrapper::get_ptr) )    
         .add_property( "block_min", bp::make_function(&::CvChainPtReader_wrapper::get_block_min) )    
         .add_property( "block_max", bp::make_function(&::CvChainPtReader_wrapper::get_block_max) )    

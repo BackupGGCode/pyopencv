@@ -25,10 +25,6 @@ struct CvDefParam_wrapper : CvDefParam, bp::wrapper< CvDefParam > {
         
     }
 
-    static bp::object get_next( ::CvDefParam const & inst ){        
-        return inst.next? bp::object(inst.next): bp::object();
-    }
-
     static bp::object get_pName( ::CvDefParam const & inst ){        
         return inst.pName? bp::str(inst.pName): bp::object();
     }
@@ -43,6 +39,8 @@ struct CvDefParam_wrapper : CvDefParam, bp::wrapper< CvDefParam > {
 
 };
 
+static ::CvDefParam * get_next( ::CvDefParam const & inst ) { return inst.next; }
+
 void register_CvDefParam_class(){
 
     bp::class_< CvDefParam_wrapper >( "CvDefParam" )    
@@ -50,7 +48,7 @@ void register_CvDefParam_class(){
         .def_readwrite( "Double", &CvDefParam::Double )    
         .def_readwrite( "Float", &CvDefParam::Float )    
         .def_readwrite( "Int", &CvDefParam::Int )    
-        .add_property( "next", bp::make_function(&::CvDefParam_wrapper::get_next) )    
+        .add_property( "next", bp::make_function(&::get_next, bp::return_internal_reference<>()) )    
         .add_property( "pName", bp::make_function(&::CvDefParam_wrapper::get_pName) )    
         .add_property( "pComment", bp::make_function(&::CvDefParam_wrapper::get_pComment) )    
         .add_property( "Str", bp::make_function(&::CvDefParam_wrapper::get_Str) );
