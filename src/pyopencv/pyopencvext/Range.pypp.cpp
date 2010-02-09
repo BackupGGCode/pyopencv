@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "ndarray.hpp"
 #include "Range.pypp.hpp"
 
 namespace bp = boost::python;
@@ -48,6 +49,9 @@ void register_Range_class(){
         Range_exposer.def_readwrite( "end", &cv::Range::end );
         Range_exposer.def_readwrite( "start", &cv::Range::start );
         Range_exposer.staticmethod( "all" );
+        Range_exposer.def("from_ndarray", &bp::from_ndarray< cv::Range >, (bp::arg("arr")) );
+        Range_exposer.staticmethod("from_ndarray");
+        Range_exposer.add_property("ndarray", &bp::as_ndarray< cv::Range >);
     }
 
 }

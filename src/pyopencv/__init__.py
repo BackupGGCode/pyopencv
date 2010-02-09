@@ -1454,11 +1454,67 @@ Size2f.__repr__ = _Size2f__repr__
         
 Size = Size2i
     
+_str = "\n    [pyopencv] Creates a Rectd view on an ndarray instance."
+if Rectd.from_ndarray.__doc__ is None:
+    Rectd.from_ndarray.__doc__ = _str
+else:
+    Rectd.from_ndarray.__doc__ += _str
+
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Rectd that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Rectd.from_ndarray(a)' or 'asRectd(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Rectd.__doc__ is None:
+    Rectd.__doc__ = _str
+else:
+    Rectd.__doc__ += _str
+    
+def _Rectd__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Rectd.__getitem__ = _Rectd__getitem__
+            
+def _Rectd__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Rectd.__setitem__ = _Rectd__setitem__
+            
+def _Rectd__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Rectd.__getslice__ = _Rectd__getslice__
+            
+def _Rectd__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Rectd.__setslice__ = _Rectd__setslice__
+        
 def _Rectd__repr__(self):
     return "Rectd(x=" + repr(self.x) + ", y=" + repr(self.y) + \
         ", width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
 Rectd.__repr__ = _Rectd__repr__
         
+        
+_str = "\n    [pyopencv] Creates a Rectf view on an ndarray instance."
+if Rectf.from_ndarray.__doc__ is None:
+    Rectf.from_ndarray.__doc__ = _str
+else:
+    Rectf.from_ndarray.__doc__ += _str
+
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Rectf that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Rectf.from_ndarray(a)' or 'asRectf(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Rectf.__doc__ is None:
+    Rectf.__doc__ = _str
+else:
+    Rectf.__doc__ += _str
+    
+def _Rectf__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Rectf.__getitem__ = _Rectf__getitem__
+            
+def _Rectf__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Rectf.__setitem__ = _Rectf__setitem__
+            
+def _Rectf__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Rectf.__getslice__ = _Rectf__getslice__
+            
+def _Rectf__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Rectf.__setslice__ = _Rectf__setslice__
         
 def _Rectf__repr__(self):
     return "Rectf(x=" + repr(self.x) + ", y=" + repr(self.y) + \
@@ -1466,11 +1522,67 @@ def _Rectf__repr__(self):
 Rectf.__repr__ = _Rectf__repr__
         
         
+_str = "\n    [pyopencv] Creates a Rect view on an ndarray instance."
+if Rect.from_ndarray.__doc__ is None:
+    Rect.from_ndarray.__doc__ = _str
+else:
+    Rect.from_ndarray.__doc__ += _str
+
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Rect that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Rect.from_ndarray(a)' or 'asRect(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Rect.__doc__ is None:
+    Rect.__doc__ = _str
+else:
+    Rect.__doc__ += _str
+    
+def _Rect__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Rect.__getitem__ = _Rect__getitem__
+            
+def _Rect__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Rect.__setitem__ = _Rect__setitem__
+            
+def _Rect__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Rect.__getslice__ = _Rect__getslice__
+            
+def _Rect__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Rect.__setslice__ = _Rect__setslice__
+        
 def _Rect__repr__(self):
     return "Rect(x=" + repr(self.x) + ", y=" + repr(self.y) + \
         ", width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
 Rect.__repr__ = _Rect__repr__
         
+        
+_str = "\n    [pyopencv] Creates a RotatedRect view on an ndarray instance."
+if RotatedRect.from_ndarray.__doc__ is None:
+    RotatedRect.from_ndarray.__doc__ = _str
+else:
+    RotatedRect.from_ndarray.__doc__ += _str
+
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of RotatedRect that shares the same data with an ndarray instance, use:\n    [pyopencv]     'RotatedRect.from_ndarray(a)' or 'asRotatedRect(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if RotatedRect.__doc__ is None:
+    RotatedRect.__doc__ = _str
+else:
+    RotatedRect.__doc__ += _str
+    
+def _RotatedRect__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+RotatedRect.__getitem__ = _RotatedRect__getitem__
+            
+def _RotatedRect__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+RotatedRect.__setitem__ = _RotatedRect__setitem__
+            
+def _RotatedRect__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+RotatedRect.__getslice__ = _RotatedRect__getslice__
+            
+def _RotatedRect__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+RotatedRect.__setslice__ = _RotatedRect__setslice__
         
 def _RotatedRect__repr__(self):
     return "RotatedRect(center=" + repr(self.center) + ", size=" + repr(self.size) + \
@@ -1510,6 +1622,34 @@ def _Scalar__repr__(self):
     return "Scalar(" + self.ndarray.__str__() + ")"
 Scalar.__repr__ = _Scalar__repr__
     
+_str = "\n    [pyopencv] Creates a Range view on an ndarray instance."
+if Range.from_ndarray.__doc__ is None:
+    Range.from_ndarray.__doc__ = _str
+else:
+    Range.from_ndarray.__doc__ += _str
+
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Range that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Range.from_ndarray(a)' or 'asRange(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Range.__doc__ is None:
+    Range.__doc__ = _str
+else:
+    Range.__doc__ += _str
+    
+def _Range__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Range.__getitem__ = _Range__getitem__
+            
+def _Range__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Range.__setitem__ = _Range__setitem__
+            
+def _Range__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Range.__getslice__ = _Range__getslice__
+            
+def _Range__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Range.__setslice__ = _Range__setslice__
+        
 def _Range__repr__(self):
     return "Range(start=" + repr(self.start) + ", end=" + repr(self.end) + ")"
 Range.__repr__ = _Range__repr__

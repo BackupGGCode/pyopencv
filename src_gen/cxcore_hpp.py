@@ -105,6 +105,7 @@ Size = Size2i
     for z in zz:
         z.include()
         z.decls(lambda x: 'CvRect' in x.decl_string).exclude()
+        mb.add_ndarray_interface(z)
         cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + \\
@@ -117,6 +118,7 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('RotatedRect')
     z.include()
     z.decls(lambda x: 'CvBox2D' in x.decl_string).exclude()
+    mb.add_ndarray_interface(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(center=" + repr(self.center) + ", size=" + repr(self.size) + \\
@@ -143,6 +145,7 @@ Scalar.__repr__ = _Scalar__repr__
     z = mb.class_('Range')
     z.include()
     z.operator(lambda x: x.name.endswith('::CvSlice')).rename('as_CvSlice')
+    mb.add_ndarray_interface(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(start=" + repr(self.start) + ", end=" + repr(self.end) + ")"

@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "ndarray.hpp"
 #include "Rect.pypp.hpp"
 
 namespace bp = boost::python;
@@ -85,6 +86,9 @@ void register_Rect_class(){
         Rect_exposer.def_readwrite( "width", &cv::Rect_< int >::width );
         Rect_exposer.def_readwrite( "x", &cv::Rect_< int >::x );
         Rect_exposer.def_readwrite( "y", &cv::Rect_< int >::y );
+        Rect_exposer.def("from_ndarray", &bp::from_ndarray< cv::Rect >, (bp::arg("arr")) );
+        Rect_exposer.staticmethod("from_ndarray");
+        Rect_exposer.add_property("ndarray", &bp::as_ndarray< cv::Rect >);
     }
 
 }

@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "ndarray.hpp"
 #include "RotatedRect.pypp.hpp"
 
 namespace bp = boost::python;
@@ -21,6 +22,9 @@ void register_RotatedRect_class(){
             , ( bp::arg("pt") ) )    
         .def_readwrite( "angle", &cv::RotatedRect::angle )    
         .def_readwrite( "center", &cv::RotatedRect::center )    
-        .def_readwrite( "size", &cv::RotatedRect::size );
+        .def_readwrite( "size", &cv::RotatedRect::size )    
+        .def("from_ndarray", &bp::from_ndarray< cv::RotatedRect >, (bp::arg("arr")) )    
+        .staticmethod("from_ndarray")    
+        .add_property("ndarray", &bp::as_ndarray< cv::RotatedRect >);
 
 }

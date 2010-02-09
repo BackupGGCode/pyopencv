@@ -173,8 +173,17 @@ NDARRAY_TO_VECTOR(cv::Point3i);
 NDARRAY_TO_VECTOR(cv::Point3f);
 NDARRAY_TO_VECTOR(cv::Point3d);
 
+// Rect-like
+NDARRAY_TO_VECTOR(cv::Rect);
+NDARRAY_TO_VECTOR(cv::Rectd);
+NDARRAY_TO_VECTOR(cv::Rectf);
+NDARRAY_TO_VECTOR(cv::RotatedRect);
+
 // Scalar
 NDARRAY_TO_VECTOR(cv::Scalar);
+
+// Range
+NDARRAY_TO_VECTOR(cv::Range);
 
 // ================================================================================================
 
@@ -232,8 +241,17 @@ VECTOR_TO_NDARRAY(cv::Point3i);
 VECTOR_TO_NDARRAY(cv::Point3f);
 VECTOR_TO_NDARRAY(cv::Point3d);
 
+// Rect-like
+VECTOR_TO_NDARRAY(cv::Rect);
+VECTOR_TO_NDARRAY(cv::Rectd);
+VECTOR_TO_NDARRAY(cv::Rectf);
+VECTOR_TO_NDARRAY(cv::RotatedRect);
+
 // Scalar
 VECTOR_TO_NDARRAY(cv::Scalar);
+
+// Range
+VECTOR_TO_NDARRAY(cv::Range);
 
 
 // ================================================================================================
@@ -280,8 +298,17 @@ AS_NDARRAY(cv::Point3i);
 AS_NDARRAY(cv::Point3f);
 AS_NDARRAY(cv::Point3d);
 
+// Rect-like
+AS_NDARRAY(cv::Rect);
+AS_NDARRAY(cv::Rectd);
+AS_NDARRAY(cv::Rectf);
+AS_NDARRAY(cv::RotatedRect);
+
 // Scalar
 AS_NDARRAY(cv::Scalar);
+
+// Range
+AS_NDARRAY(cv::Range);
 
 // Mat
 AS_NDARRAY(cv::Mat);
@@ -333,8 +360,17 @@ FROM_NDARRAY(cv::Point3i);
 FROM_NDARRAY(cv::Point3f);
 FROM_NDARRAY(cv::Point3d);
 
+// Rect-like
+FROM_NDARRAY(cv::Rect);
+FROM_NDARRAY(cv::Rectd);
+FROM_NDARRAY(cv::Rectf);
+FROM_NDARRAY(cv::RotatedRect);
+
 // Scalar
 FROM_NDARRAY(cv::Scalar);
+
+// Range
+FROM_NDARRAY(cv::Range);
 
 // Mat
 FROM_NDARRAY(cv::Mat);
