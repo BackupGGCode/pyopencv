@@ -25,7 +25,7 @@ namespace aux
 {
     bool sequence_object_manager_traits::check(PyObject* obj)
     {
-        return array_object_manager_traits::check(obj) ||
+        return array_object_manager_traits::check(obj) || obj == Py_None ||
             PyTuple_Check(obj) || PyList_Check(obj) || PyString_Check(obj);
     }
 
