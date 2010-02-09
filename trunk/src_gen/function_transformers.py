@@ -361,10 +361,12 @@ class input_array1d_t(transformer.transformer_t):
 
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
-        w_arg.type = _D.dummy_type_t( "boost::python::object" )
 
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.default_value = 'bp::object()'
+            w_arg.type = _D.dummy_type_t( "bp::sequence" )
+            w_arg.default_value = 'bp::sequence()'
+        else:
+            w_arg.type = _D.dummy_type_t( "bp::sequence &" )
         
         if self.remove_arg_size and self.arg_size is not None:
             #removing arg_size from the function wrapper definition

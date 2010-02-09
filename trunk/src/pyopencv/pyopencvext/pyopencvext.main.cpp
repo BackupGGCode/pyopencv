@@ -466,7 +466,7 @@ static boost::python::object buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac( ::cv
     return bp::object( dst2 );
 }
 
-static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( boost::python::object samples, ::cv::Mat & covar, ::cv::Mat & mean, int flags, int ctype=6 ){
+static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( bp::sequence & samples, ::cv::Mat & covar, ::cv::Mat & mean, int flags, int ctype=6 ){
     bool b_samples= samples.ptr() != Py_None;
     int l_samples= b_samples? bp::len(samples): 0;
     std::vector< ::cv::Mat > v_samples(l_samples); convert_seq_to_vector(samples, v_samples);
@@ -561,7 +561,7 @@ static void cvAcc_ef7ed9735ac6fce4129e5e89f645482d( ::cv::Mat & image, ::cv::Mat
     ::cvAcc(get_CvMat_ptr(image), get_CvMat_ptr(sum), get_CvMat_ptr(mask));
 }
 
-static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, boost::python::object prev_features, ::CvSize win_size, int level, ::CvTermCriteria criteria, int flags ){
+static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::sequence & prev_features, ::CvSize win_size, int level, ::CvTermCriteria criteria, int flags ){
     bool b_prev_features= prev_features.ptr() != Py_None;
     int l_prev_features= b_prev_features? bp::len(prev_features): 0;
     std::vector < char > status2(l_prev_features * 1);
@@ -577,7 +577,7 @@ static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4
                             , convert_vector_to_seq(matrices2) );
 }
 
-static void cvCalcArrBackProject_5961923bfd62f49a1a0aa6e73fd2cee6( boost::python::object image, ::cv::Mat & dst, ::CvHistogram const * hist ){
+static void cvCalcArrBackProject_5961923bfd62f49a1a0aa6e73fd2cee6( bp::sequence & image, ::cv::Mat & dst, ::CvHistogram const * hist ){
     bool b_image= image.ptr() != Py_None;
     int l_image= b_image? bp::len(image): 0;
     std::vector< void * > v_image(l_image); convert_seq_to_vector(image, v_image);
@@ -585,7 +585,7 @@ static void cvCalcArrBackProject_5961923bfd62f49a1a0aa6e73fd2cee6( boost::python
     ::cvCalcArrBackProject(b_image? &v_image[0]: 0, get_CvMat_ptr(dst), hist);
 }
 
-static void cvCalcArrBackProjectPatch_5574debe9c7d943baa020075e0434b56( boost::python::object image, ::cv::Mat & dst, ::CvSize range, ::CvHistogram * hist, int method, double factor ){
+static void cvCalcArrBackProjectPatch_5574debe9c7d943baa020075e0434b56( bp::sequence & image, ::cv::Mat & dst, ::CvSize range, ::CvHistogram * hist, int method, double factor ){
     bool b_image= image.ptr() != Py_None;
     int l_image= b_image? bp::len(image): 0;
     std::vector< void * > v_image(l_image); convert_seq_to_vector(image, v_image);
@@ -593,7 +593,7 @@ static void cvCalcArrBackProjectPatch_5574debe9c7d943baa020075e0434b56( boost::p
     ::cvCalcArrBackProjectPatch(b_image? &v_image[0]: 0, get_CvMat_ptr(dst), range, hist, method, factor);
 }
 
-static void cvCalcArrHist_1919ae68601cfdffd256e40ac0fbe86e( boost::python::object arr, ::CvHistogram * hist, int accumulate=0, ::cv::Mat mask=cv::Mat() ){
+static void cvCalcArrHist_1919ae68601cfdffd256e40ac0fbe86e( bp::sequence & arr, ::CvHistogram * hist, int accumulate=0, ::cv::Mat mask=cv::Mat() ){
     bool b_arr= arr.ptr() != Py_None;
     int l_arr= b_arr? bp::len(arr): 0;
     std::vector< void * > v_arr(l_arr); convert_seq_to_vector(arr, v_arr);
@@ -601,7 +601,7 @@ static void cvCalcArrHist_1919ae68601cfdffd256e40ac0fbe86e( boost::python::objec
     ::cvCalcArrHist(b_arr? &v_arr[0]: 0, hist, accumulate, get_CvMat_ptr(mask));
 }
 
-static void cvCalcBayesianProb_1195a20f1f016c88866792b21372e3f9( boost::python::object src, boost::python::object dst ){
+static void cvCalcBayesianProb_1195a20f1f016c88866792b21372e3f9( bp::sequence & src, bp::sequence & dst ){
     bool b_src= src.ptr() != Py_None;
     int l_src= b_src? bp::len(src): 0;
     bool b_dst= dst.ptr() != Py_None;
@@ -626,7 +626,7 @@ static boost::python::object cvCalcGlobalOrientation_9d75a586d5a67c41e4450ccf9b8
     return bp::object( result );
 }
 
-static void cvCalcHist_419724e5b83c7c4f7e5371b8d787f899( boost::python::object image, ::CvHistogram * hist, int accumulate=0, ::cv::Mat mask=cv::Mat() ){
+static void cvCalcHist_419724e5b83c7c4f7e5371b8d787f899( bp::sequence & image, ::CvHistogram * hist, int accumulate=0, ::cv::Mat mask=cv::Mat() ){
     bool b_image= image.ptr() != Py_None;
     int l_image= b_image? bp::len(image): 0;
     std::vector< ::_IplImage * > v_image(l_image); convert_seq_to_vector(image, v_image);
@@ -664,7 +664,7 @@ static void cvCalcOpticalFlowLK_0539268816232dbc93df209c0dc87327( ::cv::Mat & pr
     ::cvCalcOpticalFlowLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), win_size, get_CvMat_ptr(velx), get_CvMat_ptr(vely));
 }
 
-static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, boost::python::object prev_features, ::CvSize win_size, int level, ::CvTermCriteria criteria, int flags ){
+static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::sequence & prev_features, ::CvSize win_size, int level, ::CvTermCriteria criteria, int flags ){
     bool b_prev_features= prev_features.ptr() != Py_None;
     int l_prev_features= b_prev_features? bp::len(prev_features): 0;
     std::vector < char > status2(l_prev_features * 1);
@@ -703,7 +703,7 @@ static void cvCorrectMatches_055faac2f695cea7fa86e829ba6bdc99( ::cv::Mat & F, ::
     ::cvCorrectMatches(get_CvMat_ptr(F), get_CvMat_ptr(points1), get_CvMat_ptr(points2), get_CvMat_ptr(new_points1), get_CvMat_ptr(new_points2));
 }
 
-static boost::python::object cvCreateHist_f2b39da376344404265809e761a6aaba( boost::python::object sizes, int type, bp::sequence ranges=bp::sequence(), int uniform=1 ){
+static boost::python::object cvCreateHist_f2b39da376344404265809e761a6aaba( bp::sequence & sizes, int type, bp::sequence ranges=bp::sequence(), int uniform=1 ){
     bool b_sizes= sizes.ptr() != Py_None;
     int l_sizes= b_sizes? bp::len(sizes): 0;
     bool b_ranges = (ranges.ptr() != Py_None);
@@ -749,7 +749,7 @@ static boost::python::tuple cvCreateTrackbar2_c093a5d4e70019414d270b02dacaafb5( 
     return bp::make_tuple( result, z_on_change );
 }
 
-static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, ::cv::Mat & dst, int distance_type=2, int mask_size=3, boost::python::object mask=bp::object(), ::cv::Mat labels=cv::Mat() ){
+static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, ::cv::Mat & dst, int distance_type=2, int mask_size=3, bp::sequence mask=bp::sequence(), ::cv::Mat labels=cv::Mat() ){
     bool b_mask= mask.ptr() != Py_None;
     int l_mask= b_mask? bp::len(mask): 0;
     std::vector< float > v_mask(l_mask); convert_seq_to_vector(mask, v_mask);
@@ -825,7 +825,7 @@ static void cvGetQuadrangleSubPix_fe2b1a5028fa8b02301dc960cdfbc131( ::cv::Mat & 
     ::cvGetQuadrangleSubPix(get_CvMat_ptr(src), get_CvMat_ptr(dst), get_CvMat_ptr(map_matrix));
 }
 
-static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc53b( boost::python::object arrs, ::cv::Mat & mask, ::CvMatND * stubs, ::CvNArrayIterator * array_iterator, int flags=0 ){
+static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc53b( bp::sequence & arrs, ::cv::Mat & mask, ::CvMatND * stubs, ::CvNArrayIterator * array_iterator, int flags=0 ){
     bool b_arrs= arrs.ptr() != Py_None;
     int l_arrs= b_arrs? bp::len(arrs): 0;
     std::vector< void * > v_arrs(l_arrs); convert_seq_to_vector(arrs, v_arrs);
@@ -834,7 +834,7 @@ static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc5
     return bp::object( result );
 }
 
-static boost::python::object cvInitSystem_f0aa383f9ae0b2f0bf89bbcb5e73da23( boost::python::object argv ){
+static boost::python::object cvInitSystem_f0aa383f9ae0b2f0bf89bbcb5e73da23( bp::sequence & argv ){
     bool b_argv= argv.ptr() != Py_None;
     int l_argv= b_argv? bp::len(argv): 0;
     std::vector< char * > v_argv(l_argv); convert_seq_to_vector(argv, v_argv);
@@ -1016,7 +1016,7 @@ static void cvSmooth_77e0c983f4273497b4a61c0a6dcda04f( ::cv::Mat & src, ::cv::Ma
     ::cvSmooth(get_CvMat_ptr(src), get_CvMat_ptr(dst), smoothtype, size1, size2, sigma1, sigma2);
 }
 
-static void cvSnakeImage_12c505f189b0be3fa57d4cc42c364735( ::cv::Mat & image, ::CvPoint * points, int length, boost::python::object alpha, boost::python::object beta, boost::python::object gamma, int coeff_usage, ::CvSize win, ::CvTermCriteria criteria, int calc_gradient=1 ){
+static void cvSnakeImage_12c505f189b0be3fa57d4cc42c364735( ::cv::Mat & image, ::CvPoint * points, int length, bp::sequence & alpha, bp::sequence & beta, bp::sequence & gamma, int coeff_usage, ::CvSize win, ::CvTermCriteria criteria, int calc_gradient=1 ){
     bool b_alpha= alpha.ptr() != Py_None;
     int l_alpha= b_alpha? bp::len(alpha): 0;
     bool b_beta= beta.ptr() != Py_None;
@@ -1142,7 +1142,7 @@ static boost::python::tuple estimateAffine3D_fd3dca5e5fd5d2ce4664db813a2c08bf( :
     return bp::make_tuple( result, outliers );
 }
 
-static void fillConvexPoly_1312287b0cded13c02c57cc3d8ebf4b4( ::cv::Mat & img, boost::python::object pts, ::cv::Scalar const & color, int lineType=8, int shift=0 ){
+static void fillConvexPoly_1312287b0cded13c02c57cc3d8ebf4b4( ::cv::Mat & img, bp::sequence & pts, ::cv::Scalar const & color, int lineType=8, int shift=0 ){
     bool b_pts= pts.ptr() != Py_None;
     int l_pts= b_pts? bp::len(pts): 0;
     std::vector< ::cv::Point_<int> > v_pts(l_pts); convert_seq_to_vector(pts, v_pts);
@@ -1219,7 +1219,7 @@ static boost::python::tuple floodFill_75a8a8f3e3e22b4d281bb304a7881151( ::cv::Ma
     return bp::make_tuple( result, rect2 );
 }
 
-static boost::python::object getAffineTransform_aa493630c3e4efe1ff49141fe5060922( boost::python::object src, boost::python::object dst ){
+static boost::python::object getAffineTransform_aa493630c3e4efe1ff49141fe5060922( bp::sequence & src, bp::sequence & dst ){
     bool b_src= src.ptr() != Py_None;
     int l_src= b_src? bp::len(src): 0;
     bool b_dst= dst.ptr() != Py_None;
@@ -1232,7 +1232,7 @@ static boost::python::object getAffineTransform_aa493630c3e4efe1ff49141fe5060922
     return bp::object( result );
 }
 
-static boost::python::object getPerspectiveTransform_c06a0392152cb20f6b57ae1ff2ac2c11( boost::python::object src, boost::python::object dst ){
+static boost::python::object getPerspectiveTransform_c06a0392152cb20f6b57ae1ff2ac2c11( bp::sequence & src, bp::sequence & dst ){
     bool b_src= src.ptr() != Py_None;
     int l_src= b_src? bp::len(src): 0;
     bool b_dst= dst.ptr() != Py_None;
@@ -1299,7 +1299,7 @@ static boost::python::tuple kmeans_7acc1faebc4e430dbd210d93113e85c9( ::cv::Mat c
     return bp::make_tuple( result, centers2 );
 }
 
-static void merge_3b2d3618a31ce673ada132517e890dcb( boost::python::object mvbegin, ::cv::MatND & dst ){
+static void merge_3b2d3618a31ce673ada132517e890dcb( bp::sequence & mvbegin, ::cv::MatND & dst ){
     bool b_mvbegin= mvbegin.ptr() != Py_None;
     int l_mvbegin= b_mvbegin? bp::len(mvbegin): 0;
     std::vector< ::cv::MatND > v_mvbegin(l_mvbegin); convert_seq_to_vector(mvbegin, v_mvbegin);
@@ -1307,7 +1307,7 @@ static void merge_3b2d3618a31ce673ada132517e890dcb( boost::python::object mvbegi
     ::cv::merge(b_mvbegin? &v_mvbegin[0]: 0, l_mvbegin, dst);
 }
 
-static void merge_a47eeb2aff422ee6c05b5574cb0848fe( boost::python::object mv, ::cv::Mat & dst ){
+static void merge_a47eeb2aff422ee6c05b5574cb0848fe( bp::sequence & mv, ::cv::Mat & dst ){
     bool b_mv= mv.ptr() != Py_None;
     int l_mv= b_mv? bp::len(mv): 0;
     std::vector< ::cv::Mat > v_mv(l_mv); convert_seq_to_vector(mv, v_mv);
@@ -1433,7 +1433,7 @@ static boost::python::object read_2ba57a356ec17a70685f21fbad5a9438( ::cv::FileNo
     return bp::object( value2 );
 }
 
-static void split_2e154aaf70f5c323ceec9f447e404d8a( ::cv::MatND const & m, boost::python::object mv ){
+static void split_2e154aaf70f5c323ceec9f447e404d8a( ::cv::MatND const & m, bp::sequence & mv ){
     bool b_mv= mv.ptr() != Py_None;
     int l_mv= b_mv? bp::len(mv): 0;
     std::vector< ::cv::MatND > v_mv(l_mv); convert_seq_to_vector(mv, v_mv);
@@ -1441,7 +1441,7 @@ static void split_2e154aaf70f5c323ceec9f447e404d8a( ::cv::MatND const & m, boost
     ::cv::split(m, b_mv? &v_mv[0]: 0);
 }
 
-static void split_d88fca83dae3e7420e6688bbbcd2ac41( ::cv::Mat const & m, boost::python::object mvbegin ){
+static void split_d88fca83dae3e7420e6688bbbcd2ac41( ::cv::Mat const & m, bp::sequence & mvbegin ){
     bool b_mvbegin= mvbegin.ptr() != Py_None;
     int l_mvbegin= b_mvbegin? bp::len(mvbegin): 0;
     std::vector< ::cv::Mat > v_mvbegin(l_mvbegin); convert_seq_to_vector(mvbegin, v_mvbegin);
@@ -2214,7 +2214,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcCovarMatrix
     
-        typedef void ( *calcCovarMatrix_function_type )( boost::python::object,::cv::Mat &,::cv::Mat &,int,int );
+        typedef void ( *calcCovarMatrix_function_type )( bp::sequence &,::cv::Mat &,::cv::Mat &,int,int );
         
         bp::def( 
             "calcCovarMatrix"
@@ -2335,7 +2335,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcAffineFlowPyrLK
     
-        typedef boost::python::tuple ( *calcAffineFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,boost::python::object,::CvSize,int,::CvTermCriteria,int );
+        typedef boost::python::tuple ( *calcAffineFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::sequence &,::CvSize,int,::CvTermCriteria,int );
         
         bp::def( 
             "calcAffineFlowPyrLK"
@@ -2346,7 +2346,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcArrBackProject
     
-        typedef void ( *calcArrBackProject_function_type )( boost::python::object,::cv::Mat &,::CvHistogram const * );
+        typedef void ( *calcArrBackProject_function_type )( bp::sequence &,::cv::Mat &,::CvHistogram const * );
         
         bp::def( 
             "calcArrBackProject"
@@ -2357,7 +2357,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcArrBackProjectPatch
     
-        typedef void ( *calcArrBackProjectPatch_function_type )( boost::python::object,::cv::Mat &,::CvSize,::CvHistogram *,int,double );
+        typedef void ( *calcArrBackProjectPatch_function_type )( bp::sequence &,::cv::Mat &,::CvSize,::CvHistogram *,int,double );
         
         bp::def( 
             "calcArrBackProjectPatch"
@@ -2368,7 +2368,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcArrHist
     
-        typedef void ( *calcArrHist_function_type )( boost::python::object,::CvHistogram *,int,::cv::Mat );
+        typedef void ( *calcArrHist_function_type )( bp::sequence &,::CvHistogram *,int,::cv::Mat );
         
         bp::def( 
             "calcArrHist"
@@ -2379,7 +2379,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcBayesianProb
     
-        typedef void ( *calcBayesianProb_function_type )( boost::python::object,boost::python::object );
+        typedef void ( *calcBayesianProb_function_type )( bp::sequence &,bp::sequence & );
         
         bp::def( 
             "calcBayesianProb"
@@ -2412,7 +2412,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcHist
     
-        typedef void ( *calcHist_function_type )( boost::python::object,::CvHistogram *,int,::cv::Mat );
+        typedef void ( *calcHist_function_type )( bp::sequence &,::CvHistogram *,int,::cv::Mat );
         
         bp::def( 
             "calcHist"
@@ -2478,7 +2478,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcOpticalFlowPyrLK
     
-        typedef boost::python::tuple ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,boost::python::object,::CvSize,int,::CvTermCriteria,int );
+        typedef boost::python::tuple ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::sequence &,::CvSize,int,::CvTermCriteria,int );
         
         bp::def( 
             "calcOpticalFlowPyrLK"
@@ -2544,7 +2544,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCreateHist
     
-        typedef boost::python::object ( *createHist_function_type )( boost::python::object,int,bp::sequence,int );
+        typedef boost::python::object ( *createHist_function_type )( bp::sequence &,int,bp::sequence,int );
         
         bp::def( 
             "createHist"
@@ -2588,12 +2588,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvDistTransform
     
-        typedef void ( *distTransform_function_type )( ::cv::Mat &,::cv::Mat &,int,int,boost::python::object,::cv::Mat );
+        typedef void ( *distTransform_function_type )( ::cv::Mat &,::cv::Mat &,int,int,bp::sequence,::cv::Mat );
         
         bp::def( 
             "distTransform"
             , distTransform_function_type( &cvDistTransform_68addecae85b6b48cd46044102a6c028 )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("distance_type")=(int)(2), bp::arg("mask_size")=(int)(3), bp::arg("mask")=bp::object(), bp::arg("labels")=cv::Mat() ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("distance_type")=(int)(2), bp::arg("mask_size")=(int)(3), bp::arg("mask")=bp::sequence(), bp::arg("labels")=cv::Mat() ) );
     
     }
 
@@ -2753,7 +2753,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvInitNArrayIterator
     
-        typedef boost::python::object ( *initNArrayIterator_function_type )( boost::python::object,::cv::Mat &,::CvMatND *,::CvNArrayIterator *,int );
+        typedef boost::python::object ( *initNArrayIterator_function_type )( bp::sequence &,::cv::Mat &,::CvMatND *,::CvNArrayIterator *,int );
         
         bp::def( 
             "initNArrayIterator"
@@ -2764,7 +2764,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvInitSystem
     
-        typedef boost::python::object ( *initSystem_function_type )( boost::python::object );
+        typedef boost::python::object ( *initSystem_function_type )( bp::sequence & );
         
         bp::def( 
             "initSystem"
@@ -3127,7 +3127,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvSnakeImage
     
-        typedef void ( *snakeImage_function_type )( ::cv::Mat &,::CvPoint *,int,boost::python::object,boost::python::object,boost::python::object,int,::CvSize,::CvTermCriteria,int );
+        typedef void ( *snakeImage_function_type )( ::cv::Mat &,::CvPoint *,int,bp::sequence &,bp::sequence &,bp::sequence &,int,::CvSize,::CvTermCriteria,int );
         
         bp::def( 
             "snakeImage"
@@ -3380,7 +3380,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::fillConvexPoly
     
-        typedef void ( *fillConvexPoly_function_type )( ::cv::Mat &,boost::python::object,::cv::Scalar const &,int,int );
+        typedef void ( *fillConvexPoly_function_type )( ::cv::Mat &,bp::sequence &,::cv::Scalar const &,int,int );
         
         bp::def( 
             "fillConvexPoly"
@@ -3468,7 +3468,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::getAffineTransform
     
-        typedef boost::python::object ( *getAffineTransform_function_type )( boost::python::object,boost::python::object );
+        typedef boost::python::object ( *getAffineTransform_function_type )( bp::sequence &,bp::sequence & );
         
         bp::def( 
             "getAffineTransform"
@@ -3479,7 +3479,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::getPerspectiveTransform
     
-        typedef boost::python::object ( *getPerspectiveTransform_function_type )( boost::python::object,boost::python::object );
+        typedef boost::python::object ( *getPerspectiveTransform_function_type )( bp::sequence &,bp::sequence & );
         
         bp::def( 
             "getPerspectiveTransform"
@@ -3567,7 +3567,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::merge
     
-        typedef void ( *merge_function_type )( boost::python::object,::cv::MatND & );
+        typedef void ( *merge_function_type )( bp::sequence &,::cv::MatND & );
         
         bp::def( 
             "merge"
@@ -3578,7 +3578,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::merge
     
-        typedef void ( *merge_function_type )( boost::python::object,::cv::Mat & );
+        typedef void ( *merge_function_type )( bp::sequence &,::cv::Mat & );
         
         bp::def( 
             "merge"
@@ -3765,7 +3765,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::split
     
-        typedef void ( *split_function_type )( ::cv::MatND const &,boost::python::object );
+        typedef void ( *split_function_type )( ::cv::MatND const &,bp::sequence & );
         
         bp::def( 
             "split"
@@ -3776,7 +3776,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::split
     
-        typedef void ( *split_function_type )( ::cv::Mat const &,boost::python::object );
+        typedef void ( *split_function_type )( ::cv::Mat const &,bp::sequence & );
         
         bp::def( 
             "split"

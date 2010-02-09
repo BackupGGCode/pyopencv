@@ -29,7 +29,7 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
     
     }
 
-    static void create( ::cv::MatND & inst, boost::python::object _sizes, int _type ){
+    static void create( ::cv::MatND & inst, bp::sequence & _sizes, int _type ){
         bool b__sizes= _sizes.ptr() != Py_None;
         int l__sizes= b__sizes? bp::len(_sizes): 0;
         std::vector< int > v__sizes(l__sizes); convert_seq_to_vector(_sizes, v__sizes);
@@ -37,7 +37,7 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
         inst.create(l__sizes, b__sizes? &v__sizes[0]: 0, _type);
     }
 
-    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, boost::python::object _newsz=bp::object() ){
+    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, bp::sequence _newsz=bp::sequence() ){
         bool b__newsz= _newsz.ptr() != Py_None;
         int l__newsz= b__newsz? bp::len(_newsz): 0;
         std::vector< int > v__newsz(l__newsz); convert_seq_to_vector(_newsz, v__newsz);
@@ -163,7 +163,7 @@ void register_MatND_class(){
         }
         { //::cv::MatND::create
         
-            typedef void ( *create_function_type )( ::cv::MatND &,boost::python::object,int );
+            typedef void ( *create_function_type )( ::cv::MatND &,bp::sequence &,int );
             
             MatND_exposer.def( 
                 "create"
@@ -241,12 +241,12 @@ void register_MatND_class(){
         }
         { //::cv::MatND::reshape
         
-            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,boost::python::object );
+            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,bp::sequence );
             
             MatND_exposer.def( 
                 "reshape"
                 , reshape_function_type( &MatND_wrapper::reshape )
-                , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=bp::object() ) );
+                , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=bp::sequence() ) );
         
         }
         { //::cv::MatND::setTo
