@@ -34,7 +34,7 @@ inherits the best of both world: fast computer vision functionality (OpenCV)
 and fast multi-dimensional array computation (NumPy).
 
 :Author: Minh-Tri Pham <pmtri80@gmail.com>
-:Version: 1.0.1 (beta)
+:Version: 1.0.2 (beta)
 :Released: Feb 2010
 :License: New BSD License
 

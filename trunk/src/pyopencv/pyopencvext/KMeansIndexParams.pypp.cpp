@@ -39,7 +39,7 @@ struct KMeansIndexParams_wrapper : cv::flann::KMeansIndexParams, bp::wrapper< cv
 
 void register_KMeansIndexParams_class(){
 
-    bp::class_< KMeansIndexParams_wrapper >( "KMeansIndexParams", bp::init< bp::optional< int, int, cv::flann::flann_centers_init_t, float > >(( bp::arg("branching_")=(int)(32), bp::arg("iterations_")=(int)(11), bp::arg("centers_init_")=::cv::flann::CENTERS_RANDOM, bp::arg("cb_index_")=2.00000000000000011102230246251565404236316680908e-1 )) )    
+    bp::class_< KMeansIndexParams_wrapper, bp::bases< cv::flann::IndexParams > >( "KMeansIndexParams", bp::init< bp::optional< int, int, cv::flann::flann_centers_init_t, float > >(( bp::arg("branching_")=(int)(32), bp::arg("iterations_")=(int)(11), bp::arg("centers_init_")=::cv::flann::CENTERS_RANDOM, bp::arg("cb_index_")=2.00000000000000011102230246251565404236316680908e-1 )) )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::KMeansIndexParams >() )    
         .def( 
             "createIndex"

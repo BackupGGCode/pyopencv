@@ -35,9 +35,13 @@ def generate_code(mb, cc, D, FT, CP):
         cvflann_Index = flanns[0]
     flann_Index.rename('flann_Index')
     # FT.expose_member_as_pointee(cvflann_Index, 'nnIndex')
-
+    
+    # IndexParams
+    mb.class_('IndexParams').include()
+    
     # IndexFactory classes
     for name in (
+        'IndexFactory',
         'LinearIndexParams', 'KDTreeIndexParams', 'KMeansIndexParams',
         'CompositeIndexParams', 'AutotunedIndexParams', 'SavedIndexParams', 
         ):

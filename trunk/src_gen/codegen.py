@@ -49,7 +49,7 @@ print("Working directory changed to: %s" % _work_dir)
 mb = module_builder.module_builder_t(
     ["opencv_headers.hpp"],
     gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe",
-    working_directory=OP.join(_work_dir, 'pyopencvext'),
+    working_directory=OP.join(_work_dir, 'pyopencvext', 'core'),
     include_paths=[
         r"M:\programming\packages\OpenCV\build\2.0\include",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++",
