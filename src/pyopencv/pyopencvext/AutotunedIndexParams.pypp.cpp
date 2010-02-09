@@ -39,7 +39,7 @@ struct AutotunedIndexParams_wrapper : cv::flann::AutotunedIndexParams, bp::wrapp
 
 void register_AutotunedIndexParams_class(){
 
-    bp::class_< AutotunedIndexParams_wrapper >( "AutotunedIndexParams", bp::init< bp::optional< float, float, float, float > >(( bp::arg("target_precision_")=9.00000000000000022204460492503130808472633361816e-1, bp::arg("build_weight_")=1.0000000000000000208166817117216851329430937767e-2, bp::arg("memory_weight_")=0, bp::arg("sample_fraction_")=1.00000000000000005551115123125782702118158340454e-1 )) )    
+    bp::class_< AutotunedIndexParams_wrapper, bp::bases< cv::flann::IndexParams > >( "AutotunedIndexParams", bp::init< bp::optional< float, float, float, float > >(( bp::arg("target_precision_")=9.00000000000000022204460492503130808472633361816e-1, bp::arg("build_weight_")=1.0000000000000000208166817117216851329430937767e-2, bp::arg("memory_weight_")=0, bp::arg("sample_fraction_")=1.00000000000000005551115123125782702118158340454e-1 )) )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::AutotunedIndexParams >() )    
         .def( 
             "createIndex"

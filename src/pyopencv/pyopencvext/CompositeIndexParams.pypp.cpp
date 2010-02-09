@@ -39,7 +39,7 @@ struct CompositeIndexParams_wrapper : cv::flann::CompositeIndexParams, bp::wrapp
 
 void register_CompositeIndexParams_class(){
 
-    bp::class_< CompositeIndexParams_wrapper >( "CompositeIndexParams", bp::init< bp::optional< int, int, int, cv::flann::flann_centers_init_t, float > >(( bp::arg("trees_")=(int)(4), bp::arg("branching_")=(int)(32), bp::arg("iterations_")=(int)(11), bp::arg("centers_init_")=::cv::flann::CENTERS_RANDOM, bp::arg("cb_index_")=2.00000000000000011102230246251565404236316680908e-1 )) )    
+    bp::class_< CompositeIndexParams_wrapper, bp::bases< cv::flann::IndexParams > >( "CompositeIndexParams", bp::init< bp::optional< int, int, int, cv::flann::flann_centers_init_t, float > >(( bp::arg("trees_")=(int)(4), bp::arg("branching_")=(int)(32), bp::arg("iterations_")=(int)(11), bp::arg("centers_init_")=::cv::flann::CENTERS_RANDOM, bp::arg("cb_index_")=2.00000000000000011102230246251565404236316680908e-1 )) )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::CompositeIndexParams >() )    
         .def( 
             "createIndex"

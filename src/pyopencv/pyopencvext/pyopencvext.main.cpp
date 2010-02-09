@@ -240,6 +240,10 @@
 
 #include "pyopencvext/Index.pypp.hpp"
 
+#include "pyopencvext/IndexFactory.pypp.hpp"
+
+#include "pyopencvext/IndexParams.pypp.hpp"
+
 #include "pyopencvext/KDTree.pypp.hpp"
 
 #include "pyopencvext/KDTreeIndexParams.pypp.hpp"
@@ -2117,6 +2121,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_VideoCapture_class();
 
     register_VideoWriter_class();
+
+    register_IndexFactory_class();
+
+    register_IndexParams_class();
 
     register_AutotunedIndexParams_class();
 
