@@ -191,8 +191,17 @@ CONVERT_VECTOR_TO_SEQ(cv::Point3i);
 CONVERT_VECTOR_TO_SEQ(cv::Point3f);
 CONVERT_VECTOR_TO_SEQ(cv::Point3d);
 
+// Rect-like
+CONVERT_VECTOR_TO_SEQ(cv::Rect);
+CONVERT_VECTOR_TO_SEQ(cv::Rectd);
+CONVERT_VECTOR_TO_SEQ(cv::Rectf);
+CONVERT_VECTOR_TO_SEQ(cv::RotatedRect);
+
 // Scalar
 CONVERT_VECTOR_TO_SEQ(cv::Scalar);
+
+// Range
+CONVERT_VECTOR_TO_SEQ(cv::Range);
 
 
 template<class T>
