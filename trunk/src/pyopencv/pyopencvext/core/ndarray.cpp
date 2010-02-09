@@ -253,8 +253,17 @@ NDARRAY_TO_VECTOR_ARRAY(cv::Point3i, NPY_LONG, 3);
 NDARRAY_TO_VECTOR_ARRAY(cv::Point3f, NPY_FLOAT, 3);
 NDARRAY_TO_VECTOR_ARRAY(cv::Point3d, NPY_DOUBLE, 3);
 
+// Rect-like
+NDARRAY_TO_VECTOR_ARRAY(cv::Rect, NPY_LONG, 4);
+NDARRAY_TO_VECTOR_ARRAY(cv::Rectf, NPY_FLOAT, 4);
+NDARRAY_TO_VECTOR_ARRAY(cv::Rectd, NPY_DOUBLE, 4);
+NDARRAY_TO_VECTOR_ARRAY(cv::RotatedRect, NPY_FLOAT, 5);
+
 // Scalar
 NDARRAY_TO_VECTOR_ARRAY(cv::Scalar, NPY_DOUBLE, 4);
+
+// Range
+NDARRAY_TO_VECTOR_ARRAY(cv::Range, NPY_LONG, 2);
 
 
 // ================================================================================================
@@ -329,8 +338,17 @@ VECTOR_TO_NDARRAY_ARRAY(cv::Point3i, NPY_LONG, 3);
 VECTOR_TO_NDARRAY_ARRAY(cv::Point3f, NPY_FLOAT, 3);
 VECTOR_TO_NDARRAY_ARRAY(cv::Point3d, NPY_DOUBLE, 3);
 
+// Rect-like
+VECTOR_TO_NDARRAY_ARRAY(cv::Rect, NPY_LONG, 4);
+VECTOR_TO_NDARRAY_ARRAY(cv::Rectf, NPY_FLOAT, 4);
+VECTOR_TO_NDARRAY_ARRAY(cv::Rectd, NPY_DOUBLE, 4);
+VECTOR_TO_NDARRAY_ARRAY(cv::RotatedRect, NPY_FLOAT, 5);
+
 // Scalar
 VECTOR_TO_NDARRAY_ARRAY(cv::Scalar, NPY_DOUBLE, 4);
+
+// Range
+VECTOR_TO_NDARRAY_ARRAY(cv::Range, NPY_LONG, 2);
 
 
 // ================================================================================================
@@ -381,8 +399,17 @@ VECT_AS_NDARRAY(cv::Point3i, NPY_LONG, 3);
 VECT_AS_NDARRAY(cv::Point3f, NPY_FLOAT, 3);
 VECT_AS_NDARRAY(cv::Point3d, NPY_DOUBLE, 3);
 
+// Rect-like
+VECT_AS_NDARRAY(cv::Rect, NPY_LONG, 4);
+VECT_AS_NDARRAY(cv::Rectf, NPY_FLOAT, 4);
+VECT_AS_NDARRAY(cv::Rectd, NPY_DOUBLE, 4);
+VECT_AS_NDARRAY(cv::RotatedRect, NPY_FLOAT, 5);
+
 // Scalar
 VECT_AS_NDARRAY(cv::Scalar, NPY_DOUBLE, 4);
+
+// Range
+VECT_AS_NDARRAY(cv::Range, NPY_LONG, 2);
 
 // Mat
 template<> ndarray as_ndarray<cv::Mat>(const object &obj)
@@ -514,8 +541,17 @@ NDARRAY_AS_VECT(cv::Point3i, NPY_LONG, 3);
 NDARRAY_AS_VECT(cv::Point3f, NPY_FLOAT, 3);
 NDARRAY_AS_VECT(cv::Point3d, NPY_DOUBLE, 3);
 
+// Rect-like
+NDARRAY_AS_VECT(cv::Rect, NPY_LONG, 4);
+NDARRAY_AS_VECT(cv::Rectf, NPY_FLOAT, 4);
+NDARRAY_AS_VECT(cv::Rectd, NPY_DOUBLE, 4);
+NDARRAY_AS_VECT(cv::RotatedRect, NPY_FLOAT, 5);
+
 // Scalar
 NDARRAY_AS_VECT(cv::Scalar, NPY_DOUBLE, 4);
+
+// Range
+NDARRAY_AS_VECT(cv::Range, NPY_LONG, 2);
 
 // ndarray's shape and strides arrays are big-endian
 // OpenCV's MatND's shape and strides arrays are little-endian

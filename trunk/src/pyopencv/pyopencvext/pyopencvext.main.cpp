@@ -3942,9 +3942,29 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asndarray", &bp::as_ndarray< cv::Point3i >, (bp::arg("arr")) );
 
+    bp::def("asRectd", &bp::from_ndarray< cv::Rectd >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Rectd >, (bp::arg("arr")) );
+
+    bp::def("asRectf", &bp::from_ndarray< cv::Rectf >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Rectf >, (bp::arg("arr")) );
+
+    bp::def("asRect", &bp::from_ndarray< cv::Rect >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Rect >, (bp::arg("arr")) );
+
+    bp::def("asRotatedRect", &bp::from_ndarray< cv::RotatedRect >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::RotatedRect >, (bp::arg("arr")) );
+
     bp::def("asScalar", &bp::from_ndarray< cv::Scalar >, (bp::arg("arr")) );
 
     bp::def("asndarray", &bp::as_ndarray< cv::Scalar >, (bp::arg("arr")) );
+
+    bp::def("asRange", &bp::from_ndarray< cv::Range >, (bp::arg("arr")) );
+
+    bp::def("asndarray", &bp::as_ndarray< cv::Range >, (bp::arg("arr")) );
 
     bp::def("asMat", &bp::from_ndarray< cv::Mat >, (bp::arg("arr")) );
 
