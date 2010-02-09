@@ -25,34 +25,6 @@ struct CvContourTree_wrapper : CvContourTree, bp::wrapper< CvContourTree > {
         
     }
 
-    static bp::object get_h_prev( ::CvContourTree const & inst ){        
-        return inst.h_prev? bp::object(inst.h_prev): bp::object();
-    }
-
-    static bp::object get_h_next( ::CvContourTree const & inst ){        
-        return inst.h_next? bp::object(inst.h_next): bp::object();
-    }
-
-    static bp::object get_v_prev( ::CvContourTree const & inst ){        
-        return inst.v_prev? bp::object(inst.v_prev): bp::object();
-    }
-
-    static bp::object get_v_next( ::CvContourTree const & inst ){        
-        return inst.v_next? bp::object(inst.v_next): bp::object();
-    }
-
-    static bp::object get_storage( ::CvContourTree const & inst ){        
-        return inst.storage? bp::object(inst.storage): bp::object();
-    }
-
-    static bp::object get_free_blocks( ::CvContourTree const & inst ){        
-        return inst.free_blocks? bp::object(inst.free_blocks): bp::object();
-    }
-
-    static bp::object get_first( ::CvContourTree const & inst ){        
-        return inst.first? bp::object(inst.first): bp::object();
-    }
-
     static bp::object get_block_max( ::CvContourTree const & inst ){        
         return inst.block_max? bp::str(inst.block_max): bp::object();
     }
@@ -62,6 +34,20 @@ struct CvContourTree_wrapper : CvContourTree, bp::wrapper< CvContourTree > {
     }
 
 };
+
+static ::CvSeq * get_h_prev( ::CvContourTree const & inst ) { return inst.h_prev; }
+
+static ::CvSeq * get_h_next( ::CvContourTree const & inst ) { return inst.h_next; }
+
+static ::CvSeq * get_v_prev( ::CvContourTree const & inst ) { return inst.v_prev; }
+
+static ::CvSeq * get_v_next( ::CvContourTree const & inst ) { return inst.v_next; }
+
+static ::CvMemStorage * get_storage( ::CvContourTree const & inst ) { return inst.storage; }
+
+static ::CvSeqBlock * get_free_blocks( ::CvContourTree const & inst ) { return inst.free_blocks; }
+
+static ::CvSeqBlock * get_first( ::CvContourTree const & inst ) { return inst.first; }
 
 void register_CvContourTree_class(){
 
@@ -74,13 +60,13 @@ void register_CvContourTree_class(){
         .def_readwrite( "p1", &CvContourTree::p1 )    
         .def_readwrite( "p2", &CvContourTree::p2 )    
         .def_readwrite( "total", &CvContourTree::total )    
-        .add_property( "h_prev", bp::make_function(&::CvContourTree_wrapper::get_h_prev) )    
-        .add_property( "h_next", bp::make_function(&::CvContourTree_wrapper::get_h_next) )    
-        .add_property( "v_prev", bp::make_function(&::CvContourTree_wrapper::get_v_prev) )    
-        .add_property( "v_next", bp::make_function(&::CvContourTree_wrapper::get_v_next) )    
-        .add_property( "storage", bp::make_function(&::CvContourTree_wrapper::get_storage) )    
-        .add_property( "free_blocks", bp::make_function(&::CvContourTree_wrapper::get_free_blocks) )    
-        .add_property( "first", bp::make_function(&::CvContourTree_wrapper::get_first) )    
+        .add_property( "h_prev", bp::make_function(&::get_h_prev, bp::return_internal_reference<>()) )    
+        .add_property( "h_next", bp::make_function(&::get_h_next, bp::return_internal_reference<>()) )    
+        .add_property( "v_prev", bp::make_function(&::get_v_prev, bp::return_internal_reference<>()) )    
+        .add_property( "v_next", bp::make_function(&::get_v_next, bp::return_internal_reference<>()) )    
+        .add_property( "storage", bp::make_function(&::get_storage, bp::return_internal_reference<>()) )    
+        .add_property( "free_blocks", bp::make_function(&::get_free_blocks, bp::return_internal_reference<>()) )    
+        .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
         .add_property( "block_max", bp::make_function(&::CvContourTree_wrapper::get_block_max) )    
         .add_property( "ptr", bp::make_function(&::CvContourTree_wrapper::get_ptr) );
 

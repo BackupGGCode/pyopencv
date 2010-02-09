@@ -25,14 +25,6 @@ struct CvModuleInfo_wrapper : CvModuleInfo, bp::wrapper< CvModuleInfo > {
         
     }
 
-    static bp::object get_next( ::CvModuleInfo const & inst ){        
-        return inst.next? bp::object(inst.next): bp::object();
-    }
-
-    static bp::object get_func_tab( ::CvModuleInfo const & inst ){        
-        return inst.func_tab? bp::object(inst.func_tab): bp::object();
-    }
-
     static bp::object get_name( ::CvModuleInfo const & inst ){        
         return inst.name? bp::str(inst.name): bp::object();
     }
@@ -43,12 +35,16 @@ struct CvModuleInfo_wrapper : CvModuleInfo, bp::wrapper< CvModuleInfo > {
 
 };
 
+static ::CvModuleInfo * get_next( ::CvModuleInfo const & inst ) { return inst.next; }
+
+static ::CvPluginFuncInfo * get_func_tab( ::CvModuleInfo const & inst ) { return inst.func_tab; }
+
 void register_CvModuleInfo_class(){
 
     bp::class_< CvModuleInfo_wrapper >( "CvModuleInfo" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvModuleInfo >() )    
-        .add_property( "next", bp::make_function(&::CvModuleInfo_wrapper::get_next) )    
-        .add_property( "func_tab", bp::make_function(&::CvModuleInfo_wrapper::get_func_tab) )    
+        .add_property( "next", bp::make_function(&::get_next, bp::return_internal_reference<>()) )    
+        .add_property( "func_tab", bp::make_function(&::get_func_tab, bp::return_internal_reference<>()) )    
         .add_property( "name", bp::make_function(&::CvModuleInfo_wrapper::get_name) )    
         .add_property( "version", bp::make_function(&::CvModuleInfo_wrapper::get_version) );
 

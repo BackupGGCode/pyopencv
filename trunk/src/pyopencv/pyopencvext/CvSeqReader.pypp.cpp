@@ -25,14 +25,6 @@ struct CvSeqReader_wrapper : CvSeqReader, bp::wrapper< CvSeqReader > {
         
     }
 
-    static bp::object get_seq( ::CvSeqReader const & inst ){        
-        return inst.seq? bp::object(inst.seq): bp::object();
-    }
-
-    static bp::object get_block( ::CvSeqReader const & inst ){        
-        return inst.block? bp::object(inst.block): bp::object();
-    }
-
     static bp::object get_ptr( ::CvSeqReader const & inst ){        
         return inst.ptr? bp::str(inst.ptr): bp::object();
     }
@@ -51,14 +43,18 @@ struct CvSeqReader_wrapper : CvSeqReader, bp::wrapper< CvSeqReader > {
 
 };
 
+static ::CvSeq * get_seq( ::CvSeqReader const & inst ) { return inst.seq; }
+
+static ::CvSeqBlock * get_block( ::CvSeqReader const & inst ) { return inst.block; }
+
 void register_CvSeqReader_class(){
 
     bp::class_< CvSeqReader_wrapper >( "CvSeqReader" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSeqReader >() )    
         .def_readwrite( "delta_index", &CvSeqReader::delta_index )    
         .def_readwrite( "header_size", &CvSeqReader::header_size )    
-        .add_property( "seq", bp::make_function(&::CvSeqReader_wrapper::get_seq) )    
-        .add_property( "block", bp::make_function(&::CvSeqReader_wrapper::get_block) )    
+        .add_property( "seq", bp::make_function(&::get_seq, bp::return_internal_reference<>()) )    
+        .add_property( "block", bp::make_function(&::get_block, bp::return_internal_reference<>()) )    
         .add_property( "ptr", bp::make_function(&::CvSeqReader_wrapper::get_ptr) )    
         .add_property( "block_min", bp::make_function(&::CvSeqReader_wrapper::get_block_min) )    
         .add_property( "block_max", bp::make_function(&::CvSeqReader_wrapper::get_block_max) )    

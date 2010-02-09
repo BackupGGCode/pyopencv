@@ -326,7 +326,7 @@ KLASS.__repr__ = _KLASS__repr__
         'var_idx', 'var_type', 'priors', 'priors_mult', 'tree_storage', 'temp_storage', 'data_root',
         'node_heap', 'split_heap', 'cv_heap', 'nv_heap', 'rng',
         ):
-        FT.expose_member_as_pointee(z, t) # TODO: fix these variables
+        z.var(t).exclude() # TODO: fix these variables
     mb.finalize_class(z)
     
     # CvDTree

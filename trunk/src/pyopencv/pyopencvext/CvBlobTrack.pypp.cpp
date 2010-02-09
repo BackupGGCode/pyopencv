@@ -8,34 +8,14 @@
 
 namespace bp = boost::python;
 
-struct CvBlobTrack_wrapper : CvBlobTrack, bp::wrapper< CvBlobTrack > {
-
-    CvBlobTrack_wrapper(CvBlobTrack const & arg )
-    : CvBlobTrack( arg )
-      , bp::wrapper< CvBlobTrack >(){
-        // copy constructor
-        
-    }
-
-    CvBlobTrack_wrapper()
-    : CvBlobTrack()
-      , bp::wrapper< CvBlobTrack >(){
-        // null constructor
-        
-    }
-
-    static bp::object get_pBlobSeq( ::CvBlobTrack const & inst ){        
-        return inst.pBlobSeq? bp::object(inst.pBlobSeq): bp::object();
-    }
-
-};
+static ::CvBlobSeq * get_pBlobSeq( ::CvBlobTrack const & inst ) { return inst.pBlobSeq; }
 
 void register_CvBlobTrack_class(){
 
-    bp::class_< CvBlobTrack_wrapper >( "CvBlobTrack" )    
+    bp::class_< CvBlobTrack >( "CvBlobTrack" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrack >() )    
         .def_readwrite( "StartFrame", &CvBlobTrack::StartFrame )    
         .def_readwrite( "TrackID", &CvBlobTrack::TrackID )    
-        .add_property( "pBlobSeq", bp::make_function(&::CvBlobTrack_wrapper::get_pBlobSeq) );
+        .add_property( "pBlobSeq", bp::make_function(&::get_pBlobSeq, bp::return_internal_reference<>()) );
 
 }
