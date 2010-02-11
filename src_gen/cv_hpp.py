@@ -64,7 +64,43 @@ def generate_code(mb, cc, D, FT, CP):
     mb.init_class(z)
     z.mem_fun('detectMultiScale')._transformer_creators.append(FT.output_std_vector('objects'))
     mb.finalize_class(z)
-    mb.expose_class_Ptr('CvHaarClassifierCascade')
+    mb.expose_class_Ptr('CvHaarClassifierCascade')    
+    # modify runAt() and setImage() -- I need them able to support old cascade
+    z.mem_fun('runAt').exclude()
+    z.mem_fun('setImage').exclude()
+    z.add_wrapper_code('''
+    
+    cv::Mat sum, tilted, sqsum;
+    CvMat _sum, _sqsum, _tilted;
+    
+    int my_runAt( cv::Ptr<cv::FeatureEvaluator> &_feval, const cv::Point &pt )
+    {
+        if( !oldCascade.empty() )
+            return cvRunHaarClassifierCascade(oldCascade, pt, 0);
+            
+        return runAt(_feval, pt);
+    }
+
+        
+    bool my_setImage( cv::Ptr<cv::FeatureEvaluator> &_feval, const cv::Mat& image )
+    {
+        if( !oldCascade.empty() )
+        {
+            sum.create(image.rows+1, image.cols+1, CV_32S);
+            tilted.create(image.rows+1, image.cols+1, CV_32S);
+            sqsum.create(image.rows+1, image.cols+1, CV_64F);
+            cv::integral(image, sum, sqsum, tilted);
+            _sum = sum; _sqsum = sqsum; _tilted = tilted;
+            cvSetImagesForHaarClassifierCascade( oldCascade, &_sum, &_sqsum, &_tilted, 1. );
+            return true;
+        }
+        
+        return setImage(_feval, image);
+    }
+    
+    ''')
+    z.add_registration_code('def("runAt", &::CascadeClassifier_wrapper::my_runAt, ( bp::arg("_feval"), bp::arg("pt") ) )')
+    z.add_registration_code('def("setImage", &::CascadeClassifier_wrapper::my_setImage, ( bp::arg("_feval"), bp::arg("image") ) )')
     
     # StereoBM
     z = mb.class_('StereoBM')
