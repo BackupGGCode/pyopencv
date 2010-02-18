@@ -51,7 +51,7 @@ mb = module_builder.module_builder_t(
     gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe",
     working_directory=OP.join(_work_dir, 'pyopencvext', 'core'),
     include_paths=[
-        r"M:\programming\packages\OpenCV\build\2.0\include",
+        "pyopencvext/sdopencv",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++\mingw32",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include",
@@ -495,7 +495,12 @@ highgui_h.generate_code(mb, cc, D, FT, CP)
 # highgui.hpp
 highgui_hpp.generate_code(mb, cc, D, FT, CP)
 
-
+# sdopencv
+sdopencv = mb.namespace('sdopencv')
+sdopencv.include()
+for z in sdopencv.classes():
+    mb.init_class(z)
+    mb.finalize_class(z)
 
 
 #=============================================================================

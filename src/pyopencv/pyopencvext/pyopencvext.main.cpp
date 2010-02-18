@@ -226,6 +226,8 @@
 
 #include "pyopencvext/CvVectors.pypp.hpp"
 
+#include "pyopencvext/DifferentialImage.pypp.hpp"
+
 #include "pyopencvext/FeatureEvaluator.pypp.hpp"
 
 #include "pyopencvext/FernClassifier.pypp.hpp"
@@ -2145,6 +2147,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_flann_Index_class();
 
     register_lsh_hash_class();
+
+    register_DifferentialImage_class();
 
     { //::cv::FAST
     
