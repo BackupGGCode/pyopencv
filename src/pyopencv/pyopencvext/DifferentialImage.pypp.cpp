@@ -31,11 +31,6 @@ void register_DifferentialImage_class(){
         .def_readwrite( "Ixx", &sdopencv::DifferentialImage::Ixx )    
         .def_readwrite( "Ixy", &sdopencv::DifferentialImage::Ixy )    
         .def_readwrite( "Iy", &sdopencv::DifferentialImage::Iy )    
-        .def_readwrite( "Iyy", &sdopencv::DifferentialImage::Iyy )    
-        .def_readwrite( "Zx", &sdopencv::DifferentialImage::Zx )    
-        .def_readwrite( "Zxx", &sdopencv::DifferentialImage::Zxx )    
-        .def_readwrite( "Zxy", &sdopencv::DifferentialImage::Zxy )    
-        .def_readwrite( "Zy", &sdopencv::DifferentialImage::Zy )    
-        .def_readwrite( "Zyy", &sdopencv::DifferentialImage::Zyy );
+        .def_readwrite( "Iyy", &sdopencv::DifferentialImage::Iyy );
 
 }

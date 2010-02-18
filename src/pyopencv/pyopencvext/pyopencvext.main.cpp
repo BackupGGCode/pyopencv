@@ -246,6 +246,8 @@
 
 #include "pyopencvext/IndexParams.pypp.hpp"
 
+#include "pyopencvext/IntegralImage.pypp.hpp"
+
 #include "pyopencvext/KDTree.pypp.hpp"
 
 #include "pyopencvext/KDTreeIndexParams.pypp.hpp"
@@ -2149,6 +2151,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_lsh_hash_class();
 
     register_DifferentialImage_class();
+
+    register_IntegralImage_class();
 
     { //::cv::FAST
     
