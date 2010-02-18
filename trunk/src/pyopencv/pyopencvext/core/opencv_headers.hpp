@@ -43,7 +43,11 @@ namespace flann {
     class Index {};
 }
 
-# include "template_instantiations.hpp"
+#include "template_instantiations.hpp"
+
+
+// sdopencv stuff
+#include "sdopencv.hpp"
 
 
 #endif
