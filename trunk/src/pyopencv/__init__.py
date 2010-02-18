@@ -249,30 +249,6 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 
     
 #-----------------------------------------------------------------------------
-# Histogram
-#-----------------------------------------------------------------------------
-
-CV_HIST_MAGIC_VAL     = 0x42450000
-CV_HIST_UNIFORM_FLAG  = (1 << 10)
-
-CV_HIST_RANGES_FLAG   = (1 << 11)
-
-CV_HIST_ARRAY         = 0
-CV_HIST_SPARSE        = 1
-CV_HIST_TREE          = CV_HIST_SPARSE
-
-CV_HIST_UNIFORM       = 1
-
-
-    
-CvHistogram._ownershiplevel = 0
-
-def _CvHistogram__del__(self):
-    if self._ownershiplevel==1:
-        _PE._cvReleaseHist(self)
-CvHistogram.__del__ = _CvHistogram__del__
-
-#-----------------------------------------------------------------------------
 # Other supplementary data type definitions
 #-----------------------------------------------------------------------------
 
@@ -1983,37 +1959,6 @@ CV_DIST_MASK_3 = 3
 CV_DIST_MASK_5 = 5
 CV_DIST_MASK_PRECISE = 0
 
-    
-def getMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
-    """(float) min_value, (float) max_value[, (tuple_of_ints)min_idx][, (tuple_of_ints)max_idx] = getMinMaxHistValue((CvHistogram) hist, (bool)return_min_idx=False, (bool)return_max_idx=False)
-
-    Finds the minimum and maximum histogram bins
-    [pyopencv] 'min_idx' is returned if 'return_min_idx' is True. 
-    [pyopencv] 'max_idx' is returned if 'return_max_idx' is True. 
-    """
-    min_val = _CT.c_float()
-    max_val = _CT.c_float()
-
-    dims = cvGetDims(hist.bins)
-    if return_min_idx:
-        min_idx = (_CT.c_int*dims)()
-        min_addr = _CT.addressof(min_idx)
-    else:
-        min_addr = 0
-    if return_max_idx:
-        max_idx = (_CT.c_int*dims)()
-        max_addr = _CT.addressof(max_idx)
-    else:
-        max_addr = 0
-
-    _PE.cvGetMinMaxHistValue(hist, _CT.addressof(min_val), _CT.addressof(max_val), min_addr, max_addr)
-
-    z = (min_val.value, max_val.value)
-    if return_min_idx:
-        z.append(tuple(min_idx))
-    if return_max_idx:
-        z.append(tuple(max_idx))
-    return z
     
 backProject = calcArrBackProject
 backProjectPatch = calcArrBackProjectPatch

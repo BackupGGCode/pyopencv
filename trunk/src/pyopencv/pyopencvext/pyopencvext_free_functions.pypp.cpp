@@ -989,17 +989,6 @@ void register_free_functions(){
     
     }
 
-    { //::cvCalcProbDensity
-    
-        typedef void ( *calcProbDensity_function_type )( ::CvHistogram const *,::CvHistogram const *,::CvHistogram *,double );
-        
-        bp::def( 
-            "calcProbDensity"
-            , calcProbDensity_function_type( &::cvCalcProbDensity )
-            , ( bp::arg("hist1"), bp::arg("hist2"), bp::arg("dst_hist"), bp::arg("scale")=255 ) );
-    
-    }
-
     { //::cvCalcSubdivVoronoi2D
     
         typedef void ( *calcSubdivVoronoi2D_function_type )( ::CvSubdiv2D * );
@@ -1019,17 +1008,6 @@ void register_free_functions(){
             "ceil"
             , ceil_function_type( &::cvCeil )
             , ( bp::arg("value") ) );
-    
-    }
-
-    { //::cvClearHist
-    
-        typedef void ( *clearHist_function_type )( ::CvHistogram * );
-        
-        bp::def( 
-            "clearHist"
-            , clearHist_function_type( &::cvClearHist )
-            , ( bp::arg("hist") ) );
     
     }
 
@@ -1086,17 +1064,6 @@ void register_free_functions(){
             , cloneSeq_function_type( &::cvCloneSeq )
             , ( bp::arg("seq"), bp::arg("storage")=bp::object() )
             , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >() );
-    
-    }
-
-    { //::cvCompareHist
-    
-        typedef double ( *compareHist_function_type )( ::CvHistogram const *,::CvHistogram const *,int );
-        
-        bp::def( 
-            "compareHist"
-            , compareHist_function_type( &::cvCompareHist )
-            , ( bp::arg("hist1"), bp::arg("hist2"), bp::arg("method") ) );
     
     }
 
@@ -1642,17 +1609,6 @@ void register_free_functions(){
     
     }
 
-    { //::cvNormalizeHist
-    
-        typedef void ( *normalizeHist_function_type )( ::CvHistogram *,double );
-        
-        bp::def( 
-            "normalizeHist"
-            , normalizeHist_function_type( &::cvNormalizeHist )
-            , ( bp::arg("hist"), bp::arg("factor") ) );
-    
-    }
-
     { //::cvOpenFileStorage
     
         typedef ::CvFileStorage * ( *openFileStorage_function_type )( char const *,::CvMemStorage *,int );
@@ -1728,17 +1684,6 @@ void register_free_functions(){
             "_cvReleaseFeatureTree"
             , _cvReleaseFeatureTree_function_type( &::cvReleaseFeatureTree )
             , ( bp::arg("tr") ) );
-    
-    }
-
-    { //::cvReleaseHist
-    
-        typedef void ( *_cvReleaseHist_function_type )( ::CvHistogram * * );
-        
-        bp::def( 
-            "_cvReleaseHist"
-            , _cvReleaseHist_function_type( &::cvReleaseHist )
-            , ( bp::arg("hist") ) );
     
     }
 
@@ -2071,17 +2016,6 @@ void register_free_functions(){
             "substituteContour"
             , substituteContour_function_type( &::cvSubstituteContour )
             , ( bp::arg("scanner"), bp::arg("new_contour") ) );
-    
-    }
-
-    { //::cvThreshHist
-    
-        typedef void ( *threshHist_function_type )( ::CvHistogram *,double );
-        
-        bp::def( 
-            "threshHist"
-            , threshHist_function_type( &::cvThreshHist )
-            , ( bp::arg("hist"), bp::arg("threshold") ) );
     
     }
 

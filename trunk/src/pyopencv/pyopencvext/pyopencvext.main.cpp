@@ -138,8 +138,6 @@
 
 #include "pyopencvext/CvHaarStageClassifier.pypp.hpp"
 
-#include "pyopencvext/CvHistogram.pypp.hpp"
-
 #include "pyopencvext/CvKNearest.pypp.hpp"
 
 #include "pyopencvext/CvLSH.pypp.hpp"
@@ -597,26 +595,6 @@ static void cvCalcArrBackProjectPatch_5574debe9c7d943baa020075e0434b56( bp::sequ
     ::cvCalcArrBackProjectPatch(b_image? &v_image[0]: 0, get_CvMat_ptr(dst), range, hist, method, factor);
 }
 
-static void cvCalcArrHist_1919ae68601cfdffd256e40ac0fbe86e( bp::sequence & arr, ::CvHistogram * hist, int accumulate=0, ::cv::Mat mask=cv::Mat() ){
-    bool b_arr= arr.ptr() != Py_None;
-    int l_arr= b_arr? bp::len(arr): 0;
-    std::vector< void * > v_arr(l_arr); convert_seq_to_vector(arr, v_arr);
-    
-    ::cvCalcArrHist(b_arr? &v_arr[0]: 0, hist, accumulate, get_CvMat_ptr(mask));
-}
-
-static void cvCalcBayesianProb_1195a20f1f016c88866792b21372e3f9( bp::sequence & src, bp::sequence & dst ){
-    bool b_src= src.ptr() != Py_None;
-    int l_src= b_src? bp::len(src): 0;
-    bool b_dst= dst.ptr() != Py_None;
-    int l_dst= b_dst? bp::len(dst): 0;
-    std::vector< ::CvHistogram * > v_src(l_src); convert_seq_to_vector(src, v_src);
-    
-    std::vector< ::CvHistogram * > v_dst(l_dst); convert_seq_to_vector(dst, v_dst);
-    
-    ::cvCalcBayesianProb(b_src? &v_src[0]: 0, l_src, b_dst? &v_dst[0]: 0);
-}
-
 static boost::python::object cvCalcEMD2_f4e5308a9258b3a75a06fb112d06a2e8( ::cv::Mat & signature1, ::cv::Mat & signature2, int distance_type, boost::python::object distance_func=bp::object(), ::cv::Mat cost_matrix=cv::Mat(), ::cv::Mat flow=cv::Mat(), float * lower_bound=0, boost::python::object userdata=bp::object() ){
     bool b_distance_func= distance_func.ptr() != Py_None;
     boost::python::tuple z_distance_func;
@@ -628,14 +606,6 @@ static boost::python::object cvCalcEMD2_f4e5308a9258b3a75a06fb112d06a2e8( ::cv::
 static boost::python::object cvCalcGlobalOrientation_9d75a586d5a67c41e4450ccf9b8af7b3( ::cv::Mat & orientation, ::cv::Mat & mask, ::cv::Mat & mhi, double timestamp, double duration ){
     double result = ::cvCalcGlobalOrientation(get_CvMat_ptr(orientation), get_CvMat_ptr(mask), get_CvMat_ptr(mhi), timestamp, duration);
     return bp::object( result );
-}
-
-static void cvCalcHist_419724e5b83c7c4f7e5371b8d787f899( bp::sequence & image, ::CvHistogram * hist, int accumulate=0, ::cv::Mat mask=cv::Mat() ){
-    bool b_image= image.ptr() != Py_None;
-    int l_image= b_image? bp::len(image): 0;
-    std::vector< ::_IplImage * > v_image(l_image); convert_seq_to_vector(image, v_image);
-    
-    ::cvCalcHist(b_image? &v_image[0]: 0, hist, accumulate, get_CvMat_ptr(mask));
 }
 
 static boost::python::object cvCalcImageHomography_a814cf819bbf03a0c8d0b4fd1b700335( boost::python::object line, ::CvPoint3D32f * center, boost::python::object intrinsic ){
@@ -696,43 +666,8 @@ static boost::python::object cvConvexityDefects_cc97bf52cc42e365950605a23b42e95a
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
-static boost::python::object cvCopyHist_b2f53bbcb5a66f34f5710634d38c376f( ::CvHistogram const * src ){
-    CvHistogram * dst2=(::CvHistogram *)0;
-    ::cvCopyHist(src, &dst2);
-    typedef bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
-    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvHistogram * >( dst2 ) );
-}
-
 static void cvCorrectMatches_055faac2f695cea7fa86e829ba6bdc99( ::cv::Mat & F, ::cv::Mat & points1, ::cv::Mat & points2, ::cv::Mat & new_points1, ::cv::Mat & new_points2 ){
     ::cvCorrectMatches(get_CvMat_ptr(F), get_CvMat_ptr(points1), get_CvMat_ptr(points2), get_CvMat_ptr(new_points1), get_CvMat_ptr(new_points2));
-}
-
-static boost::python::object cvCreateHist_f2b39da376344404265809e761a6aaba( bp::sequence & sizes, int type, bp::sequence ranges=bp::sequence(), int uniform=1 ){
-    bool b_sizes= sizes.ptr() != Py_None;
-    int l_sizes= b_sizes? bp::len(sizes): 0;
-    bool b_ranges = (ranges.ptr() != Py_None);
-    std::vector<std::vector< float > > arr_ranges;
-    if(b_ranges) convert_seq_to_vector_vector(ranges, arr_ranges);
-    int n0_ranges = b_ranges? arr_ranges.size(): 0;
-    
-    std::vector< float * > buf_ranges;
-    std::vector<int> n1_ranges;
-    if(b_ranges)
-    {
-        buf_ranges.resize(n0_ranges);
-        n1_ranges.resize(n0_ranges);
-        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
-        {
-            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
-            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
-        }
-    }
-        
-    std::vector< int > v_sizes(l_sizes); convert_seq_to_vector(sizes, v_sizes);
-    
-    ::CvHistogram * result = ::cvCreateHist(l_sizes, b_sizes? &v_sizes[0]: 0, type, (float * *) &buf_ranges[0], uniform);
-    typedef bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
-    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvHistogram * >( result ) );
 }
 
 static boost::python::object cvCreateKDTree_bedd697814f42b0adb235e1d1bda9bdd( ::cv::Mat & desc ){
@@ -763,10 +698,6 @@ static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, :
 
 static void cvEndWriteStruct_49df8f8a99539026dfbd302575d7a485( ::cv::FileStorage & fs ){
     ::cvEndWriteStruct(fs.fs);
-}
-
-static void cvEqualizeHist_02ceca177f2ff14473c32e524cb68017( ::cv::Mat & src, ::cv::Mat & dst ){
-    ::cvEqualizeHist(get_CvMat_ptr(src), get_CvMat_ptr(dst));
 }
 
 static boost::python::object cvEstimateRigidTransform_2f885814bd847b94c8621a570a36abad( ::cv::Mat & A, ::cv::Mat & B, ::cv::Mat & M, int full_affine ){
@@ -819,10 +750,6 @@ static boost::python::object cvGetHashedKey_5bf3bb09f908d63c5767d651120f813f( ::
     ::CvStringHashNode * result = ::cvGetHashedKey(fs.fs, name, len, create_missing);
     typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvStringHashNode * >( result ) );
-}
-
-static void cvGetMinMaxHistValue_a31aae680af640edcfcb77bf873f90f6( ::CvHistogram const * hist, unsigned int min_value, unsigned int max_value, unsigned int min_idx=0, unsigned int max_idx=0 ){
-    ::cvGetMinMaxHistValue(hist, reinterpret_cast< float * >( min_value ), reinterpret_cast< float * >( max_value ), reinterpret_cast< int * >( min_idx ), reinterpret_cast< int * >( max_idx ));
 }
 
 static void cvGetQuadrangleSubPix_fe2b1a5028fa8b02301dc960cdfbc131( ::cv::Mat & src, ::cv::Mat & dst, ::cv::Mat & map_matrix ){
@@ -985,28 +912,6 @@ static boost::python::object cvSegmentMotion_ed831c1d8f816ea759222aec4d41f1f0( :
 
 static void cvSeqInsertSlice_870f54253b0103a244c6ac596f2820c4( ::CvSeq * seq, int before_index, ::cv::Mat & from_arr ){
     ::cvSeqInsertSlice(seq, before_index, get_CvMat_ptr(from_arr));
-}
-
-static void cvSetHistBinRanges_09cb8cb8a16af84266aeebdf9d86df3f( ::CvHistogram * hist, bp::sequence ranges, int uniform=1 ){
-    bool b_ranges = (ranges.ptr() != Py_None);
-    std::vector<std::vector< float > > arr_ranges;
-    if(b_ranges) convert_seq_to_vector_vector(ranges, arr_ranges);
-    int n0_ranges = b_ranges? arr_ranges.size(): 0;
-    
-    std::vector< float * > buf_ranges;
-    std::vector<int> n1_ranges;
-    if(b_ranges)
-    {
-        buf_ranges.resize(n0_ranges);
-        n1_ranges.resize(n0_ranges);
-        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
-        {
-            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
-            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
-        }
-    }
-        
-    ::cvSetHistBinRanges(hist, (float * *) &buf_ranges[0], uniform);
 }
 
 static boost::python::object cvSetMouseCallback_c212defec0903d7de57c5c0b0ee9b03d( char const * window_name, boost::python::object on_mouse, boost::python::object param=bp::object() ){
@@ -1559,14 +1464,17 @@ struct CvSlice_to_python
 };
 
 static void sd_calcHist( bp::sequence const & images, bp::sequence const & channels, 
-    ::cv::Mat const & mask, bp::object &hist, int dims, bp::sequence const & histSize, 
+    ::cv::Mat const & mask, bp::object &hist, bp::sequence const & histSize, 
     bp::sequence const & ranges, bool uniform=true, bool accumulate=false ){
     std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
     std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
     std::vector< int > histSize2; convert_seq_to_vector(histSize, histSize2);
+    
+    int dims = channels2.size(); // dims = minimum between number of channels and number of histogram sizes
+    if(histSize2.size() < dims) dims = histSize2.size();
+    
     std::vector< std::vector < float > > ranges2; convert_seq_to_vector_vector(ranges, ranges2);
-    std::vector< float const * > ranges3;
-    ranges3.resize(ranges2.size());
+    std::vector< float const * > ranges3; ranges3.resize(ranges2.size());
     for(unsigned int i = 0; i < ranges2.size(); ++i ) ranges3[i] = &ranges2[i][0];
     
     bp::extract< ::cv::MatND & > hist_matnd(hist);
@@ -1831,8 +1739,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvHaarFeature_class();
 
     register_CvHaarStageClassifier_class();
-
-    register_CvHistogram_class();
 
     register_CvKNearest_class();
 
@@ -2374,28 +2280,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
-    { //::cvCalcArrHist
-    
-        typedef void ( *calcArrHist_function_type )( bp::sequence &,::CvHistogram *,int,::cv::Mat );
-        
-        bp::def( 
-            "calcArrHist"
-            , calcArrHist_function_type( &cvCalcArrHist_1919ae68601cfdffd256e40ac0fbe86e )
-            , ( bp::arg("arr"), bp::arg("hist"), bp::arg("accumulate")=(int)(0), bp::arg("mask")=cv::Mat() ) );
-    
-    }
-
-    { //::cvCalcBayesianProb
-    
-        typedef void ( *calcBayesianProb_function_type )( bp::sequence &,bp::sequence & );
-        
-        bp::def( 
-            "calcBayesianProb"
-            , calcBayesianProb_function_type( &cvCalcBayesianProb_1195a20f1f016c88866792b21372e3f9 )
-            , ( bp::arg("src"), bp::arg("dst") ) );
-    
-    }
-
     { //::cvCalcEMD2
     
         typedef boost::python::object ( *calcEMD2_function_type )( ::cv::Mat &,::cv::Mat &,int,boost::python::object,::cv::Mat,::cv::Mat,float *,boost::python::object );
@@ -2415,17 +2299,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "calcGlobalOrientation"
             , calcGlobalOrientation_function_type( &cvCalcGlobalOrientation_9d75a586d5a67c41e4450ccf9b8af7b3 )
             , ( bp::arg("orientation"), bp::arg("mask"), bp::arg("mhi"), bp::arg("timestamp"), bp::arg("duration") ) );
-    
-    }
-
-    { //::cvCalcHist
-    
-        typedef void ( *calcHist_function_type )( bp::sequence &,::CvHistogram *,int,::cv::Mat );
-        
-        bp::def( 
-            "calcHist"
-            , calcHist_function_type( &cvCalcHist_419724e5b83c7c4f7e5371b8d787f899 )
-            , ( bp::arg("image"), bp::arg("hist"), bp::arg("accumulate")=(int)(0), bp::arg("mask")=cv::Mat() ) );
     
     }
 
@@ -2528,17 +2401,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
-    { //::cvCopyHist
-    
-        typedef boost::python::object ( *copyHist_function_type )( ::CvHistogram const * );
-        
-        bp::def( 
-            "copyHist"
-            , copyHist_function_type( &cvCopyHist_b2f53bbcb5a66f34f5710634d38c376f )
-            , ( bp::arg("src") ) );
-    
-    }
-
     { //::cvCorrectMatches
     
         typedef void ( *correctMatches_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat & );
@@ -2547,17 +2409,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "correctMatches"
             , correctMatches_function_type( &cvCorrectMatches_055faac2f695cea7fa86e829ba6bdc99 )
             , ( bp::arg("F"), bp::arg("points1"), bp::arg("points2"), bp::arg("new_points1"), bp::arg("new_points2") ) );
-    
-    }
-
-    { //::cvCreateHist
-    
-        typedef boost::python::object ( *createHist_function_type )( bp::sequence &,int,bp::sequence,int );
-        
-        bp::def( 
-            "createHist"
-            , createHist_function_type( &cvCreateHist_f2b39da376344404265809e761a6aaba )
-            , ( bp::arg("sizes"), bp::arg("type"), bp::arg("ranges")=bp::sequence(), bp::arg("uniform")=(int)(1) ) );
     
     }
 
@@ -2613,17 +2464,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "endWriteStruct"
             , endWriteStruct_function_type( &cvEndWriteStruct_49df8f8a99539026dfbd302575d7a485 )
             , ( bp::arg("fs") ) );
-    
-    }
-
-    { //::cvEqualizeHist
-    
-        typedef void ( *equalizeHist_function_type )( ::cv::Mat &,::cv::Mat & );
-        
-        bp::def( 
-            "equalizeHist"
-            , equalizeHist_function_type( &cvEqualizeHist_02ceca177f2ff14473c32e524cb68017 )
-            , ( bp::arg("src"), bp::arg("dst") ) );
     
     }
 
@@ -2734,17 +2574,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "getHashedKey"
             , getHashedKey_function_type( &cvGetHashedKey_5bf3bb09f908d63c5767d651120f813f )
             , ( bp::arg("fs"), bp::arg("name"), bp::arg("len")=(int)(-0x000000001), bp::arg("create_missing")=(int)(0) ) );
-    
-    }
-
-    { //::cvGetMinMaxHistValue
-    
-        typedef void ( *_cvGetMinMaxHistValue_function_type )( ::CvHistogram const *,unsigned int,unsigned int,unsigned int,unsigned int );
-        
-        bp::def( 
-            "_cvGetMinMaxHistValue"
-            , _cvGetMinMaxHistValue_function_type( &cvGetMinMaxHistValue_a31aae680af640edcfcb77bf873f90f6 )
-            , ( bp::arg("hist"), bp::arg("min_value"), bp::arg("max_value"), bp::arg("min_idx")=(unsigned int)(0), bp::arg("max_idx")=(unsigned int)(0) ) );
     
     }
 
@@ -3097,17 +2926,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "seqInsertSlice"
             , seqInsertSlice_function_type( &cvSeqInsertSlice_870f54253b0103a244c6ac596f2820c4 )
             , ( bp::arg("seq"), bp::arg("before_index"), bp::arg("from_arr") ) );
-    
-    }
-
-    { //::cvSetHistBinRanges
-    
-        typedef void ( *setHistBinRanges_function_type )( ::CvHistogram *,bp::sequence,int );
-        
-        bp::def( 
-            "setHistBinRanges"
-            , setHistBinRanges_function_type( &cvSetHistBinRanges_09cb8cb8a16af84266aeebdf9d86df3f )
-            , ( bp::arg("hist"), bp::arg("ranges"), bp::arg("uniform")=(int)(1) ) );
     
     }
 
@@ -3989,10 +3807,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::def( 
         "calcHist"
         , (void (*)( bp::sequence const &, bp::sequence const &, ::cv::Mat const &, 
-            bp::object &, int, bp::sequence const &, bp::sequence const &, bool, 
+            bp::object &, bp::sequence const &, bp::sequence const &, bool, 
             bool ))( &sd_calcHist )
         , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), 
-            bp::arg("hist"), bp::arg("dims"), bp::arg("histSize"), 
+            bp::arg("hist"), bp::arg("histSize"), 
             bp::arg("ranges"), bp::arg("uniform")=bp::object(true), 
             bp::arg("accumulate")=bp::object(false) ) );
 
