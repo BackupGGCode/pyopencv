@@ -294,14 +294,17 @@ static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & im
     mb.free_funs('calcHist').exclude()
     mb.add_declaration_code('''
 static void sd_calcHist( bp::sequence const & images, bp::sequence const & channels, 
-    ::cv::Mat const & mask, bp::object &hist, int dims, bp::sequence const & histSize, 
+    ::cv::Mat const & mask, bp::object &hist, bp::sequence const & histSize, 
     bp::sequence const & ranges, bool uniform=true, bool accumulate=false ){
     std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
     std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
     std::vector< int > histSize2; convert_seq_to_vector(histSize, histSize2);
+    
+    int dims = channels2.size(); // dims = minimum between number of channels and number of histogram sizes
+    if(histSize2.size() < dims) dims = histSize2.size();
+    
     std::vector< std::vector < float > > ranges2; convert_seq_to_vector_vector(ranges, ranges2);
-    std::vector< float const * > ranges3;
-    ranges3.resize(ranges2.size());
+    std::vector< float const * > ranges3; ranges3.resize(ranges2.size());
     for(unsigned int i = 0; i < ranges2.size(); ++i ) ranges3[i] = &ranges2[i][0];
     
     bp::extract< ::cv::MatND & > hist_matnd(hist);
@@ -329,10 +332,10 @@ static void sd_calcHist( bp::sequence const & images, bp::sequence const & chann
     mb.add_registration_code('''bp::def( 
         "calcHist"
         , (void (*)( bp::sequence const &, bp::sequence const &, ::cv::Mat const &, 
-            bp::object &, int, bp::sequence const &, bp::sequence const &, bool, 
+            bp::object &, bp::sequence const &, bp::sequence const &, bool, 
             bool ))( &sd_calcHist )
         , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), 
-            bp::arg("hist"), bp::arg("dims"), bp::arg("histSize"), 
+            bp::arg("hist"), bp::arg("histSize"), 
             bp::arg("ranges"), bp::arg("uniform")=bp::object(true), 
             bp::arg("accumulate")=bp::object(false) ) );''')
     

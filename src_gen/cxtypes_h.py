@@ -192,31 +192,31 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 
     ''')
 
-    # CvHistogram
-    cvhistogram = mb.class_('CvHistogram')
-    cvhistogram.include()
-    for z in ('bins', 'thresh', 'thresh2'): # wait until requested
-        cvhistogram.var(z).exclude()
-    mb.decl('CvHistType').include()
-    cc.write('''
+    # CvHistogram -- disabled by Minh-Tri Pham
+    # cvhistogram = mb.class_('CvHistogram')
+    # cvhistogram.include()
+    # for z in ('bins', 'thresh', 'thresh2'): # wait until requested
+        # cvhistogram.var(z).exclude()
+    # mb.decl('CvHistType').include()
+    # cc.write('''
 #-----------------------------------------------------------------------------
 # Histogram
 #-----------------------------------------------------------------------------
 
-CV_HIST_MAGIC_VAL     = 0x42450000
-CV_HIST_UNIFORM_FLAG  = (1 << 10)
+# CV_HIST_MAGIC_VAL     = 0x42450000
+# CV_HIST_UNIFORM_FLAG  = (1 << 10)
 
-CV_HIST_RANGES_FLAG   = (1 << 11)
+# CV_HIST_RANGES_FLAG   = (1 << 11)
 
-CV_HIST_ARRAY         = 0
-CV_HIST_SPARSE        = 1
-CV_HIST_TREE          = CV_HIST_SPARSE
+# CV_HIST_ARRAY         = 0
+# CV_HIST_SPARSE        = 1
+# CV_HIST_TREE          = CV_HIST_SPARSE
 
-CV_HIST_UNIFORM       = 1
+# CV_HIST_UNIFORM       = 1
 
 
-    ''')
-    mb.insert_del_interface('CvHistogram', '_PE._cvReleaseHist')
+    # ''')
+    # mb.insert_del_interface('CvHistogram', '_PE._cvReleaseHist')
 
 
     # Other supplementary data type definitions
