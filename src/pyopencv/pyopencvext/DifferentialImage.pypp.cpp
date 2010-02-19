@@ -16,8 +16,28 @@ void register_DifferentialImage_class(){
             , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::curvature )
             , ( bp::arg("output") ) )    
         .def( 
+            "gradient"
+            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::gradient )
+            , ( bp::arg("output") ) )    
+        .def( 
             "gradient_magnitude"
             , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::gradient_magnitude )
+            , ( bp::arg("output") ) )    
+        .def( 
+            "gradient_magnitude_squared"
+            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::gradient_magnitude_squared )
+            , ( bp::arg("output") ) )    
+        .def( 
+            "gradient_orientation"
+            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::gradient_orientation )
+            , ( bp::arg("output") ) )    
+        .def( 
+            "gradient_polar"
+            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::gradient_polar )
+            , ( bp::arg("output") ) )    
+        .def( 
+            "hessian"
+            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::hessian )
             , ( bp::arg("output") ) )    
         .def( 
             "laplacian"
