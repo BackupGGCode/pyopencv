@@ -33,6 +33,10 @@ void register_IntegralHistogram_class(){
             , (boost::python::object (*)( ::sdopencv::IntegralHistogram &,::cv::Rect ))( &calcHist_7e977de6e27427b53a27b192cb2b370c )
             , ( bp::arg("inst"), bp::arg("rect") ) )    
         .def( 
+            "get_index"
+            , (int ( ::sdopencv::IntegralHistogram::* )( float ) )( &::sdopencv::IntegralHistogram::get_index )
+            , ( bp::arg("value") ) )    
+        .def( 
             "__call__"
             , (void ( ::sdopencv::IntegralHistogram::* )( ::cv::Mat const & ) )( &::sdopencv::IntegralHistogram::operator() )
             , ( bp::arg("image") ) )    
