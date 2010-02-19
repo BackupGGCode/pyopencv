@@ -15,6 +15,16 @@ void register_IntegralImage_class(){
         bp::scope IntegralImage_scope( IntegralImage_exposer );
         IntegralImage_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< sdopencv::IntegralImage >() );
         bp::implicitly_convertible< int, sdopencv::IntegralImage >();
+        { //::sdopencv::IntegralImage::adjust_rect
+        
+            typedef bool ( ::sdopencv::IntegralImage::*adjust_rect_function_type )( ::cv::Rect & ) ;
+            
+            IntegralImage_exposer.def( 
+                "adjust_rect"
+                , adjust_rect_function_type( &::sdopencv::IntegralImage::adjust_rect )
+                , ( bp::arg("rect") ) );
+        
+        }
         { //::sdopencv::IntegralImage::operator()
         
             typedef void ( ::sdopencv::IntegralImage::*__call___function_type )( ::cv::Mat const & ) ;

@@ -39,6 +39,7 @@ import cvvidsurv_hpp
 import highgui_h
 import highgui_hpp
 import ml_h
+import sdopencv
 
 _cwd = getcwd()
 chdir(OP.join(OP.split(OP.abspath(__file__))[0], '..', 'src', 'pyopencv'))
@@ -496,11 +497,7 @@ highgui_h.generate_code(mb, cc, D, FT, CP)
 highgui_hpp.generate_code(mb, cc, D, FT, CP)
 
 # sdopencv
-sdopencv = mb.namespace('sdopencv')
-sdopencv.include()
-for z in sdopencv.classes():
-    mb.init_class(z)
-    mb.finalize_class(z)
+sdopencv.generate_code(mb, cc, D, FT, CP)
 
 
 #=============================================================================
