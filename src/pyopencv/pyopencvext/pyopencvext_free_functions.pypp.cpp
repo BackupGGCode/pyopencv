@@ -3439,6 +3439,17 @@ void register_free_functions(){
     
     }
 
+    { //::sdopencv::patchBasedStdDev
+    
+        typedef void ( *patchBasedStdDev_function_type )( ::cv::Mat const &,::cv::Size_< int > const &,::cv::Mat & );
+        
+        bp::def( 
+            "patchBasedStdDev"
+            , patchBasedStdDev_function_type( &::sdopencv::patchBasedStdDev )
+            , ( bp::arg("in_image"), bp::arg("patch_size"), bp::arg("out_image") ) );
+    
+    }
+
     { //::cv::perspectiveTransform
     
         typedef void ( *perspectiveTransform_function_type )( ::cv::Mat const &,::cv::Mat &,::cv::Mat const & );
