@@ -480,8 +480,49 @@ backProjectPatch = calcArrBackProjectPatch
 
 
     # cvSnakeImage
-    FT.expose_func(mb.free_fun('cvSnakeImage'), return_pointee=False, transformer_creators=[
-        FT.input_array1d('alpha'), FT.input_array1d('beta'), FT.input_array1d('gamma')])
+    # FT.expose_func(mb.free_fun('cvSnakeImage'), return_pointee=False, transformer_creators=[
+        # FT.input_array1d('alpha'), FT.input_array1d('beta'), FT.input_array1d('gamma')])
+    mb.free_fun('cvSnakeImage').exclude()
+    mb.add_declaration_code('''// TODO: convert 'points' to cv::Mat of CV_32SC2?
+static bp::sequence sdSnakeImage( cv::Mat const & image, bp::sequence const & points, bp::object const & alpha, bp::object const & beta, bp::object const & gamma, int coeff_usage, cv::Size const & win, cv::TermCriteria const & criteria, int calc_gradient=1 ){
+    char s[500];
+    float alpha2, beta2, gamma2;
+    std::vector<float> alpha3, beta3, gamma3;
+    
+    std::vector<cv::Point> points2; convert_seq_to_vector(points, points2);
+    
+    IplImage img = image;
+    
+    switch (coeff_usage)
+    {
+    case CV_VALUE:
+        alpha2 = (float) bp::extract<float>(alpha);
+        beta2 = (float) bp::extract<float>(beta);
+        gamma2 = (float) bp::extract<float>(gamma);
+        ::cvSnakeImage(&img, (CvPoint *)&points2[0], points2.size(), &alpha2, &beta2, &gamma2, coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
+        break;
+    case CV_ARRAY:
+        convert_seq_to_vector(alpha, alpha3);
+        convert_seq_to_vector(beta, beta3);
+        convert_seq_to_vector(gamma, gamma3);
+        ::cvSnakeImage(&img, (CvPoint *)&points2[0], points2.size(), &alpha3[0], &beta3[0], &gamma3[0], coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
+        break;
+    default:
+        sprintf(s, "coeff_usage only takes either CV_VALUE or CV_ARRAY as value, %d was given.", coeff_usage);
+        PyErr_SetString(PyExc_ValueError, s);
+        throw bp::error_already_set(); 
+    }
+    return convert_vector_to_seq(points2);
+}
+
+    ''')
+    mb.add_registration_code('''
+    bp::def( 
+        "snakeImage"
+        , &sdSnakeImage
+        , ( bp::arg("image"), bp::arg("points"), bp::arg("alpha"), bp::arg("beta"), bp::arg("gamma"), bp::arg("coeff_usage"), bp::arg("win"), bp::arg("criteria"), bp::arg("calc_gradient")=(int)(1) ) );
+
+    ''')
 
     # cvCalcImageHomography
     FT.expose_func(mb.free_fun('cvCalcImageHomography'), return_pointee=False, transformer_creators=[

@@ -551,7 +551,7 @@ static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
 void drawChessboardCorners( cv::Mat& image, cv::Size patternSize, bp::sequence const &corners, bool patternWasFound )
 {
     std::vector<cv::Point2f> corners2; convert_seq_to_vector(corners, corners2);
-    ::cvDrawChessboardCorners( &(::CvMat)image, patternSize, (CvPoint2D32f*)&corners2[0],
+    ::cvDrawChessboardCorners( get_CvMat_ptr(image), patternSize, (CvPoint2D32f*)&corners2[0],
         corners2.size(), patternWasFound );
 }
     ''')

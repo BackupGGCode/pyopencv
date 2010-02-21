@@ -927,22 +927,6 @@ static void cvSmooth_77e0c983f4273497b4a61c0a6dcda04f( ::cv::Mat & src, ::cv::Ma
     ::cvSmooth(get_CvMat_ptr(src), get_CvMat_ptr(dst), smoothtype, size1, size2, sigma1, sigma2);
 }
 
-static void cvSnakeImage_12c505f189b0be3fa57d4cc42c364735( ::cv::Mat & image, ::CvPoint * points, int length, bp::sequence & alpha, bp::sequence & beta, bp::sequence & gamma, int coeff_usage, ::CvSize win, ::CvTermCriteria criteria, int calc_gradient=1 ){
-    bool b_alpha= alpha.ptr() != Py_None;
-    int l_alpha= b_alpha? bp::len(alpha): 0;
-    bool b_beta= beta.ptr() != Py_None;
-    int l_beta= b_beta? bp::len(beta): 0;
-    bool b_gamma= gamma.ptr() != Py_None;
-    int l_gamma= b_gamma? bp::len(gamma): 0;
-    std::vector< float > v_alpha(l_alpha); convert_seq_to_vector(alpha, v_alpha);
-    
-    std::vector< float > v_beta(l_beta); convert_seq_to_vector(beta, v_beta);
-    
-    std::vector< float > v_gamma(l_gamma); convert_seq_to_vector(gamma, v_gamma);
-    
-    ::cvSnakeImage(get_IplImage_ptr(image), points, length, b_alpha? &v_alpha[0]: 0, b_beta? &v_beta[0]: 0, b_gamma? &v_gamma[0]: 0, coeff_usage, win, criteria, calc_gradient);
-}
-
 static boost::python::object cvSolveCubic_97d0ac3b0fc6ba46cd5b5f2eaea79583( ::cv::Mat & coeffs, ::cv::Mat & roots ){
     int result = ::cvSolveCubic(get_CvMat_ptr(coeffs), get_CvMat_ptr(roots));
     return bp::object( result );
@@ -1465,6 +1449,38 @@ struct CvSlice_to_python
     }
 };
 
+// TODO: convert 'points' to cv::Mat of CV_32SC2?
+static bp::sequence sdSnakeImage( cv::Mat const & image, bp::sequence const & points, bp::object const & alpha, bp::object const & beta, bp::object const & gamma, int coeff_usage, cv::Size const & win, cv::TermCriteria const & criteria, int calc_gradient=1 ){
+    char s[500];
+    float alpha2, beta2, gamma2;
+    std::vector<float> alpha3, beta3, gamma3;
+    
+    std::vector<cv::Point> points2; convert_seq_to_vector(points, points2);
+    
+    IplImage img = image;
+    
+    switch (coeff_usage)
+    {
+    case CV_VALUE:
+        alpha2 = (float) bp::extract<float>(alpha);
+        beta2 = (float) bp::extract<float>(beta);
+        gamma2 = (float) bp::extract<float>(gamma);
+        ::cvSnakeImage(&img, (CvPoint *)&points2[0], points2.size(), &alpha2, &beta2, &gamma2, coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
+        break;
+    case CV_ARRAY:
+        convert_seq_to_vector(alpha, alpha3);
+        convert_seq_to_vector(beta, beta3);
+        convert_seq_to_vector(gamma, gamma3);
+        ::cvSnakeImage(&img, (CvPoint *)&points2[0], points2.size(), &alpha3[0], &beta3[0], &gamma3[0], coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
+        break;
+    default:
+        sprintf(s, "coeff_usage only takes either CV_VALUE or CV_ARRAY as value, %d was given.", coeff_usage);
+        PyErr_SetString(PyExc_ValueError, s);
+        throw bp::error_already_set(); 
+    }
+    return convert_vector_to_seq(points2);
+}
+
 static void sd_calcHist( bp::sequence const & images, bp::sequence const & channels, 
     ::cv::Mat const & mask, bp::object &hist, bp::sequence const & histSize, 
     bp::sequence const & ranges, bool uniform=true, bool accumulate=false ){
@@ -1627,7 +1643,7 @@ static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
 void drawChessboardCorners( cv::Mat& image, cv::Size patternSize, bp::sequence const &corners, bool patternWasFound )
 {
     std::vector<cv::Point2f> corners2; convert_seq_to_vector(corners, corners2);
-    ::cvDrawChessboardCorners( &(::CvMat)image, patternSize, (CvPoint2D32f*)&corners2[0],
+    ::cvDrawChessboardCorners( get_CvMat_ptr(image), patternSize, (CvPoint2D32f*)&corners2[0],
         corners2.size(), patternWasFound );
 }
 
@@ -2955,17 +2971,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
-    { //::cvSnakeImage
-    
-        typedef void ( *snakeImage_function_type )( ::cv::Mat &,::CvPoint *,int,bp::sequence &,bp::sequence &,bp::sequence &,int,::CvSize,::CvTermCriteria,int );
-        
-        bp::def( 
-            "snakeImage"
-            , snakeImage_function_type( &cvSnakeImage_12c505f189b0be3fa57d4cc42c364735 )
-            , ( bp::arg("image"), bp::arg("points"), bp::arg("length"), bp::arg("alpha"), bp::arg("beta"), bp::arg("gamma"), bp::arg("coeff_usage"), bp::arg("win"), bp::arg("criteria"), bp::arg("calc_gradient")=(int)(1) ) );
-    
-    }
-
     { //::cvSolveCubic
     
         typedef boost::python::object ( *solveCubic_function_type )( ::cv::Mat &,::cv::Mat & );
@@ -3807,6 +3812,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::def("mixChannels", &::mixChannels, ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo") ));
 
     bp::def("minMaxLoc", &::minMaxLoc, ( bp::arg("a"), bp::arg("mask")=bp::object() ));
+
+    bp::def( 
+        "snakeImage"
+        , &sdSnakeImage
+        , ( bp::arg("image"), bp::arg("points"), bp::arg("alpha"), bp::arg("beta"), bp::arg("gamma"), bp::arg("coeff_usage"), bp::arg("win"), bp::arg("criteria"), bp::arg("calc_gradient")=(int)(1) ) );
 
     bp::def( 
         "calcHist"
