@@ -219,8 +219,9 @@ module_builder.module_builder_t.init_class = init_class
 
 def is_arg_touched(f, arg_name):
     for tr in f._transformer_creators:
-        if arg_name in tr.func_closure[1].cell_contents:
-            return True
+        for cell in tr.func_closure:
+            if arg_name in cell.cell_contents:
+                return True
     return False
 
 
