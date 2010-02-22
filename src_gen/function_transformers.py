@@ -357,7 +357,7 @@ class input_array1d_t(transformer.transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_extra.hpp"]
+        return ["opencv_converters.hpp"]
 
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
@@ -469,7 +469,7 @@ class input_array2d_t(transformer.transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return [ code_repository.convenience.file_name, "opencv_extra.hpp" ]
+        return [ code_repository.convenience.file_name, "opencv_converters.hpp" ]
 
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
@@ -1192,7 +1192,7 @@ class input_as_Mat_t(transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_extra.hpp"]
+        return ["opencv_converters.hpp"]
 
 def input_as_Mat( *args, **keywd ):
     def creator( function ):
@@ -1234,7 +1234,7 @@ class output_as_Mat_t(transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_extra.hpp"]
+        return ["opencv_converters.hpp"]
 
 def output_as_Mat( *args, **keywd ):
     def creator( function ):
@@ -1300,7 +1300,7 @@ class input_std_vector_t(transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_extra.hpp"]
+        return ["opencv_converters.hpp"]
 
 def input_std_vector( *args, **keywd ):
     def creator( function ):
@@ -1342,7 +1342,7 @@ class output_std_vector_t(transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_extra.hpp"]
+        return ["opencv_converters.hpp"]
 
 def output_std_vector( *args, **keywd ):
     def creator( function ):
@@ -1400,7 +1400,7 @@ class input_std_vector_vector_t(transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_extra.hpp"]
+        return ["opencv_converters.hpp"]
 
 def input_std_vector_vector( *args, **keywd ):
     def creator( function ):
@@ -1442,7 +1442,7 @@ class output_std_vector_vector_t(transformer_t):
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_extra.hpp"]
+        return ["opencv_converters.hpp"]
 
 def output_std_vector_vector( *args, **keywd ):
     def creator( function ):

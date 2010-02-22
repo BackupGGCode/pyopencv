@@ -149,7 +149,7 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvKNearest
     z = mb.class_('CvKNearest')
-    z.include_files.append('opencv_extra.hpp')
+    z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
     z.constructors(lambda x: 'CvMat' in x.decl_string).exclude()
     for t in ('find_nearest', 'train'):

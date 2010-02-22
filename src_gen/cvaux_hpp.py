@@ -72,7 +72,7 @@ def generate_code(mb, cc, D, FT, CP):
     
     # Octree
     z = mb.class_('Octree')
-    z.include_files.append('opencv_extra.hpp')
+    z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
     z.mem_fun('getPointsWithinSphere')._transformer_creators.append(FT.output_std_vector('points'))
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
@@ -131,7 +131,7 @@ static bp::sequence get_normals(cv::Mesh3D const &inst) { return convert_vector_
     
     # HOGDescriptor
     z = mb.class_('HOGDescriptor')
-    z.include_files.append('opencv_extra.hpp')
+    z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
     z.mem_fun('getDefaultPeopleDetector').exclude()
     z.mem_fun('compute')._transformer_creators.append(FT.output_std_vector('descriptors'))

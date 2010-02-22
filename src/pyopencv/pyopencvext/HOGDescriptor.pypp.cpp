@@ -3,10 +3,10 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
-#include "opencv_extra.hpp"
+#include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "opencv_extra.hpp"
+#include "opencv_converters.hpp"
 #include "HOGDescriptor.pypp.hpp"
 
 namespace bp = boost::python;

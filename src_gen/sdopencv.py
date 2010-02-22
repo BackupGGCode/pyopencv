@@ -35,7 +35,7 @@ def generate_code(mb, cc, D, FT, CP):
 
     # IntegralHistogram
     z = sdopencv.class_('IntegralHistogram')
-    z.include_files.append("opencv_extra.hpp")
+    z.include_files.append("opencv_converters.hpp")
     mb.init_class(z)
     z.mem_fun('calcHist')._transformer_creators.append(FT.output_std_vector('out_hist'))
     z.constructor(lambda x: len(x.arguments) > 1).exclude()

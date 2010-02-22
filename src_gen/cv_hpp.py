@@ -115,7 +115,7 @@ def generate_code(mb, cc, D, FT, CP):
     z = mb.class_('SURF')
     z.include()
     z.operators().exclude()
-    z.include_files.append("opencv_extra.hpp")
+    z.include_files.append("opencv_converters.hpp")
     z.add_declaration_code('''
 static boost::python::sequence call1( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask ){
     std::vector<cv::KeyPoint> keypoints2; inst.operator()(img, mask, keypoints2);
@@ -146,7 +146,7 @@ static boost::python::tuple call2( ::cv::SURF const & inst, ::cv::Mat const & im
     z = mb.class_('MSER')
     mb.init_class(z)
     z.operators().exclude()
-    z.include_files.append("opencv_extra.hpp")
+    z.include_files.append("opencv_converters.hpp")
     z.add_declaration_code('''
 static bp::sequence call1( ::cv::MSER const & inst, ::cv::Mat & image, ::cv::Mat const & mask ){
     std::vector< std::vector< cv::Point > > msers2;
@@ -166,7 +166,7 @@ static bp::sequence call1( ::cv::MSER const & inst, ::cv::Mat & image, ::cv::Mat
     z = mb.class_('StarDetector')
     mb.init_class(z)
     z.operators().exclude()
-    z.include_files.append("opencv_extra.hpp")
+    z.include_files.append("opencv_converters.hpp")
     z.add_declaration_code('''
 static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & image ){
     std::vector< cv::KeyPoint > keypoints2;

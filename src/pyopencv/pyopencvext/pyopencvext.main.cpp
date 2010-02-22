@@ -8,7 +8,7 @@
 
 #include "__array_1.pypp.hpp"
 
-#include "opencv_extra.hpp"
+#include "opencv_converters.hpp"
 
 #include "ndarray.hpp"
 
@@ -17,6 +17,8 @@
 #include "boost/python/tuple.hpp"
 
 #include "with_ownershiplevel_postcall.hpp"
+
+#include "opencv_extra.hpp"
 
 #include "boost/python/str.hpp"
 

@@ -157,7 +157,7 @@ KLASS.__repr__ = _KLASS__repr__
 
     # Mat
     z = mb.class_('Mat')
-    z.include_files.append("opencv_extra.hpp")
+    z.include_files.append("opencv_converters.hpp")
     z.include()
     for t in z.constructors():
         if 'void *' in t.decl_string:
@@ -246,7 +246,7 @@ KLASS.__repr__ = _KLASS__repr__
     # MatND
     z = mb.class_('MatND')
     z.include_files.append("boost/python/make_function.hpp")
-    z.include_files.append("opencv_extra.hpp")
+    z.include_files.append("opencv_converters.hpp")
     mb.init_class(z)
     
     z.constructors(lambda x: 'const *' in x.decl_string).exclude()
@@ -317,7 +317,7 @@ MatND.__repr__ = _MatND__repr__
     # SparseMat
     # wait until requested: fix the rest of the member declarations
     z = mb.class_('SparseMat')
-    z.include_files.append("opencv_extra.hpp")
+    z.include_files.append("opencv_converters.hpp")
     z.include()
     z.include_files.append("boost/python/make_function.hpp")
     mb.init_class(z)
