@@ -177,13 +177,6 @@ def _Mat__repr__(self):
 Mat.__repr__ = _Mat__repr__
     ''')
     z.add_declaration_code('''
-static boost::shared_ptr<cv::Mat> Mat__init1__(const bp::object &seq)
-{
-    cv::Mat *result = new cv::Mat();
-    convert_Mat(seq, *result);
-    return boost::shared_ptr<cv::Mat>(result);
-}
-
 static boost::shared_ptr<cv::Mat> Mat__init3__(int _rows, int _cols, int _type)
 {
     cv::Mat *result = new cv::Mat(_rows, _cols, _type);
@@ -191,7 +184,6 @@ static boost::shared_ptr<cv::Mat> Mat__init3__(int _rows, int _cols, int _type)
 }
 
     ''')
-    # z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("seq") )))')
     z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init3__, bp::default_call_policies(), ( bp::arg("_rows"), bp::arg("_cols"), bp::arg("_type") )))') # workaround to fix a bug in invoking Mat(int, int, int)
 
     # RNG

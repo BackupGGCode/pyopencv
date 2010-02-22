@@ -1175,9 +1175,113 @@ def input_as_Mat( *args, **keywd ):
         return input_as_Mat_t( function, *args, **keywd )
     return creator
     
+
+def is_vector_type(type):
+    """Checks if a type is a std::vector type."""
+    return type.decl_string.startswith("std::vector<")    
+    
+def get_vector_elem_type(vector_type):
+    """Returns the element type of a std::vector type."""
+    pass # TODO: here, remember to remove all the std::allocator things
+    
+def is_elem_type_fixed_size(elem_type):
+    """Checks if an element type is a fixed-size array-like data type."""
+    pass # TODO: here
     
     
+# arg_std_vector_t
+class arg_std_vector_t(transformer_t):
+    """Converts a 1D std::vector into a Python object.
     
+    arg_kind specifies the kind of function argument:
+        0 = auto-detect (default)
+        1 = input
+        2 = output
+        3 = input and output
+    """
+
+    def __init__(self, function, arg_ref, arg_kind=0):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+        self.elem_type = get_vector_elem_type(self.arg.type)
+        
+        # detect arg_kind
+        if arg_kind == 0:
+            arg_type = _D.remove_reference(self.arg.type)
+            arg_kind = 1 if _D.is_const(arg_type) else 3
+        self.arg_kind = arg_kind
+
+    def __str__(self):
+        return "arg_std_vector(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg(self.arg.name)
+        
+        # intermediate variable
+        v = controller.declare_variable( _D.remove_const(_D.remove_reference(self.arg.type)), self.arg.name )
+        
+        # conversion code
+        if is_elem_type_fixed_size(self.elem_type): # cv::Mat-equivalent
+            str_pyobj_type = "cv::Mat"
+            str_cvt_to_pyobj = "convert_from_vector_of_T_to_Mat(%s, %s);" % (v, w_arg.name)
+            str_cvt_from_pyobj = "convert_from_Mat_to_vector_of_T(%s, %s);" % (w_arg.name, v)
+            str_default_pyobj_func = "convert_from_vector_of_T_to_Mat< %s >" % self.elem_type.decl_string
+        else: # 1d-vector, what about 2d vector?
+            str_pyobj_type = "bp::list"
+            str_cvt_to_pyobj = "convert_from_T_to_object(%s, %s);" % (v, w_arg.name)
+            str_cvt_from_pyobj = "convert_from_object_to_T(%s, %s);" % (w_arg.name, v)
+            str_default_pyobj_func = "convert_from_T_to_object"        
+        
+        # check argument kind
+        if arg_kind == 1: # input
+            # default value
+            if self.arg.default_value is not None:
+                w_arg.default_value = '%s(%s)' % (str_default_pyobj_func, self.arg.default_value)
+                w_arg.type = _D.dummy_type_t(str_pyobj_type)
+            else:
+                w_arg.type = _D.dummy_type_t(str_pyobj_type+" const &")
+        elif arg_kind == 2: # output
+            w_arg.type = _D.dummy_type_t(str_pyobj_type+" &")
+        elif arg_kind == 3: # inout
+            if self.arg.default_value is not None:
+                raise ValueError("Unsupported in/out argument with default value.")
+            w_arg.type = _D.dummy_type_t(str_pyobj_type+" &")
+        else:
+            raise ValueError("Unsupported arg_kind=%d." % arg_kind)
+        
+        # pre_call
+        if self.arg_kind & 1 != 0:
+            controller.add_pre_call_code(str_cvt_from_pyobj)
+        
+        # call
+        controller.modify_arg_expression( self.arg_index, v)
+        
+        # post-call
+        if self.arg_kind & 2 != 0:
+            controller.add_post_call_code(str_cvt_to_pyobj)
+                    
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_converters.hpp"]
+
+def arg_std_vector( *args, **keywd ):
+    def creator( function ):
+        return arg_std_vector_t( function, *args, **keywd )
+    return creator
     
     
 # input_std_vector_t
@@ -1294,24 +1398,24 @@ class input_std_vector_vector_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg(self.arg.name)
-        w_arg.type = _D.dummy_type_t("bp::sequence")
+        w_arg.type = _D.dummy_type_t("bp::list")
 
         # default value
         if self.arg.default_value is not None:
-            w_arg.default_value = 'convert_vector_vector_to_seq(%s)' % self.arg.default_value
+            w_arg.default_value = 'convert_from_T_to_object(%s)' % self.arg.default_value
 
         # intermediate variable
         v = controller.declare_variable( _D.remove_const(_D.remove_reference(self.arg.type)), self.arg.name )
         
         # pre_call
-        controller.add_pre_call_code("convert_seq_to_vector_vector(%s, %s);" % (w_arg.name, v))
+        controller.add_pre_call_code("convert_from_object_to_T(%s, %s);" % (w_arg.name, v))
         
         # call
         controller.modify_arg_expression( self.arg_index, v)
         
         # is inout
         if not 'const' in self.arg.type.partial_decl_string:
-            controller.add_post_call_code("%s = convert_vector_vector_to_seq(%s);" % (w_arg.name, v))
+            controller.add_post_call_code("convert_from_T_to_object(%s, %s);" % (v, w_arg.name))
             controller.return_variable(w_arg.name)
             
 
@@ -1351,9 +1455,9 @@ class output_std_vector_vector_t(transformer_t):
     def __configure_sealed( self, controller ):
         controller.remove_wrapper_arg( self.arg.name )
         etype = _D.remove_const(_D.remove_reference(self.arg.type))
-        w = controller.declare_variable( _D.dummy_type_t( "bp::sequence" ), self.arg.name )
+        w = controller.declare_variable( _D.dummy_type_t( "bp::list" ), self.arg.name )
         v = controller.declare_variable( etype, self.arg.name )
-        controller.add_post_call_code("%s = convert_vector_vector_to_seq(%s);" % (w, v))
+        controller.add_post_call_code("convert_from_T_to_object(%s, %s);" % (v, w))
         controller.modify_arg_expression( self.arg_index, v )
         controller.return_variable(w)
 

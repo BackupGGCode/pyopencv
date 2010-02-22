@@ -4,7 +4,9 @@
 #include <cstdio>
 #include <vector>
 #include <typeinfo>
+#include <iostream>
 
+#include <boost/type_traits.hpp>
 #include "boost/python.hpp"
 #include "boost/python/object.hpp"
 #include "boost/python/str.hpp"
@@ -222,7 +224,7 @@ int n_elems_per_row( const cv::Mat &mat )
 {
     char s[300];
     
-    if(!mat.empty()) return 0; // empty Mat is valid
+    if(mat.empty()) return 0; // empty Mat is valid
 
     if(mat.depth() != elem_type_of<T>())
     {
@@ -238,7 +240,7 @@ int n_elems_per_row( const cv::Mat &mat )
 // create a 1-row Mat with n elements of type T, return a pointer to the first element
 // if 'in_arr' is not NULL, copy the data to the newly created Mat
 template<typename T>
-T *create_Mat( const cv::Mat &out_arr, int n, T const *in_arr=0 )
+T *create_Mat( cv::Mat &out_arr, int n, T const *in_arr=0 )
 {
     if(!n)
     {
@@ -260,7 +262,7 @@ T *create_Mat( const cv::Mat &out_arr, int n, T const *in_arr=0 )
 // ------------------------------------------------------------------------------------------------
 // convert_from_Mat_to_T
 template<typename T>
-void convert_from_Mat_to_T( const cv::Mat &in_arr, T &out_arr )
+inline T &convert_from_Mat_to_T( const cv::Mat &in_arr )
 {
     char s[300];
     int n = n_elems_per_row<T>(in_arr);
@@ -271,21 +273,35 @@ void convert_from_Mat_to_T( const cv::Mat &in_arr, T &out_arr )
         PyErr_SetString(PyExc_TypeError, s);
         throw bp::error_already_set(); 
     }
-    out_arr = *(T *)in_arr.data;
+    return *(T *)in_arr.data;
+}
+
+template<typename T>
+inline void convert_from_Mat_to_T( const cv::Mat &in_arr, T &out_arr )
+{
+    out_arr = convert_from_Mat_to_T<T>(in_arr);
 }
 
 // ------------------------------------------------------------------------------------------------
 // convert_from_T_to_Mat
 template<typename T>
-void convert_from_T_to_Mat( const T &in_arr, cv::Mat &out_arr )
+inline void convert_from_T_to_Mat( const T &in_arr, cv::Mat &out_arr )
 {
     *create_Mat<T>(out_arr, 1) = in_arr;
+}
+
+template<typename T>
+inline cv::Mat convert_from_T_to_Mat( const T &in_arr )
+{
+    cv::Mat result;
+    convert_from_T_to_Mat<T>(in_arr, result);
+    return result;
 }
 
 // ------------------------------------------------------------------------------------------------
 // convert_from_Mat_to_array_of_T
 template<typename T>
-void convert_from_Mat_to_array_of_T( const cv::Mat &in_arr, T *&out_arr, int &out_len )
+inline void convert_from_Mat_to_array_of_T( const cv::Mat &in_arr, T *&out_arr, int &out_len )
 {    
     out_len = n_elems_per_row<T>(in_arr);
     out_arr = out_len? (T *)in_arr.data: 0;
@@ -294,7 +310,7 @@ void convert_from_Mat_to_array_of_T( const cv::Mat &in_arr, T *&out_arr, int &ou
 // ------------------------------------------------------------------------------------------------
 // convert_from_array_of_T_to_Mat
 template<typename T>
-void convert_from_array_of_T_to_Mat( T const *in_arr, int in_len, cv::Mat &out_arr )
+inline void convert_from_array_of_T_to_Mat( T const *in_arr, int in_len, cv::Mat &out_arr )
 {
     if(!out_arr.empty() && out_arr.depth() == elem_type_of<T>()) // same depth
     {
@@ -305,12 +321,20 @@ void convert_from_array_of_T_to_Mat( T const *in_arr, int in_len, cv::Mat &out_a
     create_Mat<T>(out_arr, in_len, in_arr);
 }
 
+template<typename T>
+inline cv::Mat convert_from_array_of_T_to_Mat( T const *in_arr, int in_len )
+{
+    cv::Mat result;
+    convert_from_array_of_T_to_Mat<T>(in_arr, in_len, result);
+    return result;
+}
+
 // ------------------------------------------------------------------------------------------------
 // convert_from_Mat_to_vector_of_T
 template<typename T>
-void convert_from_Mat_to_vector_of_T( const cv::Mat &in_arr, std::vector<T> &out_arr )
+inline void convert_from_Mat_to_vector_of_T( const cv::Mat &in_arr, std::vector<T> &out_arr )
 {
-    int out_len = n_elems_per_row<T>(in_arr);
+    int out_len = n_elems_per_row<T>(in_arr) / n_elems_of<T>();
     if(out_len)
     {
         out_arr.resize(out_len);
@@ -321,30 +345,143 @@ void convert_from_Mat_to_vector_of_T( const cv::Mat &in_arr, std::vector<T> &out
         out_arr.clear();
 }
 
+template<typename T>
+inline std::vector<T> convert_from_Mat_to_vector_of_T( const cv::Mat &in_arr )
+{
+    std::vector<T> result;
+    convert_from_Mat_to_vector_of_T<T>(in_arr, result);
+    return result;
+}
+
 // ------------------------------------------------------------------------------------------------
 // convert_from_vector_of_T_to_Mat
 template<typename T>
-void convert_from_vector_of_T_to_Mat( const std::vector<T> &in_arr, cv::Mat &out_arr )
+inline void convert_from_vector_of_T_to_Mat( const std::vector<T> &in_arr, cv::Mat &out_arr )
 {
     create_Mat<T>(out_arr, in_arr.size(), &in_arr[0]);
 }
 
+template<typename T>
+inline cv::Mat convert_from_vector_of_T_to_Mat( const std::vector<T> &in_arr )
+{
+    cv::Mat result;
+    convert_from_vector_of_T_to_Mat<T>(in_arr, result);
+    return result;
+}
 
 // ================================================================================================
 
-// convert_Mat
+// check if a type is a std::vector
+template<typename T> inline bool is_std_vector(T *) { return false; }
+template<typename T> inline bool is_std_vector(std::vector<T> *) { return true; }
+template<typename T> inline bool is_std_vector() { return is_std_vector((typename boost::remove_reference<T>::type *)0); }
+
+
+// ================================================================================================
+// conversion between C++ object and Python object
+
+// ------------------------------------------------------------------------------------------------
+// convert_from_T_to_object
+
+// forward declaration
 template<typename T>
-void convert_Mat( const T &in_arr, cv::Mat &out_arr )
+void convert_from_vector_of_T_to_object(std::vector<T> const &in_arr, bp::object &out_arr);
+
+
+// convert_from_T_to_object
+template<typename T>
+inline void convert_from_T_to_object( T const &in_arr, bp::object &out_arr )
 {
-    char s[300];
-    sprintf( s, "Instantiation of function convert_Mat() for class '%s' is not yet implemented.", typeid(T).name() );
-    PyErr_SetString(PyExc_NotImplementedError, s);
-    throw bp::error_already_set(); 
+    bp::extract<T const &> out_arr2(out_arr);
+    if(!out_arr2.check() || &out_arr2() != &in_arr) out_arr = bp::object(in_arr);
 }
 
-// convert a Python sequence into a cv::Mat
-template<> void convert_Mat<bp::object>( const bp::object &in_arr, cv::Mat &out_arr );
+template<typename T>
+inline void convert_from_T_to_object( std::vector<T> const &in_arr, bp::object &out_arr )
+{
+    convert_from_vector_of_T_to_object(in_arr, out_arr);
+}
 
+template<typename T>
+inline bp::object convert_from_T_to_object( T const &in_arr )
+{
+    bp::object obj;
+    convert_from_T_to_object(in_arr, obj);
+    return obj;
+}
+
+// convert_from_vector_of_T_to_object
+template<typename T>
+inline void convert_from_vector_of_T_to_object(std::vector<T> const &in_arr, bp::object &out_arr)
+{
+    if(is_fixed_size_type<T>())
+    {
+        bp::extract<cv::Mat &> out_arr2(out_arr);
+        if(out_arr2.check()) convert_from_vector_of_T_to_Mat(in_arr, out_arr2());
+        else out_arr = bp::object(convert_from_vector_of_T_to_Mat(in_arr));
+        return;
+    }
+
+    int i, n = in_arr.size();
+    bp::extract<bp::list> out_arr2(out_arr);
+    if(out_arr2.check() && bp::len(out_arr) == n)
+    {
+        for(i = 0; i < n; ++i)
+        {
+            bp::object obj(out_arr[i]);
+            convert_from_T_to_object(in_arr[i], obj);
+            out_arr[i] = obj;
+        }
+    }
+    else
+    {
+        bp::list t;
+        for(i = 0; i < n; ++i)
+        {
+            bp::object obj;
+            convert_from_T_to_object(in_arr[i], obj);
+            t.append(obj);
+        }
+        out_arr = bp::object(t);
+    }
+}
+
+// ------------------------------------------------------------------------------------------------
+// convert_from_object_to_T
+
+// forward declaration
+template<typename T>
+void convert_from_object_to_vector_of_T( bp::object const &in_arr, std::vector<T> &out_arr );
+
+// convert_from_object_to_T
+template<typename T>
+inline void convert_from_object_to_T( bp::object const &in_arr, T &out_arr )
+{
+    T const &out_arr2 = bp::extract<T const &>(in_arr);
+    if(&out_arr != &out_arr2) out_arr = out_arr2; // copy if not the same location
+}
+
+template<typename T>
+inline void convert_from_object_to_T( bp::object const &in_arr, std::vector<T> &out_arr )
+{
+    convert_from_object_to_vector_of_T(in_arr, out_arr);
+}
+
+// convert_from_object_to_vector_of_T
+template<typename T>
+void convert_from_object_to_vector_of_T( bp::object const &in_arr, std::vector<T> &out_arr )
+{
+    if(is_fixed_size_type<T>())
+    {
+        cv::Mat const &mat = bp::extract<cv::Mat const &>(in_arr);
+        convert_from_Mat_to_vector_of_T(mat, out_arr);
+        return;
+    }
+    
+    int i, n = bp::len(in_arr);
+    out_arr.resize(n);
+    for(i = 0; i < n; ++i) convert_from_object_to_T(in_arr[i], out_arr[i]);
+}
 
 // ================================================================================================
 
