@@ -13,6 +13,12 @@
 
 
 // ================================================================================================
+// New converters related to cv::Mat
+
+// ------------------------------------------------------------------------------------------------
+// 
+
+// ================================================================================================
 
 template void convert_Mat( const cv::Mat &in_arr, char *&out_arr );
 template void convert_Mat( const cv::Mat &in_arr, unsigned char *&out_arr );
@@ -99,8 +105,9 @@ template<> void convert_Mat<bp::object>( const bp::object &in_arr, cv::Mat &out_
 // ================================================================================================
 
 // workaround for getting a CvMat pointer
-CvMat * get_CvMat_ptr(cv::Mat &mat)
+CvMat * get_CvMat_ptr(cv::Mat const &mat)
 {
+    if(mat.empty()) return 0;
     static int cnt = 0;
     static CvMat arr[1024];
     CvMat *result = &(arr[cnt] = mat);
@@ -110,8 +117,9 @@ CvMat * get_CvMat_ptr(cv::Mat &mat)
 
 
 // workaround for getting an IplImage pointer
-IplImage * get_IplImage_ptr(cv::Mat &mat)
+IplImage * get_IplImage_ptr(cv::Mat const &mat)
 {
+    if(mat.empty()) return 0;
     static int cnt = 0;
     static IplImage arr[1024];
     IplImage *result = &(arr[cnt] = mat);
