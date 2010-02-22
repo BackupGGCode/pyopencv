@@ -39,7 +39,7 @@ def generate_code(mb, cc, D, FT, CP):
         ):
         mb.free_fun(z).include()
         
-    mb.free_fun('imencode')._transformer_creators.append(FT.output_std_vector('buf'))
+    mb.free_fun('imencode')._transformer_creators.append(FT.arg_std_vector('buf', 2))
         
     # VideoCapture
     z = mb.class_('VideoCapture')

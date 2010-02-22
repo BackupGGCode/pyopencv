@@ -1182,11 +1182,23 @@ def is_vector_type(type):
     
 def get_vector_elem_type(vector_type):
     """Returns the element type of a std::vector type."""
-    pass # TODO: here, remember to remove all the std::allocator things
+    s = vector_type.decl_string
+    s = s[14:s.find(', std::allocator')] # cut all the std::allocators
+    if s.startswith('std::vector'): # assume vector2d
+        s = '::' + s + ', std::allocator<' + s + ' >  >'
+    print s
+    return _D.dummy_type_t(s)
     
 def is_elem_type_fixed_size(elem_type):
     """Checks if an element type is a fixed-size array-like data type."""
-    pass # TODO: here
+    print "elem_type=", elem_type.decl_string
+    for t in ('char', 'unsigned char', 'short', 'unsigned short', 'int',
+        'unsigned int', 'long', 'unsigned long', 'float', 'double',
+        'cv::Vec', 'cv::Point', 'cv::Rect', 'cv::RotatedRect', 
+        'cv::Scalar', 'cv::Range'):
+        if elem_type.decl_string.startswith(t):
+            return True
+    return False
     
     
 # arg_std_vector_t
@@ -1234,21 +1246,21 @@ class arg_std_vector_t(transformer_t):
             str_default_pyobj_func = "convert_from_T_to_object"        
         
         # check argument kind
-        if arg_kind == 1: # input
+        if self.arg_kind == 1: # input
             # default value
             if self.arg.default_value is not None:
                 w_arg.default_value = '%s(%s)' % (str_default_pyobj_func, self.arg.default_value)
                 w_arg.type = _D.dummy_type_t(str_pyobj_type)
             else:
                 w_arg.type = _D.dummy_type_t(str_pyobj_type+" const &")
-        elif arg_kind == 2: # output
+        elif self.arg_kind == 2: # output
             w_arg.type = _D.dummy_type_t(str_pyobj_type+" &")
-        elif arg_kind == 3: # inout
+        elif self.arg_kind == 3: # inout
             if self.arg.default_value is not None:
                 raise ValueError("Unsupported in/out argument with default value.")
             w_arg.type = _D.dummy_type_t(str_pyobj_type+" &")
         else:
-            raise ValueError("Unsupported arg_kind=%d." % arg_kind)
+            raise ValueError("Unsupported arg_kind=%d." % self.arg_kind)
         
         # pre_call
         if self.arg_kind & 1 != 0:
