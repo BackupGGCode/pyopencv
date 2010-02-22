@@ -9,13 +9,6 @@
 
 namespace bp = boost::python;
 
-static boost::shared_ptr<cv::Mat> Mat__init1__(const bp::object &seq)
-{
-    cv::Mat *result = new cv::Mat();
-    convert_Mat(seq, *result);
-    return boost::shared_ptr<cv::Mat>(result);
-}
-
 static boost::shared_ptr<cv::Mat> Mat__init3__(int _rows, int _cols, int _type)
 {
     cv::Mat *result = new cv::Mat(_rows, _cols, _type);

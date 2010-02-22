@@ -10,10 +10,10 @@
 namespace bp = boost::python;
 
 static boost::python::object match_86773a6b4d89ae97806d1109a2438811( ::cv::SpinImageModel & inst, ::cv::SpinImageModel const & scene ){
-    bp::sequence result3;
+    bp::list result3;
     std::vector<std::vector<cv::Vec<int, 2>, std::allocator<cv::Vec<int, 2> > >, std::allocator<std::vector<cv::Vec<int, 2>, std::allocator<cv::Vec<int, 2> > > > > result4;
     inst.match(scene, result4);
-    result3 = convert_vector_vector_to_seq(result4);
+    convert_from_T_to_object(result4, result3);
     return bp::object( result3 );
 }
 
