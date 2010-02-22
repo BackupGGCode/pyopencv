@@ -553,8 +553,5 @@ OP.normcase = _old_normcase
 
 #Write the remaining files
 # copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
-# copyfile('opencv_extra.hpp', 'code/opencv_extra.hpp')
-# copyfile('opencv_extra.cpp', 'code/opencv_extra.cpp')
-# copyfile('ndarray.cpp', 'code/ndarray.cpp')
 
 chdir(_cwd)
