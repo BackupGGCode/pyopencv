@@ -20,19 +20,6 @@
 
 // ================================================================================================
 
-template void convert_Mat( const cv::Mat &in_arr, char *&out_arr );
-template void convert_Mat( const cv::Mat &in_arr, unsigned char *&out_arr );
-template void convert_Mat( const cv::Mat &in_arr, short *&out_arr );
-template void convert_Mat( const cv::Mat &in_arr, unsigned short *&out_arr );
-template void convert_Mat( const cv::Mat &in_arr, long *&out_arr );
-template void convert_Mat( const cv::Mat &in_arr, unsigned long *&out_arr );
-template void convert_Mat( const cv::Mat &in_arr, int *&out_arr );
-template void convert_Mat( const cv::Mat &in_arr, unsigned int *&out_arr );
-template void convert_Mat( const cv::Mat &in_arr, float *&out_arr );
-template void convert_Mat( const cv::Mat &in_arr, double *&out_arr );
-
-// ================================================================================================
-
 // convert_seq1d_to_Mat: convert a Python 1D sequence of objects of type cv::Point2? into a cv::Mat
 template<typename Point2Type, typename ElementType, int MatType>
 void convert_seq1d_of_Point2_to_Mat( const bp::object &in_arr, cv::Mat &out_arr )
