@@ -6,8 +6,17 @@ Change Log
 ==========
 
 pyopencv-2.0.wr1.0.2 beta release
-- to be updated
 ---------------------------------
+- improved snakeImage()
+- added 3 new classes: DifferentialImage, IntegralImage, and IntegralHistogram
+- removed all the C functions related to CvHistogram. They are deprecated. Use calcHist(), equalizeHist(), compareHist() instead.
+- modified CascadeClassifier so that runAt() and setImage() also support old cascades
+- fixed a calling sequence of functions knnSearch() and radiusSearch() of class Index
+- added ndarray interface to Rect-like classes and the Range class
+- improved the behavior of 1d array function arguments
+- fixed a bug that could lead to a segfault
+- added classes: IndexParams, IndexFactory
+- improved SURF, mixChannels() and minMaxLoc()
 
 pyopencv-2.0.wr1.0.1 beta release
 ---------------------------------
