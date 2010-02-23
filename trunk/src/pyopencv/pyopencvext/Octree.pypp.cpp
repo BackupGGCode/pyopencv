@@ -104,7 +104,7 @@ static boost::shared_ptr<cv::Octree> Octree_init1( bp::sequence const &points, i
     return boost::shared_ptr<cv::Octree>(new cv::Octree(points2, maxLevels, minPoints ));
 }
 
-static bp::sequence sd_getNodes(cv::Octree const &inst) { return convert_vector_to_seq(inst.getNodes()); }
+static bp::object sd_getNodes(cv::Octree const &inst) { return convert_from_T_to_object(inst.getNodes()); }
 
 void register_Octree_class(){
 
@@ -159,7 +159,7 @@ void register_Octree_class(){
         
         }
         Octree_exposer.def("__init__", bp::make_constructor(&Octree_init1, bp::default_call_policies(), ( bp::arg("points"), bp::arg("maxLevels")=10, bp::arg("maxPoints")=20 )));
-        Octree_exposer.def( "getNodes", &sd_getNodes);
+        Octree_exposer.add_property( "nodes", &sd_getNodes);
     }
 
 }

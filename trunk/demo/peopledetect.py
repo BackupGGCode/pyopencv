@@ -22,10 +22,11 @@ if __name__ == "__main__":
     # run the detector with default parameters. to get a higher hit-rate
     # (and more false alarms, respectively), decrease the hitThreshold and
     # groupThreshold (set groupThreshold to 0 to turn off the grouping completely).
-    found = hog.detectMultiScale(img, 0, Size(8,8), Size(24,16), 1.05, 2)
+    found = hog.detectMultiScale(img, 0, Size(8,8), Size(24,16), 1.05, 2)[0]
     t = float(getTickCount()) - t
     print("Detection time = %gms\n" % (t*1000./getTickFrequency()))
-    for r in found:
+    for r2 in found:
+        r = asRect(r2)
         # the HOG detector returns slightly larger rectangles than the real objects.
         # so we slightly shrink the rectangles to get a nicer output.
         r.x += round(r.width*0.1)

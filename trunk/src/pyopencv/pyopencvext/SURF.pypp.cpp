@@ -27,19 +27,30 @@ static void call2( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat con
 
 void register_SURF_class(){
 
-    bp::class_< cv::SURF, bp::bases< CvSURFParams > >( "SURF", bp::init< >() )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::SURF >() )    
-        .def( bp::init< double, bp::optional< int, int, bool > >(( bp::arg("_hessianThreshold"), bp::arg("_nOctaves")=(int)(4), bp::arg("_nOctaveLayers")=(int)(2), bp::arg("_extended")=(bool)(false) )) )    
-        .def( 
-            "descriptorSize"
-            , (int ( ::cv::SURF::* )(  ) const)( &::cv::SURF::descriptorSize ) )    
-        .def( 
+    { //::cv::SURF
+        typedef bp::class_< cv::SURF, bp::bases< CvSURFParams > > SURF_exposer_t;
+        SURF_exposer_t SURF_exposer = SURF_exposer_t( "SURF", bp::init< >() );
+        bp::scope SURF_scope( SURF_exposer );
+        SURF_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::SURF >() );
+        SURF_exposer.def( bp::init< double, bp::optional< int, int, bool > >(( bp::arg("_hessianThreshold"), bp::arg("_nOctaves")=(int)(4), bp::arg("_nOctaveLayers")=(int)(2), bp::arg("_extended")=(bool)(false) )) );
+        bp::implicitly_convertible< double, cv::SURF >();
+        { //::cv::SURF::descriptorSize
+        
+            typedef int ( ::cv::SURF::*descriptorSize_function_type )(  ) const;
+            
+            SURF_exposer.def( 
+                "descriptorSize"
+                , descriptorSize_function_type( &::cv::SURF::descriptorSize ) );
+        
+        }
+        SURF_exposer.def( 
             "__call__"
             , (void (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::list & ))( &call1 )
-            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints") ) )    
-        .def( 
+            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints") ) );
+        SURF_exposer.def( 
             "__call__"
             , (void (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::list &,cv::Mat &,bool ))( &call2 )
             , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("descriptors"), bp::arg("useProvidedKeypoints")=(bool)(false) ) );
+    }
 
 }

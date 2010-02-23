@@ -146,6 +146,7 @@ void register_CvEM_class(){
         bp::scope().attr("START_M_STEP") = (int)CvEM::START_M_STEP;
         bp::scope().attr("START_AUTO_STEP") = (int)CvEM::START_AUTO_STEP;
         CvEM_exposer.def( bp::init< cv::Mat const &, bp::optional< cv::Mat const &, CvEMParams, cv::Mat * > >(( bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() )) );
+        bp::implicitly_convertible< cv::Mat const &, CvEM >();
         { //::CvEM::clear
         
             typedef void ( ::CvEM::*clear_function_type )(  ) ;

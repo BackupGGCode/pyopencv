@@ -5,6 +5,7 @@
 #include "__convenience.pypp.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "opencv_converters.hpp"
 #include "CvDTreeTrainData.pypp.hpp"
 
 namespace bp = boost::python;
@@ -273,6 +274,18 @@ struct CvDTreeTrainData_wrapper : CvDTreeTrainData, bp::wrapper< CvDTreeTrainDat
 
 };
 
+static bp::object get_pred_float_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.pred_float_buf); }
+
+static bp::object get_pred_int_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.pred_int_buf); }
+
+static bp::object get_resp_float_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.resp_float_buf); }
+
+static bp::object get_resp_int_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.resp_int_buf); }
+
+static bp::object get_cv_lables_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.cv_lables_buf); }
+
+static bp::object get_sample_idx_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.sample_idx_buf); }
+
 void register_CvDTreeTrainData_class(){
 
     bp::class_< CvDTreeTrainData_wrapper >( "CvDTreeTrainData", bp::init< >() )    
@@ -378,7 +391,6 @@ void register_CvDTreeTrainData_class(){
         .def_readwrite( "buf_count", &CvDTreeTrainData::buf_count )    
         .def_readwrite( "buf_size", &CvDTreeTrainData::buf_size )    
         .def_readwrite( "cat_var_count", &CvDTreeTrainData::cat_var_count )    
-        .def_readwrite( "cv_lables_buf", &CvDTreeTrainData::cv_lables_buf )    
         .def_readwrite( "have_labels", &CvDTreeTrainData::have_labels )    
         .def_readwrite( "have_priors", &CvDTreeTrainData::have_priors )    
         .def_readwrite( "is_buf_16u", &CvDTreeTrainData::is_buf_16u )    
@@ -386,15 +398,10 @@ void register_CvDTreeTrainData_class(){
         .def_readwrite( "max_c_count", &CvDTreeTrainData::max_c_count )    
         .def_readwrite( "ord_var_count", &CvDTreeTrainData::ord_var_count )    
         .def_readwrite( "params", &CvDTreeTrainData::params )    
-        .def_readwrite( "pred_float_buf", &CvDTreeTrainData::pred_float_buf )    
-        .def_readwrite( "pred_int_buf", &CvDTreeTrainData::pred_int_buf )    
-        .def_readwrite( "resp_float_buf", &CvDTreeTrainData::resp_float_buf )    
-        .def_readwrite( "resp_int_buf", &CvDTreeTrainData::resp_int_buf )    
         .add_property( "responses"
                     , bp::make_function( (::CvMat const * (*)( ::CvDTreeTrainData const & ))(&CvDTreeTrainData_wrapper::get_responses), bp::return_internal_reference< >() )
                     , bp::make_function( (void (*)( ::CvDTreeTrainData &,::CvMat const * ))(&CvDTreeTrainData_wrapper::set_responses), bp::with_custodian_and_ward_postcall< 1, 2 >() ) )    
         .def_readwrite( "sample_count", &CvDTreeTrainData::sample_count )    
-        .def_readwrite( "sample_idx_buf", &CvDTreeTrainData::sample_idx_buf )    
         .def_readwrite( "shared", &CvDTreeTrainData::shared )    
         .def_readwrite( "tflag", &CvDTreeTrainData::tflag )    
         .add_property( "train_data"
@@ -402,6 +409,12 @@ void register_CvDTreeTrainData_class(){
                     , bp::make_function( (void (*)( ::CvDTreeTrainData &,::CvMat const * ))(&CvDTreeTrainData_wrapper::set_train_data), bp::with_custodian_and_ward_postcall< 1, 2 >() ) )    
         .def_readwrite( "var_all", &CvDTreeTrainData::var_all )    
         .def_readwrite( "var_count", &CvDTreeTrainData::var_count )    
-        .def_readwrite( "work_var_count", &CvDTreeTrainData::work_var_count );
+        .def_readwrite( "work_var_count", &CvDTreeTrainData::work_var_count )    
+        .add_property("pred_float_buf", &get_pred_float_buf)    
+        .add_property("pred_int_buf", &get_pred_int_buf)    
+        .add_property("resp_float_buf", &get_resp_float_buf)    
+        .add_property("resp_int_buf", &get_resp_int_buf)    
+        .add_property("cv_lables_buf", &get_cv_lables_buf)    
+        .add_property("sample_idx_buf", &get_sample_idx_buf);
 
 }

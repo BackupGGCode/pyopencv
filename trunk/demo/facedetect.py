@@ -33,14 +33,14 @@ def detectAndDraw(img, cascade, nestedCascade, scale):
         #|CascadeClassifier.DO_ROUGH_SEARCH
         |CascadeClassifier.SCALE_IMAGE
         ,
-        Size(30, 30) )
+        Size(30, 30) )[0]
     t = getTickCount() - t
     print( "detection time = %lf ms\n" % (t/(getTickFrequency()*1000.)) )
     for i in range(len(faces)):
         r = faces[i]
         color = colors[i%8]
-        center = Point(round((r.x + r.width*0.5)*scale), round((r.y + r.height*0.5)*scale))
-        radius = round((r.width + r.height)*0.25*scale)
+        center = Point(round((r[0] + r[2]*0.5)*scale), round((r[1] + r[3]*0.5)*scale))
+        radius = round((r[2] + r[3])*0.25*scale)
         circle( img, center, radius, color, 3, 8, 0 )
         if nestedCascade.empty():
             continue
@@ -52,10 +52,10 @@ def detectAndDraw(img, cascade, nestedCascade, scale):
             #|CascadeClassifier.DO_CANNY_PRUNING
             |CascadeClassifier.SCALE_IMAGE
             ,
-            Size(30, 30) )
+            Size(30, 30) )[0]
         for nr in nestedObjects:
-            center = Point(round((r.x + nr.x + nr.width*0.5)*scale), round((r.y + nr.y + nr.height*0.5)*scale))
-            radius = round((nr.width + nr.height)*0.25*scale)
+            center = Point(round((r[0] + nr[0] + nr[2]*0.5)*scale), round((r[1] + nr[1] + nr[3]*0.5)*scale))
+            radius = round((nr[2] + nr[3])*0.25*scale)
             circle( img, center, radius, color, 3, 8, 0 )
     imshow( "result", img )
 

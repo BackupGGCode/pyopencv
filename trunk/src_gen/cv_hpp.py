@@ -174,17 +174,18 @@ static void call1( ::cv::MSER const & inst, ::cv::Mat & image, bp::list & msers,
     z.operators().exclude()
     z.include_files.append("opencv_converters.hpp")
     z.add_declaration_code('''
-static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & image ){
-    std::vector< cv::KeyPoint > keypoints2;
-    inst.operator()(image, keypoints2);
-    return convert_vector_to_seq(keypoints2);
+static void call1( ::cv::StarDetector const & inst, ::cv::Mat const & image, bp::list & keypoints ){
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    convert_from_object_to_T(keypoints, keypoints2);
+    inst(image, keypoints2);
+    convert_from_T_to_object(keypoints2, keypoints);
 }
 
     ''')
     z.add_registration_code('''def( 
             "__call__"
-            , (bp::sequence (*)( ::cv::StarDetector const &,::cv::Mat const & ))( &call1 )
-            , ( bp::arg("inst"), bp::arg("image") ) )''')
+            , (void (*)( ::cv::StarDetector const &,::cv::Mat const &,bp::list & ))( &call1 )
+            , ( bp::arg("inst"), bp::arg("image"), bp::arg("keypoints") ) )''')
     mb.finalize_class(z)
     mb.class_('CvStarDetectorParams').include()
     
@@ -227,8 +228,9 @@ static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & im
         'convertMaps', 'getRotationMatrix2D', 'invertAffineTransform', 
         'getRectSubPix', 'integral', 'accumulate', 'accumulateSquare', 
         'accumulateProduct', 'accumulateWeighted', 'threshold', 
-        'adaptiveThreshold', 'pyrDown', 'pyrUp', 'undistort', 
-        'initUndistortRectifyMap', 'getDefaultNewCameraMatrix', 
+        'adaptiveThreshold', 'pyrDown', 'pyrUp', 'buildPyramid', 'undistort', 
+        'initUndistortRectifyMap', 'getDefaultNewCameraMatrix',
+        'calcOpticalFlowPyrLK',
         'calcOpticalFlowFarneback', 'compareHist', 'equalizeHist', 'watershed',
         'inpaint', 'distanceTransform', 'cvtColor', 'moments', 'matchTemplate',
         'drawContours', 
@@ -239,8 +241,9 @@ static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & im
         'estimateAffine3D', 'groupRectangles',
         'Rodrigues', 'RQDecomp3x3', 'decomposeProjectionMatrix', 'matMulDeriv', 
         'composeRT', 'solvePnP', 'initCameraMatrix2D', 
+        'findChessboardCorners', 'drawChessboardCorners',
         'calibrationMatrixValues', 'stereoCalibrate', 'stereoRectify', 
-        'stereoRectifyUncalibrated', 'reprojectImageTo3D', 
+        'stereoRectifyUncalibrated', 'reprojectImageTo3D',         
         ):
         mb.free_funs(z).include()
         
@@ -288,14 +291,6 @@ static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & im
     FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
     FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
             
-    #buildPyramid
-    FT.expose_func(mb.free_fun('buildPyramid'), return_pointee=False, transformer_creators=[FT.arg_std_vector('dst', 2)])
-    
-    # calcOpticalFlowPyrLK
-    FT.expose_func(mb.free_fun('calcOpticalFlowPyrLK'), return_pointee=False, 
-        transformer_creators=[FT.arg_std_vector('nextPts', 2), FT.arg_std_vector('status', 2), 
-            FT.arg_std_vector('err', 2)])
-    
     # calcHist
     mb.free_funs('calcHist').exclude()
     mb.add_declaration_code('''
@@ -471,26 +466,26 @@ void cv::findContours( const Mat& image, vector<vector<Point> >& contours,
     # approxPolyDP
     mb.free_funs('approxPolyDP').exclude()
     mb.add_declaration_code('''
-static bp::sequence sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
-    std::vector<cv::Point> point2i;
-    std::vector<cv::Point2f> point2f;
-    bp::sequence obj;
+static cv::Mat sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
+    cv::Mat approxCurve;
     if(curve.type() == CV_32SC2) 
     {
+        std::vector<cv::Point> point2i;
         cv::approxPolyDP(curve, point2i, epsilon, closed);
-        obj = convert_vector_to_seq(point2i);
+        convert_from_vector_of_T_to_Mat(point2i, approxCurve);
     }
     else
     {
+        std::vector<cv::Point2f> point2f;
         cv::approxPolyDP(curve, point2f, epsilon, closed);
-        obj = convert_vector_to_seq(point2f);
+        convert_from_vector_of_T_to_Mat(point2f, approxCurve);
     }
-    return obj;
+    return approxCurve;
 }    
     ''')
     mb.add_registration_code('''bp::def( 
         "approxPolyDP"
-        , (bp::sequence (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
+        , (cv::Mat (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
         , ( bp::arg("curve"), bp::arg("epsilon"), bp::arg("closed") ) );''')
         
     # convexHull
@@ -501,26 +496,26 @@ static bp::sequence sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool 
     z._transformer_creators.append(FT.arg_std_vector('hull', 2))
     
     mb.add_declaration_code('''
-static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
-    std::vector<cv::Point> hull2i;
-    std::vector<cv::Point2f> hull2f;
-    bp::object obj;
+static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
+    cv::Mat obj;
     if(points.type() == CV_32SC2)
     {
+        std::vector<cv::Point> hull2i;
         cv::convexHull(points, hull2i, clockwise);
-        obj = convert_vector_to_seq(hull2i);
+        convert_from_vector_of_T_to_Mat(hull2i, obj);
     }
     else
     {
+        std::vector<cv::Point2f> hull2f;
         cv::convexHull(points, hull2f, clockwise);
-        obj = convert_vector_to_seq(hull2f);
+        convert_from_vector_of_T_to_Mat(hull2f, obj);
     }
     return obj;
 }    
     ''')
     mb.add_registration_code('''bp::def( 
         "convexHull"
-        , (bp::object (*)( cv::Mat const &, bool ))( &sd_convexHull )
+        , (cv::Mat (*)( cv::Mat const &, bool ))( &sd_convexHull )
         , ( bp::arg("points"), bp::arg("clockwise")=bp::object(false) ) );''')
         
     # undistortPoints
@@ -534,7 +529,6 @@ static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
     z = mb.free_fun(lambda x: x.name=='findHomography' and 'vector' in x.decl_string)
     z.include()
     z._transformer_kwds['alias'] = 'findHomography2'
-    z._transformer_creators.append(FT.arg_std_vector('mask', 2))
         
     # projectPoints
     mb.free_funs('projectPoints').exclude()
@@ -547,22 +541,6 @@ static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
     FT.expose_func(z, return_pointee=False, transformer_creators=[
         FT.arg_std_vector('imagePoints', 2)])
     
-    # findChessboardCorners
-    FT.expose_func(mb.free_fun('findChessboardCorners'), return_pointee=False,
-        transformer_creators=[FT.arg_std_vector('corners', 2)])
-        
-    # drawChessboardCorners
-    mb.free_fun('drawChessboardCorners').exclude()
-    mb.add_declaration_code('''
-void drawChessboardCorners( cv::Mat& image, cv::Size patternSize, bp::sequence const &corners, bool patternWasFound )
-{
-    std::vector<cv::Point2f> corners2; convert_seq_to_vector(corners, corners2);
-    ::cvDrawChessboardCorners( get_CvMat_ptr(image), patternSize, (CvPoint2D32f*)&corners2[0],
-        corners2.size(), patternWasFound );
-}
-    ''')
-    mb.add_registration_code('bp::def("drawChessboardCorners", &::drawChessboardCorners, (bp::arg("image"), bp::arg("patternSize"), bp::arg("corners"), bp::arg("patternWasFound")));')
-        
     # calibrateCamera
     FT.expose_func(mb.free_fun('calibrateCamera'), return_pointee=False,
         transformer_creators=[FT.arg_std_vector('rvecs', 2), FT.arg_std_vector('tvecs', 2)])

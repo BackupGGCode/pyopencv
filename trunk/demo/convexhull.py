@@ -46,9 +46,9 @@ if __name__ == '__main__':
             circle (image, asPoint(points[0,i]), 2, Scalar (0, 0, 255), CV_FILLED, CV_AA, 0)
 
         # start the line from the last point
-        pt0 = hull[-1]
+        pt0 = hull[0, -1]
         
-        for pt1 in hull:
+        for pt1 in hull[0]:
             # draw
             line (image, asPoint(pt0), asPoint(pt1), Scalar (0, 255, 0), 1, CV_AA, 0)
 

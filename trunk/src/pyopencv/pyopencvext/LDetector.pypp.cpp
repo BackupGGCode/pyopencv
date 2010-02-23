@@ -16,16 +16,16 @@ static void getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d( ::cv::LDetector co
     convert_from_T_to_object(keypoints2, keypoints);
 }
 
-static bp::sequence LDetector_call1( ::cv::LDetector const & inst, bp::object const & image_or_pyr, int maxCount=0, bool scaleCoords=true ){
+static bp::list LDetector_call1( ::cv::LDetector const & inst, bp::object const & image_or_pyr, int maxCount=0, bool scaleCoords=true ){
     std::vector< cv::KeyPoint > keypoints;
     bp::extract<const cv::Mat &> image(image_or_pyr);
     if(image.check()) inst(image(), keypoints, maxCount, scaleCoords);
     else {
         std::vector< cv::Mat > pyr;
-        convert_seq_to_vector(image_or_pyr, pyr);
+        convert_from_object_to_T(image_or_pyr, pyr);
         inst(pyr, keypoints, maxCount, scaleCoords);
     }
-    return convert_vector_to_seq(keypoints);
+    return bp::list(convert_from_T_to_object(keypoints));
 }
 
 void register_LDetector_class(){
