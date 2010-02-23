@@ -114,35 +114,8 @@ def generate_code(mb, cc, D, FT, CP):
     # SURF
     z = mb.class_('SURF')
     mb.init_class(z)
-    z.include_files.append("opencv_converters.hpp")
-    z.operators().exclude()
-    z.add_declaration_code('''
-static void call1( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::list & keypoints ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
-    convert_from_object_to_T(keypoints, keypoints2);
-    inst(img, mask, keypoints2);
-    convert_from_T_to_object(keypoints2, keypoints);
-}
-
-static void call2( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::list & keypoints, cv::Mat & descriptors, bool useProvidedKeypoints=false ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
-    std::vector<float, std::allocator<float> > descriptors2;
-    convert_from_object_to_T(keypoints, keypoints2);
-    convert_from_Mat_to_vector_of_T(descriptors, descriptors2);
-    inst(img, mask, keypoints2, descriptors2, useProvidedKeypoints);
-    convert_from_T_to_object(keypoints2, keypoints);
-    convert_from_vector_of_T_to_Mat(descriptors2, descriptors);
-}
-
-    ''')
-    z.add_registration_code('''def( 
-            "__call__"
-            , (void (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::list & ))( &call1 )
-            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints") ) )''')
-    z.add_registration_code('''def( 
-            "__call__"
-            , (void (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::list &,cv::Mat &,bool ))( &call2 )
-            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("descriptors"), bp::arg("useProvidedKeypoints")=(bool)(false) ) )''')
+    z.operator(lambda x: len(x.arguments)==3)._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+    z.operator(lambda x: len(x.arguments)==5)._transformer_creators.append(FT.arg_std_vector('descriptors', 2))
     mb.finalize_class(z)
     mb.class_('CvSURFParams').include()
 
@@ -150,42 +123,14 @@ static void call2( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat con
     # MSER
     z = mb.class_('MSER')
     mb.init_class(z)
-    z.operators().exclude()
-    z.include_files.append("opencv_converters.hpp")
-    z.add_declaration_code('''
-static void call1( ::cv::MSER const & inst, ::cv::Mat & image, bp::list & msers, ::cv::Mat const & mask ){
-    std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > msers2;
-    convert_from_object_to_T(msers, msers2);
-    inst(image, msers2, mask);
-    convert_from_T_to_object(msers2, msers);
-}
-
-    ''')
-    z.add_registration_code('''def( 
-            "__call__"
-            , (void (*)( ::cv::MSER const &,::cv::Mat &,bp::list &,::cv::Mat const & ))( &call1 )
-            , ( bp::arg("inst"), bp::arg("image"), bp::arg("msers"), bp::arg("mask") ) )''')
+    z.operator('()')._transformer_creators.append(FT.arg_std_vector('msers', 2))
     mb.finalize_class(z)
     mb.class_('CvMSERParams').include()
     
     # StarDetector
     z = mb.class_('StarDetector')
     mb.init_class(z)
-    z.operators().exclude()
-    z.include_files.append("opencv_converters.hpp")
-    z.add_declaration_code('''
-static void call1( ::cv::StarDetector const & inst, ::cv::Mat const & image, bp::list & keypoints ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
-    convert_from_object_to_T(keypoints, keypoints2);
-    inst(image, keypoints2);
-    convert_from_T_to_object(keypoints2, keypoints);
-}
-
-    ''')
-    z.add_registration_code('''def( 
-            "__call__"
-            , (void (*)( ::cv::StarDetector const &,::cv::Mat const &,bp::list & ))( &call1 )
-            , ( bp::arg("inst"), bp::arg("image"), bp::arg("keypoints") ) )''')
+    z.operator('()')._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
     mb.finalize_class(z)
     mb.class_('CvStarDetectorParams').include()
     

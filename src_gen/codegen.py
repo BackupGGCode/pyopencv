@@ -363,6 +363,15 @@ def beautify_func_list(self, func_list):
     for f in func_list:
         if len(f._transformer_creators) > 0:
             f.add_transformation(*f._transformer_creators, **f._transformer_kwds)
+            if 'unique_function_name' in f._transformer_kwds:
+                f.transformations[0].unique_name = f._transformer_kwds['unique_function_name']
+            else:
+                s = f.transformations[0].unique_name
+                repl_dict = {
+                    'operator()': '__call__',
+                }
+                for t in repl_dict: s = s.replace(t, repl_dict[t])
+                f.transformations[0].unique_name = s
             
 module_builder.module_builder_t.beautify_func_list = beautify_func_list
 
