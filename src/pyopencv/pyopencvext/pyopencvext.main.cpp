@@ -425,35 +425,35 @@
 namespace bp = boost::python;
 
 static boost::python::object FAST_23d17220884e2f371691b185394322ec( ::cv::Mat const & image, int threshold, bool nonmax_supression=true ){
-    bp::sequence keypoints2;
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints3;
-    ::cv::FAST(image, keypoints3, threshold, nonmax_supression);
-    keypoints2 = convert_vector_to_seq(keypoints3);
-    return bp::object( keypoints2 );
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    bp::list keypoints3;
+    ::cv::FAST(image, keypoints2, threshold, nonmax_supression);
+    convert_from_T_to_object(keypoints2, keypoints3);
+    return bp::object( keypoints3 );
 }
 
 static boost::python::object HoughCircles_ea2999473356200d9d2fc8b7258555b0( ::cv::Mat const & image, int method, double dp, double minDist, double param1=100, double param2=100, int minRadius=0, int maxRadius=0 ){
-    bp::sequence circles2;
-    std::vector<cv::Vec<float, 3>, std::allocator<cv::Vec<float, 3> > > circles3;
-    ::cv::HoughCircles(image, circles3, method, dp, minDist, param1, param2, minRadius, maxRadius);
-    circles2 = convert_vector_to_seq(circles3);
-    return bp::object( circles2 );
+    std::vector<cv::Vec<float, 3>, std::allocator<cv::Vec<float, 3> > > circles2;
+    cv::Mat circles3;
+    ::cv::HoughCircles(image, circles2, method, dp, minDist, param1, param2, minRadius, maxRadius);
+    convert_from_vector_of_T_to_Mat(circles2, circles3);
+    return bp::object( circles3 );
 }
 
 static boost::python::object HoughLines_deaa796a20e753a0b781de4a4d81ba3d( ::cv::Mat const & image, double rho, double theta, int threshold, double srn=0, double stn=0 ){
-    bp::sequence lines2;
-    std::vector<cv::Vec<float, 2>, std::allocator<cv::Vec<float, 2> > > lines3;
-    ::cv::HoughLines(image, lines3, rho, theta, threshold, srn, stn);
-    lines2 = convert_vector_to_seq(lines3);
-    return bp::object( lines2 );
+    std::vector<cv::Vec<float, 2>, std::allocator<cv::Vec<float, 2> > > lines2;
+    cv::Mat lines3;
+    ::cv::HoughLines(image, lines2, rho, theta, threshold, srn, stn);
+    convert_from_vector_of_T_to_Mat(lines2, lines3);
+    return bp::object( lines3 );
 }
 
 static boost::python::object HoughLinesP_7e83e90590dfee49ad9ee8d704d1cfcb( ::cv::Mat & image, double rho, double theta, int threshold, double minLineLength=0, double maxLineGap=0 ){
-    bp::sequence lines2;
-    std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > > lines3;
-    ::cv::HoughLinesP(image, lines3, rho, theta, threshold, minLineLength, maxLineGap);
-    lines2 = convert_vector_to_seq(lines3);
-    return bp::object( lines2 );
+    std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > > lines2;
+    cv::Mat lines3;
+    ::cv::HoughLinesP(image, lines2, rho, theta, threshold, minLineLength, maxLineGap);
+    convert_from_vector_of_T_to_Mat(lines2, lines3);
+    return bp::object( lines3 );
 }
 
 static boost::python::object HuMoments_646f4ee3824db566d9124eee2bb204ab( ::cv::Moments const & moments ){
@@ -465,11 +465,11 @@ static boost::python::object HuMoments_646f4ee3824db566d9124eee2bb204ab( ::cv::M
 }
 
 static boost::python::object buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac( ::cv::Mat const & src, int maxlevel ){
-    bp::sequence dst2;
-    std::vector<cv::Mat, std::allocator<cv::Mat> > dst3;
-    ::cv::buildPyramid(src, dst3, maxlevel);
-    dst2 = convert_vector_to_seq(dst3);
-    return bp::object( dst2 );
+    std::vector<cv::Mat, std::allocator<cv::Mat> > dst2;
+    bp::list dst3;
+    ::cv::buildPyramid(src, dst2, maxlevel);
+    convert_from_T_to_object(dst2, dst3);
+    return bp::object( dst3 );
 }
 
 static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( bp::sequence & samples, ::cv::Mat & covar, ::cv::Mat & mean, int flags, int ctype=6 ){
@@ -481,34 +481,34 @@ static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( bp::sequence & sam
 }
 
 static boost::python::tuple calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1( ::cv::Mat const & prevImg, ::cv::Mat const & nextImg, bp::sequence prevPts, ::cv::Size winSize=cv::Size_<int>(15, 15), int maxLevel=3, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), double derivLambda=5.0e-1, int flags=0 ){
-    bp::sequence nextPts2;
-    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > nextPts3;
-    bp::sequence status2;
-    std::vector<unsigned char, std::allocator<unsigned char> > status3;
-    bp::sequence err2;
-    std::vector<float, std::allocator<float> > err3;
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > nextPts2;
+    cv::Mat nextPts3;
+    std::vector<unsigned char, std::allocator<unsigned char> > status2;
+    cv::Mat status3;
+    std::vector<float, std::allocator<float> > err2;
+    cv::Mat err3;
     std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > prevPts2;
     convert_seq_to_vector(prevPts, prevPts2);
-    ::cv::calcOpticalFlowPyrLK(prevImg, nextImg, prevPts2, nextPts3, status3, err3, winSize, maxLevel, criteria, derivLambda, flags);
-    nextPts2 = convert_vector_to_seq(nextPts3);
-    status2 = convert_vector_to_seq(status3);
-    err2 = convert_vector_to_seq(err3);
-    return bp::make_tuple( nextPts2, status2, err2 );
+    ::cv::calcOpticalFlowPyrLK(prevImg, nextImg, prevPts2, nextPts2, status2, err2, winSize, maxLevel, criteria, derivLambda, flags);
+    convert_from_vector_of_T_to_Mat(nextPts2, nextPts3);
+    convert_from_vector_of_T_to_Mat(status2, status3);
+    convert_from_vector_of_T_to_Mat(err2, err3);
+    return bp::make_tuple( nextPts3, status3, err3 );
 }
 
-static boost::python::tuple calibrateCamera_e3c243276629b1246626096d8ff70485( bp::list objectPoints, bp::list imagePoints, ::cv::Size imageSize, ::cv::Mat & cameraMatrix, ::cv::Mat & distCoeffs, int flags=0 ){
-    bp::sequence rvecs2;
-    std::vector<cv::Mat, std::allocator<cv::Mat> > rvecs3;
-    bp::sequence tvecs2;
-    std::vector<cv::Mat, std::allocator<cv::Mat> > tvecs3;
+static boost::python::tuple calibrateCamera_e3c243276629b1246626096d8ff70485( bp::list const & objectPoints, bp::list const & imagePoints, ::cv::Size imageSize, ::cv::Mat & cameraMatrix, ::cv::Mat & distCoeffs, int flags=0 ){
+    std::vector<cv::Mat, std::allocator<cv::Mat> > rvecs2;
+    bp::list rvecs3;
+    std::vector<cv::Mat, std::allocator<cv::Mat> > tvecs2;
+    bp::list tvecs3;
     std::vector<std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > >, std::allocator<std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > > > objectPoints2;
     std::vector<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::allocator<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > > > imagePoints2;
     convert_from_object_to_T(objectPoints, objectPoints2);
     convert_from_object_to_T(imagePoints, imagePoints2);
-    ::cv::calibrateCamera(objectPoints2, imagePoints2, imageSize, cameraMatrix, distCoeffs, rvecs3, tvecs3, flags);
-    rvecs2 = convert_vector_to_seq(rvecs3);
-    tvecs2 = convert_vector_to_seq(tvecs3);
-    return bp::make_tuple( rvecs2, tvecs2 );
+    ::cv::calibrateCamera(objectPoints2, imagePoints2, imageSize, cameraMatrix, distCoeffs, rvecs2, tvecs2, flags);
+    convert_from_T_to_object(rvecs2, rvecs3);
+    convert_from_T_to_object(tvecs2, tvecs3);
+    return bp::make_tuple( rvecs3, tvecs3 );
 }
 
 static boost::python::tuple checkRange_138f1b60b28a059182d9f09088ca2474( ::cv::MatND const & a, bool quiet=true, double minVal=-1.79769313486231570814527423731704356798070567526e+308, double maxVal=1.79769313486231570814527423731704356798070567526e+308 ){
@@ -524,35 +524,35 @@ static boost::python::tuple checkRange_31cc45f75977959e58047954bd730b32( ::cv::M
 }
 
 static boost::python::object computeCorrespondEpilines_c5fa9f4742dac0ce300bb37345eb1f07( ::cv::Mat const & points1, int whichImage, ::cv::Mat const & F ){
-    bp::sequence lines2;
-    std::vector<cv::Vec<float, 3>, std::allocator<cv::Vec<float, 3> > > lines3;
-    ::cv::computeCorrespondEpilines(points1, whichImage, F, lines3);
-    lines2 = convert_vector_to_seq(lines3);
-    return bp::object( lines2 );
+    std::vector<cv::Vec<float, 3>, std::allocator<cv::Vec<float, 3> > > lines2;
+    cv::Mat lines3;
+    ::cv::computeCorrespondEpilines(points1, whichImage, F, lines2);
+    convert_from_vector_of_T_to_Mat(lines2, lines3);
+    return bp::object( lines3 );
 }
 
 static boost::python::object convertPointsHomogeneous_a80a768ed55e897cac15946457cd1696( ::cv::Mat const & src ){
-    bp::sequence dst2;
-    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > dst3;
-    ::cv::convertPointsHomogeneous(src, dst3);
-    dst2 = convert_vector_to_seq(dst3);
-    return bp::object( dst2 );
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > dst2;
+    cv::Mat dst3;
+    ::cv::convertPointsHomogeneous(src, dst2);
+    convert_from_vector_of_T_to_Mat(dst2, dst3);
+    return bp::object( dst3 );
 }
 
 static boost::python::object convertPointsHomogeneous_d220e3269e8c59fdb5b2dc2f830579b0( ::cv::Mat const & src ){
-    bp::sequence dst2;
-    std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > dst3;
-    ::cv::convertPointsHomogeneous(src, dst3);
-    dst2 = convert_vector_to_seq(dst3);
-    return bp::object( dst2 );
+    std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > dst2;
+    cv::Mat dst3;
+    ::cv::convertPointsHomogeneous(src, dst2);
+    convert_from_vector_of_T_to_Mat(dst2, dst3);
+    return bp::object( dst3 );
 }
 
 static boost::python::object convexHull_a7bf196b869588f11c69529c43975a42( ::cv::Mat const & points, bool clockwise=false ){
-    bp::sequence hull2;
-    std::vector<int, std::allocator<int> > hull3;
-    ::cv::convexHull(points, hull3, clockwise);
-    hull2 = convert_vector_to_seq(hull3);
-    return bp::object( hull2 );
+    std::vector<int, std::allocator<int> > hull2;
+    cv::Mat hull3;
+    ::cv::convexHull(points, hull2, clockwise);
+    convert_from_vector_of_T_to_Mat(hull2, hull3);
+    return bp::object( hull3 );
 }
 
 static boost::python::object cornerSubPix_897410ee39f221d5b382cc794de38b84( ::cv::Mat const & image, bp::sequence corners, ::cv::Size winSize, ::cv::Size zeroZone, ::cv::TermCriteria criteria ){
@@ -1015,7 +1015,7 @@ static void cvWriteString_72043510addf587750a274c07091202d( ::cv::FileStorage & 
     ::cvWriteString(fs.fs, name, str, quote);
 }
 
-static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::list contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, bp::sequence hierarchy=convert_vector_to_seq(std::vector<cv::Vec4i>()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
+static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::list const & contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, bp::sequence hierarchy=convert_vector_to_seq(std::vector<cv::Vec4i>()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
     std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > contours2;
     std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > > hierarchy2;
     convert_from_object_to_T(contours, contours2);
@@ -1070,38 +1070,38 @@ static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, bp::sequ
 }
 
 static boost::python::tuple findChessboardCorners_dbf15a4ace0e613206118382aa1793ea( ::cv::Mat const & image, ::cv::Size patternSize, int flags=3 ){
-    bp::sequence corners2;
-    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > corners3;
-    bool result = ::cv::findChessboardCorners(image, patternSize, corners3, flags);
-    corners2 = convert_vector_to_seq(corners3);
-    return bp::make_tuple( result, corners2 );
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > corners2;
+    cv::Mat corners3;
+    bool result = ::cv::findChessboardCorners(image, patternSize, corners2, flags);
+    convert_from_vector_of_T_to_Mat(corners2, corners3);
+    return bp::make_tuple( result, corners3 );
 }
 
 static boost::python::tuple findContours_68285032b2b0f15f13e30f19da8327fa( ::cv::Mat const & image, int mode, int method, ::cv::Point offset=cv::Point_<int>() ){
-    bp::list contours2;
-    std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > contours3;
-    bp::sequence hierarchy2;
-    std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > > hierarchy3;
-    ::cv::findContours(image, contours3, hierarchy3, mode, method, offset);
-    convert_from_T_to_object(contours3, contours2);
-    hierarchy2 = convert_vector_to_seq(hierarchy3);
-    return bp::make_tuple( contours2, hierarchy2 );
+    std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > contours2;
+    bp::list contours3;
+    std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > > hierarchy2;
+    cv::Mat hierarchy3;
+    ::cv::findContours(image, contours2, hierarchy2, mode, method, offset);
+    convert_from_T_to_object(contours2, contours3);
+    convert_from_vector_of_T_to_Mat(hierarchy2, hierarchy3);
+    return bp::make_tuple( contours3, hierarchy3 );
 }
 
 static boost::python::tuple findFundamentalMat_4b8947da99452ee36abb2b044e941f4a( ::cv::Mat const & points1, ::cv::Mat const & points2, int method=int(::cv::FM_RANSAC), double param1=3.0e+0, double param2=9.89999999999999991118215802998747676610946655273e-1 ){
-    bp::sequence mask2;
-    std::vector<unsigned char, std::allocator<unsigned char> > mask3;
-    ::cv::Mat result = ::cv::findFundamentalMat(points1, points2, mask3, method, param1, param2);
-    mask2 = convert_vector_to_seq(mask3);
-    return bp::make_tuple( result, mask2 );
+    std::vector<unsigned char, std::allocator<unsigned char> > mask2;
+    cv::Mat mask3;
+    ::cv::Mat result = ::cv::findFundamentalMat(points1, points2, mask2, method, param1, param2);
+    convert_from_vector_of_T_to_Mat(mask2, mask3);
+    return bp::make_tuple( result, mask3 );
 }
 
 static boost::python::tuple findHomography_43999ba4bb258d7c74f144c8915f1665( ::cv::Mat const & srcPoints, ::cv::Mat const & dstPoints, int method=0, double ransacReprojThreshold=0 ){
-    bp::sequence mask2;
-    std::vector<unsigned char, std::allocator<unsigned char> > mask3;
-    ::cv::Mat result = ::cv::findHomography(srcPoints, dstPoints, mask3, method, ransacReprojThreshold);
-    mask2 = convert_vector_to_seq(mask3);
-    return bp::make_tuple( result, mask2 );
+    std::vector<unsigned char, std::allocator<unsigned char> > mask2;
+    cv::Mat mask3;
+    ::cv::Mat result = ::cv::findHomography(srcPoints, dstPoints, mask2, method, ransacReprojThreshold);
+    convert_from_vector_of_T_to_Mat(mask2, mask3);
+    return bp::make_tuple( result, mask3 );
 }
 
 static boost::python::tuple floodFill_a833ccdf7b45572779d5c63d9adc2b15( ::cv::Mat & image, ::cv::Mat & mask, ::cv::Point seedPoint, ::cv::Scalar newVal, ::cv::Scalar loDiff=cv::Scalar_<double>(), ::cv::Scalar upDiff=cv::Scalar_<double>(), int flags=4 ){
@@ -1149,11 +1149,11 @@ static boost::python::tuple getTextSize_efe6452b14ca0fcca5a50ca33199f5e7( ::std:
 }
 
 static boost::python::object goodFeaturesToTrack_a887e3eb7b667339b1ac0c1a02f5735c( ::cv::Mat const & image, int maxCorners, double qualityLevel, double minDistance, ::cv::Mat const & mask=cv::Mat(), int blockSize=3, bool useHarrisDetector=false, double k=4.00000000000000008326672684688674053177237510681e-2 ){
-    bp::sequence corners2;
-    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > corners3;
-    ::cv::goodFeaturesToTrack(image, corners3, maxCorners, qualityLevel, minDistance, mask, blockSize, useHarrisDetector, k);
-    corners2 = convert_vector_to_seq(corners3);
-    return bp::object( corners2 );
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > corners2;
+    cv::Mat corners3;
+    ::cv::goodFeaturesToTrack(image, corners2, maxCorners, qualityLevel, minDistance, mask, blockSize, useHarrisDetector, k);
+    convert_from_vector_of_T_to_Mat(corners2, corners3);
+    return bp::object( corners3 );
 }
 
 static boost::python::object groupRectangles_daddb1eb144574c44042d3cef39f8656( bp::sequence rectList, int groupThreshold, double eps=2.00000000000000011102230246251565404236316680908e-1 ){
@@ -1164,13 +1164,14 @@ static boost::python::object groupRectangles_daddb1eb144574c44042d3cef39f8656( b
     return bp::object( rectList );
 }
 
-static boost::python::object imencode_7058867f40db2ceceebdc74b4943c841( ::std::string const & ext, ::cv::Mat const & img, cv::Mat & buf, bp::sequence params=convert_vector_to_seq(std::vector<int>()) ){
+static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::string const & ext, ::cv::Mat const & img, bp::sequence params=convert_vector_to_seq(std::vector<int>()) ){
     std::vector<unsigned char, std::allocator<unsigned char> > buf2;
+    cv::Mat buf3;
     std::vector<int, std::allocator<int> > params2;
     convert_seq_to_vector(params, params2);
     bool result = ::cv::imencode(ext, img, buf2, params2);
-    convert_from_vector_of_T_to_Mat(buf2, buf);
-    return bp::object( result );
+    convert_from_vector_of_T_to_Mat(buf2, buf3);
+    return bp::make_tuple( result, buf3 );
 }
 
 static boost::python::object imwrite_08123c4d4c07e7af51577328378c9683( ::std::string const & filename, ::cv::Mat const & img, bp::sequence params=convert_vector_to_seq(std::vector<int>()) ){
@@ -1180,7 +1181,7 @@ static boost::python::object imwrite_08123c4d4c07e7af51577328378c9683( ::std::st
     return bp::object( result );
 }
 
-static boost::python::object initCameraMatrix2D_a63e0813c9e7ddf60786347e47acca95( bp::list objectPoints, bp::list imagePoints, ::cv::Size imageSize, double aspectRatio=1.0e+0 ){
+static boost::python::object initCameraMatrix2D_a63e0813c9e7ddf60786347e47acca95( bp::list const & objectPoints, bp::list const & imagePoints, ::cv::Size imageSize, double aspectRatio=1.0e+0 ){
     std::vector<std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > >, std::allocator<std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > > > objectPoints2;
     std::vector<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::allocator<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > > > imagePoints2;
     convert_from_object_to_T(objectPoints, objectPoints2);
@@ -1234,27 +1235,27 @@ static void polylines_4b2b9aca4a0ee1864678eae6b982fcc0( ::cv::Mat & img, bp::seq
 }
 
 static boost::python::object projectPoints_c3cbd5f3e0c4a976b617302062632da4( ::cv::Mat const & objectPoints, ::cv::Mat const & rvec, ::cv::Mat const & tvec, ::cv::Mat const & cameraMatrix, ::cv::Mat const & distCoeffs, ::cv::Mat & dpdrot, ::cv::Mat & dpdt, ::cv::Mat & dpdf, ::cv::Mat & dpdc, ::cv::Mat & dpddist, double aspectRatio=0 ){
-    bp::sequence imagePoints2;
-    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > imagePoints3;
-    ::cv::projectPoints(objectPoints, rvec, tvec, cameraMatrix, distCoeffs, imagePoints3, dpdrot, dpdt, dpdf, dpdc, dpddist, aspectRatio);
-    imagePoints2 = convert_vector_to_seq(imagePoints3);
-    return bp::object( imagePoints2 );
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > imagePoints2;
+    cv::Mat imagePoints3;
+    ::cv::projectPoints(objectPoints, rvec, tvec, cameraMatrix, distCoeffs, imagePoints2, dpdrot, dpdt, dpdf, dpdc, dpddist, aspectRatio);
+    convert_from_vector_of_T_to_Mat(imagePoints2, imagePoints3);
+    return bp::object( imagePoints3 );
 }
 
 static boost::python::object projectPoints_ce9cea7b4fadb5986d2a47a4d012fac0( ::cv::Mat const & objectPoints, ::cv::Mat const & rvec, ::cv::Mat const & tvec, ::cv::Mat const & cameraMatrix, ::cv::Mat const & distCoeffs ){
-    bp::sequence imagePoints2;
-    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > imagePoints3;
-    ::cv::projectPoints(objectPoints, rvec, tvec, cameraMatrix, distCoeffs, imagePoints3);
-    imagePoints2 = convert_vector_to_seq(imagePoints3);
-    return bp::object( imagePoints2 );
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > imagePoints2;
+    cv::Mat imagePoints3;
+    ::cv::projectPoints(objectPoints, rvec, tvec, cameraMatrix, distCoeffs, imagePoints2);
+    convert_from_vector_of_T_to_Mat(imagePoints2, imagePoints3);
+    return bp::object( imagePoints3 );
 }
 
 static boost::python::object read_19f776a07d0494421b17575379bc2106( ::cv::FileNode const & node ){
-    bp::sequence keypoints2;
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints3;
-    ::cv::read(node, keypoints3);
-    keypoints2 = convert_vector_to_seq(keypoints3);
-    return bp::object( keypoints2 );
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    bp::list keypoints3;
+    ::cv::read(node, keypoints2);
+    convert_from_T_to_object(keypoints2, keypoints3);
+    return bp::object( keypoints3 );
 }
 
 static boost::python::object read_70c5e2668ef6bb953f654143837a7095( ::cv::FileNode const & node, ::cv::SparseMat const & default_mat=cv::SparseMat() ){
@@ -1345,7 +1346,7 @@ static void split_d88fca83dae3e7420e6688bbbcd2ac41( ::cv::Mat const & m, bp::seq
     ::cv::split(m, b_mvbegin? &v_mvbegin[0]: 0);
 }
 
-static void stereoCalibrate_14726b7172922289400130b4861f4a12( bp::list objectPoints, bp::list imagePoints1, bp::list imagePoints2, ::cv::Mat & cameraMatrix1, ::cv::Mat & distCoeffs1, ::cv::Mat & cameraMatrix2, ::cv::Mat & distCoeffs2, ::cv::Size imageSize, ::cv::Mat & R, ::cv::Mat & T, ::cv::Mat & E, ::cv::Mat & F, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), int flags=int(::cv::CALIB_FIX_INTRINSIC) ){
+static void stereoCalibrate_14726b7172922289400130b4861f4a12( bp::list const & objectPoints, bp::list const & imagePoints1, bp::list const & imagePoints2, ::cv::Mat & cameraMatrix1, ::cv::Mat & distCoeffs1, ::cv::Mat & cameraMatrix2, ::cv::Mat & distCoeffs2, ::cv::Size imageSize, ::cv::Mat & R, ::cv::Mat & T, ::cv::Mat & E, ::cv::Mat & F, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), int flags=int(::cv::CALIB_FIX_INTRINSIC) ){
     std::vector<std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > >, std::allocator<std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > > > objectPoints2;
     std::vector<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::allocator<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > > > imagePoints12;
     std::vector<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::allocator<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > > > imagePoints22;
@@ -1356,11 +1357,11 @@ static void stereoCalibrate_14726b7172922289400130b4861f4a12( bp::list objectPoi
 }
 
 static boost::python::object undistortPoints_e5fdbe55500ffb118c2a9845da49f34b( ::cv::Mat const & src, ::cv::Mat const & cameraMatrix, ::cv::Mat const & distCoeffs, ::cv::Mat const & R=cv::Mat(), ::cv::Mat const & P=cv::Mat() ){
-    bp::sequence dst2;
-    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > dst3;
-    ::cv::undistortPoints(src, dst3, cameraMatrix, distCoeffs, R, P);
-    dst2 = convert_vector_to_seq(dst3);
-    return bp::object( dst2 );
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > dst2;
+    cv::Mat dst3;
+    ::cv::undistortPoints(src, dst2, cameraMatrix, distCoeffs, R, P);
+    convert_from_vector_of_T_to_Mat(dst2, dst3);
+    return bp::object( dst3 );
 }
 
 static void write_df76e3ba45561ddd23c917a610929778( ::cv::FileStorage & fs, ::std::string const & name, bp::sequence keypoints ){
@@ -2171,7 +2172,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calibrateCamera
     
-        typedef boost::python::tuple ( *calibrateCamera_function_type )( bp::list,bp::list,::cv::Size,::cv::Mat &,::cv::Mat &,int );
+        typedef boost::python::tuple ( *calibrateCamera_function_type )( bp::list const &,bp::list const &,::cv::Size,::cv::Mat &,::cv::Mat &,int );
         
         bp::def( 
             "calibrateCamera"
@@ -3183,7 +3184,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::drawContours
     
-        typedef void ( *drawContours_function_type )( ::cv::Mat &,bp::list,int,::cv::Scalar const &,int,int,bp::sequence,int,::cv::Point );
+        typedef void ( *drawContours_function_type )( ::cv::Mat &,bp::list const &,int,::cv::Scalar const &,int,int,bp::sequence,int,::cv::Point );
         
         bp::def( 
             "drawContours"
@@ -3359,12 +3360,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::imencode
     
-        typedef boost::python::object ( *imencode_function_type )( ::std::string const &,::cv::Mat const &,cv::Mat &,bp::sequence );
+        typedef boost::python::tuple ( *imencode_function_type )( ::std::string const &,::cv::Mat const &,bp::sequence );
         
         bp::def( 
             "imencode"
             , imencode_function_type( &imencode_7058867f40db2ceceebdc74b4943c841 )
-            , ( bp::arg("ext"), bp::arg("img"), bp::arg("buf"), bp::arg("params")=convert_vector_to_seq(std::vector<int>()) ) );
+            , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_vector_to_seq(std::vector<int>()) ) );
     
     }
 
@@ -3381,7 +3382,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::initCameraMatrix2D
     
-        typedef boost::python::object ( *initCameraMatrix2D_function_type )( bp::list,bp::list,::cv::Size,double );
+        typedef boost::python::object ( *initCameraMatrix2D_function_type )( bp::list const &,bp::list const &,::cv::Size,double );
         
         bp::def( 
             "initCameraMatrix2D"
@@ -3623,7 +3624,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::stereoCalibrate
     
-        typedef void ( *stereoCalibrate_function_type )( bp::list,bp::list,bp::list,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Size,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::TermCriteria,int );
+        typedef void ( *stereoCalibrate_function_type )( bp::list const &,bp::list const &,bp::list const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Size,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::TermCriteria,int );
         
         bp::def( 
             "stereoCalibrate"

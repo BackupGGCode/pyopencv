@@ -392,8 +392,15 @@ void convert_from_vector_of_T_to_object(std::vector<T> const &in_arr, bp::object
 template<typename T>
 inline void convert_from_T_to_object( T const &in_arr, bp::object &out_arr )
 {
-    bp::extract<T const &> out_arr2(out_arr);
-    if(!out_arr2.check() || &out_arr2() != &in_arr) out_arr = bp::object(in_arr);
+    bp::extract<T &> out_arr2(out_arr);
+    if(!out_arr2.check())
+    {
+        char s[300];
+        sprintf( s, "Unable to convert in function convert_from_T_to_object() because 'out_arr' is not of class type '%s'", typeid(T).name() );
+        PyErr_SetString(PyExc_TypeError, s);
+        throw bp::error_already_set(); 
+    }
+    out_arr2() = in_arr;
 }
 
 template<typename T>
@@ -410,39 +417,77 @@ inline bp::object convert_from_T_to_object( T const &in_arr )
     return obj;
 }
 
+template<typename T>
+inline bool is_item_fixed_size_type(T *)
+{
+    char s[300];
+    sprintf( s, "Instantiation of function is_item_fixed_size_type<%s>() is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
+    throw bp::error_already_set(); 
+}
+template<typename T>
+inline bool is_item_fixed_size_type(std::vector<T> *) { return is_fixed_size_type<T>(); }
+
 // convert_from_vector_of_T_to_object
 template<typename T>
 inline void convert_from_vector_of_T_to_object(std::vector<T> const &in_arr, bp::object &out_arr)
 {
+    char s[300];
     if(is_fixed_size_type<T>())
     {
         bp::extract<cv::Mat &> out_arr2(out_arr);
-        if(out_arr2.check()) convert_from_vector_of_T_to_Mat(in_arr, out_arr2());
-        else out_arr = bp::object(convert_from_vector_of_T_to_Mat(in_arr));
+        if(!out_arr2.check()) 
+        {
+            sprintf( s, "Unable to convert in function convert_from_vector_of_T_to_object<%s>() because 'out_arr' is not a Mat object", typeid(T).name() );
+            PyErr_SetString(PyExc_TypeError, s);
+            throw bp::error_already_set(); 
+        }        
+        convert_from_vector_of_T_to_Mat(in_arr, out_arr2());
         return;
     }
 
     int i, n = in_arr.size();
     bp::extract<bp::list> out_arr2(out_arr);
-    if(out_arr2.check() && bp::len(out_arr) == n)
+    if(!out_arr2.check())
+    {
+        sprintf( s, "Unable to convert in function convert_from_vector_of_T_to_object<%s>() because 'out_arr' is not a Python list", typeid(T).name() );
+        PyErr_SetString(PyExc_TypeError, s);
+        throw bp::error_already_set(); 
+    }        
+    
+    // rectify out_arr
+    int m = bp::len(out_arr);
+    while(m < n) { out_arr2().append(bp::object()); ++m; }
+    while(m > n) { out_arr2().pop(); --m; }
+    if(!n) return;
+    
+    bp::object obj;
+    if(!is_std_vector<T>())
     {
         for(i = 0; i < n; ++i)
         {
-            bp::object obj(out_arr[i]);
+            obj = bp::extract<T const &>(out_arr[i]).check()? out_arr[i]: bp::object(T());
+            convert_from_T_to_object(in_arr[i], obj);
+            out_arr[i] = obj;
+        }
+    }
+    else if(is_item_fixed_size_type((T *)0))
+    {
+        for(i = 0; i < n; ++i)
+        {
+            obj = bp::extract<cv::Mat const &>(out_arr[i]).check()? out_arr[i]: bp::object(cv::Mat());
             convert_from_T_to_object(in_arr[i], obj);
             out_arr[i] = obj;
         }
     }
     else
     {
-        bp::list t;
         for(i = 0; i < n; ++i)
         {
-            bp::object obj;
+            obj = bp::extract<bp::list>(out_arr[i]).check()? out_arr[i]: bp::object(bp::list());
             convert_from_T_to_object(in_arr[i], obj);
-            t.append(obj);
+            out_arr[i] = obj;
         }
-        out_arr = bp::object(t);
     }
 }
 

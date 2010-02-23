@@ -1185,8 +1185,7 @@ def get_vector_elem_type(vector_type):
     s = vector_type.decl_string
     s = s[14:s.find(', std::allocator')] # cut all the std::allocators
     if s.startswith('std::vector'): # assume vector2d
-        s = '::' + s + ', std::allocator<' + s + ' >  >'
-    print s
+        s = '::' + s + ', std::allocator<' + s[12:] + ' >  >'
     return _D.dummy_type_t(s)
     
 def is_elem_type_fixed_size(elem_type):
@@ -1228,50 +1227,52 @@ class arg_std_vector_t(transformer_t):
         return "arg_std_vector(%s)" % self.arg.name
 
     def __configure_sealed( self, controller ):
-        w_arg = controller.find_wrapper_arg(self.arg.name)
-        
         # intermediate variable
         v = controller.declare_variable( _D.remove_const(_D.remove_reference(self.arg.type)), self.arg.name )
         
         # conversion code
         if is_elem_type_fixed_size(self.elem_type): # cv::Mat-equivalent
             str_pyobj_type = "cv::Mat"
-            str_cvt_to_pyobj = "convert_from_vector_of_T_to_Mat(%s, %s);" % (v, w_arg.name)
-            str_cvt_from_pyobj = "convert_from_Mat_to_vector_of_T(%s, %s);" % (w_arg.name, v)
-            str_default_pyobj_func = "convert_from_vector_of_T_to_Mat< %s >" % self.elem_type.decl_string
+            str_cvt_to_pyobj = "convert_from_vector_of_T_to_Mat"
+            str_cvt_from_pyobj = "convert_from_Mat_to_vector_of_T"
         else: # 1d-vector, what about 2d vector?
             str_pyobj_type = "bp::list"
-            str_cvt_to_pyobj = "convert_from_T_to_object(%s, %s);" % (v, w_arg.name)
-            str_cvt_from_pyobj = "convert_from_object_to_T(%s, %s);" % (w_arg.name, v)
-            str_default_pyobj_func = "convert_from_T_to_object"        
+            str_cvt_to_pyobj = "convert_from_T_to_object"
+            str_cvt_from_pyobj = "convert_from_object_to_T"
         
         # check argument kind
         if self.arg_kind == 1: # input
+            w_arg = controller.find_wrapper_arg(self.arg.name)        
             # default value
             if self.arg.default_value is not None:
-                w_arg.default_value = '%s(%s)' % (str_default_pyobj_func, self.arg.default_value)
+                w_arg.default_value = '%s(%s)' % (str_cvt_to_pyobj, self.arg.default_value)
                 w_arg.type = _D.dummy_type_t(str_pyobj_type)
             else:
                 w_arg.type = _D.dummy_type_t(str_pyobj_type+" const &")
+            w = w_arg.name
         elif self.arg_kind == 2: # output
-            w_arg.type = _D.dummy_type_t(str_pyobj_type+" &")
+            controller.remove_wrapper_arg( self.arg.name )
+            w = controller.declare_variable( _D.dummy_type_t(str_pyobj_type), self.arg.name )
+            controller.return_variable(w)
         elif self.arg_kind == 3: # inout
+            w_arg = controller.find_wrapper_arg(self.arg.name)
             if self.arg.default_value is not None:
                 raise ValueError("Unsupported in/out argument with default value.")
             w_arg.type = _D.dummy_type_t(str_pyobj_type+" &")
+            w = w_arg.name
         else:
             raise ValueError("Unsupported arg_kind=%d." % self.arg_kind)
         
         # pre_call
         if self.arg_kind & 1 != 0:
-            controller.add_pre_call_code(str_cvt_from_pyobj)
+            controller.add_pre_call_code("%s(%s, %s);" % (str_cvt_from_pyobj, w, v))
         
         # call
         controller.modify_arg_expression( self.arg_index, v)
         
         # post-call
         if self.arg_kind & 2 != 0:
-            controller.add_post_call_code(str_cvt_to_pyobj)
+            controller.add_post_call_code("%s(%s, %s);" % (str_cvt_to_pyobj, v, w))
                     
 
     def __configure_v_mem_fun_default( self, controller ):
@@ -1352,145 +1353,3 @@ def input_std_vector( *args, **keywd ):
         return input_std_vector_t( function, *args, **keywd )
     return creator
     
-# output_std_vector_t
-class output_std_vector_t(transformer_t):
-    """Provides a Python sequence interface to an output argument of type std::vector."""
-
-    def __init__(self, function, arg_ref):
-        transformer.transformer_t.__init__( self, function )
-        self.arg = self.get_argument( arg_ref )
-        self.arg_index = self.function.arguments.index( self.arg )
-
-    def __str__(self):
-        return "output_std_vector(%s)" % self.arg.name
-
-    def __configure_sealed( self, controller ):
-        controller.remove_wrapper_arg( self.arg.name )
-        etype = _D.remove_const(_D.remove_reference(self.arg.type))
-        w = controller.declare_variable( _D.dummy_type_t( "bp::sequence" ), self.arg.name )
-        v = controller.declare_variable( etype, self.arg.name )
-        controller.add_post_call_code("%s = convert_vector_to_seq(%s);" % (w, v))
-        controller.modify_arg_expression( self.arg_index, v )
-        controller.return_variable(w)
-
-    def __configure_v_mem_fun_default( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_mem_fun( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_free_fun(self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_default( controller.default_controller )
-
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_converters.hpp"]
-
-def output_std_vector( *args, **keywd ):
-    def creator( function ):
-        return output_std_vector_t( function, *args, **keywd )
-    return creator
-
-    
-    
-# input_std_vector_vector_t
-class input_std_vector_vector_t(transformer_t):
-    """Provides a Python sequence interface to an input/inout argument of type std::vector_vector."""
-
-    def __init__(self, function, arg_ref):
-        transformer.transformer_t.__init__( self, function )
-        self.arg = self.get_argument( arg_ref )
-        self.arg_index = self.function.arguments.index( self.arg )
-
-    def __str__(self):
-        return "input_std_vector_vector(%s)" % self.arg.name
-
-    def __configure_sealed( self, controller ):
-        w_arg = controller.find_wrapper_arg(self.arg.name)
-        w_arg.type = _D.dummy_type_t("bp::list")
-
-        # default value
-        if self.arg.default_value is not None:
-            w_arg.default_value = 'convert_from_T_to_object(%s)' % self.arg.default_value
-
-        # intermediate variable
-        v = controller.declare_variable( _D.remove_const(_D.remove_reference(self.arg.type)), self.arg.name )
-        
-        # pre_call
-        controller.add_pre_call_code("convert_from_object_to_T(%s, %s);" % (w_arg.name, v))
-        
-        # call
-        controller.modify_arg_expression( self.arg_index, v)
-        
-        # is inout
-        if not 'const' in self.arg.type.partial_decl_string:
-            controller.add_post_call_code("convert_from_T_to_object(%s, %s);" % (v, w_arg.name))
-            controller.return_variable(w_arg.name)
-            
-
-    def __configure_v_mem_fun_default( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_mem_fun( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_free_fun(self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_default( controller.default_controller )
-
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_converters.hpp"]
-
-def input_std_vector_vector( *args, **keywd ):
-    def creator( function ):
-        return input_std_vector_vector_t( function, *args, **keywd )
-    return creator
-    
-# output_std_vector_vector_t
-class output_std_vector_vector_t(transformer_t):
-    """Provides a Python sequence interface to an output argument of type std::vector_vector."""
-
-    def __init__(self, function, arg_ref):
-        transformer.transformer_t.__init__( self, function )
-        self.arg = self.get_argument( arg_ref )
-        self.arg_index = self.function.arguments.index( self.arg )
-
-    def __str__(self):
-        return "output_std_vector_vector(%s)" % self.arg.name
-
-    def __configure_sealed( self, controller ):
-        controller.remove_wrapper_arg( self.arg.name )
-        etype = _D.remove_const(_D.remove_reference(self.arg.type))
-        w = controller.declare_variable( _D.dummy_type_t( "bp::list" ), self.arg.name )
-        v = controller.declare_variable( etype, self.arg.name )
-        controller.add_post_call_code("convert_from_T_to_object(%s, %s);" % (v, w))
-        controller.modify_arg_expression( self.arg_index, v )
-        controller.return_variable(w)
-
-    def __configure_v_mem_fun_default( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_mem_fun( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_free_fun(self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_default( controller.default_controller )
-
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_converters.hpp"]
-
-def output_std_vector_vector( *args, **keywd ):
-    def creator( function ):
-        return output_std_vector_vector_t( function, *args, **keywd )
-    return creator
-

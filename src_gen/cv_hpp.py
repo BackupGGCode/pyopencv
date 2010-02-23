@@ -62,7 +62,7 @@ def generate_code(mb, cc, D, FT, CP):
     # CascadeClassifier
     z = mb.class_('CascadeClassifier')
     mb.init_class(z)
-    z.mem_fun('detectMultiScale')._transformer_creators.append(FT.output_std_vector('objects'))
+    z.mem_fun('detectMultiScale')._transformer_creators.append(FT.arg_std_vector('objects', 2))
     mb.finalize_class(z)
     mb.expose_class_Ptr('CvHaarClassifierCascade')    
     # modify runAt() and setImage() -- I need them able to support old cascade
@@ -247,7 +247,7 @@ static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & im
     # FileNode's 'read' functions
     z = mb.free_fun(lambda x: x.name=='read' and 'cv::FileNode' in x.arguments[0].type.decl_string and x.arguments[1].name=='keypoints')
     z.include()
-    z._transformer_creators.append(FT.output_std_vector('keypoints'))
+    z._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
     z._transformer_kwds['alias'] = 'read_KeyPoints'
     read_rename_dict = {
         '::cv::SparseMat &': 'SparseMat',
@@ -275,20 +275,20 @@ static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & im
             transformer_creators=[FT.input_array1d('src'), FT.input_array1d('dst')])
             
     # goodFeaturesToTrack
-    FT.expose_func(mb.free_fun('goodFeaturesToTrack'), return_pointee=False, transformer_creators=[FT.output_std_vector('corners')])
+    FT.expose_func(mb.free_fun('goodFeaturesToTrack'), return_pointee=False, transformer_creators=[FT.arg_std_vector('corners', 2)])
 
     # 'HoughCircles', 'HoughLines', 'HoughLinesP'
-    FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, transformer_creators=[FT.output_std_vector('circles')])
-    FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, transformer_creators=[FT.output_std_vector('lines')])
-    FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, transformer_creators=[FT.output_std_vector('lines')])
+    FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, transformer_creators=[FT.arg_std_vector('circles', 2)])
+    FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
+    FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
             
     #buildPyramid
-    FT.expose_func(mb.free_fun('buildPyramid'), return_pointee=False, transformer_creators=[FT.output_std_vector('dst')])
+    FT.expose_func(mb.free_fun('buildPyramid'), return_pointee=False, transformer_creators=[FT.arg_std_vector('dst', 2)])
     
     # calcOpticalFlowPyrLK
     FT.expose_func(mb.free_fun('calcOpticalFlowPyrLK'), return_pointee=False, 
-        transformer_creators=[FT.output_std_vector('nextPts'), FT.output_std_vector('status'), 
-            FT.output_std_vector('err')])
+        transformer_creators=[FT.arg_std_vector('nextPts', 2), FT.arg_std_vector('status', 2), 
+            FT.arg_std_vector('err', 2)])
     
     # calcHist
     mb.free_funs('calcHist').exclude()
@@ -459,8 +459,8 @@ void cv::findContours( const Mat& image, vector<vector<Point> >& contours,
     z = mb.free_fun(lambda x: x.name=='findContours' and len(x.arguments)==6)
     z.include()
     z._transformer_kwds['alias'] = 'findContours'
-    z._transformer_creators.append(FT.output_std_vector_vector('contours'))
-    z._transformer_creators.append(FT.output_std_vector('hierarchy'))
+    z._transformer_creators.append(FT.arg_std_vector('contours', 2))
+    z._transformer_creators.append(FT.arg_std_vector('hierarchy', 2))
         
     # approxPolyDP
     mb.free_funs('approxPolyDP').exclude()
@@ -492,7 +492,7 @@ static bp::sequence sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool 
     z = mb.free_fun(lambda x: x.name=='convexHull' and 'vector<int' in x.arguments[1].type.decl_string)
     z.include()
     z._transformer_kwds['alias'] = 'convexHullIdx'
-    z._transformer_creators.append(FT.output_std_vector('hull'))
+    z._transformer_creators.append(FT.arg_std_vector('hull', 2))
     
     mb.add_declaration_code('''
 static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
@@ -521,29 +521,29 @@ static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
     mb.free_funs('undistortPoints').include()
     z = mb.free_fun(lambda x: x.name=='undistortPoints' and 'vector' in x.decl_string)
     z._transformer_kwds['alias'] = 'undistortPoints2'
-    z._transformer_creators.append(FT.output_std_vector('dst'))
+    z._transformer_creators.append(FT.arg_std_vector('dst', 2))
         
     # findHomography
     z = mb.free_fun(lambda x: x.name=='findHomography' and len(x.arguments)==4).include()
     z = mb.free_fun(lambda x: x.name=='findHomography' and 'vector' in x.decl_string)
     z.include()
     z._transformer_kwds['alias'] = 'findHomography2'
-    z._transformer_creators.append(FT.output_std_vector('mask'))
+    z._transformer_creators.append(FT.arg_std_vector('mask', 2))
         
     # projectPoints
     mb.free_funs('projectPoints').exclude()
     z = mb.free_fun(lambda x: x.name=='projectPoints' and len(x.arguments)==6)
     z._transformer_kwds['alias'] = 'projectPoints'
     FT.expose_func(z, return_pointee=False, transformer_creators=[
-        FT.output_std_vector('imagePoints')])
+        FT.arg_std_vector('imagePoints', 2)])
     z = mb.free_fun(lambda x: x.name=='projectPoints' and len(x.arguments)==12)
     z._transformer_kwds['alias'] = 'projectPoints2'
     FT.expose_func(z, return_pointee=False, transformer_creators=[
-        FT.output_std_vector('imagePoints')])
+        FT.arg_std_vector('imagePoints', 2)])
     
     # findChessboardCorners
     FT.expose_func(mb.free_fun('findChessboardCorners'), return_pointee=False,
-        transformer_creators=[FT.output_std_vector('corners')])
+        transformer_creators=[FT.arg_std_vector('corners', 2)])
         
     # drawChessboardCorners
     mb.free_fun('drawChessboardCorners').exclude()
@@ -559,23 +559,23 @@ void drawChessboardCorners( cv::Mat& image, cv::Size patternSize, bp::sequence c
         
     # calibrateCamera
     FT.expose_func(mb.free_fun('calibrateCamera'), return_pointee=False,
-        transformer_creators=[FT.output_std_vector('rvecs'), FT.output_std_vector('tvecs')])
+        transformer_creators=[FT.arg_std_vector('rvecs', 2), FT.arg_std_vector('tvecs', 2)])
     
     # convertPointsHomogeneous
     for z in mb.free_funs('convertPointsHomogeneous'):
         z.include()        
         z._transformer_kwds['alias'] = 'convertPointsHomogeneous3D' if 'Point3' in z.decl_string else 'convertPointsHomogeneous2D'
-        z._transformer_creators.append(FT.output_std_vector('dst'))
+        z._transformer_creators.append(FT.arg_std_vector('dst', 2))
         
     # findFundamentalMat
     for z in mb.free_funs('findFundamentalMat'):
         z.include()
         if 'vector' in z.decl_string:
-            z._transformer_creators.append(FT.output_std_vector('mask'))
+            z._transformer_creators.append(FT.arg_std_vector('mask', 2))
             z._transformer_kwds['alias'] = 'findFundamentalMat2'
     
     # computeCorrespondEpilines
     FT.expose_func(mb.free_fun('computeCorrespondEpilines'), return_pointee=False,
-        transformer_creators=[FT.output_std_vector('lines')])
+        transformer_creators=[FT.arg_std_vector('lines', 2)])
     
     
