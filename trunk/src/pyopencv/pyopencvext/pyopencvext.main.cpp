@@ -480,7 +480,7 @@ static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( bp::sequence & sam
     ::cv::calcCovarMatrix(b_samples? &v_samples[0]: 0, l_samples, covar, mean, flags, ctype);
 }
 
-static boost::python::tuple calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1( ::cv::Mat const & prevImg, ::cv::Mat const & nextImg, bp::sequence prevPts, ::cv::Size winSize=cv::Size_<int>(15, 15), int maxLevel=3, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), double derivLambda=5.0e-1, int flags=0 ){
+static boost::python::tuple calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1( ::cv::Mat const & prevImg, ::cv::Mat const & nextImg, cv::Mat const & prevPts, ::cv::Size winSize=cv::Size_<int>(15, 15), int maxLevel=3, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), double derivLambda=5.0e-1, int flags=0 ){
     std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > nextPts2;
     cv::Mat nextPts3;
     std::vector<unsigned char, std::allocator<unsigned char> > status2;
@@ -488,7 +488,7 @@ static boost::python::tuple calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f
     std::vector<float, std::allocator<float> > err2;
     cv::Mat err3;
     std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > prevPts2;
-    convert_seq_to_vector(prevPts, prevPts2);
+    convert_from_Mat_to_vector_of_T(prevPts, prevPts2);
     ::cv::calcOpticalFlowPyrLK(prevImg, nextImg, prevPts2, nextPts2, status2, err2, winSize, maxLevel, criteria, derivLambda, flags);
     convert_from_vector_of_T_to_Mat(nextPts2, nextPts3);
     convert_from_vector_of_T_to_Mat(status2, status3);
@@ -555,12 +555,11 @@ static boost::python::object convexHull_a7bf196b869588f11c69529c43975a42( ::cv::
     return bp::object( hull3 );
 }
 
-static boost::python::object cornerSubPix_897410ee39f221d5b382cc794de38b84( ::cv::Mat const & image, bp::sequence corners, ::cv::Size winSize, ::cv::Size zeroZone, ::cv::TermCriteria criteria ){
+static void cornerSubPix_897410ee39f221d5b382cc794de38b84( ::cv::Mat const & image, cv::Mat & corners, ::cv::Size winSize, ::cv::Size zeroZone, ::cv::TermCriteria criteria ){
     std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > corners2;
-    convert_seq_to_vector(corners, corners2);
+    convert_from_Mat_to_vector_of_T(corners, corners2);
     ::cv::cornerSubPix(image, corners2, winSize, zeroZone, criteria);
-    corners = convert_vector_to_seq(corners2);
-    return bp::object( corners );
+    convert_from_vector_of_T_to_Mat(corners2, corners);
 }
 
 static void cvAcc_ef7ed9735ac6fce4129e5e89f645482d( ::cv::Mat & image, ::cv::Mat & sum, ::cv::Mat mask=cv::Mat() ){
@@ -1015,28 +1014,27 @@ static void cvWriteString_72043510addf587750a274c07091202d( ::cv::FileStorage & 
     ::cvWriteString(fs.fs, name, str, quote);
 }
 
-static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::list const & contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, bp::sequence hierarchy=convert_vector_to_seq(std::vector<cv::Vec4i>()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
+static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::list const & contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, cv::Mat const & hierarchy=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
     std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > contours2;
     std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > > hierarchy2;
     convert_from_object_to_T(contours, contours2);
-    convert_seq_to_vector(hierarchy, hierarchy2);
+    convert_from_Mat_to_vector_of_T(hierarchy, hierarchy2);
     ::cv::drawContours(image, contours2, contourIdx, color, thickness, lineType, hierarchy2, maxLevel, offset);
 }
 
-static boost::python::object ellipse2Poly_a1937ebf152fa736fc27822db2e0081a( ::cv::Point center, ::cv::Size axes, int angle, int arcStart, int arcEnd, int delta, bp::sequence pts ){
+static void ellipse2Poly_a1937ebf152fa736fc27822db2e0081a( ::cv::Point center, ::cv::Size axes, int angle, int arcStart, int arcEnd, int delta, cv::Mat & pts ){
     std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > pts2;
-    convert_seq_to_vector(pts, pts2);
+    convert_from_Mat_to_vector_of_T(pts, pts2);
     ::cv::ellipse2Poly(center, axes, angle, arcStart, arcEnd, delta, pts2);
-    pts = convert_vector_to_seq(pts2);
-    return bp::object( pts );
+    convert_from_vector_of_T_to_Mat(pts2, pts);
 }
 
-static boost::python::tuple estimateAffine3D_fd3dca5e5fd5d2ce4664db813a2c08bf( ::cv::Mat const & from, ::cv::Mat const & to, ::cv::Mat & out, bp::sequence outliers, double param1=3.0e+0, double param2=9.89999999999999991118215802998747676610946655273e-1 ){
+static boost::python::object estimateAffine3D_fd3dca5e5fd5d2ce4664db813a2c08bf( ::cv::Mat const & from, ::cv::Mat const & to, ::cv::Mat & out, cv::Mat & outliers, double param1=3.0e+0, double param2=9.89999999999999991118215802998747676610946655273e-1 ){
     std::vector<unsigned char, std::allocator<unsigned char> > outliers2;
-    convert_seq_to_vector(outliers, outliers2);
+    convert_from_Mat_to_vector_of_T(outliers, outliers2);
     int result = ::cv::estimateAffine3D(from, to, out, outliers2, param1, param2);
-    outliers = convert_vector_to_seq(outliers2);
-    return bp::make_tuple( result, outliers );
+    convert_from_vector_of_T_to_Mat(outliers2, outliers);
+    return bp::object( result );
 }
 
 static void fillConvexPoly_1312287b0cded13c02c57cc3d8ebf4b4( ::cv::Mat & img, bp::sequence & pts, ::cv::Scalar const & color, int lineType=8, int shift=0 ){
@@ -1156,27 +1154,26 @@ static boost::python::object goodFeaturesToTrack_a887e3eb7b667339b1ac0c1a02f5735
     return bp::object( corners3 );
 }
 
-static boost::python::object groupRectangles_daddb1eb144574c44042d3cef39f8656( bp::sequence rectList, int groupThreshold, double eps=2.00000000000000011102230246251565404236316680908e-1 ){
+static void groupRectangles_daddb1eb144574c44042d3cef39f8656( cv::Mat & rectList, int groupThreshold, double eps=2.00000000000000011102230246251565404236316680908e-1 ){
     std::vector<cv::Rect_<int>, std::allocator<cv::Rect_<int> > > rectList2;
-    convert_seq_to_vector(rectList, rectList2);
+    convert_from_Mat_to_vector_of_T(rectList, rectList2);
     ::cv::groupRectangles(rectList2, groupThreshold, eps);
-    rectList = convert_vector_to_seq(rectList2);
-    return bp::object( rectList );
+    convert_from_vector_of_T_to_Mat(rectList2, rectList);
 }
 
-static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::string const & ext, ::cv::Mat const & img, bp::sequence params=convert_vector_to_seq(std::vector<int>()) ){
+static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::string const & ext, ::cv::Mat const & img, cv::Mat const & params=convert_from_vector_of_T_to_Mat(std::vector<int>()) ){
     std::vector<unsigned char, std::allocator<unsigned char> > buf2;
     cv::Mat buf3;
     std::vector<int, std::allocator<int> > params2;
-    convert_seq_to_vector(params, params2);
+    convert_from_Mat_to_vector_of_T(params, params2);
     bool result = ::cv::imencode(ext, img, buf2, params2);
     convert_from_vector_of_T_to_Mat(buf2, buf3);
     return bp::make_tuple( result, buf3 );
 }
 
-static boost::python::object imwrite_08123c4d4c07e7af51577328378c9683( ::std::string const & filename, ::cv::Mat const & img, bp::sequence params=convert_vector_to_seq(std::vector<int>()) ){
+static boost::python::object imwrite_08123c4d4c07e7af51577328378c9683( ::std::string const & filename, ::cv::Mat const & img, cv::Mat const & params=convert_from_vector_of_T_to_Mat(std::vector<int>()) ){
     std::vector<int, std::allocator<int> > params2;
-    convert_seq_to_vector(params, params2);
+    convert_from_Mat_to_vector_of_T(params, params2);
     bool result = ::cv::imwrite(filename, img, params2);
     return bp::object( result );
 }
@@ -1364,9 +1361,9 @@ static boost::python::object undistortPoints_e5fdbe55500ffb118c2a9845da49f34b( :
     return bp::object( dst3 );
 }
 
-static void write_df76e3ba45561ddd23c917a610929778( ::cv::FileStorage & fs, ::std::string const & name, bp::sequence keypoints ){
+static void write_df76e3ba45561ddd23c917a610929778( ::cv::FileStorage & fs, ::std::string const & name, bp::list const & keypoints ){
     std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
-    convert_seq_to_vector(keypoints, keypoints2);
+    convert_from_object_to_T(keypoints, keypoints2);
     ::cv::write(fs, name, keypoints2);
 }
 
@@ -1451,13 +1448,12 @@ struct CvSlice_to_python
     }
 };
 
-// TODO: convert 'points' to cv::Mat of CV_32SC2?
-static bp::sequence sdSnakeImage( cv::Mat const & image, bp::sequence const & points, bp::object const & alpha, bp::object const & beta, bp::object const & gamma, int coeff_usage, cv::Size const & win, cv::TermCriteria const & criteria, int calc_gradient=1 ){
+static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::object const & alpha, bp::object const & beta, bp::object const & gamma, int coeff_usage, cv::Size const & win, cv::TermCriteria const & criteria, int calc_gradient=1 ){
     char s[500];
     float alpha2, beta2, gamma2;
     std::vector<float> alpha3, beta3, gamma3;
     
-    std::vector<cv::Point> points2; convert_seq_to_vector(points, points2);
+    cv::Point *points2; int points2_len; convert_from_Mat_to_array_of_T(points, points2, points2_len);
     
     IplImage img = image;
     
@@ -1467,20 +1463,19 @@ static bp::sequence sdSnakeImage( cv::Mat const & image, bp::sequence const & po
         alpha2 = (float) bp::extract<float>(alpha);
         beta2 = (float) bp::extract<float>(beta);
         gamma2 = (float) bp::extract<float>(gamma);
-        ::cvSnakeImage(&img, (CvPoint *)&points2[0], points2.size(), &alpha2, &beta2, &gamma2, coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
+        ::cvSnakeImage(&img, (CvPoint *)points2, points2_len, &alpha2, &beta2, &gamma2, coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
         break;
     case CV_ARRAY:
         convert_seq_to_vector(alpha, alpha3);
         convert_seq_to_vector(beta, beta3);
         convert_seq_to_vector(gamma, gamma3);
-        ::cvSnakeImage(&img, (CvPoint *)&points2[0], points2.size(), &alpha3[0], &beta3[0], &gamma3[0], coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
+        ::cvSnakeImage(&img, (CvPoint *)points2, points2_len, &alpha3[0], &beta3[0], &gamma3[0], coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
         break;
     default:
         sprintf(s, "coeff_usage only takes either CV_VALUE or CV_ARRAY as value, %d was given.", coeff_usage);
         PyErr_SetString(PyExc_ValueError, s);
         throw bp::error_already_set(); 
     }
-    return convert_vector_to_seq(points2);
 }
 
 static void sd_calcHist( bp::sequence const & images, bp::sequence const & channels, 
@@ -2161,7 +2156,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcOpticalFlowPyrLK
     
-        typedef boost::python::tuple ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat const &,::cv::Mat const &,bp::sequence,::cv::Size,int,::cv::TermCriteria,double,int );
+        typedef boost::python::tuple ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat const &,::cv::Mat const &,cv::Mat const &,::cv::Size,int,::cv::TermCriteria,double,int );
         
         bp::def( 
             "calcOpticalFlowPyrLK"
@@ -2249,7 +2244,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::cornerSubPix
     
-        typedef boost::python::object ( *cornerSubPix_function_type )( ::cv::Mat const &,bp::sequence,::cv::Size,::cv::Size,::cv::TermCriteria );
+        typedef void ( *cornerSubPix_function_type )( ::cv::Mat const &,cv::Mat &,::cv::Size,::cv::Size,::cv::TermCriteria );
         
         bp::def( 
             "cornerSubPix"
@@ -3184,18 +3179,18 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::drawContours
     
-        typedef void ( *drawContours_function_type )( ::cv::Mat &,bp::list const &,int,::cv::Scalar const &,int,int,bp::sequence,int,::cv::Point );
+        typedef void ( *drawContours_function_type )( ::cv::Mat &,bp::list const &,int,::cv::Scalar const &,int,int,cv::Mat const &,int,::cv::Point );
         
         bp::def( 
             "drawContours"
             , drawContours_function_type( &drawContours_03a5aed7ca57b253d8b3346ee2f05f74 )
-            , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_vector_to_seq(std::vector<cv::Vec4i>()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() ) );
+            , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() ) );
     
     }
 
     { //::cv::ellipse2Poly
     
-        typedef boost::python::object ( *ellipse2Poly_function_type )( ::cv::Point,::cv::Size,int,int,int,int,bp::sequence );
+        typedef void ( *ellipse2Poly_function_type )( ::cv::Point,::cv::Size,int,int,int,int,cv::Mat & );
         
         bp::def( 
             "ellipse2Poly"
@@ -3206,7 +3201,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::estimateAffine3D
     
-        typedef boost::python::tuple ( *estimateAffine3D_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat &,bp::sequence,double,double );
+        typedef boost::python::object ( *estimateAffine3D_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat &,cv::Mat &,double,double );
         
         bp::def( 
             "estimateAffine3D"
@@ -3349,7 +3344,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::groupRectangles
     
-        typedef boost::python::object ( *groupRectangles_function_type )( bp::sequence,int,double );
+        typedef void ( *groupRectangles_function_type )( cv::Mat &,int,double );
         
         bp::def( 
             "groupRectangles"
@@ -3360,23 +3355,23 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::imencode
     
-        typedef boost::python::tuple ( *imencode_function_type )( ::std::string const &,::cv::Mat const &,bp::sequence );
+        typedef boost::python::tuple ( *imencode_function_type )( ::std::string const &,::cv::Mat const &,cv::Mat const & );
         
         bp::def( 
             "imencode"
             , imencode_function_type( &imencode_7058867f40db2ceceebdc74b4943c841 )
-            , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_vector_to_seq(std::vector<int>()) ) );
+            , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) ) );
     
     }
 
     { //::cv::imwrite
     
-        typedef boost::python::object ( *imwrite_function_type )( ::std::string const &,::cv::Mat const &,bp::sequence );
+        typedef boost::python::object ( *imwrite_function_type )( ::std::string const &,::cv::Mat const &,cv::Mat const & );
         
         bp::def( 
             "imwrite"
             , imwrite_function_type( &imwrite_08123c4d4c07e7af51577328378c9683 )
-            , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_vector_to_seq(std::vector<int>()) ) );
+            , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) ) );
     
     }
 
@@ -3646,7 +3641,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,bp::sequence );
+        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,bp::list const & );
         
         bp::def( 
             "write"

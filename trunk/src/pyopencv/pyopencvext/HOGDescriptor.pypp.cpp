@@ -51,11 +51,11 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::sequence locations=convert_vector_to_seq(std::vector<cv::Point>()) ){
+    static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), cv::Mat const & locations=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ){
         std::vector<float, std::allocator<float> > descriptors2;
         cv::Mat descriptors3;
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > locations2;
-        convert_seq_to_vector(locations, locations2);
+        convert_from_Mat_to_vector_of_T(locations, locations2);
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::HOGDescriptor::compute(img, descriptors2, winStride, padding, locations2);
         }
@@ -88,11 +88,11 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::sequence searchLocations=convert_vector_to_seq(std::vector<cv::Point>()) ){
+    static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), cv::Mat const & searchLocations=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ){
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > foundLocations2;
         cv::Mat foundLocations3;
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > searchLocations2;
-        convert_seq_to_vector(searchLocations, searchLocations2);
+        convert_from_Mat_to_vector_of_T(searchLocations, searchLocations2);
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::HOGDescriptor::detect(img, foundLocations2, hitThreshold, winStride, padding, searchLocations2);
         }
@@ -160,9 +160,9 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    static void default_setSVMDetector( ::cv::HOGDescriptor & inst, bp::sequence _svmdetector ){
+    static void default_setSVMDetector( ::cv::HOGDescriptor & inst, cv::Mat const & _svmdetector ){
         std::vector<float, std::allocator<float> > _svmdetector2;
-        convert_seq_to_vector(_svmdetector, _svmdetector2);
+        convert_from_Mat_to_vector_of_T(_svmdetector, _svmdetector2);
         if( dynamic_cast< HOGDescriptor_wrapper * >( boost::addressof( inst ) ) ){
             inst.::cv::HOGDescriptor::setSVMDetector(_svmdetector2);
         }
@@ -201,12 +201,12 @@ void register_HOGDescriptor_class(){
         }
         { //::cv::HOGDescriptor::compute
         
-            typedef boost::python::object ( *default_compute_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,::cv::Size,::cv::Size,bp::sequence );
+            typedef boost::python::object ( *default_compute_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,::cv::Size,::cv::Size,cv::Mat const & );
             
             HOGDescriptor_exposer.def( 
                 "compute"
                 , default_compute_function_type( &HOGDescriptor_wrapper::default_compute )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=convert_vector_to_seq(std::vector<cv::Point>()) ) );
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ) );
         
         }
         { //::cv::HOGDescriptor::computeGradient
@@ -223,12 +223,12 @@ void register_HOGDescriptor_class(){
         }
         { //::cv::HOGDescriptor::detect
         
-            typedef boost::python::object ( *default_detect_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,double,::cv::Size,::cv::Size,bp::sequence );
+            typedef boost::python::object ( *default_detect_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,double,::cv::Size,::cv::Size,cv::Mat const & );
             
             HOGDescriptor_exposer.def( 
                 "detect"
                 , default_detect_function_type( &HOGDescriptor_wrapper::default_detect )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=convert_vector_to_seq(std::vector<cv::Point>()) ) );
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ) );
         
         }
         { //::cv::HOGDescriptor::detectMultiScale
@@ -285,7 +285,7 @@ void register_HOGDescriptor_class(){
         }
         { //::cv::HOGDescriptor::setSVMDetector
         
-            typedef void ( *default_setSVMDetector_function_type )( ::cv::HOGDescriptor &,bp::sequence );
+            typedef void ( *default_setSVMDetector_function_type )( ::cv::HOGDescriptor &,cv::Mat const & );
             
             HOGDescriptor_exposer.def( 
                 "setSVMDetector"

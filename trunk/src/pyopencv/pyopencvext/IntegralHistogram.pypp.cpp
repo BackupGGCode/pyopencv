@@ -10,12 +10,11 @@
 
 namespace bp = boost::python;
 
-static boost::python::object calcHist_7e977de6e27427b53a27b192cb2b370c( ::sdopencv::IntegralHistogram & inst, ::cv::Rect rect, bp::sequence out_hist ){
+static void calcHist_7e977de6e27427b53a27b192cb2b370c( ::sdopencv::IntegralHistogram & inst, ::cv::Rect rect, cv::Mat & out_hist ){
     std::vector<int, std::allocator<int> > out_hist2;
-    convert_seq_to_vector(out_hist, out_hist2);
+    convert_from_Mat_to_vector_of_T(out_hist, out_hist2);
     inst.calcHist(rect, out_hist2);
-    out_hist = convert_vector_to_seq(out_hist2);
-    return bp::object( out_hist );
+    convert_from_vector_of_T_to_Mat(out_hist2, out_hist);
 }
 
 static boost::shared_ptr<sdopencv::IntegralHistogram> IntegralHistogram__init1__(int histSize, bp::sequence const &ranges, bool uniform)
@@ -30,7 +29,7 @@ void register_IntegralHistogram_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< sdopencv::IntegralHistogram >() )    
         .def( 
             "calcHist"
-            , (boost::python::object (*)( ::sdopencv::IntegralHistogram &,::cv::Rect,bp::sequence ))( &calcHist_7e977de6e27427b53a27b192cb2b370c )
+            , (void (*)( ::sdopencv::IntegralHistogram &,::cv::Rect,cv::Mat & ))( &calcHist_7e977de6e27427b53a27b192cb2b370c )
             , ( bp::arg("inst"), bp::arg("rect"), bp::arg("out_hist") ) )    
         .def( 
             "get_index"
