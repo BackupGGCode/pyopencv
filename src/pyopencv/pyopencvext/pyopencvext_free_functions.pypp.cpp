@@ -2184,6 +2184,17 @@ void register_free_functions(){
     
     }
 
+    { //::cv::drawChessboardCorners
+    
+        typedef void ( *drawChessboardCorners_function_type )( ::cv::Mat &,::cv::Size,::cv::Mat const &,bool );
+        
+        bp::def( 
+            "drawChessboardCorners"
+            , drawChessboardCorners_function_type( &::cv::drawChessboardCorners )
+            , ( bp::arg("image"), bp::arg("patternSize"), bp::arg("corners"), bp::arg("patternWasFound") ) );
+    
+    }
+
     { //::cv::eigen
     
         typedef bool ( *eigen_function_type )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,int,int );

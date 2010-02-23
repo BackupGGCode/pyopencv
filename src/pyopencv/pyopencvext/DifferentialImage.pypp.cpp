@@ -9,48 +9,107 @@ namespace bp = boost::python;
 
 void register_DifferentialImage_class(){
 
-    bp::class_< sdopencv::DifferentialImage >( "DifferentialImage", bp::init< bp::optional< int, int, double, double, int > >(( bp::arg("max_order")=(int)(2), bp::arg("ksize")=(int)(3), bp::arg("scale")=1, bp::arg("delta")=0, bp::arg("borderType")=(int)(4) )) )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< sdopencv::DifferentialImage >() )    
-        .def( 
-            "curvature"
-            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::curvature )
-            , ( bp::arg("output") ) )    
-        .def( 
-            "gradient"
-            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::gradient )
-            , ( bp::arg("output") ) )    
-        .def( 
-            "gradient_magnitude"
-            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::gradient_magnitude )
-            , ( bp::arg("output") ) )    
-        .def( 
-            "gradient_magnitude_squared"
-            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::gradient_magnitude_squared )
-            , ( bp::arg("output") ) )    
-        .def( 
-            "gradient_orientation"
-            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::gradient_orientation )
-            , ( bp::arg("output") ) )    
-        .def( 
-            "gradient_polar"
-            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::gradient_polar )
-            , ( bp::arg("output") ) )    
-        .def( 
-            "hessian"
-            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::hessian )
-            , ( bp::arg("output") ) )    
-        .def( 
-            "laplacian"
-            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat & ) )( &::sdopencv::DifferentialImage::laplacian )
-            , ( bp::arg("output") ) )    
-        .def( 
-            "__call__"
-            , (void ( ::sdopencv::DifferentialImage::* )( ::cv::Mat const & ) )( &::sdopencv::DifferentialImage::operator() )
-            , ( bp::arg("image") ) )    
-        .def_readwrite( "Ix", &sdopencv::DifferentialImage::Ix )    
-        .def_readwrite( "Ixx", &sdopencv::DifferentialImage::Ixx )    
-        .def_readwrite( "Ixy", &sdopencv::DifferentialImage::Ixy )    
-        .def_readwrite( "Iy", &sdopencv::DifferentialImage::Iy )    
-        .def_readwrite( "Iyy", &sdopencv::DifferentialImage::Iyy );
+    { //::sdopencv::DifferentialImage
+        typedef bp::class_< sdopencv::DifferentialImage > DifferentialImage_exposer_t;
+        DifferentialImage_exposer_t DifferentialImage_exposer = DifferentialImage_exposer_t( "DifferentialImage", bp::init< bp::optional< int, int, double, double, int > >(( bp::arg("max_order")=(int)(2), bp::arg("ksize")=(int)(3), bp::arg("scale")=1, bp::arg("delta")=0, bp::arg("borderType")=(int)(4) )) );
+        bp::scope DifferentialImage_scope( DifferentialImage_exposer );
+        DifferentialImage_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< sdopencv::DifferentialImage >() );
+        bp::implicitly_convertible< int, sdopencv::DifferentialImage >();
+        { //::sdopencv::DifferentialImage::curvature
+        
+            typedef void ( ::sdopencv::DifferentialImage::*curvature_function_type )( ::cv::Mat & ) ;
+            
+            DifferentialImage_exposer.def( 
+                "curvature"
+                , curvature_function_type( &::sdopencv::DifferentialImage::curvature )
+                , ( bp::arg("output") ) );
+        
+        }
+        { //::sdopencv::DifferentialImage::gradient
+        
+            typedef void ( ::sdopencv::DifferentialImage::*gradient_function_type )( ::cv::Mat & ) ;
+            
+            DifferentialImage_exposer.def( 
+                "gradient"
+                , gradient_function_type( &::sdopencv::DifferentialImage::gradient )
+                , ( bp::arg("output") ) );
+        
+        }
+        { //::sdopencv::DifferentialImage::gradient_magnitude
+        
+            typedef void ( ::sdopencv::DifferentialImage::*gradient_magnitude_function_type )( ::cv::Mat & ) ;
+            
+            DifferentialImage_exposer.def( 
+                "gradient_magnitude"
+                , gradient_magnitude_function_type( &::sdopencv::DifferentialImage::gradient_magnitude )
+                , ( bp::arg("output") ) );
+        
+        }
+        { //::sdopencv::DifferentialImage::gradient_magnitude_squared
+        
+            typedef void ( ::sdopencv::DifferentialImage::*gradient_magnitude_squared_function_type )( ::cv::Mat & ) ;
+            
+            DifferentialImage_exposer.def( 
+                "gradient_magnitude_squared"
+                , gradient_magnitude_squared_function_type( &::sdopencv::DifferentialImage::gradient_magnitude_squared )
+                , ( bp::arg("output") ) );
+        
+        }
+        { //::sdopencv::DifferentialImage::gradient_orientation
+        
+            typedef void ( ::sdopencv::DifferentialImage::*gradient_orientation_function_type )( ::cv::Mat & ) ;
+            
+            DifferentialImage_exposer.def( 
+                "gradient_orientation"
+                , gradient_orientation_function_type( &::sdopencv::DifferentialImage::gradient_orientation )
+                , ( bp::arg("output") ) );
+        
+        }
+        { //::sdopencv::DifferentialImage::gradient_polar
+        
+            typedef void ( ::sdopencv::DifferentialImage::*gradient_polar_function_type )( ::cv::Mat & ) ;
+            
+            DifferentialImage_exposer.def( 
+                "gradient_polar"
+                , gradient_polar_function_type( &::sdopencv::DifferentialImage::gradient_polar )
+                , ( bp::arg("output") ) );
+        
+        }
+        { //::sdopencv::DifferentialImage::hessian
+        
+            typedef void ( ::sdopencv::DifferentialImage::*hessian_function_type )( ::cv::Mat & ) ;
+            
+            DifferentialImage_exposer.def( 
+                "hessian"
+                , hessian_function_type( &::sdopencv::DifferentialImage::hessian )
+                , ( bp::arg("output") ) );
+        
+        }
+        { //::sdopencv::DifferentialImage::laplacian
+        
+            typedef void ( ::sdopencv::DifferentialImage::*laplacian_function_type )( ::cv::Mat & ) ;
+            
+            DifferentialImage_exposer.def( 
+                "laplacian"
+                , laplacian_function_type( &::sdopencv::DifferentialImage::laplacian )
+                , ( bp::arg("output") ) );
+        
+        }
+        { //::sdopencv::DifferentialImage::operator()
+        
+            typedef void ( ::sdopencv::DifferentialImage::*__call___function_type )( ::cv::Mat const & ) ;
+            
+            DifferentialImage_exposer.def( 
+                "__call__"
+                , __call___function_type( &::sdopencv::DifferentialImage::operator() )
+                , ( bp::arg("image") ) );
+        
+        }
+        DifferentialImage_exposer.def_readwrite( "Ix", &sdopencv::DifferentialImage::Ix );
+        DifferentialImage_exposer.def_readwrite( "Ixx", &sdopencv::DifferentialImage::Ixx );
+        DifferentialImage_exposer.def_readwrite( "Ixy", &sdopencv::DifferentialImage::Ixy );
+        DifferentialImage_exposer.def_readwrite( "Iy", &sdopencv::DifferentialImage::Iy );
+        DifferentialImage_exposer.def_readwrite( "Iyy", &sdopencv::DifferentialImage::Iyy );
+    }
 
 }

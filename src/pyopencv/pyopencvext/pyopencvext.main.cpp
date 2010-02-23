@@ -464,12 +464,11 @@ static boost::python::object HuMoments_646f4ee3824db566d9124eee2bb204ab( ::cv::M
     return bp::object( py_hu );
 }
 
-static boost::python::object buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac( ::cv::Mat const & src, int maxlevel ){
+static void buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac( ::cv::Mat const & src, bp::list & dst, int maxlevel ){
     std::vector<cv::Mat, std::allocator<cv::Mat> > dst2;
-    bp::list dst3;
+    convert_from_object_to_T(dst, dst2);
     ::cv::buildPyramid(src, dst2, maxlevel);
-    convert_from_T_to_object(dst2, dst3);
-    return bp::object( dst3 );
+    convert_from_T_to_object(dst2, dst);
 }
 
 static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( bp::sequence & samples, ::cv::Mat & covar, ::cv::Mat & mean, int flags, int ctype=6 ){
@@ -480,20 +479,19 @@ static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( bp::sequence & sam
     ::cv::calcCovarMatrix(b_samples? &v_samples[0]: 0, l_samples, covar, mean, flags, ctype);
 }
 
-static boost::python::tuple calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1( ::cv::Mat const & prevImg, ::cv::Mat const & nextImg, cv::Mat const & prevPts, ::cv::Size winSize=cv::Size_<int>(15, 15), int maxLevel=3, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), double derivLambda=5.0e-1, int flags=0 ){
-    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > nextPts2;
-    cv::Mat nextPts3;
-    std::vector<unsigned char, std::allocator<unsigned char> > status2;
-    cv::Mat status3;
-    std::vector<float, std::allocator<float> > err2;
-    cv::Mat err3;
+static void calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1( ::cv::Mat const & prevImg, ::cv::Mat const & nextImg, cv::Mat const & prevPts, cv::Mat & nextPts, cv::Mat & status, cv::Mat & err, ::cv::Size winSize=cv::Size_<int>(15, 15), int maxLevel=3, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), double derivLambda=5.0e-1, int flags=0 ){
     std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > prevPts2;
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > nextPts2;
+    std::vector<unsigned char, std::allocator<unsigned char> > status2;
+    std::vector<float, std::allocator<float> > err2;
     convert_from_Mat_to_vector_of_T(prevPts, prevPts2);
+    convert_from_Mat_to_vector_of_T(nextPts, nextPts2);
+    convert_from_Mat_to_vector_of_T(status, status2);
+    convert_from_Mat_to_vector_of_T(err, err2);
     ::cv::calcOpticalFlowPyrLK(prevImg, nextImg, prevPts2, nextPts2, status2, err2, winSize, maxLevel, criteria, derivLambda, flags);
-    convert_from_vector_of_T_to_Mat(nextPts2, nextPts3);
-    convert_from_vector_of_T_to_Mat(status2, status3);
-    convert_from_vector_of_T_to_Mat(err2, err3);
-    return bp::make_tuple( nextPts3, status3, err3 );
+    convert_from_vector_of_T_to_Mat(nextPts2, nextPts);
+    convert_from_vector_of_T_to_Mat(status2, status);
+    convert_from_vector_of_T_to_Mat(err2, err);
 }
 
 static boost::python::tuple calibrateCamera_e3c243276629b1246626096d8ff70485( bp::list const & objectPoints, bp::list const & imagePoints, ::cv::Size imageSize, ::cv::Mat & cameraMatrix, ::cv::Mat & distCoeffs, int flags=0 ){
@@ -1067,12 +1065,12 @@ static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, bp::sequ
     ::cv::fillPoly(img, (::cv::Point const * *) &buf_pts[0], &n1_pts[0], n0_pts, color, lineType, shift, offset);
 }
 
-static boost::python::tuple findChessboardCorners_dbf15a4ace0e613206118382aa1793ea( ::cv::Mat const & image, ::cv::Size patternSize, int flags=3 ){
+static boost::python::object findChessboardCorners_dbf15a4ace0e613206118382aa1793ea( ::cv::Mat const & image, ::cv::Size patternSize, cv::Mat & corners, int flags=3 ){
     std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > corners2;
-    cv::Mat corners3;
+    convert_from_Mat_to_vector_of_T(corners, corners2);
     bool result = ::cv::findChessboardCorners(image, patternSize, corners2, flags);
-    convert_from_vector_of_T_to_Mat(corners2, corners3);
-    return bp::make_tuple( result, corners3 );
+    convert_from_vector_of_T_to_Mat(corners2, corners);
+    return bp::object( result );
 }
 
 static boost::python::tuple findContours_68285032b2b0f15f13e30f19da8327fa( ::cv::Mat const & image, int mode, int method, ::cv::Point offset=cv::Point_<int>() ){
@@ -1094,12 +1092,12 @@ static boost::python::tuple findFundamentalMat_4b8947da99452ee36abb2b044e941f4a(
     return bp::make_tuple( result, mask3 );
 }
 
-static boost::python::tuple findHomography_43999ba4bb258d7c74f144c8915f1665( ::cv::Mat const & srcPoints, ::cv::Mat const & dstPoints, int method=0, double ransacReprojThreshold=0 ){
+static boost::python::object findHomography_43999ba4bb258d7c74f144c8915f1665( ::cv::Mat const & srcPoints, ::cv::Mat const & dstPoints, cv::Mat & mask, int method=0, double ransacReprojThreshold=0 ){
     std::vector<unsigned char, std::allocator<unsigned char> > mask2;
-    cv::Mat mask3;
+    convert_from_Mat_to_vector_of_T(mask, mask2);
     ::cv::Mat result = ::cv::findHomography(srcPoints, dstPoints, mask2, method, ransacReprojThreshold);
-    convert_from_vector_of_T_to_Mat(mask2, mask3);
-    return bp::make_tuple( result, mask3 );
+    convert_from_vector_of_T_to_Mat(mask2, mask);
+    return bp::object( result );
 }
 
 static boost::python::tuple floodFill_a833ccdf7b45572779d5c63d9adc2b15( ::cv::Mat & image, ::cv::Mat & mask, ::cv::Point seedPoint, ::cv::Scalar newVal, ::cv::Scalar loDiff=cv::Scalar_<double>(), ::cv::Scalar upDiff=cv::Scalar_<double>(), int flags=4 ){
@@ -1603,45 +1601,38 @@ void cv::findContours( const Mat& image, vector<vector<Point> >& contours,
     _findContours(image, contours, 0, mode, method, offset);
 }
 
-static bp::sequence sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
-    std::vector<cv::Point> point2i;
-    std::vector<cv::Point2f> point2f;
-    bp::sequence obj;
+static cv::Mat sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
+    cv::Mat approxCurve;
     if(curve.type() == CV_32SC2) 
     {
+        std::vector<cv::Point> point2i;
         cv::approxPolyDP(curve, point2i, epsilon, closed);
-        obj = convert_vector_to_seq(point2i);
+        convert_from_vector_of_T_to_Mat(point2i, approxCurve);
     }
     else
     {
+        std::vector<cv::Point2f> point2f;
         cv::approxPolyDP(curve, point2f, epsilon, closed);
-        obj = convert_vector_to_seq(point2f);
+        convert_from_vector_of_T_to_Mat(point2f, approxCurve);
     }
-    return obj;
+    return approxCurve;
 }
 
-static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
-    std::vector<cv::Point> hull2i;
-    std::vector<cv::Point2f> hull2f;
-    bp::object obj;
+static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
+    cv::Mat obj;
     if(points.type() == CV_32SC2)
     {
+        std::vector<cv::Point> hull2i;
         cv::convexHull(points, hull2i, clockwise);
-        obj = convert_vector_to_seq(hull2i);
+        convert_from_vector_of_T_to_Mat(hull2i, obj);
     }
     else
     {
+        std::vector<cv::Point2f> hull2f;
         cv::convexHull(points, hull2f, clockwise);
-        obj = convert_vector_to_seq(hull2f);
+        convert_from_vector_of_T_to_Mat(hull2f, obj);
     }
     return obj;
-}
-
-void drawChessboardCorners( cv::Mat& image, cv::Size patternSize, bp::sequence const &corners, bool patternWasFound )
-{
-    std::vector<cv::Point2f> corners2; convert_seq_to_vector(corners, corners2);
-    ::cvDrawChessboardCorners( get_CvMat_ptr(image), patternSize, (CvPoint2D32f*)&corners2[0],
-        corners2.size(), patternWasFound );
 }
 
 BOOST_PYTHON_MODULE(pyopencvext){
@@ -2134,12 +2125,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::buildPyramid
     
-        typedef boost::python::object ( *buildPyramid_function_type )( ::cv::Mat const &,int );
+        typedef void ( *buildPyramid_function_type )( ::cv::Mat const &,bp::list &,int );
         
         bp::def( 
             "buildPyramid"
             , buildPyramid_function_type( &buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac )
-            , ( bp::arg("src"), bp::arg("maxlevel") ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("maxlevel") ) );
     
     }
 
@@ -2156,12 +2147,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcOpticalFlowPyrLK
     
-        typedef boost::python::tuple ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat const &,::cv::Mat const &,cv::Mat const &,::cv::Size,int,::cv::TermCriteria,double,int );
+        typedef void ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat const &,::cv::Mat const &,cv::Mat const &,cv::Mat &,cv::Mat &,cv::Mat &,::cv::Size,int,::cv::TermCriteria,double,int );
         
         bp::def( 
             "calcOpticalFlowPyrLK"
             , calcOpticalFlowPyrLK_function_type( &calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1 )
-            , ( bp::arg("prevImg"), bp::arg("nextImg"), bp::arg("prevPts"), bp::arg("winSize")=cv::Size_<int>(15, 15), bp::arg("maxLevel")=(int)(3), bp::arg("criteria")=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), bp::arg("derivLambda")=5.0e-1, bp::arg("flags")=(int)(0) ) );
+            , ( bp::arg("prevImg"), bp::arg("nextImg"), bp::arg("prevPts"), bp::arg("nextPts"), bp::arg("status"), bp::arg("err"), bp::arg("winSize")=cv::Size_<int>(15, 15), bp::arg("maxLevel")=(int)(3), bp::arg("criteria")=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), bp::arg("derivLambda")=5.0e-1, bp::arg("flags")=(int)(0) ) );
     
     }
 
@@ -3234,12 +3225,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::findChessboardCorners
     
-        typedef boost::python::tuple ( *findChessboardCorners_function_type )( ::cv::Mat const &,::cv::Size,int );
+        typedef boost::python::object ( *findChessboardCorners_function_type )( ::cv::Mat const &,::cv::Size,cv::Mat &,int );
         
         bp::def( 
             "findChessboardCorners"
             , findChessboardCorners_function_type( &findChessboardCorners_dbf15a4ace0e613206118382aa1793ea )
-            , ( bp::arg("image"), bp::arg("patternSize"), bp::arg("flags")=(int)(3) ) );
+            , ( bp::arg("image"), bp::arg("patternSize"), bp::arg("corners"), bp::arg("flags")=(int)(3) ) );
     
     }
 
@@ -3267,12 +3258,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::findHomography
     
-        typedef boost::python::tuple ( *findHomography2_function_type )( ::cv::Mat const &,::cv::Mat const &,int,double );
+        typedef boost::python::object ( *findHomography2_function_type )( ::cv::Mat const &,::cv::Mat const &,cv::Mat &,int,double );
         
         bp::def( 
             "findHomography2"
             , findHomography2_function_type( &findHomography_43999ba4bb258d7c74f144c8915f1665 )
-            , ( bp::arg("srcPoints"), bp::arg("dstPoints"), bp::arg("method")=(int)(0), bp::arg("ransacReprojThreshold")=0 ) );
+            , ( bp::arg("srcPoints"), bp::arg("dstPoints"), bp::arg("mask"), bp::arg("method")=(int)(0), bp::arg("ransacReprojThreshold")=0 ) );
     
     }
 
@@ -3837,15 +3828,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def( 
         "approxPolyDP"
-        , (bp::sequence (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
+        , (cv::Mat (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
         , ( bp::arg("curve"), bp::arg("epsilon"), bp::arg("closed") ) );
 
     bp::def( 
         "convexHull"
-        , (bp::object (*)( cv::Mat const &, bool ))( &sd_convexHull )
+        , (cv::Mat (*)( cv::Mat const &, bool ))( &sd_convexHull )
         , ( bp::arg("points"), bp::arg("clockwise")=bp::object(false) ) );
-
-    bp::def("drawChessboardCorners", &::drawChessboardCorners, (bp::arg("image"), bp::arg("patternSize"), bp::arg("corners"), bp::arg("patternWasFound")));
 
     register_global_variables();
 

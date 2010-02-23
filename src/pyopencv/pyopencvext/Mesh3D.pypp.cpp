@@ -28,9 +28,6 @@ static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::sequence const &vtx)
     return boost::shared_ptr<cv::Mesh3D>(new cv::Mesh3D(vtx2));
 }
 
-static bp::sequence get_vtx(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.vtx); }
-static bp::sequence get_normals(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.normals); }
-
 void register_Mesh3D_class(){
 
     { //::cv::Mesh3D
@@ -102,8 +99,6 @@ void register_Mesh3D_class(){
         Mesh3D_exposer.def_readwrite( "octree", &cv::Mesh3D::octree );
         Mesh3D_exposer.def_readwrite( "resolution", &cv::Mesh3D::resolution );
         Mesh3D_exposer.def("__init__", bp::make_constructor(&Mesh3D_init1, bp::default_call_policies(), ( bp::arg("vtx") ))  );
-        Mesh3D_exposer.add_property("vtx", &get_vtx);
-        Mesh3D_exposer.add_property("normals", &get_normals);
     }
 
 }

@@ -173,11 +173,11 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
 
 };
 
-static bp::sequence getDefaultPeopleDetector() {
-    return convert_vector_to_seq(cv::HOGDescriptor::getDefaultPeopleDetector());
+static cv::Mat getDefaultPeopleDetector() {
+    return convert_from_vector_of_T_to_Mat(cv::HOGDescriptor::getDefaultPeopleDetector());
 }
 
-static bp::sequence get_svmDetector(cv::HOGDescriptor const &inst) { return convert_vector_to_seq(inst.svmDetector); }
+static cv::Mat get_svmDetector(cv::HOGDescriptor const &inst) { return convert_from_vector_of_T_to_Mat(inst.svmDetector); }
 
 void register_HOGDescriptor_class(){
 

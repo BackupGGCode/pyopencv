@@ -11,7 +11,8 @@ if __name__ == "__main__":
     im3 = imread(filename, CV_LOAD_IMAGE_COLOR)
     chessboard_dim = Size( 7, 5 )
     
-    found, corners = findChessboardCorners( im, chessboard_dim )
+    corners = Mat()
+    found = findChessboardCorners( im, chessboard_dim, corners )
     drawChessboardCorners( im3, chessboard_dim, corners, found )
     
     imshow("win", im3)

@@ -39,17 +39,29 @@ struct AutotunedIndexParams_wrapper : cv::flann::AutotunedIndexParams, bp::wrapp
 
 void register_AutotunedIndexParams_class(){
 
-    bp::class_< AutotunedIndexParams_wrapper, bp::bases< cv::flann::IndexParams > >( "AutotunedIndexParams", bp::init< bp::optional< float, float, float, float > >(( bp::arg("target_precision_")=9.00000000000000022204460492503130808472633361816e-1, bp::arg("build_weight_")=1.0000000000000000208166817117216851329430937767e-2, bp::arg("memory_weight_")=0, bp::arg("sample_fraction_")=1.00000000000000005551115123125782702118158340454e-1 )) )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::AutotunedIndexParams >() )    
-        .def( 
-            "createIndex"
-            , (::flann::Index * ( ::cv::flann::AutotunedIndexParams::* )( ::cv::Mat const & ) const)(&::cv::flann::AutotunedIndexParams::createIndex)
-            , (::flann::Index * ( AutotunedIndexParams_wrapper::* )( ::cv::Mat const & ) const)(&AutotunedIndexParams_wrapper::default_createIndex)
-            , ( bp::arg("dataset") )
-            , bp::return_value_policy< bp::reference_existing_object >() )    
-        .def_readwrite( "build_weight", &cv::flann::AutotunedIndexParams::build_weight )    
-        .def_readwrite( "memory_weight", &cv::flann::AutotunedIndexParams::memory_weight )    
-        .def_readwrite( "sample_fraction", &cv::flann::AutotunedIndexParams::sample_fraction )    
-        .def_readwrite( "target_precision", &cv::flann::AutotunedIndexParams::target_precision );
+    { //::cv::flann::AutotunedIndexParams
+        typedef bp::class_< AutotunedIndexParams_wrapper, bp::bases< cv::flann::IndexParams > > AutotunedIndexParams_exposer_t;
+        AutotunedIndexParams_exposer_t AutotunedIndexParams_exposer = AutotunedIndexParams_exposer_t( "AutotunedIndexParams", bp::init< bp::optional< float, float, float, float > >(( bp::arg("target_precision_")=9.00000000000000022204460492503130808472633361816e-1, bp::arg("build_weight_")=1.0000000000000000208166817117216851329430937767e-2, bp::arg("memory_weight_")=0, bp::arg("sample_fraction_")=1.00000000000000005551115123125782702118158340454e-1 )) );
+        bp::scope AutotunedIndexParams_scope( AutotunedIndexParams_exposer );
+        AutotunedIndexParams_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::AutotunedIndexParams >() );
+        bp::implicitly_convertible< float, cv::flann::AutotunedIndexParams >();
+        { //::cv::flann::AutotunedIndexParams::createIndex
+        
+            typedef ::flann::Index * ( ::cv::flann::AutotunedIndexParams::*createIndex_function_type )( ::cv::Mat const & ) const;
+            typedef ::flann::Index * ( AutotunedIndexParams_wrapper::*default_createIndex_function_type )( ::cv::Mat const & ) const;
+            
+            AutotunedIndexParams_exposer.def( 
+                "createIndex"
+                , createIndex_function_type(&::cv::flann::AutotunedIndexParams::createIndex)
+                , default_createIndex_function_type(&AutotunedIndexParams_wrapper::default_createIndex)
+                , ( bp::arg("dataset") )
+                , bp::return_value_policy< bp::reference_existing_object >() );
+        
+        }
+        AutotunedIndexParams_exposer.def_readwrite( "build_weight", &cv::flann::AutotunedIndexParams::build_weight );
+        AutotunedIndexParams_exposer.def_readwrite( "memory_weight", &cv::flann::AutotunedIndexParams::memory_weight );
+        AutotunedIndexParams_exposer.def_readwrite( "sample_fraction", &cv::flann::AutotunedIndexParams::sample_fraction );
+        AutotunedIndexParams_exposer.def_readwrite( "target_precision", &cv::flann::AutotunedIndexParams::target_precision );
+    }
 
 }

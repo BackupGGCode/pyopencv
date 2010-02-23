@@ -377,6 +377,20 @@ def finalize_class(self, z):
                 t.exclude()
         except:
             pass
+            
+    # convert a std::vector<> into something useful
+    try:
+        zz = z.vars()
+    except RuntimeError:
+        zz = []
+    for t in zz:
+        if not t.ignore and 'std::vector' in t.type.decl_string:
+            z.include_files.append("opencv_converters.hpp")
+            t.exclude()
+            z.add_declaration_code('''
+static bp::object get_MEMBER(KLASS const &inst) { return convert_from_T_to_object(inst.MEMBER); }
+            '''.replace('MEMBER', t.name).replace('KLASS', z.decl_string))
+            z.add_registration_code('add_property("MEMBER", &get_MEMBER)'.replace('MEMBER', t.name))
 
     # if a function returns a pointer and does not have a call policy, create a default one for it
     for f in z._funs:

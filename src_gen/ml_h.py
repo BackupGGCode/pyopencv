@@ -168,7 +168,7 @@ KLASS.__repr__ = _KLASS__repr__
         std::vector<int> neighbors2; neighbors2.resize(k*_samples.rows);
         float return_value = find_nearest((::CvMat const *)get_CvMat_ptr(_samples), k, get_CvMat_ptr(results), 
             (const float **)&neighbors2[0], get_CvMat_ptr(neighbor_responses), get_CvMat_ptr(dist));
-        return bp::make_tuple(bp::object(return_value), convert_vector_to_seq(neighbors2));
+        return bp::make_tuple(bp::object(return_value), convert_from_T_to_object(neighbors2));
     }
     ''')
     z.add_registration_code('''def("find_nearest", &CvKNearest_wrapper::sd_find_nearest

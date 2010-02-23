@@ -79,6 +79,7 @@ void register_SparseMat_class(){
         bp::scope().attr("MAX_DIM") = (int)cv::SparseMat::MAX_DIM;
         bp::scope().attr("HASH_SCALE") = (int)cv::SparseMat::HASH_SCALE;
         bp::scope().attr("HASH_BIT") = (int)cv::SparseMat::HASH_BIT;
+        bp::implicitly_convertible< cv::Mat const &, cv::SparseMat >();
         SparseMat_exposer.def( bp::init< cv::MatND const & >(( bp::arg("m") )) );
         bp::implicitly_convertible< cv::MatND const &, cv::SparseMat >();
         SparseMat_exposer.def( bp::init< >() );
