@@ -83,16 +83,16 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
     }
     
     static boost::python::object default_getPointsWithinSphere( ::cv::Octree const & inst, ::cv::Point3f const & center, float radius ){
-        bp::sequence points2;
-        std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > points3;
+        std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > points2;
+        cv::Mat points3;
         if( dynamic_cast< Octree_wrapper const* >( boost::addressof( inst ) ) ){
-            inst.::cv::Octree::getPointsWithinSphere(center, radius, points3);
+            inst.::cv::Octree::getPointsWithinSphere(center, radius, points2);
         }
         else{
-            inst.getPointsWithinSphere(center, radius, points3);
+            inst.getPointsWithinSphere(center, radius, points2);
         }
-        points2 = convert_vector_to_seq(points3);
-        return bp::object( points2 );
+        convert_from_vector_of_T_to_Mat(points2, points3);
+        return bp::object( points3 );
     }
 
 };

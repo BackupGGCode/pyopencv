@@ -37,7 +37,6 @@ def generate_code(mb, cc, D, FT, CP):
     z = sdopencv.class_('IntegralHistogram')
     z.include_files.append("opencv_converters.hpp")
     mb.init_class(z)
-    z.mem_fun('calcHist')._transformer_creators.append(FT.output_std_vector('out_hist'))
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
     z.add_declaration_code('''
 static boost::shared_ptr<sdopencv::IntegralHistogram> IntegralHistogram__init1__(int histSize, bp::sequence const &ranges, bool uniform)

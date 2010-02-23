@@ -52,18 +52,18 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     }
     
     static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::sequence locations=convert_vector_to_seq(std::vector<cv::Point>()) ){
-        bp::sequence descriptors2;
-        std::vector<float, std::allocator<float> > descriptors3;
+        std::vector<float, std::allocator<float> > descriptors2;
+        cv::Mat descriptors3;
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > locations2;
         convert_seq_to_vector(locations, locations2);
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
-            inst.::cv::HOGDescriptor::compute(img, descriptors3, winStride, padding, locations2);
+            inst.::cv::HOGDescriptor::compute(img, descriptors2, winStride, padding, locations2);
         }
         else{
-            inst.compute(img, descriptors3, winStride, padding, locations2);
+            inst.compute(img, descriptors2, winStride, padding, locations2);
         }
-        descriptors2 = convert_vector_to_seq(descriptors3);
-        return bp::object( descriptors2 );
+        convert_from_vector_of_T_to_Mat(descriptors2, descriptors3);
+        return bp::object( descriptors3 );
     }
 
     virtual void computeGradient( ::cv::Mat const & img, ::cv::Mat & grad, ::cv::Mat & angleOfs, ::cv::Size paddingTL=cv::Size_<int>(), ::cv::Size paddingBR=cv::Size_<int>() ) const  {
@@ -89,18 +89,18 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     }
     
     static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), bp::sequence searchLocations=convert_vector_to_seq(std::vector<cv::Point>()) ){
-        bp::sequence foundLocations2;
-        std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > foundLocations3;
+        std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > foundLocations2;
+        cv::Mat foundLocations3;
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > searchLocations2;
         convert_seq_to_vector(searchLocations, searchLocations2);
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
-            inst.::cv::HOGDescriptor::detect(img, foundLocations3, hitThreshold, winStride, padding, searchLocations2);
+            inst.::cv::HOGDescriptor::detect(img, foundLocations2, hitThreshold, winStride, padding, searchLocations2);
         }
         else{
-            inst.detect(img, foundLocations3, hitThreshold, winStride, padding, searchLocations2);
+            inst.detect(img, foundLocations2, hitThreshold, winStride, padding, searchLocations2);
         }
-        foundLocations2 = convert_vector_to_seq(foundLocations3);
-        return bp::object( foundLocations2 );
+        convert_from_vector_of_T_to_Mat(foundLocations2, foundLocations3);
+        return bp::object( foundLocations3 );
     }
 
     virtual void detectMultiScale( ::cv::Mat const & img, ::std::vector< cv::Rect_<int> > & foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), double scale=1.05000000000000004440892098500626161694526672363e+0, int groupThreshold=2 ) const  {
@@ -114,16 +114,16 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     }
     
     static boost::python::object default_detectMultiScale( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), double scale=1.05000000000000004440892098500626161694526672363e+0, int groupThreshold=2 ){
-        bp::sequence foundLocations2;
-        std::vector<cv::Rect_<int>, std::allocator<cv::Rect_<int> > > foundLocations3;
+        std::vector<cv::Rect_<int>, std::allocator<cv::Rect_<int> > > foundLocations2;
+        cv::Mat foundLocations3;
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
-            inst.::cv::HOGDescriptor::detectMultiScale(img, foundLocations3, hitThreshold, winStride, padding, scale, groupThreshold);
+            inst.::cv::HOGDescriptor::detectMultiScale(img, foundLocations2, hitThreshold, winStride, padding, scale, groupThreshold);
         }
         else{
-            inst.detectMultiScale(img, foundLocations3, hitThreshold, winStride, padding, scale, groupThreshold);
+            inst.detectMultiScale(img, foundLocations2, hitThreshold, winStride, padding, scale, groupThreshold);
         }
-        foundLocations2 = convert_vector_to_seq(foundLocations3);
-        return bp::object( foundLocations2 );
+        convert_from_vector_of_T_to_Mat(foundLocations2, foundLocations3);
+        return bp::object( foundLocations3 );
     }
 
     virtual bool load( ::cv::String const & filename, ::cv::String const & objname=std::string() ) {

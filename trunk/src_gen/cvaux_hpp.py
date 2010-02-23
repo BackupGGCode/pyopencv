@@ -74,7 +74,7 @@ def generate_code(mb, cc, D, FT, CP):
     z = mb.class_('Octree')
     z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
-    z.mem_fun('getPointsWithinSphere')._transformer_creators.append(FT.output_std_vector('points'))
+    z.mem_fun('getPointsWithinSphere')._transformer_creators.append(FT.arg_std_vector('points', 2))
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
     z.mem_fun('getNodes').exclude()
     z.add_declaration_code('''
@@ -120,7 +120,7 @@ static bp::sequence get_normals(cv::Mesh3D const &inst) { return convert_vector_
     z = mb.class_('SpinImageModel')
     mb.init_class(z)
     z.mem_fun('setLogger').exclude() # wait until requested
-    z.mem_fun('match')._transformer_creators.append(FT.output_std_vector_vector('result'))
+    z.mem_fun('match')._transformer_creators.append(FT.arg_std_vector('result', 2))
     for t in ('calcSpinMapCoo', 'geometricConsistency', 'groupingCreteria'):
         z.mem_fun(t).exclude() # wait until requested: not available in OpenCV's Windows package
     z.var('lambda').rename('lambda_') # to avoid a conflict with keyword lambda
@@ -134,9 +134,9 @@ static bp::sequence get_normals(cv::Mesh3D const &inst) { return convert_vector_
     z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
     z.mem_fun('getDefaultPeopleDetector').exclude()
-    z.mem_fun('compute')._transformer_creators.append(FT.output_std_vector('descriptors'))
+    z.mem_fun('compute')._transformer_creators.append(FT.arg_std_vector('descriptors', 2))
     for t in ('detect', 'detectMultiScale'):
-        z.mem_fun(t)._transformer_creators.append(FT.output_std_vector('foundLocations'))
+        z.mem_fun(t)._transformer_creators.append(FT.arg_std_vector('foundLocations', 2))
     z.var('svmDetector').exclude()
     z.add_declaration_code('''
 static bp::sequence getDefaultPeopleDetector() {
@@ -231,4 +231,4 @@ YAPE = LDetector
     # FAST
     z = mb.free_fun('FAST')
     z.include()
-    z._transformer_creators.append(FT.output_std_vector('keypoints'))
+    z._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
