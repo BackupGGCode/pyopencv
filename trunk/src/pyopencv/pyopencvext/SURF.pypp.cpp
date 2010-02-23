@@ -8,17 +8,21 @@
 
 namespace bp = boost::python;
 
-static boost::python::sequence call1( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask ){
-    std::vector<cv::KeyPoint> keypoints2; inst.operator()(img, mask, keypoints2);
-    return convert_vector_to_seq(keypoints2);
+static void call1( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::list & keypoints ){
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    convert_from_object_to_T(keypoints, keypoints2);
+    inst(img, mask, keypoints2);
+    convert_from_T_to_object(keypoints2, keypoints);
 }
 
-static boost::python::tuple call2( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::sequence keypoints, bool useProvidedKeypoints=false ){
-    std::vector<cv::KeyPoint> keypoints2; convert_seq_to_vector(keypoints, keypoints2);
-    std::vector<float> descriptors2;    
-    inst.operator()(img, mask, keypoints2, descriptors2, useProvidedKeypoints);
-    keypoints = convert_vector_to_seq(keypoints2);
-    return bp::make_tuple( keypoints, convert_vector_to_seq(descriptors2) );
+static void call2( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::list & keypoints, cv::Mat & descriptors, bool useProvidedKeypoints=false ){
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    std::vector<float, std::allocator<float> > descriptors2;
+    convert_from_object_to_T(keypoints, keypoints2);
+    convert_from_Mat_to_vector_of_T(descriptors, descriptors2);
+    inst(img, mask, keypoints2, descriptors2, useProvidedKeypoints);
+    convert_from_T_to_object(keypoints2, keypoints);
+    convert_from_vector_of_T_to_Mat(descriptors2, descriptors);
 }
 
 void register_SURF_class(){
@@ -31,11 +35,11 @@ void register_SURF_class(){
             , (int ( ::cv::SURF::* )(  ) const)( &::cv::SURF::descriptorSize ) )    
         .def( 
             "__call__"
-            , (bp::sequence (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const & ))( &call1 )
-            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask") ) )    
+            , (void (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::list & ))( &call1 )
+            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints") ) )    
         .def( 
             "__call__"
-            , (bp::tuple (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::sequence,bool ))( &call2 )
-            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("useProvidedKeypoints")=(bool)(false) ) );
+            , (void (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::list &,cv::Mat &,bool ))( &call2 )
+            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("descriptors"), bp::arg("useProvidedKeypoints")=(bool)(false) ) );
 
 }
