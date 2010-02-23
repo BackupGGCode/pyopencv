@@ -16,16 +16,22 @@ static void getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d( ::cv::LDetector co
     convert_from_T_to_object(keypoints2, keypoints);
 }
 
-static bp::list LDetector_call1( ::cv::LDetector const & inst, bp::object const & image_or_pyr, int maxCount=0, bool scaleCoords=true ){
-    std::vector< cv::KeyPoint > keypoints;
-    bp::extract<const cv::Mat &> image(image_or_pyr);
-    if(image.check()) inst(image(), keypoints, maxCount, scaleCoords);
-    else {
-        std::vector< cv::Mat > pyr;
-        convert_from_object_to_T(image_or_pyr, pyr);
-        inst(pyr, keypoints, maxCount, scaleCoords);
-    }
-    return bp::list(convert_from_T_to_object(keypoints));
+static boost::python::object __call___14ec982e59fdc13237968e34b82d6fe2( ::cv::LDetector const & inst, ::cv::Mat const & image, int maxCount=0, bool scaleCoords=true ){
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    bp::list keypoints3;
+    inst.operator()(image, keypoints2, maxCount, scaleCoords);
+    convert_from_T_to_object(keypoints2, keypoints3);
+    return bp::object( keypoints3 );
+}
+
+static boost::python::object __call___015c5cd98f14b41d0eaab62238a1a6fe( ::cv::LDetector const & inst, bp::list const & pyr, int maxCount=0, bool scaleCoords=true ){
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    bp::list keypoints3;
+    std::vector<cv::Mat, std::allocator<cv::Mat> > pyr2;
+    convert_from_object_to_T(pyr, pyr2);
+    inst.operator()(pyr2, keypoints2, maxCount, scaleCoords);
+    convert_from_T_to_object(keypoints2, keypoints3);
+    return bp::object( keypoints3 );
 }
 
 void register_LDetector_class(){
@@ -37,6 +43,14 @@ void register_LDetector_class(){
             "getMostStable2D"
             , (void (*)( ::cv::LDetector const &,::cv::Mat const &,bp::list &,int,::cv::PatchGenerator const & ))( &getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d )
             , ( bp::arg("inst"), bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") ) )    
+        .def( 
+            "__call___14ec982e59fdc13237968e34b82d6fe2"
+            , (boost::python::object (*)( ::cv::LDetector const &,::cv::Mat const &,int,bool ))( &__call___14ec982e59fdc13237968e34b82d6fe2 )
+            , ( bp::arg("inst"), bp::arg("image"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) ) )    
+        .def( 
+            "__call___015c5cd98f14b41d0eaab62238a1a6fe"
+            , (boost::python::object (*)( ::cv::LDetector const &,bp::list const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
+            , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) ) )    
         .def( 
             "read"
             , (void ( ::cv::LDetector::* )( ::cv::FileNode const & ) )( &::cv::LDetector::read )
@@ -55,7 +69,6 @@ void register_LDetector_class(){
         .def_readwrite( "nViews", &cv::LDetector::nViews )    
         .def_readwrite( "radius", &cv::LDetector::radius )    
         .def_readwrite( "threshold", &cv::LDetector::threshold )    
-        .def_readwrite( "verbose", &cv::LDetector::verbose )    
-        .def("__call__", &LDetector_call1, (bp::arg("image_or_pyr"), bp::arg("maxCount")=0, bp::arg("scaleCoords")=true));
+        .def_readwrite( "verbose", &cv::LDetector::verbose );
 
 }

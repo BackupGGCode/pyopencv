@@ -156,22 +156,8 @@ static cv::Mat get_svmDetector(cv::HOGDescriptor const &inst) { return convert_f
     # LDetector
     z = mb.class_('LDetector')
     mb.init_class(z)
-    z.operators().exclude()
-    z.add_declaration_code('''
-static bp::list LDetector_call1( ::cv::LDetector const & inst, bp::object const & image_or_pyr, int maxCount=0, bool scaleCoords=true ){
-    std::vector< cv::KeyPoint > keypoints;
-    bp::extract<const cv::Mat &> image(image_or_pyr);
-    if(image.check()) inst(image(), keypoints, maxCount, scaleCoords);
-    else {
-        std::vector< cv::Mat > pyr;
-        convert_from_object_to_T(image_or_pyr, pyr);
-        inst(pyr, keypoints, maxCount, scaleCoords);
-    }
-    return bp::list(convert_from_T_to_object(keypoints));
-}
-
-    ''')
-    z.add_registration_code('def("__call__", &LDetector_call1, (bp::arg("image_or_pyr"), bp::arg("maxCount")=0, bp::arg("scaleCoords")=true))')
+    for t in z.operators('()'):
+        t._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
     mb.finalize_class(z)
     cc.write('''
 YAPE = LDetector
