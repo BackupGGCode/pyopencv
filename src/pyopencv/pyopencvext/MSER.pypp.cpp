@@ -8,10 +8,11 @@
 
 namespace bp = boost::python;
 
-static bp::sequence call1( ::cv::MSER const & inst, ::cv::Mat & image, ::cv::Mat const & mask ){
-    std::vector< std::vector< cv::Point > > msers2;
-    inst.operator()(image, msers2, mask);
-    return convert_vector_vector_to_seq(msers2);
+static void call1( ::cv::MSER const & inst, ::cv::Mat & image, bp::list & msers, ::cv::Mat const & mask ){
+    std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > msers2;
+    convert_from_object_to_T(msers, msers2);
+    inst(image, msers2, mask);
+    convert_from_T_to_object(msers2, msers);
 }
 
 void register_MSER_class(){
@@ -21,7 +22,7 @@ void register_MSER_class(){
         .def( bp::init< int, int, int, float, float, int, double, double, int >(( bp::arg("_delta"), bp::arg("_min_area"), bp::arg("_max_area"), bp::arg("_max_variation"), bp::arg("_min_diversity"), bp::arg("_max_evolution"), bp::arg("_area_threshold"), bp::arg("_min_margin"), bp::arg("_edge_blur_size") )) )    
         .def( 
             "__call__"
-            , (bp::sequence (*)( ::cv::MSER const &,::cv::Mat &,::cv::Mat const & ))( &call1 )
-            , ( bp::arg("inst"), bp::arg("image"), bp::arg("mask") ) );
+            , (void (*)( ::cv::MSER const &,::cv::Mat &,bp::list &,::cv::Mat const & ))( &call1 )
+            , ( bp::arg("inst"), bp::arg("image"), bp::arg("msers"), bp::arg("mask") ) );
 
 }
