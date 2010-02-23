@@ -9,12 +9,11 @@
 
 namespace bp = boost::python;
 
-static boost::python::object getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d( ::cv::LDetector const & inst, ::cv::Mat const & image, bp::sequence keypoints, int maxCount, ::cv::PatchGenerator const & patchGenerator ){
+static void getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d( ::cv::LDetector const & inst, ::cv::Mat const & image, bp::list & keypoints, int maxCount, ::cv::PatchGenerator const & patchGenerator ){
     std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
-    convert_seq_to_vector(keypoints, keypoints2);
+    convert_from_object_to_T(keypoints, keypoints2);
     inst.getMostStable2D(image, keypoints2, maxCount, patchGenerator);
-    keypoints = convert_vector_to_seq(keypoints2);
-    return bp::object( keypoints );
+    convert_from_T_to_object(keypoints2, keypoints);
 }
 
 static bp::sequence LDetector_call1( ::cv::LDetector const & inst, bp::object const & image_or_pyr, int maxCount=0, bool scaleCoords=true ){
@@ -36,7 +35,7 @@ void register_LDetector_class(){
         .def( bp::init< int, int, int, int, double, double >(( bp::arg("_radius"), bp::arg("_threshold"), bp::arg("_nOctaves"), bp::arg("_nViews"), bp::arg("_baseFeatureSize"), bp::arg("_clusteringDistance") )) )    
         .def( 
             "getMostStable2D"
-            , (boost::python::object (*)( ::cv::LDetector const &,::cv::Mat const &,bp::sequence,int,::cv::PatchGenerator const & ))( &getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d )
+            , (void (*)( ::cv::LDetector const &,::cv::Mat const &,bp::list &,int,::cv::PatchGenerator const & ))( &getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d )
             , ( bp::arg("inst"), bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") ) )    
         .def( 
             "read"

@@ -61,9 +61,9 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
         }
     }
     
-    static void default_buildTree( ::cv::Octree & inst, bp::sequence points, int maxLevels=10, int minPoints=20 ){
+    static void default_buildTree( ::cv::Octree & inst, cv::Mat const & points, int maxLevels=10, int minPoints=20 ){
         std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > points2;
-        convert_seq_to_vector(points, points2);
+        convert_from_Mat_to_vector_of_T(points, points2);
         if( dynamic_cast< Octree_wrapper * >( boost::addressof( inst ) ) ){
             inst.::cv::Octree::buildTree(points2, maxLevels, minPoints);
         }
@@ -140,7 +140,7 @@ void register_Octree_class(){
         }
         { //::cv::Octree::buildTree
         
-            typedef void ( *default_buildTree_function_type )( ::cv::Octree &,bp::sequence,int,int );
+            typedef void ( *default_buildTree_function_type )( ::cv::Octree &,cv::Mat const &,int,int );
             
             Octree_exposer.def( 
                 "buildTree"

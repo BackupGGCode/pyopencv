@@ -274,10 +274,8 @@ def beautify_func_list(self, func_list):
         for arg in f.arguments:
             if is_arg_touched(f, arg.name):
                 continue
-            if arg.type.decl_string.startswith("::std::vector<std::vector<"):
+            if arg.type.decl_string.startswith("::std::vector<"):
                 f._transformer_creators.append(FT.arg_std_vector(arg.name))
-            elif arg.type.decl_string.startswith("::std::vector<"):
-                f._transformer_creators.append(FT.input_std_vector(arg.name))
 
     # function argument IplImage *, CvMat *, CvArr *, and std::vector<> into cv::Mat
     for f in func_list:

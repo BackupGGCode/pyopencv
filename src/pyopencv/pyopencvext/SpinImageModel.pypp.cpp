@@ -17,9 +17,9 @@ static boost::python::object match_86773a6b4d89ae97806d1109a2438811( ::cv::SpinI
     return bp::object( result4 );
 }
 
-static void setSubset_89bf1b6d328936932f08aaf660288e7a( ::cv::SpinImageModel & inst, bp::sequence subset ){
+static void setSubset_89bf1b6d328936932f08aaf660288e7a( ::cv::SpinImageModel & inst, cv::Mat const & subset ){
     std::vector<int, std::allocator<int> > subset2;
-    convert_seq_to_vector(subset, subset2);
+    convert_from_Mat_to_vector_of_T(subset, subset2);
     inst.setSubset(subset2);
 }
 
@@ -134,7 +134,7 @@ void register_SpinImageModel_class(){
         }
         { //::cv::SpinImageModel::setSubset
         
-            typedef void ( *setSubset_function_type )( ::cv::SpinImageModel &,bp::sequence );
+            typedef void ( *setSubset_function_type )( ::cv::SpinImageModel &,cv::Mat const & );
             
             SpinImageModel_exposer.def( 
                 "setSubset"
