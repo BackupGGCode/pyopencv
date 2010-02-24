@@ -274,7 +274,7 @@ def beautify_func_list(self, func_list):
         for arg in f.arguments:
             if is_arg_touched(f, arg.name):
                 continue
-            if arg.type.decl_string.startswith("::std::vector<"):
+            if "std::vector<" in arg.type.decl_string:
                 f._transformer_creators.append(FT.arg_std_vector(arg.name))
 
     # function argument IplImage *, CvMat *, CvArr *, and std::vector<> into cv::Mat
@@ -460,7 +460,7 @@ for t in _class_rename:
 
 # too many issues when exposing a std::vector as a member variable
 # to name a few: missing operators like ==
-for z in mb.classes(lambda x: x.name.startswith('vector<')):
+for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
     z.exclude() 
     z.set_already_exposed(True)
 

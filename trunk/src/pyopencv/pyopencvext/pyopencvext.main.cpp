@@ -24,8 +24,6 @@
 
 #include "boost/python/extract.hpp"
 
-#include "boost/python/suite/indexing/vector_indexing_suite.hpp"
-
 #include "__ctypes_integration.pypp.hpp"
 
 #include "opencv_headers.hpp"
@@ -423,8 +421,6 @@
 #include "pyopencvext/pyopencvext_free_functions.pypp.hpp"
 
 #include "pyopencvext/pyopencvext_global_variables.pypp.hpp"
-
-#include "pyopencvext/vector_less__cv_scope_Ptr_less_cv_scope_Mat_greater___greater_.pypp.hpp"
 
 namespace bp = boost::python;
 
@@ -1641,8 +1637,6 @@ static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
 
 BOOST_PYTHON_MODULE(pyopencvext){
     register_enumerations();
-
-    register_vector_less__cv_scope_Ptr_less_cv_scope_Mat_greater___greater__class();
 
     register_CvANN_MLP_TrainParams_class();
 
