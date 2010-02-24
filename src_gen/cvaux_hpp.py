@@ -164,10 +164,27 @@ YAPE = LDetector
     ''')
     
     # FernClassifier
-    # TODO: fix the rest of the member declarations
     z = mb.class_('FernClassifier')
-    z.include()
-    z.decls().exclude()
+    mb.init_class(z)
+    for t in z.operators('()'):
+        t._transformer_creators.append(FT.arg_std_vector('signature', 2))
+    z.constructor(lambda x: len(x.arguments) > 5).exclude()
+    z.add_declaration_code('''
+static boost::shared_ptr<cv::FernClassifier> FernClassifier_init1( cv::Mat const & points, bp::list const & refimgs, cv::Mat const & labels=convert_from_vector_of_T_to_Mat(std::vector<int>()), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > points2;
+    std::vector<cv::Ptr<cv::Mat>,std::allocator<cv::Ptr<cv::Mat> > > refimgs2;
+    std::vector<int, std::allocator<int> > labels2;
+    convert_from_Mat_to_vector_of_T(points, points2);
+    convert_from_object_to_T(refimgs, refimgs2);
+    convert_from_Mat_to_vector_of_T(labels, labels2);
+    return boost::shared_ptr<cv::FernClassifier>(
+        new cv::FernClassifier(points2, refimgs2, labels2, _nclasses, _patchSize, _signatureSize,
+            _nstructs, _structSize, _nviews, _compressionMethod, patchGenerator));
+}
+
+    ''')
+    z.add_registration_code('def("__init__", bp::make_constructor(&FernClassifier_init1, bp::default_call_policies(), ( bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=cv::Mat(), bp::arg("_nclasses")=0, bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() ))  )')
+    mb.finalize_class(z)
     
     # PlanarObjectDetector
     # TODO: fix the rest of the member declarations
