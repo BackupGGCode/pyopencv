@@ -1176,16 +1176,15 @@ def input_as_Mat( *args, **keywd ):
     return creator
     
 
-def is_vector_type(type):
-    """Checks if a type is a std::vector type."""
-    return type.decl_string.startswith("std::vector<")    
-    
 def get_vector_elem_type(vector_type):
     """Returns the element type of a std::vector type."""
     s = vector_type.decl_string
-    s = s[14:s.find(', std::allocator')] # cut all the std::allocators
-    if s.startswith('std::vector'): # assume vector2d
-        s = '::' + s + ', std::allocator<' + s[12:] + ' >  >'
+    if 'std::allocator' not in s:
+        s = s[s.find('<')+1:-2]
+    else:
+        s = s[14:s.find(', std::allocator')] # cut all the std::allocators
+        if s.startswith('std::vector'): # assume vector2d
+            s = '::' + s + ', std::allocator<' + s[12:] + ' >  >'
     return _D.dummy_type_t(s)
     
 def is_elem_type_fixed_size(elem_type):
