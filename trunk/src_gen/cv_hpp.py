@@ -185,8 +185,7 @@ def generate_code(mb, cc, D, FT, CP):
         'calcMotionGradient', 'calcGlobalOrientation', 'CamShift', 'meanShift', 
         'estimateAffine3D', 'groupRectangles',
         'Rodrigues', 'RQDecomp3x3', 'decomposeProjectionMatrix', 'matMulDeriv', 
-        'composeRT', 'solvePnP', 'initCameraMatrix2D', 
-        'findChessboardCorners', 'drawChessboardCorners',
+        'composeRT', 'solvePnP', 'initCameraMatrix2D', 'drawChessboardCorners',
         'calibrationMatrixValues', 'stereoCalibrate', 'stereoRectify', 
         'stereoRectifyUncalibrated', 'reprojectImageTo3D',         
         ):
@@ -474,6 +473,7 @@ static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
     z = mb.free_fun(lambda x: x.name=='findHomography' and 'vector' in x.decl_string)
     z.include()
     z._transformer_kwds['alias'] = 'findHomography2'
+    z._transformer_creators.append(FT.arg_std_vector('mask', 2))
         
     # projectPoints
     mb.free_funs('projectPoints').exclude()
@@ -485,6 +485,10 @@ static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
     z._transformer_kwds['alias'] = 'projectPoints2'
     FT.expose_func(z, return_pointee=False, transformer_creators=[
         FT.arg_std_vector('imagePoints', 2)])
+
+    # findChessboardCorners
+    FT.expose_func(mb.free_fun('findChessboardCorners'), return_pointee=False,
+        transformer_creators=[FT.arg_std_vector('corners', 2)])
     
     # calibrateCamera
     FT.expose_func(mb.free_fun('calibrateCamera'), return_pointee=False,

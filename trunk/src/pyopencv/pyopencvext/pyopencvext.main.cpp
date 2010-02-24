@@ -24,6 +24,8 @@
 
 #include "boost/python/extract.hpp"
 
+#include "boost/python/suite/indexing/vector_indexing_suite.hpp"
+
 #include "__ctypes_integration.pypp.hpp"
 
 #include "opencv_headers.hpp"
@@ -421,6 +423,8 @@
 #include "pyopencvext/pyopencvext_free_functions.pypp.hpp"
 
 #include "pyopencvext/pyopencvext_global_variables.pypp.hpp"
+
+#include "pyopencvext/vector_less__cv_scope_Ptr_less_cv_scope_Mat_greater___greater_.pypp.hpp"
 
 namespace bp = boost::python;
 
@@ -1065,12 +1069,12 @@ static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, bp::sequ
     ::cv::fillPoly(img, (::cv::Point const * *) &buf_pts[0], &n1_pts[0], n0_pts, color, lineType, shift, offset);
 }
 
-static boost::python::object findChessboardCorners_dbf15a4ace0e613206118382aa1793ea( ::cv::Mat const & image, ::cv::Size patternSize, cv::Mat & corners, int flags=3 ){
+static boost::python::tuple findChessboardCorners_dbf15a4ace0e613206118382aa1793ea( ::cv::Mat const & image, ::cv::Size patternSize, int flags=3 ){
     std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > corners2;
-    convert_from_Mat_to_vector_of_T(corners, corners2);
+    cv::Mat corners3;
     bool result = ::cv::findChessboardCorners(image, patternSize, corners2, flags);
-    convert_from_vector_of_T_to_Mat(corners2, corners);
-    return bp::object( result );
+    convert_from_vector_of_T_to_Mat(corners2, corners3);
+    return bp::make_tuple( result, corners3 );
 }
 
 static boost::python::tuple findContours_68285032b2b0f15f13e30f19da8327fa( ::cv::Mat const & image, int mode, int method, ::cv::Point offset=cv::Point_<int>() ){
@@ -1092,12 +1096,12 @@ static boost::python::tuple findFundamentalMat_4b8947da99452ee36abb2b044e941f4a(
     return bp::make_tuple( result, mask3 );
 }
 
-static boost::python::object findHomography_43999ba4bb258d7c74f144c8915f1665( ::cv::Mat const & srcPoints, ::cv::Mat const & dstPoints, cv::Mat & mask, int method=0, double ransacReprojThreshold=0 ){
+static boost::python::tuple findHomography_43999ba4bb258d7c74f144c8915f1665( ::cv::Mat const & srcPoints, ::cv::Mat const & dstPoints, int method=0, double ransacReprojThreshold=0 ){
     std::vector<unsigned char, std::allocator<unsigned char> > mask2;
-    convert_from_Mat_to_vector_of_T(mask, mask2);
+    cv::Mat mask3;
     ::cv::Mat result = ::cv::findHomography(srcPoints, dstPoints, mask2, method, ransacReprojThreshold);
-    convert_from_vector_of_T_to_Mat(mask2, mask);
-    return bp::object( result );
+    convert_from_vector_of_T_to_Mat(mask2, mask3);
+    return bp::make_tuple( result, mask3 );
 }
 
 static boost::python::tuple floodFill_a833ccdf7b45572779d5c63d9adc2b15( ::cv::Mat & image, ::cv::Mat & mask, ::cv::Point seedPoint, ::cv::Scalar newVal, ::cv::Scalar loDiff=cv::Scalar_<double>(), ::cv::Scalar upDiff=cv::Scalar_<double>(), int flags=4 ){
@@ -1637,6 +1641,8 @@ static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
 
 BOOST_PYTHON_MODULE(pyopencvext){
     register_enumerations();
+
+    register_vector_less__cv_scope_Ptr_less_cv_scope_Mat_greater___greater__class();
 
     register_CvANN_MLP_TrainParams_class();
 
@@ -3225,12 +3231,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::findChessboardCorners
     
-        typedef boost::python::object ( *findChessboardCorners_function_type )( ::cv::Mat const &,::cv::Size,cv::Mat &,int );
+        typedef boost::python::tuple ( *findChessboardCorners_function_type )( ::cv::Mat const &,::cv::Size,int );
         
         bp::def( 
             "findChessboardCorners"
             , findChessboardCorners_function_type( &findChessboardCorners_dbf15a4ace0e613206118382aa1793ea )
-            , ( bp::arg("image"), bp::arg("patternSize"), bp::arg("corners"), bp::arg("flags")=(int)(3) ) );
+            , ( bp::arg("image"), bp::arg("patternSize"), bp::arg("flags")=(int)(3) ) );
     
     }
 
@@ -3258,12 +3264,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::findHomography
     
-        typedef boost::python::object ( *findHomography2_function_type )( ::cv::Mat const &,::cv::Mat const &,cv::Mat &,int,double );
+        typedef boost::python::tuple ( *findHomography2_function_type )( ::cv::Mat const &,::cv::Mat const &,int,double );
         
         bp::def( 
             "findHomography2"
             , findHomography2_function_type( &findHomography_43999ba4bb258d7c74f144c8915f1665 )
-            , ( bp::arg("srcPoints"), bp::arg("dstPoints"), bp::arg("mask"), bp::arg("method")=(int)(0), bp::arg("ransacReprojThreshold")=0 ) );
+            , ( bp::arg("srcPoints"), bp::arg("dstPoints"), bp::arg("method")=(int)(0), bp::arg("ransacReprojThreshold")=0 ) );
     
     }
 
