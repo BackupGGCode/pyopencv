@@ -29,7 +29,7 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
     
     }
 
-    static void create( ::cv::MatND & inst, cv::Mat & _sizes, int _type ){
+    static void create( ::cv::MatND & inst, cv::Mat const & _sizes, int _type ){
         int _sizes2;
         int * _sizes3;
         convert_from_Mat_to_array_of_T(_sizes, _sizes3, _sizes2);
@@ -161,7 +161,7 @@ void register_MatND_class(){
         }
         { //::cv::MatND::create
         
-            typedef void ( *create_function_type )( ::cv::MatND &,cv::Mat &,int );
+            typedef void ( *create_function_type )( ::cv::MatND &,cv::Mat const &,int );
             
             MatND_exposer.def( 
                 "create"

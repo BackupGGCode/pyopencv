@@ -370,8 +370,12 @@ def beautify_func_list(self, func_list):
                 repl_dict = {
                     'operator()': '__call__',
                 }
-                for t in repl_dict: s = s.replace(t, repl_dict[t])
-                f.transformations[0].unique_name = s
+                for t in repl_dict:
+                    if t in s:
+                        s = s.replace(t, repl_dict[t])
+                        f.transformations[0].unique_name = s
+                        f.transformations[0].alias = repl_dict[t]
+                        break
             
 module_builder.module_builder_t.beautify_func_list = beautify_func_list
 

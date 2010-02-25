@@ -54,7 +54,7 @@ if __name__ == "__main__":
     img_gray = img0.clone()
     wshed = img0.clone()
     marker_mask = Mat(img.size(), CV_8UC1)
-    markers = Mat(img.size(), CV_32SC1, 0)
+    markers = Mat(img.size(), CV_32SC1, Scalar())
     markers2 = Mat(img.size(), CV_8UC1)
 
     # color table for LUT

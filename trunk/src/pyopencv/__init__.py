@@ -1747,6 +1747,25 @@ def _Mat__repr__(self):
     return "Mat()" if self.empty() else "Mat(rows=" + repr(self.rows)         + ", cols=" + repr(self.cols) + ", nchannels=" + repr(self.channels())         + ", depth=" + repr(self.depth()) + "):\n" + repr(self.ndarray)
 Mat.__repr__ = _Mat__repr__
     
+def asMat(obj):
+    """Converts a Python object into a Mat object."""
+    
+    if obj is None:
+        return Mat()
+    
+    from numpy import ndarray
+    if isinstance(obj, ndarray):
+        return Mat.from_ndarray(obj)
+        
+    z = obj[0]
+    if isinstance(z, int):
+        return Mat.from_list_of_int32(obj)
+    if isinstance(z, float):
+        return Mat.from_list_of_float64(obj)
+
+    return eval("Mat.from_list_of_%s(obj)" % z.__class__.__name__)
+    
+    
 def _RNG__repr__(self):
     return "RNG(state=" + repr(self.state) + ")"
 RNG.__repr__ = _RNG__repr__

@@ -48,21 +48,21 @@ void register_SURF_class(){
         }
         { //::cv::SURF::operator()
         
-            typedef boost::python::object ( *__call___8fbaf2f3b7cf23fdd67db0f4874c6b20_function_type )( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const & );
+            typedef boost::python::object ( *__call___function_type )( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const & );
             
             SURF_exposer.def( 
-                "__call___8fbaf2f3b7cf23fdd67db0f4874c6b20"
-                , __call___8fbaf2f3b7cf23fdd67db0f4874c6b20_function_type( &__call___8fbaf2f3b7cf23fdd67db0f4874c6b20 )
+                "__call__"
+                , __call___function_type( &__call___8fbaf2f3b7cf23fdd67db0f4874c6b20 )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask") ) );
         
         }
         { //::cv::SURF::operator()
         
-            typedef boost::python::object ( *__call___8904ace00c2f24b8eb00d3aa8ac85014_function_type )( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::list &,bool );
+            typedef boost::python::object ( *__call___function_type )( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::list &,bool );
             
             SURF_exposer.def( 
-                "__call___8904ace00c2f24b8eb00d3aa8ac85014"
-                , __call___8904ace00c2f24b8eb00d3aa8ac85014_function_type( &__call___8904ace00c2f24b8eb00d3aa8ac85014 )
+                "__call__"
+                , __call___function_type( &__call___8904ace00c2f24b8eb00d3aa8ac85014 )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("useProvidedKeypoints")=(bool)(false) ) );
         
         }

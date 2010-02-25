@@ -38,14 +38,14 @@ void register_RNG_class(){
                 , next_function_type( &::cv::RNG::next ) );
         
         }
-        RNG_exposer.def( "as_schar", &cv::RNG::operator ::schar  );
-        RNG_exposer.def( "as_uchar", &cv::RNG::operator ::uchar  );
-        RNG_exposer.def( "as_ushort", &cv::RNG::operator ::ushort  );
-        RNG_exposer.def( "as_double", &cv::RNG::operator double  );
-        RNG_exposer.def( "as_float", &cv::RNG::operator float  );
-        RNG_exposer.def( "as_int", &cv::RNG::operator int  );
-        RNG_exposer.def( "as_short", &cv::RNG::operator short int  );
-        RNG_exposer.def( "as_unsigned", &cv::RNG::operator unsigned int  );
+        RNG_exposer.def( "as_int8", &cv::RNG::operator ::schar  );
+        RNG_exposer.def( "as_uint8", &cv::RNG::operator ::uchar  );
+        RNG_exposer.def( "as_uint16", &cv::RNG::operator ::ushort  );
+        RNG_exposer.def( "as_float64", &cv::RNG::operator double  );
+        RNG_exposer.def( "as_float32", &cv::RNG::operator float  );
+        RNG_exposer.def( "as_int32", &cv::RNG::operator int  );
+        RNG_exposer.def( "as_int16", &cv::RNG::operator short int  );
+        RNG_exposer.def( "as_uint32", &cv::RNG::operator unsigned int  );
         { //::cv::RNG::uniform
         
             typedef int ( ::cv::RNG::*uniform_function_type )( int,int ) ;
