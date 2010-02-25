@@ -238,10 +238,10 @@ def generate_code(mb, cc, D, FT, CP):
     # calcHist
     mb.free_funs('calcHist').exclude()
     mb.add_declaration_code('''
-static void sd_calcHist( bp::sequence const & images, bp::sequence const & channels, 
+static void sd_calcHist( bp::list const & images, bp::sequence const & channels, 
     ::cv::Mat const & mask, bp::object &hist, bp::sequence const & histSize, 
     bp::sequence const & ranges, bool uniform=true, bool accumulate=false ){
-    std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
+    std::vector< cv::Mat > images2; convert_from_object_to_T(images, images2);
     std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
     std::vector< int > histSize2; convert_seq_to_vector(histSize, histSize2);
     
@@ -276,7 +276,7 @@ static void sd_calcHist( bp::sequence const & images, bp::sequence const & chann
     ''')
     mb.add_registration_code('''bp::def( 
         "calcHist"
-        , (void (*)( bp::sequence const &, bp::sequence const &, ::cv::Mat const &, 
+        , (void (*)( bp::list const &, bp::sequence const &, ::cv::Mat const &, 
             bp::object &, bp::sequence const &, bp::sequence const &, bool, 
             bool ))( &sd_calcHist )
         , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), 
@@ -287,10 +287,10 @@ static void sd_calcHist( bp::sequence const & images, bp::sequence const & chann
     # calcBackProject
     mb.free_funs('calcBackProject').exclude()
     mb.add_declaration_code('''
-static void sd_calcBackProject( bp::sequence const & images, bp::sequence const & channels, 
+static void sd_calcBackProject( bp::list const & images, bp::sequence const & channels, 
     bp::object &hist, cv::Mat &backProject, 
     bp::sequence const & ranges, double scale=1, bool uniform=true ){
-    std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
+    std::vector< cv::Mat > images2; convert_from_object_to_T(images, images2);
     std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
     std::vector< std::vector < float > > ranges2; convert_seq_to_vector_vector(ranges, ranges2);
     std::vector< float const * > ranges3;
@@ -321,7 +321,7 @@ static void sd_calcBackProject( bp::sequence const & images, bp::sequence const 
     ''')
     mb.add_registration_code('''bp::def( 
         "calcBackProject"
-        , (void (*)( bp::sequence const &, bp::sequence const &, 
+        , (void (*)( bp::list const &, bp::sequence const &, 
             bp::object &, cv::Mat const &, bp::sequence const &, double, 
             bool ))( &sd_calcBackProject )
         , ( bp::arg("images"), bp::arg("channels"), 

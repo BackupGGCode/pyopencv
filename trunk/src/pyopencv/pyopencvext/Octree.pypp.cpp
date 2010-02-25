@@ -97,10 +97,10 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
 
 };
 
-static boost::shared_ptr<cv::Octree> Octree_init1( bp::sequence const &points, int maxLevels=10, int minPoints=20 )
+static boost::shared_ptr<cv::Octree> Octree_init1( bp::list const &points, int maxLevels=10, int minPoints=20 )
 {
     std::vector<cv::Point3f> points2;
-    convert_seq_to_vector(points, points2);
+    convert_from_object_to_T(points, points2);
     return boost::shared_ptr<cv::Octree>(new cv::Octree(points2, maxLevels, minPoints ));
 }
 

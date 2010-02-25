@@ -78,10 +78,10 @@ def generate_code(mb, cc, D, FT, CP):
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
     z.mem_fun('getNodes').exclude()
     z.add_declaration_code('''
-static boost::shared_ptr<cv::Octree> Octree_init1( bp::sequence const &points, int maxLevels=10, int minPoints=20 )
+static boost::shared_ptr<cv::Octree> Octree_init1( bp::list const &points, int maxLevels=10, int minPoints=20 )
 {
     std::vector<cv::Point3f> points2;
-    convert_seq_to_vector(points, points2);
+    convert_from_object_to_T(points, points2);
     return boost::shared_ptr<cv::Octree>(new cv::Octree(points2, maxLevels, minPoints ));
 }
 
@@ -98,10 +98,10 @@ static bp::object sd_getNodes(cv::Octree const &inst) { return convert_from_T_to
     for t in ('vtx', 'normals'):
         z.var(t).exclude()
     z.add_declaration_code('''
-static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::sequence const &vtx)
+static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::list const &vtx)
 {
     std::vector<cv::Point3f> vtx2;
-    convert_seq_to_vector(vtx, vtx2);
+    convert_from_object_to_T(vtx, vtx2);
     return boost::shared_ptr<cv::Mesh3D>(new cv::Mesh3D(vtx2));
 }
     ''')

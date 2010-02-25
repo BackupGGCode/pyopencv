@@ -574,10 +574,10 @@ static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4
     std::vector< ::CvPoint2D32f > v_prev_features(l_prev_features); convert_seq_to_vector(prev_features, v_prev_features);
     
     ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), b_prev_features? &v_prev_features[0]: 0, b_prev_features? (& (curr_features2.front())): 0, b_prev_features? (& (matrices2.front())): 0, l_prev_features, win_size, level, b_prev_features? (& (status2.front())): 0, b_prev_features? (& (track_error2.front())): 0, criteria, flags);
-    return bp::make_tuple( convert_vector_to_seq(status2)
-                            , convert_vector_to_seq(track_error2)
-                            , convert_vector_to_seq(curr_features2)
-                            , convert_vector_to_seq(matrices2) );
+    return bp::make_tuple( convert_from_T_to_object(status2)
+                            , convert_from_T_to_object(track_error2)
+                            , convert_from_T_to_object(curr_features2)
+                            , convert_from_T_to_object(matrices2) );
 }
 
 static void cvCalcArrBackProject_5961923bfd62f49a1a0aa6e73fd2cee6( bp::sequence & image, ::cv::Mat & dst, ::CvHistogram const * hist ){
@@ -648,9 +648,9 @@ static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b1283
     std::vector< ::CvPoint2D32f > v_prev_features(l_prev_features); convert_seq_to_vector(prev_features, v_prev_features);
     
     ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), b_prev_features? &v_prev_features[0]: 0, b_prev_features? (& (curr_features2.front())): 0, l_prev_features, win_size, level, b_prev_features? (& (status2.front())): 0, b_prev_features? (& (track_error2.front())): 0, criteria, flags);
-    return bp::make_tuple( convert_vector_to_seq(status2)
-                            , convert_vector_to_seq(track_error2)
-                            , convert_vector_to_seq(curr_features2) );
+    return bp::make_tuple( convert_from_T_to_object(status2)
+                            , convert_from_T_to_object(track_error2)
+                            , convert_from_T_to_object(curr_features2) );
 }
 
 static void cvConDensInitSampleSet_2b2c9d04e9f57fb36a248c795590341d( ::CvConDensation * condens, ::cv::Mat & lower_bound, ::cv::Mat & upper_bound ){
@@ -1043,10 +1043,10 @@ static void fillConvexPoly_1312287b0cded13c02c57cc3d8ebf4b4( ::cv::Mat & img, bp
     ::cv::fillConvexPoly(img, b_pts? &v_pts[0]: 0, l_pts, color, lineType, shift);
 }
 
-static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, bp::sequence pts, ::cv::Scalar const & color, int lineType=8, int shift=0, ::cv::Point offset=cv::Point_<int>() ){
+static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, bp::object const & pts, ::cv::Scalar const & color, int lineType=8, int shift=0, ::cv::Point offset=cv::Point_<int>() ){
     bool b_pts = (pts.ptr() != Py_None);
     std::vector<std::vector< ::cv::Point_<int> > > arr_pts;
-    if(b_pts) convert_seq_to_vector_vector(pts, arr_pts);
+    if(b_pts) convert_from_object_to_T(pts, arr_pts);
     int n0_pts = b_pts? arr_pts.size(): 0;
     
     std::vector< ::cv::Point_<int> * > buf_pts;
@@ -1207,10 +1207,10 @@ static void merge_a47eeb2aff422ee6c05b5574cb0848fe( bp::sequence & mv, ::cv::Mat
     ::cv::merge(b_mv? &v_mv[0]: 0, l_mv, dst);
 }
 
-static void polylines_4b2b9aca4a0ee1864678eae6b982fcc0( ::cv::Mat & img, bp::sequence pts, bool isClosed, ::cv::Scalar const & color, int thickness=1, int lineType=8, int shift=0 ){
+static void polylines_4b2b9aca4a0ee1864678eae6b982fcc0( ::cv::Mat & img, bp::object const & pts, bool isClosed, ::cv::Scalar const & color, int thickness=1, int lineType=8, int shift=0 ){
     bool b_pts = (pts.ptr() != Py_None);
     std::vector<std::vector< ::cv::Point_<int> > > arr_pts;
-    if(b_pts) convert_seq_to_vector_vector(pts, arr_pts);
+    if(b_pts) convert_from_object_to_T(pts, arr_pts);
     int n0_pts = b_pts? arr_pts.size(): 0;
     
     std::vector< ::cv::Point_<int> * > buf_pts;
@@ -1464,9 +1464,9 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
         ::cvSnakeImage(&img, (CvPoint *)points2, points2_len, &alpha2, &beta2, &gamma2, coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
         break;
     case CV_ARRAY:
-        convert_seq_to_vector(alpha, alpha3);
-        convert_seq_to_vector(beta, beta3);
-        convert_seq_to_vector(gamma, gamma3);
+        convert_from_object_to_T(alpha, alpha3);
+        convert_from_object_to_T(beta, beta3);
+        convert_from_object_to_T(gamma, gamma3);
         ::cvSnakeImage(&img, (CvPoint *)points2, points2_len, &alpha3[0], &beta3[0], &gamma3[0], coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
         break;
     default:
@@ -1476,10 +1476,10 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     }
 }
 
-static void sd_calcHist( bp::sequence const & images, bp::sequence const & channels, 
+static void sd_calcHist( bp::list const & images, bp::sequence const & channels, 
     ::cv::Mat const & mask, bp::object &hist, bp::sequence const & histSize, 
     bp::sequence const & ranges, bool uniform=true, bool accumulate=false ){
-    std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
+    std::vector< cv::Mat > images2; convert_from_object_to_T(images, images2);
     std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
     std::vector< int > histSize2; convert_seq_to_vector(histSize, histSize2);
     
@@ -1512,10 +1512,10 @@ static void sd_calcHist( bp::sequence const & images, bp::sequence const & chann
     }
 }
 
-static void sd_calcBackProject( bp::sequence const & images, bp::sequence const & channels, 
+static void sd_calcBackProject( bp::list const & images, bp::sequence const & channels, 
     bp::object &hist, cv::Mat &backProject, 
     bp::sequence const & ranges, double scale=1, bool uniform=true ){
-    std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
+    std::vector< cv::Mat > images2; convert_from_object_to_T(images, images2);
     std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
     std::vector< std::vector < float > > ranges2; convert_seq_to_vector_vector(ranges, ranges2);
     std::vector< float const * > ranges3;
@@ -3214,7 +3214,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::fillPoly
     
-        typedef void ( *fillPoly_function_type )( ::cv::Mat &,bp::sequence,::cv::Scalar const &,int,int,::cv::Point );
+        typedef void ( *fillPoly_function_type )( ::cv::Mat &,bp::object const &,::cv::Scalar const &,int,int,::cv::Point );
         
         bp::def( 
             "fillPoly"
@@ -3412,7 +3412,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::polylines
     
-        typedef void ( *polylines_function_type )( ::cv::Mat &,bp::sequence,bool,::cv::Scalar const &,int,int,int );
+        typedef void ( *polylines_function_type )( ::cv::Mat &,bp::object const &,bool,::cv::Scalar const &,int,int,int );
         
         bp::def( 
             "polylines"
@@ -3808,7 +3808,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def( 
         "calcHist"
-        , (void (*)( bp::sequence const &, bp::sequence const &, ::cv::Mat const &, 
+        , (void (*)( bp::list const &, bp::sequence const &, ::cv::Mat const &, 
             bp::object &, bp::sequence const &, bp::sequence const &, bool, 
             bool ))( &sd_calcHist )
         , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), 
@@ -3818,7 +3818,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def( 
         "calcBackProject"
-        , (void (*)( bp::sequence const &, bp::sequence const &, 
+        , (void (*)( bp::list const &, bp::sequence const &, 
             bp::object &, cv::Mat const &, bp::sequence const &, double, 
             bool ))( &sd_calcBackProject )
         , ( bp::arg("images"), bp::arg("channels"), 
