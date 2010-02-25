@@ -13,7 +13,7 @@
 
 namespace bp = boost::python;
 
-static void create_4e9dc46b2911de920c7af1dfbb19412a( ::cv::SparseMat & inst, cv::Mat & _sizes, int _type ){
+static void create_4e9dc46b2911de920c7af1dfbb19412a( ::cv::SparseMat & inst, cv::Mat const & _sizes, int _type ){
     int _sizes2;
     int * _sizes3;
     convert_from_Mat_to_array_of_T(_sizes, _sizes3, _sizes2);
@@ -32,7 +32,7 @@ static boost::python::object erase_ca8730dab3cfc35be7d8c7cfc84bf06f( ::cv::Spars
     return bp::object( hashval2 );
 }
 
-static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::SparseMat & inst, cv::Mat & idx ){
+static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::SparseMat & inst, cv::Mat const & idx ){
     unsigned int hashval2;
     int idx2;
     int * idx3;
@@ -41,7 +41,7 @@ static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::Spars
     return bp::object( hashval2 );
 }
 
-static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::SparseMat const & inst, cv::Mat & idx ){
+static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::SparseMat const & inst, cv::Mat const & idx ){
     int idx2;
     int * idx3;
     convert_from_Mat_to_array_of_T(idx, idx3, idx2);
@@ -189,7 +189,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::create
         
-            typedef void ( *create_function_type )( ::cv::SparseMat &,cv::Mat &,int );
+            typedef void ( *create_function_type )( ::cv::SparseMat &,cv::Mat const &,int );
             
             SparseMat_exposer.def( 
                 "create"
@@ -255,7 +255,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::erase
         
-            typedef boost::python::object ( *erase_7ee4e9a1250db62333754bd289edbba8_function_type )( ::cv::SparseMat &,cv::Mat & );
+            typedef boost::python::object ( *erase_7ee4e9a1250db62333754bd289edbba8_function_type )( ::cv::SparseMat &,cv::Mat const & );
             
             SparseMat_exposer.def( 
                 "erase_7ee4e9a1250db62333754bd289edbba8"
@@ -295,7 +295,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::hash
         
-            typedef boost::python::object ( *hash_19477be6a05d6299f1601326adc61332_function_type )( ::cv::SparseMat const &,cv::Mat & );
+            typedef boost::python::object ( *hash_19477be6a05d6299f1601326adc61332_function_type )( ::cv::SparseMat const &,cv::Mat const & );
             
             SparseMat_exposer.def( 
                 "hash_19477be6a05d6299f1601326adc61332"

@@ -115,11 +115,11 @@ void register_PlanarObjectDetector_class(){
         }
         { //::cv::PlanarObjectDetector::operator()
         
-            typedef boost::python::object ( *__call___4ace94e257458a02821c3e23f229be80_function_type )( ::cv::PlanarObjectDetector const &,::cv::Mat const &,::cv::Mat &,cv::Mat & );
+            typedef boost::python::object ( *__call___function_type )( ::cv::PlanarObjectDetector const &,::cv::Mat const &,::cv::Mat &,cv::Mat & );
             
             PlanarObjectDetector_exposer.def( 
-                "__call___4ace94e257458a02821c3e23f229be80"
-                , __call___4ace94e257458a02821c3e23f229be80_function_type( &PlanarObjectDetector_wrapper::__call___4ace94e257458a02821c3e23f229be80 )
+                "__call__"
+                , __call___function_type( &PlanarObjectDetector_wrapper::__call___4ace94e257458a02821c3e23f229be80 )
                 , ( bp::arg("inst"), bp::arg("image"), bp::arg("H"), bp::arg("corners") ) );
         
         }

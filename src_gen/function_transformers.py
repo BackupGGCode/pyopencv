@@ -361,18 +361,31 @@ class input_array1d_t(transformer.transformer_t):
 
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
-
-        if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.type = _D.dummy_type_t( "cv::Mat" )
-            w_arg.default_value = 'cv::Mat()'
-        else:
-            w_arg.type = _D.dummy_type_t( "cv::Mat &" )
         
-        # input array
-        l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name )
-        a_arr = controller.declare_variable( _D.dummy_type_t(self.array_item_type.decl_string+ " *"), self.arg.name )
-        controller.add_pre_call_code("convert_from_Mat_to_array_of_T(%s, %s, %s);" % (self.arg.name, a_arr, l_arr))
-        controller.modify_arg_expression( self.arg_index, a_arr )
+        if 'cv::Mat' in self.array_item_type.decl_string: # an array of cv::Mat
+            if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+                w_arg.type = _D.dummy_type_t( "bp::list" )
+                w_arg.default_value = 'bp::list()'
+            else:
+                w_arg.type = _D.dummy_type_t( "bp::list const &" )
+        
+            # input array
+            l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=bp::len(%s)" % self.arg.name )
+            a_arr = controller.declare_variable( _D.dummy_type_t("std::vector< %s >" % self.array_item_type.decl_string), self.arg.name, "(%s)" % l_arr )
+            controller.add_pre_call_code("convert_from_object_to_T(%s, %s);" % (self.arg.name, a_arr))
+            controller.modify_arg_expression( self.arg_index, "&%s[0]" %a_arr )
+        else:
+            if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+                w_arg.type = _D.dummy_type_t( "cv::Mat" )
+                w_arg.default_value = 'cv::Mat()'
+            else:
+                w_arg.type = _D.dummy_type_t( "cv::Mat const &" )
+        
+            # input array
+            l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name )
+            a_arr = controller.declare_variable( _D.dummy_type_t(self.array_item_type.decl_string+ " *"), self.arg.name )
+            controller.add_pre_call_code("convert_from_Mat_to_array_of_T(%s, %s, %s);" % (self.arg.name, a_arr, l_arr))
+            controller.modify_arg_expression( self.arg_index, a_arr )
         
         # number of elements
         if self.remove_arg_size and self.arg_size is not None:

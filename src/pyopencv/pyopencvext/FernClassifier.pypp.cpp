@@ -258,21 +258,21 @@ void register_FernClassifier_class(){
         }
         { //::cv::FernClassifier::operator()
         
-            typedef boost::python::tuple ( *default___call___c4d2198033cf380377bb6f32571c2657_function_type )( ::cv::FernClassifier const &,::cv::Mat const &,::cv::Point2f );
+            typedef boost::python::tuple ( *default___call___function_type )( ::cv::FernClassifier const &,::cv::Mat const &,::cv::Point2f );
             
             FernClassifier_exposer.def( 
-                "__call___c4d2198033cf380377bb6f32571c2657"
-                , default___call___c4d2198033cf380377bb6f32571c2657_function_type( &FernClassifier_wrapper::default___call___c4d2198033cf380377bb6f32571c2657 )
+                "__call__"
+                , default___call___function_type( &FernClassifier_wrapper::default___call___c4d2198033cf380377bb6f32571c2657 )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("kpt") ) );
         
         }
         { //::cv::FernClassifier::operator()
         
-            typedef boost::python::tuple ( *default___call___ddcd7402f4cc50fa35ce4888642630c7_function_type )( ::cv::FernClassifier const &,::cv::Mat const & );
+            typedef boost::python::tuple ( *default___call___function_type )( ::cv::FernClassifier const &,::cv::Mat const & );
             
             FernClassifier_exposer.def( 
-                "__call___ddcd7402f4cc50fa35ce4888642630c7"
-                , default___call___ddcd7402f4cc50fa35ce4888642630c7_function_type( &FernClassifier_wrapper::default___call___ddcd7402f4cc50fa35ce4888642630c7 )
+                "__call__"
+                , default___call___function_type( &FernClassifier_wrapper::default___call___ddcd7402f4cc50fa35ce4888642630c7 )
                 , ( bp::arg("inst"), bp::arg("patch") ) );
         
         }

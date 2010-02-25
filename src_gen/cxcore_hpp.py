@@ -291,18 +291,39 @@ static boost::shared_ptr<cv::Mat> Mat__init3__(bp::object const &arg1, bp::objec
         z.add_registration_code('def("to_list_of_%s", &convert_from_Mat_to_seq<%s> )' % (key, list_dict[key]))
         z.add_registration_code('def("from_list_of_%s", &convert_from_seq_to_Mat_object<%s> )' % (key, list_dict[key]))
         z.add_registration_code('staticmethod("from_list_of_%s")' % key)
+    # rewrite the asMat function
+    cc.write('''
+def asMat(obj):
+    """Converts a Python object into a Mat object."""
+    
+    if obj is None:
+        return Mat()
+    
+    from numpy import ndarray
+    if isinstance(obj, ndarray):
+        return Mat.from_ndarray(obj)
+        
+    z = obj[0]
+    if isinstance(z, int):
+        return Mat.from_list_of_int32(obj)
+    if isinstance(z, float):
+        return Mat.from_list_of_float64(obj)
+
+    return eval("Mat.from_list_of_%s(obj)" % z.__class__.__name__)
+    
+    ''')
 
     # RNG
     z = mb.class_('RNG')
     z.include()
-    z.operator(lambda x: x.name.endswith('uchar')).rename('as_uchar')
-    z.operator(lambda x: x.name.endswith('schar')).rename('as_schar')
-    z.operator(lambda x: x.name.endswith('ushort')).rename('as_ushort')
-    z.operator(lambda x: x.name.endswith('short int')).rename('as_short')
-    z.operator(lambda x: x.name.endswith('unsigned int')).rename('as_unsigned')
-    z.operator(lambda x: x.name.endswith('operator int')).rename('as_int')
-    z.operator(lambda x: x.name.endswith('float')).rename('as_float')
-    z.operator(lambda x: x.name.endswith('double')).rename('as_double')
+    z.operator(lambda x: x.name.endswith('uchar')).rename('as_uint8')
+    z.operator(lambda x: x.name.endswith('schar')).rename('as_int8')
+    z.operator(lambda x: x.name.endswith('ushort')).rename('as_uint16')
+    z.operator(lambda x: x.name.endswith('short int')).rename('as_int16')
+    z.operator(lambda x: x.name.endswith('unsigned int')).rename('as_uint32') # workaround, not working for 64-bit
+    z.operator(lambda x: x.name.endswith('operator int')).rename('as_int32') # workaround, not working for 64-bit
+    z.operator(lambda x: x.name.endswith('float')).rename('as_float32')
+    z.operator(lambda x: x.name.endswith('double')).rename('as_float64')
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(state=" + repr(self.state) + ")"

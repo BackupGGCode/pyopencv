@@ -36,21 +36,22 @@ if __name__ == '__main__':
                 my_random.randrange (0, image.cols / 2) + image.cols / 4)
 
         # compute the convex hull
-        hull = convexHull(points)
-
+        hull = convexHull(points).to_list_of_Point2i()
+        points = points.to_list_of_Point2i()
+        
         # start with an empty image
         image[:] = 0
 
         for i in range (count):
             # draw all the points
-            circle (image, asPoint(points[0,i]), 2, Scalar (0, 0, 255), CV_FILLED, CV_AA, 0)
+            circle (image, points[i], 2, Scalar (0, 0, 255), CV_FILLED, CV_AA, 0)
 
         # start the line from the last point
-        pt0 = hull[0, -1]
+        pt0 = hull[-1]
         
-        for pt1 in hull[0]:
+        for pt1 in hull:
             # draw
-            line (image, asPoint(pt0), asPoint(pt1), Scalar (0, 255, 0), 1, CV_AA, 0)
+            line (image, pt0, pt1, Scalar (0, 255, 0), 1, CV_AA, 0)
 
             # now, current one will be the previous one for the next iteration
             pt0 = pt1
