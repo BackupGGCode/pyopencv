@@ -363,40 +363,35 @@ class input_array1d_t(transformer.transformer_t):
         w_arg = controller.find_wrapper_arg( self.arg.name )
 
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.type = _D.dummy_type_t( "bp::sequence" )
-            w_arg.default_value = 'bp::sequence()'
+            w_arg.type = _D.dummy_type_t( "cv::Mat" )
+            w_arg.default_value = 'cv::Mat()'
         else:
-            w_arg.type = _D.dummy_type_t( "bp::sequence &" )
+            w_arg.type = _D.dummy_type_t( "cv::Mat &" )
         
+        # input array
+        l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name )
+        a_arr = controller.declare_variable( _D.dummy_type_t(self.array_item_type.decl_string+ " *"), self.arg.name )
+        controller.add_pre_call_code("convert_from_Mat_to_array_of_T(%s, %s, %s);" % (self.arg.name, a_arr, l_arr))
+        controller.modify_arg_expression( self.arg_index, a_arr )
+        
+        # number of elements
         if self.remove_arg_size and self.arg_size is not None:
-            #removing arg_size from the function wrapper definition
+            # remove arg_size from the function wrapper definition and automatically fill in the missing argument
             controller.remove_wrapper_arg( self.arg_size.name )
-
-        b_arr = controller.declare_variable( _D.dummy_type_t('bool'), "b_%s" % self.arg.name, "= %s.ptr() != Py_None" % self.arg.name )
-        l_arr = controller.declare_variable( _D.dummy_type_t('int'), "l_%s" % self.arg.name, "= b_ARRAY? bp::len(ARRAY): 0".replace('ARRAY', self.arg.name) )
+            controller.modify_arg_expression( self.arg_size_index, l_arr )
 
         # dealing with output arrays
         for key in self.output_arrays.keys():
             oo_arg = self.get_argument(key)
             ow_arg = controller.find_wrapper_arg(key)
             oetype = _D.remove_const( _D.array_item_type( oo_arg.type ) )
-            oa_arg = controller.declare_variable( _D.dummy_type_t( "std::vector < %s >" % oetype.decl_string ), key, "(l_%s * %s)" % (self.arg.name, self.output_arrays[key]) )
-            controller.modify_arg_expression( self.function.arguments.index(oo_arg), "b_%s? (& (%s.front())): 0" % (self.arg.name, oa_arg) )
+            oa_arg = controller.declare_variable( _D.dummy_type_t( "std::vector < %s >" % oetype.decl_string ), key, "(%s * %s)" % (l_arr, self.output_arrays[key]) )
+            controller.modify_arg_expression( self.function.arguments.index(oo_arg), "&(%s[0])" % oa_arg )
             controller.remove_wrapper_arg(key)
 
             controller.return_variable("convert_from_T_to_object(%s)" % oa_arg)
         
-        # Precall code
-        precall_code = """std::vector< ETYPE > v_ARRAY(l_ARRAY); convert_seq_to_vector(ARRAY, v_ARRAY);
-    """.replace("ETYPE", self.array_item_type.decl_string) \
-        .replace("ARRAY", self.arg.name)
-
-        controller.add_pre_call_code(precall_code)
             
-        controller.modify_arg_expression( self.arg_index, "b_ARRAY? &v_ARRAY[0]: 0".replace("ARRAY", self.arg.name) )
-        if self.remove_arg_size and self.arg_size is not None:
-            controller.modify_arg_expression( self.arg_size_index, "l_ARRAY".replace("ARRAY", self.arg.name) )
-
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
 

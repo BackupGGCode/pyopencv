@@ -13,12 +13,11 @@
 
 namespace bp = boost::python;
 
-static void create_4e9dc46b2911de920c7af1dfbb19412a( ::cv::SparseMat & inst, bp::sequence & _sizes, int _type ){
-    bool b__sizes= _sizes.ptr() != Py_None;
-    int l__sizes= b__sizes? bp::len(_sizes): 0;
-    std::vector< int > v__sizes(l__sizes); convert_seq_to_vector(_sizes, v__sizes);
-    
-    inst.create(l__sizes, b__sizes? &v__sizes[0]: 0, _type);
+static void create_4e9dc46b2911de920c7af1dfbb19412a( ::cv::SparseMat & inst, cv::Mat & _sizes, int _type ){
+    int _sizes2;
+    int * _sizes3;
+    convert_from_Mat_to_array_of_T(_sizes, _sizes3, _sizes2);
+    inst.create(_sizes2, _sizes3, _type);
 }
 
 static boost::python::object erase_ce64effe5fbeb3e9588310d12240ddce( ::cv::SparseMat & inst, int i0, int i1 ){
@@ -33,22 +32,20 @@ static boost::python::object erase_ca8730dab3cfc35be7d8c7cfc84bf06f( ::cv::Spars
     return bp::object( hashval2 );
 }
 
-static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::SparseMat & inst, bp::sequence & idx ){
+static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::SparseMat & inst, cv::Mat & idx ){
     unsigned int hashval2;
-    bool b_idx= idx.ptr() != Py_None;
-    int l_idx= b_idx? bp::len(idx): 0;
-    std::vector< int > v_idx(l_idx); convert_seq_to_vector(idx, v_idx);
-    
-    inst.erase(b_idx? &v_idx[0]: 0, &hashval2);
+    int idx2;
+    int * idx3;
+    convert_from_Mat_to_array_of_T(idx, idx3, idx2);
+    inst.erase(idx3, &hashval2);
     return bp::object( hashval2 );
 }
 
-static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::SparseMat const & inst, bp::sequence & idx ){
-    bool b_idx= idx.ptr() != Py_None;
-    int l_idx= b_idx? bp::len(idx): 0;
-    std::vector< int > v_idx(l_idx); convert_seq_to_vector(idx, v_idx);
-    
-    ::size_t result = inst.hash(b_idx? &v_idx[0]: 0);
+static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::SparseMat const & inst, cv::Mat & idx ){
+    int idx2;
+    int * idx3;
+    convert_from_Mat_to_array_of_T(idx, idx3, idx2);
+    ::size_t result = inst.hash(idx3);
     return bp::object( result );
 }
 
@@ -192,7 +189,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::create
         
-            typedef void ( *create_function_type )( ::cv::SparseMat &,bp::sequence &,int );
+            typedef void ( *create_function_type )( ::cv::SparseMat &,cv::Mat &,int );
             
             SparseMat_exposer.def( 
                 "create"
@@ -258,7 +255,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::erase
         
-            typedef boost::python::object ( *erase_7ee4e9a1250db62333754bd289edbba8_function_type )( ::cv::SparseMat &,bp::sequence & );
+            typedef boost::python::object ( *erase_7ee4e9a1250db62333754bd289edbba8_function_type )( ::cv::SparseMat &,cv::Mat & );
             
             SparseMat_exposer.def( 
                 "erase_7ee4e9a1250db62333754bd289edbba8"
@@ -298,7 +295,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::hash
         
-            typedef boost::python::object ( *hash_19477be6a05d6299f1601326adc61332_function_type )( ::cv::SparseMat const &,bp::sequence & );
+            typedef boost::python::object ( *hash_19477be6a05d6299f1601326adc61332_function_type )( ::cv::SparseMat const &,cv::Mat & );
             
             SparseMat_exposer.def( 
                 "hash_19477be6a05d6299f1601326adc61332"

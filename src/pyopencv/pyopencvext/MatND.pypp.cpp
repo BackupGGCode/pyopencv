@@ -29,20 +29,18 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
     
     }
 
-    static void create( ::cv::MatND & inst, bp::sequence & _sizes, int _type ){
-        bool b__sizes= _sizes.ptr() != Py_None;
-        int l__sizes= b__sizes? bp::len(_sizes): 0;
-        std::vector< int > v__sizes(l__sizes); convert_seq_to_vector(_sizes, v__sizes);
-    
-        inst.create(l__sizes, b__sizes? &v__sizes[0]: 0, _type);
+    static void create( ::cv::MatND & inst, cv::Mat & _sizes, int _type ){
+        int _sizes2;
+        int * _sizes3;
+        convert_from_Mat_to_array_of_T(_sizes, _sizes3, _sizes2);
+        inst.create(_sizes2, _sizes3, _type);
     }
 
-    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, bp::sequence _newsz=bp::sequence() ){
-        bool b__newsz= _newsz.ptr() != Py_None;
-        int l__newsz= b__newsz? bp::len(_newsz): 0;
-        std::vector< int > v__newsz(l__newsz); convert_seq_to_vector(_newsz, v__newsz);
-    
-        ::cv::MatND result = inst.reshape(_newcn, l__newsz, b__newsz? &v__newsz[0]: 0);
+    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, cv::Mat _newsz=cv::Mat() ){
+        int _newsz2;
+        int * _newsz3;
+        convert_from_Mat_to_array_of_T(_newsz, _newsz3, _newsz2);
+        ::cv::MatND result = inst.reshape(_newcn, _newsz2, _newsz3);
         return bp::object( result );
     }
 
@@ -163,7 +161,7 @@ void register_MatND_class(){
         }
         { //::cv::MatND::create
         
-            typedef void ( *create_function_type )( ::cv::MatND &,bp::sequence &,int );
+            typedef void ( *create_function_type )( ::cv::MatND &,cv::Mat &,int );
             
             MatND_exposer.def( 
                 "create"
@@ -241,12 +239,12 @@ void register_MatND_class(){
         }
         { //::cv::MatND::reshape
         
-            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,bp::sequence );
+            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,cv::Mat );
             
             MatND_exposer.def( 
                 "reshape"
                 , reshape_function_type( &MatND_wrapper::reshape )
-                , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=bp::sequence() ) );
+                , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=cv::Mat() ) );
         
         }
         { //::cv::MatND::setTo

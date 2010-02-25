@@ -10,4 +10,6 @@ Provide more demos
 
 Fix squares.py demo, something's wrong with the algorithm. It's running but too slow.
 
-FernClassifier's type vector<Ptr<Mat > > > 
+Improve FernClassifier's type vector<Ptr<Mat > > > 
+
+Write a function to convert from a bp::sequence to a cv::Mat and otherwise
