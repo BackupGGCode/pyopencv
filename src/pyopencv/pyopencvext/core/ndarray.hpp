@@ -175,9 +175,14 @@ NDARRAY_TO_VECTOR(cv::Point3d);
 
 // Rect-like
 NDARRAY_TO_VECTOR(cv::Rect);
-NDARRAY_TO_VECTOR(cv::Rectd);
 NDARRAY_TO_VECTOR(cv::Rectf);
+NDARRAY_TO_VECTOR(cv::Rectd);
 NDARRAY_TO_VECTOR(cv::RotatedRect);
+
+// Size-like
+NDARRAY_TO_VECTOR(cv::Size2i);
+NDARRAY_TO_VECTOR(cv::Size2f);
+NDARRAY_TO_VECTOR(cv::Size2d);
 
 // Scalar
 NDARRAY_TO_VECTOR(cv::Scalar);
@@ -243,9 +248,14 @@ VECTOR_TO_NDARRAY(cv::Point3d);
 
 // Rect-like
 VECTOR_TO_NDARRAY(cv::Rect);
-VECTOR_TO_NDARRAY(cv::Rectd);
 VECTOR_TO_NDARRAY(cv::Rectf);
+VECTOR_TO_NDARRAY(cv::Rectd);
 VECTOR_TO_NDARRAY(cv::RotatedRect);
+
+// Size-like
+VECTOR_TO_NDARRAY(cv::Size2i);
+VECTOR_TO_NDARRAY(cv::Size2f);
+VECTOR_TO_NDARRAY(cv::Size2d);
 
 // Scalar
 VECTOR_TO_NDARRAY(cv::Scalar);
@@ -300,9 +310,14 @@ AS_NDARRAY(cv::Point3d);
 
 // Rect-like
 AS_NDARRAY(cv::Rect);
-AS_NDARRAY(cv::Rectd);
 AS_NDARRAY(cv::Rectf);
+AS_NDARRAY(cv::Rectd);
 AS_NDARRAY(cv::RotatedRect);
+
+// Size-like
+AS_NDARRAY(cv::Size2i);
+AS_NDARRAY(cv::Size2f);
+AS_NDARRAY(cv::Size2d);
 
 // Scalar
 AS_NDARRAY(cv::Scalar);
@@ -362,9 +377,14 @@ FROM_NDARRAY(cv::Point3d);
 
 // Rect-like
 FROM_NDARRAY(cv::Rect);
-FROM_NDARRAY(cv::Rectd);
 FROM_NDARRAY(cv::Rectf);
+FROM_NDARRAY(cv::Rectd);
 FROM_NDARRAY(cv::RotatedRect);
+
+// Size-like
+FROM_NDARRAY(cv::Size2i);
+FROM_NDARRAY(cv::Size2f);
+FROM_NDARRAY(cv::Size2d);
 
 // Scalar
 FROM_NDARRAY(cv::Scalar);

@@ -578,7 +578,7 @@ if Vec6d.from_ndarray.__doc__ is None:
 else:
     Vec6d.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec6d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec6d.from_ndarray(a)' or 'asVec6d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec6d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec6d.from_ndarray(a)' or 'asVec6d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec6d.__doc__ is None:
     Vec6d.__doc__ = _str
 else:
@@ -610,7 +610,7 @@ if Vec2d.from_ndarray.__doc__ is None:
 else:
     Vec2d.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2d.from_ndarray(a)' or 'asVec2d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2d.from_ndarray(a)' or 'asVec2d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec2d.__doc__ is None:
     Vec2d.__doc__ = _str
 else:
@@ -642,7 +642,7 @@ if Vec6f.from_ndarray.__doc__ is None:
 else:
     Vec6f.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec6f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec6f.from_ndarray(a)' or 'asVec6f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec6f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec6f.from_ndarray(a)' or 'asVec6f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec6f.__doc__ is None:
     Vec6f.__doc__ = _str
 else:
@@ -674,7 +674,7 @@ if Vec4f.from_ndarray.__doc__ is None:
 else:
     Vec4f.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4f.from_ndarray(a)' or 'asVec4f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4f.from_ndarray(a)' or 'asVec4f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4f.__doc__ is None:
     Vec4f.__doc__ = _str
 else:
@@ -706,7 +706,7 @@ if Vec4i.from_ndarray.__doc__ is None:
 else:
     Vec4i.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4i that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4i.from_ndarray(a)' or 'asVec4i(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4i that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4i.from_ndarray(a)' or 'asVec4i(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4i.__doc__ is None:
     Vec4i.__doc__ = _str
 else:
@@ -738,7 +738,7 @@ if Vec3i.from_ndarray.__doc__ is None:
 else:
     Vec3i.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3i that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3i.from_ndarray(a)' or 'asVec3i(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3i that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3i.from_ndarray(a)' or 'asVec3i(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec3i.__doc__ is None:
     Vec3i.__doc__ = _str
 else:
@@ -770,7 +770,7 @@ if Vec4w.from_ndarray.__doc__ is None:
 else:
     Vec4w.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4w that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4w.from_ndarray(a)' or 'asVec4w(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4w that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4w.from_ndarray(a)' or 'asVec4w(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4w.__doc__ is None:
     Vec4w.__doc__ = _str
 else:
@@ -802,7 +802,7 @@ if Vec3w.from_ndarray.__doc__ is None:
 else:
     Vec3w.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3w that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3w.from_ndarray(a)' or 'asVec3w(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3w that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3w.from_ndarray(a)' or 'asVec3w(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec3w.__doc__ is None:
     Vec3w.__doc__ = _str
 else:
@@ -834,7 +834,7 @@ if Vec2w.from_ndarray.__doc__ is None:
 else:
     Vec2w.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2w that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2w.from_ndarray(a)' or 'asVec2w(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2w that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2w.from_ndarray(a)' or 'asVec2w(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec2w.__doc__ is None:
     Vec2w.__doc__ = _str
 else:
@@ -866,7 +866,7 @@ if Vec4s.from_ndarray.__doc__ is None:
 else:
     Vec4s.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4s that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4s.from_ndarray(a)' or 'asVec4s(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4s that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4s.from_ndarray(a)' or 'asVec4s(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4s.__doc__ is None:
     Vec4s.__doc__ = _str
 else:
@@ -898,7 +898,7 @@ if Vec3s.from_ndarray.__doc__ is None:
 else:
     Vec3s.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3s that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3s.from_ndarray(a)' or 'asVec3s(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3s that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3s.from_ndarray(a)' or 'asVec3s(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec3s.__doc__ is None:
     Vec3s.__doc__ = _str
 else:
@@ -930,7 +930,7 @@ if Vec2s.from_ndarray.__doc__ is None:
 else:
     Vec2s.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2s that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2s.from_ndarray(a)' or 'asVec2s(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2s that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2s.from_ndarray(a)' or 'asVec2s(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec2s.__doc__ is None:
     Vec2s.__doc__ = _str
 else:
@@ -962,7 +962,7 @@ if Vec4b.from_ndarray.__doc__ is None:
 else:
     Vec4b.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4b that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4b.from_ndarray(a)' or 'asVec4b(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4b that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4b.from_ndarray(a)' or 'asVec4b(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4b.__doc__ is None:
     Vec4b.__doc__ = _str
 else:
@@ -994,7 +994,7 @@ if Vec3b.from_ndarray.__doc__ is None:
 else:
     Vec3b.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3b that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3b.from_ndarray(a)' or 'asVec3b(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3b that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3b.from_ndarray(a)' or 'asVec3b(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec3b.__doc__ is None:
     Vec3b.__doc__ = _str
 else:
@@ -1026,7 +1026,7 @@ if Vec2b.from_ndarray.__doc__ is None:
 else:
     Vec2b.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2b that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2b.from_ndarray(a)' or 'asVec2b(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2b that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2b.from_ndarray(a)' or 'asVec2b(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec2b.__doc__ is None:
     Vec2b.__doc__ = _str
 else:
@@ -1058,7 +1058,7 @@ if Vec3d.from_ndarray.__doc__ is None:
 else:
     Vec3d.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3d.from_ndarray(a)' or 'asVec3d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3d.from_ndarray(a)' or 'asVec3d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec3d.__doc__ is None:
     Vec3d.__doc__ = _str
 else:
@@ -1090,7 +1090,7 @@ if Vec3f.from_ndarray.__doc__ is None:
 else:
     Vec3f.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3f.from_ndarray(a)' or 'asVec3f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec3f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec3f.from_ndarray(a)' or 'asVec3f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec3f.__doc__ is None:
     Vec3f.__doc__ = _str
 else:
@@ -1122,7 +1122,7 @@ if Vec4d.from_ndarray.__doc__ is None:
 else:
     Vec4d.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4d.from_ndarray(a)' or 'asVec4d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec4d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec4d.from_ndarray(a)' or 'asVec4d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4d.__doc__ is None:
     Vec4d.__doc__ = _str
 else:
@@ -1154,7 +1154,7 @@ if Vec2f.from_ndarray.__doc__ is None:
 else:
     Vec2f.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2f.from_ndarray(a)' or 'asVec2f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2f.from_ndarray(a)' or 'asVec2f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec2f.__doc__ is None:
     Vec2f.__doc__ = _str
 else:
@@ -1186,7 +1186,7 @@ if Vec2i.from_ndarray.__doc__ is None:
 else:
     Vec2i.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2i that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2i.from_ndarray(a)' or 'asVec2i(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Vec2i that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Vec2i.from_ndarray(a)' or 'asVec2i(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec2i.__doc__ is None:
     Vec2i.__doc__ = _str
 else:
@@ -1223,7 +1223,7 @@ if Point2d.from_ndarray.__doc__ is None:
 else:
     Point2d.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Point2d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point2d.from_ndarray(a)' or 'asPoint2d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point2d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point2d.from_ndarray(a)' or 'asPoint2d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point2d.__doc__ is None:
     Point2d.__doc__ = _str
 else:
@@ -1256,7 +1256,7 @@ if Point2f.from_ndarray.__doc__ is None:
 else:
     Point2f.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Point2f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point2f.from_ndarray(a)' or 'asPoint2f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point2f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point2f.from_ndarray(a)' or 'asPoint2f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point2f.__doc__ is None:
     Point2f.__doc__ = _str
 else:
@@ -1289,7 +1289,7 @@ if Point2i.from_ndarray.__doc__ is None:
 else:
     Point2i.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Point2i that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point2i.from_ndarray(a)' or 'asPoint2i(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point2i that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point2i.from_ndarray(a)' or 'asPoint2i(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point2i.__doc__ is None:
     Point2i.__doc__ = _str
 else:
@@ -1314,18 +1314,13 @@ Point2i.__setslice__ = _Point2i__setslice__
 Point = Point2i
 asPoint = asPoint2i
     
-def _Point3d__repr__(self):
-    return "Point3d(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
-Point3d.__repr__ = _Point3d__repr__
-        
-        
 _str = "\n    [pyopencv] Creates a Point3d view on an ndarray instance."
 if Point3d.from_ndarray.__doc__ is None:
     Point3d.from_ndarray.__doc__ = _str
 else:
     Point3d.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Point3d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point3d.from_ndarray(a)' or 'asPoint3d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point3d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point3d.from_ndarray(a)' or 'asPoint3d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point3d.__doc__ is None:
     Point3d.__doc__ = _str
 else:
@@ -1347,9 +1342,9 @@ def _Point3d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point3d.__setslice__ = _Point3d__setslice__
         
-def _Point3f__repr__(self):
-    return "Point3f(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
-Point3f.__repr__ = _Point3f__repr__
+def _Point3d__repr__(self):
+    return "Point3d(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
+Point3d.__repr__ = _Point3d__repr__
         
         
 _str = "\n    [pyopencv] Creates a Point3f view on an ndarray instance."
@@ -1358,7 +1353,7 @@ if Point3f.from_ndarray.__doc__ is None:
 else:
     Point3f.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Point3f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point3f.from_ndarray(a)' or 'asPoint3f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point3f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point3f.from_ndarray(a)' or 'asPoint3f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point3f.__doc__ is None:
     Point3f.__doc__ = _str
 else:
@@ -1380,9 +1375,9 @@ def _Point3f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point3f.__setslice__ = _Point3f__setslice__
         
-def _Point3i__repr__(self):
-    return "Point3i(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
-Point3i.__repr__ = _Point3i__repr__
+def _Point3f__repr__(self):
+    return "Point3f(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
+Point3f.__repr__ = _Point3f__repr__
         
         
 _str = "\n    [pyopencv] Creates a Point3i view on an ndarray instance."
@@ -1391,7 +1386,7 @@ if Point3i.from_ndarray.__doc__ is None:
 else:
     Point3i.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Point3i that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point3i.from_ndarray(a)' or 'asPoint3i(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Point3i that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Point3i.from_ndarray(a)' or 'asPoint3i(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point3i.__doc__ is None:
     Point3i.__doc__ = _str
 else:
@@ -1413,15 +1408,104 @@ def _Point3i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point3i.__setslice__ = _Point3i__setslice__
         
+def _Point3i__repr__(self):
+    return "Point3i(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
+Point3i.__repr__ = _Point3i__repr__
+        
+        
+_str = "\n    [pyopencv] Creates a Size2i view on an ndarray instance."
+if Size2i.from_ndarray.__doc__ is None:
+    Size2i.from_ndarray.__doc__ = _str
+else:
+    Size2i.from_ndarray.__doc__ += _str
+
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Size2i that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Size2i.from_ndarray(a)' or 'asSize2i(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Size2i.__doc__ is None:
+    Size2i.__doc__ = _str
+else:
+    Size2i.__doc__ += _str
+    
+def _Size2i__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Size2i.__getitem__ = _Size2i__getitem__
+            
+def _Size2i__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Size2i.__setitem__ = _Size2i__setitem__
+            
+def _Size2i__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Size2i.__getslice__ = _Size2i__getslice__
+            
+def _Size2i__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Size2i.__setslice__ = _Size2i__setslice__
+        
 def _Size2i__repr__(self):
     return "Size2i(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
 Size2i.__repr__ = _Size2i__repr__
         
         
+_str = "\n    [pyopencv] Creates a Size2d view on an ndarray instance."
+if Size2d.from_ndarray.__doc__ is None:
+    Size2d.from_ndarray.__doc__ = _str
+else:
+    Size2d.from_ndarray.__doc__ += _str
+
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Size2d that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Size2d.from_ndarray(a)' or 'asSize2d(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Size2d.__doc__ is None:
+    Size2d.__doc__ = _str
+else:
+    Size2d.__doc__ += _str
+    
+def _Size2d__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Size2d.__getitem__ = _Size2d__getitem__
+            
+def _Size2d__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Size2d.__setitem__ = _Size2d__setitem__
+            
+def _Size2d__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Size2d.__getslice__ = _Size2d__getslice__
+            
+def _Size2d__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Size2d.__setslice__ = _Size2d__setslice__
+        
 def _Size2d__repr__(self):
     return "Size2d(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
 Size2d.__repr__ = _Size2d__repr__
         
+        
+_str = "\n    [pyopencv] Creates a Size2f view on an ndarray instance."
+if Size2f.from_ndarray.__doc__ is None:
+    Size2f.from_ndarray.__doc__ = _str
+else:
+    Size2f.from_ndarray.__doc__ += _str
+
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Size2f that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Size2f.from_ndarray(a)' or 'asSize2f(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Size2f.__doc__ is None:
+    Size2f.__doc__ = _str
+else:
+    Size2f.__doc__ += _str
+    
+def _Size2f__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Size2f.__getitem__ = _Size2f__getitem__
+            
+def _Size2f__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Size2f.__setitem__ = _Size2f__setitem__
+            
+def _Size2f__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Size2f.__getslice__ = _Size2f__getslice__
+            
+def _Size2f__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Size2f.__setslice__ = _Size2f__setslice__
         
 def _Size2f__repr__(self):
     return "Size2f(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
@@ -1436,7 +1520,7 @@ if Rectd.from_ndarray.__doc__ is None:
 else:
     Rectd.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Rectd that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Rectd.from_ndarray(a)' or 'asRectd(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Rectd that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Rectd.from_ndarray(a)' or 'asRectd(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Rectd.__doc__ is None:
     Rectd.__doc__ = _str
 else:
@@ -1470,7 +1554,7 @@ if Rectf.from_ndarray.__doc__ is None:
 else:
     Rectf.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Rectf that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Rectf.from_ndarray(a)' or 'asRectf(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Rectf that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Rectf.from_ndarray(a)' or 'asRectf(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Rectf.__doc__ is None:
     Rectf.__doc__ = _str
 else:
@@ -1504,7 +1588,7 @@ if Rect.from_ndarray.__doc__ is None:
 else:
     Rect.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Rect that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Rect.from_ndarray(a)' or 'asRect(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Rect that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Rect.from_ndarray(a)' or 'asRect(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Rect.__doc__ is None:
     Rect.__doc__ = _str
 else:
@@ -1538,7 +1622,7 @@ if RotatedRect.from_ndarray.__doc__ is None:
 else:
     RotatedRect.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of RotatedRect that shares the same data with an ndarray instance, use:\n    [pyopencv]     'RotatedRect.from_ndarray(a)' or 'asRotatedRect(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of RotatedRect that shares the same data with an ndarray instance, use:\n    [pyopencv]     'RotatedRect.from_ndarray(a)' or 'asRotatedRect(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if RotatedRect.__doc__ is None:
     RotatedRect.__doc__ = _str
 else:
@@ -1572,7 +1656,7 @@ if Scalar.from_ndarray.__doc__ is None:
 else:
     Scalar.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Scalar that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Scalar.from_ndarray(a)' or 'asScalar(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Scalar that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Scalar.from_ndarray(a)' or 'asScalar(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Scalar.__doc__ is None:
     Scalar.__doc__ = _str
 else:
@@ -1604,7 +1688,7 @@ if Range.from_ndarray.__doc__ is None:
 else:
     Range.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Range that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Range.from_ndarray(a)' or 'asRange(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Range that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Range.from_ndarray(a)' or 'asRange(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Range.__doc__ is None:
     Range.__doc__ = _str
 else:
@@ -1637,7 +1721,7 @@ if Mat.from_ndarray.__doc__ is None:
 else:
     Mat.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of Mat that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Mat.from_ndarray(a)' or 'asMat(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of Mat that shares the same data with an ndarray instance, use:\n    [pyopencv]     'Mat.from_ndarray(a)' or 'asMat(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Mat.__doc__ is None:
     Mat.__doc__ = _str
 else:
@@ -1680,7 +1764,7 @@ if MatND.from_ndarray.__doc__ is None:
 else:
     MatND.from_ndarray.__doc__ += _str
 
-_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.\n    [pyopencv] \n    [pyopencv] To create an instance of MatND that shares the same data with an ndarray instance, use:\n    [pyopencv]     'MatND.from_ndarray(a)' or 'asMatND(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    [pyopencv] Property 'ndarray' provides a numpy.ndarray view on the object.\n    [pyopencv] If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    [pyopencv] \n    [pyopencv] To create an instance of MatND that shares the same data with an ndarray instance, use:\n    [pyopencv]     'MatND.from_ndarray(a)' or 'asMatND(a)\n    [pyopencv] where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if MatND.__doc__ is None:
     MatND.__doc__ = _str
 else:

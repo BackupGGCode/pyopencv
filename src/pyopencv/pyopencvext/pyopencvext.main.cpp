@@ -566,11 +566,15 @@ static void cvAcc_ef7ed9735ac6fce4129e5e89f645482d( ::cv::Mat & image, ::cv::Mat
 static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, cv::Mat & prev_features, ::CvSize win_size, int level, ::CvTermCriteria criteria, int flags ){
     int prev_features2;
     CvPoint2D32f * prev_features3;
-    std::vector < char > status2(prev_features2 * 1);
-    std::vector < float > track_error2(prev_features2 * 1);
-    std::vector < ::CvPoint2D32f > curr_features2(prev_features2 * 1);
-    std::vector < float > matrices2(prev_features2 * 1);
+    std::vector < char > status2;
+    std::vector < float > track_error2;
+    std::vector < ::CvPoint2D32f > curr_features2;
+    std::vector < float > matrices2;
     convert_from_Mat_to_array_of_T(prev_features, prev_features3, prev_features2);
+    status2.resize(prev_features2 * 1);
+    track_error2.resize(prev_features2 * 1);
+    curr_features2.resize(prev_features2 * 1);
+    matrices2.resize(prev_features2 * 1);
     ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), prev_features3, &(curr_features2[0]), &(matrices2[0]), prev_features2, win_size, level, &(status2[0]), &(track_error2[0]), criteria, flags);
     return bp::make_tuple( convert_from_T_to_object(status2)
                             , convert_from_T_to_object(track_error2)
@@ -638,10 +642,13 @@ static void cvCalcOpticalFlowLK_0539268816232dbc93df209c0dc87327( ::cv::Mat & pr
 static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, cv::Mat & prev_features, ::CvSize win_size, int level, ::CvTermCriteria criteria, int flags ){
     int prev_features2;
     CvPoint2D32f * prev_features3;
-    std::vector < char > status2(prev_features2 * 1);
-    std::vector < float > track_error2(prev_features2 * 1);
-    std::vector < ::CvPoint2D32f > curr_features2(prev_features2 * 1);
+    std::vector < char > status2;
+    std::vector < float > track_error2;
+    std::vector < ::CvPoint2D32f > curr_features2;
     convert_from_Mat_to_array_of_T(prev_features, prev_features3, prev_features2);
+    status2.resize(prev_features2 * 1);
+    track_error2.resize(prev_features2 * 1);
+    curr_features2.resize(prev_features2 * 1);
     ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), prev_features3, &(curr_features2[0]), prev_features2, win_size, level, &(status2[0]), &(track_error2[0]), criteria, flags);
     return bp::make_tuple( convert_from_T_to_object(status2)
                             , convert_from_T_to_object(track_error2)
@@ -3646,139 +3653,77 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asVec6d", &bp::from_ndarray< cv::Vec6d >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec6d >, (bp::arg("arr")) );
-
     bp::def("asVec2d", &bp::from_ndarray< cv::Vec2d >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec2d >, (bp::arg("arr")) );
 
     bp::def("asVec6f", &bp::from_ndarray< cv::Vec6f >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec6f >, (bp::arg("arr")) );
-
     bp::def("asVec4f", &bp::from_ndarray< cv::Vec4f >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec4f >, (bp::arg("arr")) );
 
     bp::def("asVec4i", &bp::from_ndarray< cv::Vec4i >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec4i >, (bp::arg("arr")) );
-
     bp::def("asVec3i", &bp::from_ndarray< cv::Vec3i >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec3i >, (bp::arg("arr")) );
 
     bp::def("asVec4w", &bp::from_ndarray< cv::Vec4w >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec4w >, (bp::arg("arr")) );
-
     bp::def("asVec3w", &bp::from_ndarray< cv::Vec3w >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec3w >, (bp::arg("arr")) );
 
     bp::def("asVec2w", &bp::from_ndarray< cv::Vec2w >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec2w >, (bp::arg("arr")) );
-
     bp::def("asVec4s", &bp::from_ndarray< cv::Vec4s >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec4s >, (bp::arg("arr")) );
 
     bp::def("asVec3s", &bp::from_ndarray< cv::Vec3s >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec3s >, (bp::arg("arr")) );
-
     bp::def("asVec2s", &bp::from_ndarray< cv::Vec2s >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec2s >, (bp::arg("arr")) );
 
     bp::def("asVec4b", &bp::from_ndarray< cv::Vec4b >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec4b >, (bp::arg("arr")) );
-
     bp::def("asVec3b", &bp::from_ndarray< cv::Vec3b >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec3b >, (bp::arg("arr")) );
 
     bp::def("asVec2b", &bp::from_ndarray< cv::Vec2b >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec2b >, (bp::arg("arr")) );
-
     bp::def("asVec3d", &bp::from_ndarray< cv::Vec3d >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec3d >, (bp::arg("arr")) );
 
     bp::def("asVec3f", &bp::from_ndarray< cv::Vec3f >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec3f >, (bp::arg("arr")) );
-
     bp::def("asVec4d", &bp::from_ndarray< cv::Vec4d >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec4d >, (bp::arg("arr")) );
 
     bp::def("asVec2f", &bp::from_ndarray< cv::Vec2f >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec2f >, (bp::arg("arr")) );
-
     bp::def("asVec2i", &bp::from_ndarray< cv::Vec2i >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Vec2i >, (bp::arg("arr")) );
 
     bp::def("asPoint2d", &bp::from_ndarray< cv::Point2d >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Point2d >, (bp::arg("arr")) );
-
     bp::def("asPoint2f", &bp::from_ndarray< cv::Point2f >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Point2f >, (bp::arg("arr")) );
 
     bp::def("asPoint2i", &bp::from_ndarray< cv::Point2i >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Point2i >, (bp::arg("arr")) );
-
     bp::def("asPoint3d", &bp::from_ndarray< cv::Point3d >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Point3d >, (bp::arg("arr")) );
 
     bp::def("asPoint3f", &bp::from_ndarray< cv::Point3f >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Point3f >, (bp::arg("arr")) );
-
     bp::def("asPoint3i", &bp::from_ndarray< cv::Point3i >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Point3i >, (bp::arg("arr")) );
+    bp::def("asSize2i", &bp::from_ndarray< cv::Size2i >, (bp::arg("arr")) );
+
+    bp::def("asSize2d", &bp::from_ndarray< cv::Size2d >, (bp::arg("arr")) );
+
+    bp::def("asSize2f", &bp::from_ndarray< cv::Size2f >, (bp::arg("arr")) );
 
     bp::def("asRectd", &bp::from_ndarray< cv::Rectd >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Rectd >, (bp::arg("arr")) );
-
     bp::def("asRectf", &bp::from_ndarray< cv::Rectf >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Rectf >, (bp::arg("arr")) );
 
     bp::def("asRect", &bp::from_ndarray< cv::Rect >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Rect >, (bp::arg("arr")) );
-
     bp::def("asRotatedRect", &bp::from_ndarray< cv::RotatedRect >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::RotatedRect >, (bp::arg("arr")) );
 
     bp::def("asScalar", &bp::from_ndarray< cv::Scalar >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Scalar >, (bp::arg("arr")) );
-
     bp::def("asRange", &bp::from_ndarray< cv::Range >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::Range >, (bp::arg("arr")) );
 
     bp::def("asMat", &bp::from_ndarray< cv::Mat >, (bp::arg("arr")) );
 
-    bp::def("asndarray", &bp::as_ndarray< cv::Mat >, (bp::arg("arr")) );
-
     bp::def("asMatND", &bp::from_ndarray< cv::MatND >, (bp::arg("arr")) );
-
-    bp::def("asndarray", &bp::as_ndarray< cv::MatND >, (bp::arg("arr")) );
 
     bp::def("mixChannels", &::mixChannels, ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo") ));
 

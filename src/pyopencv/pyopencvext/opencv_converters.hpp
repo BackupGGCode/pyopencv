@@ -75,6 +75,11 @@ DEFINE_FIXED_SIZE(cv::Rectf);
 DEFINE_FIXED_SIZE(cv::Rectd);
 DEFINE_FIXED_SIZE(cv::RotatedRect);
 
+// Size-like
+DEFINE_FIXED_SIZE(cv::Size2i);
+DEFINE_FIXED_SIZE(cv::Size2f);
+DEFINE_FIXED_SIZE(cv::Size2d);
+
 // Scalar
 DEFINE_FIXED_SIZE(cv::Scalar);
 
@@ -140,6 +145,11 @@ template<> inline int elem_type_of<cv::Rect>() { return CV_32S; } // workaround,
 template<> inline int elem_type_of<cv::Rectf>() { return CV_32F; }
 template<> inline int elem_type_of<cv::Rectd>() { return CV_64F; }
 template<> inline int elem_type_of<cv::RotatedRect>() { return CV_32F; }
+
+// Size-like
+template<> inline int elem_type_of<cv::Size2i>() { return CV_32S; } // workaround, only works for 32-bit
+template<> inline int elem_type_of<cv::Size2f>() { return CV_32F; }
+template<> inline int elem_type_of<cv::Size2d>() { return CV_64F; }
 
 // Scalar
 template<> inline int elem_type_of<cv::Scalar>() { return CV_64F; }
@@ -207,6 +217,11 @@ template<> inline int n_elems_of<cv::Rectf>() { return 4; }
 template<> inline int n_elems_of<cv::Rectd>() { return 4; }
 template<> inline int n_elems_of<cv::RotatedRect>() { return 5; }
 
+// Size-like
+template<> inline int n_elems_of<cv::Size2i>() { return 2; }
+template<> inline int n_elems_of<cv::Size2f>() { return 2; }
+template<> inline int n_elems_of<cv::Size2d>() { return 2; }
+
 // Scalar
 template<> inline int n_elems_of<cv::Scalar>() { return 4; }
 
@@ -268,7 +283,7 @@ inline T &convert_from_Mat_to_T( const cv::Mat &in_arr )
     int n = n_elems_per_row<T>(in_arr);
     if(n < n_elems_of<T>())
     {
-        sprintf( s, "Mat only has %d elements per row while class type '%s' has %d elements.", 
+        sprintf( s, "Mat only has %d elements per row whereas class type '%s' has %d elements.", 
             n, typeid(T).name(), n_elems_of<T>() );
         PyErr_SetString(PyExc_TypeError, s);
         throw bp::error_already_set(); 
@@ -303,7 +318,7 @@ inline cv::Mat convert_from_T_to_Mat( const T &in_arr )
 template<typename T>
 inline void convert_from_Mat_to_array_of_T( const cv::Mat &in_arr, T *&out_arr, int &out_len )
 {    
-    out_len = n_elems_per_row<T>(in_arr);
+    out_len = n_elems_per_row<T>(in_arr) / n_elems_of<T>();
     out_arr = out_len? (T *)in_arr.data: 0;
 }
 
@@ -610,9 +625,14 @@ CONVERT_VECTOR_TO_SEQ(cv::Point3d);
 
 // Rect-like
 CONVERT_VECTOR_TO_SEQ(cv::Rect);
-CONVERT_VECTOR_TO_SEQ(cv::Rectd);
 CONVERT_VECTOR_TO_SEQ(cv::Rectf);
+CONVERT_VECTOR_TO_SEQ(cv::Rectd);
 CONVERT_VECTOR_TO_SEQ(cv::RotatedRect);
+
+// Size-like
+CONVERT_VECTOR_TO_SEQ(cv::Size2i);
+CONVERT_VECTOR_TO_SEQ(cv::Size2f);
+CONVERT_VECTOR_TO_SEQ(cv::Size2d);
 
 // Scalar
 CONVERT_VECTOR_TO_SEQ(cv::Scalar);
@@ -661,9 +681,43 @@ struct vector_vector_to_python {
     }
 };
 
+// ================================================================================================
+// Converters between cv::Mat and bp::list/bp::sequence
+
+// Convert from bp::sequence to cv::Mat
+template<typename T>
+bp::object convert_from_seq_to_Mat_object(bp::sequence const &in_arr)
+{
+    if(in_arr.ptr() == Py_None) return bp::object(cv::Mat());
+    
+    bp::extract<bp::ndarray> in_arr2(in_arr);
+    if(in_arr2.check()) return bp::from_ndarray<cv::Mat>(in_arr2());
+    
+    std::vector<T> tmp_arr; convert_seq_to_vector(in_arr, tmp_arr);
+    cv::Mat out_arr; convert_from_vector_of_T_to_Mat(tmp_arr, out_arr);
+    return bp::object(out_arr);
+}
+
+// Convert from cv::Mat to bp::list
+template<typename T>
+bp::list convert_from_Mat_to_seq(cv::Mat const &in_arr)
+{
+    bp::list out_arr;
+    T *in_arr2; int len_arr; convert_from_Mat_to_array_of_T(in_arr, in_arr2, len_arr);
+    for(int i = 0; i < len_arr; ++i) out_arr.append(bp::object(in_arr2[i]));
+    return out_arr;
+}
+
+
+
+
+// ================================================================================================
+
 
 CvMat * get_CvMat_ptr(cv::Mat const &mat);
 IplImage * get_IplImage_ptr(cv::Mat const &mat);
+
+// ================================================================================================
 
 
 
