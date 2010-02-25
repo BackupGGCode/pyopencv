@@ -385,7 +385,8 @@ class input_array1d_t(transformer.transformer_t):
             oo_arg = self.get_argument(key)
             ow_arg = controller.find_wrapper_arg(key)
             oetype = _D.remove_const( _D.array_item_type( oo_arg.type ) )
-            oa_arg = controller.declare_variable( _D.dummy_type_t( "std::vector < %s >" % oetype.decl_string ), key, "(%s * %s)" % (l_arr, self.output_arrays[key]) )
+            oa_arg = controller.declare_variable( _D.dummy_type_t( "std::vector < %s >" % oetype.decl_string ), key )
+            controller.add_pre_call_code("%s.resize(%s * %s);" % (oa_arg, l_arr, self.output_arrays[key]))
             controller.modify_arg_expression( self.function.arguments.index(oo_arg), "&(%s[0])" % oa_arg )
             controller.remove_wrapper_arg(key)
 

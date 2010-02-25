@@ -137,11 +137,11 @@ def add_ndarray_interface(self, klass):
     klass.add_registration_code('staticmethod("from_ndarray")'.replace("KLASS", klass.alias))
     self.add_doc(klass.alias+".from_ndarray", "Creates a %s view on an ndarray instance." % klass.alias)
     klass.add_registration_code('add_property("ndarray", &bp::as_ndarray< cv::%s >)' % klass.alias)
-    self.add_registration_code('bp::def("asndarray", &bp::as_ndarray< cv::%s >, (bp::arg("arr")) );' % klass.alias)
+    # self.add_registration_code('bp::def("asndarray", &bp::as_ndarray< cv::%s >, (bp::arg("arr")) );' % klass.alias)
     self.add_doc(klass.alias, 
         "Property 'ndarray' provides a numpy.ndarray view on the object.",
         "If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!",
-        "Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.",
+        # "Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.",
         "",
         "To create an instance of %s that shares the same data with an ndarray instance, use:" % klass.alias,
         "    '%s.from_ndarray(a)' or 'as%s(a)" % (klass.alias, klass.alias),

@@ -75,13 +75,13 @@ asPoint = asPoint2i
         z.include()
         z.decls(lambda x: 'CvPoint' in x.decl_string).exclude()
         z.operator(lambda x: '::cv::Vec<' in x.name).rename('as_Vec'+z.alias[-2:])
+        mb.add_ndarray_interface(z)
         cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
 KLASS.__repr__ = _KLASS__repr__
         
-        '''.replace("KLASS", z.alias))
-        mb.add_ndarray_interface(z)
+        '''.replace("KLASS", z.alias))        
     
     # Size et al
     mb.class_('::cv::Size_<int>').rename('Size2i')
@@ -89,12 +89,13 @@ KLASS.__repr__ = _KLASS__repr__
     for z in zz:
         z.include()
         z.decls(lambda x: 'CvSize' in x.decl_string).exclude()
+        mb.add_ndarray_interface(z)
         cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
 KLASS.__repr__ = _KLASS__repr__
         
-        '''.replace("KLASS", z.alias))
+        '''.replace("KLASS", z.alias))        
         
     cc.write('''
 Size = Size2i
@@ -177,14 +178,119 @@ def _Mat__repr__(self):
 Mat.__repr__ = _Mat__repr__
     ''')
     z.add_declaration_code('''
-static boost::shared_ptr<cv::Mat> Mat__init3__(int _rows, int _cols, int _type)
+static boost::shared_ptr<cv::Mat> Mat__init1__(bp::object const &arg1)
 {
-    cv::Mat *result = new cv::Mat(_rows, _cols, _type);
-    return boost::shared_ptr<cv::Mat>(result);
+    // None
+    if(arg1.ptr() == Py_None) return boost::shared_ptr<cv::Mat>(new cv::Mat());
+    
+    // cv::Mat const &
+    bp::extract<cv::Mat const &> arg1a(arg1);
+    if(arg1a.check()) return boost::shared_ptr<cv::Mat>(new cv::Mat(arg1a()));
+    
+    // TODO: here
+    PyErr_SetString(PyExc_NotImplementedError, "Unable to construct cv::Mat using the given argument.");
+    throw bp::error_already_set(); 
+    return boost::shared_ptr<cv::Mat>(new cv::Mat());
+}
+
+static boost::shared_ptr<cv::Mat> Mat__init2__(bp::object const &arg1, bp::object const &arg2)
+{
+    // cv::Size, int
+    bp::extract<cv::Size const &> arg1a(arg1);
+    bp::extract<int> arg2a(arg2);
+    if(arg1a.check() && arg2a.check()) return boost::shared_ptr<cv::Mat>(new cv::Mat(arg1a(), arg2a()));
+    
+    // cv::Mat, cv::Rect
+    bp::extract<cv::Mat const &> arg1b(arg1);
+    bp::extract<cv::Rect> arg2b(arg2);
+    if(arg1b.check() && arg2b.check()) return boost::shared_ptr<cv::Mat>(new cv::Mat(arg1b(), arg2b()));
+    
+    // TODO: here
+    PyErr_SetString(PyExc_NotImplementedError, "Unable to construct cv::Mat using the given 2 arguments.");
+    throw bp::error_already_set(); 
+    return boost::shared_ptr<cv::Mat>(new cv::Mat());
+}
+
+static boost::shared_ptr<cv::Mat> Mat__init3__(bp::object const &arg1, bp::object const &arg2, bp::object const &arg3)
+{
+    // int, int, int
+    bp::extract<int> arg1a(arg1);
+    bp::extract<int> arg2a(arg2);
+    bp::extract<int> arg3a(arg3);
+    if(arg1a.check() && arg2a.check() && arg3a.check()) return boost::shared_ptr<cv::Mat>(new cv::Mat(arg1a(), arg2a(), arg3a()));
+    
+    // cv::Size, int, cv::Scalar
+    bp::extract<cv::Size const &> arg1b(arg1);
+    bp::extract<int> arg2b(arg2);
+    bp::extract<cv::Scalar const &> arg3b(arg3);
+    if(arg1b.check() && arg2b.check() && arg3b.check()) return boost::shared_ptr<cv::Mat>(new cv::Mat(arg1b(), arg2b(), arg3b()));
+    
+    // cv::Mat, cv::Range, cv::Range
+    bp::extract<cv::Mat const &> arg1c(arg1);
+    bp::extract<cv::Range const &> arg2c(arg2);
+    bp::extract<cv::Range const &> arg3c(arg3);
+    if(arg1c.check() && arg2c.check() && arg3c.check()) return boost::shared_ptr<cv::Mat>(new cv::Mat(arg1c(), arg2c(), arg3c()));
+    
+    // TODO: here
+    PyErr_SetString(PyExc_NotImplementedError, "Unable to construct cv::Mat using the given 3 arguments.");
+    throw bp::error_already_set(); 
+    return boost::shared_ptr<cv::Mat>(new cv::Mat());
 }
 
     ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init3__, bp::default_call_policies(), ( bp::arg("_rows"), bp::arg("_cols"), bp::arg("_type") )))') # workaround to fix a bug in invoking Mat(int, int, int)
+    # workaround to fix a bug in invoking a constructor of Mat
+    z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("arg1") )))') 
+    z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init2__, bp::default_call_policies(), ( bp::arg("arg1"), bp::arg("arg2") )))') 
+    z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init3__, bp::default_call_policies(), ( bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3") )))')
+    # to/from_list_of_Types
+    list_dict = {
+        'int8': 'char',
+        'uint8': 'unsigned char',
+        'int16': 'short',
+        'uint16': 'unsigned short',
+        'int32': 'int', # workaround, not working for 64-bit
+        'float32': 'float',
+        'float64': 'double',
+        'Vec2b': 'cv::Vec2b',
+        'Vec3b': 'cv::Vec3b',
+        'Vec4b': 'cv::Vec4b',
+        'Vec2s': 'cv::Vec2s',
+        'Vec3s': 'cv::Vec3s',
+        'Vec4s': 'cv::Vec4s',
+        'Vec2w': 'cv::Vec2w',
+        'Vec3w': 'cv::Vec3w',
+        'Vec4w': 'cv::Vec4w',
+        'Vec2i': 'cv::Vec2i',
+        'Vec3i': 'cv::Vec3i',
+        'Vec4i': 'cv::Vec4i',
+        'Vec2f': 'cv::Vec2f',
+        'Vec3f': 'cv::Vec3f',
+        'Vec4f': 'cv::Vec4f',
+        'Vec6f': 'cv::Vec6f',
+        'Vec2d': 'cv::Vec2d',
+        'Vec3d': 'cv::Vec3d',
+        'Vec4d': 'cv::Vec4d',
+        'Vec6d': 'cv::Vec6d',
+        'Point2i': 'cv::Point2i',
+        'Point2f': 'cv::Point2f',
+        'Point2d': 'cv::Point2d',
+        'Point3i': 'cv::Point3i',
+        'Point3f': 'cv::Point3f',
+        'Point3d': 'cv::Point3d',
+        'Rect': 'cv::Rect',
+        'Rectf': 'cv::Rectf',
+        'Rectd': 'cv::Rectd',
+        'RotatedRect': 'cv::RotatedRect',
+        'Size2i': 'cv::Size2i',
+        'Size2f': 'cv::Size2f',
+        'Size2d': 'cv::Size2d',
+        'Scalar': 'cv::Scalar',
+        'Range': 'cv::Range',
+    }
+    for key in list_dict:
+        z.add_registration_code('def("to_list_of_%s", &convert_from_Mat_to_seq<%s> )' % (key, list_dict[key]))
+        z.add_registration_code('def("from_list_of_%s", &convert_from_seq_to_Mat_object<%s> )' % (key, list_dict[key]))
+        z.add_registration_code('staticmethod("from_list_of_%s")' % key)
 
     # RNG
     z = mb.class_('RNG')
