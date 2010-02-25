@@ -436,9 +436,9 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
         ::cvSnakeImage(&img, (CvPoint *)points2, points2_len, &alpha2, &beta2, &gamma2, coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
         break;
     case CV_ARRAY:
-        convert_seq_to_vector(alpha, alpha3);
-        convert_seq_to_vector(beta, beta3);
-        convert_seq_to_vector(gamma, gamma3);
+        convert_from_object_to_T(alpha, alpha3);
+        convert_from_object_to_T(beta, beta3);
+        convert_from_object_to_T(gamma, gamma3);
         ::cvSnakeImage(&img, (CvPoint *)points2, points2_len, &alpha3[0], &beta3[0], &gamma3[0], coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
         break;
     default:

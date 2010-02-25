@@ -21,10 +21,10 @@ static void writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a( ::cv::Mesh3D const & i
     inst.writeAsVrml(file, colors2);
 }
 
-static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::sequence const &vtx)
+static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::list const &vtx)
 {
     std::vector<cv::Point3f> vtx2;
-    convert_seq_to_vector(vtx, vtx2);
+    convert_from_object_to_T(vtx, vtx2);
     return boost::shared_ptr<cv::Mesh3D>(new cv::Mesh3D(vtx2));
 }
 
