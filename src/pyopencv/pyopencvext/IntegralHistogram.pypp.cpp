@@ -17,9 +17,9 @@ static void calcHist_7e977de6e27427b53a27b192cb2b370c( ::sdopencv::IntegralHisto
     convert_from_vector_of_T_to_Mat(out_hist2, out_hist);
 }
 
-static boost::shared_ptr<sdopencv::IntegralHistogram> IntegralHistogram__init1__(int histSize, bp::sequence const &ranges, bool uniform)
+static boost::shared_ptr<sdopencv::IntegralHistogram> IntegralHistogram__init1__(int histSize, cv::Mat const &ranges, bool uniform)
 {
-    std::vector<float> ranges2; convert_seq_to_vector(ranges, ranges2);
+    std::vector<float> ranges2; convert_from_Mat_to_vector_of_T(ranges, ranges2);
     return boost::shared_ptr<sdopencv::IntegralHistogram>(new sdopencv::IntegralHistogram(histSize, ranges2, uniform));
 }
 

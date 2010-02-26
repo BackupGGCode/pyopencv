@@ -49,10 +49,10 @@ static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::Sparse
     return bp::object( result );
 }
 
-static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(const bp::sequence &_sizes, int _type)
+static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(cv::Mat const &_sizes, int _type)
 {
-    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
-    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(_sizes2.size(), &_sizes2[0], _type));
+    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
+    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(_sizes3, _sizes2, _type));
 }
 
 static bp::object my_size(cv::SparseMat const &inst, int i = -1)
