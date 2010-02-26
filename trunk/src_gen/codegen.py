@@ -59,7 +59,7 @@ mb = module_builder.module_builder_t(
     ],
     )
 
-cc = open('__init__.py', 'w')
+cc = open('core.py', 'w')
 cc.write('''#!/usr/bin/env python
 # PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
@@ -127,7 +127,7 @@ CV_VERSION          = "2.0.0"
 mb.cc = cc
 
 # -----------------------------------------------------------------------------------------------
-# Subroutines related to writing to the __init__.py file
+# Subroutines related to writing to the core.py file
 # -----------------------------------------------------------------------------------------------
 
 def add_ndarray_interface(self, klass):
@@ -555,7 +555,7 @@ for z in mb.free_funs():
             zz = zz[0].lower()+zz[1:]
         # print "Old name=", z.alias, " new name=", zz
         z.rename(zz)
-
+        
 
 #=============================================================================
 # Build code

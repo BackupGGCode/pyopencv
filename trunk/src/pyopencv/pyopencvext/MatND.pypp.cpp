@@ -8,6 +8,7 @@
 #include "opencv_headers.hpp"
 #include "boost/python/make_function.hpp"
 #include "opencv_converters.hpp"
+#include "boost/python/str.hpp"
 #include "ndarray.hpp"
 #include "MatND.pypp.hpp"
 
@@ -56,28 +57,33 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
 
 };
 
-static boost::shared_ptr<cv::MatND> MatND__init1__(const bp::sequence &_sizes, int _type)
+static boost::shared_ptr<cv::MatND> MatND__init1__(cv::Mat const &_sizes, int _type)
 {
-    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes2.size(), &_sizes2[0], _type));
+    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes3, _sizes2, _type));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init2__(const bp::sequence &_sizes, int _type, const cv::Scalar& _s)
+static boost::shared_ptr<cv::MatND> MatND__init2__(cv::Mat const &_sizes, int _type, const cv::Scalar& _s)
 {
-    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes2.size(), &_sizes2[0], _type, _s));
+    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes3, _sizes2, _type, _s));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, const bp::sequence &_ranges)
+static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, cv::Mat const &_ranges)
 {
-    std::vector<cv::Range> _ranges2; convert_seq_to_vector(_ranges, _ranges2);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(m, &_ranges2[0]));
+    cv::Range* _ranges2; int _ranges3; convert_from_Mat_to_array_of_T(_ranges, _ranges2, _ranges3);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(m, _ranges2));
 }
 
-static cv::MatND MatND__call__(const cv::MatND& inst, const bp::sequence &ranges)
+static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
 {
-    std::vector<cv::Range> ranges2; convert_seq_to_vector(ranges, ranges2);
-    return inst(&ranges2[0]);
+    cv::Range* ranges2; int ranges3; convert_from_Mat_to_array_of_T(ranges, ranges2, ranges3);
+    return inst(ranges2);
+}
+
+static bp::object get_data(cv::MatND const &inst)
+{
+    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory ((void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1])));
 }
 
 void register_MatND_class(){
@@ -300,6 +306,7 @@ void register_MatND_class(){
         MatND_exposer.def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )));
         MatND_exposer.def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )));
         MatND_exposer.def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))));
+        MatND_exposer.add_property("data", ::get_data);
         MatND_exposer.def("from_ndarray", &bp::from_ndarray< cv::MatND >, (bp::arg("arr")) );
         MatND_exposer.staticmethod("from_ndarray");
         MatND_exposer.add_property("ndarray", &bp::as_ndarray< cv::MatND >);

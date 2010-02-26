@@ -4,12 +4,8 @@ PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
 Image conversion to/from wxWidget
 
-Bring over conversion modules from ctypes-opencv
-
 Provide more demos
 
 Fix squares.py demo, something's wrong with the algorithm. It's running but too slow.
 
 Improve FernClassifier's type vector<Ptr<Mat > > > 
-
-Write a function to convert from a bp::sequence to a cv::Mat and otherwise

@@ -9,6 +9,11 @@
 
 namespace bp = boost::python;
 
+static bp::object get_data(cv::Mat const &inst)
+{
+    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory ((void*)inst.data, inst.rows*inst.step)));
+}
+
 static boost::shared_ptr<cv::Mat> Mat__init1__(bp::object const &arg1)
 {
     // None
@@ -442,6 +447,7 @@ void register_Mat_class(){
         Mat_exposer.def_readwrite( "rows", &cv::Mat::rows );
         Mat_exposer.def_readwrite( "step", &cv::Mat::step );
         Mat_exposer.staticmethod( "diag" );
+        Mat_exposer.add_property("data", &::get_data);
         Mat_exposer.def("from_ndarray", &bp::from_ndarray< cv::Mat >, (bp::arg("arr")) );
         Mat_exposer.staticmethod("from_ndarray");
         Mat_exposer.add_property("ndarray", &bp::as_ndarray< cv::Mat >);

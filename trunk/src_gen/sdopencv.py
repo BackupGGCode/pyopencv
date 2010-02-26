@@ -39,9 +39,9 @@ def generate_code(mb, cc, D, FT, CP):
     mb.init_class(z)
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
     z.add_declaration_code('''
-static boost::shared_ptr<sdopencv::IntegralHistogram> IntegralHistogram__init1__(int histSize, bp::sequence const &ranges, bool uniform)
+static boost::shared_ptr<sdopencv::IntegralHistogram> IntegralHistogram__init1__(int histSize, cv::Mat const &ranges, bool uniform)
 {
-    std::vector<float> ranges2; convert_seq_to_vector(ranges, ranges2);
+    std::vector<float> ranges2; convert_from_Mat_to_vector_of_T(ranges, ranges2);
     return boost::shared_ptr<sdopencv::IntegralHistogram>(new sdopencv::IntegralHistogram(histSize, ranges2, uniform));
 }
 

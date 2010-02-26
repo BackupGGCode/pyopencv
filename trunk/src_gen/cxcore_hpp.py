@@ -169,6 +169,14 @@ KLASS.__repr__ = _KLASS__repr__
     z.mem_funs('adjustROI').call_policies = CP.return_self()
     for t in ('ptr', 'data', 'refcount', 'datastart', 'dataend'):
         z.decls(t).exclude()
+    z.add_declaration_code('''
+static bp::object get_data(cv::Mat const &inst)
+{
+    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory ((void*)inst.data, inst.rows*inst.step)));
+}
+
+    ''')
+    z.add_registration_code('add_property("data", &::get_data)')
     mb.add_ndarray_interface(z)
     cc.write('''
 def _Mat__repr__(self):
@@ -299,8 +307,7 @@ def asMat(obj):
     if obj is None:
         return Mat()
     
-    from numpy import ndarray
-    if isinstance(obj, ndarray):
+    if isinstance(obj, _NP.ndarray):
         return Mat.from_ndarray(obj)
         
     z = obj[0]
@@ -366,33 +373,34 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('MatND')
     z.include_files.append("boost/python/make_function.hpp")
     z.include_files.append("opencv_converters.hpp")
+    z.include_files.append("boost/python/str.hpp")
     mb.init_class(z)
     
     z.constructors(lambda x: 'const *' in x.decl_string).exclude()
     z.operator('()').exclude()
     z.add_declaration_code('''
-static boost::shared_ptr<cv::MatND> MatND__init1__(const bp::sequence &_sizes, int _type)
+static boost::shared_ptr<cv::MatND> MatND__init1__(cv::Mat const &_sizes, int _type)
 {
-    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes2.size(), &_sizes2[0], _type));
+    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes3, _sizes2, _type));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init2__(const bp::sequence &_sizes, int _type, const cv::Scalar& _s)
+static boost::shared_ptr<cv::MatND> MatND__init2__(cv::Mat const &_sizes, int _type, const cv::Scalar& _s)
 {
-    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes2.size(), &_sizes2[0], _type, _s));
+    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes3, _sizes2, _type, _s));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, const bp::sequence &_ranges)
+static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, cv::Mat const &_ranges)
 {
-    std::vector<cv::Range> _ranges2; convert_seq_to_vector(_ranges, _ranges2);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(m, &_ranges2[0]));
+    cv::Range* _ranges2; int _ranges3; convert_from_Mat_to_array_of_T(_ranges, _ranges2, _ranges3);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(m, _ranges2));
 }
 
-static cv::MatND MatND__call__(const cv::MatND& inst, const bp::sequence &ranges)
+static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
 {
-    std::vector<cv::Range> ranges2; convert_seq_to_vector(ranges, ranges2);
-    return inst(&ranges2[0]);
+    cv::Range* ranges2; int ranges3; convert_from_Mat_to_array_of_T(ranges, ranges2, ranges3);
+    return inst(ranges2);
 }
 
     ''')
@@ -417,6 +425,14 @@ static cv::MatND MatND__call__(const cv::MatND& inst, const bp::sequence &ranges
     z.mem_funs('setTo').call_policies = CP.return_self()
     for t in ('ptr', 'data', 'refcount', 'datastart', 'dataend'):
         z.decls(t).exclude()
+    z.add_declaration_code('''
+static bp::object get_data(cv::MatND const &inst)
+{
+    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory ((void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1])));
+}
+
+    ''')
+    z.add_registration_code('add_property("data", ::get_data)')
     mb.finalize_class(z)
     mb.add_ndarray_interface(z)
     cc.write('''
@@ -445,10 +461,10 @@ MatND.__repr__ = _MatND__repr__
     for t in ('CvSparseMat', 'Node', 'Hdr'):
         z.decls(lambda x: t in x.decl_string).exclude()
     z.add_declaration_code('''
-static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(const bp::sequence &_sizes, int _type)
+static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(cv::Mat const &_sizes, int _type)
 {
-    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
-    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(_sizes2.size(), &_sizes2[0], _type));
+    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
+    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(_sizes3, _sizes2, _type));
 }
 
     ''')
