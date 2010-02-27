@@ -5,6 +5,22 @@ PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 Change Log
 ==========
 
+pyopencv-2.0.wr1.1.0 beta release
+---------------------------------
+
+This release is backward-incompatible with previous releases. A large number of function arguments and calling sequences have been tweaked. These necessary tweaks would allow PyOpenCV to run slightly more efficiently and to be easier to use.
+
+- added docstrings for a large number of functions
+- added code that converts between Mat and external image representations like wx.Bitmap, gtk.pixbuf, PIL.Image
+- provided ndarray interface for Size-like classes
+- provided converters to convert between cv::Mat and Python list of items
+- converted input 1d array arguments into cv::Mat
+- added FernClassifier and PlanarObjectDetector classes
+- improved calling sequences in classes SURF, MSER, LDetector, and StarDetector
+- improved all output function arguments of type std::vector
+- improved get_CvMat_ptr() and get_IplImage_ptr()
+- lots of buf-fixes
+
 pyopencv-2.0.wr1.0.2 beta release
 ---------------------------------
 - improved snakeImage()
