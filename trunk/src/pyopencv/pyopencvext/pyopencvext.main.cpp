@@ -2066,7 +2066,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "FAST"
             , FAST_function_type( &FAST_23d17220884e2f371691b185394322ec )
             , ( bp::arg("image"), bp::arg("threshold"), bp::arg("nonmax_supression")=(bool)(true) )
-            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
     "\n[PyOpenCV] Argument 'keypoints' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -2129,7 +2129,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "buildPyramid"
             , buildPyramid_function_type( &buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("maxlevel") )
-            , "[PyOpenCV] Argument 'dst' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
+            , "[PyOpenCV] Argument 'dst' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" );
     
     }
 
@@ -2169,12 +2169,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "calibrateCamera"
             , calibrateCamera_function_type( &calibrateCamera_e3c243276629b1246626096d8ff70485 )
             , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("flags")=(int)(0) )
-            , "[PyOpenCV] Argument 'rvecs' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+            , "[PyOpenCV] Argument 'rvecs' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
     "\n[PyOpenCV] Argument 'rvecs' is an output argument and is omitted from the function's calling sequence."\
-    "\n[PyOpenCV] Argument 'tvecs' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'tvecs' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
     "\n[PyOpenCV] Argument 'tvecs' is an output argument and is omitted from the function's calling sequence."\
-    "\n[PyOpenCV] Argument 'objectPoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
-    "\n[PyOpenCV] Argument 'imagePoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
+    "\n[PyOpenCV] Argument 'objectPoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'imagePoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" );
     
     }
 
@@ -3383,7 +3383,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "drawContours"
             , drawContours_function_type( &drawContours_03a5aed7ca57b253d8b3346ee2f05f74 )
             , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() )
-            , "[PyOpenCV] Argument 'contours' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+            , "[PyOpenCV] Argument 'contours' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
     "\n[PyOpenCV] Argument 'hierarchy' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
@@ -3460,7 +3460,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "findContours"
             , findContours_function_type( &findContours_68285032b2b0f15f13e30f19da8327fa )
             , ( bp::arg("image"), bp::arg("mode"), bp::arg("method"), bp::arg("offset")=cv::Point_<int>() )
-            , "[PyOpenCV] Argument 'contours' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+            , "[PyOpenCV] Argument 'contours' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
     "\n[PyOpenCV] Argument 'contours' is an output argument and is omitted from the function's calling sequence."\
     "\n[PyOpenCV] Argument 'hierarchy' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\n[PyOpenCV] Argument 'hierarchy' is an output argument and is omitted from the function's calling sequence." );
@@ -3614,8 +3614,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "initCameraMatrix2D"
             , initCameraMatrix2D_function_type( &initCameraMatrix2D_a63e0813c9e7ddf60786347e47acca95 )
             , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("aspectRatio")=1.0e+0 )
-            , "[PyOpenCV] Argument 'objectPoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
-    "\n[PyOpenCV] Argument 'imagePoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
+            , "[PyOpenCV] Argument 'objectPoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'imagePoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" );
     
     }
 
@@ -3705,7 +3705,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "read_KeyPoints"
             , read_KeyPoints_function_type( &read_19f776a07d0494421b17575379bc2106 )
             , ( bp::arg("node") )
-            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
     "\n[PyOpenCV] Argument 'keypoints' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -3874,9 +3874,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "stereoCalibrate"
             , stereoCalibrate_function_type( &stereoCalibrate_14726b7172922289400130b4861f4a12 )
             , ( bp::arg("objectPoints"), bp::arg("imagePoints1"), bp::arg("imagePoints2"), bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("E"), bp::arg("F"), bp::arg("criteria")=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), bp::arg("flags")=int(::cv::CALIB_FIX_INTRINSIC) )
-            , "[PyOpenCV] Argument 'objectPoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
-    "\n[PyOpenCV] Argument 'imagePoints1' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
-    "\n[PyOpenCV] Argument 'imagePoints2' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
+            , "[PyOpenCV] Argument 'objectPoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'imagePoints1' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'imagePoints2' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" );
     
     }
 
@@ -3901,7 +3901,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "write"
             , write_function_type( &write_df76e3ba45561ddd23c917a610929778 )
             , ( bp::arg("fs"), bp::arg("name"), bp::arg("keypoints") )
-            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
+            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" );
     
     }
 

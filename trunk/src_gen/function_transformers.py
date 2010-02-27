@@ -1219,7 +1219,7 @@ class arg_std_vector_t(transformer_t):
             str_pyobj_type = "bp::list"
             str_cvt_to_pyobj = "convert_from_T_to_object"
             str_cvt_from_pyobj = "convert_from_object_to_T"
-            common.add_func_boost_doc(self.function, "Argument '%s' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" % self.arg.name)
+            common.add_func_boost_doc(self.function, "Argument '%s' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" % self.arg.name)
         
         # check argument kind
         if self.arg_kind == 1: # input

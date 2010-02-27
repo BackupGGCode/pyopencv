@@ -110,7 +110,7 @@ void register_SpinImageModel_class(){
                 "match"
                 , match_function_type( &match_86773a6b4d89ae97806d1109a2438811 )
                 , ( bp::arg("inst"), bp::arg("scene") )
-                , "[PyOpenCV] Argument 'result' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+                , "[PyOpenCV] Argument 'result' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
     "\n[PyOpenCV] Argument 'result' is an output argument and is omitted from the function's calling sequence." );
         
         }
