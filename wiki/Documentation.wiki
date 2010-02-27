@@ -1,0 +1,7 @@
+#summary Epydoc-generated API
+
+= API Documentation =
+
+== Version 1.1.0 ==
+
+  * [http://mtpham.sharkdolphin.com/open_source/pyopencv/doc/1.1.0 Generated API]
