@@ -72,9 +72,15 @@ Topic :: Software Development :: Libraries :: Python Modules
 """
 
 from glob import glob
+import sys
 import os
 import os.path as OP
-import config as C
+
+try:
+    import config as C
+except ImportError:
+    print "You must first create/edit file 'config.py' in this setup folder before you can run 'setup.py'. Just copy file 'config_example_win32.py' or 'config_example_linux.py' to file 'config.py', Edit it to match with your platform, and run 'setup.py' again."
+    sys.exit(-1)
 
 
 import ez_setup
