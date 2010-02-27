@@ -30,7 +30,8 @@ void register_IntegralHistogram_class(){
         .def( 
             "calcHist"
             , (void (*)( ::sdopencv::IntegralHistogram &,::cv::Rect,cv::Mat & ))( &calcHist_7e977de6e27427b53a27b192cb2b370c )
-            , ( bp::arg("inst"), bp::arg("rect"), bp::arg("out_hist") ) )    
+            , ( bp::arg("inst"), bp::arg("rect"), bp::arg("out_hist") )
+            , "[PyOpenCV] Argument 'out_hist' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." )    
         .def( 
             "get_index"
             , (int ( ::sdopencv::IntegralHistogram::* )( float ) )( &::sdopencv::IntegralHistogram::get_index )

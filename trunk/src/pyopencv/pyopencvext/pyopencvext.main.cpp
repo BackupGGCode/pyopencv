@@ -686,7 +686,7 @@ static boost::python::object cvCreateSpillTree_22146c3478f3d8c8ff22213a86f1b244(
 }
 
 static boost::python::tuple cvCreateTrackbar2_c093a5d4e70019414d270b02dacaafb5( char const * trackbar_name, char const * window_name, unsigned int value, int count, boost::python::object on_change, boost::python::object userdata=bp::object() ){
-    boost::python::tuple z_on_change= bp::make_tuple(on_change, userdata);
+    bp::tuple z_on_change= bp::make_tuple(on_change, userdata);
     int result = ::cvCreateTrackbar2(trackbar_name, window_name, reinterpret_cast< int * >( value ), count, sdTrackbarCallback2, (void *)(z_on_change.ptr()));
     return bp::make_tuple( result, z_on_change );
 }
@@ -2065,7 +2065,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "FAST"
             , FAST_function_type( &FAST_23d17220884e2f371691b185394322ec )
-            , ( bp::arg("image"), bp::arg("threshold"), bp::arg("nonmax_supression")=(bool)(true) ) );
+            , ( bp::arg("image"), bp::arg("threshold"), bp::arg("nonmax_supression")=(bool)(true) )
+            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'keypoints' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -2076,7 +2078,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "HoughCircles"
             , HoughCircles_function_type( &HoughCircles_ea2999473356200d9d2fc8b7258555b0 )
-            , ( bp::arg("image"), bp::arg("method"), bp::arg("dp"), bp::arg("minDist"), bp::arg("param1")=100, bp::arg("param2")=100, bp::arg("minRadius")=(int)(0), bp::arg("maxRadius")=(int)(0) ) );
+            , ( bp::arg("image"), bp::arg("method"), bp::arg("dp"), bp::arg("minDist"), bp::arg("param1")=100, bp::arg("param2")=100, bp::arg("minRadius")=(int)(0), bp::arg("maxRadius")=(int)(0) )
+            , "[PyOpenCV] Argument 'circles' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'circles' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -2087,7 +2091,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "HoughLines"
             , HoughLines_function_type( &HoughLines_deaa796a20e753a0b781de4a4d81ba3d )
-            , ( bp::arg("image"), bp::arg("rho"), bp::arg("theta"), bp::arg("threshold"), bp::arg("srn")=0, bp::arg("stn")=0 ) );
+            , ( bp::arg("image"), bp::arg("rho"), bp::arg("theta"), bp::arg("threshold"), bp::arg("srn")=0, bp::arg("stn")=0 )
+            , "[PyOpenCV] Argument 'lines' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'lines' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -2098,7 +2104,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "HoughLinesP"
             , HoughLinesP_function_type( &HoughLinesP_7e83e90590dfee49ad9ee8d704d1cfcb )
-            , ( bp::arg("image"), bp::arg("rho"), bp::arg("theta"), bp::arg("threshold"), bp::arg("minLineLength")=0, bp::arg("maxLineGap")=0 ) );
+            , ( bp::arg("image"), bp::arg("rho"), bp::arg("theta"), bp::arg("threshold"), bp::arg("minLineLength")=0, bp::arg("maxLineGap")=0 )
+            , "[PyOpenCV] Argument 'lines' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'lines' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -2120,7 +2128,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "buildPyramid"
             , buildPyramid_function_type( &buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("maxlevel") ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("maxlevel") )
+            , "[PyOpenCV] Argument 'dst' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
     
     }
 
@@ -2131,7 +2140,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcCovarMatrix"
             , calcCovarMatrix_function_type( &calcCovarMatrix_e8cf288956f6478b98045989198e81f5 )
-            , ( bp::arg("samples"), bp::arg("covar"), bp::arg("mean"), bp::arg("flags"), bp::arg("ctype")=(int)(6) ) );
+            , ( bp::arg("samples"), bp::arg("covar"), bp::arg("mean"), bp::arg("flags"), bp::arg("ctype")=(int)(6) )
+            , "[PyOpenCV] Argument 'samples' is a list of Mat's, e.g. [Mat(), Mat(), Mat()]."\
+    "\n[PyOpenCV] Argument 'nsamples' is omitted. Its value is derived from argument 'samples'." );
     
     }
 
@@ -2142,7 +2153,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcOpticalFlowPyrLK"
             , calcOpticalFlowPyrLK_function_type( &calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1 )
-            , ( bp::arg("prevImg"), bp::arg("nextImg"), bp::arg("prevPts"), bp::arg("nextPts"), bp::arg("status"), bp::arg("err"), bp::arg("winSize")=cv::Size_<int>(15, 15), bp::arg("maxLevel")=(int)(3), bp::arg("criteria")=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), bp::arg("derivLambda")=5.0e-1, bp::arg("flags")=(int)(0) ) );
+            , ( bp::arg("prevImg"), bp::arg("nextImg"), bp::arg("prevPts"), bp::arg("nextPts"), bp::arg("status"), bp::arg("err"), bp::arg("winSize")=cv::Size_<int>(15, 15), bp::arg("maxLevel")=(int)(3), bp::arg("criteria")=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), bp::arg("derivLambda")=5.0e-1, bp::arg("flags")=(int)(0) )
+            , "[PyOpenCV] Argument 'prevPts' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'nextPts' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'status' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'err' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -2153,7 +2168,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calibrateCamera"
             , calibrateCamera_function_type( &calibrateCamera_e3c243276629b1246626096d8ff70485 )
-            , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("flags")=(int)(0) ) );
+            , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("flags")=(int)(0) )
+            , "[PyOpenCV] Argument 'rvecs' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'rvecs' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'tvecs' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'tvecs' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'objectPoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'imagePoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
     
     }
 
@@ -2164,7 +2185,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "checkRange"
             , checkRange_function_type( &checkRange_138f1b60b28a059182d9f09088ca2474 )
-            , ( bp::arg("a"), bp::arg("quiet")=(bool)(true), bp::arg("minVal")=-1.79769313486231570814527423731704356798070567526e+308, bp::arg("maxVal")=1.79769313486231570814527423731704356798070567526e+308 ) );
+            , ( bp::arg("a"), bp::arg("quiet")=(bool)(true), bp::arg("minVal")=-1.79769313486231570814527423731704356798070567526e+308, bp::arg("maxVal")=1.79769313486231570814527423731704356798070567526e+308 )
+            , "[PyOpenCV] Argument 'idx' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object." );
     
     }
 
@@ -2175,7 +2197,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "checkRange"
             , checkRange_function_type( &checkRange_31cc45f75977959e58047954bd730b32 )
-            , ( bp::arg("a"), bp::arg("quiet")=(bool)(true), bp::arg("minVal")=-1.79769313486231570814527423731704356798070567526e+308, bp::arg("maxVal")=1.79769313486231570814527423731704356798070567526e+308 ) );
+            , ( bp::arg("a"), bp::arg("quiet")=(bool)(true), bp::arg("minVal")=-1.79769313486231570814527423731704356798070567526e+308, bp::arg("maxVal")=1.79769313486231570814527423731704356798070567526e+308 )
+            , "[PyOpenCV] Argument 'pt' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object." );
     
     }
 
@@ -2186,7 +2209,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "computeCorrespondEpilines"
             , computeCorrespondEpilines_function_type( &computeCorrespondEpilines_c5fa9f4742dac0ce300bb37345eb1f07 )
-            , ( bp::arg("points1"), bp::arg("whichImage"), bp::arg("F") ) );
+            , ( bp::arg("points1"), bp::arg("whichImage"), bp::arg("F") )
+            , "[PyOpenCV] Argument 'lines' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'lines' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -2197,7 +2222,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "convertPointsHomogeneous2D"
             , convertPointsHomogeneous2D_function_type( &convertPointsHomogeneous_a80a768ed55e897cac15946457cd1696 )
-            , ( bp::arg("src") ) );
+            , ( bp::arg("src") )
+            , "[PyOpenCV] Argument 'dst' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'dst' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -2208,7 +2235,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "convertPointsHomogeneous3D"
             , convertPointsHomogeneous3D_function_type( &convertPointsHomogeneous_d220e3269e8c59fdb5b2dc2f830579b0 )
-            , ( bp::arg("src") ) );
+            , ( bp::arg("src") )
+            , "[PyOpenCV] Argument 'dst' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'dst' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -2219,7 +2248,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "convexHullIdx"
             , convexHullIdx_function_type( &convexHull_a7bf196b869588f11c69529c43975a42 )
-            , ( bp::arg("points"), bp::arg("clockwise")=(bool)(false) ) );
+            , ( bp::arg("points"), bp::arg("clockwise")=(bool)(false) )
+            , "[PyOpenCV] Argument 'hull' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'hull' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -2230,7 +2261,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "cornerSubPix"
             , cornerSubPix_function_type( &cornerSubPix_897410ee39f221d5b382cc794de38b84 )
-            , ( bp::arg("image"), bp::arg("corners"), bp::arg("winSize"), bp::arg("zeroZone"), bp::arg("criteria") ) );
+            , ( bp::arg("image"), bp::arg("corners"), bp::arg("winSize"), bp::arg("zeroZone"), bp::arg("criteria") )
+            , "[PyOpenCV] Argument 'corners' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -2241,7 +2273,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "acc"
             , acc_function_type( &cvAcc_ef7ed9735ac6fce4129e5e89f645482d )
-            , ( bp::arg("image"), bp::arg("sum"), bp::arg("mask")=cv::Mat() ) );
+            , ( bp::arg("image"), bp::arg("sum"), bp::arg("mask")=cv::Mat() )
+            , "[PyOpenCV] Argument 'image' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'sum' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'mask' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2252,7 +2287,17 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcAffineFlowPyrLK"
             , calcAffineFlowPyrLK_function_type( &cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa )
-            , ( bp::arg("prev"), bp::arg("curr"), bp::arg("prev_pyr"), bp::arg("curr_pyr"), bp::arg("prev_features"), bp::arg("win_size"), bp::arg("level"), bp::arg("criteria"), bp::arg("flags") ) );
+            , ( bp::arg("prev"), bp::arg("curr"), bp::arg("prev_pyr"), bp::arg("curr_pyr"), bp::arg("prev_features"), bp::arg("win_size"), bp::arg("level"), bp::arg("criteria"), bp::arg("flags") )
+            , "[PyOpenCV] Argument 'prev_features' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'count' is omitted. Its value is derived from argument 'prev_features'."\
+    "\n[PyOpenCV] Argument 'status' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'track_error' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'curr_features' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'matrices' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'prev' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'curr' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'prev_pyr' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'curr_pyr' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2263,7 +2308,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcArrBackProject"
             , calcArrBackProject_function_type( &cvCalcArrBackProject_5961923bfd62f49a1a0aa6e73fd2cee6 )
-            , ( bp::arg("image"), bp::arg("dst"), bp::arg("hist") ) );
+            , ( bp::arg("image"), bp::arg("dst"), bp::arg("hist") )
+            , "[PyOpenCV] Argument 'image' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2274,7 +2321,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcArrBackProjectPatch"
             , calcArrBackProjectPatch_function_type( &cvCalcArrBackProjectPatch_5574debe9c7d943baa020075e0434b56 )
-            , ( bp::arg("image"), bp::arg("dst"), bp::arg("range"), bp::arg("hist"), bp::arg("method"), bp::arg("factor") ) );
+            , ( bp::arg("image"), bp::arg("dst"), bp::arg("range"), bp::arg("hist"), bp::arg("method"), bp::arg("factor") )
+            , "[PyOpenCV] Argument 'image' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2285,7 +2334,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcEMD2"
             , calcEMD2_function_type( &cvCalcEMD2_f4e5308a9258b3a75a06fb112d06a2e8 )
-            , ( bp::arg("signature1"), bp::arg("signature2"), bp::arg("distance_type"), bp::arg("distance_func")=bp::object(), bp::arg("cost_matrix")=cv::Mat(), bp::arg("flow")=cv::Mat(), bp::arg("lower_bound")=bp::object(), bp::arg("userdata")=bp::object() ) );
+            , ( bp::arg("signature1"), bp::arg("signature2"), bp::arg("distance_type"), bp::arg("distance_func")=bp::object(), bp::arg("cost_matrix")=cv::Mat(), bp::arg("flow")=cv::Mat(), bp::arg("lower_bound")=bp::object(), bp::arg("userdata")=bp::object() )
+            , "[PyOpenCV] Argument 'signature1' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'signature2' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'cost_matrix' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'flow' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2296,7 +2349,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcGlobalOrientation"
             , calcGlobalOrientation_function_type( &cvCalcGlobalOrientation_9d75a586d5a67c41e4450ccf9b8af7b3 )
-            , ( bp::arg("orientation"), bp::arg("mask"), bp::arg("mhi"), bp::arg("timestamp"), bp::arg("duration") ) );
+            , ( bp::arg("orientation"), bp::arg("mask"), bp::arg("mhi"), bp::arg("timestamp"), bp::arg("duration") )
+            , "[PyOpenCV] Argument 'orientation' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'mask' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'mhi' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2318,7 +2374,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcMotionGradient"
             , calcMotionGradient_function_type( &cvCalcMotionGradient_7506fb6ca34b4a6cb9165f5aff081454 )
-            , ( bp::arg("mhi"), bp::arg("mask"), bp::arg("orientation"), bp::arg("delta1"), bp::arg("delta2"), bp::arg("aperture_size")=(int)(3) ) );
+            , ( bp::arg("mhi"), bp::arg("mask"), bp::arg("orientation"), bp::arg("delta1"), bp::arg("delta2"), bp::arg("aperture_size")=(int)(3) )
+            , "[PyOpenCV] Argument 'mhi' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'mask' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'orientation' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2329,7 +2388,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcOpticalFlowBM"
             , calcOpticalFlowBM_function_type( &cvCalcOpticalFlowBM_3537c5574d176e4f3dea85450be5ee9f )
-            , ( bp::arg("prev"), bp::arg("curr"), bp::arg("block_size"), bp::arg("shift_size"), bp::arg("max_range"), bp::arg("use_previous"), bp::arg("velx"), bp::arg("vely") ) );
+            , ( bp::arg("prev"), bp::arg("curr"), bp::arg("block_size"), bp::arg("shift_size"), bp::arg("max_range"), bp::arg("use_previous"), bp::arg("velx"), bp::arg("vely") )
+            , "[PyOpenCV] Argument 'prev' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'curr' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'velx' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'vely' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2340,7 +2403,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcOpticalFlowHS"
             , calcOpticalFlowHS_function_type( &cvCalcOpticalFlowHS_0757feb4eeb7fd8c38b710aec2f5f8e9 )
-            , ( bp::arg("prev"), bp::arg("curr"), bp::arg("use_previous"), bp::arg("velx"), bp::arg("vely"), bp::arg("lambda"), bp::arg("criteria") ) );
+            , ( bp::arg("prev"), bp::arg("curr"), bp::arg("use_previous"), bp::arg("velx"), bp::arg("vely"), bp::arg("lambda"), bp::arg("criteria") )
+            , "[PyOpenCV] Argument 'prev' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'curr' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'velx' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'vely' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2351,7 +2418,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcOpticalFlowLK"
             , calcOpticalFlowLK_function_type( &cvCalcOpticalFlowLK_0539268816232dbc93df209c0dc87327 )
-            , ( bp::arg("prev"), bp::arg("curr"), bp::arg("win_size"), bp::arg("velx"), bp::arg("vely") ) );
+            , ( bp::arg("prev"), bp::arg("curr"), bp::arg("win_size"), bp::arg("velx"), bp::arg("vely") )
+            , "[PyOpenCV] Argument 'prev' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'curr' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'velx' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'vely' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2362,7 +2433,16 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "calcOpticalFlowPyrLK"
             , calcOpticalFlowPyrLK_function_type( &cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2 )
-            , ( bp::arg("prev"), bp::arg("curr"), bp::arg("prev_pyr"), bp::arg("curr_pyr"), bp::arg("prev_features"), bp::arg("win_size"), bp::arg("level"), bp::arg("criteria"), bp::arg("flags") ) );
+            , ( bp::arg("prev"), bp::arg("curr"), bp::arg("prev_pyr"), bp::arg("curr_pyr"), bp::arg("prev_features"), bp::arg("win_size"), bp::arg("level"), bp::arg("criteria"), bp::arg("flags") )
+            , "[PyOpenCV] Argument 'prev_features' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'count' is omitted. Its value is derived from argument 'prev_features'."\
+    "\n[PyOpenCV] Argument 'status' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'track_error' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'curr_features' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'prev' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'curr' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'prev_pyr' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'curr_pyr' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2373,7 +2453,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "conDensInitSampleSet"
             , conDensInitSampleSet_function_type( &cvConDensInitSampleSet_2b2c9d04e9f57fb36a248c795590341d )
-            , ( bp::arg("condens"), bp::arg("lower_bound"), bp::arg("upper_bound") ) );
+            , ( bp::arg("condens"), bp::arg("lower_bound"), bp::arg("upper_bound") )
+            , "[PyOpenCV] Argument 'lower_bound' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'upper_bound' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2384,7 +2466,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "convertImage"
             , convertImage_function_type( &cvConvertImage_9d5028440635df77832885475bf0ea00 )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0) ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0) )
+            , "[PyOpenCV] Argument 'src' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2395,7 +2479,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "convexityDefects"
             , convexityDefects_function_type( &cvConvexityDefects_cc97bf52cc42e365950605a23b42e95a )
-            , ( bp::arg("contour"), bp::arg("convexhull"), bp::arg("storage")=bp::object() ) );
+            , ( bp::arg("contour"), bp::arg("convexhull"), bp::arg("storage")=bp::object() )
+            , "[PyOpenCV] Argument 'contour' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'convexhull' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2406,7 +2492,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "correctMatches"
             , correctMatches_function_type( &cvCorrectMatches_055faac2f695cea7fa86e829ba6bdc99 )
-            , ( bp::arg("F"), bp::arg("points1"), bp::arg("points2"), bp::arg("new_points1"), bp::arg("new_points2") ) );
+            , ( bp::arg("F"), bp::arg("points1"), bp::arg("points2"), bp::arg("new_points1"), bp::arg("new_points2") )
+            , "[PyOpenCV] Argument 'F' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'points1' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'points2' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'new_points1' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'new_points2' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2417,7 +2508,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "createKDTree"
             , createKDTree_function_type( &cvCreateKDTree_bedd697814f42b0adb235e1d1bda9bdd )
-            , ( bp::arg("desc") ) );
+            , ( bp::arg("desc") )
+            , "[PyOpenCV] Argument 'desc' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2428,7 +2520,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "createSpillTree"
             , createSpillTree_function_type( &cvCreateSpillTree_22146c3478f3d8c8ff22213a86f1b244 )
-            , ( bp::arg("raw_data"), bp::arg("naive")=(int const)(50), bp::arg("rho")=6.99999999999999955591079014993738383054733276367e-1, bp::arg("tau")=1.00000000000000005551115123125782702118158340454e-1 ) );
+            , ( bp::arg("raw_data"), bp::arg("naive")=(int const)(50), bp::arg("rho")=6.99999999999999955591079014993738383054733276367e-1, bp::arg("tau")=1.00000000000000005551115123125782702118158340454e-1 )
+            , "[PyOpenCV] Argument 'raw_data' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2439,7 +2532,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "_cvCreateTrackbar2"
             , _cvCreateTrackbar2_function_type( &cvCreateTrackbar2_c093a5d4e70019414d270b02dacaafb5 )
-            , ( bp::arg("trackbar_name"), bp::arg("window_name"), bp::arg("value"), bp::arg("count"), bp::arg("on_change"), bp::arg("userdata")=bp::object() ) );
+            , ( bp::arg("trackbar_name"), bp::arg("window_name"), bp::arg("value"), bp::arg("count"), bp::arg("on_change"), bp::arg("userdata")=bp::object() )
+            , "[PyOpenCV] Argument 'on_change' is a Python function that should look like below:"\
+    "\n[PyOpenCV]     def on_trackbar(pos, user_data):"\
+    "\n[PyOpenCV]         ..."\
+    "\n[PyOpenCV] Argument 'userdata' is a Python object that is passed to function on_trackbar() as 'user_data'." );
     
     }
 
@@ -2450,7 +2547,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "distTransform"
             , distTransform_function_type( &cvDistTransform_68addecae85b6b48cd46044102a6c028 )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("distance_type")=(int)(2), bp::arg("mask_size")=(int)(3), bp::arg("mask")=cv::Mat(), bp::arg("labels")=cv::Mat() ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("distance_type")=(int)(2), bp::arg("mask_size")=(int)(3), bp::arg("mask")=cv::Mat(), bp::arg("labels")=cv::Mat() )
+            , "[PyOpenCV] Argument 'mask' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'src' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'labels' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2461,7 +2562,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "endWriteStruct"
             , endWriteStruct_function_type( &cvEndWriteStruct_49df8f8a99539026dfbd302575d7a485 )
-            , ( bp::arg("fs") ) );
+            , ( bp::arg("fs") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
     
     }
 
@@ -2472,7 +2574,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "estimateRigidTransform"
             , estimateRigidTransform_function_type( &cvEstimateRigidTransform_2f885814bd847b94c8621a570a36abad )
-            , ( bp::arg("A"), bp::arg("B"), bp::arg("M"), bp::arg("full_affine") ) );
+            , ( bp::arg("A"), bp::arg("B"), bp::arg("M"), bp::arg("full_affine") )
+            , "[PyOpenCV] Argument 'A' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'B' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'M' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2483,7 +2588,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "findFeatures"
             , findFeatures_function_type( &cvFindFeatures_3cdcd7c246944a80a295b6f20e448cfc )
-            , ( bp::arg("tr"), bp::arg("query_points"), bp::arg("indices"), bp::arg("dist"), bp::arg("k"), bp::arg("emax")=(int)(20) ) );
+            , ( bp::arg("tr"), bp::arg("query_points"), bp::arg("indices"), bp::arg("dist"), bp::arg("k"), bp::arg("emax")=(int)(20) )
+            , "[PyOpenCV] Argument 'query_points' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'indices' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'dist' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2494,7 +2602,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "findFeaturesBoxed"
             , findFeaturesBoxed_function_type( &cvFindFeaturesBoxed_6d675cd8257b64f665600bd276900d3e )
-            , ( bp::arg("tr"), bp::arg("bounds_min"), bp::arg("bounds_max"), bp::arg("out_indices") ) );
+            , ( bp::arg("tr"), bp::arg("bounds_min"), bp::arg("bounds_max"), bp::arg("out_indices") )
+            , "[PyOpenCV] Argument 'bounds_min' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'bounds_max' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'out_indices' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2505,7 +2616,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "findNearestPoint2D"
             , findNearestPoint2D_function_type( &cvFindNearestPoint2D_4658231361f43a6fc66c2e150f75dca8 )
-            , ( bp::arg("subdiv"), bp::arg("pt") ) );
+            , ( bp::arg("subdiv"), bp::arg("pt") )
+            , "[PyOpenCV] Argument 'pt' is a Point2f instead of a CvPoint2D32f." );
     
     }
 
@@ -2516,7 +2628,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "findStereoCorrespondenceGC"
             , findStereoCorrespondenceGC_function_type( &cvFindStereoCorrespondenceGC_c3eefaed321a780e7059f7c3392c4672 )
-            , ( bp::arg("left"), bp::arg("right"), bp::arg("disparityLeft"), bp::arg("disparityRight"), bp::arg("state"), bp::arg("useDisparityGuess")=(int)(0) ) );
+            , ( bp::arg("left"), bp::arg("right"), bp::arg("disparityLeft"), bp::arg("disparityRight"), bp::arg("state"), bp::arg("useDisparityGuess")=(int)(0) )
+            , "[PyOpenCV] Argument 'left' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'right' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'disparityLeft' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'disparityRight' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2527,7 +2643,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "getElemType"
             , getElemType_function_type( &cvGetElemType_28303ccd15acadc45a20b8189b3b5941 )
-            , ( bp::arg("arr") ) );
+            , ( bp::arg("arr") )
+            , "[PyOpenCV] Argument 'arr' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2538,7 +2655,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "getFileNode"
             , getFileNode_function_type( &cvGetFileNode_6a2476df18b42d117da27c3c0b8b7c10 )
-            , ( bp::arg("fs"), bp::arg("map"), bp::arg("key"), bp::arg("create_missing")=(int)(0) ) );
+            , ( bp::arg("fs"), bp::arg("map"), bp::arg("key"), bp::arg("create_missing")=(int)(0) )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage."\
+    "\n[PyOpenCV] Argument 'map' is a FileNode instead of a CvFileNode." );
     
     }
 
@@ -2549,7 +2668,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "getFileNodeByName"
             , getFileNodeByName_function_type( &cvGetFileNodeByName_061e25a343ad5bb2f02da02bf45be998 )
-            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name") ) );
+            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name") )
+            , "[PyOpenCV] Argument 'map' is a FileNode instead of a CvFileNode." );
     
     }
 
@@ -2560,7 +2680,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "getFileNodeName"
             , getFileNodeName_function_type( &cvGetFileNodeName_dad254a89ba86caf1ba5012875e2fb32 )
-            , ( bp::arg("node") ) );
+            , ( bp::arg("node") )
+            , "[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." );
     
     }
 
@@ -2571,7 +2692,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "getHashedKey"
             , getHashedKey_function_type( &cvGetHashedKey_5bf3bb09f908d63c5767d651120f813f )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("len")=(int)(-0x000000001), bp::arg("create_missing")=(int)(0) ) );
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("len")=(int)(-0x000000001), bp::arg("create_missing")=(int)(0) )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
     
     }
 
@@ -2582,7 +2704,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "getQuadrangleSubPix"
             , getQuadrangleSubPix_function_type( &cvGetQuadrangleSubPix_fe2b1a5028fa8b02301dc960cdfbc131 )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("map_matrix") ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("map_matrix") )
+            , "[PyOpenCV] Argument 'src' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'map_matrix' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2593,7 +2718,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "initNArrayIterator"
             , initNArrayIterator_function_type( &cvInitNArrayIterator_4c1924434c279d42b088754762acc53b )
-            , ( bp::arg("arrs"), bp::arg("mask"), bp::arg("stubs"), bp::arg("array_iterator"), bp::arg("flags")=(int)(0) ) );
+            , ( bp::arg("arrs"), bp::arg("mask"), bp::arg("stubs"), bp::arg("array_iterator"), bp::arg("flags")=(int)(0) )
+            , "[PyOpenCV] Argument 'arrs' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'count' is omitted. Its value is derived from argument 'arrs'."\
+    "\n[PyOpenCV] Argument 'mask' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2604,7 +2732,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "initSystem"
             , initSystem_function_type( &cvInitSystem_f0aa383f9ae0b2f0bf89bbcb5e73da23 )
-            , ( bp::arg("argv") ) );
+            , ( bp::arg("argv") )
+            , "[PyOpenCV] Argument 'argv' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'argc' is omitted. Its value is derived from argument 'argv'." );
     
     }
 
@@ -2615,7 +2745,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "LSHAdd"
             , LSHAdd_function_type( &cvLSHAdd_fead3e6b36de0b14c88ef1b561c6e621 )
-            , ( bp::arg("lsh"), bp::arg("data"), bp::arg("indices")=cv::Mat() ) );
+            , ( bp::arg("lsh"), bp::arg("data"), bp::arg("indices")=cv::Mat() )
+            , "[PyOpenCV] Argument 'data' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'indices' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2626,7 +2758,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "LSHQuery"
             , LSHQuery_function_type( &cvLSHQuery_a5f47e360cc9701a6672c12490153852 )
-            , ( bp::arg("lsh"), bp::arg("query_points"), bp::arg("indices"), bp::arg("dist"), bp::arg("k"), bp::arg("emax") ) );
+            , ( bp::arg("lsh"), bp::arg("query_points"), bp::arg("indices"), bp::arg("dist"), bp::arg("k"), bp::arg("emax") )
+            , "[PyOpenCV] Argument 'query_points' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'indices' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'dist' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2637,7 +2772,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "LSHRemove"
             , LSHRemove_function_type( &cvLSHRemove_5f32fb503216c52038c4ae3bf17b62db )
-            , ( bp::arg("lsh"), bp::arg("indices") ) );
+            , ( bp::arg("lsh"), bp::arg("indices") )
+            , "[PyOpenCV] Argument 'indices' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2648,7 +2784,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "linearPolar"
             , linearPolar_function_type( &cvLinearPolar_b75d44697de3c90f0462366e93d77425 )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("center"), bp::arg("maxRadius"), bp::arg("flags")=(int)(9) ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("center"), bp::arg("maxRadius"), bp::arg("flags")=(int)(9) )
+            , "[PyOpenCV] Argument 'src' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'center' is a Point2f instead of a CvPoint2D32f." );
     
     }
 
@@ -2659,7 +2798,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "logPolar"
             , logPolar_function_type( &cvLogPolar_27c4d18226a6e750886777db97773f4d )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("center"), bp::arg("M"), bp::arg("flags")=(int)(9) ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("center"), bp::arg("M"), bp::arg("flags")=(int)(9) )
+            , "[PyOpenCV] Argument 'src' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'center' is a Point2f instead of a CvPoint2D32f." );
     
     }
 
@@ -2670,7 +2812,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "multiplyAcc"
             , multiplyAcc_function_type( &cvMultiplyAcc_c64c83fc39cb1265f3d1a69d9e600a47 )
-            , ( bp::arg("image1"), bp::arg("image2"), bp::arg("acc"), bp::arg("mask")=cv::Mat() ) );
+            , ( bp::arg("image1"), bp::arg("image2"), bp::arg("acc"), bp::arg("mask")=cv::Mat() )
+            , "[PyOpenCV] Argument 'image1' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'image2' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'acc' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'mask' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2681,7 +2827,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "pointSeqFromMat"
             , pointSeqFromMat_function_type( &cvPointSeqFromMat_ef8459cfef37d715411cf088e0da5576 )
-            , ( bp::arg("seq_kind"), bp::arg("mat"), bp::arg("contour_header"), bp::arg("block") ) );
+            , ( bp::arg("seq_kind"), bp::arg("mat"), bp::arg("contour_header"), bp::arg("block") )
+            , "[PyOpenCV] Argument 'mat' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2692,7 +2839,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "pyrMeanShiftFiltering"
             , pyrMeanShiftFiltering_function_type( &cvPyrMeanShiftFiltering_21ec6b7149a6e00a31f1d76aebb9a22b )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("sp"), bp::arg("sr"), bp::arg("max_level")=(int)(1), bp::arg("termcrit")=cv::TermCriteria(3, 5, 1.0e+0) ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("sp"), bp::arg("sr"), bp::arg("max_level")=(int)(1), bp::arg("termcrit")=cv::TermCriteria(3, 5, 1.0e+0) )
+            , "[PyOpenCV] Argument 'src' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2703,7 +2852,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "pyrSegmentation"
             , pyrSegmentation_function_type( &cvPyrSegmentation_0a5e58f4641f1c9757bb83d3f16f4191 )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("storage"), bp::arg("level"), bp::arg("threshold1"), bp::arg("threshold2") ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("storage"), bp::arg("level"), bp::arg("threshold1"), bp::arg("threshold2") )
+            , "[PyOpenCV] Argument 'comp' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object."\
+    "\n[PyOpenCV] Argument 'src' is a Mat instead of a pointer to IplImage."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat instead of a pointer to IplImage." );
     
     }
 
@@ -2714,7 +2866,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "randArr"
             , randArr_function_type( &cvRandArr_7e6e03c94e3a5f654b62b47647889d1d )
-            , ( bp::arg("rng"), bp::arg("arr"), bp::arg("dist_type"), bp::arg("param1"), bp::arg("param2") ) );
+            , ( bp::arg("rng"), bp::arg("arr"), bp::arg("dist_type"), bp::arg("param1"), bp::arg("param2") )
+            , "[PyOpenCV] Argument 'arr' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'rng' is a RNG instead of a CvRNG or a pointer to CvRNG." );
     
     }
 
@@ -2725,7 +2879,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "range_"
             , range__function_type( &cvRange_073a997114e2c96bbeff2aaa986e76a1 )
-            , ( bp::arg("mat"), bp::arg("start"), bp::arg("end") ) );
+            , ( bp::arg("mat"), bp::arg("start"), bp::arg("end") )
+            , "[PyOpenCV] Argument 'mat' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2736,7 +2891,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "readInt"
             , readInt_function_type( &cvReadInt_dca28f92c7fa1c5a899d9ab353ae882e )
-            , ( bp::arg("node"), bp::arg("default_value")=(int)(0) ) );
+            , ( bp::arg("node"), bp::arg("default_value")=(int)(0) )
+            , "[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." );
     
     }
 
@@ -2747,7 +2903,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "readIntByName"
             , readIntByName_function_type( &cvReadIntByName_7241d5979fbc58c330d0adada9c3a3db )
-            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name"), bp::arg("default_value")=(int)(0) ) );
+            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name"), bp::arg("default_value")=(int)(0) )
+            , "[PyOpenCV] Argument 'map' is a FileNode instead of a CvFileNode." );
     
     }
 
@@ -2758,7 +2915,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "readReal"
             , readReal_function_type( &cvReadReal_77fd0854d614bbd71a10b38d8f07166b )
-            , ( bp::arg("node"), bp::arg("default_value")=0.0 ) );
+            , ( bp::arg("node"), bp::arg("default_value")=0.0 )
+            , "[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." );
     
     }
 
@@ -2769,7 +2927,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "readRealByName"
             , readRealByName_function_type( &cvReadRealByName_28cd8eea8cf4c8740bae8bb907fc7ea4 )
-            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name"), bp::arg("default_value")=0.0 ) );
+            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name"), bp::arg("default_value")=0.0 )
+            , "[PyOpenCV] Argument 'map' is a FileNode instead of a CvFileNode." );
     
     }
 
@@ -2780,7 +2939,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "readString"
             , readString_function_type( &cvReadString_2d9e9aabc6de8c1b6e5e3284f1e79619 )
-            , ( bp::arg("node"), bp::arg("default_value")=bp::object() ) );
+            , ( bp::arg("node"), bp::arg("default_value")=bp::object() )
+            , "[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." );
     
     }
 
@@ -2791,7 +2951,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "readStringByName"
             , readStringByName_function_type( &cvReadStringByName_b4debf88a87b4914bb1fcab2b777cee6 )
-            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name"), bp::arg("default_value")=bp::object() ) );
+            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name"), bp::arg("default_value")=bp::object() )
+            , "[PyOpenCV] Argument 'map' is a FileNode instead of a CvFileNode." );
     
     }
 
@@ -2802,7 +2963,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "_cvReleaseConDensation"
             , _cvReleaseConDensation_function_type( &cvReleaseConDensation_f998e5f5422410bd74b2ba960fd05e2c )
-            , ( bp::arg("condens") ) );
+            , ( bp::arg("condens") )
+            , "[PyOpenCV] Argument 'condens' is a real object instead of a double pointer to an object." );
     
     }
 
@@ -2813,7 +2975,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "_cvReleaseFileStorage"
             , _cvReleaseFileStorage_function_type( &cvReleaseFileStorage_d53aa99c3241294fee03f3f038aa2bba )
-            , ( bp::arg("fs") ) );
+            , ( bp::arg("fs") )
+            , "[PyOpenCV] Argument 'fs' is a real object instead of a double pointer to an object." );
     
     }
 
@@ -2824,7 +2987,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "_cvReleaseMemStorage"
             , _cvReleaseMemStorage_function_type( &cvReleaseMemStorage_6ff4687a489093fb83fd38fb1d920837 )
-            , ( bp::arg("storage") ) );
+            , ( bp::arg("storage") )
+            , "[PyOpenCV] Argument 'storage' is a real object instead of a double pointer to an object." );
     
     }
 
@@ -2835,7 +2999,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "_cvReleasePOSITObject"
             , _cvReleasePOSITObject_function_type( &cvReleasePOSITObject_679a5da1d4e28b86fdc9a28aa691c6ef )
-            , ( bp::arg("posit_object") ) );
+            , ( bp::arg("posit_object") )
+            , "[PyOpenCV] Argument 'posit_object' is a real object instead of a double pointer to an object." );
     
     }
 
@@ -2846,7 +3011,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "_cvReleaseStereoGCState"
             , _cvReleaseStereoGCState_function_type( &cvReleaseStereoGCState_f9448f3f98670de75bac96972e1b9d45 )
-            , ( bp::arg("state") ) );
+            , ( bp::arg("state") )
+            , "[PyOpenCV] Argument 'state' is a real object instead of a double pointer to an object." );
     
     }
 
@@ -2857,7 +3023,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "reprojectImageTo3D"
             , reprojectImageTo3D_function_type( &cvReprojectImageTo3D_4ca87cd67ba33150d51d345f21a24447 )
-            , ( bp::arg("disparityImage"), bp::arg("_3dImage"), bp::arg("Q"), bp::arg("handleMissingValues")=(int)(0) ) );
+            , ( bp::arg("disparityImage"), bp::arg("_3dImage"), bp::arg("Q"), bp::arg("handleMissingValues")=(int)(0) )
+            , "[PyOpenCV] Argument 'disparityImage' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument '_3dImage' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'Q' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2868,7 +3037,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "runningAvg"
             , runningAvg_function_type( &cvRunningAvg_16515bd00db4472140aa21554e25bbc7 )
-            , ( bp::arg("image"), bp::arg("acc"), bp::arg("alpha"), bp::arg("mask")=cv::Mat() ) );
+            , ( bp::arg("image"), bp::arg("acc"), bp::arg("alpha"), bp::arg("mask")=cv::Mat() )
+            , "[PyOpenCV] Argument 'image' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'acc' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'mask' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2879,7 +3051,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "SURFPoint"
             , SURFPoint_function_type( &cvSURFPoint_c0d89cc1fa2a754074aaa768acb95f48 )
-            , ( bp::arg("pt"), bp::arg("laplacian"), bp::arg("size"), bp::arg("dir")=0, bp::arg("hessian")=0 ) );
+            , ( bp::arg("pt"), bp::arg("laplacian"), bp::arg("size"), bp::arg("dir")=0, bp::arg("hessian")=0 )
+            , "[PyOpenCV] Argument 'pt' is a Point2f instead of a CvPoint2D32f." );
     
     }
 
@@ -2890,7 +3063,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "sampleLine"
             , sampleLine_function_type( &cvSampleLine_9eb7a74db955c3538aef5be3e7392fc5 )
-            , ( bp::arg("image"), bp::arg("pt1"), bp::arg("pt2"), bp::arg("buffer"), bp::arg("connectivity")=(int)(8) ) );
+            , ( bp::arg("image"), bp::arg("pt1"), bp::arg("pt2"), bp::arg("buffer"), bp::arg("connectivity")=(int)(8) )
+            , "[PyOpenCV] Argument 'image' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2901,7 +3075,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "segmentImage"
             , segmentImage_function_type( &cvSegmentImage_7b95313fd97ffe28d678124b5aa0a301 )
-            , ( bp::arg("srcarr"), bp::arg("dstarr"), bp::arg("canny_threshold"), bp::arg("ffill_threshold"), bp::arg("storage") ) );
+            , ( bp::arg("srcarr"), bp::arg("dstarr"), bp::arg("canny_threshold"), bp::arg("ffill_threshold"), bp::arg("storage") )
+            , "[PyOpenCV] Argument 'srcarr' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'dstarr' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2912,7 +3088,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "segmentMotion"
             , segmentMotion_function_type( &cvSegmentMotion_ed831c1d8f816ea759222aec4d41f1f0 )
-            , ( bp::arg("mhi"), bp::arg("seg_mask"), bp::arg("storage"), bp::arg("timestamp"), bp::arg("seg_thresh") ) );
+            , ( bp::arg("mhi"), bp::arg("seg_mask"), bp::arg("storage"), bp::arg("timestamp"), bp::arg("seg_thresh") )
+            , "[PyOpenCV] Argument 'mhi' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'seg_mask' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2923,7 +3101,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "seqInsertSlice"
             , seqInsertSlice_function_type( &cvSeqInsertSlice_870f54253b0103a244c6ac596f2820c4 )
-            , ( bp::arg("seq"), bp::arg("before_index"), bp::arg("from_arr") ) );
+            , ( bp::arg("seq"), bp::arg("before_index"), bp::arg("from_arr") )
+            , "[PyOpenCV] Argument 'from_arr' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2934,7 +3113,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "_cvSetMouseCallback"
             , _cvSetMouseCallback_function_type( &cvSetMouseCallback_c212defec0903d7de57c5c0b0ee9b03d )
-            , ( bp::arg("window_name"), bp::arg("on_mouse"), bp::arg("param")=bp::object() ) );
+            , ( bp::arg("window_name"), bp::arg("on_mouse"), bp::arg("param")=bp::object() )
+            , "[PyOpenCV] Argument 'on_mouse' is a Python function that should look like below:"\
+    "\n[PyOpenCV]     def on_mouse(event, x, y, flags, user_data):"\
+    "\n[PyOpenCV]         ..."\
+    "\n[PyOpenCV] Argument 'param' is a Python object that is passed to function on_mouse() as 'user_data'." );
     
     }
 
@@ -2945,7 +3128,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "smooth"
             , smooth_function_type( &cvSmooth_77e0c983f4273497b4a61c0a6dcda04f )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("smoothtype")=(int)(2), bp::arg("size1")=(int)(3), bp::arg("size2")=(int)(0), bp::arg("sigma1")=0, bp::arg("sigma2")=0 ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("smoothtype")=(int)(2), bp::arg("size1")=(int)(3), bp::arg("size2")=(int)(0), bp::arg("sigma1")=0, bp::arg("sigma2")=0 )
+            , "[PyOpenCV] Argument 'src' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2956,7 +3141,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "solveCubic"
             , solveCubic_function_type( &cvSolveCubic_97d0ac3b0fc6ba46cd5b5f2eaea79583 )
-            , ( bp::arg("coeffs"), bp::arg("roots") ) );
+            , ( bp::arg("coeffs"), bp::arg("roots") )
+            , "[PyOpenCV] Argument 'coeffs' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'roots' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2967,7 +3154,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "solvePoly"
             , solvePoly_function_type( &cvSolvePoly_a7fe4b7abe368e2e780716aa49dc8f82 )
-            , ( bp::arg("coeffs"), bp::arg("roots2"), bp::arg("maxiter")=(int)(20), bp::arg("fig")=(int)(100) ) );
+            , ( bp::arg("coeffs"), bp::arg("roots2"), bp::arg("maxiter")=(int)(20), bp::arg("fig")=(int)(100) )
+            , "[PyOpenCV] Argument 'coeffs' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'roots2' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2978,7 +3167,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "squareAcc"
             , squareAcc_function_type( &cvSquareAcc_df8ad076f822a2856ccecbbdf6a2b2b0 )
-            , ( bp::arg("image"), bp::arg("sqsum"), bp::arg("mask")=cv::Mat() ) );
+            , ( bp::arg("image"), bp::arg("sqsum"), bp::arg("mask")=cv::Mat() )
+            , "[PyOpenCV] Argument 'image' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'sqsum' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'mask' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -2989,7 +3181,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "startFindContours"
             , startFindContours_function_type( &cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc )
-            , ( bp::arg("image"), bp::arg("storage"), bp::arg("header_size")=(int)(88u), bp::arg("mode")=(int)(1), bp::arg("method")=(int)(2), bp::arg("offset")=cv::Point(0, 0) ) );
+            , ( bp::arg("image"), bp::arg("storage"), bp::arg("header_size")=(int)(88u), bp::arg("mode")=(int)(1), bp::arg("method")=(int)(2), bp::arg("offset")=cv::Point(0, 0) )
+            , "[PyOpenCV] Argument 'image' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -3000,7 +3193,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "startNextStream"
             , startNextStream_function_type( &cvStartNextStream_db71e53dfa9475145f4487a80d5d8bf2 )
-            , ( bp::arg("fs") ) );
+            , ( bp::arg("fs") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
     
     }
 
@@ -3011,7 +3205,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "startReadRawData"
             , startReadRawData_function_type( &cvStartReadRawData_4fe1fcc06b3f886cb6549cad64e1d1a0 )
-            , ( bp::arg("fs"), bp::arg("src"), bp::arg("reader") ) );
+            , ( bp::arg("fs"), bp::arg("src"), bp::arg("reader") )
+            , "[PyOpenCV] Argument 'src' is a FileNode instead of a CvFileNode." );
     
     }
 
@@ -3022,7 +3217,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "startWriteStruct"
             , startWriteStruct_function_type( &cvStartWriteStruct_e7e2128639c3a858bdb332c89468a8e0 )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("struct_flags"), bp::arg("type_name")=bp::object(), bp::arg("attributes")=cvAttrList(0u, 0u) ) );
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("struct_flags"), bp::arg("type_name")=bp::object(), bp::arg("attributes")=cvAttrList(0u, 0u) )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
     
     }
 
@@ -3033,7 +3229,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "subdiv2DLocate"
             , subdiv2DLocate_function_type( &cvSubdiv2DLocate_1df86dbc29fc9de6df2bbdb2196d6db3 )
-            , ( bp::arg("subdiv"), bp::arg("pt"), bp::arg("edge") ) );
+            , ( bp::arg("subdiv"), bp::arg("pt"), bp::arg("edge") )
+            , "[PyOpenCV] Argument 'vertex' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object."\
+    "\n[PyOpenCV] Argument 'pt' is a Point2f instead of a CvPoint2D32f." );
     
     }
 
@@ -3044,7 +3242,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "subdivDelaunay2DInsert"
             , subdivDelaunay2DInsert_function_type( &cvSubdivDelaunay2DInsert_0d66ff0b2bc8918d0793f968404f1cb2 )
-            , ( bp::arg("subdiv"), bp::arg("pt") ) );
+            , ( bp::arg("subdiv"), bp::arg("pt") )
+            , "[PyOpenCV] Argument 'pt' is a Point2f instead of a CvPoint2D32f." );
     
     }
 
@@ -3055,7 +3254,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "triangleArea"
             , triangleArea_function_type( &cvTriangleArea_727599fdabcae9fb78274a766e9dac94 )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
+            , "[PyOpenCV] Argument 'a' is a Point2f instead of a CvPoint2D32f."\
+    "\n[PyOpenCV] Argument 'b' is a Point2f instead of a CvPoint2D32f."\
+    "\n[PyOpenCV] Argument 'c' is a Point2f instead of a CvPoint2D32f." );
     
     }
 
@@ -3066,7 +3268,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "triangulatePoints"
             , triangulatePoints_function_type( &cvTriangulatePoints_eb948ff6300aa4ebf4fad0ec7d6d4e78 )
-            , ( bp::arg("projMatr1"), bp::arg("projMatr2"), bp::arg("projPoints1"), bp::arg("projPoints2"), bp::arg("points4D") ) );
+            , ( bp::arg("projMatr1"), bp::arg("projMatr2"), bp::arg("projPoints1"), bp::arg("projPoints2"), bp::arg("points4D") )
+            , "[PyOpenCV] Argument 'projMatr1' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'projMatr2' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'projPoints1' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'projPoints2' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'points4D' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -3088,7 +3295,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "updateMotionHistory"
             , updateMotionHistory_function_type( &cvUpdateMotionHistory_fb635b1eb55f77d94f46a70f41eac0b3 )
-            , ( bp::arg("silhouette"), bp::arg("mhi"), bp::arg("timestamp"), bp::arg("duration") ) );
+            , ( bp::arg("silhouette"), bp::arg("mhi"), bp::arg("timestamp"), bp::arg("duration") )
+            , "[PyOpenCV] Argument 'silhouette' is a Mat instead of a pointer to CvMat."\
+    "\n[PyOpenCV] Argument 'mhi' is a Mat instead of a pointer to CvMat." );
     
     }
 
@@ -3099,7 +3308,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "write"
             , write_function_type( &cvWrite_00335cc764e72fb9408450c10fffab4a )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("ptr"), bp::arg("attributes")=cvAttrList(0u, 0u) ) );
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("ptr"), bp::arg("attributes")=cvAttrList(0u, 0u) )
+            , "[PyOpenCV] Argument 'ptr' is a string."\
+    "\n[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
     
     }
 
@@ -3110,7 +3321,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "writeComment"
             , writeComment_function_type( &cvWriteComment_3e89473031f5fbea0ed6232440721138 )
-            , ( bp::arg("fs"), bp::arg("comment"), bp::arg("eol_comment") ) );
+            , ( bp::arg("fs"), bp::arg("comment"), bp::arg("eol_comment") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
     
     }
 
@@ -3121,7 +3333,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "writeFileNode"
             , writeFileNode_function_type( &cvWriteFileNode_4df1ea107367e738fdd6f88f15146fb9 )
-            , ( bp::arg("fs"), bp::arg("new_node_name"), bp::arg("node"), bp::arg("embed") ) );
+            , ( bp::arg("fs"), bp::arg("new_node_name"), bp::arg("node"), bp::arg("embed") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage."\
+    "\n[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." );
     
     }
 
@@ -3132,7 +3346,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "writeInt"
             , writeInt_function_type( &cvWriteInt_3ee9f31ea1735f25d28b6cfc1e87078a )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") ) );
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
     
     }
 
@@ -3143,7 +3358,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "writeReal"
             , writeReal_function_type( &cvWriteReal_2c8a3a2d5d1328049eb47e9ef6cc9282 )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") ) );
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
     
     }
 
@@ -3154,7 +3370,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "writeString"
             , writeString_function_type( &cvWriteString_72043510addf587750a274c07091202d )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("str"), bp::arg("quote")=(int)(0) ) );
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("str"), bp::arg("quote")=(int)(0) )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
     
     }
 
@@ -3165,7 +3382,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "drawContours"
             , drawContours_function_type( &drawContours_03a5aed7ca57b253d8b3346ee2f05f74 )
-            , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() ) );
+            , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() )
+            , "[PyOpenCV] Argument 'contours' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'hierarchy' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -3176,7 +3395,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "ellipse2Poly"
             , ellipse2Poly_function_type( &ellipse2Poly_a1937ebf152fa736fc27822db2e0081a )
-            , ( bp::arg("center"), bp::arg("axes"), bp::arg("angle"), bp::arg("arcStart"), bp::arg("arcEnd"), bp::arg("delta"), bp::arg("pts") ) );
+            , ( bp::arg("center"), bp::arg("axes"), bp::arg("angle"), bp::arg("arcStart"), bp::arg("arcEnd"), bp::arg("delta"), bp::arg("pts") )
+            , "[PyOpenCV] Argument 'pts' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -3187,7 +3407,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "estimateAffine3D"
             , estimateAffine3D_function_type( &estimateAffine3D_fd3dca5e5fd5d2ce4664db813a2c08bf )
-            , ( bp::arg("from"), bp::arg("to"), bp::arg("out"), bp::arg("outliers"), bp::arg("param1")=3.0e+0, bp::arg("param2")=9.89999999999999991118215802998747676610946655273e-1 ) );
+            , ( bp::arg("from"), bp::arg("to"), bp::arg("out"), bp::arg("outliers"), bp::arg("param1")=3.0e+0, bp::arg("param2")=9.89999999999999991118215802998747676610946655273e-1 )
+            , "[PyOpenCV] Argument 'outliers' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -3198,7 +3419,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "fillConvexPoly"
             , fillConvexPoly_function_type( &fillConvexPoly_1312287b0cded13c02c57cc3d8ebf4b4 )
-            , ( bp::arg("img"), bp::arg("pts"), bp::arg("color"), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) ) );
+            , ( bp::arg("img"), bp::arg("pts"), bp::arg("color"), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) )
+            , "[PyOpenCV] Argument 'pts' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'npts' is omitted. Its value is derived from argument 'pts'." );
     
     }
 
@@ -3209,7 +3432,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "fillPoly"
             , fillPoly_function_type( &fillPoly_e862cfcf1208f193efcd2bec59b744ec )
-            , ( bp::arg("img"), bp::arg("pts"), bp::arg("color"), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0), bp::arg("offset")=cv::Point_<int>() ) );
+            , ( bp::arg("img"), bp::arg("pts"), bp::arg("color"), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0), bp::arg("offset")=cv::Point_<int>() )
+            , "[PyOpenCV] Argument 'pts' is a 2d list. Depending on its C++ argument type, it should be a list of Mat's or a list of lists."\
+    "\n[PyOpenCV] Argument 'ncontours' is omitted. Its value is derived from argument 'pts'."\
+    "\n[PyOpenCV] Argument 'npts' is omitted. Its value is derived from argument 'pts'." );
     
     }
 
@@ -3220,7 +3446,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "findChessboardCorners"
             , findChessboardCorners_function_type( &findChessboardCorners_dbf15a4ace0e613206118382aa1793ea )
-            , ( bp::arg("image"), bp::arg("patternSize"), bp::arg("flags")=(int)(3) ) );
+            , ( bp::arg("image"), bp::arg("patternSize"), bp::arg("flags")=(int)(3) )
+            , "[PyOpenCV] Argument 'corners' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'corners' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -3231,7 +3459,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "findContours"
             , findContours_function_type( &findContours_68285032b2b0f15f13e30f19da8327fa )
-            , ( bp::arg("image"), bp::arg("mode"), bp::arg("method"), bp::arg("offset")=cv::Point_<int>() ) );
+            , ( bp::arg("image"), bp::arg("mode"), bp::arg("method"), bp::arg("offset")=cv::Point_<int>() )
+            , "[PyOpenCV] Argument 'contours' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'contours' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'hierarchy' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'hierarchy' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -3242,7 +3474,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "findFundamentalMat2"
             , findFundamentalMat2_function_type( &findFundamentalMat_4b8947da99452ee36abb2b044e941f4a )
-            , ( bp::arg("points1"), bp::arg("points2"), bp::arg("method")=int(::cv::FM_RANSAC), bp::arg("param1")=3.0e+0, bp::arg("param2")=9.89999999999999991118215802998747676610946655273e-1 ) );
+            , ( bp::arg("points1"), bp::arg("points2"), bp::arg("method")=int(::cv::FM_RANSAC), bp::arg("param1")=3.0e+0, bp::arg("param2")=9.89999999999999991118215802998747676610946655273e-1 )
+            , "[PyOpenCV] Argument 'mask' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'mask' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -3253,7 +3487,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "findHomography2"
             , findHomography2_function_type( &findHomography_43999ba4bb258d7c74f144c8915f1665 )
-            , ( bp::arg("srcPoints"), bp::arg("dstPoints"), bp::arg("method")=(int)(0), bp::arg("ransacReprojThreshold")=0 ) );
+            , ( bp::arg("srcPoints"), bp::arg("dstPoints"), bp::arg("method")=(int)(0), bp::arg("ransacReprojThreshold")=0 )
+            , "[PyOpenCV] Argument 'mask' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'mask' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -3264,7 +3500,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "floodFill"
             , floodFill_function_type( &floodFill_a833ccdf7b45572779d5c63d9adc2b15 )
-            , ( bp::arg("image"), bp::arg("mask"), bp::arg("seedPoint"), bp::arg("newVal"), bp::arg("loDiff")=cv::Scalar_<double>(), bp::arg("upDiff")=cv::Scalar_<double>(), bp::arg("flags")=(int)(4) ) );
+            , ( bp::arg("image"), bp::arg("mask"), bp::arg("seedPoint"), bp::arg("newVal"), bp::arg("loDiff")=cv::Scalar_<double>(), bp::arg("upDiff")=cv::Scalar_<double>(), bp::arg("flags")=(int)(4) )
+            , "[PyOpenCV] Argument 'rect' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object." );
     
     }
 
@@ -3275,7 +3512,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "floodFill"
             , floodFill_function_type( &floodFill_75a8a8f3e3e22b4d281bb304a7881151 )
-            , ( bp::arg("image"), bp::arg("seedPoint"), bp::arg("newVal"), bp::arg("loDiff")=cv::Scalar_<double>(), bp::arg("upDiff")=cv::Scalar_<double>(), bp::arg("flags")=(int)(4) ) );
+            , ( bp::arg("image"), bp::arg("seedPoint"), bp::arg("newVal"), bp::arg("loDiff")=cv::Scalar_<double>(), bp::arg("upDiff")=cv::Scalar_<double>(), bp::arg("flags")=(int)(4) )
+            , "[PyOpenCV] Argument 'rect' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object." );
     
     }
 
@@ -3286,7 +3524,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "getAffineTransform"
             , getAffineTransform_function_type( &getAffineTransform_aa493630c3e4efe1ff49141fe5060922 )
-            , ( bp::arg("src"), bp::arg("dst") ) );
+            , ( bp::arg("src"), bp::arg("dst") )
+            , "[PyOpenCV] Argument 'src' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -3297,7 +3537,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "getPerspectiveTransform"
             , getPerspectiveTransform_function_type( &getPerspectiveTransform_c06a0392152cb20f6b57ae1ff2ac2c11 )
-            , ( bp::arg("src"), bp::arg("dst") ) );
+            , ( bp::arg("src"), bp::arg("dst") )
+            , "[PyOpenCV] Argument 'src' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'dst' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -3308,7 +3550,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "getTextSize"
             , getTextSize_function_type( &getTextSize_efe6452b14ca0fcca5a50ca33199f5e7 )
-            , ( bp::arg("text"), bp::arg("fontFace"), bp::arg("fontScale"), bp::arg("thickness") ) );
+            , ( bp::arg("text"), bp::arg("fontFace"), bp::arg("fontScale"), bp::arg("thickness") )
+            , "[PyOpenCV] Argument 'baseLine' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object." );
     
     }
 
@@ -3319,7 +3562,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "goodFeaturesToTrack"
             , goodFeaturesToTrack_function_type( &goodFeaturesToTrack_a887e3eb7b667339b1ac0c1a02f5735c )
-            , ( bp::arg("image"), bp::arg("maxCorners"), bp::arg("qualityLevel"), bp::arg("minDistance"), bp::arg("mask")=cv::Mat(), bp::arg("blockSize")=(int)(3), bp::arg("useHarrisDetector")=(bool)(false), bp::arg("k")=4.00000000000000008326672684688674053177237510681e-2 ) );
+            , ( bp::arg("image"), bp::arg("maxCorners"), bp::arg("qualityLevel"), bp::arg("minDistance"), bp::arg("mask")=cv::Mat(), bp::arg("blockSize")=(int)(3), bp::arg("useHarrisDetector")=(bool)(false), bp::arg("k")=4.00000000000000008326672684688674053177237510681e-2 )
+            , "[PyOpenCV] Argument 'corners' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'corners' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -3330,7 +3575,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "groupRectangles"
             , groupRectangles_function_type( &groupRectangles_daddb1eb144574c44042d3cef39f8656 )
-            , ( bp::arg("rectList"), bp::arg("groupThreshold"), bp::arg("eps")=2.00000000000000011102230246251565404236316680908e-1 ) );
+            , ( bp::arg("rectList"), bp::arg("groupThreshold"), bp::arg("eps")=2.00000000000000011102230246251565404236316680908e-1 )
+            , "[PyOpenCV] Argument 'rectList' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -3341,7 +3587,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "imencode"
             , imencode_function_type( &imencode_7058867f40db2ceceebdc74b4943c841 )
-            , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) ) );
+            , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
+            , "[PyOpenCV] Argument 'buf' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'buf' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'params' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -3352,7 +3601,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "imwrite"
             , imwrite_function_type( &imwrite_08123c4d4c07e7af51577328378c9683 )
-            , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) ) );
+            , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
+            , "[PyOpenCV] Argument 'params' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -3363,7 +3613,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "initCameraMatrix2D"
             , initCameraMatrix2D_function_type( &initCameraMatrix2D_a63e0813c9e7ddf60786347e47acca95 )
-            , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("aspectRatio")=1.0e+0 ) );
+            , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("aspectRatio")=1.0e+0 )
+            , "[PyOpenCV] Argument 'objectPoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'imagePoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
     
     }
 
@@ -3374,7 +3626,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "kmeans"
             , kmeans_function_type( &kmeans_7acc1faebc4e430dbd210d93113e85c9 )
-            , ( bp::arg("data"), bp::arg("K"), bp::arg("best_labels"), bp::arg("criteria"), bp::arg("attempts"), bp::arg("flags") ) );
+            , ( bp::arg("data"), bp::arg("K"), bp::arg("best_labels"), bp::arg("criteria"), bp::arg("attempts"), bp::arg("flags") )
+            , "[PyOpenCV] Argument 'centers' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object." );
     
     }
 
@@ -3385,7 +3638,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "merge"
             , merge_function_type( &merge_3b2d3618a31ce673ada132517e890dcb )
-            , ( bp::arg("mvbegin"), bp::arg("dst") ) );
+            , ( bp::arg("mvbegin"), bp::arg("dst") )
+            , "[PyOpenCV] Argument 'mvbegin' is a list of Mat's, e.g. [Mat(), Mat(), Mat()]."\
+    "\n[PyOpenCV] Argument 'count' is omitted. Its value is derived from argument 'mvbegin'." );
     
     }
 
@@ -3396,7 +3651,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "merge"
             , merge_function_type( &merge_a47eeb2aff422ee6c05b5574cb0848fe )
-            , ( bp::arg("mv"), bp::arg("dst") ) );
+            , ( bp::arg("mv"), bp::arg("dst") )
+            , "[PyOpenCV] Argument 'mv' is a list of Mat's, e.g. [Mat(), Mat(), Mat()]."\
+    "\n[PyOpenCV] Argument 'count' is omitted. Its value is derived from argument 'mv'." );
     
     }
 
@@ -3407,7 +3664,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "polylines"
             , polylines_function_type( &polylines_4b2b9aca4a0ee1864678eae6b982fcc0 )
-            , ( bp::arg("img"), bp::arg("pts"), bp::arg("isClosed"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) ) );
+            , ( bp::arg("img"), bp::arg("pts"), bp::arg("isClosed"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) )
+            , "[PyOpenCV] Argument 'pts' is a 2d list. Depending on its C++ argument type, it should be a list of Mat's or a list of lists."\
+    "\n[PyOpenCV] Argument 'ncontours' is omitted. Its value is derived from argument 'pts'."\
+    "\n[PyOpenCV] Argument 'npts' is omitted. Its value is derived from argument 'pts'." );
     
     }
 
@@ -3418,7 +3678,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "projectPoints2"
             , projectPoints2_function_type( &projectPoints_c3cbd5f3e0c4a976b617302062632da4 )
-            , ( bp::arg("objectPoints"), bp::arg("rvec"), bp::arg("tvec"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("dpdrot"), bp::arg("dpdt"), bp::arg("dpdf"), bp::arg("dpdc"), bp::arg("dpddist"), bp::arg("aspectRatio")=0 ) );
+            , ( bp::arg("objectPoints"), bp::arg("rvec"), bp::arg("tvec"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("dpdrot"), bp::arg("dpdt"), bp::arg("dpdf"), bp::arg("dpdc"), bp::arg("dpddist"), bp::arg("aspectRatio")=0 )
+            , "[PyOpenCV] Argument 'imagePoints' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'imagePoints' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -3429,7 +3691,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "projectPoints"
             , projectPoints_function_type( &projectPoints_ce9cea7b4fadb5986d2a47a4d012fac0 )
-            , ( bp::arg("objectPoints"), bp::arg("rvec"), bp::arg("tvec"), bp::arg("cameraMatrix"), bp::arg("distCoeffs") ) );
+            , ( bp::arg("objectPoints"), bp::arg("rvec"), bp::arg("tvec"), bp::arg("cameraMatrix"), bp::arg("distCoeffs") )
+            , "[PyOpenCV] Argument 'imagePoints' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'imagePoints' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -3440,7 +3704,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "read_KeyPoints"
             , read_KeyPoints_function_type( &read_19f776a07d0494421b17575379bc2106 )
-            , ( bp::arg("node") ) );
+            , ( bp::arg("node") )
+            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'keypoints' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -3583,7 +3849,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "split"
             , split_function_type( &split_2e154aaf70f5c323ceec9f447e404d8a )
-            , ( bp::arg("m"), bp::arg("mv") ) );
+            , ( bp::arg("m"), bp::arg("mv") )
+            , "[PyOpenCV] Argument 'mv' is a list of Mat's, e.g. [Mat(), Mat(), Mat()]." );
     
     }
 
@@ -3594,7 +3861,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "split"
             , split_function_type( &split_d88fca83dae3e7420e6688bbbcd2ac41 )
-            , ( bp::arg("m"), bp::arg("mvbegin") ) );
+            , ( bp::arg("m"), bp::arg("mvbegin") )
+            , "[PyOpenCV] Argument 'mvbegin' is a list of Mat's, e.g. [Mat(), Mat(), Mat()]." );
     
     }
 
@@ -3605,7 +3873,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "stereoCalibrate"
             , stereoCalibrate_function_type( &stereoCalibrate_14726b7172922289400130b4861f4a12 )
-            , ( bp::arg("objectPoints"), bp::arg("imagePoints1"), bp::arg("imagePoints2"), bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("E"), bp::arg("F"), bp::arg("criteria")=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), bp::arg("flags")=int(::cv::CALIB_FIX_INTRINSIC) ) );
+            , ( bp::arg("objectPoints"), bp::arg("imagePoints1"), bp::arg("imagePoints2"), bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("E"), bp::arg("F"), bp::arg("criteria")=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), bp::arg("flags")=int(::cv::CALIB_FIX_INTRINSIC) )
+            , "[PyOpenCV] Argument 'objectPoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'imagePoints1' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'imagePoints2' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
     
     }
 
@@ -3616,7 +3887,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "undistortPoints2"
             , undistortPoints2_function_type( &undistortPoints_e5fdbe55500ffb118c2a9845da49f34b )
-            , ( bp::arg("src"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("R")=cv::Mat(), bp::arg("P")=cv::Mat() ) );
+            , ( bp::arg("src"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("R")=cv::Mat(), bp::arg("P")=cv::Mat() )
+            , "[PyOpenCV] Argument 'dst' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'dst' is an output argument and is omitted from the function's calling sequence." );
     
     }
 
@@ -3627,7 +3900,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "write"
             , write_function_type( &write_df76e3ba45561ddd23c917a610929778 )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("keypoints") ) );
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("keypoints") )
+            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
     
     }
 

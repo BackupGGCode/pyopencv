@@ -112,7 +112,9 @@ void register_CvVSModule_class(){
         .def( 
             "LoadState"
             , (void (*)( ::CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvVSModule_wrapper::default_LoadState )
-            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") ) )    
+            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
+            , "[PyOpenCV] Argument 'arg0' is a FileStorage instead of a CvFileStorage."\
+    "\n[PyOpenCV] Argument 'arg1' is a FileNode instead of a CvFileNode." )    
         .def( 
             "ParamUpdate"
             , (void ( ::CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
@@ -123,7 +125,8 @@ void register_CvVSModule_class(){
         .def( 
             "SaveState"
             , (void (*)( ::CvVSModule &,::cv::FileStorage & ))( &CvVSModule_wrapper::default_SaveState )
-            , ( bp::arg("inst"), bp::arg("arg0") ) )    
+            , ( bp::arg("inst"), bp::arg("arg0") )
+            , "[PyOpenCV] Argument 'arg0' is a FileStorage instead of a CvFileStorage." )    
         .def( 
             "SetNickName"
             , (void ( ::CvVSModule::* )( char const * ) )( &::CvVSModule::SetNickName )

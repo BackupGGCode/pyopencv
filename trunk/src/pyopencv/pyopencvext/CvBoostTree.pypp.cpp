@@ -217,15 +217,21 @@ void register_CvBoostTree_class(){
         .def( 
             "read_8b11dd2a0d1066814c3b544147bcd2d1"
             , (void (*)( ::CvBoostTree &,::cv::FileStorage &,::cv::FileNode &,::CvBoost *,::CvDTreeTrainData * ))( &CvBoostTree_wrapper::default_read_8b11dd2a0d1066814c3b544147bcd2d1 )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node"), bp::arg("ensemble"), bp::arg("_data") ) )    
+            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node"), bp::arg("ensemble"), bp::arg("_data") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage."\
+    "\n[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." )    
         .def( 
             "read_93f028bf66aae7b24915780d90476481"
             , (void (*)( ::CvBoostTree &,::cv::FileStorage &,::cv::FileNode & ))( &CvBoostTree_wrapper::default_read_93f028bf66aae7b24915780d90476481 )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") ) )    
+            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage."\
+    "\n[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." )    
         .def( 
             "read_2a3ca3cc513554db6e212a9addc77685"
             , (void (*)( ::CvBoostTree &,::cv::FileStorage &,::cv::FileNode &,::CvDTreeTrainData * ))( &CvBoostTree_wrapper::default_read_2a3ca3cc513554db6e212a9addc77685 )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node"), bp::arg("data") ) )    
+            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node"), bp::arg("data") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage."\
+    "\n[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." )    
         .def( 
             "scale"
             , (void ( ::CvBoostTree::* )( double ) )(&::CvBoostTree::scale)
@@ -260,10 +266,12 @@ void register_CvBoostTree_class(){
         .def( 
             "write_d5b05f94ebb65d268cbd4756fe0d6221"
             , (void (*)( ::CvDTree const &,::cv::FileStorage &,char const * ))( &CvBoostTree_wrapper::default_write_d5b05f94ebb65d268cbd4756fe0d6221 )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") ) )    
+            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." )    
         .def( 
             "write_d1e064f966d50e01902f80ef0f045741"
             , (void (*)( ::CvDTree const &,::cv::FileStorage & ))( &CvBoostTree_wrapper::default_write_d1e064f966d50e01902f80ef0f045741 )
-            , ( bp::arg("inst"), bp::arg("fs") ) );
+            , ( bp::arg("inst"), bp::arg("fs") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
 
 }

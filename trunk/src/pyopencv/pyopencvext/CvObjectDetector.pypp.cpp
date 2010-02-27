@@ -28,7 +28,8 @@ void register_CvObjectDetector_class(){
             CvObjectDetector_exposer.def( 
                 "Detect"
                 , Detect_function_type( &Detect_d8fa7b620f024b1a2f20fc4afa978e15 )
-                , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1")=bp::object() ) );
+                , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1")=bp::object() )
+                , "[PyOpenCV] Argument 'arg0' is a Mat instead of a pointer to CvMat." );
         
         }
         { //::CvObjectDetector::GetMaxBorderSize

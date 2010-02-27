@@ -16,4 +16,5 @@
 # ----------------------------------------------------------------------------
 
 from core import *
+from core import __doc__
 from interfaces import *

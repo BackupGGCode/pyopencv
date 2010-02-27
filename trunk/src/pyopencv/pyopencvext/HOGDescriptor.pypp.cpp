@@ -206,7 +206,10 @@ void register_HOGDescriptor_class(){
             HOGDescriptor_exposer.def( 
                 "compute"
                 , default_compute_function_type( &HOGDescriptor_wrapper::default_compute )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ) );
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) )
+                , "[PyOpenCV] Argument 'descriptors' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'descriptors' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'locations' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::HOGDescriptor::computeGradient
@@ -228,7 +231,10 @@ void register_HOGDescriptor_class(){
             HOGDescriptor_exposer.def( 
                 "detect"
                 , default_detect_function_type( &HOGDescriptor_wrapper::default_detect )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ) );
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) )
+                , "[PyOpenCV] Argument 'foundLocations' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'foundLocations' is an output argument and is omitted from the function's calling sequence."\
+    "\n[PyOpenCV] Argument 'searchLocations' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::HOGDescriptor::detectMultiScale
@@ -238,7 +244,9 @@ void register_HOGDescriptor_class(){
             HOGDescriptor_exposer.def( 
                 "detectMultiScale"
                 , default_detectMultiScale_function_type( &HOGDescriptor_wrapper::default_detectMultiScale )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("scale")=1.05000000000000004440892098500626161694526672363e+0, bp::arg("groupThreshold")=(int)(2) ) );
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("scale")=1.05000000000000004440892098500626161694526672363e+0, bp::arg("groupThreshold")=(int)(2) )
+                , "[PyOpenCV] Argument 'foundLocations' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'foundLocations' is an output argument and is omitted from the function's calling sequence." );
         
         }
         { //::cv::HOGDescriptor::getDescriptorSize
@@ -290,7 +298,8 @@ void register_HOGDescriptor_class(){
             HOGDescriptor_exposer.def( 
                 "setSVMDetector"
                 , default_setSVMDetector_function_type( &HOGDescriptor_wrapper::default_setSVMDetector )
-                , ( bp::arg("inst"), bp::arg("_svmdetector") ) );
+                , ( bp::arg("inst"), bp::arg("_svmdetector") )
+                , "[PyOpenCV] Argument '_svmdetector' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         HOGDescriptor_exposer.def_readwrite( "L2HysThreshold", &cv::HOGDescriptor::L2HysThreshold );

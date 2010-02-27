@@ -271,7 +271,9 @@ void register_CvSVM_class(){
             CvSVM_exposer.def( 
                 "read"
                 , default_read_function_type( &CvSVM_wrapper::default_read )
-                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") ) );
+                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
+                , "[PyOpenCV] Argument 'storage' is a FileStorage instead of a CvFileStorage."\
+    "\n[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." );
         
         }
         { //::CvSVM::train
@@ -305,7 +307,8 @@ void register_CvSVM_class(){
             CvSVM_exposer.def( 
                 "write"
                 , default_write_function_type( &CvSVM_wrapper::default_write )
-                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") ) );
+                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
+                , "[PyOpenCV] Argument 'storage' is a FileStorage instead of a CvFileStorage." );
         
         }
         { //::CvStatModel::load

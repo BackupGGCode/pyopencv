@@ -109,7 +109,9 @@ void register_SpinImageModel_class(){
             SpinImageModel_exposer.def( 
                 "match"
                 , match_function_type( &match_86773a6b4d89ae97806d1109a2438811 )
-                , ( bp::arg("inst"), bp::arg("scene") ) );
+                , ( bp::arg("inst"), bp::arg("scene") )
+                , "[PyOpenCV] Argument 'result' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'result' is an output argument and is omitted from the function's calling sequence." );
         
         }
         { //::cv::SpinImageModel::packRandomScaledSpins
@@ -139,7 +141,8 @@ void register_SpinImageModel_class(){
             SpinImageModel_exposer.def( 
                 "setSubset"
                 , setSubset_function_type( &setSubset_89bf1b6d328936932f08aaf660288e7a )
-                , ( bp::arg("inst"), bp::arg("subset") ) );
+                , ( bp::arg("inst"), bp::arg("subset") )
+                , "[PyOpenCV] Argument 'subset' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::SpinImageModel::spinCorrelation
