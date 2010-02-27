@@ -10,6 +10,7 @@ pyopencv-2.0.wr1.1.0 beta release
 
 This release is backward-incompatible with previous releases. A large number of function arguments and calling sequences have been tweaked. These necessary tweaks would allow PyOpenCV to run slightly more efficiently and to be easier to use.
 
+- added find_obj.py, a demo on using SURF and flann
 - added docstrings for a large number of functions
 - added code that converts between Mat and external image representations like wx.Bitmap, gtk.pixbuf, PIL.Image
 - provided ndarray interface for Size-like classes
