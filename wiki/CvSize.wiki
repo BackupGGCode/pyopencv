@@ -1,9 +1,0 @@
-#summary Old-style CvSize
-
-= Reference =
-
-Structure CvSize is replaced by class Size.
-
-|| *OpenCV* || *PyOpenCV* ||
-|| CvSize || Size ||
-|| cvSize || Size's constructor ||

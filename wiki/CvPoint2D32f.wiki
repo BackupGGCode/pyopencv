@@ -1,9 +1,0 @@
-#summary Old-style CvPoint2D32f
-
-= Reference =
-
-Structure CvPoint2D32f is replaced by class Point2f.
-
-|| *OpenCV* || *PyOpenCV* ||
-|| CvPoint2D32f || Point2f ||
-|| cvPoint2D32f || Point2f's constructor ||

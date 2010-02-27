@@ -1,9 +1,0 @@
-#summary Old-style CvScalar
-
-= Reference =
-
-Structure CvScalar is replaced by class Scalar.
-
-|| *OpenCV* || *PyOpenCV* ||
-|| CvScalar || Scalar ||
-|| cvScalar, cvRealScalar, cvScalarAll || Scalar's constructors ||

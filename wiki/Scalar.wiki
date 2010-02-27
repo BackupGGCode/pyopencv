@@ -1,8 +1,0 @@
-#summary Scalar
-
-= Reference =
-
-|| *OpenCV* || *PyOpenCV* ||
-|| cv::Scalar || Scalar ||
-|| cv::Scalar::mul || Scalar.mul ||
-|| cv::Scalar::convertTo || Scalar.convertTo ||

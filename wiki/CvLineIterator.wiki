@@ -1,9 +1,0 @@
-#summary Old-style CvLineIterator
-
-= Reference =
-
-Structure CvLineIterator is replaced by class LineIterator. However, class LineIterator is not convertible into struct CvLineIterator.
-
-|| *OpenCV* || *PyOpenCV* ||
-|| CvLineIterator || LineIterator ||
-|| cvInitLineIterator || LineIterator's constructor ||

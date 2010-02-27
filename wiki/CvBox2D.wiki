@@ -1,9 +1,0 @@
-#summary Old-style CvBox2D
-
-= Reference =
-
-Structure CvBox2D is replaced by class RotatedRect.
-
-|| *OpenCV* || *PyOpenCV* ||
-|| CvBox2D || RotatedRect ||
-|| cvBox2D || RotatedRect's constructor ||
