@@ -202,8 +202,8 @@ void register_CvERTrees_class(){
             "read"
             , (void (*)( ::CvRTrees &,::cv::FileStorage &,::cv::FileNode & ))( &CvERTrees_wrapper::default_read )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage."\
-    "\n[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." )    
+            , "\nArgument 'fs' is a FileStorage instead of a CvFileStorage."\
+    "\nArgument 'node' is a FileNode instead of a CvFileNode." )    
         .def( 
             "save"
             , (void ( ::CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
@@ -213,6 +213,6 @@ void register_CvERTrees_class(){
             "write"
             , (void (*)( ::CvRTrees const &,::cv::FileStorage &,char const * ))( &CvERTrees_wrapper::default_write )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
-            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
+            , "\nArgument 'fs' is a FileStorage instead of a CvFileStorage." );
 
 }

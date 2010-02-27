@@ -19,11 +19,14 @@
 # Some useful common-ground sub-routines
 # -----------------------------------------------------------------------------------------------
 
-def add_func_boost_doc(fun, s):
+def add_func_boost_doc(fun, s, append = True):
     if fun.documentation is not None:
-        fun.documentation += '\\\n    "\\n[PyOpenCV] %s"' % s
+        if append:
+            fun.documentation += '\\\n    "\\n%s"' % s
+        else:
+            fun.documentation = ('"\\n%s"\n    ' % s) + fun.documentation
     else:
-        fun.documentation ='"[PyOpenCV] %s"' % s
+        fun.documentation ='"\\n%s"' % s
 
 def init_transformers(func_list):
     for fun in func_list:

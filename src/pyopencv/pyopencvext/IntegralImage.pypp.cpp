@@ -32,7 +32,8 @@ void register_IntegralImage_class(){
             IntegralImage_exposer.def( 
                 "__call__"
                 , __call___function_type( &::sdopencv::IntegralImage::operator() )
-                , ( bp::arg("image") ) );
+                , ( bp::arg("image") )
+                , "\nWrapped function: operator()." );
         
         }
         { //::sdopencv::IntegralImage::sum

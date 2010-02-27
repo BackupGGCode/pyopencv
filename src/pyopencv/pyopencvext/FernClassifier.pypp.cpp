@@ -264,8 +264,9 @@ void register_FernClassifier_class(){
                 "__call__"
                 , default___call___function_type( &FernClassifier_wrapper::default___call___c4d2198033cf380377bb6f32571c2657 )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("kpt") )
-                , "[PyOpenCV] Argument 'signature' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n[PyOpenCV] Argument 'signature' is an output argument and is omitted from the function's calling sequence." );
+                , "\nWrapped function: operator()."
+    "\nArgument 'signature' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'signature' is an output argument and is omitted from the function's calling sequence." );
         
         }
         { //::cv::FernClassifier::operator()
@@ -276,8 +277,9 @@ void register_FernClassifier_class(){
                 "__call__"
                 , default___call___function_type( &FernClassifier_wrapper::default___call___ddcd7402f4cc50fa35ce4888642630c7 )
                 , ( bp::arg("inst"), bp::arg("patch") )
-                , "[PyOpenCV] Argument 'signature' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n[PyOpenCV] Argument 'signature' is an output argument and is omitted from the function's calling sequence." );
+                , "\nWrapped function: operator()."
+    "\nArgument 'signature' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'signature' is an output argument and is omitted from the function's calling sequence." );
         
         }
         { //::cv::FernClassifier::read
@@ -310,7 +312,7 @@ void register_FernClassifier_class(){
                 "trainFromSingleView"
                 , default_trainFromSingleView_function_type( &FernClassifier_wrapper::default_trainFromSingleView )
                 , ( bp::arg("inst"), bp::arg("image"), bp::arg("keypoints"), bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() )
-                , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" );
+                , "\nArgument 'keypoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'" );
         
         }
         { //::cv::FernClassifier::write

@@ -173,8 +173,8 @@ void register_MatND_class(){
                 "create"
                 , create_function_type( &MatND_wrapper::create )
                 , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") )
-                , "[PyOpenCV] Argument '_sizes' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n[PyOpenCV] Argument '_ndims' is omitted. Its value is derived from argument '_sizes'." );
+                , "\nArgument '_sizes' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument '_ndims' is omitted. Its value is derived from argument '_sizes'." );
         
         }
         { //::cv::MatND::depth
@@ -213,7 +213,7 @@ void register_MatND_class(){
                 , isContinuous_function_type( &::cv::MatND::isContinuous ) );
         
         }
-        MatND_exposer.def( "as__scope_cv_scope_Mat", &cv::MatND::operator ::cv::Mat  );
+        MatND_exposer.def( "as__scope_cv_scope_Mat", &cv::MatND::operator ::cv::Mat , "\nWrapped function: operator ::cv::Mat." );
         { //::cv::MatND::operator=
         
             typedef ::cv::MatND & ( ::cv::MatND::*assign_function_type )( ::cv::MatND const & ) ;
@@ -222,7 +222,8 @@ void register_MatND_class(){
                 "assign"
                 , assign_function_type( &::cv::MatND::operator= )
                 , ( bp::arg("m") )
-                , bp::return_self< >() );
+                , bp::return_self< >()
+                , "\nWrapped function: operator=." );
         
         }
         { //::cv::MatND::operator=
@@ -233,7 +234,8 @@ void register_MatND_class(){
                 "assign"
                 , assign_function_type( &::cv::MatND::operator= )
                 , ( bp::arg("s") )
-                , bp::return_self< >() );
+                , bp::return_self< >()
+                , "\nWrapped function: operator=." );
         
         }
         { //::cv::MatND::release
@@ -253,8 +255,8 @@ void register_MatND_class(){
                 "reshape"
                 , reshape_function_type( &MatND_wrapper::reshape )
                 , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=cv::Mat() )
-                , "[PyOpenCV] Argument '_newsz' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n[PyOpenCV] Argument '_newndims' is omitted. Its value is derived from argument '_newsz'." );
+                , "\nArgument '_newsz' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument '_newndims' is omitted. Its value is derived from argument '_newsz'." );
         
         }
         { //::cv::MatND::setTo

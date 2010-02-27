@@ -26,7 +26,8 @@ void register_MSER_class(){
             "__call__"
             , (boost::python::object (*)( ::cv::MSER const &,::cv::Mat &,::cv::Mat const & ))( &__call___0ae44c044fa04acb6166d31628f834f3 )
             , ( bp::arg("inst"), bp::arg("image"), bp::arg("mask") )
-            , "[PyOpenCV] Argument 'msers' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
-    "\n[PyOpenCV] Argument 'msers' is an output argument and is omitted from the function's calling sequence." );
+            , "\nWrapped function: operator()."
+    "\nArgument 'msers' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
+    "\nArgument 'msers' is an output argument and is omitted from the function's calling sequence." );
 
 }

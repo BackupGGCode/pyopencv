@@ -117,8 +117,8 @@ void register_SelfSimDescriptor_class(){
                 "compute"
                 , default_compute_function_type( &SelfSimDescriptor_wrapper::default_compute )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("descriptors"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("locations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) )
-                , "[PyOpenCV] Argument 'descriptors' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n[PyOpenCV] Argument 'locations' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nArgument 'descriptors' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'locations' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::SelfSimDescriptor::computeLogPolarMapping
@@ -160,7 +160,8 @@ void register_SelfSimDescriptor_class(){
                 "assign"
                 , assign_function_type( &::cv::SelfSimDescriptor::operator= )
                 , ( bp::arg("ss") )
-                , bp::return_self< >() );
+                , bp::return_self< >()
+                , "\nWrapped function: operator=." );
         
         }
         SelfSimDescriptor_exposer.def_readwrite( "largeSize", &cv::SelfSimDescriptor::largeSize );

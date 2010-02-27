@@ -374,7 +374,7 @@ class input_array1d_t(transformer.transformer_t):
                 w_arg.default_value = 'bp::list()'
             else:
                 w_arg.type = _D.dummy_type_t( "bp::list const &" )
-            common.add_func_boost_doc(self.function, "Argument '%s' is a list of Mat's, e.g. [Mat(), Mat(), Mat()]." % self.arg.name)
+            common.add_func_boost_doc(self.function, "Argument '%s' is a list of Mats, e.g. [Mat(), Mat(), Mat()]." % self.arg.name)
         
             # input array
             l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=bp::len(%s)" % self.arg.name )
@@ -493,7 +493,7 @@ class input_array2d_t(transformer.transformer_t):
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         w_arg.type = _D.dummy_type_t( "bp::object const &" )
-        common.add_func_boost_doc(self.function, "Argument '%s' is a 2d list. Depending on its C++ argument type, it should be a list of Mat's or a list of lists." % self.arg.name)
+        common.add_func_boost_doc(self.function, "Argument '%s' is a 2d list. Depending on its C++ argument type, it should be a list of Mats or a list of lists." % self.arg.name)
 
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
             w_arg.default_value = 'bp::object()'
@@ -1219,7 +1219,7 @@ class arg_std_vector_t(transformer_t):
             str_pyobj_type = "bp::list"
             str_cvt_to_pyobj = "convert_from_T_to_object"
             str_cvt_from_pyobj = "convert_from_object_to_T"
-            common.add_func_boost_doc(self.function, "Argument '%s' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" % self.arg.name)
+            common.add_func_boost_doc(self.function, "Argument '%s' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'" % self.arg.name)
         
         # check argument kind
         if self.arg_kind == 1: # input
