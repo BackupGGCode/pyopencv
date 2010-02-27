@@ -2,7 +2,7 @@
 
 = API Documentation =
 
-Follow the link(s) below to go to the epydoc-generated API documentation pages. Note taht these pages only explain modifications made by PyOpenCV in wrapping OpenCV's functions and classes. You still need to refer to WillowGarage's reference manual for the actual meanings of these functions and classes.
+Follow the link(s) below to go to the epydoc-generated API documentation pages of PyOpenCV. Note that these pages only explain modifications made by PyOpenCV when transforming OpenCV's functions and classes to Python objects. You still need to refer to WillowGarage's reference manual for the actual meanings of OpenCV's functions and classes.
 
 == Version 1.1.0 ==
 
