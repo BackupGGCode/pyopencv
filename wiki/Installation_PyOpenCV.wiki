@@ -9,7 +9,7 @@ svn checkout http://pyopencv.googlecode.com/svn/trunk/src/ pyopencv
 
 ===Edit file `config.py`===
 
-PyOpenCV needs to be told where to find OpenCV 2.0 and Boost.Python. It needs to know the libraries to link against and the directories to search for those libraries. Put this text into file `config.py` located at PyOpenCV's source directory (potentially with adapted paths and libraries): 
+PyOpenCV needs to be told where to find OpenCV 2.0 and Boost. It needs to know the libraries to link against and the directories to search for those libraries. Put this text into file `config.py` located at PyOpenCV's source directory (potentially with adapted paths and libraries): 
 {{{
 # OpenCV 2.0 library
 opencv_dir = <opencv_dir> # the root dir of your OpenCV build
@@ -19,7 +19,7 @@ opencv_libraries = ["cvaux", "ml", "highgui", "cv", "cxcore"]
 opencv_runtime_library_dirs = [opencv_dir+"/bin"]
 opencv_runtime_libraries_to_be_bundled = []
 
-# Boost.Python library
+# Boost library
 boost_dir = <boost_dir> # the root dir of your Boost source tree
 boost_include_dirs = [boost_dir]
 boost_library_dirs = []
