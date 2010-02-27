@@ -43,7 +43,7 @@ opencv_libraries = ["highgui", "ml", "cvaux", "cv", "cxcore"]
 opencv_runtime_library_dirs = []
 opencv_runtime_libraries_to_be_bundled = []
 
-# Boost.Python library, to be linked against using bjam+gcc and bundled with
+# Boost library's source distribution, to be linked against using bjam+gcc and bundled with
 boost_include_dirs = ["/home/inteplus/boost_1_41_0"]
 boost_library_dirs = []
 boost_libraries = []
