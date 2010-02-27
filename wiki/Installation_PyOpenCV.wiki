@@ -57,7 +57,7 @@ opencv_libraries = ["cvaux200.dll", "ml200.dll", "highgui200.dll", "cv200.dll", 
 opencv_runtime_library_dirs = [opencv_dir+"/bin"]
 opencv_runtime_libraries_to_be_bundled = []
 
-# Boost.Python library
+# Boost library
 boost_dir = "C:/boost_1_41_0"
 boost_include_dirs = [boost_dir]
 boost_library_dirs = []
@@ -77,7 +77,7 @@ opencv_libraries = ["cvaux200.dll", "ml200.dll", "highgui200.dll", "cv200.dll", 
 opencv_runtime_library_dirs = []
 opencv_runtime_libraries_to_be_bundled = []
 
-# Boost.Python library
+# Boost library
 boost_dir = "/home/user/boost_1_41_0"
 boost_include_dirs = [boost_dir]
 boost_library_dirs = []
