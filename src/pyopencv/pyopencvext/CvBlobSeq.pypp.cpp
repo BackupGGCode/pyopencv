@@ -258,7 +258,9 @@ void register_CvBlobSeq_class(){
             CvBlobSeq_exposer.def( 
                 "Load"
                 , default_Load_function_type( &CvBlobSeq_wrapper::default_Load )
-                , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") ) );
+                , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
+                , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage."\
+    "\n[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." );
         
         }
         { //::CvBlobSeq::Write
@@ -268,7 +270,8 @@ void register_CvBlobSeq_class(){
             CvBlobSeq_exposer.def( 
                 "Write"
                 , default_Write_function_type( &CvBlobSeq_wrapper::default_Write )
-                , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") ) );
+                , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
+                , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." );
         
         }
     }

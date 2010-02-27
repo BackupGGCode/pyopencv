@@ -145,7 +145,8 @@ void register_Octree_class(){
             Octree_exposer.def( 
                 "buildTree"
                 , default_buildTree_function_type( &Octree_wrapper::default_buildTree )
-                , ( bp::arg("inst"), bp::arg("points"), bp::arg("maxLevels")=(int)(10), bp::arg("minPoints")=(int)(20) ) );
+                , ( bp::arg("inst"), bp::arg("points"), bp::arg("maxLevels")=(int)(10), bp::arg("minPoints")=(int)(20) )
+                , "[PyOpenCV] Argument 'points' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::Octree::getPointsWithinSphere
@@ -155,7 +156,9 @@ void register_Octree_class(){
             Octree_exposer.def( 
                 "getPointsWithinSphere"
                 , default_getPointsWithinSphere_function_type( &Octree_wrapper::default_getPointsWithinSphere )
-                , ( bp::arg("inst"), bp::arg("center"), bp::arg("radius") ) );
+                , ( bp::arg("inst"), bp::arg("center"), bp::arg("radius") )
+                , "[PyOpenCV] Argument 'points' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'points' is an output argument and is omitted from the function's calling sequence." );
         
         }
         Octree_exposer.def("__init__", bp::make_constructor(&Octree_init1, bp::default_call_policies(), ( bp::arg("points"), bp::arg("maxLevels")=10, bp::arg("maxPoints")=20 )));

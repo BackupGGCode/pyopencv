@@ -186,7 +186,9 @@ void register_CvBoost_class(){
             CvBoost_exposer.def( 
                 "read"
                 , default_read_function_type( &CvBoost_wrapper::default_read )
-                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") ) );
+                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
+                , "[PyOpenCV] Argument 'storage' is a FileStorage instead of a CvFileStorage."\
+    "\n[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." );
         
         }
         { //::CvBoost::train
@@ -220,7 +222,8 @@ void register_CvBoost_class(){
             CvBoost_exposer.def( 
                 "write"
                 , default_write_function_type( &CvBoost_wrapper::default_write )
-                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") ) );
+                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
+                , "[PyOpenCV] Argument 'storage' is a FileStorage instead of a CvFileStorage." );
         
         }
         { //::CvStatModel::load

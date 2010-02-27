@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# PyOpencv - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
+# PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
 # Copyright (c) 2009, Minh-Tri Pham
 # All rights reserved.
@@ -21,6 +21,8 @@ from pyplusplus import code_repository
 from pyplusplus.function_transformers import *
 import pyplusplus.function_transformers.transformers as _T
 from pyplusplus.decl_wrappers import call_policies as CP
+
+import common
 
 
 def expose_func(func, ownershiplevel=None, ward_indices=(), return_arg_index=None, return_pointee=True, transformer_creators=[]):
@@ -243,6 +245,8 @@ class input_double_pointee_t(transformer_t):
             controller.add_pre_call_code("%s tmp_%s = reinterpret_cast< %s >(& %s);" % ( tmp_type, w_arg.name, tmp_type, w_arg.name ))
             casting_code = 'reinterpret_cast< %s >( & tmp_%s )' % (self.arg.type, w_arg.name)
             controller.modify_arg_expression(self.arg_index, casting_code)
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is a real object instead of a double pointer to an object." % self.arg.name)
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -294,6 +298,8 @@ class input_string_t(transformer_t):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         w_arg.type = _D.dummy_type_t( "const char *" )
         controller.modify_arg_expression(self.arg_index, "((%s) %s)" % (self.arg.type, w_arg.name))
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is a string." % self.arg.name)
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -368,6 +374,7 @@ class input_array1d_t(transformer.transformer_t):
                 w_arg.default_value = 'bp::list()'
             else:
                 w_arg.type = _D.dummy_type_t( "bp::list const &" )
+            common.add_func_boost_doc(self.function, "Argument '%s' is a list of Mat's, e.g. [Mat(), Mat(), Mat()]." % self.arg.name)
         
             # input array
             l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=bp::len(%s)" % self.arg.name )
@@ -380,6 +387,7 @@ class input_array1d_t(transformer.transformer_t):
                 w_arg.default_value = 'cv::Mat()'
             else:
                 w_arg.type = _D.dummy_type_t( "cv::Mat const &" )
+            common.add_func_boost_doc(self.function, "Argument '%s' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." % self.arg.name)
         
             # input array
             l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name )
@@ -392,6 +400,7 @@ class input_array1d_t(transformer.transformer_t):
             # remove arg_size from the function wrapper definition and automatically fill in the missing argument
             controller.remove_wrapper_arg( self.arg_size.name )
             controller.modify_arg_expression( self.arg_size_index, l_arr )
+            common.add_func_boost_doc(self.function, "Argument '%s' is omitted. Its value is derived from argument '%s'." % (self.arg_size.name, self.arg.name))
 
         # dealing with output arrays
         for key in self.output_arrays.keys():
@@ -404,6 +413,7 @@ class input_array1d_t(transformer.transformer_t):
             controller.remove_wrapper_arg(key)
 
             controller.return_variable("convert_from_T_to_object(%s)" % oa_arg)
+            common.add_func_boost_doc(self.function, "Argument '%s' is an output argument and is omitted from the function's calling sequence." % key)
         
             
     def __configure_v_mem_fun_default( self, controller ):
@@ -483,6 +493,7 @@ class input_array2d_t(transformer.transformer_t):
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         w_arg.type = _D.dummy_type_t( "bp::object const &" )
+        common.add_func_boost_doc(self.function, "Argument '%s' is a 2d list. Depending on its C++ argument type, it should be a list of Mat's or a list of lists." % self.arg.name)
 
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
             w_arg.default_value = 'bp::object()'
@@ -490,10 +501,12 @@ class input_array2d_t(transformer.transformer_t):
         if self.remove_arg_size and self.arg_size is not None:
             #removing arg_size from the function wrapper definition
             controller.remove_wrapper_arg( self.arg_size.name )
+            common.add_func_boost_doc(self.function, "Argument '%s' is omitted. Its value is derived from argument '%s'." % (self.arg_size.name, self.arg.name))
             
         if self.remove_arg_ncnts and self.arg_ncnts is not None:
             #removing arg_ncnts from the function wrapper definition
             controller.remove_wrapper_arg( self.arg_ncnts.name )
+            common.add_func_boost_doc(self.function, "Argument '%s' is omitted. Its value is derived from argument '%s'." % (self.arg_ncnts.name, self.arg.name))
         
         # precall_code
         precall_code = """bool b_ARRAY = (ARRAY.ptr() != Py_None);
@@ -586,6 +599,8 @@ class output_type1_t( transformer.transformer_t ):
     def __configure_sealed( self, controller ):
         #removing arg from the function wrapper definition
         controller.remove_wrapper_arg( self.arg.name )
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object." % self.arg.name)
         #the element type
         etype = _D.remove_pointer( self.arg.type )
         #declaring new variable, which will keep result
@@ -662,7 +677,7 @@ class trackbar_callback2_func_t(transformer.transformer_t):
             w_arg2.default_value = 'bp::object()'
         
         # declare a tuple to keep the function and the parameter together
-        var_tuple = controller.declare_variable( _D.dummy_type_t("boost::python::tuple"), "z_"+w_arg1.name,
+        var_tuple = controller.declare_variable( _D.dummy_type_t("bp::tuple"), "z_"+w_arg1.name,
             "= bp::make_tuple(%s, %s)" % (w_arg1.name, w_arg2.name))
         
         # adding the variable to return variables list
@@ -671,6 +686,12 @@ class trackbar_callback2_func_t(transformer.transformer_t):
 
         controller.modify_arg_expression( self.arg1_index, "sdTrackbarCallback2" )
         controller.modify_arg_expression( self.arg2_index, "(%s)(%s.ptr())" % (self.arg2.type.decl_string, var_tuple))
+        
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is a Python function that should look like below:" % self.arg1.name)
+        common.add_func_boost_doc(self.function, "    def on_trackbar(pos, user_data):")
+        common.add_func_boost_doc(self.function, "        ...")
+        common.add_func_boost_doc(self.function, "Argument '%s' is a Python object that is passed to function on_trackbar() as 'user_data'." % self.arg2.name)
         
 
     def __configure_v_mem_fun_default( self, controller ):
@@ -735,6 +756,12 @@ class mouse_callback_func_t(transformer.transformer_t):
 
         controller.modify_arg_expression( self.arg1_index, "sdMouseCallback" )
         controller.modify_arg_expression( self.arg2_index, "(%s)(%s.ptr())" % (self.arg2.type.decl_string, var_tuple))
+        
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is a Python function that should look like below:" % self.arg1.name)
+        common.add_func_boost_doc(self.function, "    def on_mouse(event, x, y, flags, user_data):")
+        common.add_func_boost_doc(self.function, "        ...")
+        common.add_func_boost_doc(self.function, "Argument '%s' is a Python object that is passed to function on_mouse() as 'user_data'." % self.arg2.name)
         
 
     def __configure_v_mem_fun_default( self, controller ):
@@ -849,6 +876,8 @@ class input_asSparseMat_t(transformer_t):
         else:
             raise NotImplementedError("Input argument type %s is not convertible into cv::SparseMat." % dtype.decl_string)
             
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is a SparseMat instead of a CvSparseMat." % self.arg.name)
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -891,6 +920,9 @@ class input_as_FileStorage_t(transformer_t):
         
         controller.modify_arg_expression( self.arg_index, "%s.fs" % w_arg.name )
             
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is a FileStorage instead of a CvFileStorage." % self.arg.name)
+
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -934,6 +966,9 @@ class input_as_FileNode_t(transformer_t):
             w_arg.type = _D.dummy_type_t( "::cv::FileNode const &" )
         controller.modify_arg_expression( self.arg_index, "*(%s)" % w_arg.name )
             
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is a FileNode instead of a CvFileNode." % self.arg.name)
+
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -972,6 +1007,9 @@ class input_as_Point2f_t(transformer_t):
         w_arg = controller.find_wrapper_arg(self.arg.name)
         w_arg.type = _D.dummy_type_t( "const ::cv::Point2f &" )
         controller.modify_arg_expression( self.arg_index, "(CvPoint2D32f)(%s)" % w_arg.name )
+
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is a Point2f instead of a CvPoint2D32f." % self.arg.name)
             
 
     def __configure_v_mem_fun_default( self, controller ):
@@ -1021,6 +1059,9 @@ class input_asRNG_t(transformer_t):
         else:
             raise NotImplementedError("Input argument type %s is not convertible into cv::RNG." % dtype.decl_string)
             
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is a RNG instead of a CvRNG or a pointer to CvRNG." % self.arg.name)
+
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -1072,6 +1113,9 @@ class input_as_Mat_t(transformer_t):
             # code
             controller.modify_arg_expression( self.arg_index, "get_IplImage_ptr(%s)" % w_arg.name)
                 
+            # documentation
+            common.add_func_boost_doc(self.function, "Argument '%s' is a Mat instead of a pointer to IplImage." % self.arg.name)
+
         elif dtype == _D.dummy_type_t("::CvMat *") \
             or dtype == _D.dummy_type_t("::CvMat const *") \
             or dtype == _D.dummy_type_t("::CvArr *") \
@@ -1086,6 +1130,9 @@ class input_as_Mat_t(transformer_t):
                 
             # code
             controller.modify_arg_expression( self.arg_index, "get_CvMat_ptr(%s)" % w_arg.name)
+
+            # documentation
+            common.add_func_boost_doc(self.function, "Argument '%s' is a Mat instead of a pointer to CvMat." % self.arg.name)
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -1166,10 +1213,13 @@ class arg_std_vector_t(transformer_t):
             str_pyobj_type = "cv::Mat"
             str_cvt_to_pyobj = "convert_from_vector_of_T_to_Mat"
             str_cvt_from_pyobj = "convert_from_Mat_to_vector_of_T"
+            common.add_func_boost_doc(self.function, "Argument '%s' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." % self.arg.name)
+
         else: # 1d-vector, what about 2d vector?
             str_pyobj_type = "bp::list"
             str_cvt_to_pyobj = "convert_from_T_to_object"
             str_cvt_from_pyobj = "convert_from_object_to_T"
+            common.add_func_boost_doc(self.function, "Argument '%s' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" % self.arg.name)
         
         # check argument kind
         if self.arg_kind == 1: # input
@@ -1183,6 +1233,7 @@ class arg_std_vector_t(transformer_t):
             controller.remove_wrapper_arg( self.arg.name )
             w = controller.declare_variable( _D.dummy_type_t(str_pyobj_type), self.arg.name )
             controller.return_variable(w)
+            common.add_func_boost_doc(self.function, "Argument '%s' is an output argument and is omitted from the function's calling sequence." % self.arg.name)
         elif self.arg_kind == 3: # inout
             w_arg = controller.find_wrapper_arg(self.arg.name)
             if self.arg.default_value is not None:

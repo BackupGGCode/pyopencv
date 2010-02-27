@@ -41,6 +41,8 @@ import highgui_hpp
 import ml_h
 import sdopencv
 
+import common
+
 _cwd = getcwd()
 chdir(OP.join(OP.split(OP.abspath(__file__))[0], '..', 'src', 'pyopencv'))
 _work_dir = getcwd()
@@ -76,6 +78,21 @@ cc.write('''#!/usr/bin/env python
 
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
+"""PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
+
+Copyright (c) 2009, Minh-Tri Pham
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
+
+   * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
+   * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
+   * Neither the name of pyopencv's copyright holders nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
+"""
 
 # Try to import numpy
 try:
@@ -172,7 +189,7 @@ def add_doc(self, decl_name, *strings):
     """Adds a few strings to the docstring of declaration f"""
     if len(strings) == 0:
         return
-    s = reduce(lambda x, y: x+y, ["\\n    [pyopencv] "+x for x in strings])
+    s = reduce(lambda x, y: x+y, ["\\n    [PyOpenCV] "+x for x in strings])
     self.cc.write('''
 _str = "STR"
 if DECL.__doc__ is None:
@@ -210,9 +227,7 @@ def init_class(self, z):
         funs.extend(z.operators())
     except RuntimeError:
         pass
-    for fun in funs:
-        fun._transformer_creators = []
-        fun._transformer_kwds = {}
+    common.init_transformers(funs)
     z._funs = funs
 module_builder.module_builder_t.init_class = init_class
 
@@ -439,9 +454,7 @@ mb.enums().include()
 opencv_funs = mb.free_funs() # mb.free_funs(lambda decl: decl.name.startswith('cv'))
 
 # initialize list of transformer creators for each function
-for z in opencv_funs:
-    z._transformer_creators = []
-    z._transformer_kwds = {}
+common.init_transformers(opencv_funs)
 
 # turn on 'most' of the constants
 for z in ('IPL_', 'CV_'):

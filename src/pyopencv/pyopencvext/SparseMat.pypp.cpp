@@ -194,7 +194,9 @@ void register_SparseMat_class(){
             SparseMat_exposer.def( 
                 "create"
                 , create_function_type( &create_4e9dc46b2911de920c7af1dfbb19412a )
-                , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") ) );
+                , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") )
+                , "[PyOpenCV] Argument '_sizes' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n[PyOpenCV] Argument 'dims' is omitted. Its value is derived from argument '_sizes'." );
         
         }
         { //::cv::SparseMat::depth
@@ -240,7 +242,8 @@ void register_SparseMat_class(){
             SparseMat_exposer.def( 
                 "erase_ce64effe5fbeb3e9588310d12240ddce"
                 , erase_ce64effe5fbeb3e9588310d12240ddce_function_type( &erase_ce64effe5fbeb3e9588310d12240ddce )
-                , ( bp::arg("inst"), bp::arg("i0"), bp::arg("i1") ) );
+                , ( bp::arg("inst"), bp::arg("i0"), bp::arg("i1") )
+                , "[PyOpenCV] Argument 'hashval' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object." );
         
         }
         { //::cv::SparseMat::erase
@@ -250,7 +253,8 @@ void register_SparseMat_class(){
             SparseMat_exposer.def( 
                 "erase_ca8730dab3cfc35be7d8c7cfc84bf06f"
                 , erase_ca8730dab3cfc35be7d8c7cfc84bf06f_function_type( &erase_ca8730dab3cfc35be7d8c7cfc84bf06f )
-                , ( bp::arg("inst"), bp::arg("i0"), bp::arg("i1"), bp::arg("i2") ) );
+                , ( bp::arg("inst"), bp::arg("i0"), bp::arg("i1"), bp::arg("i2") )
+                , "[PyOpenCV] Argument 'hashval' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object." );
         
         }
         { //::cv::SparseMat::erase
@@ -260,7 +264,9 @@ void register_SparseMat_class(){
             SparseMat_exposer.def( 
                 "erase_7ee4e9a1250db62333754bd289edbba8"
                 , erase_7ee4e9a1250db62333754bd289edbba8_function_type( &erase_7ee4e9a1250db62333754bd289edbba8 )
-                , ( bp::arg("inst"), bp::arg("idx") ) );
+                , ( bp::arg("inst"), bp::arg("idx") )
+                , "[PyOpenCV] Argument 'hashval' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object."\
+    "\n[PyOpenCV] Argument 'idx' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::SparseMat::hash
@@ -300,7 +306,8 @@ void register_SparseMat_class(){
             SparseMat_exposer.def( 
                 "hash_19477be6a05d6299f1601326adc61332"
                 , hash_19477be6a05d6299f1601326adc61332_function_type( &hash_19477be6a05d6299f1601326adc61332 )
-                , ( bp::arg("inst"), bp::arg("idx") ) );
+                , ( bp::arg("inst"), bp::arg("idx") )
+                , "[PyOpenCV] Argument 'idx' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::SparseMat::nzcount

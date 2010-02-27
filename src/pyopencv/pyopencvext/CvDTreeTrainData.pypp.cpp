@@ -378,7 +378,9 @@ void register_CvDTreeTrainData_class(){
         .def( 
             "read_params"
             , (void (*)( ::CvDTreeTrainData &,::cv::FileStorage &,::cv::FileNode & ))( &CvDTreeTrainData_wrapper::default_read_params )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") ) )    
+            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage."\
+    "\n[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." )    
         .def( 
             "set_params"
             , (bool ( ::CvDTreeTrainData::* )( ::CvDTreeParams const & ) )(&::CvDTreeTrainData::set_params)
@@ -387,7 +389,8 @@ void register_CvDTreeTrainData_class(){
         .def( 
             "write_params"
             , (void (*)( ::CvDTreeTrainData const &,::cv::FileStorage & ))( &CvDTreeTrainData_wrapper::default_write_params )
-            , ( bp::arg("inst"), bp::arg("fs") ) )    
+            , ( bp::arg("inst"), bp::arg("fs") )
+            , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage." )    
         .def_readwrite( "buf_count", &CvDTreeTrainData::buf_count )    
         .def_readwrite( "buf_size", &CvDTreeTrainData::buf_size )    
         .def_readwrite( "cat_var_count", &CvDTreeTrainData::cat_var_count )    
