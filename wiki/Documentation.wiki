@@ -2,6 +2,8 @@
 
 = API Documentation =
 
+Follow the link(s) below to go to the epydoc-generated API documentation pages. Note taht these pages only explain modifications made by PyOpenCV in wrapping OpenCV's functions and classes. You still need to refer to WillowGarage's reference manual for the actual meanings of these functions and classes.
+
 == Version 1.1.0 ==
 
   * [http://mtpham.sharkdolphin.com/open_source/pyopencv/doc/1.1.0 Generated API]
