@@ -310,7 +310,7 @@ void register_FernClassifier_class(){
                 "trainFromSingleView"
                 , default_trainFromSingleView_function_type( &FernClassifier_wrapper::default_trainFromSingleView )
                 , ( bp::arg("inst"), bp::arg("image"), bp::arg("keypoints"), bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() )
-                , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
+                , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" );
         
         }
         { //::cv::FernClassifier::write

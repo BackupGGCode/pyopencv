@@ -43,20 +43,20 @@ void register_LDetector_class(){
             "getMostStable2D"
             , (void (*)( ::cv::LDetector const &,::cv::Mat const &,bp::list &,int,::cv::PatchGenerator const & ))( &getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d )
             , ( bp::arg("inst"), bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") )
-            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" )    
+            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" )    
         .def( 
             "__call__"
             , (boost::python::object (*)( ::cv::LDetector const &,::cv::Mat const &,int,bool ))( &__call___14ec982e59fdc13237968e34b82d6fe2 )
             , ( bp::arg("inst"), bp::arg("image"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
-            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
     "\n[PyOpenCV] Argument 'keypoints' is an output argument and is omitted from the function's calling sequence." )    
         .def( 
             "__call__"
             , (boost::python::object (*)( ::cv::LDetector const &,bp::list const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
             , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
-            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
     "\n[PyOpenCV] Argument 'keypoints' is an output argument and is omitted from the function's calling sequence."\
-    "\n[PyOpenCV] Argument 'pyr' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" )    
+    "\n[PyOpenCV] Argument 'pyr' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" )    
         .def( 
             "read"
             , (void ( ::cv::LDetector::* )( ::cv::FileNode const & ) )( &::cv::LDetector::read )

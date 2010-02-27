@@ -54,7 +54,7 @@ void register_SURF_class(){
                 "__call__"
                 , __call___function_type( &__call___8fbaf2f3b7cf23fdd67db0f4874c6b20 )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask") )
-                , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
+                , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
     "\n[PyOpenCV] Argument 'keypoints' is an output argument and is omitted from the function's calling sequence." );
         
         }
@@ -68,7 +68,7 @@ void register_SURF_class(){
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("useProvidedKeypoints")=(bool)(false) )
                 , "[PyOpenCV] Argument 'descriptors' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\n[PyOpenCV] Argument 'descriptors' is an output argument and is omitted from the function's calling sequence."\
-    "\n[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
+    "\n[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" );
         
         }
     }

@@ -152,7 +152,7 @@ void register_PlanarObjectDetector_class(){
                 "train_54eace8da687689cec07018f6937568f"
                 , default_train_54eace8da687689cec07018f6937568f_function_type( &PlanarObjectDetector_wrapper::default_train_54eace8da687689cec07018f6937568f )
                 , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("_npoints")=(int)(300), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )
-                , "[PyOpenCV] Argument 'pyr' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
+                , "[PyOpenCV] Argument 'pyr' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" );
         
         }
         { //::cv::PlanarObjectDetector::train
@@ -163,8 +163,8 @@ void register_PlanarObjectDetector_class(){
                 "train_397cef68f28ef0598cf4d0402f508184"
                 , default_train_397cef68f28ef0598cf4d0402f508184_function_type( &PlanarObjectDetector_wrapper::default_train_397cef68f28ef0598cf4d0402f508184 )
                 , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("keypoints"), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )
-                , "[PyOpenCV] Argument 'pyr' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'"\
-    "\n[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions preceeding with 'to_list_of_...'" );
+                , "[PyOpenCV] Argument 'pyr' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
+    "\n[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'" );
         
         }
         { //::cv::PlanarObjectDetector::write
