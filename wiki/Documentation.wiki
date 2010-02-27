@@ -6,4 +6,4 @@ Follow the link(s) below to go to the epydoc-generated API documentation pages o
 
 == Version 1.1.0 ==
 
-  * [http://mtpham.sharkdolphin.com/open_source/pyopencv/doc/1.1.0 Generated API]
+  * [http://packages.python.org/pyopencv/ Generated API]
