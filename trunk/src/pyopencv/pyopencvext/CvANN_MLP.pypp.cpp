@@ -209,8 +209,8 @@ void register_CvANN_MLP_class(){
                 "read"
                 , default_read_function_type( &CvANN_MLP_wrapper::default_read )
                 , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-                , "[PyOpenCV] Argument 'fs' is a FileStorage instead of a CvFileStorage."\
-    "\n[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." );
+                , "\nArgument 'fs' is a FileStorage instead of a CvFileStorage."\
+    "\nArgument 'node' is a FileNode instead of a CvFileNode." );
         
         }
         { //::CvANN_MLP::train
@@ -233,7 +233,7 @@ void register_CvANN_MLP_class(){
                 "write"
                 , default_write_function_type( &CvANN_MLP_wrapper::default_write )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
-                , "[PyOpenCV] Argument 'storage' is a FileStorage instead of a CvFileStorage." );
+                , "\nArgument 'storage' is a FileStorage instead of a CvFileStorage." );
         
         }
         { //::CvStatModel::load

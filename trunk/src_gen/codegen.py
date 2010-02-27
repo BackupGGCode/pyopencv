@@ -189,7 +189,7 @@ def add_doc(self, decl_name, *strings):
     """Adds a few strings to the docstring of declaration f"""
     if len(strings) == 0:
         return
-    s = reduce(lambda x, y: x+y, ["\\n    [PyOpenCV] "+x for x in strings])
+    s = reduce(lambda x, y: x+y, ["\\n    "+x for x in strings])
     self.cc.write('''
 _str = "STR"
 if DECL.__doc__ is None:
@@ -392,6 +392,10 @@ def beautify_func_list(self, func_list):
                         f.transformations[0].alias = repl_dict[t]
                         break
             
+        alias = f.transformations[0].alias if len(f.transformations) > 0 else f.alias
+        if alias != f.name:
+            common.add_func_boost_doc(f, "Wrapped function: %s." % f.name, False)
+            
 module_builder.module_builder_t.beautify_func_list = beautify_func_list
 
 def finalize_class(self, z):
@@ -540,14 +544,6 @@ sdopencv.generate_code(mb, cc, D, FT, CP)
 
 
 #=============================================================================
-# Rules for free functions and member functions
-#=============================================================================
-
-
-mb.beautify_func_list(opencv_funs)
-
-
-#=============================================================================
 # Final tasks
 #=============================================================================
 
@@ -569,6 +565,8 @@ for z in mb.free_funs():
         # print "Old name=", z.alias, " new name=", zz
         z.rename(zz)
         
+mb.beautify_func_list(opencv_funs)
+
 
 #=============================================================================
 # Build code

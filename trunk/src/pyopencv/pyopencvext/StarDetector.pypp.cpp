@@ -26,7 +26,8 @@ void register_StarDetector_class(){
             "__call__"
             , (boost::python::object (*)( ::cv::StarDetector const &,::cv::Mat const & ))( &__call___c2d97c9701a9c79dcec3239fd753dffc )
             , ( bp::arg("inst"), bp::arg("image") )
-            , "[PyOpenCV] Argument 'keypoints' is a list. To convert a Mat into a list, invoke one of its member functions 'to_list_of_...'"\
-    "\n[PyOpenCV] Argument 'keypoints' is an output argument and is omitted from the function's calling sequence." );
+            , "\nWrapped function: operator()."
+    "\nArgument 'keypoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
+    "\nArgument 'keypoints' is an output argument and is omitted from the function's calling sequence." );
 
 }

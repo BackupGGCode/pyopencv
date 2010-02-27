@@ -118,8 +118,8 @@ void register_CvStatModel_class(){
             "read"
             , (void (*)( ::CvStatModel &,::cv::FileStorage &,::cv::FileNode & ))( &CvStatModel_wrapper::default_read )
             , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-            , "[PyOpenCV] Argument 'storage' is a FileStorage instead of a CvFileStorage."\
-    "\n[PyOpenCV] Argument 'node' is a FileNode instead of a CvFileNode." )    
+            , "\nArgument 'storage' is a FileStorage instead of a CvFileStorage."\
+    "\nArgument 'node' is a FileNode instead of a CvFileNode." )    
         .def( 
             "save"
             , (void ( ::CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
@@ -129,6 +129,6 @@ void register_CvStatModel_class(){
             "write"
             , (void (*)( ::CvStatModel const &,::cv::FileStorage &,char const * ))( &CvStatModel_wrapper::default_write )
             , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
-            , "[PyOpenCV] Argument 'storage' is a FileStorage instead of a CvFileStorage." );
+            , "\nArgument 'storage' is a FileStorage instead of a CvFileStorage." );
 
 }

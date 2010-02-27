@@ -73,7 +73,7 @@ void register_Mesh3D_class(){
                 "computeNormals"
                 , computeNormals_function_type( &computeNormals_0372659dbb67ca1f98a084bb3e33c861 )
                 , ( bp::arg("inst"), bp::arg("subset"), bp::arg("normalRadius"), bp::arg("minNeighbors")=(int)(20) )
-                , "[PyOpenCV] Argument 'subset' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nArgument 'subset' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::Mesh3D::estimateResolution
@@ -94,7 +94,7 @@ void register_Mesh3D_class(){
                 "writeAsVrml"
                 , writeAsVrml_function_type( &writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a )
                 , ( bp::arg("inst"), bp::arg("file"), bp::arg("colors")=convert_from_vector_of_T_to_Mat(std::vector<cv::Scalar>()) )
-                , "[PyOpenCV] Argument 'colors' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nArgument 'colors' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         Mesh3D_exposer.def_readonly( "allzero", cv::Mesh3D::allzero );
