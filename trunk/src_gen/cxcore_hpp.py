@@ -81,7 +81,7 @@ def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
 KLASS.__repr__ = _KLASS__repr__
         
-        '''.replace("KLASS", z.alias))        
+        '''.replace("KLASS", z.alias))
     
     # Size et al
     mb.class_('::cv::Size_<int>').rename('Size2i')
@@ -95,7 +95,7 @@ def _KLASS__repr__(self):
     return "KLASS(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
 KLASS.__repr__ = _KLASS__repr__
         
-        '''.replace("KLASS", z.alias))        
+        '''.replace("KLASS", z.alias))
         
     cc.write('''
 Size = Size2i
@@ -141,6 +141,14 @@ def _Scalar__repr__(self):
     return "Scalar(" + self.ndarray.__str__() + ")"
 Scalar.__repr__ = _Scalar__repr__
     ''')
+    
+    # casting between classes
+    # common_dtypes = ['int', 'float', 'double']
+    # for class_name in ['::cv::Point_', '::cv::Point3_', '::cv::Size_']:
+        # for t1 in common_dtypes:
+            # for t2 in common_dtypes:
+                # if t1 != t2:
+                    # mb.add_registration_code('bp::implicitly_convertible< %s < %s >, %s < %s > >();' % (class_name, t1, class_name, t2))
 
     # Range
     z = mb.class_('Range')

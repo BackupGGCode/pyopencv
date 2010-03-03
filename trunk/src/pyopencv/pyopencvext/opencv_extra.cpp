@@ -93,14 +93,20 @@ bp::tuple minMaxLoc(const bp::object& a, const bp::object& mask)
     bp::extract<const cv::MatND &> matnd(a);
     bp::extract<const cv::SparseMat &> smat(a);
     if(mat.check())
-    {    
-        cv::minMaxLoc(mat(), &minVal, &maxVal, &minLoc, &maxLoc, bp::extract<const cv::Mat &>(mask));
+    {
+        if(mask.ptr() == Py_None) // None object
+            cv::minMaxLoc(mat(), &minVal, &maxVal, &minLoc, &maxLoc);
+        else
+            cv::minMaxLoc(mat(), &minVal, &maxVal, &minLoc, &maxLoc, bp::extract<const cv::Mat &>(mask));
         result = bp::make_tuple(bp::object(minVal), bp::object(maxVal), bp::object(minLoc), bp::object(maxLoc));
     }
     else if(matnd.check())
     {
         const cv::MatND &m = matnd();
-        cv::minMaxLoc(m, &minVal, &maxVal, minIdx, maxIdx, bp::extract<const cv::MatND &>(mask));
+        if(mask.ptr() == Py_None) // None object
+            cv::minMaxLoc(m, &minVal, &maxVal, minIdx, maxIdx);
+        else
+            cv::minMaxLoc(m, &minVal, &maxVal, minIdx, maxIdx, bp::extract<const cv::MatND &>(mask));
         n = m.dims;
         bp::list l1, l2;
         for(i = 0; i < n; ++i)
