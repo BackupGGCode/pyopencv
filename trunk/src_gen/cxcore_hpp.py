@@ -309,23 +309,30 @@ static boost::shared_ptr<cv::Mat> Mat__init3__(bp::object const &arg1, bp::objec
         z.add_registration_code('staticmethod("from_list_of_%s")' % key)
     # rewrite the asMat function
     cc.write('''
-def asMat(obj):
-    """Converts a Python object into a Mat object."""
+def asMat(obj, force_single_channel=False):
+    """Converts a Python object into a Mat object.
+    
+    If 'force_single_channel' is True, the returing Mat is single-channel. Otherwise, PyOpenCV tries to return a multi-channel Mat whenever possible.
+    """
     
     if obj is None:
         return Mat()
     
     if isinstance(obj, _NP.ndarray):
-        return Mat.from_ndarray(obj)
-        
-    z = obj[0]
-    if isinstance(z, int):
-        return Mat.from_list_of_int32(obj)
-    if isinstance(z, float):
-        return Mat.from_list_of_float64(obj)
-
-    return eval("Mat.from_list_of_%s(obj)" % z.__class__.__name__)
+        out_mat = Mat.from_ndarray(obj)
+    else:
+        z = obj[0]
+        if isinstance(z, int):
+            out_mat = Mat.from_list_of_int32(obj)
+        elif isinstance(z, float):
+            out_mat = Mat.from_list_of_float64(obj)
+        else:
+            out_mat = eval("Mat.from_list_of_%s(obj)" % z.__class__.__name__)
     
+    if force_single_channel and out_mat.channels() != 1:
+        return out_mat.reshape(1, out_mat.cols*out_mat.rows)
+        
+    return out_mat
     ''')
 
     # RNG
