@@ -1783,7 +1783,7 @@ def asMat(obj, force_single_channel=False):
             out_mat = eval("Mat.from_list_of_%s(obj)" % z.__class__.__name__)
     
     if force_single_channel and out_mat.channels() != 1:
-        return out_mat.reshape(1, out_mat.cols*out_mat.rows)
+        return out_mat.reshape(1, out_mat.cols if out_mat.rows==1 else out_mat.rows)
         
     return out_mat
     
