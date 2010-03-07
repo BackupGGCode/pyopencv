@@ -433,6 +433,23 @@ static bp::object get_MEMBER(KLASS const &inst) { return convert_from_T_to_objec
 module_builder.module_builder_t.finalize_class = finalize_class
 
 
+def dtypecast(self, casting_list):
+    for t1 in casting_list:
+        z1 = self.class_(t1).alias
+        for t2 in casting_list:
+            if t1 == t2:
+                continue
+            z2 = self.class_(t2).alias
+            self.add_declaration_code(\
+                'static CLASS2 cvt_KLASS1_KLASS2(CLASS1 const &inst) { return CLASS2(inst); }' \
+                .replace('KLASS1', z1).replace('KLASS2', z2)\
+                .replace('CLASS1', t1).replace('CLASS2', t2))
+            self.add_registration_code(\
+                'bp::def("asKLASS2", &cvt_KLASS1_KLASS2, (bp::arg("inst_KLASS1")));'\
+                .replace('KLASS1', z1).replace('KLASS2', z2))
+
+module_builder.module_builder_t.dtypecast = dtypecast
+
 
 #=============================================================================
 # Initialization

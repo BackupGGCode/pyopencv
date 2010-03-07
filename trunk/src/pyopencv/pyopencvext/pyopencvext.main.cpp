@@ -1436,6 +1436,10 @@ struct CvSlice_to_python
     }
 };
 
+static ::cv::Complex<double> cvt_Complexf_Complexd(::cv::Complex<float> const &inst) { return ::cv::Complex<double>(inst); }
+
+static ::cv::Complex<float> cvt_Complexd_Complexf(::cv::Complex<double> const &inst) { return ::cv::Complex<float>(inst); }
+
 static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::object const & alpha, bp::object const & beta, bp::object const & gamma, int coeff_usage, cv::Size const & win, cv::TermCriteria const & criteria, int calc_gradient=1 ){
     char s[500];
     float alpha2, beta2, gamma2;
@@ -4068,6 +4072,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::def("asVec2f", &bp::from_ndarray< cv::Vec2f >, (bp::arg("arr")) );
 
     bp::def("asVec2i", &bp::from_ndarray< cv::Vec2i >, (bp::arg("arr")) );
+
+    bp::def("asComplexd", &cvt_Complexf_Complexd, (bp::arg("inst_Complexf")));
+
+    bp::def("asComplexf", &cvt_Complexd_Complexf, (bp::arg("inst_Complexd")));
 
     bp::def("asPoint2d", &bp::from_ndarray< cv::Point2d >, (bp::arg("arr")) );
 
