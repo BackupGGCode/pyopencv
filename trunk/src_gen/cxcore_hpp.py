@@ -41,6 +41,13 @@ def _KLASS__repr__(self):
     return "KLASS(" + self.ndarray.__str__() + ")"
 KLASS.__repr__ = _KLASS__repr__
         '''.replace('KLASS', z.alias))
+    mb.dtypecast(['::cv::Vec<%s, 2>' % x \
+        for x in ['unsigned char', 'short', 'unsigned short', 'int', 'float', 'double']])
+    mb.dtypecast(['::cv::Vec<%s, 3>' % x \
+        for x in ['unsigned char', 'short', 'unsigned short', 'int', 'float', 'double']])
+    mb.dtypecast(['::cv::Vec<%s, 4>' % x \
+        for x in ['unsigned char', 'short', 'unsigned short', 'int', 'float', 'double']])
+    mb.dtypecast(['::cv::Vec<%s, 6>' % x for x in ['float', 'double']])
         
     # Complex et al
     zz = mb.classes(lambda z: z.name.startswith('Complex<'))
@@ -73,6 +80,7 @@ KLASS.__repr__ = _KLASS__repr__
 Point = Point2i
 asPoint = asPoint2i
     ''')
+    mb.dtypecast(['::cv::Point_<%s>' % x for x in ['int', 'float', 'double']])
     
     # Point3 et al
     mb.class_('::cv::Point3_<float>').rename('Point3f')
@@ -88,6 +96,7 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
+    mb.dtypecast(['::cv::Point3_<%s>' % x for x in ['int', 'float', 'double']])
     
     # Size et al
     mb.class_('::cv::Size_<int>').rename('Size2i')
@@ -102,6 +111,7 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
+    mb.dtypecast(['::cv::Size_<%s>' % x for x in ['int', 'float', 'double']])
         
     cc.write('''
 Size = Size2i
@@ -120,6 +130,7 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
+    mb.dtypecast(['::cv::Rect_<%s>' % x for x in ['int', 'float', 'double']])
     
     # RotatedRect
     z = mb.class_('RotatedRect')
