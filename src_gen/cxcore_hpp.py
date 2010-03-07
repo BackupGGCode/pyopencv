@@ -47,6 +47,12 @@ KLASS.__repr__ = _KLASS__repr__
     for z in zz:
         z.include()
         z.decls(lambda t: 'std::complex' in t.decl_string).exclude() # no std::complex please
+        cc.write('''
+def _KLASS__repr__(self):
+    return "KLASS(re=" + repr(self.re) + ", im=" + repr(self.im) + ")"
+KLASS.__repr__ = _KLASS__repr__
+        '''.replace('KLASS', z.alias))
+    mb.dtypecast(['::cv::Complex<%s>' % x for x in ['float', 'double']])
     
     # Point et al
     mb.class_('::cv::Point_<int>').rename('Point2i')
@@ -142,14 +148,6 @@ def _Scalar__repr__(self):
 Scalar.__repr__ = _Scalar__repr__
     ''')
     
-    # casting between classes
-    # common_dtypes = ['int', 'float', 'double']
-    # for class_name in ['::cv::Point_', '::cv::Point3_', '::cv::Size_']:
-        # for t1 in common_dtypes:
-            # for t2 in common_dtypes:
-                # if t1 != t2:
-                    # mb.add_registration_code('bp::implicitly_convertible< %s < %s >, %s < %s > >();' % (class_name, t1, class_name, t2))
-
     # Range
     z = mb.class_('Range')
     z.include()
