@@ -440,9 +440,12 @@ def dtypecast(self, casting_list):
             if t1 == t2:
                 continue
             z2 = self.class_(t2).alias
-            self.add_declaration_code(\
-                'static CLASS2 cvt_KLASS1_KLASS2(CLASS1 const &inst) { return CLASS2(inst); }' \
-                .replace('KLASS1', z1).replace('KLASS2', z2)\
+            self.add_declaration_code('''
+static inline CLASS2 cvt_KLASS1_KLASS2(CLASS1 const &inst)
+{
+    return inst.operator CLASS2();
+}
+                '''.replace('KLASS1', z1).replace('KLASS2', z2)\
                 .replace('CLASS1', t1).replace('CLASS2', t2))
             self.add_registration_code(\
                 'bp::def("asKLASS2", &cvt_KLASS1_KLASS2, (bp::arg("inst_KLASS1")));'\

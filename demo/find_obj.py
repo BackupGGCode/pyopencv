@@ -6,9 +6,6 @@
 import sys
 import pyopencv as cv
 
-def asPoint(pt):
-    return cv.Point(int(pt.x), int(pt.y))
-
 # flann-based search
 def findPairs(surf, objectKeypoints, objectDescriptors, imageKeypoints, imageDescriptors):
     ptpairs = []
@@ -118,7 +115,7 @@ if __name__ == '__main__':
     # find pairs
     ptpairs = findPairs(surf, objectKeypoints, objectDescriptors, imageKeypoints, imageDescriptors)
     for pair in ptpairs:
-        cv.line( correspond, asPoint(pair[0]), cv.Point(int(pair[1].x), int(pair[1].y+object.rows)), colors[8] )
+        cv.line( correspond, cv.asPoint(pair[0]), cv.Point(int(pair[1].x), int(pair[1].y+object.rows)), colors[8] )
 
     # locate planar object
     if locatePlanarObject( ptpairs, src_corners, dst_corners ):
@@ -133,7 +130,7 @@ if __name__ == '__main__':
     
     # draw circles
     for keypt in objectKeypoints:
-        cv.circle(object_color, asPoint(keypt.pt), int(keypt.size*1.2/9.*2), colors[0], 1, 8, 0)
+        cv.circle(object_color, cv.asPoint(keypt.pt), int(keypt.size*1.2/9.*2), colors[0], 1, 8, 0)
     cv.imshow("Object", object_color)
         
     cv.waitKey(0)
