@@ -114,8 +114,8 @@ namespace aux
 }
 
 int ndarray::ndim() const { return PyArray_NDIM(ptr()); }
-const int* ndarray::shape() const { return PyArray_DIMS(ptr()); }
-const int* ndarray::strides() const { return PyArray_STRIDES(ptr()); }
+const Py_intptr_t* ndarray::shape() const { return PyArray_DIMS(ptr()); }
+const Py_intptr_t* ndarray::strides() const { return PyArray_STRIDES(ptr()); }
 int ndarray::itemsize() const { return PyArray_ITEMSIZE(ptr()); }
 int ndarray::dtype() const { return PyArray_TYPE(ptr()); }
 const void *ndarray::data() const { return PyArray_DATA(ptr()); }
