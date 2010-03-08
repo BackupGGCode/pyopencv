@@ -44,7 +44,7 @@ bp::sequence mixChannels(const bp::sequence &src, bp::sequence &dst, const bp::n
 {
     char s[200];
     
-    const int *shape = fromTo.shape();
+    const Py_intptr_t *shape = fromTo.shape();
     
     if(fromTo.ndim() != 2 || fromTo.dtype() != bp::dtypeof<long>() || shape[1] != 2 || !fromTo.iscontiguous())
     {
