@@ -5,3 +5,6 @@ PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 Thanks go to many people in the ctypes-opencv Google group as well as
 those have contacted me via email for their invaluable discussion and 
 idea contributions.
+
+Thanks also go to the people at Intel and Willow Garage for having 
+invented and developed OpenCV. 
