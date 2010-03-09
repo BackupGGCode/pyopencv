@@ -28,7 +28,7 @@ boost_runtime_library_dirs = []
 boost_runtime_libraries_to_be_bundled = []
 }}}
 
-This is the configuration file that provides PyOpenCV information about OpenCV and Boost libraries installed on your platform. The file is a Python sript so the user can freely program to generate the required information automatically or manually.
+This is the configuration file that provides PyOpenCV information about OpenCV and Boost libraries installed on your platform. The file is a Python script so the user can freely program to generate the required information automatically or manually.
 
 Eventually, the file should have the following variables (each of which is a list/tuple of strings) exposed:
 
