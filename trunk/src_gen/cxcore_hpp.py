@@ -365,7 +365,7 @@ KLASS.__repr__ = _KLASS__repr__
     # TermCriteria
     z = mb.class_('TermCriteria')
     z.include()
-    # z.decls(lambda x: 'CvTermCriteria' in x.decl_string).exclude()
+    z.operator(lambda x: 'CvTermCriteria' in x.name).rename('as_CvTermCriteria')
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(type=" + repr(self.type) + ", maxCount=" + repr(self.maxCount) + \\
