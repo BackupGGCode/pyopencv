@@ -11,7 +11,7 @@ You have two options to obtain a usable OpenCV build for PyOpenCV: build OpenCV 
 ===Building OpenCV 2.0 from source===
 
 If you have decided to build OpenCV 2.0 from source, take note of the followings:
-  # Edit file `CMakeLists.txt`, search for "-D_GLIBCXX_PARALLEL" and remove it. Basically, when this option is set, "parallel mode" STL containers are used, which are incompatible with the standard "serialized mode" STL containers used by Boost.Python and other libraries. Of course, if you could recompile every single library that is connected to OpenCV with option "-D_GLIBCXX_PARALLEL" set, then it would be another matter.    
+  # Edit file `CMakeLists.txt`, search for "-D_GLIBCXX_PARALLEL" and remove it. Basically, when this option is set, experimental "parallel mode" STL containers are used, which are incompatible with the standard "serialized mode" STL containers used by Boost.Python and other libraries. Of course, if you could recompile every single library that is connected to OpenCV with option "-D_GLIBCXX_PARALLEL" set, then it would be another matter.    
   # When using `cmake` to build, uncheck `USE_SSE` and `USE_SSE2`. Do not use `-msse2` or any automatic way to generate code using SSE or SSE2. For some unidentified reasons, invoking functions utilizing SSE and SSE2 code from Python may result in a segmentation fault.
   # Do not use `-mtune=pentium3` or above ---> system crashes ---> same reason as in (2).
   # Uncheck the SWIG option. This is important. With the SWIG option set, the majority of new C++ member functions of various classes in the ML component are disabled in OpenCV's `ml.h` header file. PyOpenCV, however, relies on these C++ functions to interface with the classes. Therefore, not using SWIG is a must.
