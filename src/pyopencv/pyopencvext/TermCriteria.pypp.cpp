@@ -20,7 +20,7 @@ void register_TermCriteria_class(){
         TermCriteria_exposer.def( bp::init< int, int, double >(( bp::arg("_type"), bp::arg("_maxCount"), bp::arg("_epsilon") )) );
         TermCriteria_exposer.def( bp::init< CvTermCriteria const & >(( bp::arg("criteria") )) );
         bp::implicitly_convertible< CvTermCriteria const &, cv::TermCriteria >();
-        TermCriteria_exposer.def( "as__scope_CvTermCriteria", &cv::TermCriteria::operator ::CvTermCriteria  );
+        TermCriteria_exposer.def( "as_CvTermCriteria", &cv::TermCriteria::operator ::CvTermCriteria  );
         TermCriteria_exposer.def_readwrite( "epsilon", &cv::TermCriteria::epsilon );
         TermCriteria_exposer.def_readwrite( "maxCount", &cv::TermCriteria::maxCount );
         TermCriteria_exposer.def_readwrite( "type", &cv::TermCriteria::type );
