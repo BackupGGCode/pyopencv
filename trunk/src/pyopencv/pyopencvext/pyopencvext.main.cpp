@@ -2458,8 +2458,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_TermCriteria_class();
 
-    bp::implicitly_convertible< cv::TermCriteria, CvTermCriteria >();
-
     register_LevMarqSparse_class();
 
     register_LineIterator_class();

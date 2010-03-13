@@ -35,7 +35,7 @@ class BjamCompiler(ccompiler.CCompiler):
         f.write('''
 import python ;
 
-using gcc :  :  g++ :
+using gcc :  :  g++ : <compileflags>-O3
 ''')
         for include_dir in objects[1]['include_dirs']:
             f.write('    <compileflags>-I%s\n' % mypath(include_dir))
