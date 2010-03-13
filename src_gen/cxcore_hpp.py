@@ -172,7 +172,7 @@ KLASS.__repr__ = _KLASS__repr__
     '''.replace("KLASS", z.alias))
     
     # Ptr -- already exposed by mb.expose_class_Ptr
-
+    
     # Mat
     z = mb.class_('Mat')
     z.include_files.append("opencv_converters.hpp")
@@ -365,7 +365,7 @@ KLASS.__repr__ = _KLASS__repr__
     # TermCriteria
     z = mb.class_('TermCriteria')
     z.include()
-    z.operator(lambda x: 'CvTermCriteria' in x.name).rename('as_CvTermCriteria')
+    z.decls(lambda x: 'CvTermCriteria' in x.name or 'CvTermCriteria' in x.decl_string).exclude()
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(type=" + repr(self.type) + ", maxCount=" + repr(self.maxCount) + \\
@@ -428,10 +428,10 @@ static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
 }
 
     ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )))')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )))')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )))')
-    z.add_registration_code('def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )), "Use asMat() to convert \'_sizes\' from a Python sequence to a Mat.")')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )), "Use asMat() to convert \'_sizes\' from a Python sequence to a Mat.")')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )), "Use asMat() to convert \'_ranges\' from a Python sequence to a Mat.")')
+    z.add_registration_code('def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))), "Use asMat() to convert \'ranges\' from a Python sequence to a Mat.")')
     
     # mb.add_declaration_code('''
 # struct CvMatND_to_python
@@ -590,9 +590,8 @@ static bp::tuple children(cv::FileNode const &inst)
         'add', 'subtract', 'multiply', 'divide', 'scaleAdd', 'addWeighted',
         'convertScaleAbs', 'LUT', 'sum', 'countNonZero', 'mean', 'meanStdDev', 
         'norm', 'normalize', 'reduce', 'flip', 'repeat', 'bitwise_and', 'bitwise_or', 
-        'bitwise_xor', 'bitwise_not', 'absdiff', 'inRange', 'compare', 'min', 
-        'max', 'sqrt', 'pow', 'exp', 'log', 'cubeRoot', 'fastAtan2',
-        'polarToCart', 'cartToPolar', 'phase', 'magnitude', 'gemm',
+        'bitwise_xor', 'bitwise_not', 'absdiff', 'inRange', 'compare', 'cubeRoot', 
+        'fastAtan2', 'polarToCart', 'cartToPolar', 'phase', 'magnitude', 'gemm',
         'mulTransposed', 'transpose', 'transform', 'perspectiveTransform',
         'completeSymm', 'setIdentity', 'determinant', 'trace', 'invert', 
         'solve', 'sort', 'sortIdx', 'eigen', 'Mahalanobis', 'Mahalonobis', 
@@ -601,6 +600,11 @@ static bp::tuple children(cv::FileNode const &inst)
         'ellipse', 'clipLine', 'putText', 'ellipse2Poly',
         ):
         mb.free_funs(z).include()
+
+    for t in ('min', 'max', 'sqrt', 'pow', 'exp', 'log'):
+        for z in mb.free_funs(t):
+            if 'cv::Mat' in z.decl_string:
+                z.include()
 
     # split
     for z in mb.free_funs('split'):
@@ -667,3 +671,7 @@ static bp::tuple children(cv::FileNode const &inst)
     z._transformer_creators.append(FT.output_type1('baseLine'))
     
     # TODO: do something with Seq<>
+
+    # MatExpr
+    mb.decls(lambda x: 'MatExpr' in x.decl_string).exclude()
+    

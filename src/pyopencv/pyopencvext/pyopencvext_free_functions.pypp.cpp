@@ -2359,39 +2359,6 @@ void register_free_functions(){
     
     }
 
-    { //::std::exp
-    
-        typedef long double ( *exp_function_type )( long double );
-        
-        bp::def( 
-            "exp"
-            , exp_function_type( &::std::exp )
-            , ( bp::arg("__x") ) );
-    
-    }
-
-    { //::std::exp
-    
-        typedef float ( *exp_function_type )( float );
-        
-        bp::def( 
-            "exp"
-            , exp_function_type( &::std::exp )
-            , ( bp::arg("__x") ) );
-    
-    }
-
-    { //::exp
-    
-        typedef double ( *exp_function_type )( double );
-        
-        bp::def( 
-            "exp"
-            , exp_function_type( &::exp )
-            , ( bp::arg("arg0") ) );
-    
-    }
-
     { //::cv::exp
     
         typedef void ( *exp_function_type )( ::cv::MatND const &,::cv::MatND & );
@@ -2960,28 +2927,6 @@ void register_free_functions(){
     
     }
 
-    { //::std::log
-    
-        typedef long double ( *log_function_type )( long double );
-        
-        bp::def( 
-            "log"
-            , log_function_type( &::std::log )
-            , ( bp::arg("__x") ) );
-    
-    }
-
-    { //::std::log
-    
-        typedef float ( *log_function_type )( float );
-        
-        bp::def( 
-            "log"
-            , log_function_type( &::std::log )
-            , ( bp::arg("__x") ) );
-    
-    }
-
     { //::cv::log
     
         typedef void ( *log_function_type )( ::cv::MatND const &,::cv::MatND & );
@@ -3001,17 +2946,6 @@ void register_free_functions(){
             "log"
             , log_function_type( &::cv::log )
             , ( bp::arg("a"), bp::arg("b") ) );
-    
-    }
-
-    { //::log
-    
-        typedef double ( *log_function_type )( double );
-        
-        bp::def( 
-            "log"
-            , log_function_type( &::log )
-            , ( bp::arg("arg0") ) );
     
     }
 
@@ -3056,42 +2990,6 @@ void register_free_functions(){
             "matchTemplate"
             , matchTemplate_function_type( &::cv::matchTemplate )
             , ( bp::arg("image"), bp::arg("templ"), bp::arg("result"), bp::arg("method") ) );
-    
-    }
-
-    { //::std::max
-    
-        typedef int const & ( *max_function_type )( int const &,int const & );
-        
-        bp::def( 
-            "max"
-            , max_function_type( &::std::max )
-            , ( bp::arg("__a"), bp::arg("__b") )
-            , bp::return_value_policy< bp::copy_const_reference >() );
-    
-    }
-
-    { //::std::max
-    
-        typedef ::size_t const & ( *max_function_type )( ::size_t const &,::size_t const & );
-        
-        bp::def( 
-            "max"
-            , max_function_type( &::std::max )
-            , ( bp::arg("__a"), bp::arg("__b") )
-            , bp::return_value_policy< bp::copy_const_reference >() );
-    
-    }
-
-    { //::std::max
-    
-        typedef float const & ( *max_function_type )( float const &,float const & );
-        
-        bp::def( 
-            "max"
-            , max_function_type( &::std::max )
-            , ( bp::arg("__a"), bp::arg("__b") )
-            , bp::return_value_policy< bp::copy_const_reference >() );
     
     }
 
@@ -3235,42 +3133,6 @@ void register_free_functions(){
             "medianBlur"
             , medianBlur_function_type( &::cv::medianBlur )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("ksize") ) );
-    
-    }
-
-    { //::std::min
-    
-        typedef ::std::streamsize const & ( *min_function_type )( ::std::streamsize const &,::std::streamsize const & );
-        
-        bp::def( 
-            "min"
-            , min_function_type( &::std::min )
-            , ( bp::arg("__a"), bp::arg("__b") )
-            , bp::return_value_policy< bp::copy_const_reference >() );
-    
-    }
-
-    { //::std::min
-    
-        typedef ::size_t const & ( *min_function_type )( ::size_t const &,::size_t const & );
-        
-        bp::def( 
-            "min"
-            , min_function_type( &::std::min )
-            , ( bp::arg("__a"), bp::arg("__b") )
-            , bp::return_value_policy< bp::copy_const_reference >() );
-    
-    }
-
-    { //::std::min
-    
-        typedef float const & ( *min_function_type )( float const &,float const & );
-        
-        bp::def( 
-            "min"
-            , min_function_type( &::std::min )
-            , ( bp::arg("__a"), bp::arg("__b") )
-            , bp::return_value_policy< bp::copy_const_reference >() );
     
     }
 
@@ -3603,61 +3465,6 @@ void register_free_functions(){
     
     }
 
-    { //::std::pow
-    
-        typedef long double ( *pow_function_type )( long double,int );
-        
-        bp::def( 
-            "pow"
-            , pow_function_type( &::std::pow )
-            , ( bp::arg("__x"), bp::arg("__n") ) );
-    
-    }
-
-    { //::std::pow
-    
-        typedef float ( *pow_function_type )( float,int );
-        
-        bp::def( 
-            "pow"
-            , pow_function_type( &::std::pow )
-            , ( bp::arg("__x"), bp::arg("__n") ) );
-    
-    }
-
-    { //::std::pow
-    
-        typedef double ( *pow_function_type )( double,int );
-        
-        bp::def( 
-            "pow"
-            , pow_function_type( &::std::pow )
-            , ( bp::arg("__x"), bp::arg("__i") ) );
-    
-    }
-
-    { //::std::pow
-    
-        typedef long double ( *pow_function_type )( long double,long double );
-        
-        bp::def( 
-            "pow"
-            , pow_function_type( &::std::pow )
-            , ( bp::arg("__x"), bp::arg("__y") ) );
-    
-    }
-
-    { //::std::pow
-    
-        typedef float ( *pow_function_type )( float,float );
-        
-        bp::def( 
-            "pow"
-            , pow_function_type( &::std::pow )
-            , ( bp::arg("__x"), bp::arg("__y") ) );
-    
-    }
-
     { //::cv::pow
     
         typedef void ( *pow_function_type )( ::cv::MatND const &,double,::cv::MatND & );
@@ -3677,17 +3484,6 @@ void register_free_functions(){
             "pow"
             , pow_function_type( &::cv::pow )
             , ( bp::arg("a"), bp::arg("power"), bp::arg("b") ) );
-    
-    }
-
-    { //::pow
-    
-        typedef double ( *pow_function_type )( double,double );
-        
-        bp::def( 
-            "pow"
-            , pow_function_type( &::pow )
-            , ( bp::arg("arg0"), bp::arg("arg1") ) );
     
     }
 
@@ -3952,39 +3748,6 @@ void register_free_functions(){
             "sortIdx"
             , sortIdx_function_type( &::cv::sortIdx )
             , ( bp::arg("a"), bp::arg("b"), bp::arg("flags") ) );
-    
-    }
-
-    { //::std::sqrt
-    
-        typedef long double ( *sqrt_function_type )( long double );
-        
-        bp::def( 
-            "sqrt"
-            , sqrt_function_type( &::std::sqrt )
-            , ( bp::arg("__x") ) );
-    
-    }
-
-    { //::std::sqrt
-    
-        typedef float ( *sqrt_function_type )( float );
-        
-        bp::def( 
-            "sqrt"
-            , sqrt_function_type( &::std::sqrt )
-            , ( bp::arg("__x") ) );
-    
-    }
-
-    { //::sqrt
-    
-        typedef double ( *sqrt_function_type )( double );
-        
-        bp::def( 
-            "sqrt"
-            , sqrt_function_type( &::sqrt )
-            , ( bp::arg("arg0") ) );
     
     }
 
