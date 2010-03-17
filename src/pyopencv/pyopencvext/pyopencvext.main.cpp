@@ -2654,7 +2654,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "FAST"
             , FAST_function_type( &FAST_23d17220884e2f371691b185394322ec )
             , ( bp::arg("image"), bp::arg("threshold"), bp::arg("nonmax_supression")=(bool)(true) )
-            , "\nArgument 'keypoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
+            , "\nIn C++, argument 'keypoints' is of type '::std::vector< cv::KeyPoint > &'."\
+    "\nIn PyOpenCV, argument 'keypoints' is a list."\
+    "\nTo convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'."\
     "\nArgument 'keypoints' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -2667,7 +2669,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "HoughCircles"
             , HoughCircles_function_type( &HoughCircles_ea2999473356200d9d2fc8b7258555b0 )
             , ( bp::arg("image"), bp::arg("method"), bp::arg("dp"), bp::arg("minDist"), bp::arg("param1")=100, bp::arg("param2")=100, bp::arg("minRadius")=(int)(0), bp::arg("maxRadius")=(int)(0) )
-            , "\nArgument 'circles' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+            , "\nIn C++, argument 'circles' is of type '::std::vector< cv::Vec<float, 3> > &'."\
+    "\nIn PyOpenCV, argument 'circles' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'circles' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -2680,7 +2684,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "HoughLines"
             , HoughLines_function_type( &HoughLines_deaa796a20e753a0b781de4a4d81ba3d )
             , ( bp::arg("image"), bp::arg("rho"), bp::arg("theta"), bp::arg("threshold"), bp::arg("srn")=0, bp::arg("stn")=0 )
-            , "\nArgument 'lines' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+            , "\nIn C++, argument 'lines' is of type '::std::vector< cv::Vec<float, 2> > &'."\
+    "\nIn PyOpenCV, argument 'lines' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'lines' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -2693,7 +2699,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "HoughLinesP"
             , HoughLinesP_function_type( &HoughLinesP_7e83e90590dfee49ad9ee8d704d1cfcb )
             , ( bp::arg("image"), bp::arg("rho"), bp::arg("theta"), bp::arg("threshold"), bp::arg("minLineLength")=0, bp::arg("maxLineGap")=0 )
-            , "\nArgument 'lines' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+            , "\nIn C++, argument 'lines' is of type '::std::vector< cv::Vec<int, 4> > &'."\
+    "\nIn PyOpenCV, argument 'lines' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'lines' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -2717,7 +2725,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "buildPyramid"
             , buildPyramid_function_type( &buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("maxlevel") )
-            , "\nArgument 'dst' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'" );
+            , "\nIn C++, argument 'dst' is of type '::std::vector< cv::Mat > &'."\
+    "\nIn PyOpenCV, argument 'dst' is a list."\
+    "\nTo convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'." );
     
     }
 
@@ -2742,10 +2752,18 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "calcOpticalFlowPyrLK"
             , calcOpticalFlowPyrLK_function_type( &calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1 )
             , ( bp::arg("prevImg"), bp::arg("nextImg"), bp::arg("prevPts"), bp::arg("nextPts"), bp::arg("status"), bp::arg("err"), bp::arg("winSize")=cv::Size_<int>(15, 15), bp::arg("maxLevel")=(int)(3), bp::arg("criteria")=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), bp::arg("derivLambda")=5.0e-1, bp::arg("flags")=(int)(0) )
-            , "\nArgument 'prevPts' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'nextPts' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'status' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'err' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+            , "\nIn C++, argument 'prevPts' is of type '::std::vector< cv::Point_<float> > const &'."\
+    "\nIn PyOpenCV, argument 'prevPts' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'nextPts' is of type '::std::vector< cv::Point_<float> > &'."\
+    "\nIn PyOpenCV, argument 'nextPts' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'status' is of type '::std::vector< unsigned char > &'."\
+    "\nIn PyOpenCV, argument 'status' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'err' is of type '::std::vector< float > &'."\
+    "\nIn PyOpenCV, argument 'err' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -2757,12 +2775,20 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "calibrateCamera"
             , calibrateCamera_function_type( &calibrateCamera_e3c243276629b1246626096d8ff70485 )
             , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("flags")=(int)(0) )
-            , "\nArgument 'rvecs' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
+            , "\nIn C++, argument 'rvecs' is of type '::std::vector< cv::Mat > &'."\
+    "\nIn PyOpenCV, argument 'rvecs' is a list."\
+    "\nTo convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'."\
     "\nArgument 'rvecs' is an output argument and is omitted from the function's calling sequence."\
-    "\nArgument 'tvecs' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
+    "\nIn C++, argument 'tvecs' is of type '::std::vector< cv::Mat > &'."\
+    "\nIn PyOpenCV, argument 'tvecs' is a list."\
+    "\nTo convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'."\
     "\nArgument 'tvecs' is an output argument and is omitted from the function's calling sequence."\
-    "\nArgument 'objectPoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
-    "\nArgument 'imagePoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'" );
+    "\nIn C++, argument 'objectPoints' is of type '::std::vector< std::vector< cv::Point3_<float> > > const &'."\
+    "\nIn PyOpenCV, argument 'objectPoints' is a list of Mats, e.g. [Mat(), Mat(), Mat()]."\
+    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]."\
+    "\nIn C++, argument 'imagePoints' is of type '::std::vector< std::vector< cv::Point_<float> > > const &'."\
+    "\nIn PyOpenCV, argument 'imagePoints' is a list of Mats, e.g. [Mat(), Mat(), Mat()]."\
+    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]." );
     
     }
 
@@ -2798,7 +2824,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "computeCorrespondEpilines"
             , computeCorrespondEpilines_function_type( &computeCorrespondEpilines_c5fa9f4742dac0ce300bb37345eb1f07 )
             , ( bp::arg("points1"), bp::arg("whichImage"), bp::arg("F") )
-            , "\nArgument 'lines' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+            , "\nIn C++, argument 'lines' is of type '::std::vector< cv::Vec<float, 3> > &'."\
+    "\nIn PyOpenCV, argument 'lines' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'lines' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -2812,7 +2840,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , convertPointsHomogeneous2D_function_type( &convertPointsHomogeneous_a80a768ed55e897cac15946457cd1696 )
             , ( bp::arg("src") )
             , "\nWrapped function: convertPointsHomogeneous."
-    "\nArgument 'dst' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'dst' is of type '::std::vector< cv::Point_<float> > &'."\
+    "\nIn PyOpenCV, argument 'dst' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'dst' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -2826,7 +2856,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , convertPointsHomogeneous3D_function_type( &convertPointsHomogeneous_d220e3269e8c59fdb5b2dc2f830579b0 )
             , ( bp::arg("src") )
             , "\nWrapped function: convertPointsHomogeneous."
-    "\nArgument 'dst' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'dst' is of type '::std::vector< cv::Point3_<float> > &'."\
+    "\nIn PyOpenCV, argument 'dst' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'dst' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -2840,7 +2872,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , convexHullIdx_function_type( &convexHull_a7bf196b869588f11c69529c43975a42 )
             , ( bp::arg("points"), bp::arg("clockwise")=(bool)(false) )
             , "\nWrapped function: convexHull."
-    "\nArgument 'hull' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'hull' is of type '::std::vector< int > &'."\
+    "\nIn PyOpenCV, argument 'hull' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'hull' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -2853,7 +2887,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "cornerSubPix"
             , cornerSubPix_function_type( &cornerSubPix_897410ee39f221d5b382cc794de38b84 )
             , ( bp::arg("image"), bp::arg("corners"), bp::arg("winSize"), bp::arg("zeroZone"), bp::arg("criteria") )
-            , "\nArgument 'corners' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+            , "\nIn C++, argument 'corners' is of type '::std::vector< cv::Point_<float> > &'."\
+    "\nIn PyOpenCV, argument 'corners' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -4058,8 +4094,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "drawContours"
             , drawContours_function_type( &drawContours_03a5aed7ca57b253d8b3346ee2f05f74 )
             , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() )
-            , "\nArgument 'contours' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
-    "\nArgument 'hierarchy' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+            , "\nIn C++, argument 'contours' is of type '::std::vector< std::vector< cv::Point_<int> > > const &'."\
+    "\nIn PyOpenCV, argument 'contours' is a list of Mats, e.g. [Mat(), Mat(), Mat()]."\
+    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]."\
+    "\nIn C++, argument 'hierarchy' is of type '::std::vector< cv::Vec<int, 4> > const &'."\
+    "\nIn PyOpenCV, argument 'hierarchy' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -4071,7 +4111,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "ellipse2Poly"
             , ellipse2Poly_function_type( &ellipse2Poly_a1937ebf152fa736fc27822db2e0081a )
             , ( bp::arg("center"), bp::arg("axes"), bp::arg("angle"), bp::arg("arcStart"), bp::arg("arcEnd"), bp::arg("delta"), bp::arg("pts") )
-            , "\nArgument 'pts' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+            , "\nIn C++, argument 'pts' is of type '::std::vector< cv::Point_<int> > &'."\
+    "\nIn PyOpenCV, argument 'pts' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -4083,7 +4125,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "estimateAffine3D"
             , estimateAffine3D_function_type( &estimateAffine3D_fd3dca5e5fd5d2ce4664db813a2c08bf )
             , ( bp::arg("from"), bp::arg("to"), bp::arg("out"), bp::arg("outliers"), bp::arg("param1")=3.0e+0, bp::arg("param2")=9.89999999999999991118215802998747676610946655273e-1 )
-            , "\nArgument 'outliers' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+            , "\nIn C++, argument 'outliers' is of type '::std::vector< unsigned char > &'."\
+    "\nIn PyOpenCV, argument 'outliers' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -4122,7 +4166,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "findChessboardCorners"
             , findChessboardCorners_function_type( &findChessboardCorners_dbf15a4ace0e613206118382aa1793ea )
             , ( bp::arg("image"), bp::arg("patternSize"), bp::arg("flags")=(int)(3) )
-            , "\nArgument 'corners' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+            , "\nIn C++, argument 'corners' is of type '::std::vector< cv::Point_<float> > &'."\
+    "\nIn PyOpenCV, argument 'corners' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'corners' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -4135,9 +4181,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "findContours"
             , findContours_function_type( &findContours_68285032b2b0f15f13e30f19da8327fa )
             , ( bp::arg("image"), bp::arg("mode"), bp::arg("method"), bp::arg("offset")=cv::Point_<int>() )
-            , "\nArgument 'contours' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
+            , "\nIn C++, argument 'contours' is of type '::std::vector< std::vector< cv::Point_<int> > > &'."\
+    "\nIn PyOpenCV, argument 'contours' is a list of Mats, e.g. [Mat(), Mat(), Mat()]."\
+    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]."\
     "\nArgument 'contours' is an output argument and is omitted from the function's calling sequence."\
-    "\nArgument 'hierarchy' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'hierarchy' is of type '::std::vector< cv::Vec<int, 4> > &'."\
+    "\nIn PyOpenCV, argument 'hierarchy' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'hierarchy' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -4151,7 +4201,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , findFundamentalMat2_function_type( &findFundamentalMat_4b8947da99452ee36abb2b044e941f4a )
             , ( bp::arg("points1"), bp::arg("points2"), bp::arg("method")=int(::cv::FM_RANSAC), bp::arg("param1")=3.0e+0, bp::arg("param2")=9.89999999999999991118215802998747676610946655273e-1 )
             , "\nWrapped function: findFundamentalMat."
-    "\nArgument 'mask' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'mask' is of type '::std::vector< unsigned char > &'."\
+    "\nIn PyOpenCV, argument 'mask' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'mask' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -4165,7 +4217,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , findHomography2_function_type( &findHomography_43999ba4bb258d7c74f144c8915f1665 )
             , ( bp::arg("srcPoints"), bp::arg("dstPoints"), bp::arg("method")=(int)(0), bp::arg("ransacReprojThreshold")=0 )
             , "\nWrapped function: findHomography."
-    "\nArgument 'mask' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'mask' is of type '::std::vector< unsigned char > &'."\
+    "\nIn PyOpenCV, argument 'mask' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'mask' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -4240,7 +4294,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "goodFeaturesToTrack"
             , goodFeaturesToTrack_function_type( &goodFeaturesToTrack_a887e3eb7b667339b1ac0c1a02f5735c )
             , ( bp::arg("image"), bp::arg("maxCorners"), bp::arg("qualityLevel"), bp::arg("minDistance"), bp::arg("mask")=cv::Mat(), bp::arg("blockSize")=(int)(3), bp::arg("useHarrisDetector")=(bool)(false), bp::arg("k")=4.00000000000000008326672684688674053177237510681e-2 )
-            , "\nArgument 'corners' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+            , "\nIn C++, argument 'corners' is of type '::std::vector< cv::Point_<float> > &'."\
+    "\nIn PyOpenCV, argument 'corners' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'corners' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -4253,7 +4309,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "groupRectangles"
             , groupRectangles_function_type( &groupRectangles_daddb1eb144574c44042d3cef39f8656 )
             , ( bp::arg("rectList"), bp::arg("groupThreshold"), bp::arg("eps")=2.00000000000000011102230246251565404236316680908e-1 )
-            , "\nArgument 'rectList' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+            , "\nIn C++, argument 'rectList' is of type '::std::vector< cv::Rect_<int> > &'."\
+    "\nIn PyOpenCV, argument 'rectList' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -4265,9 +4323,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "imencode"
             , imencode_function_type( &imencode_7058867f40db2ceceebdc74b4943c841 )
             , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
-            , "\nArgument 'buf' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+            , "\nIn C++, argument 'buf' is of type '::std::vector< unsigned char > &'."\
+    "\nIn PyOpenCV, argument 'buf' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'buf' is an output argument and is omitted from the function's calling sequence."\
-    "\nArgument 'params' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nIn C++, argument 'params' is of type '::std::vector< int > const &'."\
+    "\nIn PyOpenCV, argument 'params' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -4279,7 +4341,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "imwrite"
             , imwrite_function_type( &imwrite_08123c4d4c07e7af51577328378c9683 )
             , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
-            , "\nArgument 'params' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+            , "\nIn C++, argument 'params' is of type '::std::vector< int > const &'."\
+    "\nIn PyOpenCV, argument 'params' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
@@ -4291,8 +4355,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "initCameraMatrix2D"
             , initCameraMatrix2D_function_type( &initCameraMatrix2D_a63e0813c9e7ddf60786347e47acca95 )
             , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("aspectRatio")=1.0e+0 )
-            , "\nArgument 'objectPoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
-    "\nArgument 'imagePoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'" );
+            , "\nIn C++, argument 'objectPoints' is of type '::std::vector< std::vector< cv::Point3_<float> > > const &'."\
+    "\nIn PyOpenCV, argument 'objectPoints' is a list of Mats, e.g. [Mat(), Mat(), Mat()]."\
+    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]."\
+    "\nIn C++, argument 'imagePoints' is of type '::std::vector< std::vector< cv::Point_<float> > > const &'."\
+    "\nIn PyOpenCV, argument 'imagePoints' is a list of Mats, e.g. [Mat(), Mat(), Mat()]."\
+    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]." );
     
     }
 
@@ -4357,7 +4425,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , projectPoints2_function_type( &projectPoints_c3cbd5f3e0c4a976b617302062632da4 )
             , ( bp::arg("objectPoints"), bp::arg("rvec"), bp::arg("tvec"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("dpdrot"), bp::arg("dpdt"), bp::arg("dpdf"), bp::arg("dpdc"), bp::arg("dpddist"), bp::arg("aspectRatio")=0 )
             , "\nWrapped function: projectPoints."
-    "\nArgument 'imagePoints' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'imagePoints' is of type '::std::vector< cv::Point_<float> > &'."\
+    "\nIn PyOpenCV, argument 'imagePoints' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'imagePoints' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -4370,7 +4440,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "projectPoints"
             , projectPoints_function_type( &projectPoints_ce9cea7b4fadb5986d2a47a4d012fac0 )
             , ( bp::arg("objectPoints"), bp::arg("rvec"), bp::arg("tvec"), bp::arg("cameraMatrix"), bp::arg("distCoeffs") )
-            , "\nArgument 'imagePoints' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+            , "\nIn C++, argument 'imagePoints' is of type '::std::vector< cv::Point_<float> > &'."\
+    "\nIn PyOpenCV, argument 'imagePoints' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'imagePoints' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -4384,7 +4456,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , read_KeyPoints_function_type( &read_19f776a07d0494421b17575379bc2106 )
             , ( bp::arg("node") )
             , "\nWrapped function: read."
-    "\nArgument 'keypoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
+    "\nIn C++, argument 'keypoints' is of type '::std::vector< cv::KeyPoint > &'."\
+    "\nIn PyOpenCV, argument 'keypoints' is a list."\
+    "\nTo convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'."\
     "\nArgument 'keypoints' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -4565,9 +4639,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "stereoCalibrate"
             , stereoCalibrate_function_type( &stereoCalibrate_14726b7172922289400130b4861f4a12 )
             , ( bp::arg("objectPoints"), bp::arg("imagePoints1"), bp::arg("imagePoints2"), bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("E"), bp::arg("F"), bp::arg("criteria")=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), bp::arg("flags")=int(::cv::CALIB_FIX_INTRINSIC) )
-            , "\nArgument 'objectPoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
-    "\nArgument 'imagePoints1' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
-    "\nArgument 'imagePoints2' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'" );
+            , "\nIn C++, argument 'objectPoints' is of type '::std::vector< std::vector< cv::Point3_<float> > > const &'."\
+    "\nIn PyOpenCV, argument 'objectPoints' is a list of Mats, e.g. [Mat(), Mat(), Mat()]."\
+    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]."\
+    "\nIn C++, argument 'imagePoints1' is of type '::std::vector< std::vector< cv::Point_<float> > > const &'."\
+    "\nIn PyOpenCV, argument 'imagePoints1' is a list of Mats, e.g. [Mat(), Mat(), Mat()]."\
+    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]."\
+    "\nIn C++, argument 'imagePoints2' is of type '::std::vector< std::vector< cv::Point_<float> > > const &'."\
+    "\nIn PyOpenCV, argument 'imagePoints2' is a list of Mats, e.g. [Mat(), Mat(), Mat()]."\
+    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]." );
     
     }
 
@@ -4580,7 +4660,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , undistortPoints2_function_type( &undistortPoints_e5fdbe55500ffb118c2a9845da49f34b )
             , ( bp::arg("src"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("R")=cv::Mat(), bp::arg("P")=cv::Mat() )
             , "\nWrapped function: undistortPoints."
-    "\nArgument 'dst' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'dst' is of type '::std::vector< cv::Point_<float> > &'."\
+    "\nIn PyOpenCV, argument 'dst' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'dst' is an output argument and is omitted from the function's calling sequence." );
     
     }
@@ -4593,7 +4675,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "write"
             , write_function_type( &write_df76e3ba45561ddd23c917a610929778 )
             , ( bp::arg("fs"), bp::arg("name"), bp::arg("keypoints") )
-            , "\nArgument 'keypoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'" );
+            , "\nIn C++, argument 'keypoints' is of type '::std::vector< cv::KeyPoint > const &'."\
+    "\nIn PyOpenCV, argument 'keypoints' is a list."\
+    "\nTo convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'." );
     
     }
 

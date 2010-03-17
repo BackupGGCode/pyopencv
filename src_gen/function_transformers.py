@@ -1208,18 +1208,28 @@ class arg_std_vector_t(transformer_t):
         # intermediate variable
         v = controller.declare_variable( _D.remove_const(_D.remove_reference(self.arg.type)), self.arg.name )
         
+        common.add_func_boost_doc(self.function, "In C++, argument '%s' is of type '%s'." 
+            % (self.arg.name, self.arg.type.partial_decl_string))
+            
         # conversion code
         if is_elem_type_fixed_size(self.elem_type): # cv::Mat-equivalent
             str_pyobj_type = "cv::Mat"
             str_cvt_to_pyobj = "convert_from_vector_of_T_to_Mat"
             str_cvt_from_pyobj = "convert_from_Mat_to_vector_of_T"
-            common.add_func_boost_doc(self.function, "Argument '%s' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." % self.arg.name)
+            common.add_func_boost_doc(self.function, "In PyOpenCV, argument '%s' is a Mat." % self.arg.name)
+            common.add_func_boost_doc(self.function, "Use function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2)).")
 
-        else: # 1d-vector, what about 2d vector?
+        else: # vector
             str_pyobj_type = "bp::list"
             str_cvt_to_pyobj = "convert_from_T_to_object"
             str_cvt_from_pyobj = "convert_from_object_to_T"
-            common.add_func_boost_doc(self.function, "Argument '%s' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'" % self.arg.name)
+            if 'std::vector' in self.elem_type.decl_string: # workaround, assume 2D vectors as list of Mats
+                common.add_func_boost_doc(self.function, "In PyOpenCV, argument '%s' is a list of Mats, e.g. [Mat(), Mat(), Mat()]." % self.arg.name)
+                common.add_func_boost_doc(self.function, "To get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)].")
+            else:
+                common.add_func_boost_doc(self.function, "In PyOpenCV, argument '%s' is a list." % self.arg.name)
+                common.add_func_boost_doc(self.function, "To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'.")
+
         
         # check argument kind
         if self.arg_kind == 1: # input
