@@ -146,7 +146,9 @@ void register_Octree_class(){
                 "buildTree"
                 , default_buildTree_function_type( &Octree_wrapper::default_buildTree )
                 , ( bp::arg("inst"), bp::arg("points"), bp::arg("maxLevels")=(int)(10), bp::arg("minPoints")=(int)(20) )
-                , "\nArgument 'points' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nIn C++, argument 'points' is of type '::std::vector< cv::Point3_<float> > const &'."\
+    "\nIn PyOpenCV, argument 'points' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::Octree::getPointsWithinSphere
@@ -157,7 +159,9 @@ void register_Octree_class(){
                 "getPointsWithinSphere"
                 , default_getPointsWithinSphere_function_type( &Octree_wrapper::default_getPointsWithinSphere )
                 , ( bp::arg("inst"), bp::arg("center"), bp::arg("radius") )
-                , "\nArgument 'points' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+                , "\nIn C++, argument 'points' is of type '::std::vector< cv::Point3_<float> > &'."\
+    "\nIn PyOpenCV, argument 'points' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'points' is an output argument and is omitted from the function's calling sequence." );
         
         }

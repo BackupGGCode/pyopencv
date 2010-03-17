@@ -110,7 +110,9 @@ void register_SpinImageModel_class(){
                 "match"
                 , match_function_type( &match_86773a6b4d89ae97806d1109a2438811 )
                 , ( bp::arg("inst"), bp::arg("scene") )
-                , "\nArgument 'result' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
+                , "\nIn C++, argument 'result' is of type '::std::vector< std::vector< cv::Vec<int, 2> > > &'."\
+    "\nIn PyOpenCV, argument 'result' is a list of Mats, e.g. [Mat(), Mat(), Mat()]."\
+    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]."\
     "\nArgument 'result' is an output argument and is omitted from the function's calling sequence." );
         
         }
@@ -142,7 +144,9 @@ void register_SpinImageModel_class(){
                 "setSubset"
                 , setSubset_function_type( &setSubset_89bf1b6d328936932f08aaf660288e7a )
                 , ( bp::arg("inst"), bp::arg("subset") )
-                , "\nArgument 'subset' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nIn C++, argument 'subset' is of type '::std::vector< int > const &'."\
+    "\nIn PyOpenCV, argument 'subset' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::SpinImageModel::spinCorrelation

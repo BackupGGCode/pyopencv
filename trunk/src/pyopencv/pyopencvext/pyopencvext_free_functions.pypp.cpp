@@ -2995,17 +2995,6 @@ void register_free_functions(){
 
     { //::cv::max
     
-        typedef ::cv::MatExpr_< cv::MatExpr_Op3_< cv::Mat, cv::Mat, int, cv::Mat, cv::MatOp_Bin_< cv::Mat > >, cv::Mat > ( *max_function_type )( ::cv::Mat const &,::cv::Mat const & );
-        
-        bp::def( 
-            "max"
-            , max_function_type( &::cv::max )
-            , ( bp::arg("a"), bp::arg("b") ) );
-    
-    }
-
-    { //::cv::max
-    
         typedef void ( *max_function_type )( ::cv::MatND const &,double,::cv::MatND & );
         
         bp::def( 
@@ -3133,17 +3122,6 @@ void register_free_functions(){
             "medianBlur"
             , medianBlur_function_type( &::cv::medianBlur )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("ksize") ) );
-    
-    }
-
-    { //::cv::min
-    
-        typedef ::cv::MatExpr_< cv::MatExpr_Op3_< cv::Mat, cv::Mat, int, cv::Mat, cv::MatOp_Bin_< cv::Mat > >, cv::Mat > ( *min_function_type )( ::cv::Mat const &,::cv::Mat const & );
-        
-        bp::def( 
-            "min"
-            , min_function_type( &::cv::min )
-            , ( bp::arg("a"), bp::arg("b") ) );
     
     }
 

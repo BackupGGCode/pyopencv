@@ -117,8 +117,12 @@ void register_SelfSimDescriptor_class(){
                 "compute"
                 , default_compute_function_type( &SelfSimDescriptor_wrapper::default_compute )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("descriptors"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("locations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) )
-                , "\nArgument 'descriptors' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'locations' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nIn C++, argument 'descriptors' is of type '::std::vector< float > &'."\
+    "\nIn PyOpenCV, argument 'descriptors' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nIn C++, argument 'locations' is of type '::std::vector< cv::Point_<int> > const &'."\
+    "\nIn PyOpenCV, argument 'locations' is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::SelfSimDescriptor::computeLogPolarMapping
