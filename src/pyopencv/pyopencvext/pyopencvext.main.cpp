@@ -2889,11 +2889,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("image"), bp::arg("sum"), bp::arg("mask")=cv::Mat() )
             , "\nWrapped function: cvAcc."
     "\nArgument 'image', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'sum', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'mask', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'mask', of C++ type '::CvArr const *', is a Mat." );
     
     }
 
@@ -2914,13 +2911,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nAs an output argument, 'curr_features' is omitted from the function's calling sequence."\
     "\nAs an output argument, 'matrices' is omitted from the function's calling sequence."\
     "\nArgument 'prev', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'curr', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'prev_pyr', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'curr_pyr', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'curr_pyr', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -2935,8 +2928,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function: cvCalcArrBackProject."
     "\nArgument 'image', of C++ type '::CvArr * *', is a Mat."\
     "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dst', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'dst', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -2951,8 +2943,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function: cvCalcArrBackProjectPatch."
     "\nArgument 'image', of C++ type '::CvArr * *', is a Mat."\
     "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dst', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'dst', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -2966,13 +2957,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("signature1"), bp::arg("signature2"), bp::arg("distance_type"), bp::arg("distance_func")=bp::object(), bp::arg("cost_matrix")=cv::Mat(), bp::arg("flow")=cv::Mat(), bp::arg("lower_bound")=bp::object(), bp::arg("userdata")=bp::object() )
             , "\nWrapped function: cvCalcEMD2."
     "\nArgument 'signature1', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'signature2', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'cost_matrix', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'flow', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'flow', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -2986,11 +2973,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("orientation"), bp::arg("mask"), bp::arg("mhi"), bp::arg("timestamp"), bp::arg("duration") )
             , "\nWrapped function: cvCalcGlobalOrientation."
     "\nArgument 'orientation', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'mask', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'mhi', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'mhi', of C++ type '::CvArr const *', is a Mat." );
     
     }
 
@@ -3016,11 +3000,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("mhi"), bp::arg("mask"), bp::arg("orientation"), bp::arg("delta1"), bp::arg("delta2"), bp::arg("aperture_size")=(int)(3) )
             , "\nWrapped function: cvCalcMotionGradient."
     "\nArgument 'mhi', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'mask', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'orientation', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'orientation', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3034,13 +3015,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("prev"), bp::arg("curr"), bp::arg("block_size"), bp::arg("shift_size"), bp::arg("max_range"), bp::arg("use_previous"), bp::arg("velx"), bp::arg("vely") )
             , "\nWrapped function: cvCalcOpticalFlowBM."
     "\nArgument 'prev', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'curr', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'velx', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'vely', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'vely', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3054,13 +3031,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("prev"), bp::arg("curr"), bp::arg("use_previous"), bp::arg("velx"), bp::arg("vely"), bp::arg("lambda"), bp::arg("criteria") )
             , "\nWrapped function: cvCalcOpticalFlowHS."
     "\nArgument 'prev', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'curr', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'velx', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'vely', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'vely', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3074,13 +3047,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("prev"), bp::arg("curr"), bp::arg("win_size"), bp::arg("velx"), bp::arg("vely") )
             , "\nWrapped function: cvCalcOpticalFlowLK."
     "\nArgument 'prev', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'curr', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'velx', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'vely', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'vely', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3100,13 +3069,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nAs an output argument, 'track_error' is omitted from the function's calling sequence."\
     "\nAs an output argument, 'curr_features' is omitted from the function's calling sequence."\
     "\nArgument 'prev', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'curr', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'prev_pyr', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'curr_pyr', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'curr_pyr', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3120,9 +3085,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("condens"), bp::arg("lower_bound"), bp::arg("upper_bound") )
             , "\nWrapped function: cvConDensInitSampleSet."
     "\nArgument 'lower_bound', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'upper_bound', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'upper_bound', of C++ type '::CvMat *', is a Mat." );
     
     }
 
@@ -3136,9 +3099,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0) )
             , "\nWrapped function: cvConvertImage."
     "\nArgument 'src', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dst', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'dst', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3152,9 +3113,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("contour"), bp::arg("convexhull"), bp::arg("storage")=bp::object() )
             , "\nWrapped function: cvConvexityDefects."
     "\nArgument 'contour', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'convexhull', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'convexhull', of C++ type '::CvArr const *', is a Mat." );
     
     }
 
@@ -3168,15 +3127,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("F"), bp::arg("points1"), bp::arg("points2"), bp::arg("new_points1"), bp::arg("new_points2") )
             , "\nWrapped function: cvCorrectMatches."
     "\nArgument 'F', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'points1', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'points2', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'new_points1', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'new_points2', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'new_points2', of C++ type '::CvMat *', is a Mat." );
     
     }
 
@@ -3189,8 +3143,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , createKDTree_function_type( &cvCreateKDTree_bedd697814f42b0adb235e1d1bda9bdd )
             , ( bp::arg("desc") )
             , "\nWrapped function: cvCreateKDTree."
-    "\nArgument 'desc', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'desc', of C++ type '::CvMat *', is a Mat." );
     
     }
 
@@ -3203,8 +3156,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , createSpillTree_function_type( &cvCreateSpillTree_22146c3478f3d8c8ff22213a86f1b244 )
             , ( bp::arg("raw_data"), bp::arg("naive")=(int const)(50), bp::arg("rho")=6.99999999999999955591079014993738383054733276367e-1, bp::arg("tau")=1.00000000000000005551115123125782702118158340454e-1 )
             , "\nWrapped function: cvCreateSpillTree."
-    "\nArgument 'raw_data', of C++ type '::CvMat const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'raw_data', of C++ type '::CvMat const *', is a Mat." );
     
     }
 
@@ -3236,11 +3188,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'mask', of C++ type 'float const *', is a Mat."\
     "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'src', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'dst', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'labels', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'labels', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3267,11 +3216,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("A"), bp::arg("B"), bp::arg("M"), bp::arg("full_affine") )
             , "\nWrapped function: cvEstimateRigidTransform."
     "\nArgument 'A', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'B', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'M', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'M', of C++ type '::CvMat *', is a Mat." );
     
     }
 
@@ -3285,11 +3231,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("tr"), bp::arg("query_points"), bp::arg("indices"), bp::arg("dist"), bp::arg("k"), bp::arg("emax")=(int)(20) )
             , "\nWrapped function: cvFindFeatures."
     "\nArgument 'query_points', of C++ type '::CvMat const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'indices', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dist', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'dist', of C++ type '::CvMat *', is a Mat." );
     
     }
 
@@ -3303,11 +3246,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("tr"), bp::arg("bounds_min"), bp::arg("bounds_max"), bp::arg("out_indices") )
             , "\nWrapped function: cvFindFeaturesBoxed."
     "\nArgument 'bounds_min', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'bounds_max', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'out_indices', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'out_indices', of C++ type '::CvMat *', is a Mat." );
     
     }
 
@@ -3334,11 +3274,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("leftImage"), bp::arg("rightImage"), bp::arg("mode"), bp::arg("dispImage"), bp::arg("maxDisparity"), bp::arg("param1")=12345, bp::arg("param2")=12345, bp::arg("param3")=12345, bp::arg("param4")=12345, bp::arg("param5")=12345 )
             , "\nWrapped function: cvFindStereoCorrespondence."
     "\nArgument 'leftImage', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'rightImage', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dispImage', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'dispImage', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3352,13 +3289,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("left"), bp::arg("right"), bp::arg("disparityLeft"), bp::arg("disparityRight"), bp::arg("state"), bp::arg("useDisparityGuess")=(int)(0) )
             , "\nWrapped function: cvFindStereoCorrespondenceGC."
     "\nArgument 'left', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'right', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'disparityLeft', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'disparityRight', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'disparityRight', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3371,8 +3304,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , getElemType_function_type( &cvGetElemType_28303ccd15acadc45a20b8189b3b5941 )
             , ( bp::arg("arr") )
             , "\nWrapped function: cvGetElemType."
-    "\nArgument 'arr', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'arr', of C++ type '::CvArr const *', is a Mat." );
     
     }
 
@@ -3439,11 +3371,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("map_matrix") )
             , "\nWrapped function: cvGetQuadrangleSubPix."
     "\nArgument 'src', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'dst', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'map_matrix', of C++ type '::CvMat const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'map_matrix', of C++ type '::CvMat const *', is a Mat." );
     
     }
 
@@ -3459,8 +3388,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'arrs', of C++ type '::CvArr * *', is a Mat."\
     "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'count' is omitted. Its value is derived from argument 'arrs'."\
-    "\nArgument 'mask', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'mask', of C++ type '::CvArr const *', is a Mat." );
     
     }
 
@@ -3489,9 +3417,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("lsh"), bp::arg("data"), bp::arg("indices")=cv::Mat() )
             , "\nWrapped function: cvLSHAdd."
     "\nArgument 'data', of C++ type '::CvMat const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'indices', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'indices', of C++ type '::CvMat *', is a Mat." );
     
     }
 
@@ -3505,11 +3431,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("lsh"), bp::arg("query_points"), bp::arg("indices"), bp::arg("dist"), bp::arg("k"), bp::arg("emax") )
             , "\nWrapped function: cvLSHQuery."
     "\nArgument 'query_points', of C++ type '::CvMat const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'indices', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dist', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'dist', of C++ type '::CvMat *', is a Mat." );
     
     }
 
@@ -3522,8 +3445,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , LSHRemove_function_type( &cvLSHRemove_5f32fb503216c52038c4ae3bf17b62db )
             , ( bp::arg("lsh"), bp::arg("indices") )
             , "\nWrapped function: cvLSHRemove."
-    "\nArgument 'indices', of C++ type '::CvMat const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'indices', of C++ type '::CvMat const *', is a Mat." );
     
     }
 
@@ -3537,9 +3459,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("center"), bp::arg("maxRadius"), bp::arg("flags")=(int)(9) )
             , "\nWrapped function: cvLinearPolar."
     "\nArgument 'src', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'dst', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'center', of C++ type '::CvPoint2D32f', is a Point2f." );
     
     }
@@ -3554,9 +3474,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("center"), bp::arg("M"), bp::arg("flags")=(int)(9) )
             , "\nWrapped function: cvLogPolar."
     "\nArgument 'src', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'dst', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'center', of C++ type '::CvPoint2D32f', is a Point2f." );
     
     }
@@ -3571,13 +3489,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("image1"), bp::arg("image2"), bp::arg("acc"), bp::arg("mask")=cv::Mat() )
             , "\nWrapped function: cvMultiplyAcc."
     "\nArgument 'image1', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'image2', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'acc', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'mask', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'mask', of C++ type '::CvArr const *', is a Mat." );
     
     }
 
@@ -3590,8 +3504,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , pointSeqFromMat_function_type( &cvPointSeqFromMat_ef8459cfef37d715411cf088e0da5576 )
             , ( bp::arg("seq_kind"), bp::arg("mat"), bp::arg("contour_header"), bp::arg("block") )
             , "\nWrapped function: cvPointSeqFromMat."
-    "\nArgument 'mat', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'mat', of C++ type '::CvArr const *', is a Mat." );
     
     }
 
@@ -3605,9 +3518,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("sp"), bp::arg("sr"), bp::arg("max_level")=(int)(1), bp::arg("termcrit")=cv::TermCriteria(3, 5, 1.0e+0) )
             , "\nWrapped function: cvPyrMeanShiftFiltering."
     "\nArgument 'src', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dst', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'dst', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3622,9 +3533,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function: cvPyrSegmentation."
     "\nArgument 'comp' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object."\
     "\nArgument 'src', of C++ type '::IplImage *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dst', of C++ type '::IplImage *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'dst', of C++ type '::IplImage *', is a Mat." );
     
     }
 
@@ -3638,7 +3547,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("rng"), bp::arg("arr"), bp::arg("dist_type"), bp::arg("param1"), bp::arg("param2") )
             , "\nWrapped function: cvRandArr."
     "\nArgument 'arr', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'rng', of C++ type '::CvRNG *', is a RNG." );
     
     }
@@ -3652,8 +3560,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , range__function_type( &cvRange_073a997114e2c96bbeff2aaa986e76a1 )
             , ( bp::arg("mat"), bp::arg("start"), bp::arg("end") )
             , "\nWrapped function: cvRange."
-    "\nArgument 'mat', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'mat', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3810,11 +3717,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("disparityImage"), bp::arg("_3dImage"), bp::arg("Q"), bp::arg("handleMissingValues")=(int)(0) )
             , "\nWrapped function: cvReprojectImageTo3D."
     "\nArgument 'disparityImage', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument '_3dImage', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'Q', of C++ type '::CvMat const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'Q', of C++ type '::CvMat const *', is a Mat." );
     
     }
 
@@ -3828,11 +3732,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("image"), bp::arg("acc"), bp::arg("alpha"), bp::arg("mask")=cv::Mat() )
             , "\nWrapped function: cvRunningAvg."
     "\nArgument 'image', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'acc', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'mask', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'mask', of C++ type '::CvArr const *', is a Mat." );
     
     }
 
@@ -3858,8 +3759,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , sampleLine_function_type( &cvSampleLine_9eb7a74db955c3538aef5be3e7392fc5 )
             , ( bp::arg("image"), bp::arg("pt1"), bp::arg("pt2"), bp::arg("buffer"), bp::arg("connectivity")=(int)(8) )
             , "\nWrapped function: cvSampleLine."
-    "\nArgument 'image', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'image', of C++ type '::CvArr const *', is a Mat." );
     
     }
 
@@ -3873,9 +3773,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("srcarr"), bp::arg("dstarr"), bp::arg("canny_threshold"), bp::arg("ffill_threshold"), bp::arg("storage") )
             , "\nWrapped function: cvSegmentImage."
     "\nArgument 'srcarr', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dstarr', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'dstarr', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3889,9 +3787,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("mhi"), bp::arg("seg_mask"), bp::arg("storage"), bp::arg("timestamp"), bp::arg("seg_thresh") )
             , "\nWrapped function: cvSegmentMotion."
     "\nArgument 'mhi', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'seg_mask', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'seg_mask', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3904,8 +3800,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , seqInsertSlice_function_type( &cvSeqInsertSlice_870f54253b0103a244c6ac596f2820c4 )
             , ( bp::arg("seq"), bp::arg("before_index"), bp::arg("from_arr") )
             , "\nWrapped function: cvSeqInsertSlice."
-    "\nArgument 'from_arr', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'from_arr', of C++ type '::CvArr const *', is a Mat." );
     
     }
 
@@ -3935,9 +3830,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("smoothtype")=(int)(2), bp::arg("size1")=(int)(3), bp::arg("size2")=(int)(0), bp::arg("sigma1")=0, bp::arg("sigma2")=0 )
             , "\nWrapped function: cvSmooth."
     "\nArgument 'src', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dst', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'dst', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -3951,9 +3844,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("coeffs"), bp::arg("roots") )
             , "\nWrapped function: cvSolveCubic."
     "\nArgument 'coeffs', of C++ type '::CvMat const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'roots', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'roots', of C++ type '::CvMat *', is a Mat." );
     
     }
 
@@ -3967,9 +3858,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("coeffs"), bp::arg("roots2"), bp::arg("maxiter")=(int)(20), bp::arg("fig")=(int)(100) )
             , "\nWrapped function: cvSolvePoly."
     "\nArgument 'coeffs', of C++ type '::CvMat const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'roots2', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'roots2', of C++ type '::CvMat *', is a Mat." );
     
     }
 
@@ -3983,11 +3872,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("image"), bp::arg("sqsum"), bp::arg("mask")=cv::Mat() )
             , "\nWrapped function: cvSquareAcc."
     "\nArgument 'image', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'sqsum', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'mask', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'mask', of C++ type '::CvArr const *', is a Mat." );
     
     }
 
@@ -4000,8 +3886,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , startFindContours_function_type( &cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc )
             , ( bp::arg("image"), bp::arg("storage"), bp::arg("header_size")=(int)(88u), bp::arg("mode")=(int)(1), bp::arg("method")=(int)(2), bp::arg("offset")=cv::Point(0, 0) )
             , "\nWrapped function: cvStartFindContours."
-    "\nArgument 'image', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'image', of C++ type '::CvArr *', is a Mat." );
     
     }
 
@@ -4096,15 +3981,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("projMatr1"), bp::arg("projMatr2"), bp::arg("projPoints1"), bp::arg("projPoints2"), bp::arg("points4D") )
             , "\nWrapped function: cvTriangulatePoints."
     "\nArgument 'projMatr1', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'projMatr2', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'projPoints1', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'projPoints2', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'points4D', of C++ type '::CvMat *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'points4D', of C++ type '::CvMat *', is a Mat." );
     
     }
 
@@ -4130,9 +4010,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("silhouette"), bp::arg("mhi"), bp::arg("timestamp"), bp::arg("duration") )
             , "\nWrapped function: cvUpdateMotionHistory."
     "\nArgument 'silhouette', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'mhi', of C++ type '::CvArr *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'mhi', of C++ type '::CvArr *', is a Mat." );
     
     }
 

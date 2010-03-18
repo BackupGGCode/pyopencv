@@ -221,9 +221,10 @@ def doc_common(func, func_arg, type_str):
 def doc_list_of_Mat(func, func_arg):
     common.add_func_boost_doc(func, "Argument '%s', of C++ type '%s', is a list of Mat, e.g. [Mat(), Mat(), Mat()]." % (func_arg.name, func_arg.type.partial_decl_string))
     
-def doc_Mat(func, func_arg):
+def doc_Mat(func, func_arg, from_list=False):
     doc_common(func, func_arg, "Mat")
-    common.add_func_boost_doc(func, "Use function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2)).")
+    if from_list:
+        common.add_func_boost_doc(func, "Use function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2)).")
 
 def doc_list(func, func_arg):
     doc_common(func, func_arg, "list")
@@ -408,7 +409,7 @@ class input_array1d_t(transformer.transformer_t):
                 w_arg.default_value = 'cv::Mat()'
             else:
                 w_arg.type = _D.dummy_type_t( "cv::Mat const &" )
-            doc_Mat(self.function, self.arg)
+            doc_Mat(self.function, self.arg, True)
         
             # input array
             l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name )
@@ -1313,7 +1314,7 @@ class arg_std_vector_t(transformer_t):
             str_pyobj_type = "cv::Mat"
             str_cvt_to_pyobj = "convert_from_vector_of_T_to_Mat"
             str_cvt_from_pyobj = "convert_from_Mat_to_vector_of_T"
-            doc_Mat(self.function, self.arg)
+            doc_Mat(self.function, self.arg, True)
 
         else: # vector
             str_pyobj_type = "bp::list"

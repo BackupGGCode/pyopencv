@@ -29,8 +29,7 @@ void register_CvObjectDetector_class(){
                 "Detect"
                 , Detect_function_type( &Detect_d8fa7b620f024b1a2f20fc4afa978e15 )
                 , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1")=bp::object() )
-                , "\nArgument 'arg0', of C++ type '::CvArr const *', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nArgument 'arg0', of C++ type '::CvArr const *', is a Mat." );
         
         }
         { //::CvObjectDetector::GetMaxBorderSize
