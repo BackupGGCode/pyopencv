@@ -195,7 +195,8 @@ void register_SparseMat_class(){
                 "create"
                 , create_function_type( &create_4e9dc46b2911de920c7af1dfbb19412a )
                 , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") )
-                , "\nArgument '_sizes' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+                , "\nArgument '_sizes', of C++ type 'int const *', is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
     "\nArgument 'dims' is omitted. Its value is derived from argument '_sizes'." );
         
         }
@@ -269,7 +270,8 @@ void register_SparseMat_class(){
                 , ( bp::arg("inst"), bp::arg("idx") )
                 , "\nWrapped function: erase."
     "\nArgument 'hashval' is an output argument and is omitted from the function's calling sequence. It is returned as an object rather than as a pointer to an object."\
-    "\nArgument 'idx' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'idx', of C++ type 'int const *', is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::SparseMat::hash
@@ -311,7 +313,8 @@ void register_SparseMat_class(){
                 , hash_19477be6a05d6299f1601326adc61332_function_type( &hash_19477be6a05d6299f1601326adc61332 )
                 , ( bp::arg("inst"), bp::arg("idx") )
                 , "\nWrapped function: hash."
-    "\nArgument 'idx' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+    "\nArgument 'idx', of C++ type 'int const *', is a Mat."\
+    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::SparseMat::nzcount

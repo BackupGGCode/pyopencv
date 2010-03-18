@@ -168,8 +168,8 @@ void register_CvKNearest_class(){
             "read"
             , (void (*)( ::CvStatModel &,::cv::FileStorage &,::cv::FileNode & ))( &CvKNearest_wrapper::default_read )
             , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-            , "\nArgument 'storage' is a FileStorage instead of a CvFileStorage."\
-    "\nArgument 'node' is a FileNode instead of a CvFileNode." )    
+            , "\nArgument 'storage', of C++ type '::CvFileStorage *', is a FileStorage."\
+    "\nArgument 'node', of C++ type '::CvFileNode *', is a FileNode." )    
         .def( 
             "save"
             , (void ( ::CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
@@ -179,7 +179,7 @@ void register_CvKNearest_class(){
             "write"
             , (void (*)( ::CvStatModel const &,::cv::FileStorage &,char const * ))( &CvKNearest_wrapper::default_write )
             , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
-            , "\nArgument 'storage' is a FileStorage instead of a CvFileStorage." )    
+            , "\nArgument 'storage', of C++ type '::CvFileStorage *', is a FileStorage." )    
         .def("find_nearest", &CvKNearest_wrapper::sd_find_nearest
         , (bp::arg("_samples"), bp::arg("k"), bp::arg("results"), bp::arg("return_neighbors_by_addr")=false, bp::arg("neighbor_response")=cv::Mat(), bp::arg("dist")=cv::Mat() ));
 

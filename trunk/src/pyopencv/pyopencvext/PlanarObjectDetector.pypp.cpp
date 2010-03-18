@@ -122,8 +122,7 @@ void register_PlanarObjectDetector_class(){
                 , __call___function_type( &PlanarObjectDetector_wrapper::__call___4ace94e257458a02821c3e23f229be80 )
                 , ( bp::arg("inst"), bp::arg("image"), bp::arg("H"), bp::arg("corners") )
                 , "\nWrapped function: operator()."
-    "\nIn C++, argument 'corners' is of type '::std::vector< cv::Point_<float> > &'."\
-    "\nIn PyOpenCV, argument 'corners' is a Mat."\
+    "\nArgument 'corners', of C++ type '::std::vector< cv::Point_<float> > &', is a Mat."\
     "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
@@ -156,8 +155,7 @@ void register_PlanarObjectDetector_class(){
                 , default_train_54eace8da687689cec07018f6937568f_function_type( &PlanarObjectDetector_wrapper::default_train_54eace8da687689cec07018f6937568f )
                 , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("_npoints")=(int)(300), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )
                 , "\nWrapped function: train."
-    "\nIn C++, argument 'pyr' is of type '::std::vector< cv::Mat > const &'."\
-    "\nIn PyOpenCV, argument 'pyr' is a list."\
+    "\nArgument 'pyr', of C++ type '::std::vector< cv::Mat > const &', is a list."\
     "\nTo convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'." );
         
         }
@@ -170,11 +168,9 @@ void register_PlanarObjectDetector_class(){
                 , default_train_397cef68f28ef0598cf4d0402f508184_function_type( &PlanarObjectDetector_wrapper::default_train_397cef68f28ef0598cf4d0402f508184 )
                 , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("keypoints"), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )
                 , "\nWrapped function: train."
-    "\nIn C++, argument 'pyr' is of type '::std::vector< cv::Mat > const &'."\
-    "\nIn PyOpenCV, argument 'pyr' is a list."\
+    "\nArgument 'pyr', of C++ type '::std::vector< cv::Mat > const &', is a list."\
     "\nTo convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'."\
-    "\nIn C++, argument 'keypoints' is of type '::std::vector< cv::KeyPoint > const &'."\
-    "\nIn PyOpenCV, argument 'keypoints' is a list."\
+    "\nArgument 'keypoints', of C++ type '::std::vector< cv::KeyPoint > const &', is a list."\
     "\nTo convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'." );
         
         }

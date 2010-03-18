@@ -2183,6 +2183,18 @@ CvStereoGCState.__del__ = _CvStereoGCState__del__
 
     
     
+CV_UNDEF_SC_PARAM = 12345
+
+CV_IDP_BIRCHFIELD_PARAM1  = 25    
+CV_IDP_BIRCHFIELD_PARAM2  = 5
+CV_IDP_BIRCHFIELD_PARAM3  = 12
+CV_IDP_BIRCHFIELD_PARAM4  = 15
+CV_IDP_BIRCHFIELD_PARAM5  = 25
+
+CV_DISPARITY_BIRCHFIELD  = 0    
+
+
+    
 #-----------------------------------------------------------------------------
 # Contour Morphing
 #-----------------------------------------------------------------------------
