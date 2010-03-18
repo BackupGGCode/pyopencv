@@ -9,3 +9,5 @@ Provide more demos
 Fix squares.py demo, something's wrong with the algorithm. It's running but too slow.
 
 Improve FernClassifier's type vector<Ptr<Mat > > > 
+
+Add iterator for SparseMat

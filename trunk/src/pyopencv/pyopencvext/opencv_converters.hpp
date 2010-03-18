@@ -230,6 +230,15 @@ template<> inline int n_elems_of<cv::Range>() { return 2; }
 
 
 // ================================================================================================
+// Common converters
+template<typename T>
+inline void convert_from_vector_to_array(std::vector<T> const &in_arr, T *&out_arr, int &out_len)
+{
+    out_len = in_arr.size();
+    out_arr = &in_arr[0];
+}
+
+// ================================================================================================
 // New converters related to cv::Mat
 
 // ------------------------------------------------------------------------------------------------
@@ -563,7 +572,6 @@ void convert_seq_to_vector( const bp::object &in_arr, std::vector<T> &out_arr )
     
     // others
     int len = bp::len(in_arr);
-    if(!len) return;
     out_arr.resize(len);
     for(int i = 0; i < len; ++i) out_arr[i] = bp::extract<T>(in_arr[i]);
 }
@@ -716,6 +724,30 @@ bp::list convert_from_Mat_to_seq(cv::Mat const &in_arr)
 
 CvMat * get_CvMat_ptr(cv::Mat const &mat);
 IplImage * get_IplImage_ptr(cv::Mat const &mat);
+
+// convert from a sequence of Mat to vector of Mat-equivalent type
+// i.e. IplImage, CvMat, IplImage *, CvMat *, cv::Mat, cv::Mat *
+template<typename T>
+void convert_from_seq_of_Mat_to_vector_of_T(bp::sequence const &in_arr, std::vector<T> &out_arr)
+{
+    char s[300];
+    sprintf( s, "Instantiation of function convert_from_seq_of_Mat_to_vector_of_T() for class '%s' is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
+    throw bp::error_already_set(); 
+}
+
+#define CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(Type) \
+template<> void convert_from_seq_of_Mat_to_vector_of_T(bp::sequence const &in_arr, std::vector<Type> &out_arr)
+
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(IplImage);
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(IplImage *);
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(CvMat);
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(CvMat *);
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Mat);
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Mat *);
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Ptr<cv::Mat>);
+
+
 
 // ================================================================================================
 

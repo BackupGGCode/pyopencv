@@ -39,6 +39,71 @@ IplImage * get_IplImage_ptr(cv::Mat const &mat)
     return result;
 }
 
+// ------------------------------------------------------------------------------------------------
+// convert from a sequence of Mat to vector of Mat-equivalent type
+// i.e. IplImage, CvMat, IplImage *, CvMat *, cv::Mat, cv::Mat *
+
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(IplImage)
+{
+    int len = bp::len(in_arr);
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) 
+        out_arr[i] = (cv::Mat const &)(bp::extract<cv::Mat const &>(in_arr[i]));
+}
+
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(IplImage *)
+{
+    int len = bp::len(in_arr);
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) 
+        out_arr[i] = get_IplImage_ptr(bp::extract<cv::Mat const &>(in_arr[i]));
+}
+
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(CvMat)
+{
+    int len = bp::len(in_arr);
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) 
+        out_arr[i] = (cv::Mat const &)(bp::extract<cv::Mat const &>(in_arr[i]));
+}
+
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(CvMat *)
+{
+    int len = bp::len(in_arr);
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) 
+        out_arr[i] = get_CvMat_ptr(bp::extract<cv::Mat const &>(in_arr[i]));
+}
+
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Mat)
+{
+    int len = bp::len(in_arr);
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) 
+        out_arr[i] = bp::extract<cv::Mat &>(in_arr[i]);
+}
+
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Mat *)
+{
+    int len = bp::len(in_arr);
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) 
+        out_arr[i] = bp::extract<cv::Mat *>(in_arr[i]);
+}
+
+CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Ptr<cv::Mat>)
+{
+    int len = bp::len(in_arr);
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i)
+    {
+        cv::Mat *obj = new cv::Mat();
+        *obj = bp::extract<cv::Mat const &>(in_arr[i]);
+        out_arr[i] = cv::Ptr<cv::Mat>(obj);
+    }
+}
+
+
 
 // ================================================================================================
 

@@ -1155,6 +1155,89 @@ def input_as_Mat( *args, **keywd ):
         return input_as_Mat_t( function, *args, **keywd )
     return creator
     
+    
+# input_as_list_of_Mat_t
+class input_as_list_of_Mat_t(transformer_t):
+    """Converts an input/inout argument type into a sequence of cv::Mat."""
+
+    def __init__(self, function, arg_ref, arg_size_ref=None):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+        
+        print "arg.type=", self.arg.type.partial_decl_string
+        
+        if not 'std::vector' in self.arg.type.partial_decl_string:
+            self.arg_size = self.get_argument( arg_size_ref )
+            self.arg_size_index = self.function.arguments.index( self.arg_size )
+        else:
+            self.arg_size = None
+
+        elem_type_dict = {
+            "::IplImage *": "::IplImage",
+            "::IplImage const *": "::IplImage",
+            "::IplImage **": "::IplImage *",
+            "::IplImage const **": "::IplImage *",
+            "::CvMat *": "::CvMat",
+            "::CvMat const *": "::CvMat",
+            "::CvArr *": "::CvMat",
+            "::CvArr const *": "::CvMat",
+            "::CvMat **": "::CvMat *",
+            "::CvMat const **": "::CvMat *",
+            "::CvArr **": "::CvMat *",
+            "::CvArr const **": "::CvMat *",
+        }
+        self.elem_type_str = elem_type_dict[self.arg.type.partial_decl_string]
+
+    def __str__(self):
+        return "input_as_list_of_Mat(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg(self.arg.name)
+        w_arg.type = _D.dummy_type_t( "bp::sequence" )
+        
+        # intermediate variable
+        vec = controller.declare_variable(_D.dummy_type("std::vector<%s >" % self.elem_type_str), self.arg.name)
+        
+        # pre_call
+        controller.add_pre_call_code("convert_from_seq_of_Mat_to_vector_of_T(%s, %s);" % (w_arg.name, vec))
+            
+        if is_array:
+            # code
+            controller.modify_arg_expression( self.arg_index, "get_IplImage_ptr(%s)" % w_arg.name)
+        else:
+
+            
+            
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is a Mat instead of a pointer to IplImage." % self.arg.name)
+        # code
+        controller.modify_arg_expression( self.arg_index, "get_CvMat_ptr(%s)" % w_arg.name)
+
+        # documentation
+        common.add_func_boost_doc(self.function, "Argument '%s' is a Mat instead of a pointer to CvMat." % self.arg.name)
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_converters.hpp"]
+
+def input_as_list_of_Mat( *args, **keywd ):
+    def creator( function ):
+        return input_as_list_of_Mat_t( function, *args, **keywd )
+    return creator
+    
 
 def get_vector_elem_type(vector_type):
     """Returns the element type of a std::vector type."""
