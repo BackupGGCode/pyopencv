@@ -202,8 +202,8 @@ void register_CvERTrees_class(){
             "read"
             , (void (*)( ::CvRTrees &,::cv::FileStorage &,::cv::FileNode & ))( &CvERTrees_wrapper::default_read )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-            , "\nArgument 'fs' is a FileStorage instead of a CvFileStorage."\
-    "\nArgument 'node' is a FileNode instead of a CvFileNode." )    
+            , "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage."\
+    "\nArgument 'node', of C++ type '::CvFileNode *', is a FileNode." )    
         .def( 
             "save"
             , (void ( ::CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
@@ -213,6 +213,6 @@ void register_CvERTrees_class(){
             "write"
             , (void (*)( ::CvRTrees const &,::cv::FileStorage &,char const * ))( &CvERTrees_wrapper::default_write )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
-            , "\nArgument 'fs' is a FileStorage instead of a CvFileStorage." );
+            , "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage." );
 
 }

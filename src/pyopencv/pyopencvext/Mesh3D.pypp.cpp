@@ -73,8 +73,7 @@ void register_Mesh3D_class(){
                 "computeNormals"
                 , computeNormals_function_type( &computeNormals_0372659dbb67ca1f98a084bb3e33c861 )
                 , ( bp::arg("inst"), bp::arg("subset"), bp::arg("normalRadius"), bp::arg("minNeighbors")=(int)(20) )
-                , "\nIn C++, argument 'subset' is of type '::std::vector< int > const &'."\
-    "\nIn PyOpenCV, argument 'subset' is a Mat."\
+                , "\nArgument 'subset', of C++ type '::std::vector< int > const &', is a Mat."\
     "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
@@ -96,8 +95,7 @@ void register_Mesh3D_class(){
                 "writeAsVrml"
                 , writeAsVrml_function_type( &writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a )
                 , ( bp::arg("inst"), bp::arg("file"), bp::arg("colors")=convert_from_vector_of_T_to_Mat(std::vector<cv::Scalar>()) )
-                , "\nIn C++, argument 'colors' is of type '::std::vector< cv::Scalar_<double> > const &'."\
-    "\nIn PyOpenCV, argument 'colors' is a Mat."\
+                , "\nArgument 'colors', of C++ type '::std::vector< cv::Scalar_<double> > const &', is a Mat."\
     "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
         
         }

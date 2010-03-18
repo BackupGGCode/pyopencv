@@ -31,8 +31,7 @@ void register_IntegralHistogram_class(){
             "calcHist"
             , (void (*)( ::sdopencv::IntegralHistogram &,::cv::Rect,cv::Mat & ))( &calcHist_7e977de6e27427b53a27b192cb2b370c )
             , ( bp::arg("inst"), bp::arg("rect"), bp::arg("out_hist") )
-            , "\nIn C++, argument 'out_hist' is of type '::std::vector< int > &'."\
-    "\nIn PyOpenCV, argument 'out_hist' is a Mat."\
+            , "\nArgument 'out_hist', of C++ type '::std::vector< int > &', is a Mat."\
     "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." )    
         .def( 
             "get_index"

@@ -259,8 +259,8 @@ void register_CvBlobSeq_class(){
                 "Load"
                 , default_Load_function_type( &CvBlobSeq_wrapper::default_Load )
                 , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-                , "\nArgument 'fs' is a FileStorage instead of a CvFileStorage."\
-    "\nArgument 'node' is a FileNode instead of a CvFileNode." );
+                , "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage."\
+    "\nArgument 'node', of C++ type '::CvFileNode *', is a FileNode." );
         
         }
         { //::CvBlobSeq::Write
@@ -271,7 +271,7 @@ void register_CvBlobSeq_class(){
                 "Write"
                 , default_Write_function_type( &CvBlobSeq_wrapper::default_Write )
                 , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
-                , "\nArgument 'fs' is a FileStorage instead of a CvFileStorage." );
+                , "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage." );
         
         }
     }
