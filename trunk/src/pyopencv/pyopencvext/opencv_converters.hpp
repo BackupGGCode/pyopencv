@@ -752,5 +752,31 @@ CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Ptr<cv::Mat>);
 // ================================================================================================
 
 
+CvMatND * get_CvMatND_ptr(cv::MatND const &matnd);
+
+
+// convert from a sequence of MatND to vector of MatND-equivalent type
+// i.e. CvMatND, CvMatND *, cv::MatND, cv::MatND *
+template<typename T>
+void convert_from_seq_of_MatND_to_vector_of_T(bp::sequence const &in_arr, std::vector<T> &out_arr)
+{
+    char s[300];
+    sprintf( s, "Instantiation of function convert_from_seq_of_MatND_to_vector_of_T() for class '%s' is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
+    throw bp::error_already_set(); 
+}
+
+#define CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(Type) \
+template<> void convert_from_seq_of_MatND_to_vector_of_T(bp::sequence const &in_arr, std::vector<Type> &out_arr)
+
+CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(CvMatND);
+CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(CvMatND *);
+CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(cv::MatND);
+CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(cv::MatND *);
+
+
+// ================================================================================================
+
+
 
 #endif
