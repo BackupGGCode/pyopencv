@@ -221,6 +221,9 @@ def doc_common(func, func_arg, type_str):
 def doc_list_of_Mat(func, func_arg):
     common.add_func_boost_doc(func, "Argument '%s', of C++ type '%s', is a list of Mat, e.g. [Mat(), Mat(), Mat()]." % (func_arg.name, func_arg.type.partial_decl_string))
     
+def doc_list_of_MatND(func, func_arg):
+    common.add_func_boost_doc(func, "Argument '%s', of C++ type '%s', is a list of MatND, e.g. [MatND(), MatND()]." % (func_arg.name, func_arg.type.partial_decl_string))
+    
 def doc_Mat(func, func_arg, from_list=False):
     doc_common(func, func_arg, "Mat")
     if from_list:
@@ -1189,7 +1192,8 @@ class input_as_list_of_Mat_t(transformer_t):
         
         print "arg.type=", self.arg.type.partial_decl_string
         
-        if not 'std::vector' in self.arg.type.partial_decl_string:
+        self.is_vector = 'std::vector' in self.arg.type.partial_decl_string
+        if arg_size_ref is not None:
             self.arg_size = self.get_argument( arg_size_ref )
             self.arg_size_index = self.function.arguments.index( self.arg_size )
         else:
@@ -1219,21 +1223,27 @@ class input_as_list_of_Mat_t(transformer_t):
         w_arg.type = _D.dummy_type_t( "bp::sequence" )
         
         # intermediate variable
-        vec = controller.declare_variable(_D.dummy_type("std::vector<%s >" % self.elem_type_str), self.arg.name)
+        vec = controller.declare_variable(_D.dummy_type_t("std::vector< %s >" % self.elem_type_str), self.arg.name)
         
         # pre_call
         controller.add_pre_call_code("convert_from_seq_of_Mat_to_vector_of_T(%s, %s);" % (w_arg.name, vec))
             
-        if self.arg_size is None:
+        if self.is_vector:
             # code
             controller.modify_arg_expression(self.arg_index, vec)
         else:
             # code
-            controller.modify_arg_expression(self.arg_index, "&%s[0]" % vec)
-            controller.modify_arg_expression(self.arg_size_index, "%s.size()" % vec)
+            controller.modify_arg_expression(self.arg_index, "(%s)&%s[0]" \
+                % (self.arg.type.partial_decl_string, vec))
+            if self.arg_size is not None:
+                controller.modify_arg_expression(self.arg_size_index, "%s.size()" % vec)
+                #removing arg_size from the function wrapper definition
+                controller.remove_wrapper_arg( self.arg_size.name )
+                common.add_func_boost_doc(self.function, "Argument '%s' is omitted. Its value is derived from argument '%s'." % (self.arg_size.name, self.arg.name))
+
 
         # documentation
-        doc_list_of_Mat(self.function, self.arg)
+        doc_list_of_MatND(self.function, self.arg)
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -1254,6 +1264,88 @@ class input_as_list_of_Mat_t(transformer_t):
 def input_as_list_of_Mat( *args, **keywd ):
     def creator( function ):
         return input_as_list_of_Mat_t( function, *args, **keywd )
+    return creator
+    
+
+# input_as_list_of_MatND_t
+class input_as_list_of_MatND_t(transformer_t):
+    """Converts an input/inout argument type into a sequence of cv::MatND."""
+
+    def __init__(self, function, arg_ref, arg_size_ref=None):
+        transformer.transformer_t.__init__( self, function )
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+        
+        print "arg.type=", self.arg.type.partial_decl_string
+        
+        self.is_vector = 'std::vector' in self.arg.type.partial_decl_string
+        if arg_size_ref is not None:
+            self.arg_size = self.get_argument( arg_size_ref )
+            self.arg_size_index = self.function.arguments.index( self.arg_size )
+        else:
+            self.arg_size = None
+
+        elem_type_dict = {
+            "::CvMatND *": "::CvMatND",
+            "::CvMatND const *": "::CvMatND",
+            "::CvMatND * *": "::CvMatND *",
+            "::CvMatND const * *": "::CvMatND *",
+            "::cv::MatND *": "::cv::MatND",
+            "::cv::MatND const *": "::cv::MatND",
+            "::cv::MatND * *": "::cv::MatND *",
+            "::cv::MatND const * *": "::cv::MatND *",
+        }
+        self.elem_type_str = elem_type_dict[self.arg.type.partial_decl_string]
+
+    def __str__(self):
+        return "input_as_list_of_MatND(%s)" % self.arg.name
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg(self.arg.name)
+        w_arg.type = _D.dummy_type_t( "bp::sequence" )
+        
+        # intermediate variable
+        vec = controller.declare_variable(_D.dummy_type_t("std::vector< %s >" % self.elem_type_str), self.arg.name)
+        
+        # pre_call
+        controller.add_pre_call_code("convert_from_seq_of_MatND_to_vector_of_T(%s, %s);" % (w_arg.name, vec))
+            
+        if self.is_vector:
+            # code
+            controller.modify_arg_expression(self.arg_index, vec)
+        else:
+            # code
+            controller.modify_arg_expression(self.arg_index, "(%s)&%s[0]" \
+                % (self.arg.type.partial_decl_string, vec))
+            if self.arg_size is not None:
+                controller.modify_arg_expression(self.arg_size_index, "%s.size()" % vec)
+                #removing arg_size from the function wrapper definition
+                controller.remove_wrapper_arg( self.arg_size.name )
+                common.add_func_boost_doc(self.function, "Argument '%s' is omitted. Its value is derived from argument '%s'." % (self.arg_size.name, self.arg.name))
+
+
+        # documentation
+        doc_list_of_Mat(self.function, self.arg)
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_converters.hpp"]
+
+def input_as_list_of_MatND( *args, **keywd ):
+    def creator( function ):
+        return input_as_list_of_MatND_t( function, *args, **keywd )
     return creator
     
 

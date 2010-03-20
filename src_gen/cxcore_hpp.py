@@ -468,10 +468,13 @@ MatND.__repr__ = _MatND__repr__
     
 
     # NAryMatNDIterator
-    # wait until requested: fix the rest of the member declarations
     z = mb.class_('NAryMatNDIterator')
-    z.include()
-    z.decls().exclude()
+    mb.init_class(z)
+    z.constructors(lambda x: "MatND const *" in x.partial_decl_string).exclude() # TODO: fix these constructors
+    for t in ('arrays', 'planes'): # TODO: expose these variables of type std::vector<Mat..>
+        z.var(t).exclude()
+    z.mem_fun('init')._transformer_creators.append(FT.input_as_list_of_MatND('arrays', 'count'))
+    mb.finalize_class(z)
     
     # SparseMat
     # wait until requested: fix the rest of the member declarations

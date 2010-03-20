@@ -107,6 +107,56 @@ CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Ptr<cv::Mat>)
 
 // ================================================================================================
 
+// workaround for getting a CvMatND pointer
+CvMatND * get_CvMatND_ptr(cv::MatND const &matnd)
+{
+    static int cnt = 0;
+    static CvMatND arr[1024];
+    CvMatND *result = &(arr[cnt] = matnd);
+    cnt = (cnt+1) & 1023;
+    return result;
+}
+
+
+// convert from a sequence of MatND to vector of MatND-equivalent type
+// i.e. CvMatND, CvMatND *, cv::MatND, cv::MatND *
+CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(CvMatND)
+{
+    int len = bp::len(in_arr);
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) 
+        out_arr[i] = (cv::MatND const &)(bp::extract<cv::MatND const &>(in_arr[i]));
+}
+
+CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(CvMatND *)
+{
+    int len = bp::len(in_arr);
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) 
+        out_arr[i] = get_CvMatND_ptr(bp::extract<cv::MatND const &>(in_arr[i]));
+}
+
+CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(cv::MatND)
+{
+    int len = bp::len(in_arr);
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) 
+        out_arr[i] = bp::extract<cv::MatND &>(in_arr[i]);
+}
+
+CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(cv::MatND *)
+{
+    int len = bp::len(in_arr);
+    out_arr.resize(len);
+    for(int i = 0; i < len; ++i) 
+        out_arr[i] = bp::extract<cv::MatND *>(in_arr[i]);
+}
+
+
+
+
+// ================================================================================================
+
 // convert_vector_to_seq
 
 #define CONVERT_VECTOR_TO_NDARRAY(VectType) \
