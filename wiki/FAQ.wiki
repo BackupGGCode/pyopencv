@@ -6,10 +6,16 @@
 
 No, not yet. But it is a feature I hope PyOpenCV will have one day. The main problem is that I do not have a 64-bit platform to test with.
 
+==Is PyOpenCV compatible with Python 3?==
+
+Boost.Python is now compatible with Python 3. When NumPy is eventually compatible with Python 3, I will refine PyOpenCV to make it compatible with Python 3.
+
 ==Declaration X or declaration X of class Y is not exposed. Can I have it exposed?==
 
 If the declaration you are looking for belongs to the old C interface, check if there is an equivalent declaration in the new C++ interface. Otherwise, find the related issue in the "Issues" tab (or file one if there is none), and post your request. I will try to fix the issue when I have time. Certainly, the more requests there are, the higher priority the issue will receive.
 
-==Is PyOpenCV compatible with Python 3?==
+==Is there any efficient way to find the relationship between an API in C and in pyopencv? For example, how can I find the correspondence of the method, cvNormalizeHist()?==
 
-Boost.Python is now compatible with Python 3. When NumPy is eventually compatible with Python 3, I will refine PyOpenCV to make it compatible with Python 3.
+If an OpenCV function in C is named as cvAbcXyz(), it is typically renamed as abcXyz() in C++. Just look for function abcXyz() in PyOpenCV. In the some very rare cases, a character or a short string is concatenated with the name of a function to define different transforms of the function.
+
+If you do not see abcXyz(), then either an equivalent function/class in C++ exists or the function is not yet exposed. In the latter case, please file an issue on the project's Issues tab. I will try to resolve it when I have time.
