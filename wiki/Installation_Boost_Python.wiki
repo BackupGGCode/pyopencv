@@ -10,7 +10,7 @@
 
 Note that, right now you should rely on a Boost source distribution to install rather on any packages of Boost that have been pre-compiled for your platform. Unless you understand how PyOpenCV is compiled and linked against Boost libraries (which is fairly straightforward), just don't push your luck. This technical issue is mainly due to that I don't have time to tweak the setup file to deal with those situations yet. But I will try to do so.
 
-Also, once you have finished installing PyOpenCV, you can safely delete the Boost source distribution. Currently, PyOpenCV is statically linked against Boost.Python. Last time I checked, the binary size of PyOpenCV linked against a static Boost Python and that against a shared Boost Python were almost the same, only less than 1% different. Therefore, to avoid linking issues, I decided to make linking PyOpenCV against a static Boost.Python library as the default option. You can easily modify the setup file to link against a shared Boost.Python library though.
+Also, once you have finished installing PyOpenCV, you can safely delete the Boost source distribution. Currently, PyOpenCV is only and statically linked against Boost.Python. Last time I checked, the binary size of PyOpenCV linked against a static Boost Python library and that against a shared Boost Python library were almost the same, only less than 1% different. Therefore, to avoid linking issues, I decided to make linking PyOpenCV against a static Boost.Python library as the default option. You can easily modify the setup file to link against a shared Boost.Python library though.
 
 ==Get bjam==
 
