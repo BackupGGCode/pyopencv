@@ -8,7 +8,9 @@
   # Download [http://sourceforge.net/projects/boost/files/boost/ Boost source distribution] version [http://sourceforge.net/projects/boost/files/boost/1.41.0/ 1.41.0] or later. There is a bug in using Boost.Python under Python 2.6.3 and later that has only been fixed very recently in Boost 1.41.0 (thanks to Guy K. Kloss for having pointed it out).
   # Extract the source distribution to somewhere on your platform. We refer to the extracted folder as `<boost_dir>`. It is not necessary to install Boost.
 
-Note that, right now you should rely on a Boost source distribution to install rather on any packages of Boost that have been pre-compiled for your platform. Unless you understand how PyOpenCV is compiled and linked against Boost libraries (which is fairly straightforward), just don't push your luck. This technical issue is mainly due to that I don't have time to tweak the setup file to deal with those situations yet. But I am working towards that convenience.
+Note that, right now you should rely on a Boost source distribution to install rather on any packages of Boost that have been pre-compiled for your platform. Unless you understand how PyOpenCV is compiled and linked against Boost libraries (which is fairly straightforward), just don't push your luck. This technical issue is mainly due to that I don't have time to tweak the setup file to deal with those situations yet. But I will try to do so.
+
+Also, once you have finished installing PyOpenCV, you can safely delete the Boost source distribution. Currently, PyOpenCV is statically linked against Boost.Python. Last time I checked, the binary size of PyOpenCV linked against a static Boost Python and that against a shared Boost Python were almost the same, only less than 1% different. Therefore, to avoid linking issues, I decided to make linking PyOpenCV against a static Boost.Python library as the default option. You can easily modify the setup file to link against a shared Boost.Python library though.
 
 ==Get bjam==
 
