@@ -117,6 +117,8 @@ def generate_ti():
     add_ti('vector', 'CascadeClassifier::DTree', 'vector_CascadeClassifier_DTree')
     add_ti('vector', 'CascadeClassifier::Stage', 'vector_CascadeClassifier_Stage')
     add_ti('vector', 'FernClassifier::Feature', 'vector_FernClassifier_Feature')
+    add_ti('Ptr', 'Mat', 'Ptr_Mat')
+    add_ti('vector', 'Ptr_Mat', 'vector_Ptr_Mat')
     add_ti('vector', 'Octree::Node', 'vector_Octree_Node')
     add_ti('vector', 'CvFuzzyRule*', 'vector_CvFuzzyRule_Ptr')
     add_ti('vector', 'CvFuzzyCurve', 'vector_CvFuzzyCurve')

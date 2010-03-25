@@ -413,6 +413,16 @@ namespace cv {
     #endif
 
 
+    #ifndef Ptr_Mat
+    typedef Ptr < Mat > Ptr_Mat;
+    #endif
+
+
+    #ifndef vector_Ptr_Mat
+    typedef vector < Ptr_Mat > vector_Ptr_Mat;
+    #endif
+
+
     #ifndef vector_Octree_Node
     typedef vector < Octree::Node > vector_Octree_Node;
     #endif
@@ -562,19 +572,21 @@ namespace cv {
          vector_CascadeClassifier_DTree var79;
          vector_CascadeClassifier_Stage var80;
          vector_FernClassifier_Feature var81;
-         vector_Octree_Node var82;
-         vector_CvFuzzyRule_Ptr var83;
-         vector_CvFuzzyCurve var84;
-         vector_CvFuzzyPoint var85;
-         vector_string var86;
-         vector_KDTree_Node var87;
-         vector_vector_int var88;
-         vector_vector_float32 var89;
-         vector_vector_Point var90;
-         vector_vector_Point2f var91;
-         vector_vector_Point3f var92;
-         vector_vector_Vec2i var93;
-         vector_Rect var94;
+         Ptr_Mat var82;
+         vector_Ptr_Mat var83;
+         vector_Octree_Node var84;
+         vector_CvFuzzyRule_Ptr var85;
+         vector_CvFuzzyCurve var86;
+         vector_CvFuzzyPoint var87;
+         vector_string var88;
+         vector_KDTree_Node var89;
+         vector_vector_int var90;
+         vector_vector_float32 var91;
+         vector_vector_Point var92;
+         vector_vector_Point2f var93;
+         vector_vector_Point3f var94;
+         vector_vector_Vec2i var95;
+         vector_Rect var96;
     };
 }
 
