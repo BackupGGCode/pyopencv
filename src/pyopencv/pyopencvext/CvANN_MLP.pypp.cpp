@@ -209,8 +209,12 @@ void register_CvANN_MLP_class(){
                 "read"
                 , default_read_function_type( &CvANN_MLP_wrapper::default_read )
                 , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-                , "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage."\
-    "\nArgument 'node', of C++ type '::CvFileNode *', is a FileNode." );
+                , "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode."\
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
         
         }
         { //::CvANN_MLP::train
@@ -233,7 +237,9 @@ void register_CvANN_MLP_class(){
                 "write"
                 , default_write_function_type( &CvANN_MLP_wrapper::default_write )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
-                , "\nArgument 'storage', of C++ type '::CvFileStorage *', is a FileStorage." );
+                , "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
         
         }
         { //::CvStatModel::load

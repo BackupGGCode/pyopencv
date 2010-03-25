@@ -207,11 +207,18 @@ void register_HOGDescriptor_class(){
                 "compute"
                 , default_compute_function_type( &HOGDescriptor_wrapper::default_compute )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) )
-                , "\nArgument 'descriptors', of C++ type '::std::vector< float > &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nAs an output argument, 'descriptors' is omitted from the function's calling sequence."\
-    "\nArgument 'locations', of C++ type '::std::vector< cv::Point_<int> > const &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nArgument 'descriptors':"\
+    "\n    C/C++ type: ::std::vector< float > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)."\
+    "\nArgument 'locations':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<int> > const &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::HOGDescriptor::computeGradient
@@ -234,11 +241,18 @@ void register_HOGDescriptor_class(){
                 "detect"
                 , default_detect_function_type( &HOGDescriptor_wrapper::default_detect )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) )
-                , "\nArgument 'foundLocations', of C++ type '::std::vector< cv::Point_<int> > &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nAs an output argument, 'foundLocations' is omitted from the function's calling sequence."\
-    "\nArgument 'searchLocations', of C++ type '::std::vector< cv::Point_<int> > const &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nArgument 'foundLocations':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<int> > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)."\
+    "\nArgument 'searchLocations':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<int> > const &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::HOGDescriptor::detectMultiScale
@@ -249,9 +263,13 @@ void register_HOGDescriptor_class(){
                 "detectMultiScale"
                 , default_detectMultiScale_function_type( &HOGDescriptor_wrapper::default_detectMultiScale )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("scale")=1.05000000000000004440892098500626161694526672363e+0, bp::arg("groupThreshold")=(int)(2) )
-                , "\nArgument 'foundLocations', of C++ type '::std::vector< cv::Rect_<int> > &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nAs an output argument, 'foundLocations' is omitted from the function's calling sequence." );
+                , "\nArgument 'foundLocations':"\
+    "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
         
         }
         { //::cv::HOGDescriptor::getDescriptorSize
@@ -304,8 +322,11 @@ void register_HOGDescriptor_class(){
                 "setSVMDetector"
                 , default_setSVMDetector_function_type( &HOGDescriptor_wrapper::default_setSVMDetector )
                 , ( bp::arg("inst"), bp::arg("_svmdetector") )
-                , "\nArgument '_svmdetector', of C++ type '::std::vector< float > const &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nArgument '_svmdetector':"\
+    "\n    C/C++ type: ::std::vector< float > const &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         HOGDescriptor_exposer.def_readwrite( "L2HysThreshold", &cv::HOGDescriptor::L2HysThreshold );

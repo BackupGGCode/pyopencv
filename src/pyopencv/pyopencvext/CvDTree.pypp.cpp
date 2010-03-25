@@ -204,16 +204,26 @@ void register_CvDTree_class(){
             "read_cddeea9f785886a2157e6dbd38d882a3"
             , (void (*)( ::CvDTree &,::cv::FileStorage &,::cv::FileNode & ))( &CvDTree_wrapper::default_read_cddeea9f785886a2157e6dbd38d882a3 )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-            , "\nWrapped function: read."
-    "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage."\
-    "\nArgument 'node', of C++ type '::CvFileNode *', is a FileNode." )    
+            , "\nWrapped function:"
+    "\n    read"
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode."\
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." )    
         .def( 
             "read_ea82e003cd38c548aefac78eb636ff45"
             , (void (*)( ::CvDTree &,::cv::FileStorage &,::cv::FileNode &,::CvDTreeTrainData * ))( &CvDTree_wrapper::default_read_ea82e003cd38c548aefac78eb636ff45 )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node"), bp::arg("data") )
-            , "\nWrapped function: read."
-    "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage."\
-    "\nArgument 'node', of C++ type '::CvFileNode *', is a FileNode." )    
+            , "\nWrapped function:"
+    "\n    read"
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode."\
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." )    
         .def( 
             "train"
             , (bool ( ::CvDTree::* )( ::CvMLData *,::CvDTreeParams ) )(&::CvDTree::train)
@@ -228,14 +238,20 @@ void register_CvDTree_class(){
             "write_d5b05f94ebb65d268cbd4756fe0d6221"
             , (void (*)( ::CvDTree const &,::cv::FileStorage &,char const * ))( &CvDTree_wrapper::default_write_d5b05f94ebb65d268cbd4756fe0d6221 )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
-            , "\nWrapped function: write."
-    "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage." )    
+            , "\nWrapped function:"
+    "\n    write"
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." )    
         .def( 
             "write_d1e064f966d50e01902f80ef0f045741"
             , (void (*)( ::CvDTree const &,::cv::FileStorage & ))( &CvDTree_wrapper::default_write_d1e064f966d50e01902f80ef0f045741 )
             , ( bp::arg("inst"), bp::arg("fs") )
-            , "\nWrapped function: write."
-    "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage." )    
+            , "\nWrapped function:"
+    "\n    write"
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." )    
         .def_readwrite( "pruned_tree_idx", &CvDTree::pruned_tree_idx )    
         .def( 
             "load"

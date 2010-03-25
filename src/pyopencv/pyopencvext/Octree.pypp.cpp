@@ -146,8 +146,11 @@ void register_Octree_class(){
                 "buildTree"
                 , default_buildTree_function_type( &Octree_wrapper::default_buildTree )
                 , ( bp::arg("inst"), bp::arg("points"), bp::arg("maxLevels")=(int)(10), bp::arg("minPoints")=(int)(20) )
-                , "\nArgument 'points', of C++ type '::std::vector< cv::Point3_<float> > const &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nArgument 'points':"\
+    "\n    C/C++ type: ::std::vector< cv::Point3_<float> > const &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::Octree::getPointsWithinSphere
@@ -158,9 +161,13 @@ void register_Octree_class(){
                 "getPointsWithinSphere"
                 , default_getPointsWithinSphere_function_type( &Octree_wrapper::default_getPointsWithinSphere )
                 , ( bp::arg("inst"), bp::arg("center"), bp::arg("radius") )
-                , "\nArgument 'points', of C++ type '::std::vector< cv::Point3_<float> > &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nAs an output argument, 'points' is omitted from the function's calling sequence." );
+                , "\nArgument 'points':"\
+    "\n    C/C++ type: ::std::vector< cv::Point3_<float> > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
         
         }
         Octree_exposer.def("__init__", bp::make_constructor(&Octree_init1, bp::default_call_policies(), ( bp::arg("points"), bp::arg("maxLevels")=10, bp::arg("maxPoints")=20 )));

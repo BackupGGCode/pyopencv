@@ -117,9 +117,13 @@ void register_CascadeClassifier_class(){
                 "detectMultiScale"
                 , detectMultiScale_function_type( &CascadeClassifier_wrapper::detectMultiScale )
                 , ( bp::arg("inst"), bp::arg("image"), bp::arg("scaleFactor")=1.10000000000000008881784197001252323389053344727e+0, bp::arg("minNeighbors")=(int)(3), bp::arg("flags")=(int)(0), bp::arg("minSize")=cv::Size_<int>() )
-                , "\nArgument 'objects', of C++ type '::std::vector< cv::Rect_<int> > &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nAs an output argument, 'objects' is omitted from the function's calling sequence." );
+                , "\nArgument 'objects':"\
+    "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
         
         }
         { //::cv::CascadeClassifier::empty
