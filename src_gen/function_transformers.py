@@ -1201,8 +1201,6 @@ class input_as_list_of_Mat_t(transformer_t):
         self.arg = self.get_argument( arg_ref )
         self.arg_index = self.function.arguments.index( self.arg )
         
-        # print "arg.type=", self.arg.type.partial_decl_string
-        
         self.is_vector = 'std::vector' in self.arg.type.partial_decl_string
         if arg_size_ref is not None:
             self.arg_size = self.get_argument( arg_size_ref )
@@ -1213,16 +1211,20 @@ class input_as_list_of_Mat_t(transformer_t):
         elem_type_dict = {
             "::IplImage *": "::IplImage",
             "::IplImage const *": "::IplImage",
-            "::IplImage **": "::IplImage *",
-            "::IplImage const **": "::IplImage *",
+            "::IplImage * *": "::IplImage *",
+            "::IplImage const * *": "::IplImage *",
             "::CvMat *": "::CvMat",
             "::CvMat const *": "::CvMat",
             "::CvArr *": "::CvMat",
             "::CvArr const *": "::CvMat",
-            "::CvMat **": "::CvMat *",
-            "::CvMat const **": "::CvMat *",
-            "::CvArr **": "::CvMat *",
-            "::CvArr const **": "::CvMat *",
+            "::CvMat * *": "::CvMat *",
+            "::CvMat const * *": "::CvMat *",
+            "::CvArr * *": "::CvMat *",
+            "::CvArr const * *": "::CvMat *",
+            "::cv::Mat *": "::cv::Mat",
+            "::cv::Mat const *": "::cv::Mat",
+            "::cv::Mat * *": "::cv::Mat *",
+            "::cv::Mat const * *": "::cv::Mat *",
         }
         self.elem_type_str = elem_type_dict[self.arg.type.partial_decl_string]
 
@@ -1286,8 +1288,6 @@ class input_as_list_of_MatND_t(transformer_t):
         transformer.transformer_t.__init__( self, function )
         self.arg = self.get_argument( arg_ref )
         self.arg_index = self.function.arguments.index( self.arg )
-        
-        # print "arg.type=", self.arg.type.partial_decl_string
         
         self.is_vector = 'std::vector' in self.arg.type.partial_decl_string
         if arg_size_ref is not None:

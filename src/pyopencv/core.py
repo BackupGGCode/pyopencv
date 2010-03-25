@@ -2092,9 +2092,6 @@ CV_DIST_MASK_5 = 5
 CV_DIST_MASK_PRECISE = 0
 
     
-backProject = calcArrBackProject
-backProjectPatch = calcArrBackProjectPatch
-    
 #-----------------------------------------------------------------------------
 # Feature detection
 #-----------------------------------------------------------------------------

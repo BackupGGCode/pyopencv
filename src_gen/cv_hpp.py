@@ -234,100 +234,20 @@ def generate_code(mb, cc, D, FT, CP):
     FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, transformer_creators=[FT.arg_std_vector('circles', 2)])
     FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
     FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
-            
+    
     # calcHist
-    mb.free_funs('calcHist').exclude()
-    mb.add_declaration_code('''
-static void sd_calcHist( bp::list const & images, cv::Mat const & channels, 
-    ::cv::Mat const & mask, bp::object &hist, cv::Mat const & histSize, 
-    bp::list const & ranges, bool uniform=true, bool accumulate=false ){
-    std::vector< cv::Mat > images2; convert_from_object_to_T(images, images2);
-    int* channels2; int channels3; convert_from_Mat_to_array_of_T(channels, channels2, channels3);
-    int* histSize2; int histSize3; convert_from_Mat_to_array_of_T(histSize, histSize2, histSize3);
-    
-    int dims = channels3; // dims = minimum between number of channels and number of histogram sizes
-    if(histSize3 < dims) dims = histSize3;
-    
-    std::vector< std::vector < float > > ranges2; convert_from_object_to_T(ranges, ranges2);
-    std::vector< float const * > ranges3; ranges3.resize(ranges2.size());
-    for(unsigned int i = 0; i < ranges2.size(); ++i ) ranges3[i] = &ranges2[i][0];
-    
-    bp::extract< ::cv::MatND & > hist_matnd(hist);
-    bp::extract< ::cv::SparseMat & > hist_sparsemat(hist);
-    
-    if(hist_matnd.check())
-    {
-        cv::MatND &hist_matnd2 = hist_matnd();
-        cv::calcHist(&images2[0], images2.size(), channels2, mask,
-            hist_matnd2, dims, histSize2, &ranges3[0], uniform, accumulate);
-    }
-    else if(hist_sparsemat.check())
-    {
-        cv::SparseMat &hist_sparsemat2 = hist_sparsemat();
-        cv::calcHist(&images2[0], images2.size(), channels2, mask,
-            hist_sparsemat2, dims, histSize2, &ranges3[0], uniform, accumulate);
-    }
-    else
-    {
-        PyErr_SetString(PyExc_NotImplementedError, "Only 'MatND' and 'SparseMat' are acceptable types for argument 'hist'.");
-        throw bp::error_already_set(); 
-    }
-}
-    ''')
-    mb.add_registration_code('''bp::def( 
-        "calcHist"
-        , (void (*)( bp::list const &, cv::Mat const &, ::cv::Mat const &, 
-            bp::object &, cv::Mat const &, bp::list const &, bool, 
-            bool ))( &sd_calcHist )
-        , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), 
-            bp::arg("hist"), bp::arg("histSize"), 
-            bp::arg("ranges"), bp::arg("uniform")=bp::object(true), 
-            bp::arg("accumulate")=bp::object(false) ) );''')
-    
+    for z in mb.free_funs('calcHist'):
+        FT.expose_func(z, return_pointee=False, transformer_creators=[
+            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d('channels'),
+            FT.input_array1d('histSize', 'dims'), FT.input_array2d('ranges')])
+        z._transformer_kwds['alias'] = 'calcHist'
+            
     # calcBackProject
-    mb.free_funs('calcBackProject').exclude()
-    mb.add_declaration_code('''
-static void sd_calcBackProject( bp::list const & images, cv::Mat const & channels, 
-    bp::object &hist, cv::Mat &backProject, 
-    bp::list const & ranges, double scale=1, bool uniform=true ){
-    std::vector< cv::Mat > images2; convert_from_object_to_T(images, images2);
-    int* channels2; int channels3; convert_from_Mat_to_array_of_T(channels, channels2, channels3);
-    std::vector< std::vector < float > > ranges2; convert_from_object_to_T(ranges, ranges2);
-    std::vector< float const * > ranges3;
-    ranges3.resize(ranges2.size());
-    for(unsigned int i = 0; i < ranges2.size(); ++i ) ranges3[i] = &ranges2[i][0];
-    
-    bp::extract< ::cv::MatND & > hist_matnd(hist);
-    bp::extract< ::cv::SparseMat & > hist_sparsemat(hist);
-    
-    if(hist_matnd.check())
-    {
-        cv::MatND &hist_matnd2 = hist_matnd();
-        cv::calcBackProject(&images2[0], images2.size(), channels2, 
-            hist_matnd2, backProject, &ranges3[0], scale, uniform);
-    }
-    else if(hist_sparsemat.check())
-    {
-        cv::SparseMat &hist_sparsemat2 = hist_sparsemat();
-        cv::calcBackProject(&images2[0], images2.size(), channels2, 
-            hist_sparsemat2, backProject, &ranges3[0], scale, uniform);
-    }
-    else
-    {
-        PyErr_SetString(PyExc_NotImplementedError, "Only 'MatND' and 'SparseMat' are acceptable types for argument 'hist'.");
-        throw bp::error_already_set(); 
-    }
-}
-    ''')
-    mb.add_registration_code('''bp::def( 
-        "calcBackProject"
-        , (void (*)( bp::list const &, cv::Mat const &, 
-            bp::object &, cv::Mat const &, bp::list const &, double, 
-            bool ))( &sd_calcBackProject )
-        , ( bp::arg("images"), bp::arg("channels"), 
-            bp::arg("hist"), bp::arg("backProject"), 
-            bp::arg("ranges"), bp::arg("scale")=bp::object(1.0), 
-            bp::arg("uniform")=bp::object(true) ) );''')
+    for z in mb.free_funs('calcBackProject'):
+        FT.expose_func(z, return_pointee=False, transformer_creators=[
+            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d('channels'),
+            FT.input_array2d('ranges')])
+        z._transformer_kwds['alias'] = 'calcBackProject'
             
     # floodFill
     for z in mb.free_funs('floodFill'):

@@ -471,11 +471,125 @@ static void buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac( ::cv::Mat const & src
     convert_from_T_to_object(dst2, dst);
 }
 
+static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( bp::sequence images, cv::Mat const & channels, ::cv::SparseMat const & hist, ::cv::Mat & backProject, bp::object const & ranges, double scale=1, bool uniform=true ){
+    std::vector< ::cv::Mat > images2;
+    int channels2;
+    int * channels3;
+    convert_from_seq_of_Mat_to_vector_of_T(images, images2);
+    convert_from_Mat_to_array_of_T(channels, channels3, channels2);
+    bool b_ranges = (ranges.ptr() != Py_None);
+    std::vector<std::vector< float > > arr_ranges;
+    if(b_ranges) convert_from_object_to_T(ranges, arr_ranges);
+    int n0_ranges = b_ranges? arr_ranges.size(): 0;
+    
+    std::vector< float * > buf_ranges;
+    std::vector<int> n1_ranges;
+    if(b_ranges)
+    {
+        buf_ranges.resize(n0_ranges);
+        n1_ranges.resize(n0_ranges);
+        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
+        {
+            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
+            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
+        }
+    }
+        
+    ::cv::calcBackProject((::cv::Mat const *)&images2[0], images2.size(), channels3, hist, backProject, (float const * *) &buf_ranges[0], scale, uniform);
+}
+
+static void calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8( bp::sequence images, cv::Mat const & channels, ::cv::MatND const & hist, ::cv::Mat & backProject, bp::object const & ranges, double scale=1, bool uniform=true ){
+    std::vector< ::cv::Mat > images2;
+    int channels2;
+    int * channels3;
+    convert_from_seq_of_Mat_to_vector_of_T(images, images2);
+    convert_from_Mat_to_array_of_T(channels, channels3, channels2);
+    bool b_ranges = (ranges.ptr() != Py_None);
+    std::vector<std::vector< float > > arr_ranges;
+    if(b_ranges) convert_from_object_to_T(ranges, arr_ranges);
+    int n0_ranges = b_ranges? arr_ranges.size(): 0;
+    
+    std::vector< float * > buf_ranges;
+    std::vector<int> n1_ranges;
+    if(b_ranges)
+    {
+        buf_ranges.resize(n0_ranges);
+        n1_ranges.resize(n0_ranges);
+        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
+        {
+            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
+            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
+        }
+    }
+        
+    ::cv::calcBackProject((::cv::Mat const *)&images2[0], images2.size(), channels3, hist, backProject, (float const * *) &buf_ranges[0], scale, uniform);
+}
+
 static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( bp::list const & samples, ::cv::Mat & covar, ::cv::Mat & mean, int flags, int ctype=6 ){
     int samples2=bp::len(samples);
     std::vector< ::cv::Mat > samples3(samples2);
     convert_from_object_to_T(samples, samples3);
     ::cv::calcCovarMatrix(&samples3[0], samples2, covar, mean, flags, ctype);
+}
+
+static void calcHist_8e436c4da97e1e09468541e1bed60274( bp::sequence images, cv::Mat const & channels, ::cv::Mat const & mask, ::cv::SparseMat & hist, cv::Mat const & histSize, bp::object const & ranges, bool uniform=true, bool accumulate=false ){
+    std::vector< ::cv::Mat > images2;
+    int channels2;
+    int * channels3;
+    int histSize2;
+    int * histSize3;
+    convert_from_seq_of_Mat_to_vector_of_T(images, images2);
+    convert_from_Mat_to_array_of_T(channels, channels3, channels2);
+    convert_from_Mat_to_array_of_T(histSize, histSize3, histSize2);
+    bool b_ranges = (ranges.ptr() != Py_None);
+    std::vector<std::vector< float > > arr_ranges;
+    if(b_ranges) convert_from_object_to_T(ranges, arr_ranges);
+    int n0_ranges = b_ranges? arr_ranges.size(): 0;
+    
+    std::vector< float * > buf_ranges;
+    std::vector<int> n1_ranges;
+    if(b_ranges)
+    {
+        buf_ranges.resize(n0_ranges);
+        n1_ranges.resize(n0_ranges);
+        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
+        {
+            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
+            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
+        }
+    }
+        
+    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), channels3, mask, hist, histSize2, histSize3, (float const * *) &buf_ranges[0], uniform, accumulate);
+}
+
+static void calcHist_a4cce9bdd9689d0fb0adf901f467bfa0( bp::sequence images, cv::Mat const & channels, ::cv::Mat const & mask, ::cv::MatND & hist, cv::Mat const & histSize, bp::object const & ranges, bool uniform=true, bool accumulate=false ){
+    std::vector< ::cv::Mat > images2;
+    int channels2;
+    int * channels3;
+    int histSize2;
+    int * histSize3;
+    convert_from_seq_of_Mat_to_vector_of_T(images, images2);
+    convert_from_Mat_to_array_of_T(channels, channels3, channels2);
+    convert_from_Mat_to_array_of_T(histSize, histSize3, histSize2);
+    bool b_ranges = (ranges.ptr() != Py_None);
+    std::vector<std::vector< float > > arr_ranges;
+    if(b_ranges) convert_from_object_to_T(ranges, arr_ranges);
+    int n0_ranges = b_ranges? arr_ranges.size(): 0;
+    
+    std::vector< float * > buf_ranges;
+    std::vector<int> n1_ranges;
+    if(b_ranges)
+    {
+        buf_ranges.resize(n0_ranges);
+        n1_ranges.resize(n0_ranges);
+        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
+        {
+            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
+            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
+        }
+    }
+        
+    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), channels3, mask, hist, histSize2, histSize3, (float const * *) &buf_ranges[0], uniform, accumulate);
 }
 
 static void calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1( ::cv::Mat const & prevImg, ::cv::Mat const & nextImg, cv::Mat const & prevPts, cv::Mat & nextPts, cv::Mat & status, cv::Mat & err, ::cv::Size winSize=cv::Size_<int>(15, 15), int maxLevel=3, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), double derivLambda=5.0e-1, int flags=0 ){
@@ -580,20 +694,6 @@ static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4
                             , convert_from_T_to_object(track_error2)
                             , convert_from_T_to_object(curr_features2)
                             , convert_from_T_to_object(matrices2) );
-}
-
-static void cvCalcArrBackProject_5961923bfd62f49a1a0aa6e73fd2cee6( cv::Mat const & image, ::cv::Mat & dst, ::CvHistogram const * hist ){
-    int image2;
-    void * * image3;
-    convert_from_Mat_to_array_of_T(image, image3, image2);
-    ::cvCalcArrBackProject(image3, get_CvMat_ptr(dst), hist);
-}
-
-static void cvCalcArrBackProjectPatch_5574debe9c7d943baa020075e0434b56( cv::Mat const & image, ::cv::Mat & dst, ::CvSize range, ::CvHistogram * hist, int method, double factor ){
-    int image2;
-    void * * image3;
-    convert_from_Mat_to_array_of_T(image, image3, image2);
-    ::cvCalcArrBackProjectPatch(image3, get_CvMat_ptr(dst), range, hist, method, factor);
 }
 
 static boost::python::object cvCalcEMD2_f4e5308a9258b3a75a06fb112d06a2e8( ::cv::Mat & signature1, ::cv::Mat & signature2, int distance_type, boost::python::object distance_func=bp::object(), ::cv::Mat cost_matrix=cv::Mat(), ::cv::Mat flow=cv::Mat(), float * lower_bound=0, boost::python::object userdata=bp::object() ){
@@ -2060,74 +2160,6 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     }
 }
 
-static void sd_calcHist( bp::list const & images, cv::Mat const & channels, 
-    ::cv::Mat const & mask, bp::object &hist, cv::Mat const & histSize, 
-    bp::list const & ranges, bool uniform=true, bool accumulate=false ){
-    std::vector< cv::Mat > images2; convert_from_object_to_T(images, images2);
-    int* channels2; int channels3; convert_from_Mat_to_array_of_T(channels, channels2, channels3);
-    int* histSize2; int histSize3; convert_from_Mat_to_array_of_T(histSize, histSize2, histSize3);
-    
-    int dims = channels3; // dims = minimum between number of channels and number of histogram sizes
-    if(histSize3 < dims) dims = histSize3;
-    
-    std::vector< std::vector < float > > ranges2; convert_from_object_to_T(ranges, ranges2);
-    std::vector< float const * > ranges3; ranges3.resize(ranges2.size());
-    for(unsigned int i = 0; i < ranges2.size(); ++i ) ranges3[i] = &ranges2[i][0];
-    
-    bp::extract< ::cv::MatND & > hist_matnd(hist);
-    bp::extract< ::cv::SparseMat & > hist_sparsemat(hist);
-    
-    if(hist_matnd.check())
-    {
-        cv::MatND &hist_matnd2 = hist_matnd();
-        cv::calcHist(&images2[0], images2.size(), channels2, mask,
-            hist_matnd2, dims, histSize2, &ranges3[0], uniform, accumulate);
-    }
-    else if(hist_sparsemat.check())
-    {
-        cv::SparseMat &hist_sparsemat2 = hist_sparsemat();
-        cv::calcHist(&images2[0], images2.size(), channels2, mask,
-            hist_sparsemat2, dims, histSize2, &ranges3[0], uniform, accumulate);
-    }
-    else
-    {
-        PyErr_SetString(PyExc_NotImplementedError, "Only 'MatND' and 'SparseMat' are acceptable types for argument 'hist'.");
-        throw bp::error_already_set(); 
-    }
-}
-
-static void sd_calcBackProject( bp::list const & images, cv::Mat const & channels, 
-    bp::object &hist, cv::Mat &backProject, 
-    bp::list const & ranges, double scale=1, bool uniform=true ){
-    std::vector< cv::Mat > images2; convert_from_object_to_T(images, images2);
-    int* channels2; int channels3; convert_from_Mat_to_array_of_T(channels, channels2, channels3);
-    std::vector< std::vector < float > > ranges2; convert_from_object_to_T(ranges, ranges2);
-    std::vector< float const * > ranges3;
-    ranges3.resize(ranges2.size());
-    for(unsigned int i = 0; i < ranges2.size(); ++i ) ranges3[i] = &ranges2[i][0];
-    
-    bp::extract< ::cv::MatND & > hist_matnd(hist);
-    bp::extract< ::cv::SparseMat & > hist_sparsemat(hist);
-    
-    if(hist_matnd.check())
-    {
-        cv::MatND &hist_matnd2 = hist_matnd();
-        cv::calcBackProject(&images2[0], images2.size(), channels2, 
-            hist_matnd2, backProject, &ranges3[0], scale, uniform);
-    }
-    else if(hist_sparsemat.check())
-    {
-        cv::SparseMat &hist_sparsemat2 = hist_sparsemat();
-        cv::calcBackProject(&images2[0], images2.size(), channels2, 
-            hist_sparsemat2, backProject, &ranges3[0], scale, uniform);
-    }
-    else
-    {
-        PyErr_SetString(PyExc_NotImplementedError, "Only 'MatND' and 'SparseMat' are acceptable types for argument 'hist'.");
-        throw bp::error_already_set(); 
-    }
-}
-
 namespace cv
 {
 static void
@@ -2749,6 +2781,60 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cv::calcBackProject
+    
+        typedef void ( *calcBackProject_function_type )( bp::sequence,cv::Mat const &,::cv::SparseMat const &,::cv::Mat &,bp::object const &,double,bool );
+        
+        bp::def( 
+            "calcBackProject"
+            , calcBackProject_function_type( &calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b )
+            , ( bp::arg("images"), bp::arg("channels"), bp::arg("hist"), bp::arg("backProject"), bp::arg("ranges"), bp::arg("scale")=1, bp::arg("uniform")=(bool)(true) )
+            , "\nArgument 'images':"\
+    "\n    C/C++ type: ::cv::Mat const *."\
+    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
+    "\nArgument 'channels':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'nimages':"\
+    "\n    Dependent argument: omitted from the function's calling sequence, as "\
+    "\n    its value is derived from argument 'images'."\
+    "\nArgument 'ranges':"\
+    "\n    C/C++ type: float const * *."\
+    "\n    Python type: 2d list."\
+    "\n    Depending on its C++ argument type, it should be a list of Mats or a "\
+    "\n    list of lists." );
+    
+    }
+
+    { //::cv::calcBackProject
+    
+        typedef void ( *calcBackProject_function_type )( bp::sequence,cv::Mat const &,::cv::MatND const &,::cv::Mat &,bp::object const &,double,bool );
+        
+        bp::def( 
+            "calcBackProject"
+            , calcBackProject_function_type( &calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8 )
+            , ( bp::arg("images"), bp::arg("channels"), bp::arg("hist"), bp::arg("backProject"), bp::arg("ranges"), bp::arg("scale")=1, bp::arg("uniform")=(bool)(true) )
+            , "\nArgument 'images':"\
+    "\n    C/C++ type: ::cv::Mat const *."\
+    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
+    "\nArgument 'channels':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'nimages':"\
+    "\n    Dependent argument: omitted from the function's calling sequence, as "\
+    "\n    its value is derived from argument 'images'."\
+    "\nArgument 'ranges':"\
+    "\n    C/C++ type: float const * *."\
+    "\n    Python type: 2d list."\
+    "\n    Depending on its C++ argument type, it should be a list of Mats or a "\
+    "\n    list of lists." );
+    
+    }
+
     { //::cv::calcCovarMatrix
     
         typedef void ( *calcCovarMatrix_function_type )( bp::list const &,::cv::Mat &,::cv::Mat &,int,int );
@@ -2766,6 +2852,76 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'samples':"\
     "\n    C/C++ type: ::cv::Mat const *."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
+    
+    }
+
+    { //::cv::calcHist
+    
+        typedef void ( *calcHist_function_type )( bp::sequence,cv::Mat const &,::cv::Mat const &,::cv::SparseMat &,cv::Mat const &,bp::object const &,bool,bool );
+        
+        bp::def( 
+            "calcHist"
+            , calcHist_function_type( &calcHist_8e436c4da97e1e09468541e1bed60274 )
+            , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), bp::arg("hist"), bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=(bool)(true), bp::arg("accumulate")=(bool)(false) )
+            , "\nArgument 'ranges':"\
+    "\n    C/C++ type: float const * *."\
+    "\n    Python type: 2d list."\
+    "\n    Depending on its C++ argument type, it should be a list of Mats or a "\
+    "\n    list of lists."\
+    "\nArgument 'histSize':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'channels':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'dims':"\
+    "\n    Dependent argument: omitted from the function's calling sequence, as "\
+    "\n    its value is derived from argument 'histSize'."\
+    "\nArgument 'images':"\
+    "\n    C/C++ type: ::cv::Mat const *."\
+    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
+    "\nArgument 'nimages':"\
+    "\n    Dependent argument: omitted from the function's calling sequence, as "\
+    "\n    its value is derived from argument 'images'." );
+    
+    }
+
+    { //::cv::calcHist
+    
+        typedef void ( *calcHist_function_type )( bp::sequence,cv::Mat const &,::cv::Mat const &,::cv::MatND &,cv::Mat const &,bp::object const &,bool,bool );
+        
+        bp::def( 
+            "calcHist"
+            , calcHist_function_type( &calcHist_a4cce9bdd9689d0fb0adf901f467bfa0 )
+            , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), bp::arg("hist"), bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=(bool)(true), bp::arg("accumulate")=(bool)(false) )
+            , "\nArgument 'ranges':"\
+    "\n    C/C++ type: float const * *."\
+    "\n    Python type: 2d list."\
+    "\n    Depending on its C++ argument type, it should be a list of Mats or a "\
+    "\n    list of lists."\
+    "\nArgument 'histSize':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'channels':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'dims':"\
+    "\n    Dependent argument: omitted from the function's calling sequence, as "\
+    "\n    its value is derived from argument 'histSize'."\
+    "\nArgument 'images':"\
+    "\n    C/C++ type: ::cv::Mat const *."\
+    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
+    "\nArgument 'nimages':"\
+    "\n    Dependent argument: omitted from the function's calling sequence, as "\
+    "\n    its value is derived from argument 'images'." );
     
     }
 
@@ -3032,48 +3188,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'matrices':"\
     "\n    Output argument: omitted from the function's calling sequence, and is "\
     "\n    returned along with the function's return value (if any)." );
-    
-    }
-
-    { //::cvCalcArrBackProject
-    
-        typedef void ( *calcArrBackProject_function_type )( cv::Mat const &,::cv::Mat &,::CvHistogram const * );
-        
-        bp::def( 
-            "calcArrBackProject"
-            , calcArrBackProject_function_type( &cvCalcArrBackProject_5961923bfd62f49a1a0aa6e73fd2cee6 )
-            , ( bp::arg("image"), bp::arg("dst"), bp::arg("hist") )
-            , "\nWrapped function:"
-    "\n    cvCalcArrBackProject"
-    "\nArgument 'image':"\
-    "\n    C/C++ type: ::CvArr * *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dst':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat." );
-    
-    }
-
-    { //::cvCalcArrBackProjectPatch
-    
-        typedef void ( *calcArrBackProjectPatch_function_type )( cv::Mat const &,::cv::Mat &,::CvSize,::CvHistogram *,int,double );
-        
-        bp::def( 
-            "calcArrBackProjectPatch"
-            , calcArrBackProjectPatch_function_type( &cvCalcArrBackProjectPatch_5574debe9c7d943baa020075e0434b56 )
-            , ( bp::arg("image"), bp::arg("dst"), bp::arg("range"), bp::arg("hist"), bp::arg("method"), bp::arg("factor") )
-            , "\nWrapped function:"
-    "\n    cvCalcArrBackProjectPatch"
-    "\nArgument 'image':"\
-    "\n    C/C++ type: ::CvArr * *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dst':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat." );
     
     }
 
@@ -5723,26 +5837,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
         "snakeImage"
         , &sdSnakeImage
         , ( bp::arg("image"), bp::arg("points"), bp::arg("alpha"), bp::arg("beta"), bp::arg("gamma"), bp::arg("coeff_usage"), bp::arg("win"), bp::arg("criteria"), bp::arg("calc_gradient")=(int)(1) ) );
-
-    bp::def( 
-        "calcHist"
-        , (void (*)( bp::list const &, cv::Mat const &, ::cv::Mat const &, 
-            bp::object &, cv::Mat const &, bp::list const &, bool, 
-            bool ))( &sd_calcHist )
-        , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), 
-            bp::arg("hist"), bp::arg("histSize"), 
-            bp::arg("ranges"), bp::arg("uniform")=bp::object(true), 
-            bp::arg("accumulate")=bp::object(false) ) );
-
-    bp::def( 
-        "calcBackProject"
-        , (void (*)( bp::list const &, cv::Mat const &, 
-            bp::object &, cv::Mat const &, bp::list const &, double, 
-            bool ))( &sd_calcBackProject )
-        , ( bp::arg("images"), bp::arg("channels"), 
-            bp::arg("hist"), bp::arg("backProject"), 
-            bp::arg("ranges"), bp::arg("scale")=bp::object(1.0), 
-            bp::arg("uniform")=bp::object(true) ) );
 
     bp::def( 
         "approxPolyDP"
