@@ -272,8 +272,12 @@ void register_CvSVM_class(){
                 "read"
                 , default_read_function_type( &CvSVM_wrapper::default_read )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-                , "\nArgument 'storage', of C++ type '::CvFileStorage *', is a FileStorage."\
-    "\nArgument 'node', of C++ type '::CvFileNode *', is a FileNode." );
+                , "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode."\
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
         
         }
         { //::CvSVM::train
@@ -308,7 +312,9 @@ void register_CvSVM_class(){
                 "write"
                 , default_write_function_type( &CvSVM_wrapper::default_write )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
-                , "\nArgument 'storage', of C++ type '::CvFileStorage *', is a FileStorage." );
+                , "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
         
         }
         { //::CvStatModel::load

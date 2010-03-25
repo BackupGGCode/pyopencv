@@ -26,9 +26,14 @@ void register_MSER_class(){
             "__call__"
             , (boost::python::object (*)( ::cv::MSER const &,::cv::Mat &,::cv::Mat const & ))( &__call___0ae44c044fa04acb6166d31628f834f3 )
             , ( bp::arg("inst"), bp::arg("image"), bp::arg("mask") )
-            , "\nWrapped function: operator()."
-    "\nArgument 'msers', of C++ type '::std::vector< std::vector< cv::Point_<int> > > &', is a list of Mat, e.g. [Mat(), Mat(), Mat()]."\
-    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]."\
-    "\nAs an output argument, 'msers' is omitted from the function's calling sequence." );
+            , "\nWrapped function:"
+    "\n    operator()"
+    "\nArgument 'msers':"\
+    "\n    C/C++ type: ::std::vector< std::vector< cv::Point_<int> > > &."\
+    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
+    "\n    Invoke asMat() to convert every 1D Python sequence into a Mat, e.g. "\
+    "\n    [asMat([0,1,2]), asMat((0,1,2)]."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
 
 }

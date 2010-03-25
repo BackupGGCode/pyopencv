@@ -37,8 +37,12 @@ void register_NAryMatNDIterator_class(){
                 "init"
                 , init_function_type( &init_7fe56bf20c87d279d051169d318b592c )
                 , ( bp::arg("inst"), bp::arg("arrays") )
-                , "\nArgument 'count' is omitted. Its value is derived from argument 'arrays'."\
-    "\nArgument 'arrays', of C++ type '::cv::MatND const * *', is a list of Mat, e.g. [Mat(), Mat(), Mat()]." );
+                , "\nArgument 'count':"\
+    "\n    Dependent argument: omitted from the function's calling sequence, as "\
+    "\n    its value is derived from argument 'arrays'."\
+    "\nArgument 'arrays':"\
+    "\n    C/C++ type: ::cv::MatND const * *."\
+    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
         
         }
         NAryMatNDIterator_exposer.def_readwrite( "nplanes", &cv::NAryMatNDIterator::nplanes );

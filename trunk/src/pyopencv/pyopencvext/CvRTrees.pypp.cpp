@@ -195,8 +195,12 @@ void register_CvRTrees_class(){
             "read"
             , (void (*)( ::CvRTrees &,::cv::FileStorage &,::cv::FileNode & ))( &CvRTrees_wrapper::default_read )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-            , "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage."\
-    "\nArgument 'node', of C++ type '::CvFileNode *', is a FileNode." )    
+            , "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode."\
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." )    
         .def( 
             "train"
             , (bool ( ::CvRTrees::* )( ::CvMLData *,::CvRTParams ) )(&::CvRTrees::train)
@@ -211,7 +215,9 @@ void register_CvRTrees_class(){
             "write"
             , (void (*)( ::CvRTrees const &,::cv::FileStorage &,char const * ))( &CvRTrees_wrapper::default_write )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
-            , "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage." )    
+            , "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." )    
         .def( 
             "load"
             , (void ( ::CvStatModel::* )( char const *,char const * ) )(&::CvStatModel::load)

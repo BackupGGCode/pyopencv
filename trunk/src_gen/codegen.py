@@ -392,10 +392,8 @@ def beautify_func_list(self, func_list):
                         f.transformations[0].alias = repl_dict[t]
                         break
             
-        alias = f.transformations[0].alias if len(f.transformations) > 0 else f.alias
-        if alias != f.name:
-            common.add_func_boost_doc(f, "Wrapped function: %s." % f.name, False)
-            
+        common.add_decl_desc(f)
+        
 module_builder.module_builder_t.beautify_func_list = beautify_func_list
 
 def finalize_class(self, z):

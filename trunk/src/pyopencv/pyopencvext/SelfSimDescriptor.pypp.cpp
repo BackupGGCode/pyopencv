@@ -117,10 +117,16 @@ void register_SelfSimDescriptor_class(){
                 "compute"
                 , default_compute_function_type( &SelfSimDescriptor_wrapper::default_compute )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("descriptors"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("locations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) )
-                , "\nArgument 'descriptors', of C++ type '::std::vector< float > &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'locations', of C++ type '::std::vector< cv::Point_<int> > const &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nArgument 'descriptors':"\
+    "\n    C/C++ type: ::std::vector< float > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'locations':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<int> > const &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::SelfSimDescriptor::computeLogPolarMapping
@@ -163,7 +169,8 @@ void register_SelfSimDescriptor_class(){
                 , assign_function_type( &::cv::SelfSimDescriptor::operator= )
                 , ( bp::arg("ss") )
                 , bp::return_self< >()
-                , "\nWrapped function: operator=." );
+                , "\nWrapped function:"
+    "\n    operator=" );
         
         }
         SelfSimDescriptor_exposer.def_readwrite( "largeSize", &cv::SelfSimDescriptor::largeSize );

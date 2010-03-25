@@ -110,9 +110,13 @@ void register_SpinImageModel_class(){
                 "match"
                 , match_function_type( &match_86773a6b4d89ae97806d1109a2438811 )
                 , ( bp::arg("inst"), bp::arg("scene") )
-                , "\nArgument 'result', of C++ type '::std::vector< std::vector< cv::Vec<int, 2> > > &', is a list of Mat, e.g. [Mat(), Mat(), Mat()]."\
-    "\nTo get a list of Mats, use function asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)]."\
-    "\nAs an output argument, 'result' is omitted from the function's calling sequence." );
+                , "\nArgument 'result':"\
+    "\n    C/C++ type: ::std::vector< std::vector< cv::Vec<int, 2> > > &."\
+    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
+    "\n    Invoke asMat() to convert every 1D Python sequence into a Mat, e.g. "\
+    "\n    [asMat([0,1,2]), asMat((0,1,2)]."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
         
         }
         { //::cv::SpinImageModel::packRandomScaledSpins
@@ -143,8 +147,11 @@ void register_SpinImageModel_class(){
                 "setSubset"
                 , setSubset_function_type( &setSubset_89bf1b6d328936932f08aaf660288e7a )
                 , ( bp::arg("inst"), bp::arg("subset") )
-                , "\nArgument 'subset', of C++ type '::std::vector< int > const &', is a Mat."\
-    "\nUse function asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nArgument 'subset':"\
+    "\n    C/C++ type: ::std::vector< int > const &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
         
         }
         { //::cv::SpinImageModel::spinCorrelation

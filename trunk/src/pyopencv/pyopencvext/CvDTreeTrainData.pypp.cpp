@@ -379,8 +379,12 @@ void register_CvDTreeTrainData_class(){
             "read_params"
             , (void (*)( ::CvDTreeTrainData &,::cv::FileStorage &,::cv::FileNode & ))( &CvDTreeTrainData_wrapper::default_read_params )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-            , "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage."\
-    "\nArgument 'node', of C++ type '::CvFileNode *', is a FileNode." )    
+            , "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode."\
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." )    
         .def( 
             "set_params"
             , (bool ( ::CvDTreeTrainData::* )( ::CvDTreeParams const & ) )(&::CvDTreeTrainData::set_params)
@@ -390,7 +394,9 @@ void register_CvDTreeTrainData_class(){
             "write_params"
             , (void (*)( ::CvDTreeTrainData const &,::cv::FileStorage & ))( &CvDTreeTrainData_wrapper::default_write_params )
             , ( bp::arg("inst"), bp::arg("fs") )
-            , "\nArgument 'fs', of C++ type '::CvFileStorage *', is a FileStorage." )    
+            , "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." )    
         .def_readwrite( "buf_count", &CvDTreeTrainData::buf_count )    
         .def_readwrite( "buf_size", &CvDTreeTrainData::buf_size )    
         .def_readwrite( "cat_var_count", &CvDTreeTrainData::cat_var_count )    
