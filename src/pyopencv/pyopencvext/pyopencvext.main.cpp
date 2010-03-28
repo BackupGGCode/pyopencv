@@ -140,6 +140,8 @@
 
 #include "pyopencvext/CvHaarStageClassifier.pypp.hpp"
 
+#include "pyopencvext/CvHidHaarClassifierCascade.pypp.hpp"
+
 #include "pyopencvext/CvKNearest.pypp.hpp"
 
 #include "pyopencvext/CvLSH.pypp.hpp"
@@ -180,6 +182,8 @@
 
 #include "pyopencvext/CvRTrees.pypp.hpp"
 
+#include "pyopencvext/CvRect.pypp.hpp"
+
 #include "pyopencvext/CvSURFParams.pypp.hpp"
 
 #include "pyopencvext/CvSURFPoint.pypp.hpp"
@@ -199,6 +203,8 @@
 #include "pyopencvext/CvSet.pypp.hpp"
 
 #include "pyopencvext/CvSetElem.pypp.hpp"
+
+#include "pyopencvext/CvSize.pypp.hpp"
 
 #include "pyopencvext/CvStarDetectorParams.pypp.hpp"
 
@@ -1467,14 +1473,6 @@ struct CvRNG_to_python
     }
 };
 
-struct CvRect_to_python
-{
-    static PyObject* convert(CvRect const& x)
-    {
-        return bp::incref(bp::object(cv::Rect(x)).ptr());
-    }
-};
-
 struct CvScalar_to_python
 {
     static PyObject* convert(CvScalar const& x)
@@ -1507,14 +1505,6 @@ struct CvPoint3D32f_to_python
     }
 };
 
-
-struct CvSize_to_python
-{
-    static PyObject* convert(CvSize const& x)
-    {
-        return bp::incref(bp::object(cv::Size(x)).ptr());
-    }
-};
 
 struct CvBox2D_to_python
 {
@@ -2362,6 +2352,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvHaarStageClassifier_class();
 
+    register_CvHidHaarClassifierCascade_class();
+
     register_CvKNearest_class();
 
     register_CvLSH_class();
@@ -2398,6 +2390,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvQuadEdge2D_class();
 
+    register_CvRect_class();
+
     register_CvSURFParams_class();
 
     register_CvSURFPoint_class();
@@ -2417,6 +2411,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvSet_class();
 
     register_CvSetElem_class();
+
+    register_CvSize_class();
 
     register_CvStarDetectorParams_class();
 
@@ -5501,8 +5497,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::to_python_converter<CvRNG, CvRNG_to_python, false>();
 
-    bp::to_python_converter<CvRect, CvRect_to_python, false>();
-
     bp::to_python_converter<CvScalar, CvScalar_to_python, false>();
 
     bp::to_python_converter<CvPoint, CvPoint_to_python, false>();
@@ -5510,8 +5504,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::to_python_converter<CvPoint2D32f, CvPoint2D32f_to_python, false>();
 
     bp::to_python_converter<CvPoint3D32f, CvPoint3D32f_to_python, false>();
-
-    bp::to_python_converter<CvSize, CvSize_to_python, false>();
 
     bp::to_python_converter<CvBox2D, CvBox2D_to_python, false>();
 
