@@ -23,6 +23,7 @@ import pyplusplus.function_transformers.transformers as _T
 from pyplusplus.decl_wrappers import call_policies as CP
 
 import common
+from memvar_transformers import *
 
 
 def expose_func(func, ownershiplevel=None, ward_indices=(), return_arg_index=None, return_pointee=True, transformer_creators=[]):
@@ -92,92 +93,6 @@ def add_underscore(decl):
     decl.rename('_'+decl.name)
     decl.include()
 
-def expose_addressof_member(klass, member_name, exclude_member=True):
-    klass.include_files.append( "boost/python/long.hpp" )
-    if exclude_member:
-        klass.var(member_name).exclude()
-    klass.add_declaration_code('''
-    boost::python::long_ get_MEMBER_NAME_addr( CLASS_TYPE const & inst ){
-        return boost::python::long_((int)&inst.MEMBER_NAME);
-    }
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
-    klass.add_registration_code('def( "get_MEMBER_NAME_addr", &::get_MEMBER_NAME_addr )'.replace("MEMBER_NAME", member_name))
-    # TODO: finish the wrapping with ctypes code
-    
-def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True):
-    klass.var(member_name).exclude()
-    CvMat = 'CvMat' if is_CvMat_ptr else 'IplImage'
-    klass.add_wrapper_code('''
-    cv::Mat MEMBER_NAME_as_Mat;
-    CVMAT MEMBER_NAME_as_CvMat;
-    void set_MEMBER_NAME(cv::Mat const &new_MEMBER_NAME)
-    {
-        MEMBER_NAME_as_Mat = new_MEMBER_NAME; // to keep a reference to MEMBER_NAME
-        MEMBER_NAME_as_CVMAT = MEMBER_NAME_as_Mat; // to ensure MEMBER_NAME points to a valid CVMAT
-        MEMBER_NAME = &MEMBER_NAME_as_CVMAT;
-    }
-    cv::Mat & get_MEMBER_NAME()
-    {
-        if(MEMBER_NAME != &MEMBER_NAME_as_CVMAT) set_MEMBER_NAME(cv::Mat(MEMBER_NAME));
-        return MEMBER_NAME_as_Mat;
-    }
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string).replace("CVMAT", CvMat))
-    klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_MEMBER_NAME, bp::return_internal_reference<>()),
-        &CLASS_TYPE_wrapper::set_MEMBER_NAME)'''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
-    
-def expose_member_as_TermCriteria(klass, member_name):
-    klass.var(member_name).exclude()
-    klass.add_wrapper_code('''
-    cv::TermCriteria get_MEMBER_NAME() { return cv::TermCriteria(MEMBER_NAME); }
-    void set_MEMBER_NAME(cv::TermCriteria const &_MEMBER_NAME) { MEMBER_NAME = _MEMBER_NAME; }
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
-    klass.add_registration_code('add_property( "MEMBER_NAME", &CLASS_TYPE_wrapper::get_MEMBER_NAME, &CLASS_TYPE_wrapper::set_MEMBER_NAME)' \
-        .replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
-    
-def expose_member_as_str(klass, member_name):
-    klass.include_files.append( "boost/python/object.hpp" )
-    klass.include_files.append( "boost/python/str.hpp" )
-    klass.var(member_name).exclude()
-    klass.add_wrapper_code('''
-    static bp::object get_MEMBER_NAME( CLASS_TYPE const & inst ){        
-        return inst.MEMBER_NAME? bp::str(inst.MEMBER_NAME): bp::object();
-    }
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
-    klass.add_registration_code('''
-    add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_MEMBER_NAME) )
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
-    
-def expose_member_as_pointee(klass, member_name):
-    klass.include_files.append( "boost/python/object.hpp" )
-    z = klass.var(member_name)
-    z.exclude()
-    klass.add_declaration_code("static MEMBER_TYPE get_MEMBER_NAME( CLASS_TYPE const & inst ) { return inst.MEMBER_NAME; }"\
-        .replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string)\
-        .replace("MEMBER_TYPE", z.type.decl_string))
-    klass.add_registration_code('''
-    add_property( "MEMBER_NAME", bp::make_function(&::get_MEMBER_NAME, bp::return_internal_reference<>()) )
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
-    
-def expose_member_as_array_of_pointees(klass, member_name, array_size):
-    klass.include_files.append( "boost/python/object.hpp")
-    klass.include_files.append( "boost/python/list.hpp")
-    klass.include_files.append( "boost/python/tuple.hpp")
-    klass.var(member_name).exclude() # TODO: with_custodian_and_ward for each pointee of the array
-    klass.add_wrapper_code('''
-    static bp::object get_MEMBER_NAME( CLASS_TYPE const & inst ){
-        bp::list l;
-        for(int i = 0; i < ARRAY_SIZE; ++i)
-            l.append(inst.MEMBER_NAME[i]);
-        return bp::tuple(l);
-    }
-    '''.replace("MEMBER_NAME", member_name) \
-        .replace("CLASS_TYPE", klass.decl_string) \
-        .replace("ARRAY_SIZE", str(array_size)))
-    klass.add_registration_code('''
-    add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_MEMBER_NAME) )
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
-    
-
 def expose_lshift(klass, conversion_code, func_name="__lshift__"):
     try:
         klass.operators('<<').exclude()
@@ -198,8 +113,6 @@ def expose_rshift(klass, conversion_code, func_name="read"):
     klass.add_wrapper_code(conversion_code.replace('FUNC_NAME', func_name))
     klass.add_registration_code('def( "FUNC_NAME", &KLASS_NAME_wrapper::FUNC_NAME )'\
         .replace('FUNC_NAME', func_name).replace('KLASS_NAME', klass.name))
-    
-    
     
 def remove_ptr( type_ ):
     if _D.is_pointer( type_ ):
