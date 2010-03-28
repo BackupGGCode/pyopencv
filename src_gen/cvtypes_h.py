@@ -98,7 +98,7 @@ CV_HAAR_FEATURE_MAX  = 3
     # pointers which are not Cv... * are excluded until further requested
     for z in (
         'CvAvgComp',
-        'CvHaarClassifier', 'CvHaarStageClassifier', 'CvHaarClassifierCascade',
+        'CvHaarStageClassifier', 'CvHaarClassifierCascade',
         ):
         k = mb.class_(z)
         k.include()
@@ -134,6 +134,15 @@ static void set_rect_weight(CvHaarFeature &inst, int i, float _weight)
     z.add_registration_code('def("get_rect", &::get_rect, bp::return_internal_reference<>())')
     z.add_registration_code('def("get_rect_weight", &::get_rect_weight)')
     z.add_registration_code('def("set_rect_weight", &::set_rect_weight)')
+    
+    # CvHaarClassifier
+    z = mb.class_('CvHaarClassifier')
+    z.include()
+    FT.expose_member_as_pointee(z, 'haar_feature')
+    FT.expose_array_member_as_Mat(z, 'threshold', 'count')
+    FT.expose_array_member_as_Mat(z, 'left', 'count')
+    FT.expose_array_member_as_Mat(z, 'right', 'count')
+    FT.expose_array_member_as_Mat(z, 'alpha', 'count')
     
                     
     # CvConDensation

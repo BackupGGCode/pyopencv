@@ -61,6 +61,21 @@ def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True):
     '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string).replace("CVMAT", CvMat))
     klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_MEMBER_NAME, bp::return_internal_reference<>()),
         &CLASS_TYPE_wrapper::set_MEMBER_NAME)'''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
+        
+def expose_array_member_as_Mat(klass, member_name, member_size_name):
+    klass.include_files.append( "opencv_converters.hpp" )
+    klass.var(member_name).exclude()
+    klass.var(member_size_name).exclude()
+    klass.add_declaration_code('''
+static cv::Mat get_MEMBER_NAME(CLASS_TYPE const &inst)
+{
+    cv::Mat MEMBER_NAME2;
+    convert_from_array_of_T_to_Mat(inst.MEMBER_NAME, inst.MEMBER_SIZE_NAME, MEMBER_NAME2);
+    return MEMBER_NAME2;
+}
+
+    '''.replace("MEMBER_NAME", member_name).replace("MEMBER_SIZE_NAME", member_size_name).replace("CLASS_TYPE", klass.decl_string))
+    klass.add_registration_code('''add_property( "MEMBER_NAME", &::get_MEMBER_NAME)'''.replace("MEMBER_NAME", member_name)) # TODO: make MEMBER dependent on KLASS
     
 def expose_member_as_TermCriteria(klass, member_name):
     klass.var(member_name).exclude()
