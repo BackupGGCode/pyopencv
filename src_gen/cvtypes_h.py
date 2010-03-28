@@ -141,12 +141,12 @@ static void set_rect_weight(CvHaarFeature &inst, int i, float _weight)
     FT.expose_array_member_as_Mat(z, 'threshold', 'count')
     FT.expose_array_member_as_Mat(z, 'left', 'count')
     FT.expose_array_member_as_Mat(z, 'right', 'count')
-    FT.expose_array_member_as_Mat(z, 'alpha', 'count')
+    FT.expose_array_member_as_Mat(z, 'alpha', 'count', '1')
     
     # CvHaarStageClassifier
     z = mb.class_('CvHaarStageClassifier')
     z.include()
-    FT.expose_member_as_pointee(z, 'classifier')
+    FT.expose_member_as_array_of_pointees(z, 'classifier', 'inst.count')
     
     # CvHidHaarClassifierCascade
     z = mb.class_('CvHidHaarClassifierCascade')
@@ -155,7 +155,7 @@ static void set_rect_weight(CvHaarFeature &inst, int i, float _weight)
     # CvHaarClassifierCascade
     z = mb.class_('CvHaarClassifierCascade')
     z.include()
-    FT.expose_member_as_pointee(z, 'stage_classifier')
+    FT.expose_member_as_array_of_pointees(z, 'stage_classifier', 'inst.count')
     FT.expose_member_as_pointee(z, 'hid_cascade')
     
                     
