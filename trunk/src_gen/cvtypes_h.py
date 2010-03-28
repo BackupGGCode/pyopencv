@@ -98,7 +98,6 @@ CV_HAAR_FEATURE_MAX  = 3
     # pointers which are not Cv... * are excluded until further requested
     for z in (
         'CvAvgComp',
-        'CvHaarStageClassifier', 'CvHaarClassifierCascade',
         ):
         k = mb.class_(z)
         k.include()
@@ -143,6 +142,21 @@ static void set_rect_weight(CvHaarFeature &inst, int i, float _weight)
     FT.expose_array_member_as_Mat(z, 'left', 'count')
     FT.expose_array_member_as_Mat(z, 'right', 'count')
     FT.expose_array_member_as_Mat(z, 'alpha', 'count')
+    
+    # CvHaarStageClassifier
+    z = mb.class_('CvHaarStageClassifier')
+    z.include()
+    FT.expose_member_as_pointee(z, 'classifier')
+    
+    # CvHidHaarClassifierCascade
+    z = mb.class_('CvHidHaarClassifierCascade')
+    z.include()
+    
+    # CvHaarClassifierCascade
+    z = mb.class_('CvHaarClassifierCascade')
+    z.include()
+    FT.expose_member_as_pointee(z, 'stage_classifier')
+    FT.expose_member_as_pointee(z, 'hid_cascade')
     
                     
     # CvConDensation
