@@ -112,9 +112,28 @@ CV_HAAR_FEATURE_MAX  = 3
     # CvHaarFeature
     z = mb.class_('CvHaarFeature')
     z.include()
-    for t in ('r', 'weight', 'rect'): # wait until requested: expose the member variables
+    for t in ('r', 'weight', 'rect'):
         z.decl(t).exclude()
+    z.add_declaration_code('''
+static cv::Rect *get_rect(CvHaarFeature const &inst, int i)
+{
+    return (cv::Rect *)&inst.rect[i].r;
+}
 
+static float get_rect_weight(CvHaarFeature const &inst, int i)
+{
+    return inst.rect[i].weight;
+}
+
+static void set_rect_weight(CvHaarFeature &inst, int i, float _weight)
+{
+    inst.rect[i].weight = _weight;
+}
+
+    ''')
+    z.add_registration_code('def("get_rect", &::get_rect, bp::return_internal_reference<>())')
+    z.add_registration_code('def("get_rect_weight", &::get_rect_weight)')
+    z.add_registration_code('def("set_rect_weight", &::set_rect_weight)')
     
                     
     # CvConDensation
