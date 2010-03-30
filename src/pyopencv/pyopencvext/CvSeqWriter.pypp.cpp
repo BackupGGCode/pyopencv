@@ -9,49 +9,31 @@
 
 namespace bp = boost::python;
 
-struct CvSeqWriter_wrapper : CvSeqWriter, bp::wrapper< CvSeqWriter > {
-
-    CvSeqWriter_wrapper(CvSeqWriter const & arg )
-    : CvSeqWriter( arg )
-      , bp::wrapper< CvSeqWriter >(){
-        // copy constructor
-        
-    }
-
-    CvSeqWriter_wrapper()
-    : CvSeqWriter()
-      , bp::wrapper< CvSeqWriter >(){
-        // null constructor
-        
-    }
-
-    static bp::object get_ptr( ::CvSeqWriter const & inst ){        
-        return inst.ptr? bp::str(inst.ptr): bp::object();
-    }
-
-    static bp::object get_block_min( ::CvSeqWriter const & inst ){        
-        return inst.block_min? bp::str(inst.block_min): bp::object();
-    }
-
-    static bp::object get_block_max( ::CvSeqWriter const & inst ){        
-        return inst.block_max? bp::str(inst.block_max): bp::object();
-    }
-
-};
-
 static ::CvSeq * get_seq( ::CvSeqWriter const & inst ) { return inst.seq; }
 
 static ::CvSeqBlock * get_block( ::CvSeqWriter const & inst ) { return inst.block; }
 
+static bp::object get_ptr( ::CvSeqWriter const & inst ){        
+    return inst.ptr? bp::str(inst.ptr): bp::object();
+}
+
+static bp::object get_block_min( ::CvSeqWriter const & inst ){        
+    return inst.block_min? bp::str(inst.block_min): bp::object();
+}
+
+static bp::object get_block_max( ::CvSeqWriter const & inst ){        
+    return inst.block_max? bp::str(inst.block_max): bp::object();
+}
+
 void register_CvSeqWriter_class(){
 
-    bp::class_< CvSeqWriter_wrapper >( "CvSeqWriter" )    
+    bp::class_< CvSeqWriter >( "CvSeqWriter" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSeqWriter >() )    
         .def_readwrite( "header_size", &CvSeqWriter::header_size )    
         .add_property( "seq", bp::make_function(&::get_seq, bp::return_internal_reference<>()) )    
         .add_property( "block", bp::make_function(&::get_block, bp::return_internal_reference<>()) )    
-        .add_property( "ptr", bp::make_function(&::CvSeqWriter_wrapper::get_ptr) )    
-        .add_property( "block_min", bp::make_function(&::CvSeqWriter_wrapper::get_block_min) )    
-        .add_property( "block_max", bp::make_function(&::CvSeqWriter_wrapper::get_block_max) );
+        .add_property( "ptr", &::get_ptr )    
+        .add_property( "block_min", &::get_block_min )    
+        .add_property( "block_max", &::get_block_max );
 
 }

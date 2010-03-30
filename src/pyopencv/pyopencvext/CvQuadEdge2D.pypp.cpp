@@ -32,14 +32,14 @@ struct CvQuadEdge2D_wrapper : CvQuadEdge2D, bp::wrapper< CvQuadEdge2D > {
         return pyplusplus::containers::static_sized::array_1_t< unsigned int, 4>( inst.next );
     }
 
-    static bp::object get_pt( ::CvQuadEdge2D const & inst ){
-        bp::list l;
-        for(int i = 0; i < 4; ++i)
-            l.append(inst.pt[i]);
-        return bp::tuple(l);
-    }
-
 };
+
+static bp::object get_pt( ::CvQuadEdge2D const & inst ){
+    bp::list l;
+    for(int i = 0; i < 4; ++i)
+        l.append(inst.pt[i]);
+    return bp::tuple(l);
+}
 
 void register_CvQuadEdge2D_class(){
 
@@ -58,7 +58,7 @@ void register_CvQuadEdge2D_class(){
                 , bp::make_function( array_wrapper_creator(&CvQuadEdge2D_wrapper::pyplusplus_next_wrapper)
                                     , bp::with_custodian_and_ward_postcall< 0, 1 >() ) );
         }
-        CvQuadEdge2D_exposer.add_property( "pt", bp::make_function(&::CvQuadEdge2D_wrapper::get_pt) );
+        CvQuadEdge2D_exposer.add_property( "pt", &::get_pt );
     }
 
 }

@@ -31,14 +31,6 @@ struct CvContour_wrapper : CvContour, bp::wrapper< CvContour > {
         return pyplusplus::containers::static_sized::array_1_t< int, 3>( inst.reserved );
     }
 
-    static bp::object get_block_max( ::CvContour const & inst ){        
-        return inst.block_max? bp::str(inst.block_max): bp::object();
-    }
-
-    static bp::object get_ptr( ::CvContour const & inst ){        
-        return inst.ptr? bp::str(inst.ptr): bp::object();
-    }
-
 };
 
 static ::CvSeq * get_h_prev( ::CvContour const & inst ) { return inst.h_prev; }
@@ -54,6 +46,14 @@ static ::CvMemStorage * get_storage( ::CvContour const & inst ) { return inst.st
 static ::CvSeqBlock * get_free_blocks( ::CvContour const & inst ) { return inst.free_blocks; }
 
 static ::CvSeqBlock * get_first( ::CvContour const & inst ) { return inst.first; }
+
+static bp::object get_block_max( ::CvContour const & inst ){        
+    return inst.block_max? bp::str(inst.block_max): bp::object();
+}
+
+static bp::object get_ptr( ::CvContour const & inst ){        
+    return inst.ptr? bp::str(inst.ptr): bp::object();
+}
 
 void register_CvContour_class(){
 
@@ -85,8 +85,8 @@ void register_CvContour_class(){
         CvContour_exposer.add_property( "storage", bp::make_function(&::get_storage, bp::return_internal_reference<>()) );
         CvContour_exposer.add_property( "free_blocks", bp::make_function(&::get_free_blocks, bp::return_internal_reference<>()) );
         CvContour_exposer.add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) );
-        CvContour_exposer.add_property( "block_max", bp::make_function(&::CvContour_wrapper::get_block_max) );
-        CvContour_exposer.add_property( "ptr", bp::make_function(&::CvContour_wrapper::get_ptr) );
+        CvContour_exposer.add_property( "block_max", &::get_block_max );
+        CvContour_exposer.add_property( "ptr", &::get_ptr );
     }
 
 }
