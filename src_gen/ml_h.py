@@ -313,16 +313,18 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvDTreeTrainData
     z = mb.class_('CvDTreeTrainData')
-    mb.init_class(z)
-    z.constructors(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these long constructors
-    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these long member functions
-    for t in (
-        'responses_copy', 'cat_count', 'cat_ofs', 'cat_map', 'counts', 'buf', 'direction', 'split_buf', 
-        'var_idx', 'var_type', 'priors', 'priors_mult', 'tree_storage', 'temp_storage', 'data_root',
-        'node_heap', 'split_heap', 'cv_heap', 'nv_heap', 'rng',
-        ):
-        z.var(t).exclude() # TODO: fix these variables
-    mb.finalize_class(z)
+    z.include()
+    z.decls().exclude() # TODO: fix this class
+    # mb.init_class(z)
+    # z.constructors(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these long constructors
+    # z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these long member functions
+    # for t in (
+        # 'responses_copy', 'cat_count', 'cat_ofs', 'cat_map', 'counts', 'buf', 'direction', 'split_buf', 
+        # 'var_idx', 'var_type', 'priors', 'priors_mult', 'tree_storage', 'temp_storage', 'data_root',
+        # 'node_heap', 'split_heap', 'cv_heap', 'nv_heap', 'rng',
+        # ):
+        # z.var(t).exclude() # TODO: fix these variables
+    # mb.finalize_class(z)
     
     # CvDTree
     z = mb.class_('CvDTree')

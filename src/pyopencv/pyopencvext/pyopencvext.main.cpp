@@ -1181,6 +1181,14 @@ static boost::python::tuple findChessboardCorners_dbf15a4ace0e613206118382aa1793
     return bp::make_tuple( result, corners3 );
 }
 
+static boost::python::object findContours_664763de08e36b95bc7d4fcebc9ccbf7( ::cv::Mat & image, int mode, int method, ::cv::Point offset=cv::Point_<int>() ){
+    std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > contours2;
+    bp::list contours3;
+    ::cv::findContours(image, contours2, mode, method, offset);
+    convert_from_T_to_object(contours2, contours3);
+    return bp::object( contours3 );
+}
+
 static boost::python::tuple findContours_369c42510a246d95804d68f7fdfbd8aa( ::cv::Mat & image, int mode, int method, ::cv::Point offset=cv::Point_<int>() ){
     std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > contours2;
     bp::list contours3;
@@ -2159,63 +2167,6 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
         PyErr_SetString(PyExc_ValueError, s);
         throw bp::error_already_set(); 
     }
-}
-
-namespace cv
-{
-static void
-_findContours( const Mat& image, vector<vector<Point> >& contours,
-               vector<Vec4i>* hierarchy, int mode, int method, Point offset )
-{
-    MemStorage storage(cvCreateMemStorage());
-    CvMat _image = image;
-    CvSeq* _contours = 0;
-    if( hierarchy )
-        hierarchy->clear();
-    cvFindContours(&_image, storage, &_contours, sizeof(CvContour), mode, method, offset);
-    if( !_contours )
-    {
-        contours.clear();
-        return;
-    }
-    Seq<CvSeq*> all_contours(cvTreeToNodeSeq( _contours, sizeof(CvSeq), storage ));
-    size_t i, total = all_contours.size();
-    contours.resize(total);
-    SeqIterator<CvSeq*> it = all_contours.begin();
-    for( i = 0; i < total; i++, ++it )
-    {
-        CvSeq* c = *it;
-        ((CvContour*)c)->color = (int)i;
-        Seq<Point>(c).copyTo(contours[i]);
-    }
-
-    if( hierarchy )
-    {
-        hierarchy->resize(total);
-        it = all_contours.begin();
-        for( i = 0; i < total; i++, ++it )
-        {
-            CvSeq* c = *it;
-            int h_next = c->h_next ? ((CvContour*)c->h_next)->color : -1;
-            int h_prev = c->h_prev ? ((CvContour*)c->h_prev)->color : -1;
-            int v_next = c->v_next ? ((CvContour*)c->v_next)->color : -1;
-            int v_prev = c->v_prev ? ((CvContour*)c->v_prev)->color : -1;
-            (*hierarchy)[i] = Vec4i(h_next, h_prev, v_next, v_prev);
-        }
-    }
-}
-}
-
-void cv::findContours( const Mat& image, vector<vector<Point> >& contours,
-                   vector<Vec4i>& hierarchy, int mode, int method, Point offset )
-{
-    _findContours(image, contours, &hierarchy, mode, method, offset);
-}
-
-void cv::findContours( const Mat& image, vector<vector<Point> >& contours,
-                   int mode, int method, Point offset)
-{
-    _findContours(image, contours, 0, mode, method, offset);
 }
 
 static cv::Mat sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
@@ -4874,6 +4825,24 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
+    
+    }
+
+    { //::cv::findContours
+    
+        typedef boost::python::object ( *findContours_function_type )( ::cv::Mat &,int,int,::cv::Point );
+        
+        bp::def( 
+            "findContours"
+            , findContours_function_type( &findContours_664763de08e36b95bc7d4fcebc9ccbf7 )
+            , ( bp::arg("image"), bp::arg("mode"), bp::arg("method"), bp::arg("offset")=cv::Point_<int>() )
+            , "\nArgument 'contours':"\
+    "\n    C/C++ type: ::std::vector< std::vector< cv::Point_<int> > > &."\
+    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
+    "\n    Invoke asMat() to convert every 1D Python sequence into a Mat, e.g. "\
+    "\n    [asMat([0,1,2]), asMat((0,1,2)]."\
     "\n    Output argument: omitted from the function's calling sequence, and is "\
     "\n    returned along with the function's return value (if any)." );
     
