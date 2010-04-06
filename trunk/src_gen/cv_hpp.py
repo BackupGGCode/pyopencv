@@ -186,7 +186,8 @@ def generate_code(mb, cc, D, FT, CP):
         'estimateAffine3D', 'groupRectangles',
         'Rodrigues', 'RQDecomp3x3', 'decomposeProjectionMatrix', 'matMulDeriv', 
         'composeRT', 'solvePnP', 'initCameraMatrix2D', 'drawChessboardCorners',
-        'calibrationMatrixValues', 'stereoCalibrate', 'stereoRectify', 
+        'calibrationMatrixValues', 'stereoCalibrate', 
+        # 'stereoRectify', # TODO: fix this in OpenCV 2.1.0
         'stereoRectifyUncalibrated', 'reprojectImageTo3D',         
         ):
         mb.free_funs(z).include()
@@ -258,74 +259,18 @@ def generate_code(mb, cc, D, FT, CP):
     FT.expose_func(mb.free_fun('HuMoments'), return_pointee=False,
         transformer_creators=[FT.output_static_array('hu', 7)])
         
-    # workaround to fix a bug in OpenCV's internal _findContours
-    # this will be removed in the next release of OpenCV
-    mb.add_declaration_code('''
-namespace cv
-{
-static void
-_findContours( const Mat& image, vector<vector<Point> >& contours,
-               vector<Vec4i>* hierarchy, int mode, int method, Point offset )
-{
-    MemStorage storage(cvCreateMemStorage());
-    CvMat _image = image;
-    CvSeq* _contours = 0;
-    if( hierarchy )
-        hierarchy->clear();
-    cvFindContours(&_image, storage, &_contours, sizeof(CvContour), mode, method, offset);
-    if( !_contours )
-    {
-        contours.clear();
-        return;
-    }
-    Seq<CvSeq*> all_contours(cvTreeToNodeSeq( _contours, sizeof(CvSeq), storage ));
-    size_t i, total = all_contours.size();
-    contours.resize(total);
-    SeqIterator<CvSeq*> it = all_contours.begin();
-    for( i = 0; i < total; i++, ++it )
-    {
-        CvSeq* c = *it;
-        ((CvContour*)c)->color = (int)i;
-        Seq<Point>(c).copyTo(contours[i]);
-    }
-
-    if( hierarchy )
-    {
-        hierarchy->resize(total);
-        it = all_contours.begin();
-        for( i = 0; i < total; i++, ++it )
-        {
-            CvSeq* c = *it;
-            int h_next = c->h_next ? ((CvContour*)c->h_next)->color : -1;
-            int h_prev = c->h_prev ? ((CvContour*)c->h_prev)->color : -1;
-            int v_next = c->v_next ? ((CvContour*)c->v_next)->color : -1;
-            int v_prev = c->v_prev ? ((CvContour*)c->v_prev)->color : -1;
-            (*hierarchy)[i] = Vec4i(h_next, h_prev, v_next, v_prev);
-        }
-    }
-}
-}
-
-void cv::findContours( const Mat& image, vector<vector<Point> >& contours,
-                   vector<Vec4i>& hierarchy, int mode, int method, Point offset )
-{
-    _findContours(image, contours, &hierarchy, mode, method, offset);
-}
-
-void cv::findContours( const Mat& image, vector<vector<Point> >& contours,
-                   int mode, int method, Point offset)
-{
-    _findContours(image, contours, 0, mode, method, offset);
-}
-
-    ''')
-        
     # findContours
     z = mb.free_fun(lambda x: x.name=='findContours' and len(x.arguments)==6)
     z.include()
     z._transformer_kwds['alias'] = 'findContours'
     z._transformer_creators.append(FT.arg_std_vector('contours', 2))
     z._transformer_creators.append(FT.arg_std_vector('hierarchy', 2))
+        
+    # findContours
+    z = mb.free_fun(lambda x: x.name=='findContours' and len(x.arguments)==5)
+    z.include()
+    z._transformer_kwds['alias'] = 'findContours'
+    z._transformer_creators.append(FT.arg_std_vector('contours', 2))
         
     # approxPolyDP
     mb.free_funs('approxPolyDP').exclude()

@@ -3988,28 +3988,6 @@ void register_free_functions(){
     
     }
 
-    { //::cv::stereoRectify
-    
-        typedef void ( *stereoRectify_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Size,::cv::Mat const &,::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,double,::cv::Size,::cv::Rect *,::cv::Rect *,int );
-        
-        bp::def( 
-            "stereoRectify"
-            , stereoRectify_function_type( &::cv::stereoRectify )
-            , ( bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("R1"), bp::arg("R2"), bp::arg("P1"), bp::arg("P2"), bp::arg("Q"), bp::arg("alpha"), bp::arg("newImageSize")=cv::Size_<int>(), bp::arg("validPixROI1")=bp::object(), bp::arg("validPixROI2")=bp::object(), bp::arg("flags")=int(::cv::CALIB_ZERO_DISPARITY) ) );
-    
-    }
-
-    { //::cv::stereoRectify
-    
-        typedef void ( *stereoRectify_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Size,::cv::Mat const &,::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,int );
-        
-        bp::def( 
-            "stereoRectify"
-            , stereoRectify_function_type( &::cv::stereoRectify )
-            , ( bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("R1"), bp::arg("R2"), bp::arg("P1"), bp::arg("P2"), bp::arg("Q"), bp::arg("flags")=int(::cv::CALIB_ZERO_DISPARITY) ) );
-    
-    }
-
     { //::cv::stereoRectifyUncalibrated
     
         typedef bool ( *stereoRectifyUncalibrated_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Size,::cv::Mat &,::cv::Mat &,double );
