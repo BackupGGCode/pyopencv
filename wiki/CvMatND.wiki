@@ -1,0 +1,11 @@
+#summary Old-style CvMatND
+
+= Reference =
+
+Structure CvMatND is replaced by the more robust and more efficient MatND class. 
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvMatND || MatND ||
+|| cvMatND, cvCreateMatNDHeader, cvCreateMatND, cvInitMatNDHeader || MatND's constructors ||
+|| cvReleaseMatND || no need to invoke, but if you insist: MatND.release ||
+|| cvCloneMatND || MatND.clone ||

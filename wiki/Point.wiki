@@ -1,0 +1,13 @@
+#summary Point_<>
+
+= Reference =
+
+Instantiations of class cv::Point_<> included in PyOpenCV: Point, Point2i, Point2f.
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cv::Point_ || Point ||
+|| cv::Point::dot || Point.dot ||
+|| cv::Point::ddot || Point.ddot ||
+|| cv::Point::inside || Point.inside ||
+|| cv::Point::x || Point.x ||
+|| cv::Point::y || Point.y ||

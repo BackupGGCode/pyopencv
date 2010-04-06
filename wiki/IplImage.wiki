@@ -1,0 +1,17 @@
+#summary Old-style IplImage
+
+= Reference =
+
+Structure IplImage is replaced by the more robust and more efficient Mat class. Its related structures are removed. Every function argument that refers to an IplImage is replaced with one that refers to a Mat.
+
+|| *OpenCV* || *PyOpenCV* ||
+|| IplImage || Mat ||
+|| IplROI, IplConvKernel || (removed) ||
+|| cvReleaseImageHeader, cvReleaseImage || no need to invoke but if you insist: Mat.release ||
+|| cvInitImageHeader, cvCreateImageHeader, cvCreateImage || Mat.constructors ||
+|| cvSetImageCOI || (removed) ||
+|| cvGetImageCOI || (removed) ||
+|| cvSetImageROI || (removed) ||
+|| cvResetImageROI || (removed) ||
+|| cvGetImageROI || (removed) ||
+|| cvCloneImage || Mat.clone ||

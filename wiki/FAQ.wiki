@@ -1,0 +1,7 @@
+#summary Frequently Asked Questions
+
+= Details =
+
+==Function X, class Y, or member function/variable Z of class Y is not exposed. Can I have it exposed?==
+
+If the declaration you are looking for belongs to the old C interface, check if there is an equivalent declaration in the new C++ interface. Otherwise, find the related issue in the "Issues" tab (or raise one if there is none), and post your request. I will try to fix the issue when I have time. Certainly, the more requests there are, the higher priority the issue will receive.

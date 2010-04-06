@@ -1,0 +1,14 @@
+=======================================================================
+PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
+=======================================================================
+
+Change Log
+==========
+
+pyopencv-2.0.0.wr-1.0.0 beta release
+------------------------------------
+
+- The first release of PyOpenCV. Many fundamentals of OpenCV have been
+ported to Python. However, there is still some functionality not fully
+available. Lots of small issues need ironing out. Just tell me which
+parts you want PyOpenCV to improve and I will take time to improve them.

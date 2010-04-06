@@ -1,0 +1,9 @@
+#summary Video Writer
+
+= Reference =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| CvVideoWriter, cv::VideoWriter || VideoWriter ||
+|| cvCreateVideoWriter, cv::VideoWriter::open || VideoWriter.open ||
+|| cvWriteFrame, cv::VideoWriter::operator << || VideoWriter.operator << ||
+|| cvReleaseVideoWriter, cv::VideoWriter::release || VideoWriter.release ||

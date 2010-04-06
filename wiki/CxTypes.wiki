@@ -1,0 +1,10 @@
+#summary Free functions in CxTypes
+
+= References =
+
+|| *OpenCV* || *PyOpenCV* ||
+|| cvRound || cvRound ||
+|| cvFloor || cvFloor ||
+|| cvCeil || cvCeil ||
+|| cvIsNan || cvIsNan ||
+|| cvIsInf || cvIsInf ||
