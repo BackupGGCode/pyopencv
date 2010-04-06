@@ -889,12 +889,12 @@ void register_free_functions(){
 
     { //::cv::contourArea
     
-        typedef double ( *contourArea_function_type )( ::cv::Mat const & );
+        typedef double ( *contourArea_function_type )( ::cv::Mat const &,bool );
         
         bp::def( 
             "contourArea"
             , contourArea_function_type( &::cv::contourArea )
-            , ( bp::arg("contour") ) );
+            , ( bp::arg("contour"), bp::arg("oriented")=(bool)(false) ) );
     
     }
 
@@ -3500,7 +3500,7 @@ void register_free_functions(){
         bp::def( 
             "namedWindow"
             , namedWindow_function_type( &::cv::namedWindow )
-            , ( bp::arg("winname"), bp::arg("flags") ) );
+            , ( bp::arg("winname"), bp::arg("flags")=(int)(1) ) );
     
     }
 
@@ -3770,6 +3770,17 @@ void register_free_functions(){
 
     { //::cv::rectangle
     
+        typedef void ( *rectangle_function_type )( ::cv::Mat &,::cv::Rect,::cv::Scalar const &,int,int,int );
+        
+        bp::def( 
+            "rectangle"
+            , rectangle_function_type( &::cv::rectangle )
+            , ( bp::arg("img"), bp::arg("rec"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) ) );
+    
+    }
+
+    { //::cv::rectangle
+    
         typedef void ( *rectangle_function_type )( ::cv::Mat &,::cv::Point,::cv::Point,::cv::Scalar const &,int,int,int );
         
         bp::def( 
@@ -3841,7 +3852,7 @@ void register_free_functions(){
         bp::def( 
             "resize"
             , resize_function_type( &::cv::resize )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("dsize")=cv::Size_<int>(), bp::arg("fx")=0, bp::arg("fy")=0, bp::arg("interpolation")=int(::cv::INTER_LINEAR) ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("dsize"), bp::arg("fx")=0, bp::arg("fy")=0, bp::arg("interpolation")=int(::cv::INTER_LINEAR) ) );
     
     }
 
@@ -3974,6 +3985,17 @@ void register_free_functions(){
             "sqrt"
             , sqrt_function_type( &::cv::sqrt )
             , ( bp::arg("a"), bp::arg("b") ) );
+    
+    }
+
+    { //::cv::stereoRectify
+    
+        typedef void ( *stereoRectify_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Size,::cv::Mat const &,::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,double,::cv::Size,::cv::Rect *,::cv::Rect *,int );
+        
+        bp::def( 
+            "stereoRectify"
+            , stereoRectify_function_type( &::cv::stereoRectify )
+            , ( bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("R1"), bp::arg("R2"), bp::arg("P1"), bp::arg("P2"), bp::arg("Q"), bp::arg("alpha"), bp::arg("newImageSize")=cv::Size_<int>(), bp::arg("validPixROI1")=bp::object(), bp::arg("validPixROI2")=bp::object(), bp::arg("flags")=int(::cv::CALIB_ZERO_DISPARITY) ) );
     
     }
 

@@ -8,17 +8,16 @@ namespace bp = boost::python;
 
 void register_global_variables(){
 
-    bp::scope().attr("CALIB_USE_INTRINSIC_GUESS") = (int)cv::CALIB_USE_INTRINSIC_GUESS;
-    bp::scope().attr("CALIB_FIX_ASPECT_RATIO") = (int)cv::CALIB_FIX_ASPECT_RATIO;
-    bp::scope().attr("CALIB_FIX_PRINCIPAL_POINT") = (int)cv::CALIB_FIX_PRINCIPAL_POINT;
-    bp::scope().attr("CALIB_ZERO_TANGENT_DIST") = (int)cv::CALIB_ZERO_TANGENT_DIST;
-    bp::scope().attr("CALIB_FIX_FOCAL_LENGTH") = (int)cv::CALIB_FIX_FOCAL_LENGTH;
-    bp::scope().attr("CALIB_FIX_K1") = (int)cv::CALIB_FIX_K1;
-    bp::scope().attr("CALIB_FIX_K2") = (int)cv::CALIB_FIX_K2;
-    bp::scope().attr("CALIB_FIX_K3") = (int)cv::CALIB_FIX_K3;
-    bp::scope().attr("CALIB_FIX_INTRINSIC") = (int)cv::CALIB_FIX_INTRINSIC;
-    bp::scope().attr("CALIB_SAME_FOCAL_LENGTH") = (int)cv::CALIB_SAME_FOCAL_LENGTH;
-    bp::scope().attr("CALIB_ZERO_DISPARITY") = (int)cv::CALIB_ZERO_DISPARITY;
+    bp::scope().attr("MORPH_ERODE") = (int)cv::MORPH_ERODE;
+    bp::scope().attr("MORPH_DILATE") = (int)cv::MORPH_DILATE;
+    bp::scope().attr("MORPH_OPEN") = (int)cv::MORPH_OPEN;
+    bp::scope().attr("MORPH_CLOSE") = (int)cv::MORPH_CLOSE;
+    bp::scope().attr("MORPH_GRADIENT") = (int)cv::MORPH_GRADIENT;
+    bp::scope().attr("MORPH_TOPHAT") = (int)cv::MORPH_TOPHAT;
+    bp::scope().attr("MORPH_BLACKHAT") = (int)cv::MORPH_BLACKHAT;
+
+    bp::scope().attr("LMEDS") = (int)cv::LMEDS;
+    bp::scope().attr("RANSAC") = (int)cv::RANSAC;
 
     bp::scope().attr("OPTFLOW_USE_INITIAL_FLOW") = (int)cv::OPTFLOW_USE_INITIAL_FLOW;
     bp::scope().attr("OPTFLOW_FARNEBACK_GAUSSIAN") = (int)cv::OPTFLOW_FARNEBACK_GAUSSIAN;
@@ -43,13 +42,6 @@ void register_global_variables(){
     bp::scope().attr("KMEANS_PP_CENTERS") = (int)cv::KMEANS_PP_CENTERS;
     bp::scope().attr("KMEANS_USE_INITIAL_LABELS") = (int)cv::KMEANS_USE_INITIAL_LABELS;
 
-    bp::scope().attr("DECOMP_LU") = (int)cv::DECOMP_LU;
-    bp::scope().attr("DECOMP_SVD") = (int)cv::DECOMP_SVD;
-    bp::scope().attr("DECOMP_EIG") = (int)cv::DECOMP_EIG;
-    bp::scope().attr("DECOMP_CHOLESKY") = (int)cv::DECOMP_CHOLESKY;
-    bp::scope().attr("DECOMP_QR") = (int)cv::DECOMP_QR;
-    bp::scope().attr("DECOMP_NORMAL") = (int)cv::DECOMP_NORMAL;
-
     bp::scope().attr("CMP_EQ") = (int)cv::CMP_EQ;
     bp::scope().attr("CMP_GT") = (int)cv::CMP_GT;
     bp::scope().attr("CMP_GE") = (int)cv::CMP_GE;
@@ -67,6 +59,13 @@ void register_global_variables(){
     bp::scope().attr("FONT_HERSHEY_SCRIPT_COMPLEX") = (int)cv::FONT_HERSHEY_SCRIPT_COMPLEX;
     bp::scope().attr("FONT_ITALIC") = (int)cv::FONT_ITALIC;
 
+    bp::scope().attr("DECOMP_LU") = (int)cv::DECOMP_LU;
+    bp::scope().attr("DECOMP_SVD") = (int)cv::DECOMP_SVD;
+    bp::scope().attr("DECOMP_EIG") = (int)cv::DECOMP_EIG;
+    bp::scope().attr("DECOMP_CHOLESKY") = (int)cv::DECOMP_CHOLESKY;
+    bp::scope().attr("DECOMP_QR") = (int)cv::DECOMP_QR;
+    bp::scope().attr("DECOMP_NORMAL") = (int)cv::DECOMP_NORMAL;
+
     bp::scope().attr("NORM_INF") = (int)cv::NORM_INF;
     bp::scope().attr("NORM_L1") = (int)cv::NORM_L1;
     bp::scope().attr("NORM_L2") = (int)cv::NORM_L2;
@@ -80,14 +79,6 @@ void register_global_variables(){
     bp::scope().attr("KERNEL_SMOOTH") = (int)cv::KERNEL_SMOOTH;
     bp::scope().attr("KERNEL_INTEGER") = (int)cv::KERNEL_INTEGER;
 
-    bp::scope().attr("MORPH_ERODE") = (int)cv::MORPH_ERODE;
-    bp::scope().attr("MORPH_DILATE") = (int)cv::MORPH_DILATE;
-    bp::scope().attr("MORPH_OPEN") = (int)cv::MORPH_OPEN;
-    bp::scope().attr("MORPH_CLOSE") = (int)cv::MORPH_CLOSE;
-    bp::scope().attr("MORPH_GRADIENT") = (int)cv::MORPH_GRADIENT;
-    bp::scope().attr("MORPH_TOPHAT") = (int)cv::MORPH_TOPHAT;
-    bp::scope().attr("MORPH_BLACKHAT") = (int)cv::MORPH_BLACKHAT;
-
     bp::scope().attr("THRESH_BINARY") = (int)cv::THRESH_BINARY;
     bp::scope().attr("THRESH_BINARY_INV") = (int)cv::THRESH_BINARY_INV;
     bp::scope().attr("THRESH_TRUNC") = (int)cv::THRESH_TRUNC;
@@ -96,12 +87,13 @@ void register_global_variables(){
     bp::scope().attr("THRESH_MASK") = (int)cv::THRESH_MASK;
     bp::scope().attr("THRESH_OTSU") = (int)cv::THRESH_OTSU;
 
-    bp::scope().attr("TM_SQDIFF") = (int)cv::TM_SQDIFF;
-    bp::scope().attr("TM_SQDIFF_NORMED") = (int)cv::TM_SQDIFF_NORMED;
-    bp::scope().attr("TM_CCORR") = (int)cv::TM_CCORR;
-    bp::scope().attr("TM_CCORR_NORMED") = (int)cv::TM_CCORR_NORMED;
-    bp::scope().attr("TM_CCOEFF") = (int)cv::TM_CCOEFF;
-    bp::scope().attr("TM_CCOEFF_NORMED") = (int)cv::TM_CCOEFF_NORMED;
+    bp::scope().attr("INPAINT_NS") = (int)cv::INPAINT_NS;
+    bp::scope().attr("INPAINT_TELEA") = (int)cv::INPAINT_TELEA;
+
+    bp::scope().attr("RETR_EXTERNAL") = (int)cv::RETR_EXTERNAL;
+    bp::scope().attr("RETR_LIST") = (int)cv::RETR_LIST;
+    bp::scope().attr("RETR_CCOMP") = (int)cv::RETR_CCOMP;
+    bp::scope().attr("RETR_TREE") = (int)cv::RETR_TREE;
 
     bp::scope().attr("BORDER_REPLICATE") = (int)cv::BORDER_REPLICATE;
     bp::scope().attr("BORDER_CONSTANT") = (int)cv::BORDER_CONSTANT;
@@ -125,6 +117,33 @@ void register_global_variables(){
     bp::scope().attr("INTER_MAX") = (int)cv::INTER_MAX;
     bp::scope().attr("WARP_INVERSE_MAP") = (int)cv::WARP_INVERSE_MAP;
 
+    bp::scope().attr("TM_SQDIFF") = (int)cv::TM_SQDIFF;
+    bp::scope().attr("TM_SQDIFF_NORMED") = (int)cv::TM_SQDIFF_NORMED;
+    bp::scope().attr("TM_CCORR") = (int)cv::TM_CCORR;
+    bp::scope().attr("TM_CCORR_NORMED") = (int)cv::TM_CCORR_NORMED;
+    bp::scope().attr("TM_CCOEFF") = (int)cv::TM_CCOEFF;
+    bp::scope().attr("TM_CCOEFF_NORMED") = (int)cv::TM_CCOEFF_NORMED;
+
+    bp::scope().attr("FM_7POINT") = (int)cv::FM_7POINT;
+    bp::scope().attr("FM_8POINT") = (int)cv::FM_8POINT;
+    bp::scope().attr("FM_LMEDS") = (int)cv::FM_LMEDS;
+    bp::scope().attr("FM_RANSAC") = (int)cv::FM_RANSAC;
+
+    bp::scope().attr("ADAPTIVE_THRESH_MEAN_C") = (int)cv::ADAPTIVE_THRESH_MEAN_C;
+    bp::scope().attr("ADAPTIVE_THRESH_GAUSSIAN_C") = (int)cv::ADAPTIVE_THRESH_GAUSSIAN_C;
+
+    bp::scope().attr("GC_BGD") = (int)cv::GC_BGD;
+    bp::scope().attr("GC_FGD") = (int)cv::GC_FGD;
+    bp::scope().attr("GC_PR_BGD") = (int)cv::GC_PR_BGD;
+    bp::scope().attr("GC_PR_FGD") = (int)cv::GC_PR_FGD;
+
+    bp::scope().attr("GC_INIT_WITH_RECT") = (int)cv::GC_INIT_WITH_RECT;
+    bp::scope().attr("GC_INIT_WITH_MASK") = (int)cv::GC_INIT_WITH_MASK;
+    bp::scope().attr("GC_EVAL") = (int)cv::GC_EVAL;
+
+    bp::scope().attr("FLOODFILL_FIXED_RANGE") = (int)cv::FLOODFILL_FIXED_RANGE;
+    bp::scope().attr("FLOODFILL_MASK_ONLY") = (int)cv::FLOODFILL_MASK_ONLY;
+
     bp::scope().attr("CHAIN_APPROX_NONE") = (int)cv::CHAIN_APPROX_NONE;
     bp::scope().attr("CHAIN_APPROX_SIMPLE") = (int)cv::CHAIN_APPROX_SIMPLE;
     bp::scope().attr("CHAIN_APPROX_TC89_L1") = (int)cv::CHAIN_APPROX_TC89_L1;
@@ -134,26 +153,16 @@ void register_global_variables(){
     bp::scope().attr("CALIB_CB_NORMALIZE_IMAGE") = (int)cv::CALIB_CB_NORMALIZE_IMAGE;
     bp::scope().attr("CALIB_CB_FILTER_QUADS") = (int)cv::CALIB_CB_FILTER_QUADS;
 
-    bp::scope().attr("ADAPTIVE_THRESH_MEAN_C") = (int)cv::ADAPTIVE_THRESH_MEAN_C;
-    bp::scope().attr("ADAPTIVE_THRESH_GAUSSIAN_C") = (int)cv::ADAPTIVE_THRESH_GAUSSIAN_C;
-
-    bp::scope().attr("INPAINT_NS") = (int)cv::INPAINT_NS;
-    bp::scope().attr("INPAINT_TELEA") = (int)cv::INPAINT_TELEA;
-
-    bp::scope().attr("FLOODFILL_FIXED_RANGE") = (int)cv::FLOODFILL_FIXED_RANGE;
-    bp::scope().attr("FLOODFILL_MASK_ONLY") = (int)cv::FLOODFILL_MASK_ONLY;
-
-    bp::scope().attr("RETR_EXTERNAL") = (int)cv::RETR_EXTERNAL;
-    bp::scope().attr("RETR_LIST") = (int)cv::RETR_LIST;
-    bp::scope().attr("RETR_CCOMP") = (int)cv::RETR_CCOMP;
-    bp::scope().attr("RETR_TREE") = (int)cv::RETR_TREE;
-
-    bp::scope().attr("LMEDS") = (int)cv::LMEDS;
-    bp::scope().attr("RANSAC") = (int)cv::RANSAC;
-
-    bp::scope().attr("FM_7POINT") = (int)cv::FM_7POINT;
-    bp::scope().attr("FM_8POINT") = (int)cv::FM_8POINT;
-    bp::scope().attr("FM_LMEDS") = (int)cv::FM_LMEDS;
-    bp::scope().attr("FM_RANSAC") = (int)cv::FM_RANSAC;
+    bp::scope().attr("CALIB_USE_INTRINSIC_GUESS") = (int)cv::CALIB_USE_INTRINSIC_GUESS;
+    bp::scope().attr("CALIB_FIX_ASPECT_RATIO") = (int)cv::CALIB_FIX_ASPECT_RATIO;
+    bp::scope().attr("CALIB_FIX_PRINCIPAL_POINT") = (int)cv::CALIB_FIX_PRINCIPAL_POINT;
+    bp::scope().attr("CALIB_ZERO_TANGENT_DIST") = (int)cv::CALIB_ZERO_TANGENT_DIST;
+    bp::scope().attr("CALIB_FIX_FOCAL_LENGTH") = (int)cv::CALIB_FIX_FOCAL_LENGTH;
+    bp::scope().attr("CALIB_FIX_K1") = (int)cv::CALIB_FIX_K1;
+    bp::scope().attr("CALIB_FIX_K2") = (int)cv::CALIB_FIX_K2;
+    bp::scope().attr("CALIB_FIX_K3") = (int)cv::CALIB_FIX_K3;
+    bp::scope().attr("CALIB_FIX_INTRINSIC") = (int)cv::CALIB_FIX_INTRINSIC;
+    bp::scope().attr("CALIB_SAME_FOCAL_LENGTH") = (int)cv::CALIB_SAME_FOCAL_LENGTH;
+    bp::scope().attr("CALIB_ZERO_DISPARITY") = (int)cv::CALIB_ZERO_DISPARITY;
 
 }

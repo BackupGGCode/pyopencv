@@ -235,7 +235,8 @@ KLASS.__repr__ = _KLASS__repr__
     z.constructors(lambda x: len(x.arguments) > 1).exclude()
     z.mem_funs(lambda t: '::CvMat const *' in t.decl_string).exclude()
     for t in ('train', 'train_auto', 'predict'):
-        z.mem_fun(lambda x: x.name==t and not 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
+        for t2 in z.mem_funs(lambda x: x.name==t and not 'CvMat' in x.decl_string):
+            t2._transformer_kwds['alias'] = t
     z.add_wrapper_code('''    
     CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::CvSVMParams _params=::CvSVMParams( ) )
     : CvSVM()
@@ -315,11 +316,6 @@ KLASS.__repr__ = _KLASS__repr__
     mb.init_class(z)
     z.constructors(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these long constructors
     z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these long member functions
-    for t in (
-        'get_pred_float_buf', 'get_pred_int_buf', 'get_resp_float_buf', 'get_resp_int_buf', 
-        'get_cv_lables_buf', 'get_sample_idx_buf',
-        ):
-        z.mem_fun(t).exclude() # TODO: fix these functions
     for t in (
         'responses_copy', 'cat_count', 'cat_ofs', 'cat_map', 'counts', 'buf', 'direction', 'split_buf', 
         'var_idx', 'var_type', 'priors', 'priors_mult', 'tree_storage', 'temp_storage', 'data_root',

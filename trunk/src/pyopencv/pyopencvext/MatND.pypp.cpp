@@ -30,6 +30,13 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
     
     }
 
+    MatND_wrapper(::cv::Mat const & m )
+    : cv::MatND( boost::ref(m) )
+      , bp::wrapper< cv::MatND >(){
+        // constructor
+    
+    }
+
     static void create( ::cv::MatND & inst, cv::Mat const & _sizes, int _type ){
         int _sizes2;
         int * _sizes3;
@@ -98,6 +105,8 @@ void register_MatND_class(){
         bp::scope().attr("CONTINUOUS_FLAG") = (int)cv::MatND::CONTINUOUS_FLAG;
         bp::scope().attr("MAX_DIM") = (int)cv::MatND::MAX_DIM;
         MatND_exposer.def( bp::init< cv::MatND const & >(( bp::arg("m") )) );
+        MatND_exposer.def( bp::init< cv::Mat const & >(( bp::arg("m") )) );
+        bp::implicitly_convertible< cv::Mat const &, cv::MatND >();
         { //::cv::MatND::addref
         
             typedef void ( ::cv::MatND::*addref_function_type )(  ) ;
