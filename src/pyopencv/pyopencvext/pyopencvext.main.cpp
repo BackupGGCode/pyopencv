@@ -292,8 +292,6 @@
 
 #include "pyopencvext/OneWayDescriptorBase.pypp.hpp"
 
-#include "pyopencvext/OneWayDescriptorObject.pypp.hpp"
-
 #include "pyopencvext/PCA.pypp.hpp"
 
 #include "pyopencvext/PatchGenerator.pypp.hpp"
@@ -2473,8 +2471,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_OneWayDescriptor_class();
 
     register_OneWayDescriptorBase_class();
-
-    register_OneWayDescriptorObject_class();
 
     register_PCA_class();
 
