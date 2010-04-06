@@ -234,32 +234,16 @@ CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
 
 
     ''')
-    
-    # CvRect -- for backward compatibility
-    z = mb.class_('CvRect')
-    z.include()
-    z.add_declaration_code('''
-static boost::shared_ptr<CvRect> CvRect_init(int x, int y, int width, int height)
-{
-    CvRect *r = new CvRect(); *r = cvRect(x,y,width,height);
-    return boost::shared_ptr<CvRect>(r);
-}
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&CvRect_init, bp::default_call_policies(), ( bp::arg("x"), bp::arg("y"), bp::arg("width"), bp::arg("height") )))')
-
-    # CvSize -- for backward compatibility
-    z = mb.class_('CvSize')
-    z.include()
-    z.add_declaration_code('''
-static boost::shared_ptr<CvSize> CvSize_init(int width, int height)
-{
-    CvSize *r = new CvSize(); *r = cvSize(width,height);
-    return boost::shared_ptr<CvSize>(r);
-}
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&CvSize_init, bp::default_call_policies(), ( bp::arg("width"), bp::arg("height") )))')
 
     mb.add_declaration_code('''
+struct CvRect_to_python
+{
+    static PyObject* convert(CvRect const& x)
+    {
+        return bp::incref(bp::object(cv::Rect(x)).ptr());
+    }
+};
+
 struct CvScalar_to_python
 {
     static PyObject* convert(CvScalar const& x)
@@ -293,6 +277,14 @@ struct CvPoint3D32f_to_python
 };
 
 
+struct CvSize_to_python
+{
+    static PyObject* convert(CvSize const& x)
+    {
+        return bp::incref(bp::object(cv::Size(x)).ptr());
+    }
+};
+
 struct CvBox2D_to_python
 {
     static PyObject* convert(CvBox2D const& x)
@@ -318,10 +310,12 @@ struct CvSlice_to_python
 };
 
     ''')
+    mb.add_registration_code('bp::to_python_converter<CvRect, CvRect_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvScalar, CvScalar_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvPoint, CvPoint_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvPoint2D32f, CvPoint2D32f_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvPoint3D32f, CvPoint3D32f_to_python, false>();')
+    mb.add_registration_code('bp::to_python_converter<CvSize, CvSize_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvBox2D, CvBox2D_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvSlice, CvSlice_to_python, false>();')        

@@ -9,6 +9,32 @@
 
 namespace bp = boost::python;
 
+struct CvSeq_wrapper : CvSeq, bp::wrapper< CvSeq > {
+
+    CvSeq_wrapper(CvSeq const & arg )
+    : CvSeq( arg )
+      , bp::wrapper< CvSeq >(){
+        // copy constructor
+        
+    }
+
+    CvSeq_wrapper()
+    : CvSeq()
+      , bp::wrapper< CvSeq >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_block_max( ::CvSeq const & inst ){        
+        return inst.block_max? bp::str(inst.block_max): bp::object();
+    }
+
+    static bp::object get_ptr( ::CvSeq const & inst ){        
+        return inst.ptr? bp::str(inst.ptr): bp::object();
+    }
+
+};
+
 static ::CvSeq * get_h_prev( ::CvSeq const & inst ) { return inst.h_prev; }
 
 static ::CvSeq * get_h_next( ::CvSeq const & inst ) { return inst.h_next; }
@@ -23,17 +49,9 @@ static ::CvSeqBlock * get_free_blocks( ::CvSeq const & inst ) { return inst.free
 
 static ::CvSeqBlock * get_first( ::CvSeq const & inst ) { return inst.first; }
 
-static bp::object get_block_max( ::CvSeq const & inst ){        
-    return inst.block_max? bp::str(inst.block_max): bp::object();
-}
-
-static bp::object get_ptr( ::CvSeq const & inst ){        
-    return inst.ptr? bp::str(inst.ptr): bp::object();
-}
-
 void register_CvSeq_class(){
 
-    bp::class_< CvSeq >( "CvSeq" )    
+    bp::class_< CvSeq_wrapper >( "CvSeq" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSeq >() )    
         .def_readwrite( "delta_elems", &CvSeq::delta_elems )    
         .def_readwrite( "elem_size", &CvSeq::elem_size )    
@@ -47,7 +65,7 @@ void register_CvSeq_class(){
         .add_property( "storage", bp::make_function(&::get_storage, bp::return_internal_reference<>()) )    
         .add_property( "free_blocks", bp::make_function(&::get_free_blocks, bp::return_internal_reference<>()) )    
         .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
-        .add_property( "block_max", &::get_block_max )    
-        .add_property( "ptr", &::get_ptr );
+        .add_property( "block_max", bp::make_function(&::CvSeq_wrapper::get_block_max) )    
+        .add_property( "ptr", bp::make_function(&::CvSeq_wrapper::get_ptr) );
 
 }

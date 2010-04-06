@@ -29,9 +29,7 @@ void register_CvObjectDetector_class(){
                 "Detect"
                 , Detect_function_type( &Detect_d8fa7b620f024b1a2f20fc4afa978e15 )
                 , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1")=bp::object() )
-                , "\nArgument 'arg0':"\
-    "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat." );
+                , "\nArgument 'arg0' is a Mat instead of a pointer to CvMat." );
         
         }
         { //::CvObjectDetector::GetMaxBorderSize

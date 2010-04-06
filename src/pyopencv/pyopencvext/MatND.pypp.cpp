@@ -173,14 +173,8 @@ void register_MatND_class(){
                 "create"
                 , create_function_type( &MatND_wrapper::create )
                 , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") )
-                , "\nArgument '_ndims':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument '_sizes'."\
-    "\nArgument '_sizes':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+                , "\nArgument '_sizes' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument '_ndims' is omitted. Its value is derived from argument '_sizes'." );
         
         }
         { //::cv::MatND::depth
@@ -219,8 +213,7 @@ void register_MatND_class(){
                 , isContinuous_function_type( &::cv::MatND::isContinuous ) );
         
         }
-        MatND_exposer.def( "as__scope_cv_scope_Mat", &cv::MatND::operator ::cv::Mat , "\nWrapped function:"
-    "\n    operator ::cv::Mat" );
+        MatND_exposer.def( "as__scope_cv_scope_Mat", &cv::MatND::operator ::cv::Mat , "\nWrapped function: operator ::cv::Mat." );
         { //::cv::MatND::operator=
         
             typedef ::cv::MatND & ( ::cv::MatND::*assign_function_type )( ::cv::MatND const & ) ;
@@ -230,8 +223,7 @@ void register_MatND_class(){
                 , assign_function_type( &::cv::MatND::operator= )
                 , ( bp::arg("m") )
                 , bp::return_self< >()
-                , "\nWrapped function:"
-    "\n    operator=" );
+                , "\nWrapped function: operator=." );
         
         }
         { //::cv::MatND::operator=
@@ -243,8 +235,7 @@ void register_MatND_class(){
                 , assign_function_type( &::cv::MatND::operator= )
                 , ( bp::arg("s") )
                 , bp::return_self< >()
-                , "\nWrapped function:"
-    "\n    operator=" );
+                , "\nWrapped function: operator=." );
         
         }
         { //::cv::MatND::release
@@ -264,14 +255,8 @@ void register_MatND_class(){
                 "reshape"
                 , reshape_function_type( &MatND_wrapper::reshape )
                 , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=cv::Mat() )
-                , "\nArgument '_newsz':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument '_newndims':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument '_newsz'." );
+                , "\nArgument '_newsz' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument '_newndims' is omitted. Its value is derived from argument '_newsz'." );
         
         }
         { //::cv::MatND::setTo
@@ -323,10 +308,10 @@ void register_MatND_class(){
                 , bp::make_function( array_wrapper_creator(&MatND_wrapper::pyplusplus_step_wrapper)
                                     , bp::with_custodian_and_ward_postcall< 0, 1 >() ) );
         }
-        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )), "Use asMat() to convert '_sizes' from a Python sequence to a Mat.");
-        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )), "Use asMat() to convert '_sizes' from a Python sequence to a Mat.");
-        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )), "Use asMat() to convert '_ranges' from a Python sequence to a Mat.");
-        MatND_exposer.def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))), "Use asMat() to convert 'ranges' from a Python sequence to a Mat.");
+        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )));
+        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )));
+        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )));
+        MatND_exposer.def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))));
         MatND_exposer.add_property("data", ::get_data);
         MatND_exposer.def("from_ndarray", &bp::from_ndarray< cv::MatND >, (bp::arg("arr")) );
         MatND_exposer.staticmethod("from_ndarray");

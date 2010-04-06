@@ -9,30 +9,48 @@
 
 namespace bp = boost::python;
 
+struct CvDefParam_wrapper : CvDefParam, bp::wrapper< CvDefParam > {
+
+    CvDefParam_wrapper(CvDefParam const & arg )
+    : CvDefParam( arg )
+      , bp::wrapper< CvDefParam >(){
+        // copy constructor
+        
+    }
+
+    CvDefParam_wrapper()
+    : CvDefParam()
+      , bp::wrapper< CvDefParam >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_pName( ::CvDefParam const & inst ){        
+        return inst.pName? bp::str(inst.pName): bp::object();
+    }
+
+    static bp::object get_pComment( ::CvDefParam const & inst ){        
+        return inst.pComment? bp::str(inst.pComment): bp::object();
+    }
+
+    static bp::object get_Str( ::CvDefParam const & inst ){        
+        return inst.Str? bp::str(inst.Str): bp::object();
+    }
+
+};
+
 static ::CvDefParam * get_next( ::CvDefParam const & inst ) { return inst.next; }
-
-static bp::object get_pName( ::CvDefParam const & inst ){        
-    return inst.pName? bp::str(inst.pName): bp::object();
-}
-
-static bp::object get_pComment( ::CvDefParam const & inst ){        
-    return inst.pComment? bp::str(inst.pComment): bp::object();
-}
-
-static bp::object get_Str( ::CvDefParam const & inst ){        
-    return inst.Str? bp::str(inst.Str): bp::object();
-}
 
 void register_CvDefParam_class(){
 
-    bp::class_< CvDefParam >( "CvDefParam" )    
+    bp::class_< CvDefParam_wrapper >( "CvDefParam" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvDefParam >() )    
         .def_readwrite( "Double", &CvDefParam::Double )    
         .def_readwrite( "Float", &CvDefParam::Float )    
         .def_readwrite( "Int", &CvDefParam::Int )    
         .add_property( "next", bp::make_function(&::get_next, bp::return_internal_reference<>()) )    
-        .add_property( "pName", &::get_pName )    
-        .add_property( "pComment", &::get_pComment )    
-        .add_property( "Str", &::get_Str );
+        .add_property( "pName", bp::make_function(&::CvDefParam_wrapper::get_pName) )    
+        .add_property( "pComment", bp::make_function(&::CvDefParam_wrapper::get_pComment) )    
+        .add_property( "Str", bp::make_function(&::CvDefParam_wrapper::get_Str) );
 
 }

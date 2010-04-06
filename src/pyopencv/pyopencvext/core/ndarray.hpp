@@ -37,8 +37,8 @@ public:
     explicit ndarray(T const& x) : object(x) {}
 
     int ndim() const;
-    const Py_intptr_t *shape() const;
-    const Py_intptr_t *strides() const;
+    const int *shape() const;
+    const int *strides() const;
     int itemsize() const;
     int dtype() const;
     const void *data() const;

@@ -170,16 +170,35 @@ YAPE = LDetector
     for t in z.operators('()'):
         t._transformer_creators.append(FT.arg_std_vector('signature', 2))
     z.constructor(lambda x: len(x.arguments) > 5).exclude()
+    z.mem_fun('train').exclude()
     z.add_declaration_code('''
+static void train( ::cv::FernClassifier & inst, cv::Mat const & points, bp::list const & refimgs, cv::Mat const & labels=convert_from_vector_of_T_to_Mat(std::vector<int>()), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > points2;
+    std::vector<cv::Ptr<cv::Mat>,std::allocator<cv::Ptr<cv::Mat> > > refimgs2;
+    std::vector<int, std::allocator<int> > labels2;
+    convert_from_Mat_to_vector_of_T(points, points2);
+    int i, n = bp::len(refimgs); refimgs2.resize(n);
+    for(i = 0; i < n; ++i)
+    {
+        cv::Mat *obj = new cv::Mat();
+        *obj = bp::extract<cv::Mat const &>(refimgs[i]);
+        refimgs2[i] = cv::Ptr<cv::Mat>(obj);
+    }
+    convert_from_Mat_to_vector_of_T(labels, labels2);
+    inst.train(points2, refimgs2, labels2, _nclasses, _patchSize, _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, patchGenerator);
+}
+
 static boost::shared_ptr<cv::FernClassifier> FernClassifier_init1( cv::Mat const & points, bp::list const & refimgs, cv::Mat const & labels=convert_from_vector_of_T_to_Mat(std::vector<int>()), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
     cv::FernClassifier *obj = new cv::FernClassifier();
-    FernClassifier_wrapper::default_train(*obj, points, refimgs, labels, _nclasses, _patchSize,
-        _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, patchGenerator);
+    train(*obj, points, refimgs, labels, _nclasses, _patchSize, _signatureSize, 
+        _nstructs, _structSize, _nviews, _compressionMethod, patchGenerator);
     return boost::shared_ptr<cv::FernClassifier>(obj);
 }
 
     ''')
     z.add_registration_code('def("__init__", bp::make_constructor(&FernClassifier_init1, bp::default_call_policies(), ( bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=cv::Mat(), bp::arg("_nclasses")=0, bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() ))  )')
+    z.add_registration_code('''def( "train", &train
+                , ( bp::arg("inst"), bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=convert_from_vector_of_T_to_Mat(std::vector<int>()), bp::arg("_nclasses")=(int)(0), bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() ) )''')
     mb.finalize_class(z)
     
     # PlanarObjectDetector

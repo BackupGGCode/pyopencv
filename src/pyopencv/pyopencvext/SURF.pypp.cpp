@@ -54,15 +54,9 @@ void register_SURF_class(){
                 "__call__"
                 , __call___function_type( &__call___8fbaf2f3b7cf23fdd67db0f4874c6b20 )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask") )
-                , "\nWrapped function:"
-    "\n    operator()"
-    "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+                , "\nWrapped function: operator()."
+    "\nArgument 'keypoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'"\
+    "\nArgument 'keypoints' is an output argument and is omitted from the function's calling sequence." );
         
         }
         { //::cv::SURF::operator()
@@ -73,20 +67,10 @@ void register_SURF_class(){
                 "__call__"
                 , __call___function_type( &__call___8904ace00c2f24b8eb00d3aa8ac85014 )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("useProvidedKeypoints")=(bool)(false) )
-                , "\nWrapped function:"
-    "\n    operator()"
-    "\nArgument 'descriptors':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
-    "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()." );
+                , "\nWrapped function: operator()."
+    "\nArgument 'descriptors' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'descriptors' is an output argument and is omitted from the function's calling sequence."\
+    "\nArgument 'keypoints' is a list. To convert a Mat into a list, invoke one of Mat's member functions 'to_list_of_...'" );
         
         }
     }

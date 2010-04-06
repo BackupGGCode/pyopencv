@@ -9,6 +9,32 @@
 
 namespace bp = boost::python;
 
+struct CvContourTree_wrapper : CvContourTree, bp::wrapper< CvContourTree > {
+
+    CvContourTree_wrapper(CvContourTree const & arg )
+    : CvContourTree( arg )
+      , bp::wrapper< CvContourTree >(){
+        // copy constructor
+        
+    }
+
+    CvContourTree_wrapper()
+    : CvContourTree()
+      , bp::wrapper< CvContourTree >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_block_max( ::CvContourTree const & inst ){        
+        return inst.block_max? bp::str(inst.block_max): bp::object();
+    }
+
+    static bp::object get_ptr( ::CvContourTree const & inst ){        
+        return inst.ptr? bp::str(inst.ptr): bp::object();
+    }
+
+};
+
 static ::CvSeq * get_h_prev( ::CvContourTree const & inst ) { return inst.h_prev; }
 
 static ::CvSeq * get_h_next( ::CvContourTree const & inst ) { return inst.h_next; }
@@ -23,17 +49,9 @@ static ::CvSeqBlock * get_free_blocks( ::CvContourTree const & inst ) { return i
 
 static ::CvSeqBlock * get_first( ::CvContourTree const & inst ) { return inst.first; }
 
-static bp::object get_block_max( ::CvContourTree const & inst ){        
-    return inst.block_max? bp::str(inst.block_max): bp::object();
-}
-
-static bp::object get_ptr( ::CvContourTree const & inst ){        
-    return inst.ptr? bp::str(inst.ptr): bp::object();
-}
-
 void register_CvContourTree_class(){
 
-    bp::class_< CvContourTree >( "CvContourTree" )    
+    bp::class_< CvContourTree_wrapper >( "CvContourTree" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvContourTree >() )    
         .def_readwrite( "delta_elems", &CvContourTree::delta_elems )    
         .def_readwrite( "elem_size", &CvContourTree::elem_size )    
@@ -49,7 +67,7 @@ void register_CvContourTree_class(){
         .add_property( "storage", bp::make_function(&::get_storage, bp::return_internal_reference<>()) )    
         .add_property( "free_blocks", bp::make_function(&::get_free_blocks, bp::return_internal_reference<>()) )    
         .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
-        .add_property( "block_max", &::get_block_max )    
-        .add_property( "ptr", &::get_ptr );
+        .add_property( "block_max", bp::make_function(&::CvContourTree_wrapper::get_block_max) )    
+        .add_property( "ptr", bp::make_function(&::CvContourTree_wrapper::get_ptr) );
 
 }

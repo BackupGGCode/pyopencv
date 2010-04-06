@@ -44,7 +44,7 @@ bp::sequence mixChannels(const bp::sequence &src, bp::sequence &dst, const bp::n
 {
     char s[200];
     
-    const Py_intptr_t *shape = fromTo.shape();
+    const int *shape = fromTo.shape();
     
     if(fromTo.ndim() != 2 || fromTo.dtype() != bp::dtypeof<long>() || shape[1] != 2 || !fromTo.iscontiguous())
     {
@@ -93,20 +93,14 @@ bp::tuple minMaxLoc(const bp::object& a, const bp::object& mask)
     bp::extract<const cv::MatND &> matnd(a);
     bp::extract<const cv::SparseMat &> smat(a);
     if(mat.check())
-    {
-        if(mask.ptr() == Py_None) // None object
-            cv::minMaxLoc(mat(), &minVal, &maxVal, &minLoc, &maxLoc);
-        else
-            cv::minMaxLoc(mat(), &minVal, &maxVal, &minLoc, &maxLoc, bp::extract<const cv::Mat &>(mask));
+    {    
+        cv::minMaxLoc(mat(), &minVal, &maxVal, &minLoc, &maxLoc, bp::extract<const cv::Mat &>(mask));
         result = bp::make_tuple(bp::object(minVal), bp::object(maxVal), bp::object(minLoc), bp::object(maxLoc));
     }
     else if(matnd.check())
     {
         const cv::MatND &m = matnd();
-        if(mask.ptr() == Py_None) // None object
-            cv::minMaxLoc(m, &minVal, &maxVal, minIdx, maxIdx);
-        else
-            cv::minMaxLoc(m, &minVal, &maxVal, minIdx, maxIdx, bp::extract<const cv::MatND &>(mask));
+        cv::minMaxLoc(m, &minVal, &maxVal, minIdx, maxIdx, bp::extract<const cv::MatND &>(mask));
         n = m.dims;
         bp::list l1, l2;
         for(i = 0; i < n; ++i)

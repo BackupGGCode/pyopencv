@@ -9,6 +9,32 @@
 
 namespace bp = boost::python;
 
+struct CvSubdiv2D_wrapper : CvSubdiv2D, bp::wrapper< CvSubdiv2D > {
+
+    CvSubdiv2D_wrapper(CvSubdiv2D const & arg )
+    : CvSubdiv2D( arg )
+      , bp::wrapper< CvSubdiv2D >(){
+        // copy constructor
+        
+    }
+
+    CvSubdiv2D_wrapper()
+    : CvSubdiv2D()
+      , bp::wrapper< CvSubdiv2D >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_block_max( ::CvSubdiv2D const & inst ){        
+        return inst.block_max? bp::str(inst.block_max): bp::object();
+    }
+
+    static bp::object get_ptr( ::CvSubdiv2D const & inst ){        
+        return inst.ptr? bp::str(inst.ptr): bp::object();
+    }
+
+};
+
 static ::CvSeq * get_h_prev( ::CvSubdiv2D const & inst ) { return inst.h_prev; }
 
 static ::CvSeq * get_h_next( ::CvSubdiv2D const & inst ) { return inst.h_next; }
@@ -23,21 +49,13 @@ static ::CvSeqBlock * get_free_blocks( ::CvSubdiv2D const & inst ) { return inst
 
 static ::CvSeqBlock * get_first( ::CvSubdiv2D const & inst ) { return inst.first; }
 
-static bp::object get_block_max( ::CvSubdiv2D const & inst ){        
-    return inst.block_max? bp::str(inst.block_max): bp::object();
-}
-
-static bp::object get_ptr( ::CvSubdiv2D const & inst ){        
-    return inst.ptr? bp::str(inst.ptr): bp::object();
-}
-
 static ::CvSetElem * get_free_elems( ::CvSubdiv2D const & inst ) { return inst.free_elems; }
 
 static ::CvSet * get_edges( ::CvSubdiv2D const & inst ) { return inst.edges; }
 
 void register_CvSubdiv2D_class(){
 
-    bp::class_< CvSubdiv2D >( "CvSubdiv2D" )    
+    bp::class_< CvSubdiv2D_wrapper >( "CvSubdiv2D" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSubdiv2D >() )    
         .def_readwrite( "active_count", &CvSubdiv2D::active_count )    
         .def_readwrite( "bottomright", &CvSubdiv2D::bottomright )    
@@ -57,8 +75,8 @@ void register_CvSubdiv2D_class(){
         .add_property( "storage", bp::make_function(&::get_storage, bp::return_internal_reference<>()) )    
         .add_property( "free_blocks", bp::make_function(&::get_free_blocks, bp::return_internal_reference<>()) )    
         .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
-        .add_property( "block_max", &::get_block_max )    
-        .add_property( "ptr", &::get_ptr )    
+        .add_property( "block_max", bp::make_function(&::CvSubdiv2D_wrapper::get_block_max) )    
+        .add_property( "ptr", bp::make_function(&::CvSubdiv2D_wrapper::get_ptr) )    
         .add_property( "free_elems", bp::make_function(&::get_free_elems, bp::return_internal_reference<>()) )    
         .add_property( "edges", bp::make_function(&::get_edges, bp::return_internal_reference<>()) );
 

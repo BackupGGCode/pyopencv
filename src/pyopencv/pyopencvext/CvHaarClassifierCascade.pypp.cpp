@@ -4,18 +4,11 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "boost/python/object.hpp"
-#include "boost/python/list.hpp"
-#include "boost/python/tuple.hpp"
 #include "CvHaarClassifierCascade.pypp.hpp"
 
 namespace bp = boost::python;
 
-static bp::object get_stage_classifier( ::CvHaarClassifierCascade const & inst ){
-    bp::list l;
-    for(int i = 0; i < inst.count; ++i)
-        l.append(inst.stage_classifier[i]);
-    return bp::tuple(l);
-}
+static ::CvHaarStageClassifier * get_stage_classifier( ::CvHaarClassifierCascade const & inst ) { return inst.stage_classifier; }
 
 static ::CvHidHaarClassifierCascade * get_hid_cascade( ::CvHaarClassifierCascade const & inst ) { return inst.hid_cascade; }
 
@@ -28,7 +21,7 @@ void register_CvHaarClassifierCascade_class(){
         .def_readwrite( "orig_window_size", &CvHaarClassifierCascade::orig_window_size )    
         .def_readwrite( "real_window_size", &CvHaarClassifierCascade::real_window_size )    
         .def_readwrite( "scale", &CvHaarClassifierCascade::scale )    
-        .add_property( "stage_classifier", &::get_stage_classifier )    
+        .add_property( "stage_classifier", bp::make_function(&::get_stage_classifier, bp::return_internal_reference<>()) )    
         .add_property( "hid_cascade", bp::make_function(&::get_hid_cascade, bp::return_internal_reference<>()) );
 
 }

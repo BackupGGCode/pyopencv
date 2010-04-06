@@ -20,7 +20,7 @@ This release is backward-incompatible with previous releases. A large number of 
 - improved calling sequences in classes SURF, MSER, LDetector, and StarDetector
 - improved all output function arguments of type std::vector
 - improved get_CvMat_ptr() and get_IplImage_ptr()
-- lots of bug-fixes
+- lots of buf-fixes
 
 pyopencv-2.0.wr1.0.2 beta release
 ---------------------------------

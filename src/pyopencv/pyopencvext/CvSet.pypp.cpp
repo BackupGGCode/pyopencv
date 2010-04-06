@@ -9,6 +9,32 @@
 
 namespace bp = boost::python;
 
+struct CvSet_wrapper : CvSet, bp::wrapper< CvSet > {
+
+    CvSet_wrapper(CvSet const & arg )
+    : CvSet( arg )
+      , bp::wrapper< CvSet >(){
+        // copy constructor
+        
+    }
+
+    CvSet_wrapper()
+    : CvSet()
+      , bp::wrapper< CvSet >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_block_max( ::CvSet const & inst ){        
+        return inst.block_max? bp::str(inst.block_max): bp::object();
+    }
+
+    static bp::object get_ptr( ::CvSet const & inst ){        
+        return inst.ptr? bp::str(inst.ptr): bp::object();
+    }
+
+};
+
 static ::CvSeq * get_h_prev( ::CvSet const & inst ) { return inst.h_prev; }
 
 static ::CvSeq * get_h_next( ::CvSet const & inst ) { return inst.h_next; }
@@ -23,19 +49,11 @@ static ::CvSeqBlock * get_free_blocks( ::CvSet const & inst ) { return inst.free
 
 static ::CvSeqBlock * get_first( ::CvSet const & inst ) { return inst.first; }
 
-static bp::object get_block_max( ::CvSet const & inst ){        
-    return inst.block_max? bp::str(inst.block_max): bp::object();
-}
-
-static bp::object get_ptr( ::CvSet const & inst ){        
-    return inst.ptr? bp::str(inst.ptr): bp::object();
-}
-
 static ::CvSetElem * get_free_elems( ::CvSet const & inst ) { return inst.free_elems; }
 
 void register_CvSet_class(){
 
-    bp::class_< CvSet >( "CvSet" )    
+    bp::class_< CvSet_wrapper >( "CvSet" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSet >() )    
         .def_readwrite( "active_count", &CvSet::active_count )    
         .def_readwrite( "delta_elems", &CvSet::delta_elems )    
@@ -50,8 +68,8 @@ void register_CvSet_class(){
         .add_property( "storage", bp::make_function(&::get_storage, bp::return_internal_reference<>()) )    
         .add_property( "free_blocks", bp::make_function(&::get_free_blocks, bp::return_internal_reference<>()) )    
         .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
-        .add_property( "block_max", &::get_block_max )    
-        .add_property( "ptr", &::get_ptr )    
+        .add_property( "block_max", bp::make_function(&::CvSet_wrapper::get_block_max) )    
+        .add_property( "ptr", bp::make_function(&::CvSet_wrapper::get_ptr) )    
         .add_property( "free_elems", bp::make_function(&::get_free_elems, bp::return_internal_reference<>()) );
 
 }

@@ -103,8 +103,7 @@ void register_DifferentialImage_class(){
                 "__call__"
                 , __call___function_type( &::sdopencv::DifferentialImage::operator() )
                 , ( bp::arg("image") )
-                , "\nWrapped function:"
-    "\n    operator()" );
+                , "\nWrapped function: operator()." );
         
         }
         DifferentialImage_exposer.def_readwrite( "Ix", &sdopencv::DifferentialImage::Ix );

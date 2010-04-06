@@ -170,11 +170,7 @@ void register_free_functions(){
         bp::def( 
             "absdiff"
             , absdiff_function_type( &::cv::absdiff )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c") )
-            , "\nComputes per-element absolute difference between 2 arrays or between "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c") ) );
     
     }
 
@@ -185,11 +181,7 @@ void register_free_functions(){
         bp::def( 
             "absdiff"
             , absdiff_function_type( &::cv::absdiff )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
-            , "\nComputes per-element absolute difference between 2 arrays or between "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") ) );
     
     }
 
@@ -200,11 +192,7 @@ void register_free_functions(){
         bp::def( 
             "absdiff"
             , absdiff_function_type( &::cv::absdiff )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c") )
-            , "\nComputes per-element absolute difference between 2 arrays or between "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c") ) );
     
     }
 
@@ -215,11 +203,7 @@ void register_free_functions(){
         bp::def( 
             "absdiff"
             , absdiff_function_type( &::cv::absdiff )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
-            , "\nComputes per-element absolute difference between 2 arrays or between "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") ) );
     
     }
 
@@ -285,10 +269,7 @@ void register_free_functions(){
         bp::def( 
             "add"
             , add_function_type( &::cv::add )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::MatND() )
-            , "\nComputes the per-element sum of two arrays or an array and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::MatND() ) );
     
     }
 
@@ -299,10 +280,7 @@ void register_free_functions(){
         bp::def( 
             "add"
             , add_function_type( &::cv::add )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
-            , "\nComputes the per-element sum of two arrays or an array and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") ) );
     
     }
 
@@ -313,10 +291,7 @@ void register_free_functions(){
         bp::def( 
             "add"
             , add_function_type( &::cv::add )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask") )
-            , "\nComputes the per-element sum of two arrays or an array and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask") ) );
     
     }
 
@@ -327,10 +302,7 @@ void register_free_functions(){
         bp::def( 
             "add"
             , add_function_type( &::cv::add )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::Mat() )
-            , "\nComputes the per-element sum of two arrays or an array and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::Mat() ) );
     
     }
 
@@ -341,10 +313,7 @@ void register_free_functions(){
         bp::def( 
             "add"
             , add_function_type( &::cv::add )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
-            , "\nComputes the per-element sum of two arrays or an array and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") ) );
     
     }
 
@@ -355,10 +324,7 @@ void register_free_functions(){
         bp::def( 
             "add"
             , add_function_type( &::cv::add )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask") )
-            , "\nComputes the per-element sum of two arrays or an array and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask") ) );
     
     }
 
@@ -369,10 +335,7 @@ void register_free_functions(){
         bp::def( 
             "addWeighted"
             , addWeighted_function_type( &::cv::addWeighted )
-            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("beta"), bp::arg("gamma"), bp::arg("c") )
-            , "\nComputes the weighted sum of two arrays."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#addweighted" );
+            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("beta"), bp::arg("gamma"), bp::arg("c") ) );
     
     }
 
@@ -383,10 +346,7 @@ void register_free_functions(){
         bp::def( 
             "addWeighted"
             , addWeighted_function_type( &::cv::addWeighted )
-            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("beta"), bp::arg("gamma"), bp::arg("c") )
-            , "\nComputes the weighted sum of two arrays."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#addweighted" );
+            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("beta"), bp::arg("gamma"), bp::arg("c") ) );
     
     }
 
@@ -419,11 +379,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_and"
             , bitwise_and_function_type( &::cv::bitwise_and )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::MatND() )
-            , "\nCalculates per-element bit-wise conjunction of two arrays and an "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::MatND() ) );
     
     }
 
@@ -434,11 +390,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_and"
             , bitwise_and_function_type( &::cv::bitwise_and )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::MatND() )
-            , "\nCalculates per-element bit-wise conjunction of two arrays and an "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::MatND() ) );
     
     }
 
@@ -449,11 +401,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_and"
             , bitwise_and_function_type( &::cv::bitwise_and )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::Mat() )
-            , "\nCalculates per-element bit-wise conjunction of two arrays and an "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::Mat() ) );
     
     }
 
@@ -464,11 +412,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_and"
             , bitwise_and_function_type( &::cv::bitwise_and )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::Mat() )
-            , "\nCalculates per-element bit-wise conjunction of two arrays and an "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::Mat() ) );
     
     }
 
@@ -479,10 +423,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_not"
             , bitwise_not_function_type( &::cv::bitwise_not )
-            , ( bp::arg("a"), bp::arg("c") )
-            , "\nInverts every bit of array."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-not" );
+            , ( bp::arg("a"), bp::arg("c") ) );
     
     }
 
@@ -493,10 +434,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_not"
             , bitwise_not_function_type( &::cv::bitwise_not )
-            , ( bp::arg("a"), bp::arg("c") )
-            , "\nInverts every bit of array."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-not" );
+            , ( bp::arg("a"), bp::arg("c") ) );
     
     }
 
@@ -507,11 +445,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_or"
             , bitwise_or_function_type( &::cv::bitwise_or )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::MatND() )
-            , "\nCalculates per-element bit-wise disjunction of two arrays and an "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::MatND() ) );
     
     }
 
@@ -522,11 +456,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_or"
             , bitwise_or_function_type( &::cv::bitwise_or )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::MatND() )
-            , "\nCalculates per-element bit-wise disjunction of two arrays and an "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::MatND() ) );
     
     }
 
@@ -537,11 +467,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_or"
             , bitwise_or_function_type( &::cv::bitwise_or )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::Mat() )
-            , "\nCalculates per-element bit-wise disjunction of two arrays and an "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::Mat() ) );
     
     }
 
@@ -552,11 +478,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_or"
             , bitwise_or_function_type( &::cv::bitwise_or )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::Mat() )
-            , "\nCalculates per-element bit-wise disjunction of two arrays and an "
-    "\narray and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::Mat() ) );
     
     }
 
@@ -567,11 +489,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_xor"
             , bitwise_xor_function_type( &::cv::bitwise_xor )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::MatND() )
-            , "\nCalculates per-element bit-wise 'exclusive or' operation on two "
-    "\narrays and an array and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::MatND() ) );
     
     }
 
@@ -582,11 +500,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_xor"
             , bitwise_xor_function_type( &::cv::bitwise_xor )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::MatND() )
-            , "\nCalculates per-element bit-wise 'exclusive or' operation on two "
-    "\narrays and an array and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::MatND() ) );
     
     }
 
@@ -597,11 +511,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_xor"
             , bitwise_xor_function_type( &::cv::bitwise_xor )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::Mat() )
-            , "\nCalculates per-element bit-wise 'exclusive or' operation on two "
-    "\narrays and an array and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::Mat() ) );
     
     }
 
@@ -612,11 +522,7 @@ void register_free_functions(){
         bp::def( 
             "bitwise_xor"
             , bitwise_xor_function_type( &::cv::bitwise_xor )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::Mat() )
-            , "\nCalculates per-element bit-wise 'exclusive or' operation on two "
-    "\narrays and an array and a scalar."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask")=cv::Mat() ) );
     
     }
 
@@ -671,10 +577,7 @@ void register_free_functions(){
         bp::def( 
             "calcCovarMatrix"
             , calcCovarMatrix_function_type( &::cv::calcCovarMatrix )
-            , ( bp::arg("samples"), bp::arg("covar"), bp::arg("mean"), bp::arg("flags"), bp::arg("ctype")=(int)(6) )
-            , "\nCalculates covariation matrix of a set of vectors."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#calccovarmatrix" );
+            , ( bp::arg("samples"), bp::arg("covar"), bp::arg("mean"), bp::arg("flags"), bp::arg("ctype")=(int)(6) ) );
     
     }
 
@@ -729,10 +632,7 @@ void register_free_functions(){
         bp::def( 
             "cartToPolar"
             , cartToPolar_function_type( &::cv::cartToPolar )
-            , ( bp::arg("x"), bp::arg("y"), bp::arg("magnitude"), bp::arg("angle"), bp::arg("angleInDegrees")=(bool)(false) )
-            , "\nCalculates the magnitude and angle of 2d vectors."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#carttopolar" );
+            , ( bp::arg("x"), bp::arg("y"), bp::arg("magnitude"), bp::arg("angle"), bp::arg("angleInDegrees")=(bool)(false) ) );
     
     }
 
@@ -776,11 +676,7 @@ void register_free_functions(){
         bp::def( 
             "compare"
             , compare_function_type( &::cv::compare )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("cmpop") )
-            , "\nPerforms per-element comparison of two arrays or an array and scalar "
-    "\nvalue."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("cmpop") ) );
     
     }
 
@@ -791,11 +687,7 @@ void register_free_functions(){
         bp::def( 
             "compare"
             , compare_function_type( &::cv::compare )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("cmpop") )
-            , "\nPerforms per-element comparison of two arrays or an array and scalar "
-    "\nvalue."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("cmpop") ) );
     
     }
 
@@ -806,11 +698,7 @@ void register_free_functions(){
         bp::def( 
             "compare"
             , compare_function_type( &::cv::compare )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("cmpop") )
-            , "\nPerforms per-element comparison of two arrays or an array and scalar "
-    "\nvalue."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare" );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("cmpop") ) );
     
     }
 
@@ -821,11 +709,7 @@ void register_free_functions(){
         bp::def( 
             "compare"
             , compare_function_type( &::cv::compare )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("cmpop") )
-            , "\nPerforms per-element comparison of two arrays or an array and scalar "
-    "\nvalue."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare" );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("cmpop") ) );
     
     }
 
@@ -858,10 +742,7 @@ void register_free_functions(){
         bp::def( 
             "completeSymm"
             , completeSymm_function_type( &::cv::completeSymm )
-            , ( bp::arg("a"), bp::arg("lowerToUpper")=(bool)(false) )
-            , "\nCopies the lower or the upper half of a square matrix to another half."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#completesymm" );
+            , ( bp::arg("a"), bp::arg("lowerToUpper")=(bool)(false) ) );
     
     }
 
@@ -916,10 +797,7 @@ void register_free_functions(){
         bp::def( 
             "convertScaleAbs"
             , convertScaleAbs_function_type( &::cv::convertScaleAbs )
-            , ( bp::arg("a"), bp::arg("c"), bp::arg("alpha")=1, bp::arg("beta")=0 )
-            , "\nScales, computes absolute values and converts the result to 8-bit."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#convertscaleabs" );
+            , ( bp::arg("a"), bp::arg("c"), bp::arg("alpha")=1, bp::arg("beta")=0 ) );
     
     }
 
@@ -974,10 +852,7 @@ void register_free_functions(){
         bp::def( 
             "countNonZero"
             , countNonZero_function_type( &::cv::countNonZero )
-            , ( bp::arg("m") )
-            , "\nCounts non-zero array elements."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#countnonzero" );
+            , ( bp::arg("m") ) );
     
     }
 
@@ -988,10 +863,7 @@ void register_free_functions(){
         bp::def( 
             "countNonZero"
             , countNonZero_function_type( &::cv::countNonZero )
-            , ( bp::arg("m") )
-            , "\nCounts non-zero array elements."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#countnonzero" );
+            , ( bp::arg("m") ) );
     
     }
 
@@ -1081,8 +953,7 @@ void register_free_functions(){
             , approxChains_function_type( &::cvApproxChains )
             , ( bp::arg("src_seq"), bp::arg("storage"), bp::arg("method")=(int)(2), bp::arg("parameter")=0, bp::arg("minimal_perimeter")=(int)(0), bp::arg("recursive")=(int)(0) )
             , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvApproxChains" );
+            , "\nWrapped function: cvApproxChains." );
     
     }
 
@@ -1094,8 +965,7 @@ void register_free_functions(){
             "attrValue"
             , attrValue_function_type( &::cvAttrValue )
             , ( bp::arg("attr"), bp::arg("attr_name") )
-            , "\nWrapped function:"
-    "\n    cvAttrValue" );
+            , "\nWrapped function: cvAttrValue." );
     
     }
 
@@ -1107,8 +977,7 @@ void register_free_functions(){
             "blob"
             , blob_function_type( &::cvBlob )
             , ( bp::arg("x"), bp::arg("y"), bp::arg("w"), bp::arg("h") )
-            , "\nWrapped function:"
-    "\n    cvBlob" );
+            , "\nWrapped function: cvBlob." );
     
     }
 
@@ -1120,8 +989,7 @@ void register_free_functions(){
             "boxPoints"
             , boxPoints_function_type( &::cvBoxPoints )
             , ( bp::arg("box"), bp::arg("pt") )
-            , "\nWrapped function:"
-    "\n    cvBoxPoints" );
+            , "\nWrapped function: cvBoxPoints." );
     
     }
 
@@ -1133,8 +1001,7 @@ void register_free_functions(){
             "calcSubdivVoronoi2D"
             , calcSubdivVoronoi2D_function_type( &::cvCalcSubdivVoronoi2D )
             , ( bp::arg("subdiv") )
-            , "\nWrapped function:"
-    "\n    cvCalcSubdivVoronoi2D" );
+            , "\nWrapped function: cvCalcSubdivVoronoi2D." );
     
     }
 
@@ -1146,8 +1013,7 @@ void register_free_functions(){
             "ceil"
             , ceil_function_type( &::cvCeil )
             , ( bp::arg("value") )
-            , "\nWrapped function:"
-    "\n    cvCeil" );
+            , "\nWrapped function: cvCeil." );
     
     }
 
@@ -1159,8 +1025,7 @@ void register_free_functions(){
             "clearMemStorage"
             , clearMemStorage_function_type( &::cvClearMemStorage )
             , ( bp::arg("storage") )
-            , "\nWrapped function:"
-    "\n    cvClearMemStorage" );
+            , "\nWrapped function: cvClearMemStorage." );
     
     }
 
@@ -1172,8 +1037,7 @@ void register_free_functions(){
             "clearSeq"
             , clearSeq_function_type( &::cvClearSeq )
             , ( bp::arg("seq") )
-            , "\nWrapped function:"
-    "\n    cvClearSeq" );
+            , "\nWrapped function: cvClearSeq." );
     
     }
 
@@ -1185,8 +1049,7 @@ void register_free_functions(){
             "clearSet"
             , clearSet_function_type( &::cvClearSet )
             , ( bp::arg("set_header") )
-            , "\nWrapped function:"
-    "\n    cvClearSet" );
+            , "\nWrapped function: cvClearSet." );
     
     }
 
@@ -1198,8 +1061,7 @@ void register_free_functions(){
             "clearSubdivVoronoi2D"
             , clearSubdivVoronoi2D_function_type( &::cvClearSubdivVoronoi2D )
             , ( bp::arg("subdiv") )
-            , "\nWrapped function:"
-    "\n    cvClearSubdivVoronoi2D" );
+            , "\nWrapped function: cvClearSubdivVoronoi2D." );
     
     }
 
@@ -1212,8 +1074,7 @@ void register_free_functions(){
             , cloneSeq_function_type( &::cvCloneSeq )
             , ( bp::arg("seq"), bp::arg("storage")=bp::object() )
             , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCloneSeq" );
+            , "\nWrapped function: cvCloneSeq." );
     
     }
 
@@ -1225,8 +1086,7 @@ void register_free_functions(){
             "conDensUpdateByTime"
             , conDensUpdateByTime_function_type( &::cvConDensUpdateByTime )
             , ( bp::arg("condens") )
-            , "\nWrapped function:"
-    "\n    cvConDensUpdateByTime" );
+            , "\nWrapped function: cvConDensUpdateByTime." );
     
     }
 
@@ -1239,8 +1099,7 @@ void register_free_functions(){
             , contourFromContourTree_function_type( &::cvContourFromContourTree )
             , ( bp::arg("tree"), bp::arg("storage"), bp::arg("criteria") )
             , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvContourFromContourTree" );
+            , "\nWrapped function: cvContourFromContourTree." );
     
     }
 
@@ -1253,8 +1112,7 @@ void register_free_functions(){
             , createChildMemStorage_function_type( &::cvCreateChildMemStorage )
             , ( bp::arg("parent") )
             , bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateChildMemStorage" );
+            , "\nWrapped function: cvCreateChildMemStorage." );
     
     }
 
@@ -1267,8 +1125,7 @@ void register_free_functions(){
             , createConDensation_function_type( &::cvCreateConDensation )
             , ( bp::arg("dynam_params"), bp::arg("measure_params"), bp::arg("sample_count") )
             , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateConDensation" );
+            , "\nWrapped function: cvCreateConDensation." );
     
     }
 
@@ -1281,8 +1138,7 @@ void register_free_functions(){
             , createContourTree_function_type( &::cvCreateContourTree )
             , ( bp::arg("contour"), bp::arg("storage"), bp::arg("threshold") )
             , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateContourTree" );
+            , "\nWrapped function: cvCreateContourTree." );
     
     }
 
@@ -1295,8 +1151,7 @@ void register_free_functions(){
             , createLSH_function_type( &::cvCreateLSH )
             , ( bp::arg("ops"), bp::arg("d"), bp::arg("L")=(int)(10), bp::arg("k")=(int)(10), bp::arg("type")=(int)(6), bp::arg("r")=4, bp::arg("seed")=(::int64)(-0x000000001) )
             , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateLSH" );
+            , "\nWrapped function: cvCreateLSH." );
     
     }
 
@@ -1309,8 +1164,7 @@ void register_free_functions(){
             , createMemStorage_function_type( &::cvCreateMemStorage )
             , ( bp::arg("block_size")=(int)(0) )
             , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateMemStorage" );
+            , "\nWrapped function: cvCreateMemStorage." );
     
     }
 
@@ -1323,8 +1177,7 @@ void register_free_functions(){
             , createMemoryLSH_function_type( &::cvCreateMemoryLSH )
             , ( bp::arg("d"), bp::arg("n"), bp::arg("L")=(int)(10), bp::arg("k")=(int)(10), bp::arg("type")=(int)(6), bp::arg("r")=4, bp::arg("seed")=(::int64)(-0x000000001) )
             , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateMemoryLSH" );
+            , "\nWrapped function: cvCreateMemoryLSH." );
     
     }
 
@@ -1337,8 +1190,7 @@ void register_free_functions(){
             , createPOSITObject_function_type( &::cvCreatePOSITObject )
             , ( bp::arg("points"), bp::arg("point_count") )
             , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreatePOSITObject" );
+            , "\nWrapped function: cvCreatePOSITObject." );
     
     }
 
@@ -1351,8 +1203,7 @@ void register_free_functions(){
             , createSeq_function_type( &::cvCreateSeq )
             , ( bp::arg("seq_flags"), bp::arg("header_size"), bp::arg("elem_size"), bp::arg("storage") )
             , bp::with_custodian_and_ward_postcall< 0, 4, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateSeq" );
+            , "\nWrapped function: cvCreateSeq." );
     
     }
 
@@ -1364,8 +1215,7 @@ void register_free_functions(){
             "createSeqBlock"
             , createSeqBlock_function_type( &::cvCreateSeqBlock )
             , ( bp::arg("writer") )
-            , "\nWrapped function:"
-    "\n    cvCreateSeqBlock" );
+            , "\nWrapped function: cvCreateSeqBlock." );
     
     }
 
@@ -1378,8 +1228,7 @@ void register_free_functions(){
             , createSet_function_type( &::cvCreateSet )
             , ( bp::arg("set_flags"), bp::arg("header_size"), bp::arg("elem_size"), bp::arg("storage") )
             , bp::with_custodian_and_ward_postcall< 0, 4, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateSet" );
+            , "\nWrapped function: cvCreateSet." );
     
     }
 
@@ -1392,8 +1241,7 @@ void register_free_functions(){
             , createStereoGCState_function_type( &::cvCreateStereoGCState )
             , ( bp::arg("numberOfDisparities"), bp::arg("maxIters") )
             , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateStereoGCState" );
+            , "\nWrapped function: cvCreateStereoGCState." );
     
     }
 
@@ -1406,8 +1254,7 @@ void register_free_functions(){
             , createSubdiv2D_function_type( &::cvCreateSubdiv2D )
             , ( bp::arg("subdiv_type"), bp::arg("header_size"), bp::arg("vtx_size"), bp::arg("quadedge_size"), bp::arg("storage") )
             , bp::with_custodian_and_ward_postcall< 0, 5, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateSubdiv2D" );
+            , "\nWrapped function: cvCreateSubdiv2D." );
     
     }
 
@@ -1420,8 +1267,7 @@ void register_free_functions(){
             , createSubdivDelaunay2D_function_type( &::cvCreateSubdivDelaunay2D )
             , ( bp::arg("rect"), bp::arg("storage") )
             , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateSubdivDelaunay2D" );
+            , "\nWrapped function: cvCreateSubdivDelaunay2D." );
     
     }
 
@@ -1432,8 +1278,7 @@ void register_free_functions(){
         bp::def( 
             "_cvDestroyAllWindows"
             , _cvDestroyAllWindows_function_type( &::cvDestroyAllWindows )
-            , "\nWrapped function:"
-    "\n    cvDestroyAllWindows" );
+            , "\nWrapped function: cvDestroyAllWindows." );
     
     }
 
@@ -1445,8 +1290,7 @@ void register_free_functions(){
             "_cvDestroyWindow"
             , _cvDestroyWindow_function_type( &::cvDestroyWindow )
             , ( bp::arg("name") )
-            , "\nWrapped function:"
-    "\n    cvDestroyWindow" );
+            , "\nWrapped function: cvDestroyWindow." );
     
     }
 
@@ -1458,8 +1302,7 @@ void register_free_functions(){
             "detectedBlob"
             , detectedBlob_function_type( &::cvDetectedBlob )
             , ( bp::arg("x"), bp::arg("y"), bp::arg("w"), bp::arg("h"), bp::arg("ID")=(int)(0), bp::arg("response")=0.0f )
-            , "\nWrapped function:"
-    "\n    cvDetectedBlob" );
+            , "\nWrapped function: cvDetectedBlob." );
     
     }
 
@@ -1472,8 +1315,7 @@ void register_free_functions(){
             , _cvEndFindContours_function_type( &::cvEndFindContours )
             , ( bp::arg("scanner") )
             , bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvEndFindContours" );
+            , "\nWrapped function: cvEndFindContours." );
     
     }
 
@@ -1486,8 +1328,7 @@ void register_free_functions(){
             , endWriteSeq_function_type( &::cvEndWriteSeq )
             , ( bp::arg("writer") )
             , bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvEndWriteSeq" );
+            , "\nWrapped function: cvEndWriteSeq." );
     
     }
 
@@ -1499,8 +1340,7 @@ void register_free_functions(){
             "error"
             , error_function_type( &::cvError )
             , ( bp::arg("status"), bp::arg("func_name"), bp::arg("err_msg"), bp::arg("file_name"), bp::arg("line") )
-            , "\nWrapped function:"
-    "\n    cvError" );
+            , "\nWrapped function: cvError." );
     
     }
 
@@ -1512,8 +1352,7 @@ void register_free_functions(){
             "errorFromIppStatus"
             , errorFromIppStatus_function_type( &::cvErrorFromIppStatus )
             , ( bp::arg("ipp_status") )
-            , "\nWrapped function:"
-    "\n    cvErrorFromIppStatus" );
+            , "\nWrapped function: cvErrorFromIppStatus." );
     
     }
 
@@ -1525,8 +1364,7 @@ void register_free_functions(){
             "errorStr"
             , errorStr_function_type( &::cvErrorStr )
             , ( bp::arg("status") )
-            , "\nWrapped function:"
-    "\n    cvErrorStr" );
+            , "\nWrapped function: cvErrorStr." );
     
     }
 
@@ -1539,8 +1377,7 @@ void register_free_functions(){
             , findDominantPoints_function_type( &::cvFindDominantPoints )
             , ( bp::arg("contour"), bp::arg("storage"), bp::arg("method")=(int)(1), bp::arg("parameter1")=0, bp::arg("parameter2")=0, bp::arg("parameter3")=0, bp::arg("parameter4")=0 )
             , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvFindDominantPoints" );
+            , "\nWrapped function: cvFindDominantPoints." );
     
     }
 
@@ -1553,8 +1390,7 @@ void register_free_functions(){
             , findNextContour_function_type( &::cvFindNextContour )
             , ( bp::arg("scanner") )
             , bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvFindNextContour" );
+            , "\nWrapped function: cvFindNextContour." );
     
     }
 
@@ -1567,8 +1403,7 @@ void register_free_functions(){
             , findType_function_type( &::cvFindType )
             , ( bp::arg("type_name") )
             , bp::return_value_policy< bp::reference_existing_object >()
-            , "\nWrapped function:"
-    "\n    cvFindType" );
+            , "\nWrapped function: cvFindType." );
     
     }
 
@@ -1580,8 +1415,7 @@ void register_free_functions(){
             "firstType"
             , firstType_function_type( &::cvFirstType )
             , bp::return_value_policy< bp::reference_existing_object >()
-            , "\nWrapped function:"
-    "\n    cvFirstType" );
+            , "\nWrapped function: cvFirstType." );
     
     }
 
@@ -1593,8 +1427,7 @@ void register_free_functions(){
             "floor"
             , floor_function_type( &::cvFloor )
             , ( bp::arg("value") )
-            , "\nWrapped function:"
-    "\n    cvFloor" );
+            , "\nWrapped function: cvFloor." );
     
     }
 
@@ -1606,8 +1439,7 @@ void register_free_functions(){
             "flushSeqWriter"
             , flushSeqWriter_function_type( &::cvFlushSeqWriter )
             , ( bp::arg("writer") )
-            , "\nWrapped function:"
-    "\n    cvFlushSeqWriter" );
+            , "\nWrapped function: cvFlushSeqWriter." );
     
     }
 
@@ -1618,8 +1450,7 @@ void register_free_functions(){
         bp::def( 
             "getErrMode"
             , getErrMode_function_type( &::cvGetErrMode )
-            , "\nWrapped function:"
-    "\n    cvGetErrMode" );
+            , "\nWrapped function: cvGetErrMode." );
     
     }
 
@@ -1630,8 +1461,7 @@ void register_free_functions(){
         bp::def( 
             "getErrStatus"
             , getErrStatus_function_type( &::cvGetErrStatus )
-            , "\nWrapped function:"
-    "\n    cvGetErrStatus" );
+            , "\nWrapped function: cvGetErrStatus." );
     
     }
 
@@ -1642,8 +1472,7 @@ void register_free_functions(){
         bp::def( 
             "getNumThreads"
             , getNumThreads_function_type( &::cvGetNumThreads )
-            , "\nWrapped function:"
-    "\n    cvGetNumThreads" );
+            , "\nWrapped function: cvGetNumThreads." );
     
     }
 
@@ -1656,8 +1485,7 @@ void register_free_functions(){
             , getRootFileNode_function_type( &::cvGetRootFileNode )
             , ( bp::arg("fs"), bp::arg("stream_index")=(int)(0) )
             , bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvGetRootFileNode" );
+            , "\nWrapped function: cvGetRootFileNode." );
     
     }
 
@@ -1669,8 +1497,7 @@ void register_free_functions(){
             "getSeqReaderPos"
             , getSeqReaderPos_function_type( &::cvGetSeqReaderPos )
             , ( bp::arg("reader") )
-            , "\nWrapped function:"
-    "\n    cvGetSeqReaderPos" );
+            , "\nWrapped function: cvGetSeqReaderPos." );
     
     }
 
@@ -1683,8 +1510,7 @@ void register_free_functions(){
             , getSetElem_function_type( &::cvGetSetElem )
             , ( bp::arg("set_header"), bp::arg("index") )
             , bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvGetSetElem" );
+            , "\nWrapped function: cvGetSetElem." );
     
     }
 
@@ -1695,8 +1521,7 @@ void register_free_functions(){
         bp::def( 
             "getThreadNum"
             , getThreadNum_function_type( &::cvGetThreadNum )
-            , "\nWrapped function:"
-    "\n    cvGetThreadNum" );
+            , "\nWrapped function: cvGetThreadNum." );
     
     }
 
@@ -1707,8 +1532,7 @@ void register_free_functions(){
         bp::def( 
             "getTickCount"
             , getTickCount_function_type( &::cvGetTickCount )
-            , "\nWrapped function:"
-    "\n    cvGetTickCount" );
+            , "\nWrapped function: cvGetTickCount." );
     
     }
 
@@ -1719,8 +1543,7 @@ void register_free_functions(){
         bp::def( 
             "getTickFrequency"
             , getTickFrequency_function_type( &::cvGetTickFrequency )
-            , "\nWrapped function:"
-    "\n    cvGetTickFrequency" );
+            , "\nWrapped function: cvGetTickFrequency." );
     
     }
 
@@ -1732,8 +1555,7 @@ void register_free_functions(){
             "getTrackbarPos"
             , getTrackbarPos_function_type( &::cvGetTrackbarPos )
             , ( bp::arg("trackbar_name"), bp::arg("window_name") )
-            , "\nWrapped function:"
-    "\n    cvGetTrackbarPos" );
+            , "\nWrapped function: cvGetTrackbarPos." );
     
     }
 
@@ -1745,8 +1567,7 @@ void register_free_functions(){
             "getWindowName"
             , getWindowName_function_type( &::cvGetWindowName )
             , ( bp::arg("window_handle") )
-            , "\nWrapped function:"
-    "\n    cvGetWindowName" );
+            , "\nWrapped function: cvGetWindowName." );
     
     }
 
@@ -1758,8 +1579,7 @@ void register_free_functions(){
             "initSubdivDelaunay2D"
             , initSubdivDelaunay2D_function_type( &::cvInitSubdivDelaunay2D )
             , ( bp::arg("subdiv"), bp::arg("rect") )
-            , "\nWrapped function:"
-    "\n    cvInitSubdivDelaunay2D" );
+            , "\nWrapped function: cvInitSubdivDelaunay2D." );
     
     }
 
@@ -1771,8 +1591,7 @@ void register_free_functions(){
             "isInf"
             , isInf_function_type( &::cvIsInf )
             , ( bp::arg("value") )
-            , "\nWrapped function:"
-    "\n    cvIsInf" );
+            , "\nWrapped function: cvIsInf." );
     
     }
 
@@ -1784,8 +1603,7 @@ void register_free_functions(){
             "isNaN"
             , isNaN_function_type( &::cvIsNaN )
             , ( bp::arg("value") )
-            , "\nWrapped function:"
-    "\n    cvIsNaN" );
+            , "\nWrapped function: cvIsNaN." );
     
     }
 
@@ -1797,8 +1615,7 @@ void register_free_functions(){
             "matchContourTrees"
             , matchContourTrees_function_type( &::cvMatchContourTrees )
             , ( bp::arg("tree1"), bp::arg("tree2"), bp::arg("method"), bp::arg("threshold") )
-            , "\nWrapped function:"
-    "\n    cvMatchContourTrees" );
+            , "\nWrapped function: cvMatchContourTrees." );
     
     }
 
@@ -1810,8 +1627,7 @@ void register_free_functions(){
             "maxRect"
             , maxRect_function_type( &::cvMaxRect )
             , ( bp::arg("rect1"), bp::arg("rect2") )
-            , "\nWrapped function:"
-    "\n    cvMaxRect" );
+            , "\nWrapped function: cvMaxRect." );
     
     }
 
@@ -1824,8 +1640,7 @@ void register_free_functions(){
             , memStorageAllocString_function_type( &::cvMemStorageAllocString )
             , ( bp::arg("storage"), bp::arg("ptr"), bp::arg("len")=(int)(-0x000000001) )
             , bp::with_custodian_and_ward_postcall< 0, 1 >()
-            , "\nWrapped function:"
-    "\n    cvMemStorageAllocString" );
+            , "\nWrapped function: cvMemStorageAllocString." );
     
     }
 
@@ -1837,8 +1652,7 @@ void register_free_functions(){
             "moveWindow"
             , moveWindow_function_type( &::cvMoveWindow )
             , ( bp::arg("name"), bp::arg("x"), bp::arg("y") )
-            , "\nWrapped function:"
-    "\n    cvMoveWindow" );
+            , "\nWrapped function: cvMoveWindow." );
     
     }
 
@@ -1850,8 +1664,7 @@ void register_free_functions(){
             "nextNArraySlice"
             , nextNArraySlice_function_type( &::cvNextNArraySlice )
             , ( bp::arg("array_iterator") )
-            , "\nWrapped function:"
-    "\n    cvNextNArraySlice" );
+            , "\nWrapped function: cvNextNArraySlice." );
     
     }
 
@@ -1864,8 +1677,7 @@ void register_free_functions(){
             , openFileStorage_function_type( &::cvOpenFileStorage )
             , ( bp::arg("filename"), bp::arg("memstorage"), bp::arg("flags") )
             , bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > >()
-            , "\nWrapped function:"
-    "\n    cvOpenFileStorage" );
+            , "\nWrapped function: cvOpenFileStorage." );
     
     }
 
@@ -1877,8 +1689,7 @@ void register_free_functions(){
             "POSIT"
             , POSIT_function_type( &::cvPOSIT )
             , ( bp::arg("posit_object"), bp::arg("image_points"), bp::arg("focal_length"), bp::arg("criteria"), bp::arg("rotation_matrix"), bp::arg("translation_vector") )
-            , "\nWrapped function:"
-    "\n    cvPOSIT" );
+            , "\nWrapped function: cvPOSIT." );
     
     }
 
@@ -1890,8 +1701,7 @@ void register_free_functions(){
             "RANSACUpdateNumIters"
             , RANSACUpdateNumIters_function_type( &::cvRANSACUpdateNumIters )
             , ( bp::arg("p"), bp::arg("err_prob"), bp::arg("model_points"), bp::arg("max_iters") )
-            , "\nWrapped function:"
-    "\n    cvRANSACUpdateNumIters" );
+            , "\nWrapped function: cvRANSACUpdateNumIters." );
     
     }
 
@@ -1903,8 +1713,7 @@ void register_free_functions(){
             "readChainPoint"
             , readChainPoint_function_type( &::cvReadChainPoint )
             , ( bp::arg("reader") )
-            , "\nWrapped function:"
-    "\n    cvReadChainPoint" );
+            , "\nWrapped function: cvReadChainPoint." );
     
     }
 
@@ -1916,8 +1725,7 @@ void register_free_functions(){
             "registerModule"
             , registerModule_function_type( &::cvRegisterModule )
             , ( bp::arg("module_info") )
-            , "\nWrapped function:"
-    "\n    cvRegisterModule" );
+            , "\nWrapped function: cvRegisterModule." );
     
     }
 
@@ -1929,8 +1737,7 @@ void register_free_functions(){
             "registerType"
             , registerType_function_type( &::cvRegisterType )
             , ( bp::arg("info") )
-            , "\nWrapped function:"
-    "\n    cvRegisterType" );
+            , "\nWrapped function: cvRegisterType." );
     
     }
 
@@ -1942,8 +1749,7 @@ void register_free_functions(){
             "_cvReleaseFeatureTree"
             , _cvReleaseFeatureTree_function_type( &::cvReleaseFeatureTree )
             , ( bp::arg("tr") )
-            , "\nWrapped function:"
-    "\n    cvReleaseFeatureTree" );
+            , "\nWrapped function: cvReleaseFeatureTree." );
     
     }
 
@@ -1955,8 +1761,7 @@ void register_free_functions(){
             "_cvReleaseLSH"
             , _cvReleaseLSH_function_type( &::cvReleaseLSH )
             , ( bp::arg("lsh") )
-            , "\nWrapped function:"
-    "\n    cvReleaseLSH" );
+            , "\nWrapped function: cvReleaseLSH." );
     
     }
 
@@ -1968,8 +1773,7 @@ void register_free_functions(){
             "resizeWindow"
             , resizeWindow_function_type( &::cvResizeWindow )
             , ( bp::arg("name"), bp::arg("width"), bp::arg("height") )
-            , "\nWrapped function:"
-    "\n    cvResizeWindow" );
+            , "\nWrapped function: cvResizeWindow." );
     
     }
 
@@ -1981,8 +1785,7 @@ void register_free_functions(){
             "restoreMemStoragePos"
             , restoreMemStoragePos_function_type( &::cvRestoreMemStoragePos )
             , ( bp::arg("storage"), bp::arg("pos") )
-            , "\nWrapped function:"
-    "\n    cvRestoreMemStoragePos" );
+            , "\nWrapped function: cvRestoreMemStoragePos." );
     
     }
 
@@ -1994,8 +1797,7 @@ void register_free_functions(){
             "round"
             , round_function_type( &::cvRound )
             , ( bp::arg("value") )
-            , "\nWrapped function:"
-    "\n    cvRound" );
+            , "\nWrapped function: cvRound." );
     
     }
 
@@ -2007,8 +1809,7 @@ void register_free_functions(){
             "saveMemStoragePos"
             , saveMemStoragePos_function_type( &::cvSaveMemStoragePos )
             , ( bp::arg("storage"), bp::arg("pos") )
-            , "\nWrapped function:"
-    "\n    cvSaveMemStoragePos" );
+            , "\nWrapped function: cvSaveMemStoragePos." );
     
     }
 
@@ -2020,8 +1821,7 @@ void register_free_functions(){
             "seqInvert"
             , seqInvert_function_type( &::cvSeqInvert )
             , ( bp::arg("seq") )
-            , "\nWrapped function:"
-    "\n    cvSeqInvert" );
+            , "\nWrapped function: cvSeqInvert." );
     
     }
 
@@ -2033,8 +1833,7 @@ void register_free_functions(){
             "seqRemove"
             , seqRemove_function_type( &::cvSeqRemove )
             , ( bp::arg("seq"), bp::arg("index") )
-            , "\nWrapped function:"
-    "\n    cvSeqRemove" );
+            , "\nWrapped function: cvSeqRemove." );
     
     }
 
@@ -2046,8 +1845,7 @@ void register_free_functions(){
             "seqRemoveSlice"
             , seqRemoveSlice_function_type( &::cvSeqRemoveSlice )
             , ( bp::arg("seq"), bp::arg("slice") )
-            , "\nWrapped function:"
-    "\n    cvSeqRemoveSlice" );
+            , "\nWrapped function: cvSeqRemoveSlice." );
     
     }
 
@@ -2060,8 +1858,7 @@ void register_free_functions(){
             , seqSlice_function_type( &::cvSeqSlice )
             , ( bp::arg("seq"), bp::arg("slice"), bp::arg("storage")=bp::object(), bp::arg("copy_data")=(int)(0) )
             , bp::with_custodian_and_ward_postcall< 0, 3, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvSeqSlice" );
+            , "\nWrapped function: cvSeqSlice." );
     
     }
 
@@ -2073,8 +1870,7 @@ void register_free_functions(){
             "setErrMode"
             , setErrMode_function_type( &::cvSetErrMode )
             , ( bp::arg("mode") )
-            , "\nWrapped function:"
-    "\n    cvSetErrMode" );
+            , "\nWrapped function: cvSetErrMode." );
     
     }
 
@@ -2086,8 +1882,7 @@ void register_free_functions(){
             "setErrStatus"
             , setErrStatus_function_type( &::cvSetErrStatus )
             , ( bp::arg("status") )
-            , "\nWrapped function:"
-    "\n    cvSetErrStatus" );
+            , "\nWrapped function: cvSetErrStatus." );
     
     }
 
@@ -2099,8 +1894,7 @@ void register_free_functions(){
             "setNumThreads"
             , setNumThreads_function_type( &::cvSetNumThreads )
             , ( bp::arg("threads")=(int)(0) )
-            , "\nWrapped function:"
-    "\n    cvSetNumThreads" );
+            , "\nWrapped function: cvSetNumThreads." );
     
     }
 
@@ -2112,8 +1906,7 @@ void register_free_functions(){
             "setRemove"
             , setRemove_function_type( &::cvSetRemove )
             , ( bp::arg("set_header"), bp::arg("index") )
-            , "\nWrapped function:"
-    "\n    cvSetRemove" );
+            , "\nWrapped function: cvSetRemove." );
     
     }
 
@@ -2125,8 +1918,7 @@ void register_free_functions(){
             "setSeqBlockSize"
             , setSeqBlockSize_function_type( &::cvSetSeqBlockSize )
             , ( bp::arg("seq"), bp::arg("delta_elems") )
-            , "\nWrapped function:"
-    "\n    cvSetSeqBlockSize" );
+            , "\nWrapped function: cvSetSeqBlockSize." );
     
     }
 
@@ -2138,8 +1930,7 @@ void register_free_functions(){
             "setSeqReaderPos"
             , setSeqReaderPos_function_type( &::cvSetSeqReaderPos )
             , ( bp::arg("reader"), bp::arg("index"), bp::arg("is_relative")=(int)(0) )
-            , "\nWrapped function:"
-    "\n    cvSetSeqReaderPos" );
+            , "\nWrapped function: cvSetSeqReaderPos." );
     
     }
 
@@ -2151,8 +1942,7 @@ void register_free_functions(){
             "setTrackbarPos"
             , setTrackbarPos_function_type( &::cvSetTrackbarPos )
             , ( bp::arg("trackbar_name"), bp::arg("window_name"), bp::arg("pos") )
-            , "\nWrapped function:"
-    "\n    cvSetTrackbarPos" );
+            , "\nWrapped function: cvSetTrackbarPos." );
     
     }
 
@@ -2164,8 +1954,7 @@ void register_free_functions(){
             "sliceLength"
             , sliceLength_function_type( &::cvSliceLength )
             , ( bp::arg("slice"), bp::arg("seq") )
-            , "\nWrapped function:"
-    "\n    cvSliceLength" );
+            , "\nWrapped function: cvSliceLength." );
     
     }
 
@@ -2177,8 +1966,7 @@ void register_free_functions(){
             "starKeypoint"
             , starKeypoint_function_type( &::cvStarKeypoint )
             , ( bp::arg("pt"), bp::arg("size"), bp::arg("response") )
-            , "\nWrapped function:"
-    "\n    cvStarKeypoint" );
+            , "\nWrapped function: cvStarKeypoint." );
     
     }
 
@@ -2190,8 +1978,7 @@ void register_free_functions(){
             "startAppendToSeq"
             , startAppendToSeq_function_type( &::cvStartAppendToSeq )
             , ( bp::arg("seq"), bp::arg("writer") )
-            , "\nWrapped function:"
-    "\n    cvStartAppendToSeq" );
+            , "\nWrapped function: cvStartAppendToSeq." );
     
     }
 
@@ -2203,8 +1990,7 @@ void register_free_functions(){
             "startReadChainPoints"
             , startReadChainPoints_function_type( &::cvStartReadChainPoints )
             , ( bp::arg("chain"), bp::arg("reader") )
-            , "\nWrapped function:"
-    "\n    cvStartReadChainPoints" );
+            , "\nWrapped function: cvStartReadChainPoints." );
     
     }
 
@@ -2216,8 +2002,7 @@ void register_free_functions(){
             "startReadSeq"
             , startReadSeq_function_type( &::cvStartReadSeq )
             , ( bp::arg("seq"), bp::arg("reader"), bp::arg("reverse")=(int)(0) )
-            , "\nWrapped function:"
-    "\n    cvStartReadSeq" );
+            , "\nWrapped function: cvStartReadSeq." );
     
     }
 
@@ -2228,8 +2013,7 @@ void register_free_functions(){
         bp::def( 
             "startWindowThread"
             , startWindowThread_function_type( &::cvStartWindowThread )
-            , "\nWrapped function:"
-    "\n    cvStartWindowThread" );
+            , "\nWrapped function: cvStartWindowThread." );
     
     }
 
@@ -2241,8 +2025,7 @@ void register_free_functions(){
             "startWriteSeq"
             , startWriteSeq_function_type( &::cvStartWriteSeq )
             , ( bp::arg("seq_flags"), bp::arg("header_size"), bp::arg("elem_size"), bp::arg("storage"), bp::arg("writer") )
-            , "\nWrapped function:"
-    "\n    cvStartWriteSeq" );
+            , "\nWrapped function: cvStartWriteSeq." );
     
     }
 
@@ -2255,8 +2038,7 @@ void register_free_functions(){
             , subdiv2DEdgeDst_function_type( &::cvSubdiv2DEdgeDst )
             , ( bp::arg("edge") )
             , bp::return_value_policy< bp::reference_existing_object >()
-            , "\nWrapped function:"
-    "\n    cvSubdiv2DEdgeDst" );
+            , "\nWrapped function: cvSubdiv2DEdgeDst." );
     
     }
 
@@ -2269,8 +2051,7 @@ void register_free_functions(){
             , subdiv2DEdgeOrg_function_type( &::cvSubdiv2DEdgeOrg )
             , ( bp::arg("edge") )
             , bp::return_value_policy< bp::reference_existing_object >()
-            , "\nWrapped function:"
-    "\n    cvSubdiv2DEdgeOrg" );
+            , "\nWrapped function: cvSubdiv2DEdgeOrg." );
     
     }
 
@@ -2282,8 +2063,7 @@ void register_free_functions(){
             "subdiv2DGetEdge"
             , subdiv2DGetEdge_function_type( &::cvSubdiv2DGetEdge )
             , ( bp::arg("edge"), bp::arg("type") )
-            , "\nWrapped function:"
-    "\n    cvSubdiv2DGetEdge" );
+            , "\nWrapped function: cvSubdiv2DGetEdge." );
     
     }
 
@@ -2295,8 +2075,7 @@ void register_free_functions(){
             "subdiv2DNextEdge"
             , subdiv2DNextEdge_function_type( &::cvSubdiv2DNextEdge )
             , ( bp::arg("edge") )
-            , "\nWrapped function:"
-    "\n    cvSubdiv2DNextEdge" );
+            , "\nWrapped function: cvSubdiv2DNextEdge." );
     
     }
 
@@ -2308,8 +2087,7 @@ void register_free_functions(){
             "subdiv2DRotateEdge"
             , subdiv2DRotateEdge_function_type( &::cvSubdiv2DRotateEdge )
             , ( bp::arg("edge"), bp::arg("rotate") )
-            , "\nWrapped function:"
-    "\n    cvSubdiv2DRotateEdge" );
+            , "\nWrapped function: cvSubdiv2DRotateEdge." );
     
     }
 
@@ -2321,8 +2099,7 @@ void register_free_functions(){
             "subdiv2DSymEdge"
             , subdiv2DSymEdge_function_type( &::cvSubdiv2DSymEdge )
             , ( bp::arg("edge") )
-            , "\nWrapped function:"
-    "\n    cvSubdiv2DSymEdge" );
+            , "\nWrapped function: cvSubdiv2DSymEdge." );
     
     }
 
@@ -2334,8 +2111,7 @@ void register_free_functions(){
             "substituteContour"
             , substituteContour_function_type( &::cvSubstituteContour )
             , ( bp::arg("scanner"), bp::arg("new_contour") )
-            , "\nWrapped function:"
-    "\n    cvSubstituteContour" );
+            , "\nWrapped function: cvSubstituteContour." );
     
     }
 
@@ -2347,8 +2123,7 @@ void register_free_functions(){
             "unregisterType"
             , unregisterType_function_type( &::cvUnregisterType )
             , ( bp::arg("type_name") )
-            , "\nWrapped function:"
-    "\n    cvUnregisterType" );
+            , "\nWrapped function: cvUnregisterType." );
     
     }
 
@@ -2360,8 +2135,7 @@ void register_free_functions(){
             "useOptimized"
             , useOptimized_function_type( &::cvUseOptimized )
             , ( bp::arg("on_off") )
-            , "\nWrapped function:"
-    "\n    cvUseOptimized" );
+            , "\nWrapped function: cvUseOptimized." );
     
     }
 
@@ -2582,6 +2356,39 @@ void register_free_functions(){
             "erode"
             , erode_function_type( &::cv::erode )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("kernel"), bp::arg("anchor")=cv::Point_<int>(-0x000000001, -0x000000001), bp::arg("iterations")=(int)(1), bp::arg("borderType")=int(::cv::BORDER_CONSTANT), bp::arg("borderValue")=cv::morphologyDefaultBorderValue( ) ) );
+    
+    }
+
+    { //::std::exp
+    
+        typedef long double ( *exp_function_type )( long double );
+        
+        bp::def( 
+            "exp"
+            , exp_function_type( &::std::exp )
+            , ( bp::arg("__x") ) );
+    
+    }
+
+    { //::std::exp
+    
+        typedef float ( *exp_function_type )( float );
+        
+        bp::def( 
+            "exp"
+            , exp_function_type( &::std::exp )
+            , ( bp::arg("__x") ) );
+    
+    }
+
+    { //::exp
+    
+        typedef double ( *exp_function_type )( double );
+        
+        bp::def( 
+            "exp"
+            , exp_function_type( &::exp )
+            , ( bp::arg("arg0") ) );
     
     }
 
@@ -3153,6 +2960,28 @@ void register_free_functions(){
     
     }
 
+    { //::std::log
+    
+        typedef long double ( *log_function_type )( long double );
+        
+        bp::def( 
+            "log"
+            , log_function_type( &::std::log )
+            , ( bp::arg("__x") ) );
+    
+    }
+
+    { //::std::log
+    
+        typedef float ( *log_function_type )( float );
+        
+        bp::def( 
+            "log"
+            , log_function_type( &::std::log )
+            , ( bp::arg("__x") ) );
+    
+    }
+
     { //::cv::log
     
         typedef void ( *log_function_type )( ::cv::MatND const &,::cv::MatND & );
@@ -3172,6 +3001,17 @@ void register_free_functions(){
             "log"
             , log_function_type( &::cv::log )
             , ( bp::arg("a"), bp::arg("b") ) );
+    
+    }
+
+    { //::log
+    
+        typedef double ( *log_function_type )( double );
+        
+        bp::def( 
+            "log"
+            , log_function_type( &::log )
+            , ( bp::arg("arg0") ) );
     
     }
 
@@ -3216,6 +3056,53 @@ void register_free_functions(){
             "matchTemplate"
             , matchTemplate_function_type( &::cv::matchTemplate )
             , ( bp::arg("image"), bp::arg("templ"), bp::arg("result"), bp::arg("method") ) );
+    
+    }
+
+    { //::std::max
+    
+        typedef int const & ( *max_function_type )( int const &,int const & );
+        
+        bp::def( 
+            "max"
+            , max_function_type( &::std::max )
+            , ( bp::arg("__a"), bp::arg("__b") )
+            , bp::return_value_policy< bp::copy_const_reference >() );
+    
+    }
+
+    { //::std::max
+    
+        typedef ::size_t const & ( *max_function_type )( ::size_t const &,::size_t const & );
+        
+        bp::def( 
+            "max"
+            , max_function_type( &::std::max )
+            , ( bp::arg("__a"), bp::arg("__b") )
+            , bp::return_value_policy< bp::copy_const_reference >() );
+    
+    }
+
+    { //::std::max
+    
+        typedef float const & ( *max_function_type )( float const &,float const & );
+        
+        bp::def( 
+            "max"
+            , max_function_type( &::std::max )
+            , ( bp::arg("__a"), bp::arg("__b") )
+            , bp::return_value_policy< bp::copy_const_reference >() );
+    
+    }
+
+    { //::cv::max
+    
+        typedef ::cv::MatExpr_< cv::MatExpr_Op3_< cv::Mat, cv::Mat, int, cv::Mat, cv::MatOp_Bin_< cv::Mat > >, cv::Mat > ( *max_function_type )( ::cv::Mat const &,::cv::Mat const & );
+        
+        bp::def( 
+            "max"
+            , max_function_type( &::cv::max )
+            , ( bp::arg("a"), bp::arg("b") ) );
     
     }
 
@@ -3348,6 +3235,53 @@ void register_free_functions(){
             "medianBlur"
             , medianBlur_function_type( &::cv::medianBlur )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("ksize") ) );
+    
+    }
+
+    { //::std::min
+    
+        typedef ::std::streamsize const & ( *min_function_type )( ::std::streamsize const &,::std::streamsize const & );
+        
+        bp::def( 
+            "min"
+            , min_function_type( &::std::min )
+            , ( bp::arg("__a"), bp::arg("__b") )
+            , bp::return_value_policy< bp::copy_const_reference >() );
+    
+    }
+
+    { //::std::min
+    
+        typedef ::size_t const & ( *min_function_type )( ::size_t const &,::size_t const & );
+        
+        bp::def( 
+            "min"
+            , min_function_type( &::std::min )
+            , ( bp::arg("__a"), bp::arg("__b") )
+            , bp::return_value_policy< bp::copy_const_reference >() );
+    
+    }
+
+    { //::std::min
+    
+        typedef float const & ( *min_function_type )( float const &,float const & );
+        
+        bp::def( 
+            "min"
+            , min_function_type( &::std::min )
+            , ( bp::arg("__a"), bp::arg("__b") )
+            , bp::return_value_policy< bp::copy_const_reference >() );
+    
+    }
+
+    { //::cv::min
+    
+        typedef ::cv::MatExpr_< cv::MatExpr_Op3_< cv::Mat, cv::Mat, int, cv::Mat, cv::MatOp_Bin_< cv::Mat > >, cv::Mat > ( *min_function_type )( ::cv::Mat const &,::cv::Mat const & );
+        
+        bp::def( 
+            "min"
+            , min_function_type( &::cv::min )
+            , ( bp::arg("a"), bp::arg("b") ) );
     
     }
 
@@ -3669,6 +3603,61 @@ void register_free_functions(){
     
     }
 
+    { //::std::pow
+    
+        typedef long double ( *pow_function_type )( long double,int );
+        
+        bp::def( 
+            "pow"
+            , pow_function_type( &::std::pow )
+            , ( bp::arg("__x"), bp::arg("__n") ) );
+    
+    }
+
+    { //::std::pow
+    
+        typedef float ( *pow_function_type )( float,int );
+        
+        bp::def( 
+            "pow"
+            , pow_function_type( &::std::pow )
+            , ( bp::arg("__x"), bp::arg("__n") ) );
+    
+    }
+
+    { //::std::pow
+    
+        typedef double ( *pow_function_type )( double,int );
+        
+        bp::def( 
+            "pow"
+            , pow_function_type( &::std::pow )
+            , ( bp::arg("__x"), bp::arg("__i") ) );
+    
+    }
+
+    { //::std::pow
+    
+        typedef long double ( *pow_function_type )( long double,long double );
+        
+        bp::def( 
+            "pow"
+            , pow_function_type( &::std::pow )
+            , ( bp::arg("__x"), bp::arg("__y") ) );
+    
+    }
+
+    { //::std::pow
+    
+        typedef float ( *pow_function_type )( float,float );
+        
+        bp::def( 
+            "pow"
+            , pow_function_type( &::std::pow )
+            , ( bp::arg("__x"), bp::arg("__y") ) );
+    
+    }
+
     { //::cv::pow
     
         typedef void ( *pow_function_type )( ::cv::MatND const &,double,::cv::MatND & );
@@ -3688,6 +3677,17 @@ void register_free_functions(){
             "pow"
             , pow_function_type( &::cv::pow )
             , ( bp::arg("a"), bp::arg("power"), bp::arg("b") ) );
+    
+    }
+
+    { //::pow
+    
+        typedef double ( *pow_function_type )( double,double );
+        
+        bp::def( 
+            "pow"
+            , pow_function_type( &::pow )
+            , ( bp::arg("arg0"), bp::arg("arg1") ) );
     
     }
 
@@ -3952,6 +3952,39 @@ void register_free_functions(){
             "sortIdx"
             , sortIdx_function_type( &::cv::sortIdx )
             , ( bp::arg("a"), bp::arg("b"), bp::arg("flags") ) );
+    
+    }
+
+    { //::std::sqrt
+    
+        typedef long double ( *sqrt_function_type )( long double );
+        
+        bp::def( 
+            "sqrt"
+            , sqrt_function_type( &::std::sqrt )
+            , ( bp::arg("__x") ) );
+    
+    }
+
+    { //::std::sqrt
+    
+        typedef float ( *sqrt_function_type )( float );
+        
+        bp::def( 
+            "sqrt"
+            , sqrt_function_type( &::std::sqrt )
+            , ( bp::arg("__x") ) );
+    
+    }
+
+    { //::sqrt
+    
+        typedef double ( *sqrt_function_type )( double );
+        
+        bp::def( 
+            "sqrt"
+            , sqrt_function_type( &::sqrt )
+            , ( bp::arg("arg0") ) );
     
     }
 

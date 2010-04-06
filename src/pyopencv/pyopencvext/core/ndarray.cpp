@@ -114,8 +114,8 @@ namespace aux
 }
 
 int ndarray::ndim() const { return PyArray_NDIM(ptr()); }
-const Py_intptr_t* ndarray::shape() const { return PyArray_DIMS(ptr()); }
-const Py_intptr_t* ndarray::strides() const { return PyArray_STRIDES(ptr()); }
+const int* ndarray::shape() const { return PyArray_DIMS(ptr()); }
+const int* ndarray::strides() const { return PyArray_STRIDES(ptr()); }
 int ndarray::itemsize() const { return PyArray_ITEMSIZE(ptr()); }
 int ndarray::dtype() const { return PyArray_TYPE(ptr()); }
 const void *ndarray::data() const { return PyArray_DATA(ptr()); }
@@ -135,7 +135,7 @@ bool ndarray::last_dim_as_cvchannel() const
     if(nchannels < 1 || nchannels > 4) return false;
     
     int is = itemsize();
-    const Py_intptr_t *st = strides();
+    const int *st = strides();
     if(nd == 1) return itemsize() == st[0];
     
     return is == st[nd-1] && nchannels*is == st[nd-2];
@@ -589,8 +589,8 @@ void convert_shape_from_ndarray_to_opencv(const ndarray &arr, std::vector<int> &
         return;
     }
     
-    const Py_intptr_t *arr_shape = arr.shape();
-    const Py_intptr_t *arr_strides = arr.strides();
+    const int *arr_shape = arr.shape();
+    const int *arr_strides = arr.strides();
     int arr_itemsize = arr.itemsize();
     
     if(nd==1)

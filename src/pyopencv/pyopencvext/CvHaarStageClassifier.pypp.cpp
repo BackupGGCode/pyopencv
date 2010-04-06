@@ -4,18 +4,11 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "boost/python/object.hpp"
-#include "boost/python/list.hpp"
-#include "boost/python/tuple.hpp"
 #include "CvHaarStageClassifier.pypp.hpp"
 
 namespace bp = boost::python;
 
-static bp::object get_classifier( ::CvHaarStageClassifier const & inst ){
-    bp::list l;
-    for(int i = 0; i < inst.count; ++i)
-        l.append(inst.classifier[i]);
-    return bp::tuple(l);
-}
+static ::CvHaarClassifier * get_classifier( ::CvHaarStageClassifier const & inst ) { return inst.classifier; }
 
 void register_CvHaarStageClassifier_class(){
 
@@ -26,6 +19,6 @@ void register_CvHaarStageClassifier_class(){
         .def_readwrite( "next", &CvHaarStageClassifier::next )    
         .def_readwrite( "parent", &CvHaarStageClassifier::parent )    
         .def_readwrite( "threshold", &CvHaarStageClassifier::threshold )    
-        .add_property( "classifier", &::get_classifier );
+        .add_property( "classifier", bp::make_function(&::get_classifier, bp::return_internal_reference<>()) );
 
 }

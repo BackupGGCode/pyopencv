@@ -43,25 +43,11 @@ void register_Index_class(){
             "knnSearch"
             , (boost::python::tuple (*)( ::cv::flann::Index &,cv::Mat const &,int,::cv::flann::SearchParams const & ))( &knnSearch_b27556db8034853ef4327f12b2570dc5 )
             , ( bp::arg("inst"), bp::arg("queries"), bp::arg("knn"), bp::arg("params") )
-            , "\nArgument 'indices':"\
-    "\n    C/C++ type: ::std::vector< int > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
-    "\nArgument 'dists':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
-    "\nArgument 'queries':"\
-    "\n    C/C++ type: ::std::vector< float > const &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." )    
+            , "\nArgument 'indices' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'indices' is an output argument and is omitted from the function's calling sequence."\
+    "\nArgument 'dists' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'dists' is an output argument and is omitted from the function's calling sequence."\
+    "\nArgument 'queries' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." )    
         .def( 
             "knnSearch"
             , (void ( ::cv::flann::Index::* )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,int,::cv::flann::SearchParams const & ) )( &::cv::flann::Index::knnSearch )
@@ -70,25 +56,11 @@ void register_Index_class(){
             "radiusSearch"
             , (boost::python::tuple (*)( ::cv::flann::Index &,cv::Mat const &,float,::cv::flann::SearchParams const & ))( &radiusSearch_9595058c6922b247b15bed6a4e25038c )
             , ( bp::arg("inst"), bp::arg("query"), bp::arg("radius"), bp::arg("params") )
-            , "\nArgument 'indices':"\
-    "\n    C/C++ type: ::std::vector< int > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
-    "\nArgument 'query':"\
-    "\n    C/C++ type: ::std::vector< float > const &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dists':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." )    
+            , "\nArgument 'indices' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'indices' is an output argument and is omitted from the function's calling sequence."\
+    "\nArgument 'dists' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'dists' is an output argument and is omitted from the function's calling sequence."\
+    "\nArgument 'query' is a Mat. You can use function asMat() to convert a Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2))." )    
         .def( 
             "radiusSearch"
             , (int ( ::cv::flann::Index::* )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,float,::cv::flann::SearchParams const & ) )( &::cv::flann::Index::radiusSearch )

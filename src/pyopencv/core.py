@@ -1227,14 +1227,6 @@ def _Vec2i__repr__(self):
     return "Vec2i(" + self.ndarray.__str__() + ")"
 Vec2i.__repr__ = _Vec2i__repr__
         
-def _Complexd__repr__(self):
-    return "Complexd(re=" + repr(self.re) + ", im=" + repr(self.im) + ")"
-Complexd.__repr__ = _Complexd__repr__
-        
-def _Complexf__repr__(self):
-    return "Complexf(re=" + repr(self.re) + ", im=" + repr(self.im) + ")"
-Complexf.__repr__ = _Complexf__repr__
-        
 def _Point2d__repr__(self):
     return "Point2d(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
 Point2d.__repr__ = _Point2d__repr__
@@ -1770,30 +1762,23 @@ def _Mat__repr__(self):
     return "Mat()" if self.empty() else "Mat(rows=" + repr(self.rows)         + ", cols=" + repr(self.cols) + ", nchannels=" + repr(self.channels())         + ", depth=" + repr(self.depth()) + "):\n" + repr(self.ndarray)
 Mat.__repr__ = _Mat__repr__
     
-def asMat(obj, force_single_channel=False):
-    """Converts a Python object into a Mat object.
-    
-    If 'force_single_channel' is True, the returing Mat is single-channel. Otherwise, PyOpenCV tries to return a multi-channel Mat whenever possible.
-    """
+def asMat(obj):
+    """Converts a Python object into a Mat object."""
     
     if obj is None:
         return Mat()
     
     if isinstance(obj, _NP.ndarray):
-        out_mat = Mat.from_ndarray(obj)
-    else:
-        z = obj[0]
-        if isinstance(z, int):
-            out_mat = Mat.from_list_of_int32(obj)
-        elif isinstance(z, float):
-            out_mat = Mat.from_list_of_float64(obj)
-        else:
-            out_mat = eval("Mat.from_list_of_%s(obj)" % z.__class__.__name__)
-    
-    if force_single_channel and out_mat.channels() != 1:
-        return out_mat.reshape(1, out_mat.cols if out_mat.rows==1 else out_mat.rows)
+        return Mat.from_ndarray(obj)
         
-    return out_mat
+    z = obj[0]
+    if isinstance(z, int):
+        return Mat.from_list_of_int32(obj)
+    if isinstance(z, float):
+        return Mat.from_list_of_float64(obj)
+
+    return eval("Mat.from_list_of_%s(obj)" % z.__class__.__name__)
+    
     
 def _RNG__repr__(self):
     return "RNG(state=" + repr(self.state) + ")"
@@ -2092,6 +2077,9 @@ CV_DIST_MASK_5 = 5
 CV_DIST_MASK_PRECISE = 0
 
     
+backProject = calcArrBackProject
+backProjectPatch = calcArrBackProjectPatch
+    
 #-----------------------------------------------------------------------------
 # Feature detection
 #-----------------------------------------------------------------------------
@@ -2151,85 +2139,7 @@ CvStereoGCState.__del__ = _CvStereoGCState__del__
 
     
 #-----------------------------------------------------------------------------
-# Eigen Objects
-#-----------------------------------------------------------------------------
-
-    
-    
-#-----------------------------------------------------------------------------
-# 1D/2D HMM
-#-----------------------------------------------------------------------------
-
-    
-    
-#-----------------------------------------------------------------------------
-# A few functions from old stereo gesture recognition demosions
-#-----------------------------------------------------------------------------
-
-    
-    
-#-----------------------------------------------------------------------------
-# Additional operations on Subdivisions
-#-----------------------------------------------------------------------------
-
-    
-    
-#-----------------------------------------------------------------------------
-# More operations on sequences
-#-----------------------------------------------------------------------------
-
-    
-    
-CV_UNDEF_SC_PARAM = 12345
-
-CV_IDP_BIRCHFIELD_PARAM1  = 25    
-CV_IDP_BIRCHFIELD_PARAM2  = 5
-CV_IDP_BIRCHFIELD_PARAM3  = 12
-CV_IDP_BIRCHFIELD_PARAM4  = 15
-CV_IDP_BIRCHFIELD_PARAM5  = 25
-
-CV_DISPARITY_BIRCHFIELD  = 0    
-
-
-    
-#-----------------------------------------------------------------------------
 # Contour Morphing
-#-----------------------------------------------------------------------------
-
-    
-    
-#-----------------------------------------------------------------------------
-# Texture Descriptors
-#-----------------------------------------------------------------------------
-
-    
-    
-#-----------------------------------------------------------------------------
-# Face eyes&mouth tracking
-#-----------------------------------------------------------------------------
-
-    
-    
-#-----------------------------------------------------------------------------
-# 3D Tracker
-#-----------------------------------------------------------------------------
-
-    
-    
-#-----------------------------------------------------------------------------
-# Skeletons and Linear-Contour Models
-#-----------------------------------------------------------------------------
-
-    
-    
-#-----------------------------------------------------------------------------
-# Background/foreground segmentation
-#-----------------------------------------------------------------------------
-
-    
-    
-#-----------------------------------------------------------------------------
-# Calibration engine
 #-----------------------------------------------------------------------------
 
     

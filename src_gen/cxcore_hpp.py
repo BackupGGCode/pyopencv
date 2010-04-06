@@ -41,25 +41,12 @@ def _KLASS__repr__(self):
     return "KLASS(" + self.ndarray.__str__() + ")"
 KLASS.__repr__ = _KLASS__repr__
         '''.replace('KLASS', z.alias))
-    mb.dtypecast(['::cv::Vec<%s, 2>' % x \
-        for x in ['unsigned char', 'short', 'unsigned short', 'int', 'float', 'double']])
-    mb.dtypecast(['::cv::Vec<%s, 3>' % x \
-        for x in ['unsigned char', 'short', 'unsigned short', 'int', 'float', 'double']])
-    mb.dtypecast(['::cv::Vec<%s, 4>' % x \
-        for x in ['unsigned char', 'short', 'unsigned short', 'int', 'float', 'double']])
-    mb.dtypecast(['::cv::Vec<%s, 6>' % x for x in ['float', 'double']])
         
     # Complex et al
     zz = mb.classes(lambda z: z.name.startswith('Complex<'))
     for z in zz:
         z.include()
         z.decls(lambda t: 'std::complex' in t.decl_string).exclude() # no std::complex please
-        cc.write('''
-def _KLASS__repr__(self):
-    return "KLASS(re=" + repr(self.re) + ", im=" + repr(self.im) + ")"
-KLASS.__repr__ = _KLASS__repr__
-        '''.replace('KLASS', z.alias))
-    mb.dtypecast(['::cv::Complex<%s>' % x for x in ['float', 'double']])
     
     # Point et al
     mb.class_('::cv::Point_<int>').rename('Point2i')
@@ -80,7 +67,6 @@ KLASS.__repr__ = _KLASS__repr__
 Point = Point2i
 asPoint = asPoint2i
     ''')
-    mb.dtypecast(['::cv::Point_<%s>' % x for x in ['int', 'float', 'double']])
     
     # Point3 et al
     mb.class_('::cv::Point3_<float>').rename('Point3f')
@@ -95,8 +81,7 @@ def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
 KLASS.__repr__ = _KLASS__repr__
         
-        '''.replace("KLASS", z.alias))
-    mb.dtypecast(['::cv::Point3_<%s>' % x for x in ['int', 'float', 'double']])
+        '''.replace("KLASS", z.alias))        
     
     # Size et al
     mb.class_('::cv::Size_<int>').rename('Size2i')
@@ -110,8 +95,7 @@ def _KLASS__repr__(self):
     return "KLASS(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
 KLASS.__repr__ = _KLASS__repr__
         
-        '''.replace("KLASS", z.alias))
-    mb.dtypecast(['::cv::Size_<%s>' % x for x in ['int', 'float', 'double']])
+        '''.replace("KLASS", z.alias))        
         
     cc.write('''
 Size = Size2i
@@ -130,7 +114,6 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
-    mb.dtypecast(['::cv::Rect_<%s>' % x for x in ['int', 'float', 'double']])
     
     # RotatedRect
     z = mb.class_('RotatedRect')
@@ -158,7 +141,7 @@ def _Scalar__repr__(self):
     return "Scalar(" + self.ndarray.__str__() + ")"
 Scalar.__repr__ = _Scalar__repr__
     ''')
-    
+
     # Range
     z = mb.class_('Range')
     z.include()
@@ -172,7 +155,7 @@ KLASS.__repr__ = _KLASS__repr__
     '''.replace("KLASS", z.alias))
     
     # Ptr -- already exposed by mb.expose_class_Ptr
-    
+
     # Mat
     z = mb.class_('Mat')
     z.include_files.append("opencv_converters.hpp")
@@ -318,30 +301,23 @@ static boost::shared_ptr<cv::Mat> Mat__init3__(bp::object const &arg1, bp::objec
         z.add_registration_code('staticmethod("from_list_of_%s")' % key)
     # rewrite the asMat function
     cc.write('''
-def asMat(obj, force_single_channel=False):
-    """Converts a Python object into a Mat object.
-    
-    If 'force_single_channel' is True, the returing Mat is single-channel. Otherwise, PyOpenCV tries to return a multi-channel Mat whenever possible.
-    """
+def asMat(obj):
+    """Converts a Python object into a Mat object."""
     
     if obj is None:
         return Mat()
     
     if isinstance(obj, _NP.ndarray):
-        out_mat = Mat.from_ndarray(obj)
-    else:
-        z = obj[0]
-        if isinstance(z, int):
-            out_mat = Mat.from_list_of_int32(obj)
-        elif isinstance(z, float):
-            out_mat = Mat.from_list_of_float64(obj)
-        else:
-            out_mat = eval("Mat.from_list_of_%s(obj)" % z.__class__.__name__)
-    
-    if force_single_channel and out_mat.channels() != 1:
-        return out_mat.reshape(1, out_mat.cols if out_mat.rows==1 else out_mat.rows)
+        return Mat.from_ndarray(obj)
         
-    return out_mat
+    z = obj[0]
+    if isinstance(z, int):
+        return Mat.from_list_of_int32(obj)
+    if isinstance(z, float):
+        return Mat.from_list_of_float64(obj)
+
+    return eval("Mat.from_list_of_%s(obj)" % z.__class__.__name__)
+    
     ''')
 
     # RNG
@@ -365,7 +341,7 @@ KLASS.__repr__ = _KLASS__repr__
     # TermCriteria
     z = mb.class_('TermCriteria')
     z.include()
-    z.decls(lambda x: 'CvTermCriteria' in x.name or 'CvTermCriteria' in x.decl_string).exclude()
+    # z.decls(lambda x: 'CvTermCriteria' in x.decl_string).exclude()
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(type=" + repr(self.type) + ", maxCount=" + repr(self.maxCount) + \\
@@ -428,10 +404,10 @@ static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
 }
 
     ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )), "Use asMat() to convert \'_sizes\' from a Python sequence to a Mat.")')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )), "Use asMat() to convert \'_sizes\' from a Python sequence to a Mat.")')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )), "Use asMat() to convert \'_ranges\' from a Python sequence to a Mat.")')
-    z.add_registration_code('def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))), "Use asMat() to convert \'ranges\' from a Python sequence to a Mat.")')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )))')
+    z.add_registration_code('def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))))')
     
     # mb.add_declaration_code('''
 # struct CvMatND_to_python
@@ -468,13 +444,10 @@ MatND.__repr__ = _MatND__repr__
     
 
     # NAryMatNDIterator
+    # wait until requested: fix the rest of the member declarations
     z = mb.class_('NAryMatNDIterator')
-    mb.init_class(z)
-    z.constructors(lambda x: "MatND const *" in x.partial_decl_string).exclude() # TODO: fix these constructors
-    for t in ('arrays', 'planes'): # TODO: expose these variables of type std::vector<Mat..>
-        z.var(t).exclude()
-    z.mem_fun('init')._transformer_creators.append(FT.input_as_list_of_MatND('arrays', 'count'))
-    mb.finalize_class(z)
+    z.include()
+    z.decls().exclude()
     
     # SparseMat
     # wait until requested: fix the rest of the member declarations
@@ -593,8 +566,9 @@ static bp::tuple children(cv::FileNode const &inst)
         'add', 'subtract', 'multiply', 'divide', 'scaleAdd', 'addWeighted',
         'convertScaleAbs', 'LUT', 'sum', 'countNonZero', 'mean', 'meanStdDev', 
         'norm', 'normalize', 'reduce', 'flip', 'repeat', 'bitwise_and', 'bitwise_or', 
-        'bitwise_xor', 'bitwise_not', 'absdiff', 'inRange', 'compare', 'cubeRoot', 
-        'fastAtan2', 'polarToCart', 'cartToPolar', 'phase', 'magnitude', 'gemm',
+        'bitwise_xor', 'bitwise_not', 'absdiff', 'inRange', 'compare', 'min', 
+        'max', 'sqrt', 'pow', 'exp', 'log', 'cubeRoot', 'fastAtan2',
+        'polarToCart', 'cartToPolar', 'phase', 'magnitude', 'gemm',
         'mulTransposed', 'transpose', 'transform', 'perspectiveTransform',
         'completeSymm', 'setIdentity', 'determinant', 'trace', 'invert', 
         'solve', 'sort', 'sortIdx', 'eigen', 'Mahalanobis', 'Mahalonobis', 
@@ -603,11 +577,6 @@ static bp::tuple children(cv::FileNode const &inst)
         'ellipse', 'clipLine', 'putText', 'ellipse2Poly',
         ):
         mb.free_funs(z).include()
-
-    for t in ('min', 'max', 'sqrt', 'pow', 'exp', 'log'):
-        for z in mb.free_funs(t):
-            if 'cv::Mat' in z.decl_string:
-                z.include()
 
     # split
     for z in mb.free_funs('split'):
@@ -674,7 +643,3 @@ static bp::tuple children(cv::FileNode const &inst)
     z._transformer_creators.append(FT.output_type1('baseLine'))
     
     # TODO: do something with Seq<>
-
-    # MatExpr
-    mb.decls(lambda x: 'MatExpr' in x.decl_string).exclude()
-    

@@ -9,6 +9,32 @@
 
 namespace bp = boost::python;
 
+struct CvChain_wrapper : CvChain, bp::wrapper< CvChain > {
+
+    CvChain_wrapper(CvChain const & arg )
+    : CvChain( arg )
+      , bp::wrapper< CvChain >(){
+        // copy constructor
+        
+    }
+
+    CvChain_wrapper()
+    : CvChain()
+      , bp::wrapper< CvChain >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_block_max( ::CvChain const & inst ){        
+        return inst.block_max? bp::str(inst.block_max): bp::object();
+    }
+
+    static bp::object get_ptr( ::CvChain const & inst ){        
+        return inst.ptr? bp::str(inst.ptr): bp::object();
+    }
+
+};
+
 static ::CvSeq * get_h_prev( ::CvChain const & inst ) { return inst.h_prev; }
 
 static ::CvSeq * get_h_next( ::CvChain const & inst ) { return inst.h_next; }
@@ -23,17 +49,9 @@ static ::CvSeqBlock * get_free_blocks( ::CvChain const & inst ) { return inst.fr
 
 static ::CvSeqBlock * get_first( ::CvChain const & inst ) { return inst.first; }
 
-static bp::object get_block_max( ::CvChain const & inst ){        
-    return inst.block_max? bp::str(inst.block_max): bp::object();
-}
-
-static bp::object get_ptr( ::CvChain const & inst ){        
-    return inst.ptr? bp::str(inst.ptr): bp::object();
-}
-
 void register_CvChain_class(){
 
-    bp::class_< CvChain >( "CvChain" )    
+    bp::class_< CvChain_wrapper >( "CvChain" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvChain >() )    
         .def_readwrite( "delta_elems", &CvChain::delta_elems )    
         .def_readwrite( "elem_size", &CvChain::elem_size )    
@@ -48,7 +66,7 @@ void register_CvChain_class(){
         .add_property( "storage", bp::make_function(&::get_storage, bp::return_internal_reference<>()) )    
         .add_property( "free_blocks", bp::make_function(&::get_free_blocks, bp::return_internal_reference<>()) )    
         .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
-        .add_property( "block_max", &::get_block_max )    
-        .add_property( "ptr", &::get_ptr );
+        .add_property( "block_max", bp::make_function(&::CvChain_wrapper::get_block_max) )    
+        .add_property( "ptr", bp::make_function(&::CvChain_wrapper::get_ptr) );
 
 }

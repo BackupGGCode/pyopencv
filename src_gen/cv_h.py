@@ -405,12 +405,12 @@ CV_DIST_MASK_PRECISE = 0
     FT.expose_func(mb.free_fun('cvPointSeqFromMat'), ward_indices=(3,2))
 
     # cvCalcArrBackProject and cvCalcArrBackProjectPatch
-    # for z in ('cvCalcArrBackProject', 'cvCalcArrBackProjectPatch'):
-        # FT.expose_func(mb.free_fun(z), return_pointee=False, transformer_creators=[FT.input_array1d('image')])
-    # cc.write('''
-# backProject = calcArrBackProject
-# backProjectPatch = calcArrBackProjectPatch
-    # ''')
+    for z in ('cvCalcArrBackProject', 'cvCalcArrBackProjectPatch'):
+        FT.expose_func(mb.free_fun(z), return_pointee=False, transformer_creators=[FT.input_array1d('image')])
+    cc.write('''
+backProject = calcArrBackProject
+backProjectPatch = calcArrBackProjectPatch
+    ''')
 
 
     # cvSnakeImage
