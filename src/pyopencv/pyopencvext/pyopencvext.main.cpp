@@ -622,10 +622,10 @@ static boost::python::tuple calibrateCamera_e3c243276629b1246626096d8ff70485( bp
     std::vector<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::allocator<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > > > imagePoints2;
     convert_from_object_to_T(objectPoints, objectPoints2);
     convert_from_object_to_T(imagePoints, imagePoints2);
-    ::cv::calibrateCamera(objectPoints2, imagePoints2, imageSize, cameraMatrix, distCoeffs, rvecs2, tvecs2, flags);
+    double result = ::cv::calibrateCamera(objectPoints2, imagePoints2, imageSize, cameraMatrix, distCoeffs, rvecs2, tvecs2, flags);
     convert_from_T_to_object(rvecs2, rvecs3);
     convert_from_T_to_object(tvecs2, tvecs3);
-    return bp::make_tuple( rvecs3, tvecs3 );
+    return bp::make_tuple( result, rvecs3, tvecs3 );
 }
 
 static boost::python::tuple checkRange_138f1b60b28a059182d9f09088ca2474( ::cv::MatND const & a, bool quiet=true, double minVal=-1.79769313486231570814527423731704356798070567526e+308, double maxVal=1.79769313486231570814527423731704356798070567526e+308 ){
@@ -1181,7 +1181,7 @@ static boost::python::tuple findChessboardCorners_dbf15a4ace0e613206118382aa1793
     return bp::make_tuple( result, corners3 );
 }
 
-static boost::python::tuple findContours_68285032b2b0f15f13e30f19da8327fa( ::cv::Mat const & image, int mode, int method, ::cv::Point offset=cv::Point_<int>() ){
+static boost::python::tuple findContours_369c42510a246d95804d68f7fdfbd8aa( ::cv::Mat & image, int mode, int method, ::cv::Point offset=cv::Point_<int>() ){
     std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > contours2;
     bp::list contours3;
     std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > > hierarchy2;
@@ -1254,6 +1254,16 @@ static boost::python::object goodFeaturesToTrack_a887e3eb7b667339b1ac0c1a02f5735
     ::cv::goodFeaturesToTrack(image, corners2, maxCorners, qualityLevel, minDistance, mask, blockSize, useHarrisDetector, k);
     convert_from_vector_of_T_to_Mat(corners2, corners3);
     return bp::object( corners3 );
+}
+
+static void groupRectangles_d5f10e6823ff191659b8e372e1acdb8b( cv::Mat & rectList, cv::Mat & weights, int groupThreshold, double eps=2.00000000000000011102230246251565404236316680908e-1 ){
+    std::vector<cv::Rect_<int>, std::allocator<cv::Rect_<int> > > rectList2;
+    std::vector<int, std::allocator<int> > weights2;
+    convert_from_Mat_to_vector_of_T(rectList, rectList2);
+    convert_from_Mat_to_vector_of_T(weights, weights2);
+    ::cv::groupRectangles(rectList2, weights2, groupThreshold, eps);
+    convert_from_vector_of_T_to_Mat(rectList2, rectList);
+    convert_from_vector_of_T_to_Mat(weights2, weights);
 }
 
 static void groupRectangles_daddb1eb144574c44042d3cef39f8656( cv::Mat & rectList, int groupThreshold, double eps=2.00000000000000011102230246251565404236316680908e-1 ){
@@ -1441,14 +1451,15 @@ static void split_d88fca83dae3e7420e6688bbbcd2ac41( ::cv::Mat const & m, bp::lis
     ::cv::split(m, &mvbegin3[0]);
 }
 
-static void stereoCalibrate_14726b7172922289400130b4861f4a12( bp::list const & objectPoints, bp::list const & imagePoints1, bp::list const & imagePoints2, ::cv::Mat & cameraMatrix1, ::cv::Mat & distCoeffs1, ::cv::Mat & cameraMatrix2, ::cv::Mat & distCoeffs2, ::cv::Size imageSize, ::cv::Mat & R, ::cv::Mat & T, ::cv::Mat & E, ::cv::Mat & F, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), int flags=int(::cv::CALIB_FIX_INTRINSIC) ){
+static boost::python::object stereoCalibrate_14726b7172922289400130b4861f4a12( bp::list const & objectPoints, bp::list const & imagePoints1, bp::list const & imagePoints2, ::cv::Mat & cameraMatrix1, ::cv::Mat & distCoeffs1, ::cv::Mat & cameraMatrix2, ::cv::Mat & distCoeffs2, ::cv::Size imageSize, ::cv::Mat & R, ::cv::Mat & T, ::cv::Mat & E, ::cv::Mat & F, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), int flags=int(::cv::CALIB_FIX_INTRINSIC) ){
     std::vector<std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > >, std::allocator<std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > > > objectPoints2;
     std::vector<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::allocator<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > > > imagePoints12;
     std::vector<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::allocator<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > > > imagePoints22;
     convert_from_object_to_T(objectPoints, objectPoints2);
     convert_from_object_to_T(imagePoints1, imagePoints12);
     convert_from_object_to_T(imagePoints2, imagePoints22);
-    ::cv::stereoCalibrate(objectPoints2, imagePoints12, imagePoints22, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, imageSize, R, T, E, F, criteria, flags);
+    double result = ::cv::stereoCalibrate(objectPoints2, imagePoints12, imagePoints22, cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, imageSize, R, T, E, F, criteria, flags);
+    return bp::object( result );
 }
 
 static boost::python::object undistortPoints_e5fdbe55500ffb118c2a9845da49f34b( ::cv::Mat const & src, ::cv::Mat const & cameraMatrix, ::cv::Mat const & distCoeffs, ::cv::Mat const & R=cv::Mat(), ::cv::Mat const & P=cv::Mat() ){
@@ -4870,11 +4881,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::findContours
     
-        typedef boost::python::tuple ( *findContours_function_type )( ::cv::Mat const &,int,int,::cv::Point );
+        typedef boost::python::tuple ( *findContours_function_type )( ::cv::Mat &,int,int,::cv::Point );
         
         bp::def( 
             "findContours"
-            , findContours_function_type( &findContours_68285032b2b0f15f13e30f19da8327fa )
+            , findContours_function_type( &findContours_369c42510a246d95804d68f7fdfbd8aa )
             , ( bp::arg("image"), bp::arg("mode"), bp::arg("method"), bp::arg("offset")=cv::Point_<int>() )
             , "\nArgument 'hierarchy':"\
     "\n    C/C++ type: ::std::vector< cv::Vec<int, 4> > &."\
@@ -5043,13 +5054,38 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::groupRectangles
     
-        typedef void ( *groupRectangles_function_type )( cv::Mat &,int,double );
+        typedef void ( *groupRectangles_d5f10e6823ff191659b8e372e1acdb8b_function_type )( cv::Mat &,cv::Mat &,int,double );
         
         bp::def( 
-            "groupRectangles"
-            , groupRectangles_function_type( &groupRectangles_daddb1eb144574c44042d3cef39f8656 )
+            "groupRectangles_d5f10e6823ff191659b8e372e1acdb8b"
+            , groupRectangles_d5f10e6823ff191659b8e372e1acdb8b_function_type( &groupRectangles_d5f10e6823ff191659b8e372e1acdb8b )
+            , ( bp::arg("rectList"), bp::arg("weights"), bp::arg("groupThreshold"), bp::arg("eps")=2.00000000000000011102230246251565404236316680908e-1 )
+            , "\nWrapped function:"
+    "\n    groupRectangles"
+    "\nArgument 'weights':"\
+    "\n    C/C++ type: ::std::vector< int > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\nArgument 'rectList':"\
+    "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+    
+    }
+
+    { //::cv::groupRectangles
+    
+        typedef void ( *groupRectangles_daddb1eb144574c44042d3cef39f8656_function_type )( cv::Mat &,int,double );
+        
+        bp::def( 
+            "groupRectangles_daddb1eb144574c44042d3cef39f8656"
+            , groupRectangles_daddb1eb144574c44042d3cef39f8656_function_type( &groupRectangles_daddb1eb144574c44042d3cef39f8656 )
             , ( bp::arg("rectList"), bp::arg("groupThreshold"), bp::arg("eps")=2.00000000000000011102230246251565404236316680908e-1 )
-            , "\nArgument 'rectList':"\
+            , "\nWrapped function:"
+    "\n    groupRectangles"
+    "\nArgument 'rectList':"\
     "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
@@ -5434,7 +5470,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::stereoCalibrate
     
-        typedef void ( *stereoCalibrate_function_type )( bp::list const &,bp::list const &,bp::list const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Size,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::TermCriteria,int );
+        typedef boost::python::object ( *stereoCalibrate_function_type )( bp::list const &,bp::list const &,bp::list const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Size,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::TermCriteria,int );
         
         bp::def( 
             "stereoCalibrate"

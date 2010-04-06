@@ -29,6 +29,26 @@ void register_RNG_class(){
                 , ( bp::arg("mat"), bp::arg("distType"), bp::arg("a"), bp::arg("b") ) );
         
         }
+        { //::cv::RNG::fill
+        
+            typedef void ( ::cv::RNG::*fill_function_type )( ::cv::MatND &,int,::cv::Scalar const &,::cv::Scalar const & ) ;
+            
+            RNG_exposer.def( 
+                "fill"
+                , fill_function_type( &::cv::RNG::fill )
+                , ( bp::arg("mat"), bp::arg("distType"), bp::arg("a"), bp::arg("b") ) );
+        
+        }
+        { //::cv::RNG::gaussian
+        
+            typedef double ( ::cv::RNG::*gaussian_function_type )( double ) ;
+            
+            RNG_exposer.def( 
+                "gaussian"
+                , gaussian_function_type( &::cv::RNG::gaussian )
+                , ( bp::arg("sigma") ) );
+        
+        }
         { //::cv::RNG::next
         
             typedef unsigned int ( ::cv::RNG::*next_function_type )(  ) ;
@@ -46,6 +66,25 @@ void register_RNG_class(){
         RNG_exposer.def( "as_int32", &cv::RNG::operator int  );
         RNG_exposer.def( "as_int16", &cv::RNG::operator short int  );
         RNG_exposer.def( "as_uint32", &cv::RNG::operator unsigned int  );
+        { //::cv::RNG::operator()
+        
+            typedef unsigned int ( ::cv::RNG::*__call___function_type )( unsigned int ) ;
+            
+            RNG_exposer.def( 
+                "__call__"
+                , __call___function_type( &::cv::RNG::operator() )
+                , ( bp::arg("N") ) );
+        
+        }
+        { //::cv::RNG::operator()
+        
+            typedef unsigned int ( ::cv::RNG::*__call___function_type )(  ) ;
+            
+            RNG_exposer.def( 
+                "__call__"
+                , __call___function_type( &::cv::RNG::operator() ) );
+        
+        }
         { //::cv::RNG::uniform
         
             typedef int ( ::cv::RNG::*uniform_function_type )( int,int ) ;

@@ -5,7 +5,6 @@
 #include "__convenience.pypp.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "opencv_converters.hpp"
 #include "CvDTreeTrainData.pypp.hpp"
 
 namespace bp = boost::python;
@@ -86,16 +85,16 @@ struct CvDTreeTrainData_wrapper : CvDTreeTrainData, bp::wrapper< CvDTreeTrainDat
         CvDTreeTrainData::free_train_data( );
     }
 
-    virtual int get_cat_var_data( ::CvDTreeNode * n, int vi, int * cat_values_buf, int const * * cat_values ) {
+    virtual int const * get_cat_var_data( ::CvDTreeNode * n, int vi, int * cat_values_buf ) {
         if( bp::override func_get_cat_var_data = this->get_override( "get_cat_var_data" ) )
-            return func_get_cat_var_data( boost::python::ptr(n), vi, cat_values_buf, cat_values );
+            return func_get_cat_var_data( boost::python::ptr(n), vi, cat_values_buf );
         else{
-            return this->CvDTreeTrainData::get_cat_var_data( boost::python::ptr(n), vi, cat_values_buf, cat_values );
+            return this->CvDTreeTrainData::get_cat_var_data( boost::python::ptr(n), vi, cat_values_buf );
         }
     }
     
-    int default_get_cat_var_data( ::CvDTreeNode * n, int vi, int * cat_values_buf, int const * * cat_values ) {
-        return CvDTreeTrainData::get_cat_var_data( boost::python::ptr(n), vi, cat_values_buf, cat_values );
+    int const * default_get_cat_var_data( ::CvDTreeNode * n, int vi, int * cat_values_buf ) {
+        return CvDTreeTrainData::get_cat_var_data( boost::python::ptr(n), vi, cat_values_buf );
     }
 
     virtual int get_child_buf_idx( ::CvDTreeNode * n ) {
@@ -110,64 +109,64 @@ struct CvDTreeTrainData_wrapper : CvDTreeTrainData, bp::wrapper< CvDTreeTrainDat
         return CvDTreeTrainData::get_child_buf_idx( boost::python::ptr(n) );
     }
 
-    virtual void get_class_labels( ::CvDTreeNode * n, int * labels_buf, int const * * labels ) {
+    virtual int const * get_class_labels( ::CvDTreeNode * n, int * labels_buf ) {
         if( bp::override func_get_class_labels = this->get_override( "get_class_labels" ) )
-            func_get_class_labels( boost::python::ptr(n), labels_buf, labels );
+            return func_get_class_labels( boost::python::ptr(n), labels_buf );
         else{
-            this->CvDTreeTrainData::get_class_labels( boost::python::ptr(n), labels_buf, labels );
+            return this->CvDTreeTrainData::get_class_labels( boost::python::ptr(n), labels_buf );
         }
     }
     
-    void default_get_class_labels( ::CvDTreeNode * n, int * labels_buf, int const * * labels ) {
-        CvDTreeTrainData::get_class_labels( boost::python::ptr(n), labels_buf, labels );
+    int const * default_get_class_labels( ::CvDTreeNode * n, int * labels_buf ) {
+        return CvDTreeTrainData::get_class_labels( boost::python::ptr(n), labels_buf );
     }
 
-    virtual void get_cv_labels( ::CvDTreeNode * n, int * labels_buf, int const * * labels ) {
+    virtual int const * get_cv_labels( ::CvDTreeNode * n, int * labels_buf ) {
         if( bp::override func_get_cv_labels = this->get_override( "get_cv_labels" ) )
-            func_get_cv_labels( boost::python::ptr(n), labels_buf, labels );
+            return func_get_cv_labels( boost::python::ptr(n), labels_buf );
         else{
-            this->CvDTreeTrainData::get_cv_labels( boost::python::ptr(n), labels_buf, labels );
+            return this->CvDTreeTrainData::get_cv_labels( boost::python::ptr(n), labels_buf );
         }
     }
     
-    void default_get_cv_labels( ::CvDTreeNode * n, int * labels_buf, int const * * labels ) {
-        CvDTreeTrainData::get_cv_labels( boost::python::ptr(n), labels_buf, labels );
+    int const * default_get_cv_labels( ::CvDTreeNode * n, int * labels_buf ) {
+        return CvDTreeTrainData::get_cv_labels( boost::python::ptr(n), labels_buf );
     }
 
-    virtual void get_ord_responses( ::CvDTreeNode * n, float * values_buf, float const * * values ) {
+    virtual float const * get_ord_responses( ::CvDTreeNode * n, float * values_buf, int * sample_indices_buf ) {
         if( bp::override func_get_ord_responses = this->get_override( "get_ord_responses" ) )
-            func_get_ord_responses( boost::python::ptr(n), values_buf, values );
+            return func_get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
         else{
-            this->CvDTreeTrainData::get_ord_responses( boost::python::ptr(n), values_buf, values );
+            return this->CvDTreeTrainData::get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
         }
     }
     
-    void default_get_ord_responses( ::CvDTreeNode * n, float * values_buf, float const * * values ) {
-        CvDTreeTrainData::get_ord_responses( boost::python::ptr(n), values_buf, values );
+    float const * default_get_ord_responses( ::CvDTreeNode * n, float * values_buf, int * sample_indices_buf ) {
+        return CvDTreeTrainData::get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
     }
 
-    virtual int get_ord_var_data( ::CvDTreeNode * n, int vi, float * ord_values_buf, int * indices_buf, float const * * ord_values, int const * * indices ) {
+    virtual void get_ord_var_data( ::CvDTreeNode * n, int vi, float * ord_values_buf, int * sorted_indices_buf, float const * * ord_values, int const * * sorted_indices, int * sample_indices_buf ) {
         if( bp::override func_get_ord_var_data = this->get_override( "get_ord_var_data" ) )
-            return func_get_ord_var_data( boost::python::ptr(n), vi, ord_values_buf, indices_buf, ord_values, indices );
+            func_get_ord_var_data( boost::python::ptr(n), vi, ord_values_buf, sorted_indices_buf, ord_values, sorted_indices, sample_indices_buf );
         else{
-            return this->CvDTreeTrainData::get_ord_var_data( boost::python::ptr(n), vi, ord_values_buf, indices_buf, ord_values, indices );
+            this->CvDTreeTrainData::get_ord_var_data( boost::python::ptr(n), vi, ord_values_buf, sorted_indices_buf, ord_values, sorted_indices, sample_indices_buf );
         }
     }
     
-    int default_get_ord_var_data( ::CvDTreeNode * n, int vi, float * ord_values_buf, int * indices_buf, float const * * ord_values, int const * * indices ) {
-        return CvDTreeTrainData::get_ord_var_data( boost::python::ptr(n), vi, ord_values_buf, indices_buf, ord_values, indices );
+    void default_get_ord_var_data( ::CvDTreeNode * n, int vi, float * ord_values_buf, int * sorted_indices_buf, float const * * ord_values, int const * * sorted_indices, int * sample_indices_buf ) {
+        CvDTreeTrainData::get_ord_var_data( boost::python::ptr(n), vi, ord_values_buf, sorted_indices_buf, ord_values, sorted_indices, sample_indices_buf );
     }
 
-    virtual void get_sample_indices( ::CvDTreeNode * n, int * indices_buf, int const * * labels ) {
+    virtual int const * get_sample_indices( ::CvDTreeNode * n, int * indices_buf ) {
         if( bp::override func_get_sample_indices = this->get_override( "get_sample_indices" ) )
-            func_get_sample_indices( boost::python::ptr(n), indices_buf, labels );
+            return func_get_sample_indices( boost::python::ptr(n), indices_buf );
         else{
-            this->CvDTreeTrainData::get_sample_indices( boost::python::ptr(n), indices_buf, labels );
+            return this->CvDTreeTrainData::get_sample_indices( boost::python::ptr(n), indices_buf );
         }
     }
     
-    void default_get_sample_indices( ::CvDTreeNode * n, int * indices_buf, int const * * labels ) {
-        CvDTreeTrainData::get_sample_indices( boost::python::ptr(n), indices_buf, labels );
+    int const * default_get_sample_indices( ::CvDTreeNode * n, int * indices_buf ) {
+        return CvDTreeTrainData::get_sample_indices( boost::python::ptr(n), indices_buf );
     }
 
     virtual ::CvDTreeNode * new_node( ::CvDTreeNode * parent, int count, int storage_idx, int offset ) {
@@ -274,18 +273,6 @@ struct CvDTreeTrainData_wrapper : CvDTreeTrainData, bp::wrapper< CvDTreeTrainDat
 
 };
 
-static bp::object get_pred_float_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.pred_float_buf); }
-
-static bp::object get_pred_int_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.pred_int_buf); }
-
-static bp::object get_resp_float_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.resp_float_buf); }
-
-static bp::object get_resp_int_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.resp_int_buf); }
-
-static bp::object get_cv_lables_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.cv_lables_buf); }
-
-static bp::object get_sample_idx_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.sample_idx_buf); }
-
 void register_CvDTreeTrainData_class(){
 
     bp::class_< CvDTreeTrainData_wrapper >( "CvDTreeTrainData", bp::init< >() )    
@@ -314,9 +301,10 @@ void register_CvDTreeTrainData_class(){
             , (void ( CvDTreeTrainData_wrapper::* )(  ) )(&CvDTreeTrainData_wrapper::default_free_train_data) )    
         .def( 
             "get_cat_var_data"
-            , (int ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,int,int *,int const * * ) )(&::CvDTreeTrainData::get_cat_var_data)
-            , (int ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,int,int *,int const * * ) )(&CvDTreeTrainData_wrapper::default_get_cat_var_data)
-            , ( bp::arg("n"), bp::arg("vi"), bp::arg("cat_values_buf"), bp::arg("cat_values") ) )    
+            , (int const * ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,int,int * ) )(&::CvDTreeTrainData::get_cat_var_data)
+            , (int const * ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,int,int * ) )(&CvDTreeTrainData_wrapper::default_get_cat_var_data)
+            , ( bp::arg("n"), bp::arg("vi"), bp::arg("cat_values_buf") )
+            , bp::return_internal_reference< >() )    
         .def( 
             "get_child_buf_idx"
             , (int ( ::CvDTreeTrainData::* )( ::CvDTreeNode * ) )(&::CvDTreeTrainData::get_child_buf_idx)
@@ -324,32 +312,36 @@ void register_CvDTreeTrainData_class(){
             , ( bp::arg("n") ) )    
         .def( 
             "get_class_labels"
-            , (void ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,int *,int const * * ) )(&::CvDTreeTrainData::get_class_labels)
-            , (void ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,int *,int const * * ) )(&CvDTreeTrainData_wrapper::default_get_class_labels)
-            , ( bp::arg("n"), bp::arg("labels_buf"), bp::arg("labels") ) )    
+            , (int const * ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,int * ) )(&::CvDTreeTrainData::get_class_labels)
+            , (int const * ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,int * ) )(&CvDTreeTrainData_wrapper::default_get_class_labels)
+            , ( bp::arg("n"), bp::arg("labels_buf") )
+            , bp::return_internal_reference< >() )    
         .def( 
             "get_cv_labels"
-            , (void ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,int *,int const * * ) )(&::CvDTreeTrainData::get_cv_labels)
-            , (void ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,int *,int const * * ) )(&CvDTreeTrainData_wrapper::default_get_cv_labels)
-            , ( bp::arg("n"), bp::arg("labels_buf"), bp::arg("labels") ) )    
+            , (int const * ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,int * ) )(&::CvDTreeTrainData::get_cv_labels)
+            , (int const * ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,int * ) )(&CvDTreeTrainData_wrapper::default_get_cv_labels)
+            , ( bp::arg("n"), bp::arg("labels_buf") )
+            , bp::return_internal_reference< >() )    
         .def( 
             "get_num_classes"
             , (int ( ::CvDTreeTrainData::* )(  ) const)( &::CvDTreeTrainData::get_num_classes ) )    
         .def( 
             "get_ord_responses"
-            , (void ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,float *,float const * * ) )(&::CvDTreeTrainData::get_ord_responses)
-            , (void ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,float *,float const * * ) )(&CvDTreeTrainData_wrapper::default_get_ord_responses)
-            , ( bp::arg("n"), bp::arg("values_buf"), bp::arg("values") ) )    
+            , (float const * ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,float *,int * ) )(&::CvDTreeTrainData::get_ord_responses)
+            , (float const * ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,float *,int * ) )(&CvDTreeTrainData_wrapper::default_get_ord_responses)
+            , ( bp::arg("n"), bp::arg("values_buf"), bp::arg("sample_indices_buf") )
+            , bp::return_internal_reference< >() )    
         .def( 
             "get_ord_var_data"
-            , (int ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,int,float *,int *,float const * *,int const * * ) )(&::CvDTreeTrainData::get_ord_var_data)
-            , (int ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,int,float *,int *,float const * *,int const * * ) )(&CvDTreeTrainData_wrapper::default_get_ord_var_data)
-            , ( bp::arg("n"), bp::arg("vi"), bp::arg("ord_values_buf"), bp::arg("indices_buf"), bp::arg("ord_values"), bp::arg("indices") ) )    
+            , (void ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,int,float *,int *,float const * *,int const * *,int * ) )(&::CvDTreeTrainData::get_ord_var_data)
+            , (void ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,int,float *,int *,float const * *,int const * *,int * ) )(&CvDTreeTrainData_wrapper::default_get_ord_var_data)
+            , ( bp::arg("n"), bp::arg("vi"), bp::arg("ord_values_buf"), bp::arg("sorted_indices_buf"), bp::arg("ord_values"), bp::arg("sorted_indices"), bp::arg("sample_indices_buf") ) )    
         .def( 
             "get_sample_indices"
-            , (void ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,int *,int const * * ) )(&::CvDTreeTrainData::get_sample_indices)
-            , (void ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,int *,int const * * ) )(&CvDTreeTrainData_wrapper::default_get_sample_indices)
-            , ( bp::arg("n"), bp::arg("indices_buf"), bp::arg("labels") ) )    
+            , (int const * ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,int * ) )(&::CvDTreeTrainData::get_sample_indices)
+            , (int const * ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,int * ) )(&CvDTreeTrainData_wrapper::default_get_sample_indices)
+            , ( bp::arg("n"), bp::arg("indices_buf") )
+            , bp::return_internal_reference< >() )    
         .def( 
             "get_var_type"
             , (int ( ::CvDTreeTrainData::* )( int ) const)( &::CvDTreeTrainData::get_var_type )
@@ -418,12 +410,6 @@ void register_CvDTreeTrainData_class(){
                     , bp::make_function( (void (*)( ::CvDTreeTrainData &,::CvMat const * ))(&CvDTreeTrainData_wrapper::set_train_data), bp::with_custodian_and_ward_postcall< 1, 2 >() ) )    
         .def_readwrite( "var_all", &CvDTreeTrainData::var_all )    
         .def_readwrite( "var_count", &CvDTreeTrainData::var_count )    
-        .def_readwrite( "work_var_count", &CvDTreeTrainData::work_var_count )    
-        .add_property("pred_float_buf", &get_pred_float_buf)    
-        .add_property("pred_int_buf", &get_pred_int_buf)    
-        .add_property("resp_float_buf", &get_resp_float_buf)    
-        .add_property("resp_int_buf", &get_resp_int_buf)    
-        .add_property("cv_lables_buf", &get_cv_lables_buf)    
-        .add_property("sample_idx_buf", &get_sample_idx_buf);
+        .def_readwrite( "work_var_count", &CvDTreeTrainData::work_var_count );
 
 }
