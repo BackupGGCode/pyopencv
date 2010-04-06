@@ -220,9 +220,10 @@ static boost::shared_ptr<cv::PlanarObjectDetector> PlanarObjectDetector_init1(bp
     
     # OneWayDescriptorObject
     # TODO: fix the rest of the member declarations
-    z = mb.class_('OneWayDescriptorObject')
-    z.include()
-    z.decls().exclude()
+    # OpenCV 2.1 bug: somehow this class has not been exposed
+    # z = mb.class_('OneWayDescriptorObject')
+    # z.include()
+    # z.decls().exclude()
     
     # LevMarqSparse
     # TODO: fix the rest of the member declarations

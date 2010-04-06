@@ -403,7 +403,7 @@ def finalize_class(self, z):
     # ignore all non-public members
     for t in z.decls():
         try:
-            if t.access_type != 'public':
+            if t.access_type != 'public' or t.name.startswith('~'):
                 t.exclude()
         except:
             pass
