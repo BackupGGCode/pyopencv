@@ -98,6 +98,7 @@ CV_HAAR_FEATURE_MAX  = 3
     # pointers which are not Cv... * are excluded until further requested
     for z in (
         'CvAvgComp',
+        'CvHaarClassifier', 'CvHaarStageClassifier', 'CvHaarClassifierCascade',
         ):
         k = mb.class_(z)
         k.include()
@@ -111,52 +112,9 @@ CV_HAAR_FEATURE_MAX  = 3
     # CvHaarFeature
     z = mb.class_('CvHaarFeature')
     z.include()
-    for t in ('r', 'weight', 'rect'):
+    for t in ('r', 'weight', 'rect'): # wait until requested: expose the member variables
         z.decl(t).exclude()
-    z.add_declaration_code('''
-static cv::Rect *get_rect(CvHaarFeature const &inst, int i)
-{
-    return (cv::Rect *)&inst.rect[i].r;
-}
 
-static float get_rect_weight(CvHaarFeature const &inst, int i)
-{
-    return inst.rect[i].weight;
-}
-
-static void set_rect_weight(CvHaarFeature &inst, int i, float _weight)
-{
-    inst.rect[i].weight = _weight;
-}
-
-    ''')
-    z.add_registration_code('def("get_rect", &::get_rect, bp::return_internal_reference<>())')
-    z.add_registration_code('def("get_rect_weight", &::get_rect_weight)')
-    z.add_registration_code('def("set_rect_weight", &::set_rect_weight)')
-    
-    # CvHaarClassifier
-    z = mb.class_('CvHaarClassifier')
-    z.include()
-    FT.expose_member_as_pointee(z, 'haar_feature')
-    FT.expose_array_member_as_Mat(z, 'threshold', 'count')
-    FT.expose_array_member_as_Mat(z, 'left', 'count')
-    FT.expose_array_member_as_Mat(z, 'right', 'count')
-    FT.expose_array_member_as_Mat(z, 'alpha', 'count', '1')
-    
-    # CvHaarStageClassifier
-    z = mb.class_('CvHaarStageClassifier')
-    z.include()
-    FT.expose_member_as_array_of_pointees(z, 'classifier', 'inst.count')
-    
-    # CvHidHaarClassifierCascade
-    z = mb.class_('CvHidHaarClassifierCascade')
-    z.include()
-    
-    # CvHaarClassifierCascade
-    z = mb.class_('CvHaarClassifierCascade')
-    z.include()
-    FT.expose_member_as_array_of_pointees(z, 'stage_classifier', 'inst.count')
-    FT.expose_member_as_pointee(z, 'hid_cascade')
     
                     
     # CvConDensation

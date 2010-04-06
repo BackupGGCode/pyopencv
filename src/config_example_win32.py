@@ -24,7 +24,7 @@ opencv_runtime_library_dirs = ["C:/Program Files/OpenCV/bin"]
 opencv_libraries = ["cvaux200.dll", "ml200.dll", "highgui200.dll", "cv200.dll", "cxcore200.dll"]
 opencv_runtime_libraries_to_be_bundled = []
 
-# Boost library's source distribution, to be linked against using gcc
+# Boost.Python library,  to be linked against using gcc
 boost_include_dirs = ["C:/boost_1_40_0"]
 boost_library_dirs = ["C:/boost_1_40_0/stage/lib"]
 boost_runtime_library_dirs = ["C:/boost_1_40_0/stage/lib"]

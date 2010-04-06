@@ -72,23 +72,23 @@ def generate_code(mb, cc, D, FT, CP):
     
     # Octree
     z = mb.class_('Octree')
-    z.include_files.append('opencv_converters.hpp')
+    z.include_files.append('opencv_extra.hpp')
     mb.init_class(z)
-    z.mem_fun('getPointsWithinSphere')._transformer_creators.append(FT.arg_std_vector('points', 2))
+    z.mem_fun('getPointsWithinSphere')._transformer_creators.append(FT.output_std_vector('points'))
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
     z.mem_fun('getNodes').exclude()
     z.add_declaration_code('''
-static boost::shared_ptr<cv::Octree> Octree_init1( bp::list const &points, int maxLevels=10, int minPoints=20 )
+static boost::shared_ptr<cv::Octree> Octree_init1( bp::sequence const &points, int maxLevels=10, int minPoints=20 )
 {
     std::vector<cv::Point3f> points2;
-    convert_from_object_to_T(points, points2);
+    convert_seq_to_vector(points, points2);
     return boost::shared_ptr<cv::Octree>(new cv::Octree(points2, maxLevels, minPoints ));
 }
 
-static bp::object sd_getNodes(cv::Octree const &inst) { return convert_from_T_to_object(inst.getNodes()); }
+static bp::sequence sd_getNodes(cv::Octree const &inst) { return convert_vector_to_seq(inst.getNodes()); }
     ''')
     z.add_registration_code('def("__init__", bp::make_constructor(&Octree_init1, bp::default_call_policies(), ( bp::arg("points"), bp::arg("maxLevels")=10, bp::arg("maxPoints")=20 )))')
-    z.add_registration_code('add_property( "nodes", &sd_getNodes)')
+    z.add_registration_code('def( "getNodes", &sd_getNodes)')
     mb.finalize_class(z)
     
     # Mesh3D
@@ -98,14 +98,20 @@ static bp::object sd_getNodes(cv::Octree const &inst) { return convert_from_T_to
     for t in ('vtx', 'normals'):
         z.var(t).exclude()
     z.add_declaration_code('''
-static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::list const &vtx)
+static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::sequence const &vtx)
 {
     std::vector<cv::Point3f> vtx2;
-    convert_from_object_to_T(vtx, vtx2);
+    convert_seq_to_vector(vtx, vtx2);
     return boost::shared_ptr<cv::Mesh3D>(new cv::Mesh3D(vtx2));
 }
+
+static bp::sequence get_vtx(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.vtx); }
+static bp::sequence get_normals(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.normals); }
+
     ''')
     z.add_registration_code('def("__init__", bp::make_constructor(&Mesh3D_init1, bp::default_call_policies(), ( bp::arg("vtx") ))  )')
+    z.add_registration_code('add_property("vtx", &get_vtx)')
+    z.add_registration_code('add_property("normals", &get_normals)')
     for z1 in z.mem_funs('computeNormals'):
         z1._transformer_kwds['alias'] = 'computeNormals'
     mb.finalize_class(z)
@@ -114,7 +120,7 @@ static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::list const &vtx)
     z = mb.class_('SpinImageModel')
     mb.init_class(z)
     z.mem_fun('setLogger').exclude() # wait until requested
-    z.mem_fun('match')._transformer_creators.append(FT.arg_std_vector('result', 2))
+    z.mem_fun('match')._transformer_creators.append(FT.output_std_vector_vector('result'))
     for t in ('calcSpinMapCoo', 'geometricConsistency', 'groupingCreteria'):
         z.mem_fun(t).exclude() # wait until requested: not available in OpenCV's Windows package
     z.var('lambda').rename('lambda_') # to avoid a conflict with keyword lambda
@@ -125,19 +131,19 @@ static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::list const &vtx)
     
     # HOGDescriptor
     z = mb.class_('HOGDescriptor')
-    z.include_files.append('opencv_converters.hpp')
+    z.include_files.append('opencv_extra.hpp')
     mb.init_class(z)
     z.mem_fun('getDefaultPeopleDetector').exclude()
-    z.mem_fun('compute')._transformer_creators.append(FT.arg_std_vector('descriptors', 2))
+    z.mem_fun('compute')._transformer_creators.append(FT.output_std_vector('descriptors'))
     for t in ('detect', 'detectMultiScale'):
-        z.mem_fun(t)._transformer_creators.append(FT.arg_std_vector('foundLocations', 2))
+        z.mem_fun(t)._transformer_creators.append(FT.output_std_vector('foundLocations'))
     z.var('svmDetector').exclude()
     z.add_declaration_code('''
-static cv::Mat getDefaultPeopleDetector() {
-    return convert_from_vector_of_T_to_Mat(cv::HOGDescriptor::getDefaultPeopleDetector());
+static bp::sequence getDefaultPeopleDetector() {
+    return convert_vector_to_seq(cv::HOGDescriptor::getDefaultPeopleDetector());
 }
 
-static cv::Mat get_svmDetector(cv::HOGDescriptor const &inst) { return convert_from_vector_of_T_to_Mat(inst.svmDetector); }
+static bp::sequence get_svmDetector(cv::HOGDescriptor const &inst) { return convert_vector_to_seq(inst.svmDetector); }
 
     ''')
     z.add_registration_code('def("getDefaultPeopleDetector", &::getDefaultPeopleDetector)')
@@ -156,55 +162,38 @@ static cv::Mat get_svmDetector(cv::HOGDescriptor const &inst) { return convert_f
     # LDetector
     z = mb.class_('LDetector')
     mb.init_class(z)
-    for t in z.operators('()'):
-        t._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+    z.operators().exclude()
+    z.add_declaration_code('''
+static bp::sequence LDetector_call1( ::cv::LDetector const & inst, bp::object const & image_or_pyr, int maxCount=0, bool scaleCoords=true ){
+    std::vector< cv::KeyPoint > keypoints;
+    bp::extract<const cv::Mat &> image(image_or_pyr);
+    if(image.check()) inst(image(), keypoints, maxCount, scaleCoords);
+    else {
+        std::vector< cv::Mat > pyr;
+        convert_seq_to_vector(image_or_pyr, pyr);
+        inst(pyr, keypoints, maxCount, scaleCoords);
+    }
+    return convert_vector_to_seq(keypoints);
+}
+
+    ''')
+    z.add_registration_code('def("__call__", &LDetector_call1, (bp::arg("image_or_pyr"), bp::arg("maxCount")=0, bp::arg("scaleCoords")=true))')
     mb.finalize_class(z)
     cc.write('''
 YAPE = LDetector
     ''')
     
     # FernClassifier
+    # TODO: fix the rest of the member declarations
     z = mb.class_('FernClassifier')
-    z.include_files.append('opencv_converters.hpp')
-    mb.init_class(z)
-    for t in z.operators('()'):
-        t._transformer_creators.append(FT.arg_std_vector('signature', 2))
-    z.constructor(lambda x: len(x.arguments) > 5).exclude()
-    z.add_declaration_code('''
-static boost::shared_ptr<cv::FernClassifier> FernClassifier_init1( cv::Mat const & points, bp::list const & refimgs, cv::Mat const & labels=convert_from_vector_of_T_to_Mat(std::vector<int>()), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
-    cv::FernClassifier *obj = new cv::FernClassifier();
-    FernClassifier_wrapper::default_train(*obj, points, refimgs, labels, _nclasses, _patchSize,
-        _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, patchGenerator);
-    return boost::shared_ptr<cv::FernClassifier>(obj);
-}
-
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&FernClassifier_init1, bp::default_call_policies(), ( bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=cv::Mat(), bp::arg("_nclasses")=0, bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() ))  )')
-    mb.finalize_class(z)
+    z.include()
+    z.decls().exclude()
     
     # PlanarObjectDetector
+    # TODO: fix the rest of the member declarations
     z = mb.class_('PlanarObjectDetector')
-    z.include_files.append('opencv_converters.hpp')
-    mb.init_class(z)
-    for t in z.mem_funs():
-        for arg in t.arguments:
-            if arg.default_value is not None and ('DEFAULT' in arg.default_value or 'PATCH' in arg.default_value):
-                arg.default_value = 'cv::FernClassifier::'+arg.default_value
-    for t in ('getModelROI', 'getClassifier', 'getDetector'):
-        z.mem_fun(t).exclude() # definition not yet available
-    z.operator(lambda x: x.name=='operator()' and len(x.arguments)==5).exclude() # TODO: fix this operator
-    z.constructor(lambda x: len(x.arguments) > 3).exclude()
-    z.add_declaration_code('''
-static boost::shared_ptr<cv::PlanarObjectDetector> PlanarObjectDetector_init1(bp::list const & pyr, int _npoints=300, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
-    std::vector<cv::Mat, std::allocator<cv::Mat> > pyr2;
-    convert_from_object_to_T(pyr, pyr2);
-    return boost::shared_ptr<cv::PlanarObjectDetector>(
-        new cv::PlanarObjectDetector(pyr2, _npoints, _patchSize, _nstructs, _structSize, _nviews, detector, patchGenerator));
-}
-
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&PlanarObjectDetector_init1, bp::default_call_policies(), ( bp::arg("pyr"), bp::arg("_npoints")=(int)(300), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )) )')
-    mb.finalize_class(z)
+    z.include()
+    z.decls().exclude()
     
     # OneWayDescriptor
     # TODO: fix the rest of the member declarations
@@ -242,4 +231,4 @@ static boost::shared_ptr<cv::PlanarObjectDetector> PlanarObjectDetector_init1(bp
     # FAST
     z = mb.free_fun('FAST')
     z.include()
-    z._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+    z._transformer_creators.append(FT.output_std_vector('keypoints'))

@@ -47,7 +47,7 @@ struct SavedIndexParams_wrapper : cv::flann::SavedIndexParams, bp::wrapper< cv::
 void register_SavedIndexParams_class(){
 
     { //::cv::flann::SavedIndexParams
-        typedef bp::class_< SavedIndexParams_wrapper, bp::bases< cv::flann::IndexParams > > SavedIndexParams_exposer_t;
+        typedef bp::class_< SavedIndexParams_wrapper > SavedIndexParams_exposer_t;
         SavedIndexParams_exposer_t SavedIndexParams_exposer = SavedIndexParams_exposer_t( "SavedIndexParams", bp::init< >() );
         bp::scope SavedIndexParams_scope( SavedIndexParams_exposer );
         SavedIndexParams_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::SavedIndexParams >() );

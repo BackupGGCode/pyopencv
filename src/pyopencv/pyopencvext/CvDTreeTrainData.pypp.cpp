@@ -5,7 +5,7 @@
 #include "__convenience.pypp.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "opencv_converters.hpp"
+#include "boost/python/object.hpp"
 #include "CvDTreeTrainData.pypp.hpp"
 
 namespace bp = boost::python;
@@ -272,19 +272,87 @@ struct CvDTreeTrainData_wrapper : CvDTreeTrainData, bp::wrapper< CvDTreeTrainDat
         inst.train_data = new_value;
     }
 
+    static bp::object get_responses_copy( ::CvDTreeTrainData const & inst ){        
+        return inst.responses_copy? bp::object(inst.responses_copy): bp::object();
+    }
+
+    static bp::object get_cat_count( ::CvDTreeTrainData const & inst ){        
+        return inst.cat_count? bp::object(inst.cat_count): bp::object();
+    }
+
+    static bp::object get_cat_ofs( ::CvDTreeTrainData const & inst ){        
+        return inst.cat_ofs? bp::object(inst.cat_ofs): bp::object();
+    }
+
+    static bp::object get_cat_map( ::CvDTreeTrainData const & inst ){        
+        return inst.cat_map? bp::object(inst.cat_map): bp::object();
+    }
+
+    static bp::object get_counts( ::CvDTreeTrainData const & inst ){        
+        return inst.counts? bp::object(inst.counts): bp::object();
+    }
+
+    static bp::object get_buf( ::CvDTreeTrainData const & inst ){        
+        return inst.buf? bp::object(inst.buf): bp::object();
+    }
+
+    static bp::object get_direction( ::CvDTreeTrainData const & inst ){        
+        return inst.direction? bp::object(inst.direction): bp::object();
+    }
+
+    static bp::object get_split_buf( ::CvDTreeTrainData const & inst ){        
+        return inst.split_buf? bp::object(inst.split_buf): bp::object();
+    }
+
+    static bp::object get_var_idx( ::CvDTreeTrainData const & inst ){        
+        return inst.var_idx? bp::object(inst.var_idx): bp::object();
+    }
+
+    static bp::object get_var_type( ::CvDTreeTrainData const & inst ){        
+        return inst.var_type? bp::object(inst.var_type): bp::object();
+    }
+
+    static bp::object get_priors( ::CvDTreeTrainData const & inst ){        
+        return inst.priors? bp::object(inst.priors): bp::object();
+    }
+
+    static bp::object get_priors_mult( ::CvDTreeTrainData const & inst ){        
+        return inst.priors_mult? bp::object(inst.priors_mult): bp::object();
+    }
+
+    static bp::object get_tree_storage( ::CvDTreeTrainData const & inst ){        
+        return inst.tree_storage? bp::object(inst.tree_storage): bp::object();
+    }
+
+    static bp::object get_temp_storage( ::CvDTreeTrainData const & inst ){        
+        return inst.temp_storage? bp::object(inst.temp_storage): bp::object();
+    }
+
+    static bp::object get_data_root( ::CvDTreeTrainData const & inst ){        
+        return inst.data_root? bp::object(inst.data_root): bp::object();
+    }
+
+    static bp::object get_node_heap( ::CvDTreeTrainData const & inst ){        
+        return inst.node_heap? bp::object(inst.node_heap): bp::object();
+    }
+
+    static bp::object get_split_heap( ::CvDTreeTrainData const & inst ){        
+        return inst.split_heap? bp::object(inst.split_heap): bp::object();
+    }
+
+    static bp::object get_cv_heap( ::CvDTreeTrainData const & inst ){        
+        return inst.cv_heap? bp::object(inst.cv_heap): bp::object();
+    }
+
+    static bp::object get_nv_heap( ::CvDTreeTrainData const & inst ){        
+        return inst.nv_heap? bp::object(inst.nv_heap): bp::object();
+    }
+
+    static bp::object get_rng( ::CvDTreeTrainData const & inst ){        
+        return inst.rng? bp::object(inst.rng): bp::object();
+    }
+
 };
-
-static bp::object get_pred_float_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.pred_float_buf); }
-
-static bp::object get_pred_int_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.pred_int_buf); }
-
-static bp::object get_resp_float_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.resp_float_buf); }
-
-static bp::object get_resp_int_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.resp_int_buf); }
-
-static bp::object get_cv_lables_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.cv_lables_buf); }
-
-static bp::object get_sample_idx_buf(::CvDTreeTrainData const &inst) { return convert_from_T_to_object(inst.sample_idx_buf); }
 
 void register_CvDTreeTrainData_class(){
 
@@ -378,13 +446,7 @@ void register_CvDTreeTrainData_class(){
         .def( 
             "read_params"
             , (void (*)( ::CvDTreeTrainData &,::cv::FileStorage &,::cv::FileNode & ))( &CvDTreeTrainData_wrapper::default_read_params )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-            , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") ) )    
         .def( 
             "set_params"
             , (bool ( ::CvDTreeTrainData::* )( ::CvDTreeParams const & ) )(&::CvDTreeTrainData::set_params)
@@ -393,13 +455,11 @@ void register_CvDTreeTrainData_class(){
         .def( 
             "write_params"
             , (void (*)( ::CvDTreeTrainData const &,::cv::FileStorage & ))( &CvDTreeTrainData_wrapper::default_write_params )
-            , ( bp::arg("inst"), bp::arg("fs") )
-            , "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+            , ( bp::arg("inst"), bp::arg("fs") ) )    
         .def_readwrite( "buf_count", &CvDTreeTrainData::buf_count )    
         .def_readwrite( "buf_size", &CvDTreeTrainData::buf_size )    
         .def_readwrite( "cat_var_count", &CvDTreeTrainData::cat_var_count )    
+        .def_readwrite( "cv_lables_buf", &CvDTreeTrainData::cv_lables_buf )    
         .def_readwrite( "have_labels", &CvDTreeTrainData::have_labels )    
         .def_readwrite( "have_priors", &CvDTreeTrainData::have_priors )    
         .def_readwrite( "is_buf_16u", &CvDTreeTrainData::is_buf_16u )    
@@ -407,10 +467,15 @@ void register_CvDTreeTrainData_class(){
         .def_readwrite( "max_c_count", &CvDTreeTrainData::max_c_count )    
         .def_readwrite( "ord_var_count", &CvDTreeTrainData::ord_var_count )    
         .def_readwrite( "params", &CvDTreeTrainData::params )    
+        .def_readwrite( "pred_float_buf", &CvDTreeTrainData::pred_float_buf )    
+        .def_readwrite( "pred_int_buf", &CvDTreeTrainData::pred_int_buf )    
+        .def_readwrite( "resp_float_buf", &CvDTreeTrainData::resp_float_buf )    
+        .def_readwrite( "resp_int_buf", &CvDTreeTrainData::resp_int_buf )    
         .add_property( "responses"
                     , bp::make_function( (::CvMat const * (*)( ::CvDTreeTrainData const & ))(&CvDTreeTrainData_wrapper::get_responses), bp::return_internal_reference< >() )
                     , bp::make_function( (void (*)( ::CvDTreeTrainData &,::CvMat const * ))(&CvDTreeTrainData_wrapper::set_responses), bp::with_custodian_and_ward_postcall< 1, 2 >() ) )    
         .def_readwrite( "sample_count", &CvDTreeTrainData::sample_count )    
+        .def_readwrite( "sample_idx_buf", &CvDTreeTrainData::sample_idx_buf )    
         .def_readwrite( "shared", &CvDTreeTrainData::shared )    
         .def_readwrite( "tflag", &CvDTreeTrainData::tflag )    
         .add_property( "train_data"
@@ -419,11 +484,25 @@ void register_CvDTreeTrainData_class(){
         .def_readwrite( "var_all", &CvDTreeTrainData::var_all )    
         .def_readwrite( "var_count", &CvDTreeTrainData::var_count )    
         .def_readwrite( "work_var_count", &CvDTreeTrainData::work_var_count )    
-        .add_property("pred_float_buf", &get_pred_float_buf)    
-        .add_property("pred_int_buf", &get_pred_int_buf)    
-        .add_property("resp_float_buf", &get_resp_float_buf)    
-        .add_property("resp_int_buf", &get_resp_int_buf)    
-        .add_property("cv_lables_buf", &get_cv_lables_buf)    
-        .add_property("sample_idx_buf", &get_sample_idx_buf);
+        .add_property( "responses_copy", bp::make_function(&::CvDTreeTrainData_wrapper::get_responses_copy) )    
+        .add_property( "cat_count", bp::make_function(&::CvDTreeTrainData_wrapper::get_cat_count) )    
+        .add_property( "cat_ofs", bp::make_function(&::CvDTreeTrainData_wrapper::get_cat_ofs) )    
+        .add_property( "cat_map", bp::make_function(&::CvDTreeTrainData_wrapper::get_cat_map) )    
+        .add_property( "counts", bp::make_function(&::CvDTreeTrainData_wrapper::get_counts) )    
+        .add_property( "buf", bp::make_function(&::CvDTreeTrainData_wrapper::get_buf) )    
+        .add_property( "direction", bp::make_function(&::CvDTreeTrainData_wrapper::get_direction) )    
+        .add_property( "split_buf", bp::make_function(&::CvDTreeTrainData_wrapper::get_split_buf) )    
+        .add_property( "var_idx", bp::make_function(&::CvDTreeTrainData_wrapper::get_var_idx) )    
+        .add_property( "var_type", bp::make_function(&::CvDTreeTrainData_wrapper::get_var_type) )    
+        .add_property( "priors", bp::make_function(&::CvDTreeTrainData_wrapper::get_priors) )    
+        .add_property( "priors_mult", bp::make_function(&::CvDTreeTrainData_wrapper::get_priors_mult) )    
+        .add_property( "tree_storage", bp::make_function(&::CvDTreeTrainData_wrapper::get_tree_storage) )    
+        .add_property( "temp_storage", bp::make_function(&::CvDTreeTrainData_wrapper::get_temp_storage) )    
+        .add_property( "data_root", bp::make_function(&::CvDTreeTrainData_wrapper::get_data_root) )    
+        .add_property( "node_heap", bp::make_function(&::CvDTreeTrainData_wrapper::get_node_heap) )    
+        .add_property( "split_heap", bp::make_function(&::CvDTreeTrainData_wrapper::get_split_heap) )    
+        .add_property( "cv_heap", bp::make_function(&::CvDTreeTrainData_wrapper::get_cv_heap) )    
+        .add_property( "nv_heap", bp::make_function(&::CvDTreeTrainData_wrapper::get_nv_heap) )    
+        .add_property( "rng", bp::make_function(&::CvDTreeTrainData_wrapper::get_rng) );
 
 }

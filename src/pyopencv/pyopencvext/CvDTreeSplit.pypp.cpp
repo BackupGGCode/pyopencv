@@ -8,11 +8,31 @@
 
 namespace bp = boost::python;
 
-static ::CvDTreeSplit * get_next( ::CvDTreeSplit const & inst ) { return inst.next; }
+struct CvDTreeSplit_wrapper : CvDTreeSplit, bp::wrapper< CvDTreeSplit > {
+
+    CvDTreeSplit_wrapper(CvDTreeSplit const & arg )
+    : CvDTreeSplit( arg )
+      , bp::wrapper< CvDTreeSplit >(){
+        // copy constructor
+        
+    }
+
+    CvDTreeSplit_wrapper()
+    : CvDTreeSplit()
+      , bp::wrapper< CvDTreeSplit >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_next( ::CvDTreeSplit const & inst ){        
+        return inst.next? bp::object(inst.next): bp::object();
+    }
+
+};
 
 void register_CvDTreeSplit_class(){
 
-    bp::class_< CvDTreeSplit >( "CvDTreeSplit" )    
+    bp::class_< CvDTreeSplit_wrapper >( "CvDTreeSplit" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvDTreeSplit >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvDTreeSplit >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvDTreeSplit >() )    
@@ -20,6 +40,6 @@ void register_CvDTreeSplit_class(){
         .def_readwrite( "inversed", &CvDTreeSplit::inversed )    
         .def_readwrite( "quality", &CvDTreeSplit::quality )    
         .def_readwrite( "var_idx", &CvDTreeSplit::var_idx )    
-        .add_property( "next", bp::make_function(&::get_next, bp::return_internal_reference<>()) );
+        .add_property( "next", bp::make_function(&::CvDTreeSplit_wrapper::get_next) );
 
 }

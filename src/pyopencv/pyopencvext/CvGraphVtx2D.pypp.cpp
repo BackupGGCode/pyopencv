@@ -8,16 +8,38 @@
 
 namespace bp = boost::python;
 
-static ::CvGraphEdge * get_first( ::CvGraphVtx2D const & inst ) { return inst.first; }
+struct CvGraphVtx2D_wrapper : CvGraphVtx2D, bp::wrapper< CvGraphVtx2D > {
 
-static ::CvPoint2D32f * get_ptr( ::CvGraphVtx2D const & inst ) { return inst.ptr; }
+    CvGraphVtx2D_wrapper(CvGraphVtx2D const & arg )
+    : CvGraphVtx2D( arg )
+      , bp::wrapper< CvGraphVtx2D >(){
+        // copy constructor
+        
+    }
+
+    CvGraphVtx2D_wrapper()
+    : CvGraphVtx2D()
+      , bp::wrapper< CvGraphVtx2D >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_first( ::CvGraphVtx2D const & inst ){        
+        return inst.first? bp::object(inst.first): bp::object();
+    }
+
+    static bp::object get_ptr( ::CvGraphVtx2D const & inst ){        
+        return inst.ptr? bp::object(inst.ptr): bp::object();
+    }
+
+};
 
 void register_CvGraphVtx2D_class(){
 
-    bp::class_< CvGraphVtx2D >( "CvGraphVtx2D" )    
+    bp::class_< CvGraphVtx2D_wrapper >( "CvGraphVtx2D" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvGraphVtx2D >() )    
         .def_readwrite( "flags", &CvGraphVtx2D::flags )    
-        .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
-        .add_property( "ptr", bp::make_function(&::get_ptr, bp::return_internal_reference<>()) );
+        .add_property( "first", bp::make_function(&::CvGraphVtx2D_wrapper::get_first) )    
+        .add_property( "ptr", bp::make_function(&::CvGraphVtx2D_wrapper::get_ptr) );
 
 }

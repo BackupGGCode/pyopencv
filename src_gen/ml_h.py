@@ -149,7 +149,7 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvKNearest
     z = mb.class_('CvKNearest')
-    z.include_files.append('opencv_converters.hpp')
+    z.include_files.append('opencv_extra.hpp')
     mb.init_class(z)
     z.constructors(lambda x: 'CvMat' in x.decl_string).exclude()
     for t in ('find_nearest', 'train'):
@@ -157,18 +157,19 @@ KLASS.__repr__ = _KLASS__repr__
     t = z.mem_fun(lambda x: x.name=='train' and not 'CvMat' in x.decl_string)
     t.include()
     t._transformer_kwds['alias'] = 'train'
-    # TODO: check if find_nearest() works correctly
+    # TODO: fix the output of find_nearest(), not correct for now
     z.add_wrapper_code('''
     bp::object sd_find_nearest( cv::Mat const & _samples, int k, cv::Mat &results, 
         bool return_neighbors_by_addr, cv::Mat &neighbor_responses, cv::Mat &dist ) {
-        if(!return_neighbors_by_addr)
-            return bp::object(find_nearest((::CvMat const *)get_CvMat_ptr(_samples), k, get_CvMat_ptr(results), 
-                0, get_CvMat_ptr(neighbor_responses), get_CvMat_ptr(dist)));
-                
-        std::vector<int> neighbors2; neighbors2.resize(k*_samples.rows);
-        float return_value = find_nearest((::CvMat const *)get_CvMat_ptr(_samples), k, get_CvMat_ptr(results), 
-            (const float **)&neighbors2[0], get_CvMat_ptr(neighbor_responses), get_CvMat_ptr(dist));
-        return bp::make_tuple(bp::object(return_value), convert_from_T_to_object(neighbors2));
+        CvMat *_samples2 = _samples.empty()? 0: &(::CvMat)_samples;
+        std::vector<int> neighbors2;
+        CvMat *results2 = results.empty()? 0: &(::CvMat)results;
+        CvMat *neighbor_responses2 = neighbor_responses.empty()? 0: &(::CvMat)neighbor_responses;
+        CvMat *dist2 = dist.empty()? 0: &(::CvMat)dist;
+        if(!return_neighbors_by_addr) return bp::object(find_nearest(_samples2, k, results2, 0, neighbor_responses2, dist2));
+        neighbors2.resize(k*_samples.rows);
+        float return_value = find_nearest(_samples2, k, results2, (const float **)&neighbors2[0], neighbor_responses2, dist2);
+        return bp::make_tuple(bp::object(return_value), convert_vector_to_seq(neighbors2));
     }
     ''')
     z.add_registration_code('''def("find_nearest", &CvKNearest_wrapper::sd_find_nearest
@@ -325,7 +326,7 @@ KLASS.__repr__ = _KLASS__repr__
         'var_idx', 'var_type', 'priors', 'priors_mult', 'tree_storage', 'temp_storage', 'data_root',
         'node_heap', 'split_heap', 'cv_heap', 'nv_heap', 'rng',
         ):
-        z.var(t).exclude() # TODO: fix these variables
+        FT.expose_member_as_pointee(z, t) # TODO: fix these variables
     mb.finalize_class(z)
     
     # CvDTree

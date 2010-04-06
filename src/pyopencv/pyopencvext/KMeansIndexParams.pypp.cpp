@@ -39,29 +39,17 @@ struct KMeansIndexParams_wrapper : cv::flann::KMeansIndexParams, bp::wrapper< cv
 
 void register_KMeansIndexParams_class(){
 
-    { //::cv::flann::KMeansIndexParams
-        typedef bp::class_< KMeansIndexParams_wrapper, bp::bases< cv::flann::IndexParams > > KMeansIndexParams_exposer_t;
-        KMeansIndexParams_exposer_t KMeansIndexParams_exposer = KMeansIndexParams_exposer_t( "KMeansIndexParams", bp::init< bp::optional< int, int, cv::flann::flann_centers_init_t, float > >(( bp::arg("branching_")=(int)(32), bp::arg("iterations_")=(int)(11), bp::arg("centers_init_")=::cv::flann::CENTERS_RANDOM, bp::arg("cb_index_")=2.00000000000000011102230246251565404236316680908e-1 )) );
-        bp::scope KMeansIndexParams_scope( KMeansIndexParams_exposer );
-        KMeansIndexParams_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::KMeansIndexParams >() );
-        bp::implicitly_convertible< int, cv::flann::KMeansIndexParams >();
-        { //::cv::flann::KMeansIndexParams::createIndex
-        
-            typedef ::flann::Index * ( ::cv::flann::KMeansIndexParams::*createIndex_function_type )( ::cv::Mat const & ) const;
-            typedef ::flann::Index * ( KMeansIndexParams_wrapper::*default_createIndex_function_type )( ::cv::Mat const & ) const;
-            
-            KMeansIndexParams_exposer.def( 
-                "createIndex"
-                , createIndex_function_type(&::cv::flann::KMeansIndexParams::createIndex)
-                , default_createIndex_function_type(&KMeansIndexParams_wrapper::default_createIndex)
-                , ( bp::arg("dataset") )
-                , bp::return_value_policy< bp::reference_existing_object >() );
-        
-        }
-        KMeansIndexParams_exposer.def_readwrite( "branching", &cv::flann::KMeansIndexParams::branching );
-        KMeansIndexParams_exposer.def_readwrite( "cb_index", &cv::flann::KMeansIndexParams::cb_index );
-        KMeansIndexParams_exposer.def_readwrite( "centers_init", &cv::flann::KMeansIndexParams::centers_init );
-        KMeansIndexParams_exposer.def_readwrite( "iterations", &cv::flann::KMeansIndexParams::iterations );
-    }
+    bp::class_< KMeansIndexParams_wrapper >( "KMeansIndexParams", bp::init< bp::optional< int, int, cv::flann::flann_centers_init_t, float > >(( bp::arg("branching_")=(int)(32), bp::arg("iterations_")=(int)(11), bp::arg("centers_init_")=::cv::flann::CENTERS_RANDOM, bp::arg("cb_index_")=2.00000000000000011102230246251565404236316680908e-1 )) )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::KMeansIndexParams >() )    
+        .def( 
+            "createIndex"
+            , (::flann::Index * ( ::cv::flann::KMeansIndexParams::* )( ::cv::Mat const & ) const)(&::cv::flann::KMeansIndexParams::createIndex)
+            , (::flann::Index * ( KMeansIndexParams_wrapper::* )( ::cv::Mat const & ) const)(&KMeansIndexParams_wrapper::default_createIndex)
+            , ( bp::arg("dataset") )
+            , bp::return_value_policy< bp::reference_existing_object >() )    
+        .def_readwrite( "branching", &cv::flann::KMeansIndexParams::branching )    
+        .def_readwrite( "cb_index", &cv::flann::KMeansIndexParams::cb_index )    
+        .def_readwrite( "centers_init", &cv::flann::KMeansIndexParams::centers_init )    
+        .def_readwrite( "iterations", &cv::flann::KMeansIndexParams::iterations );
 
 }

@@ -5,7 +5,7 @@
 #include "__convenience.pypp.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "opencv_converters.hpp"
+#include "opencv_extra.hpp"
 #include "CvKNearest.pypp.hpp"
 
 namespace bp = boost::python;
@@ -121,14 +121,15 @@ struct CvKNearest_wrapper : CvKNearest, bp::wrapper< CvKNearest > {
 
     bp::object sd_find_nearest( cv::Mat const & _samples, int k, cv::Mat &results, 
         bool return_neighbors_by_addr, cv::Mat &neighbor_responses, cv::Mat &dist ) {
-        if(!return_neighbors_by_addr)
-            return bp::object(find_nearest((::CvMat const *)get_CvMat_ptr(_samples), k, get_CvMat_ptr(results), 
-                0, get_CvMat_ptr(neighbor_responses), get_CvMat_ptr(dist)));
-                
-        std::vector<int> neighbors2; neighbors2.resize(k*_samples.rows);
-        float return_value = find_nearest((::CvMat const *)get_CvMat_ptr(_samples), k, get_CvMat_ptr(results), 
-            (const float **)&neighbors2[0], get_CvMat_ptr(neighbor_responses), get_CvMat_ptr(dist));
-        return bp::make_tuple(bp::object(return_value), convert_from_T_to_object(neighbors2));
+        CvMat *_samples2 = _samples.empty()? 0: &(::CvMat)_samples;
+        std::vector<int> neighbors2;
+        CvMat *results2 = results.empty()? 0: &(::CvMat)results;
+        CvMat *neighbor_responses2 = neighbor_responses.empty()? 0: &(::CvMat)neighbor_responses;
+        CvMat *dist2 = dist.empty()? 0: &(::CvMat)dist;
+        if(!return_neighbors_by_addr) return bp::object(find_nearest(_samples2, k, results2, 0, neighbor_responses2, dist2));
+        neighbors2.resize(k*_samples.rows);
+        float return_value = find_nearest(_samples2, k, results2, (const float **)&neighbors2[0], neighbor_responses2, dist2);
+        return bp::make_tuple(bp::object(return_value), convert_vector_to_seq(neighbors2));
     }
 
 };
@@ -167,13 +168,7 @@ void register_CvKNearest_class(){
         .def( 
             "read"
             , (void (*)( ::CvStatModel &,::cv::FileStorage &,::cv::FileNode & ))( &CvKNearest_wrapper::default_read )
-            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-            , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") ) )    
         .def( 
             "save"
             , (void ( ::CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
@@ -182,10 +177,7 @@ void register_CvKNearest_class(){
         .def( 
             "write"
             , (void (*)( ::CvStatModel const &,::cv::FileStorage &,char const * ))( &CvKNearest_wrapper::default_write )
-            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
-            , "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") ) )    
         .def("find_nearest", &CvKNearest_wrapper::sd_find_nearest
         , (bp::arg("_samples"), bp::arg("k"), bp::arg("results"), bp::arg("return_neighbors_by_addr")=false, bp::arg("neighbor_response")=cv::Mat(), bp::arg("dist")=cv::Mat() ));
 

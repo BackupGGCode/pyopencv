@@ -2,89 +2,25 @@
 
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
-#include "opencv_converters.hpp"
+#include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "opencv_converters.hpp"
 #include "CascadeClassifier.pypp.hpp"
 
 namespace bp = boost::python;
 
-struct CascadeClassifier_wrapper : cv::CascadeClassifier, bp::wrapper< cv::CascadeClassifier > {
-
-    CascadeClassifier_wrapper(cv::CascadeClassifier const & arg )
-    : cv::CascadeClassifier( arg )
-      , bp::wrapper< cv::CascadeClassifier >(){
-        // copy constructor
-        
-    }
-
-    CascadeClassifier_wrapper( )
-    : cv::CascadeClassifier( )
-      , bp::wrapper< cv::CascadeClassifier >(){
-        // null constructor
-    
-    }
-
-    CascadeClassifier_wrapper(::std::string const & filename )
-    : cv::CascadeClassifier( filename )
-      , bp::wrapper< cv::CascadeClassifier >(){
-        // constructor
-    
-    }
-
-    static boost::python::object detectMultiScale( ::cv::CascadeClassifier & inst, ::cv::Mat const & image, double scaleFactor=1.10000000000000008881784197001252323389053344727e+0, int minNeighbors=3, int flags=0, ::cv::Size minSize=cv::Size_<int>() ){
-        std::vector<cv::Rect_<int>, std::allocator<cv::Rect_<int> > > objects2;
-        cv::Mat objects3;
-        inst.detectMultiScale(image, objects2, scaleFactor, minNeighbors, flags, minSize);
-        convert_from_vector_of_T_to_Mat(objects2, objects3);
-        return bp::object( objects3 );
-    }
-
-    cv::Mat sum, tilted, sqsum;
-    CvMat _sum, _sqsum, _tilted;
-    
-    int my_runAt( cv::Ptr<cv::FeatureEvaluator> &_feval, const cv::Point &pt )
-    {
-        if( !oldCascade.empty() )
-            return cvRunHaarClassifierCascade(oldCascade, pt, 0);
-            
-        return runAt(_feval, pt);
-    }
-
-        
-    bool my_setImage( cv::Ptr<cv::FeatureEvaluator> &_feval, const cv::Mat& image )
-    {
-        if( !oldCascade.empty() )
-        {
-            sum.create(image.rows+1, image.cols+1, CV_32S);
-            tilted.create(image.rows+1, image.cols+1, CV_32S);
-            sqsum.create(image.rows+1, image.cols+1, CV_64F);
-            cv::integral(image, sum, sqsum, tilted);
-            _sum = sum; _sqsum = sqsum; _tilted = tilted;
-            cvSetImagesForHaarClassifierCascade( oldCascade, &_sum, &_sqsum, &_tilted, 1. );
-            return true;
-        }
-        
-        return setImage(_feval, image);
-    }
-
-};
-
-static bp::object get_stages(::cv::CascadeClassifier const &inst) { return convert_from_T_to_object(inst.stages); }
-
-static bp::object get_classifiers(::cv::CascadeClassifier const &inst) { return convert_from_T_to_object(inst.classifiers); }
-
-static bp::object get_nodes(::cv::CascadeClassifier const &inst) { return convert_from_T_to_object(inst.nodes); }
-
-static bp::object get_leaves(::cv::CascadeClassifier const &inst) { return convert_from_T_to_object(inst.leaves); }
-
-static bp::object get_subsets(::cv::CascadeClassifier const &inst) { return convert_from_T_to_object(inst.subsets); }
+static boost::python::object detectMultiScale_4883d9b6ffcbae071fd606555194ef27( ::cv::CascadeClassifier & inst, ::cv::Mat const & image, double scaleFactor=1.10000000000000008881784197001252323389053344727e+0, int minNeighbors=3, int flags=0, ::cv::Size minSize=cv::Size_<int>() ){
+    bp::sequence objects2;
+    std::vector<cv::Rect_<int>, std::allocator<cv::Rect_<int> > > objects3;
+    inst.detectMultiScale(image, objects3, scaleFactor, minNeighbors, flags, minSize);
+    objects2 = convert_vector_to_seq(objects3);
+    return bp::object( objects2 );
+}
 
 void register_CascadeClassifier_class(){
 
     { //::cv::CascadeClassifier
-        typedef bp::class_< CascadeClassifier_wrapper > CascadeClassifier_exposer_t;
+        typedef bp::class_< cv::CascadeClassifier > CascadeClassifier_exposer_t;
         CascadeClassifier_exposer_t CascadeClassifier_exposer = CascadeClassifier_exposer_t( "CascadeClassifier", bp::init< >() );
         bp::scope CascadeClassifier_scope( CascadeClassifier_exposer );
         CascadeClassifier_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::CascadeClassifier >() );
@@ -115,15 +51,8 @@ void register_CascadeClassifier_class(){
             
             CascadeClassifier_exposer.def( 
                 "detectMultiScale"
-                , detectMultiScale_function_type( &CascadeClassifier_wrapper::detectMultiScale )
-                , ( bp::arg("inst"), bp::arg("image"), bp::arg("scaleFactor")=1.10000000000000008881784197001252323389053344727e+0, bp::arg("minNeighbors")=(int)(3), bp::arg("flags")=(int)(0), bp::arg("minSize")=cv::Size_<int>() )
-                , "\nArgument 'objects':"\
-    "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+                , detectMultiScale_function_type( &detectMultiScale_4883d9b6ffcbae071fd606555194ef27 )
+                , ( bp::arg("inst"), bp::arg("image"), bp::arg("scaleFactor")=1.10000000000000008881784197001252323389053344727e+0, bp::arg("minNeighbors")=(int)(3), bp::arg("flags")=(int)(0), bp::arg("minSize")=cv::Size_<int>() ) );
         
         }
         { //::cv::CascadeClassifier::empty
@@ -155,20 +84,38 @@ void register_CascadeClassifier_class(){
                 , ( bp::arg("node") ) );
         
         }
+        { //::cv::CascadeClassifier::runAt
+        
+            typedef int ( ::cv::CascadeClassifier::*runAt_function_type )( ::cv::Ptr< cv::FeatureEvaluator > &,::cv::Point ) ;
+            
+            CascadeClassifier_exposer.def( 
+                "runAt"
+                , runAt_function_type( &::cv::CascadeClassifier::runAt )
+                , ( bp::arg("arg0"), bp::arg("arg1") ) );
+        
+        }
+        { //::cv::CascadeClassifier::setImage
+        
+            typedef bool ( ::cv::CascadeClassifier::*setImage_function_type )( ::cv::Ptr< cv::FeatureEvaluator > &,::cv::Mat const & ) ;
+            
+            CascadeClassifier_exposer.def( 
+                "setImage"
+                , setImage_function_type( &::cv::CascadeClassifier::setImage )
+                , ( bp::arg("arg0"), bp::arg("arg1") ) );
+        
+        }
+        CascadeClassifier_exposer.def_readwrite( "classifiers", &cv::CascadeClassifier::classifiers );
         CascadeClassifier_exposer.def_readwrite( "featureType", &cv::CascadeClassifier::featureType );
         CascadeClassifier_exposer.def_readwrite( "feval", &cv::CascadeClassifier::feval );
         CascadeClassifier_exposer.def_readwrite( "is_stump_based", &cv::CascadeClassifier::is_stump_based );
+        CascadeClassifier_exposer.def_readwrite( "leaves", &cv::CascadeClassifier::leaves );
         CascadeClassifier_exposer.def_readwrite( "ncategories", &cv::CascadeClassifier::ncategories );
+        CascadeClassifier_exposer.def_readwrite( "nodes", &cv::CascadeClassifier::nodes );
         CascadeClassifier_exposer.def_readwrite( "oldCascade", &cv::CascadeClassifier::oldCascade );
         CascadeClassifier_exposer.def_readwrite( "origWinSize", &cv::CascadeClassifier::origWinSize );
         CascadeClassifier_exposer.def_readwrite( "stageType", &cv::CascadeClassifier::stageType );
-        CascadeClassifier_exposer.add_property("stages", &get_stages);
-        CascadeClassifier_exposer.add_property("classifiers", &get_classifiers);
-        CascadeClassifier_exposer.add_property("nodes", &get_nodes);
-        CascadeClassifier_exposer.add_property("leaves", &get_leaves);
-        CascadeClassifier_exposer.add_property("subsets", &get_subsets);
-        CascadeClassifier_exposer.def("runAt", &::CascadeClassifier_wrapper::my_runAt, ( bp::arg("_feval"), bp::arg("pt") ) );
-        CascadeClassifier_exposer.def("setImage", &::CascadeClassifier_wrapper::my_setImage, ( bp::arg("_feval"), bp::arg("image") ) );
+        CascadeClassifier_exposer.def_readwrite( "stages", &cv::CascadeClassifier::stages );
+        CascadeClassifier_exposer.def_readwrite( "subsets", &cv::CascadeClassifier::subsets );
     }
 
 }

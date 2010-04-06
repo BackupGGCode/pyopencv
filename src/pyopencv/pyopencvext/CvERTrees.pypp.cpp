@@ -201,13 +201,7 @@ void register_CvERTrees_class(){
         .def( 
             "read"
             , (void (*)( ::CvRTrees &,::cv::FileStorage &,::cv::FileNode & ))( &CvERTrees_wrapper::default_read )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-            , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") ) )    
         .def( 
             "save"
             , (void ( ::CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
@@ -216,9 +210,6 @@ void register_CvERTrees_class(){
         .def( 
             "write"
             , (void (*)( ::CvRTrees const &,::cv::FileStorage &,char const * ))( &CvERTrees_wrapper::default_write )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
-            , "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") ) );
 
 }

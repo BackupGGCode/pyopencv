@@ -114,8 +114,8 @@ namespace aux
 }
 
 int ndarray::ndim() const { return PyArray_NDIM(ptr()); }
-const Py_intptr_t* ndarray::shape() const { return PyArray_DIMS(ptr()); }
-const Py_intptr_t* ndarray::strides() const { return PyArray_STRIDES(ptr()); }
+const int* ndarray::shape() const { return PyArray_DIMS(ptr()); }
+const int* ndarray::strides() const { return PyArray_STRIDES(ptr()); }
 int ndarray::itemsize() const { return PyArray_ITEMSIZE(ptr()); }
 int ndarray::dtype() const { return PyArray_TYPE(ptr()); }
 const void *ndarray::data() const { return PyArray_DATA(ptr()); }
@@ -135,7 +135,7 @@ bool ndarray::last_dim_as_cvchannel() const
     if(nchannels < 1 || nchannels > 4) return false;
     
     int is = itemsize();
-    const Py_intptr_t *st = strides();
+    const int *st = strides();
     if(nd == 1) return itemsize() == st[0];
     
     return is == st[nd-1] && nchannels*is == st[nd-2];
@@ -253,22 +253,8 @@ NDARRAY_TO_VECTOR_ARRAY(cv::Point3i, NPY_LONG, 3);
 NDARRAY_TO_VECTOR_ARRAY(cv::Point3f, NPY_FLOAT, 3);
 NDARRAY_TO_VECTOR_ARRAY(cv::Point3d, NPY_DOUBLE, 3);
 
-// Rect-like
-NDARRAY_TO_VECTOR_ARRAY(cv::Rect, NPY_LONG, 4);
-NDARRAY_TO_VECTOR_ARRAY(cv::Rectf, NPY_FLOAT, 4);
-NDARRAY_TO_VECTOR_ARRAY(cv::Rectd, NPY_DOUBLE, 4);
-NDARRAY_TO_VECTOR_ARRAY(cv::RotatedRect, NPY_FLOAT, 5);
-
-// Size-like
-NDARRAY_TO_VECTOR_ARRAY(cv::Size2i, NPY_LONG, 2);
-NDARRAY_TO_VECTOR_ARRAY(cv::Size2f, NPY_FLOAT, 2);
-NDARRAY_TO_VECTOR_ARRAY(cv::Size2d, NPY_DOUBLE, 2);
-
 // Scalar
 NDARRAY_TO_VECTOR_ARRAY(cv::Scalar, NPY_DOUBLE, 4);
-
-// Range
-NDARRAY_TO_VECTOR_ARRAY(cv::Range, NPY_LONG, 2);
 
 
 // ================================================================================================
@@ -343,22 +329,8 @@ VECTOR_TO_NDARRAY_ARRAY(cv::Point3i, NPY_LONG, 3);
 VECTOR_TO_NDARRAY_ARRAY(cv::Point3f, NPY_FLOAT, 3);
 VECTOR_TO_NDARRAY_ARRAY(cv::Point3d, NPY_DOUBLE, 3);
 
-// Rect-like
-VECTOR_TO_NDARRAY_ARRAY(cv::Rect, NPY_LONG, 4);
-VECTOR_TO_NDARRAY_ARRAY(cv::Rectf, NPY_FLOAT, 4);
-VECTOR_TO_NDARRAY_ARRAY(cv::Rectd, NPY_DOUBLE, 4);
-VECTOR_TO_NDARRAY_ARRAY(cv::RotatedRect, NPY_FLOAT, 5);
-
-// Size-like
-VECTOR_TO_NDARRAY_ARRAY(cv::Size2i, NPY_LONG, 2);
-VECTOR_TO_NDARRAY_ARRAY(cv::Size2f, NPY_FLOAT, 2);
-VECTOR_TO_NDARRAY_ARRAY(cv::Size2d, NPY_DOUBLE, 2);
-
 // Scalar
 VECTOR_TO_NDARRAY_ARRAY(cv::Scalar, NPY_DOUBLE, 4);
-
-// Range
-VECTOR_TO_NDARRAY_ARRAY(cv::Range, NPY_LONG, 2);
 
 
 // ================================================================================================
@@ -409,22 +381,8 @@ VECT_AS_NDARRAY(cv::Point3i, NPY_LONG, 3);
 VECT_AS_NDARRAY(cv::Point3f, NPY_FLOAT, 3);
 VECT_AS_NDARRAY(cv::Point3d, NPY_DOUBLE, 3);
 
-// Rect-like
-VECT_AS_NDARRAY(cv::Rect, NPY_LONG, 4);
-VECT_AS_NDARRAY(cv::Rectf, NPY_FLOAT, 4);
-VECT_AS_NDARRAY(cv::Rectd, NPY_DOUBLE, 4);
-VECT_AS_NDARRAY(cv::RotatedRect, NPY_FLOAT, 5);
-
-// Size-like
-VECT_AS_NDARRAY(cv::Size2i, NPY_LONG, 2);
-VECT_AS_NDARRAY(cv::Size2f, NPY_FLOAT, 2);
-VECT_AS_NDARRAY(cv::Size2d, NPY_DOUBLE, 2);
-
 // Scalar
 VECT_AS_NDARRAY(cv::Scalar, NPY_DOUBLE, 4);
-
-// Range
-VECT_AS_NDARRAY(cv::Range, NPY_LONG, 2);
 
 // Mat
 template<> ndarray as_ndarray<cv::Mat>(const object &obj)
@@ -556,22 +514,8 @@ NDARRAY_AS_VECT(cv::Point3i, NPY_LONG, 3);
 NDARRAY_AS_VECT(cv::Point3f, NPY_FLOAT, 3);
 NDARRAY_AS_VECT(cv::Point3d, NPY_DOUBLE, 3);
 
-// Rect-like
-NDARRAY_AS_VECT(cv::Rect, NPY_LONG, 4);
-NDARRAY_AS_VECT(cv::Rectf, NPY_FLOAT, 4);
-NDARRAY_AS_VECT(cv::Rectd, NPY_DOUBLE, 4);
-NDARRAY_AS_VECT(cv::RotatedRect, NPY_FLOAT, 5);
-
-// Size-like
-NDARRAY_AS_VECT(cv::Size2i, NPY_LONG, 2);
-NDARRAY_AS_VECT(cv::Size2f, NPY_FLOAT, 2);
-NDARRAY_AS_VECT(cv::Size2d, NPY_DOUBLE, 2);
-
 // Scalar
 NDARRAY_AS_VECT(cv::Scalar, NPY_DOUBLE, 4);
-
-// Range
-NDARRAY_AS_VECT(cv::Range, NPY_LONG, 2);
 
 // ndarray's shape and strides arrays are big-endian
 // OpenCV's MatND's shape and strides arrays are little-endian
@@ -589,8 +533,8 @@ void convert_shape_from_ndarray_to_opencv(const ndarray &arr, std::vector<int> &
         return;
     }
     
-    const Py_intptr_t *arr_shape = arr.shape();
-    const Py_intptr_t *arr_strides = arr.strides();
+    const int *arr_shape = arr.shape();
+    const int *arr_strides = arr.strides();
     int arr_itemsize = arr.itemsize();
     
     if(nd==1)
@@ -704,6 +648,102 @@ FROM_NDARRAY(cv::MatND)
     objects::make_nurse_and_patient(result.ptr(), arr.ptr());
     return result;
 }
+
+// ================================================================================================
+
+void mixChannels(const tuple src, tuple dst, const ndarray &fromTo)
+{
+    char s[200];
+    
+    const int *shape = fromTo.shape();
+    
+    if(fromTo.ndim() != 2 || fromTo.dtype() != NPY_LONG || shape[1] != 2 || !fromTo.iscontiguous())
+    {
+        sprintf(s, "Wrong type! 'fromTo' is not a N-row 2-column int32 C-contiguous ndarray. ");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+    
+    extract<const cv::Mat &> mat(src[0]);
+    extract<const cv::MatND &> matnd(src[0]);
+    int i, nsrc, ndst;
+    if(mat.check())
+    {
+        std::vector<cv::Mat> src2, dst2;
+        nsrc = len(src); src2.resize(nsrc);
+        for(i = 0; i < nsrc; ++i) src2[i] = extract<const cv::Mat &>(src[i]);
+        ndst = len(dst); dst2.resize(ndst);
+        for(i = 0; i < ndst; ++i) dst2[i] = extract<const cv::Mat &>(dst[i]);
+        mixChannels(&src2[0], nsrc, &dst2[0], ndst, (const int *)fromTo.data(), shape[0]);
+    }
+    else if(matnd.check())
+    {
+        std::vector<cv::MatND> src3, dst3;
+        nsrc = len(src); src3.resize(nsrc);
+        for(i = 0; i < nsrc; ++i) src3[i] = extract<const cv::MatND &>(src[i]);
+        ndst = len(dst); dst3.resize(ndst);
+        for(i = 0; i < ndst; ++i) dst3[i] = extract<const cv::MatND &>(dst[i]);
+        mixChannels(&src3[0], nsrc, &dst3[0], ndst, (const int *)fromTo.data(), shape[0]);
+    }
+    else
+    {
+        sprintf(s, "Cannot determine whether the 1st item of 'src' is Mat or MatND.");
+        PyErr_SetString(PyExc_TypeError, s);
+        throw error_already_set();
+    }
+}
+
+tuple minMaxLoc(const object& a, const object& mask)
+{
+    double minVal, maxVal;
+    int minIdx[CV_MAX_DIM], maxIdx[CV_MAX_DIM];
+    int i, n;
+    cv::Point minLoc, maxLoc;
+    
+    tuple result;
+    
+    extract<const cv::Mat &> mat(a);
+    extract<const cv::MatND &> matnd(a);
+    extract<const cv::SparseMat &> smat(a);
+    if(mat.check())
+    {    
+        minMaxLoc(mat(), &minVal, &maxVal, &minLoc, &maxLoc, extract<const cv::Mat &>(mask));
+        result = make_tuple(object(minVal), object(maxVal), object(minLoc), object(maxLoc));
+    }
+    else if(matnd.check())
+    {
+        const cv::MatND &m = matnd();
+        minMaxLoc(m, &minVal, &maxVal, minIdx, maxIdx, extract<const cv::MatND &>(mask));
+        n = m.dims;
+        list l1, l2;
+        for(i = 0; i < n; ++i)
+        {
+            l1.append(object(minIdx[i]));
+            l2.append(object(maxIdx[i]));
+        }
+        result = make_tuple(object(minVal), object(maxVal), tuple(l1), tuple(l2));
+    }
+    else if(smat.check())
+    {
+        const cv::SparseMat &m2 = smat();
+        minMaxLoc(m2, &minVal, &maxVal, minIdx, maxIdx);
+        n = m2.dims();
+        list l1, l2;
+        for(i = 0; i < n; ++i)
+        {
+            l1.append(object(minIdx[i]));
+            l2.append(object(maxIdx[i]));
+        }
+        result = make_tuple(object(minVal), object(maxVal), tuple(l1), tuple(l2));
+    }
+    else
+    {
+        PyErr_SetString(PyExc_TypeError, "Cannot determine whether 'a' is Mat, MatND, or SparseMat.");
+        throw error_already_set();
+    }
+    return result;
+}
+
 
 // ================================================================================================
 

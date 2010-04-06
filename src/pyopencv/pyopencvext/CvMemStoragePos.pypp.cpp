@@ -8,13 +8,33 @@
 
 namespace bp = boost::python;
 
-static ::CvMemBlock * get_top( ::CvMemStoragePos const & inst ) { return inst.top; }
+struct CvMemStoragePos_wrapper : CvMemStoragePos, bp::wrapper< CvMemStoragePos > {
+
+    CvMemStoragePos_wrapper(CvMemStoragePos const & arg )
+    : CvMemStoragePos( arg )
+      , bp::wrapper< CvMemStoragePos >(){
+        // copy constructor
+        
+    }
+
+    CvMemStoragePos_wrapper()
+    : CvMemStoragePos()
+      , bp::wrapper< CvMemStoragePos >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_top( ::CvMemStoragePos const & inst ){        
+        return inst.top? bp::object(inst.top): bp::object();
+    }
+
+};
 
 void register_CvMemStoragePos_class(){
 
-    bp::class_< CvMemStoragePos >( "CvMemStoragePos" )    
+    bp::class_< CvMemStoragePos_wrapper >( "CvMemStoragePos" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvMemStoragePos >() )    
         .def_readwrite( "free_space", &CvMemStoragePos::free_space )    
-        .add_property( "top", bp::make_function(&::get_top, bp::return_internal_reference<>()) );
+        .add_property( "top", bp::make_function(&::CvMemStoragePos_wrapper::get_top) );
 
 }

@@ -4,8 +4,8 @@ PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
 Image conversion to/from wxWidget
 
+Bring over conversion modules from ctypes-opencv
+
 Provide more demos
 
 Fix squares.py demo, something's wrong with the algorithm. It's running but too slow.
-
-Add iterator for SparseMat

@@ -54,7 +54,7 @@ if __name__ == "__main__":
     img_gray = img0.clone()
     wshed = img0.clone()
     marker_mask = Mat(img.size(), CV_8UC1)
-    markers = Mat(img.size(), CV_32SC1, Scalar())
+    markers = Mat(img.size(), CV_32SC1, 0)
     markers2 = Mat(img.size(), CV_8UC1)
 
     # color table for LUT
@@ -86,7 +86,7 @@ if __name__ == "__main__":
             while idx >= 0:
                 # there's a bug with not specifying maxLevel
                 drawContours( markers, contours, idx, comp_count+1, CV_FILLED, 8, hierarchy, 0 )
-                idx = int(hierarchy[0,idx,0])
+                idx = int(hierarchy[idx][0])
                 comp_count += 1
                 
             t = getTickCount()

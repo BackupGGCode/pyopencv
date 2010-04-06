@@ -2,31 +2,34 @@
 
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
-#include "opencv_converters.hpp"
+#include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "Mesh3D.pypp.hpp"
 
 namespace bp = boost::python;
 
-static void computeNormals_0372659dbb67ca1f98a084bb3e33c861( ::cv::Mesh3D & inst, cv::Mat const & subset, float normalRadius, int minNeighbors=20 ){
+static void computeNormals_0372659dbb67ca1f98a084bb3e33c861( ::cv::Mesh3D & inst, bp::sequence subset, float normalRadius, int minNeighbors=20 ){
     std::vector<int, std::allocator<int> > subset2;
-    convert_from_Mat_to_vector_of_T(subset, subset2);
+    convert_seq_to_vector(subset, subset2);
     inst.computeNormals(subset2, normalRadius, minNeighbors);
 }
 
-static void writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a( ::cv::Mesh3D const & inst, ::cv::String const & file, cv::Mat const & colors=convert_from_vector_of_T_to_Mat(std::vector<cv::Scalar>()) ){
+static void writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a( ::cv::Mesh3D const & inst, ::cv::String const & file, bp::sequence colors=convert_vector_to_seq(std::vector<cv::Scalar>()) ){
     std::vector<cv::Scalar_<double>, std::allocator<cv::Scalar_<double> > > colors2;
-    convert_from_Mat_to_vector_of_T(colors, colors2);
+    convert_seq_to_vector(colors, colors2);
     inst.writeAsVrml(file, colors2);
 }
 
-static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::list const &vtx)
+static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::sequence const &vtx)
 {
     std::vector<cv::Point3f> vtx2;
-    convert_from_object_to_T(vtx, vtx2);
+    convert_seq_to_vector(vtx, vtx2);
     return boost::shared_ptr<cv::Mesh3D>(new cv::Mesh3D(vtx2));
 }
+
+static bp::sequence get_vtx(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.vtx); }
+static bp::sequence get_normals(cv::Mesh3D const &inst) { return convert_vector_to_seq(inst.normals); }
 
 void register_Mesh3D_class(){
 
@@ -67,17 +70,12 @@ void register_Mesh3D_class(){
         }
         { //::cv::Mesh3D::computeNormals
         
-            typedef void ( *computeNormals_function_type )( ::cv::Mesh3D &,cv::Mat const &,float,int );
+            typedef void ( *computeNormals_function_type )( ::cv::Mesh3D &,bp::sequence,float,int );
             
             Mesh3D_exposer.def( 
                 "computeNormals"
                 , computeNormals_function_type( &computeNormals_0372659dbb67ca1f98a084bb3e33c861 )
-                , ( bp::arg("inst"), bp::arg("subset"), bp::arg("normalRadius"), bp::arg("minNeighbors")=(int)(20) )
-                , "\nArgument 'subset':"\
-    "\n    C/C++ type: ::std::vector< int > const &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+                , ( bp::arg("inst"), bp::arg("subset"), bp::arg("normalRadius"), bp::arg("minNeighbors")=(int)(20) ) );
         
         }
         { //::cv::Mesh3D::estimateResolution
@@ -92,23 +90,20 @@ void register_Mesh3D_class(){
         }
         { //::cv::Mesh3D::writeAsVrml
         
-            typedef void ( *writeAsVrml_function_type )( ::cv::Mesh3D const &,::cv::String const &,cv::Mat const & );
+            typedef void ( *writeAsVrml_function_type )( ::cv::Mesh3D const &,::cv::String const &,bp::sequence );
             
             Mesh3D_exposer.def( 
                 "writeAsVrml"
                 , writeAsVrml_function_type( &writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a )
-                , ( bp::arg("inst"), bp::arg("file"), bp::arg("colors")=convert_from_vector_of_T_to_Mat(std::vector<cv::Scalar>()) )
-                , "\nArgument 'colors':"\
-    "\n    C/C++ type: ::std::vector< cv::Scalar_<double> > const &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+                , ( bp::arg("inst"), bp::arg("file"), bp::arg("colors")=convert_vector_to_seq(std::vector<cv::Scalar>()) ) );
         
         }
         Mesh3D_exposer.def_readonly( "allzero", cv::Mesh3D::allzero );
         Mesh3D_exposer.def_readwrite( "octree", &cv::Mesh3D::octree );
         Mesh3D_exposer.def_readwrite( "resolution", &cv::Mesh3D::resolution );
         Mesh3D_exposer.def("__init__", bp::make_constructor(&Mesh3D_init1, bp::default_call_policies(), ( bp::arg("vtx") ))  );
+        Mesh3D_exposer.add_property("vtx", &get_vtx);
+        Mesh3D_exposer.add_property("normals", &get_normals);
     }
 
 }

@@ -14,12 +14,12 @@ if __name__ == "__main__":
     namedWindow( "clusters", 1 )
         
     while True:
-        cluster_count = rng.as_uint32()%(MAX_CLUSTERS-1) + 2
+        cluster_count = rng.as_unsigned()%(MAX_CLUSTERS-1) + 2
         
         # generate random sample from multigaussian distribution
-        points = NR.randn(cluster_count, rng.as_uint32()%200 + 1, 2)*(img.cols, img.rows)*0.1
+        points = NR.randn(cluster_count, rng.as_unsigned()%200 + 1, 2)*(img.cols, img.rows)*0.1
         for k in range(cluster_count):
-            points[k] += (rng.as_uint32()%img.cols, rng.as_uint32()%img.rows)
+            points[k] += (rng.as_unsigned()%img.cols, rng.as_unsigned()%img.rows)
         sample_count = points.size/2
         points = asMat(points.reshape(sample_count, 1, 2).astype('float32'))
         randShuffle( points )

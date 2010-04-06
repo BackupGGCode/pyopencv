@@ -2,36 +2,31 @@
 
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
-#include "opencv_converters.hpp"
+#include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "LDetector.pypp.hpp"
 
 namespace bp = boost::python;
 
-static void getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d( ::cv::LDetector const & inst, ::cv::Mat const & image, bp::list & keypoints, int maxCount, ::cv::PatchGenerator const & patchGenerator ){
+static boost::python::object getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d( ::cv::LDetector const & inst, ::cv::Mat const & image, bp::sequence keypoints, int maxCount, ::cv::PatchGenerator const & patchGenerator ){
     std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
-    convert_from_object_to_T(keypoints, keypoints2);
+    convert_seq_to_vector(keypoints, keypoints2);
     inst.getMostStable2D(image, keypoints2, maxCount, patchGenerator);
-    convert_from_T_to_object(keypoints2, keypoints);
+    keypoints = convert_vector_to_seq(keypoints2);
+    return bp::object( keypoints );
 }
 
-static boost::python::object __call___14ec982e59fdc13237968e34b82d6fe2( ::cv::LDetector const & inst, ::cv::Mat const & image, int maxCount=0, bool scaleCoords=true ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
-    bp::list keypoints3;
-    inst.operator()(image, keypoints2, maxCount, scaleCoords);
-    convert_from_T_to_object(keypoints2, keypoints3);
-    return bp::object( keypoints3 );
-}
-
-static boost::python::object __call___015c5cd98f14b41d0eaab62238a1a6fe( ::cv::LDetector const & inst, bp::list const & pyr, int maxCount=0, bool scaleCoords=true ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
-    bp::list keypoints3;
-    std::vector<cv::Mat, std::allocator<cv::Mat> > pyr2;
-    convert_from_object_to_T(pyr, pyr2);
-    inst.operator()(pyr2, keypoints2, maxCount, scaleCoords);
-    convert_from_T_to_object(keypoints2, keypoints3);
-    return bp::object( keypoints3 );
+static bp::sequence LDetector_call1( ::cv::LDetector const & inst, bp::object const & image_or_pyr, int maxCount=0, bool scaleCoords=true ){
+    std::vector< cv::KeyPoint > keypoints;
+    bp::extract<const cv::Mat &> image(image_or_pyr);
+    if(image.check()) inst(image(), keypoints, maxCount, scaleCoords);
+    else {
+        std::vector< cv::Mat > pyr;
+        convert_seq_to_vector(image_or_pyr, pyr);
+        inst(pyr, keypoints, maxCount, scaleCoords);
+    }
+    return convert_vector_to_seq(keypoints);
 }
 
 void register_LDetector_class(){
@@ -41,44 +36,8 @@ void register_LDetector_class(){
         .def( bp::init< int, int, int, int, double, double >(( bp::arg("_radius"), bp::arg("_threshold"), bp::arg("_nOctaves"), bp::arg("_nViews"), bp::arg("_baseFeatureSize"), bp::arg("_clusteringDistance") )) )    
         .def( 
             "getMostStable2D"
-            , (void (*)( ::cv::LDetector const &,::cv::Mat const &,bp::list &,int,::cv::PatchGenerator const & ))( &getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d )
-            , ( bp::arg("inst"), bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") )
-            , "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()." )    
-        .def( 
-            "__call__"
-            , (boost::python::object (*)( ::cv::LDetector const &,::cv::Mat const &,int,bool ))( &__call___14ec982e59fdc13237968e34b82d6fe2 )
-            , ( bp::arg("inst"), bp::arg("image"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
-            , "\nWrapped function:"
-    "\n    operator()"
-    "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." )    
-        .def( 
-            "__call__"
-            , (boost::python::object (*)( ::cv::LDetector const &,bp::list const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
-            , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
-            , "\nWrapped function:"
-    "\n    operator()"
-    "\nArgument 'pyr':"\
-    "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
-    "\n    Python type: list."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()."\
-    "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." )    
+            , (boost::python::object (*)( ::cv::LDetector const &,::cv::Mat const &,bp::sequence,int,::cv::PatchGenerator const & ))( &getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d )
+            , ( bp::arg("inst"), bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") ) )    
         .def( 
             "read"
             , (void ( ::cv::LDetector::* )( ::cv::FileNode const & ) )( &::cv::LDetector::read )
@@ -97,6 +56,7 @@ void register_LDetector_class(){
         .def_readwrite( "nViews", &cv::LDetector::nViews )    
         .def_readwrite( "radius", &cv::LDetector::radius )    
         .def_readwrite( "threshold", &cv::LDetector::threshold )    
-        .def_readwrite( "verbose", &cv::LDetector::verbose );
+        .def_readwrite( "verbose", &cv::LDetector::verbose )    
+        .def("__call__", &LDetector_call1, (bp::arg("image_or_pyr"), bp::arg("maxCount")=0, bp::arg("scaleCoords")=true));
 
 }

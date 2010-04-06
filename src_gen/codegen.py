@@ -39,9 +39,6 @@ import cvvidsurv_hpp
 import highgui_h
 import highgui_hpp
 import ml_h
-import sdopencv
-
-import common
 
 _cwd = getcwd()
 chdir(OP.join(OP.split(OP.abspath(__file__))[0], '..', 'src', 'pyopencv'))
@@ -52,16 +49,16 @@ print("Working directory changed to: %s" % _work_dir)
 mb = module_builder.module_builder_t(
     ["opencv_headers.hpp"],
     gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe",
-    working_directory=OP.join(_work_dir, 'pyopencvext', 'core'),
+    working_directory=OP.join(_work_dir, 'pyopencvext'),
     include_paths=[
-        "pyopencvext/sdopencv",
+        r"M:\programming\packages\OpenCV\build\2.0\include",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++\mingw32",
         r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include",
     ],
     )
 
-cc = open('core.py', 'w')
+cc = open('__init__.py', 'w')
 cc.write('''#!/usr/bin/env python
 # PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 
@@ -78,21 +75,6 @@ cc.write('''#!/usr/bin/env python
 
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
-"""PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
-
-Copyright (c) 2009, Minh-Tri Pham
-All rights reserved.
-
-Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
-
-   * Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
-   * Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer in the documentation and/or other materials provided with the distribution.
-   * Neither the name of pyopencv's copyright holders nor the names of its contributors may be used to endorse or promote products derived from this software without specific prior written permission.
-
-THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
-For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
-"""
 
 # Try to import numpy
 try:
@@ -144,7 +126,7 @@ CV_VERSION          = "2.0.0"
 mb.cc = cc
 
 # -----------------------------------------------------------------------------------------------
-# Subroutines related to writing to the core.py file
+# Subroutines related to writing to the __init__.py file
 # -----------------------------------------------------------------------------------------------
 
 def add_ndarray_interface(self, klass):
@@ -154,11 +136,11 @@ def add_ndarray_interface(self, klass):
     klass.add_registration_code('staticmethod("from_ndarray")'.replace("KLASS", klass.alias))
     self.add_doc(klass.alias+".from_ndarray", "Creates a %s view on an ndarray instance." % klass.alias)
     klass.add_registration_code('add_property("ndarray", &bp::as_ndarray< cv::%s >)' % klass.alias)
-    # self.add_registration_code('bp::def("asndarray", &bp::as_ndarray< cv::%s >, (bp::arg("arr")) );' % klass.alias)
+    self.add_registration_code('bp::def("asndarray", &bp::as_ndarray< cv::%s >, (bp::arg("arr")) );' % klass.alias)
     self.add_doc(klass.alias, 
         "Property 'ndarray' provides a numpy.ndarray view on the object.",
         "If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!",
-        # "Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.",
+        "Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.",
         "",
         "To create an instance of %s that shares the same data with an ndarray instance, use:" % klass.alias,
         "    '%s.from_ndarray(a)' or 'as%s(a)" % (klass.alias, klass.alias),
@@ -189,7 +171,7 @@ def add_doc(self, decl_name, *strings):
     """Adds a few strings to the docstring of declaration f"""
     if len(strings) == 0:
         return
-    s = reduce(lambda x, y: x+y, ["\\n    "+x for x in strings])
+    s = reduce(lambda x, y: x+y, ["\\n    [pyopencv] "+x for x in strings])
     self.cc.write('''
 _str = "STR"
 if DECL.__doc__ is None:
@@ -227,16 +209,17 @@ def init_class(self, z):
         funs.extend(z.operators())
     except RuntimeError:
         pass
-    common.init_transformers(funs)
+    for fun in funs:
+        fun._transformer_creators = []
+        fun._transformer_kwds = {}
     z._funs = funs
 module_builder.module_builder_t.init_class = init_class
 
 
 def is_arg_touched(f, arg_name):
     for tr in f._transformer_creators:
-        for cell in tr.func_closure:
-            if arg_name in cell.cell_contents:
-                return True
+        if arg_name in tr.func_closure[1].cell_contents:
+            return True
     return False
 
 
@@ -289,8 +272,10 @@ def beautify_func_list(self, func_list):
         for arg in f.arguments:
             if is_arg_touched(f, arg.name):
                 continue
-            if "std::vector<" in arg.type.decl_string:
-                f._transformer_creators.append(FT.arg_std_vector(arg.name))
+            if arg.type.decl_string.startswith("::std::vector<std::vector<"):
+                f._transformer_creators.append(FT.input_std_vector_vector(arg.name))
+            elif arg.type.decl_string.startswith("::std::vector<"):
+                f._transformer_creators.append(FT.input_std_vector(arg.name))
 
     # function argument IplImage *, CvMat *, CvArr *, and std::vector<> into cv::Mat
     for f in func_list:
@@ -378,22 +363,7 @@ def beautify_func_list(self, func_list):
     for f in func_list:
         if len(f._transformer_creators) > 0:
             f.add_transformation(*f._transformer_creators, **f._transformer_kwds)
-            if 'unique_function_name' in f._transformer_kwds:
-                f.transformations[0].unique_name = f._transformer_kwds['unique_function_name']
-            else:
-                s = f.transformations[0].unique_name
-                repl_dict = {
-                    'operator()': '__call__',
-                }
-                for t in repl_dict:
-                    if t in s:
-                        s = s.replace(t, repl_dict[t])
-                        f.transformations[0].unique_name = s
-                        f.transformations[0].alias = repl_dict[t]
-                        break
             
-        common.add_decl_desc(f)
-        
 module_builder.module_builder_t.beautify_func_list = beautify_func_list
 
 def finalize_class(self, z):
@@ -407,20 +377,6 @@ def finalize_class(self, z):
                 t.exclude()
         except:
             pass
-            
-    # convert a std::vector<> into something useful
-    try:
-        zz = z.vars()
-    except RuntimeError:
-        zz = []
-    for t in zz:
-        if not t.ignore and 'std::vector' in t.type.decl_string:
-            z.include_files.append("opencv_converters.hpp")
-            t.exclude()
-            z.add_declaration_code('''
-static bp::object get_MEMBER(KLASS const &inst) { return convert_from_T_to_object(inst.MEMBER); }
-            '''.replace('MEMBER', t.name).replace('KLASS', z.decl_string))
-            z.add_registration_code('add_property("MEMBER", &get_MEMBER)'.replace('MEMBER', t.name))
 
     # if a function returns a pointer and does not have a call policy, create a default one for it
     for f in z._funs:
@@ -430,26 +386,6 @@ static bp::object get_MEMBER(KLASS const &inst) { return convert_from_T_to_objec
 
 module_builder.module_builder_t.finalize_class = finalize_class
 
-
-def dtypecast(self, casting_list):
-    for t1 in casting_list:
-        z1 = self.class_(t1).alias
-        for t2 in casting_list:
-            if t1 == t2:
-                continue
-            z2 = self.class_(t2).alias
-            self.add_declaration_code('''
-static inline CLASS2 cvt_KLASS1_KLASS2(CLASS1 const &inst)
-{
-    return inst.operator CLASS2();
-}
-                '''.replace('KLASS1', z1).replace('KLASS2', z2)\
-                .replace('CLASS1', t1).replace('CLASS2', t2))
-            self.add_registration_code(\
-                'bp::def("asKLASS2", &cvt_KLASS1_KLASS2, (bp::arg("inst_KLASS1")));'\
-                .replace('KLASS1', z1).replace('KLASS2', z2))
-
-module_builder.module_builder_t.dtypecast = dtypecast
 
 
 #=============================================================================
@@ -476,7 +412,9 @@ mb.enums().include()
 opencv_funs = mb.free_funs() # mb.free_funs(lambda decl: decl.name.startswith('cv'))
 
 # initialize list of transformer creators for each function
-common.init_transformers(opencv_funs)
+for z in opencv_funs:
+    z._transformer_creators = []
+    z._transformer_kwds = {}
 
 # turn on 'most' of the constants
 for z in ('IPL_', 'CV_'):
@@ -499,7 +437,7 @@ for t in _class_rename:
 
 # too many issues when exposing a std::vector as a member variable
 # to name a few: missing operators like ==
-for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
+for z in mb.classes(lambda x: x.name.startswith('vector<')):
     z.exclude() 
     z.set_already_exposed(True)
 
@@ -557,8 +495,15 @@ highgui_h.generate_code(mb, cc, D, FT, CP)
 # highgui.hpp
 highgui_hpp.generate_code(mb, cc, D, FT, CP)
 
-# sdopencv
-sdopencv.generate_code(mb, cc, D, FT, CP)
+
+
+
+#=============================================================================
+# Rules for free functions and member functions
+#=============================================================================
+
+
+mb.beautify_func_list(opencv_funs)
 
 
 #=============================================================================
@@ -582,8 +527,6 @@ for z in mb.free_funs():
             zz = zz[0].lower()+zz[1:]
         # print "Old name=", z.alias, " new name=", zz
         z.rename(zz)
-        
-mb.beautify_func_list(opencv_funs)
 
 
 #=============================================================================
@@ -608,5 +551,8 @@ OP.normcase = _old_normcase
 
 #Write the remaining files
 # copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
+# copyfile('opencv_extra.hpp', 'code/opencv_extra.hpp')
+# copyfile('opencv_extra.cpp', 'code/opencv_extra.cpp')
+# copyfile('ndarray.cpp', 'code/ndarray.cpp')
 
 chdir(_cwd)

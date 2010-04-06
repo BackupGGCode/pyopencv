@@ -62,45 +62,9 @@ def generate_code(mb, cc, D, FT, CP):
     # CascadeClassifier
     z = mb.class_('CascadeClassifier')
     mb.init_class(z)
-    z.mem_fun('detectMultiScale')._transformer_creators.append(FT.arg_std_vector('objects', 2))
+    z.mem_fun('detectMultiScale')._transformer_creators.append(FT.output_std_vector('objects'))
     mb.finalize_class(z)
-    mb.expose_class_Ptr('CvHaarClassifierCascade')    
-    # modify runAt() and setImage() -- I need them able to support old cascade
-    z.mem_fun('runAt').exclude()
-    z.mem_fun('setImage').exclude()
-    z.add_wrapper_code('''
-    
-    cv::Mat sum, tilted, sqsum;
-    CvMat _sum, _sqsum, _tilted;
-    
-    int my_runAt( cv::Ptr<cv::FeatureEvaluator> &_feval, const cv::Point &pt )
-    {
-        if( !oldCascade.empty() )
-            return cvRunHaarClassifierCascade(oldCascade, pt, 0);
-            
-        return runAt(_feval, pt);
-    }
-
-        
-    bool my_setImage( cv::Ptr<cv::FeatureEvaluator> &_feval, const cv::Mat& image )
-    {
-        if( !oldCascade.empty() )
-        {
-            sum.create(image.rows+1, image.cols+1, CV_32S);
-            tilted.create(image.rows+1, image.cols+1, CV_32S);
-            sqsum.create(image.rows+1, image.cols+1, CV_64F);
-            cv::integral(image, sum, sqsum, tilted);
-            _sum = sum; _sqsum = sqsum; _tilted = tilted;
-            cvSetImagesForHaarClassifierCascade( oldCascade, &_sum, &_sqsum, &_tilted, 1. );
-            return true;
-        }
-        
-        return setImage(_feval, image);
-    }
-    
-    ''')
-    z.add_registration_code('def("runAt", &::CascadeClassifier_wrapper::my_runAt, ( bp::arg("_feval"), bp::arg("pt") ) )')
-    z.add_registration_code('def("setImage", &::CascadeClassifier_wrapper::my_setImage, ( bp::arg("_feval"), bp::arg("image") ) )')
+    mb.expose_class_Ptr('CvHaarClassifierCascade')
     
     # StereoBM
     z = mb.class_('StereoBM')
@@ -113,24 +77,74 @@ def generate_code(mb, cc, D, FT, CP):
     
     # SURF
     z = mb.class_('SURF')
-    mb.init_class(z)
-    z.operator(lambda x: len(x.arguments)==3)._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
-    z.operator(lambda x: len(x.arguments)==5)._transformer_creators.append(FT.arg_std_vector('descriptors', 2))
-    mb.finalize_class(z)
+    z.include()
+    z.operators().exclude()
+    z.include_files.append("opencv_extra.hpp")
+    z.add_declaration_code('''
+static boost::python::sequence call1( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask ){
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    inst.operator()(img, mask, keypoints2);
+    return convert_vector_to_seq(keypoints2);
+}
+
+static boost::python::tuple call2( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::sequence keypoints, bool useProvidedKeypoints=false ){
+    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    std::vector<float, std::allocator<float> > descriptors2;
+    convert_seq_to_vector(keypoints, keypoints2);
+    inst.operator()(img, mask, keypoints2, descriptors2, useProvidedKeypoints);
+    keypoints = convert_vector_to_seq(keypoints2);
+    return bp::make_tuple( keypoints, convert_vector_to_seq(descriptors2) );
+}
+
+    ''')
+    z.add_registration_code('''def( 
+            "__call__"
+            , (bp::sequence (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const & ))( &call1 )
+            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask") ) )''')
+    z.add_registration_code('''def( 
+            "__call__"
+            , (bp::tuple (*)( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::sequence,bool ))( &call2 )
+            , ( bp::arg("inst"), bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("useProvidedKeypoints")=(bool)(false) ) )''')
     mb.class_('CvSURFParams').include()
 
     
     # MSER
     z = mb.class_('MSER')
     mb.init_class(z)
-    z.operator('()')._transformer_creators.append(FT.arg_std_vector('msers', 2))
+    z.operators().exclude()
+    z.include_files.append("opencv_extra.hpp")
+    z.add_declaration_code('''
+static bp::sequence call1( ::cv::MSER const & inst, ::cv::Mat & image, ::cv::Mat const & mask ){
+    std::vector< std::vector< cv::Point > > msers2;
+    inst.operator()(image, msers2, mask);
+    return convert_vector_vector_to_seq(msers2);
+}
+
+    ''')
+    z.add_registration_code('''def( 
+            "__call__"
+            , (bp::sequence (*)( ::cv::MSER const &,::cv::Mat &,::cv::Mat const & ))( &call1 )
+            , ( bp::arg("inst"), bp::arg("image"), bp::arg("mask") ) )''')
     mb.finalize_class(z)
     mb.class_('CvMSERParams').include()
     
     # StarDetector
     z = mb.class_('StarDetector')
     mb.init_class(z)
-    z.operator('()')._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+    z.operators().exclude()
+    z.include_files.append("opencv_extra.hpp")
+    z.add_declaration_code('''
+static bp::sequence call1( ::cv::StarDetector const & inst, ::cv::Mat const & image ){
+    std::vector< cv::KeyPoint > keypoints2;
+    inst.operator()(image, keypoints2);
+    return convert_vector_to_seq(keypoints2);
+}
+
+    ''')
+    z.add_registration_code('''def( 
+            "__call__"
+            , (bp::sequence (*)( ::cv::StarDetector const &,::cv::Mat const & ))( &call1 )
+            , ( bp::arg("inst"), bp::arg("image") ) )''')
     mb.finalize_class(z)
     mb.class_('CvStarDetectorParams').include()
     
@@ -173,9 +187,8 @@ def generate_code(mb, cc, D, FT, CP):
         'convertMaps', 'getRotationMatrix2D', 'invertAffineTransform', 
         'getRectSubPix', 'integral', 'accumulate', 'accumulateSquare', 
         'accumulateProduct', 'accumulateWeighted', 'threshold', 
-        'adaptiveThreshold', 'pyrDown', 'pyrUp', 'buildPyramid', 'undistort', 
-        'initUndistortRectifyMap', 'getDefaultNewCameraMatrix',
-        'calcOpticalFlowPyrLK',
+        'adaptiveThreshold', 'pyrDown', 'pyrUp', 'undistort', 
+        'initUndistortRectifyMap', 'getDefaultNewCameraMatrix', 
         'calcOpticalFlowFarneback', 'compareHist', 'equalizeHist', 'watershed',
         'inpaint', 'distanceTransform', 'cvtColor', 'moments', 'matchTemplate',
         'drawContours', 
@@ -185,9 +198,9 @@ def generate_code(mb, cc, D, FT, CP):
         'calcMotionGradient', 'calcGlobalOrientation', 'CamShift', 'meanShift', 
         'estimateAffine3D', 'groupRectangles',
         'Rodrigues', 'RQDecomp3x3', 'decomposeProjectionMatrix', 'matMulDeriv', 
-        'composeRT', 'solvePnP', 'initCameraMatrix2D', 'drawChessboardCorners',
+        'composeRT', 'solvePnP', 'initCameraMatrix2D', 
         'calibrationMatrixValues', 'stereoCalibrate', 'stereoRectify', 
-        'stereoRectifyUncalibrated', 'reprojectImageTo3D',         
+        'stereoRectifyUncalibrated', 'reprojectImageTo3D', 
         ):
         mb.free_funs(z).include()
         
@@ -200,7 +213,7 @@ def generate_code(mb, cc, D, FT, CP):
     # FileNode's 'read' functions
     z = mb.free_fun(lambda x: x.name=='read' and 'cv::FileNode' in x.arguments[0].type.decl_string and x.arguments[1].name=='keypoints')
     z.include()
-    z._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+    z._transformer_creators.append(FT.output_std_vector('keypoints'))
     z._transformer_kwds['alias'] = 'read_KeyPoints'
     read_rename_dict = {
         '::cv::SparseMat &': 'SparseMat',
@@ -228,26 +241,111 @@ def generate_code(mb, cc, D, FT, CP):
             transformer_creators=[FT.input_array1d('src'), FT.input_array1d('dst')])
             
     # goodFeaturesToTrack
-    FT.expose_func(mb.free_fun('goodFeaturesToTrack'), return_pointee=False, transformer_creators=[FT.arg_std_vector('corners', 2)])
+    FT.expose_func(mb.free_fun('goodFeaturesToTrack'), return_pointee=False, transformer_creators=[FT.output_std_vector('corners')])
 
     # 'HoughCircles', 'HoughLines', 'HoughLinesP'
-    FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, transformer_creators=[FT.arg_std_vector('circles', 2)])
-    FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
-    FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
+    FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, transformer_creators=[FT.output_std_vector('circles')])
+    FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, transformer_creators=[FT.output_std_vector('lines')])
+    FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, transformer_creators=[FT.output_std_vector('lines')])
+            
+    #buildPyramid
+    FT.expose_func(mb.free_fun('buildPyramid'), return_pointee=False, transformer_creators=[FT.output_std_vector('dst')])
+    
+    # calcOpticalFlowPyrLK
+    FT.expose_func(mb.free_fun('calcOpticalFlowPyrLK'), return_pointee=False, 
+        transformer_creators=[FT.output_std_vector('nextPts'), FT.output_std_vector('status'), 
+            FT.output_std_vector('err')])
     
     # calcHist
-    for z in mb.free_funs('calcHist'):
-        FT.expose_func(z, return_pointee=False, transformer_creators=[
-            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d('channels'),
-            FT.input_array1d('histSize', 'dims'), FT.input_array2d('ranges')])
-        z._transformer_kwds['alias'] = 'calcHist'
-            
+    mb.free_funs('calcHist').exclude()
+    mb.add_declaration_code('''
+static void sd_calcHist( bp::sequence const & images, bp::sequence const & channels, 
+    ::cv::Mat const & mask, bp::object &hist, int dims, bp::sequence const & histSize, 
+    bp::sequence const & ranges, bool uniform=true, bool accumulate=false ){
+    std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
+    std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
+    std::vector< int > histSize2; convert_seq_to_vector(histSize, histSize2);
+    std::vector< std::vector < float > > ranges2; convert_seq_to_vector_vector(ranges, ranges2);
+    std::vector< float const * > ranges3;
+    ranges3.resize(ranges2.size());
+    for(unsigned int i = 0; i < ranges2.size(); ++i ) ranges3[i] = &ranges2[i][0];
+    
+    bp::extract< ::cv::MatND & > hist_matnd(hist);
+    bp::extract< ::cv::SparseMat & > hist_sparsemat(hist);
+    
+    if(hist_matnd.check())
+    {
+        cv::MatND &hist_matnd2 = hist_matnd();
+        cv::calcHist(&images2[0], images2.size(), &channels2[0], mask,
+            hist_matnd2, dims, &histSize2[0], &ranges3[0], uniform, accumulate);
+    }
+    else if(hist_sparsemat.check())
+    {
+        cv::SparseMat &hist_sparsemat2 = hist_sparsemat();
+        cv::calcHist(&images2[0], images2.size(), &channels2[0], mask,
+            hist_sparsemat2, dims, &histSize2[0], &ranges3[0], uniform, accumulate);
+    }
+    else
+    {
+        PyErr_SetString(PyExc_NotImplementedError, "Only 'MatND' and 'SparseMat' are acceptable types for argument 'hist'.");
+        throw bp::error_already_set(); 
+    }
+}
+    ''')
+    mb.add_registration_code('''bp::def( 
+        "calcHist"
+        , (void (*)( bp::sequence const &, bp::sequence const &, ::cv::Mat const &, 
+            bp::object &, int, bp::sequence const &, bp::sequence const &, bool, 
+            bool ))( &sd_calcHist )
+        , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), 
+            bp::arg("hist"), bp::arg("dims"), bp::arg("histSize"), 
+            bp::arg("ranges"), bp::arg("uniform")=bp::object(true), 
+            bp::arg("accumulate")=bp::object(false) ) );''')
+    
     # calcBackProject
-    for z in mb.free_funs('calcBackProject'):
-        FT.expose_func(z, return_pointee=False, transformer_creators=[
-            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d('channels'),
-            FT.input_array2d('ranges')])
-        z._transformer_kwds['alias'] = 'calcBackProject'
+    mb.free_funs('calcBackProject').exclude()
+    mb.add_declaration_code('''
+static void sd_calcBackProject( bp::sequence const & images, bp::sequence const & channels, 
+    bp::object &hist, cv::Mat &backProject, 
+    bp::sequence const & ranges, double scale=1, bool uniform=true ){
+    std::vector< cv::Mat > images2; convert_seq_to_vector(images, images2);
+    std::vector< int > channels2; convert_seq_to_vector(channels, channels2);
+    std::vector< std::vector < float > > ranges2; convert_seq_to_vector_vector(ranges, ranges2);
+    std::vector< float const * > ranges3;
+    ranges3.resize(ranges2.size());
+    for(unsigned int i = 0; i < ranges2.size(); ++i ) ranges3[i] = &ranges2[i][0];
+    
+    bp::extract< ::cv::MatND & > hist_matnd(hist);
+    bp::extract< ::cv::SparseMat & > hist_sparsemat(hist);
+    
+    if(hist_matnd.check())
+    {
+        cv::MatND &hist_matnd2 = hist_matnd();
+        cv::calcBackProject(&images2[0], images2.size(), &channels2[0], 
+            hist_matnd2, backProject, &ranges3[0], scale, uniform);
+    }
+    else if(hist_sparsemat.check())
+    {
+        cv::SparseMat &hist_sparsemat2 = hist_sparsemat();
+        cv::calcBackProject(&images2[0], images2.size(), &channels2[0], 
+            hist_sparsemat2, backProject, &ranges3[0], scale, uniform);
+    }
+    else
+    {
+        PyErr_SetString(PyExc_NotImplementedError, "Only 'MatND' and 'SparseMat' are acceptable types for argument 'hist'.");
+        throw bp::error_already_set(); 
+    }
+}
+    ''')
+    mb.add_registration_code('''bp::def( 
+        "calcBackProject"
+        , (void (*)( bp::sequence const &, bp::sequence const &, 
+            bp::object &, cv::Mat const &, bp::sequence const &, double, 
+            bool ))( &sd_calcBackProject )
+        , ( bp::arg("images"), bp::arg("channels"), 
+            bp::arg("hist"), bp::arg("backProject"), 
+            bp::arg("ranges"), bp::arg("scale")=bp::object(1.0), 
+            bp::arg("uniform")=bp::object(true) ) );''')
             
     # floodFill
     for z in mb.free_funs('floodFill'):
@@ -324,32 +422,32 @@ void cv::findContours( const Mat& image, vector<vector<Point> >& contours,
     z = mb.free_fun(lambda x: x.name=='findContours' and len(x.arguments)==6)
     z.include()
     z._transformer_kwds['alias'] = 'findContours'
-    z._transformer_creators.append(FT.arg_std_vector('contours', 2))
-    z._transformer_creators.append(FT.arg_std_vector('hierarchy', 2))
+    z._transformer_creators.append(FT.output_std_vector_vector('contours'))
+    z._transformer_creators.append(FT.output_std_vector('hierarchy'))
         
     # approxPolyDP
     mb.free_funs('approxPolyDP').exclude()
     mb.add_declaration_code('''
-static cv::Mat sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
-    cv::Mat approxCurve;
+static bp::sequence sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
+    std::vector<cv::Point> point2i;
+    std::vector<cv::Point2f> point2f;
+    bp::sequence obj;
     if(curve.type() == CV_32SC2) 
     {
-        std::vector<cv::Point> point2i;
         cv::approxPolyDP(curve, point2i, epsilon, closed);
-        convert_from_vector_of_T_to_Mat(point2i, approxCurve);
+        obj = convert_vector_to_seq(point2i);
     }
     else
     {
-        std::vector<cv::Point2f> point2f;
         cv::approxPolyDP(curve, point2f, epsilon, closed);
-        convert_from_vector_of_T_to_Mat(point2f, approxCurve);
+        obj = convert_vector_to_seq(point2f);
     }
-    return approxCurve;
+    return obj;
 }    
     ''')
     mb.add_registration_code('''bp::def( 
         "approxPolyDP"
-        , (cv::Mat (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
+        , (bp::sequence (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
         , ( bp::arg("curve"), bp::arg("epsilon"), bp::arg("closed") ) );''')
         
     # convexHull
@@ -357,78 +455,90 @@ static cv::Mat sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool close
     z = mb.free_fun(lambda x: x.name=='convexHull' and 'vector<int' in x.arguments[1].type.decl_string)
     z.include()
     z._transformer_kwds['alias'] = 'convexHullIdx'
-    z._transformer_creators.append(FT.arg_std_vector('hull', 2))
+    z._transformer_creators.append(FT.output_std_vector('hull'))
     
     mb.add_declaration_code('''
-static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
-    cv::Mat obj;
+static bp::object sd_convexHull( cv::Mat const &points, bool clockwise=false) {
+    std::vector<cv::Point> hull2i;
+    std::vector<cv::Point2f> hull2f;
+    bp::object obj;
     if(points.type() == CV_32SC2)
     {
-        std::vector<cv::Point> hull2i;
         cv::convexHull(points, hull2i, clockwise);
-        convert_from_vector_of_T_to_Mat(hull2i, obj);
+        obj = convert_vector_to_seq(hull2i);
     }
     else
     {
-        std::vector<cv::Point2f> hull2f;
         cv::convexHull(points, hull2f, clockwise);
-        convert_from_vector_of_T_to_Mat(hull2f, obj);
+        obj = convert_vector_to_seq(hull2f);
     }
     return obj;
 }    
     ''')
     mb.add_registration_code('''bp::def( 
         "convexHull"
-        , (cv::Mat (*)( cv::Mat const &, bool ))( &sd_convexHull )
+        , (bp::object (*)( cv::Mat const &, bool ))( &sd_convexHull )
         , ( bp::arg("points"), bp::arg("clockwise")=bp::object(false) ) );''')
         
     # undistortPoints
     mb.free_funs('undistortPoints').include()
     z = mb.free_fun(lambda x: x.name=='undistortPoints' and 'vector' in x.decl_string)
     z._transformer_kwds['alias'] = 'undistortPoints2'
-    z._transformer_creators.append(FT.arg_std_vector('dst', 2))
+    z._transformer_creators.append(FT.output_std_vector('dst'))
         
     # findHomography
     z = mb.free_fun(lambda x: x.name=='findHomography' and len(x.arguments)==4).include()
     z = mb.free_fun(lambda x: x.name=='findHomography' and 'vector' in x.decl_string)
     z.include()
     z._transformer_kwds['alias'] = 'findHomography2'
-    z._transformer_creators.append(FT.arg_std_vector('mask', 2))
+    z._transformer_creators.append(FT.output_std_vector('mask'))
         
     # projectPoints
     mb.free_funs('projectPoints').exclude()
     z = mb.free_fun(lambda x: x.name=='projectPoints' and len(x.arguments)==6)
     z._transformer_kwds['alias'] = 'projectPoints'
     FT.expose_func(z, return_pointee=False, transformer_creators=[
-        FT.arg_std_vector('imagePoints', 2)])
+        FT.output_std_vector('imagePoints')])
     z = mb.free_fun(lambda x: x.name=='projectPoints' and len(x.arguments)==12)
     z._transformer_kwds['alias'] = 'projectPoints2'
     FT.expose_func(z, return_pointee=False, transformer_creators=[
-        FT.arg_std_vector('imagePoints', 2)])
-
+        FT.output_std_vector('imagePoints')])
+    
     # findChessboardCorners
     FT.expose_func(mb.free_fun('findChessboardCorners'), return_pointee=False,
-        transformer_creators=[FT.arg_std_vector('corners', 2)])
-    
+        transformer_creators=[FT.output_std_vector('corners')])
+        
+    # drawChessboardCorners
+    mb.free_fun('drawChessboardCorners').exclude()
+    mb.add_declaration_code('''
+void drawChessboardCorners( cv::Mat& image, cv::Size patternSize, bp::sequence const &corners, bool patternWasFound )
+{
+    std::vector<cv::Point2f> corners2; convert_seq_to_vector(corners, corners2);
+    ::cvDrawChessboardCorners( &(::CvMat)image, patternSize, (CvPoint2D32f*)&corners2[0],
+        corners2.size(), patternWasFound );
+}
+    ''')
+    mb.add_registration_code('bp::def("drawChessboardCorners", &::drawChessboardCorners, (bp::arg("image"), bp::arg("patternSize"), bp::arg("corners"), bp::arg("patternWasFound")));')
+        
     # calibrateCamera
     FT.expose_func(mb.free_fun('calibrateCamera'), return_pointee=False,
-        transformer_creators=[FT.arg_std_vector('rvecs', 2), FT.arg_std_vector('tvecs', 2)])
+        transformer_creators=[FT.output_std_vector('rvecs'), FT.output_std_vector('tvecs')])
     
     # convertPointsHomogeneous
     for z in mb.free_funs('convertPointsHomogeneous'):
         z.include()        
         z._transformer_kwds['alias'] = 'convertPointsHomogeneous3D' if 'Point3' in z.decl_string else 'convertPointsHomogeneous2D'
-        z._transformer_creators.append(FT.arg_std_vector('dst', 2))
+        z._transformer_creators.append(FT.output_std_vector('dst'))
         
     # findFundamentalMat
     for z in mb.free_funs('findFundamentalMat'):
         z.include()
         if 'vector' in z.decl_string:
-            z._transformer_creators.append(FT.arg_std_vector('mask', 2))
+            z._transformer_creators.append(FT.output_std_vector('mask'))
             z._transformer_kwds['alias'] = 'findFundamentalMat2'
     
     # computeCorrespondEpilines
     FT.expose_func(mb.free_fun('computeCorrespondEpilines'), return_pointee=False,
-        transformer_creators=[FT.arg_std_vector('lines', 2)])
+        transformer_creators=[FT.output_std_vector('lines')])
     
     

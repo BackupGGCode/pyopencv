@@ -117,8 +117,6 @@ def generate_ti():
     add_ti('vector', 'CascadeClassifier::DTree', 'vector_CascadeClassifier_DTree')
     add_ti('vector', 'CascadeClassifier::Stage', 'vector_CascadeClassifier_Stage')
     add_ti('vector', 'FernClassifier::Feature', 'vector_FernClassifier_Feature')
-    add_ti('Ptr', 'Mat', 'Ptr_Mat')
-    add_ti('vector', 'Ptr_Mat', 'vector_Ptr_Mat')
     add_ti('vector', 'Octree::Node', 'vector_Octree_Node')
     add_ti('vector', 'CvFuzzyRule*', 'vector_CvFuzzyRule_Ptr')
     add_ti('vector', 'CvFuzzyCurve', 'vector_CvFuzzyCurve')
@@ -135,7 +133,7 @@ def generate_ti():
 
 
 def finalize_ti():
-    tif = open(join('..', 'src', 'pyopencv', 'pyopencvext', 'core', 'template_instantiations.hpp'), 'wt')
+    tif = open(join('..', 'src', 'pyopencv', 'pyopencvext', 'template_instantiations.hpp'), 'wt')
     tif.write('''#ifndef SD_TEMPLATE_INSTANTIATIONS_H
 #define SD_TEMPlATE_INSTANTIATIONS_H
 

@@ -4,31 +4,46 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "boost/python/object.hpp"
-#include "boost/python/list.hpp"
-#include "boost/python/tuple.hpp"
 #include "CvHaarClassifierCascade.pypp.hpp"
 
 namespace bp = boost::python;
 
-static bp::object get_stage_classifier( ::CvHaarClassifierCascade const & inst ){
-    bp::list l;
-    for(int i = 0; i < inst.count; ++i)
-        l.append(inst.stage_classifier[i]);
-    return bp::tuple(l);
-}
+struct CvHaarClassifierCascade_wrapper : CvHaarClassifierCascade, bp::wrapper< CvHaarClassifierCascade > {
 
-static ::CvHidHaarClassifierCascade * get_hid_cascade( ::CvHaarClassifierCascade const & inst ) { return inst.hid_cascade; }
+    CvHaarClassifierCascade_wrapper(CvHaarClassifierCascade const & arg )
+    : CvHaarClassifierCascade( arg )
+      , bp::wrapper< CvHaarClassifierCascade >(){
+        // copy constructor
+        
+    }
+
+    CvHaarClassifierCascade_wrapper()
+    : CvHaarClassifierCascade()
+      , bp::wrapper< CvHaarClassifierCascade >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_stage_classifier( ::CvHaarClassifierCascade const & inst ){        
+        return inst.stage_classifier? bp::object(inst.stage_classifier): bp::object();
+    }
+
+    static bp::object get_hid_cascade( ::CvHaarClassifierCascade const & inst ){        
+        return inst.hid_cascade? bp::object(inst.hid_cascade): bp::object();
+    }
+
+};
 
 void register_CvHaarClassifierCascade_class(){
 
-    bp::class_< CvHaarClassifierCascade >( "CvHaarClassifierCascade" )    
+    bp::class_< CvHaarClassifierCascade_wrapper >( "CvHaarClassifierCascade" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvHaarClassifierCascade >() )    
         .def_readwrite( "count", &CvHaarClassifierCascade::count )    
         .def_readwrite( "flags", &CvHaarClassifierCascade::flags )    
         .def_readwrite( "orig_window_size", &CvHaarClassifierCascade::orig_window_size )    
         .def_readwrite( "real_window_size", &CvHaarClassifierCascade::real_window_size )    
         .def_readwrite( "scale", &CvHaarClassifierCascade::scale )    
-        .add_property( "stage_classifier", &::get_stage_classifier )    
-        .add_property( "hid_cascade", bp::make_function(&::get_hid_cascade, bp::return_internal_reference<>()) );
+        .add_property( "stage_classifier", bp::make_function(&::CvHaarClassifierCascade_wrapper::get_stage_classifier) )    
+        .add_property( "hid_cascade", bp::make_function(&::CvHaarClassifierCascade_wrapper::get_hid_cascade) );
 
 }

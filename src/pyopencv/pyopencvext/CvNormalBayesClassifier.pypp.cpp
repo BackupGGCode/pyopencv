@@ -148,13 +148,7 @@ void register_CvNormalBayesClassifier_class(){
         .def( 
             "read"
             , (void (*)( ::CvNormalBayesClassifier &,::cv::FileStorage &,::cv::FileNode & ))( &CvNormalBayesClassifier_wrapper::default_read )
-            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-            , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") ) )    
         .def( 
             "train"
             , (bool ( ::CvNormalBayesClassifier::* )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,bool ) )(&::CvNormalBayesClassifier::train)
@@ -163,10 +157,7 @@ void register_CvNormalBayesClassifier_class(){
         .def( 
             "write"
             , (void (*)( ::CvNormalBayesClassifier const &,::cv::FileStorage &,char const * ))( &CvNormalBayesClassifier_wrapper::default_write )
-            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
-            , "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") ) )    
         .def( 
             "load"
             , (void ( ::CvStatModel::* )( char const *,char const * ) )(&::CvStatModel::load)

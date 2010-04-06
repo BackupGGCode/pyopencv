@@ -3,7 +3,6 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "ndarray.hpp"
 #include "Size2f.pypp.hpp"
 
 namespace bp = boost::python;
@@ -43,9 +42,6 @@ void register_Size2f_class(){
         }
         Size2f_exposer.def_readwrite( "height", &cv::Size_< float >::height );
         Size2f_exposer.def_readwrite( "width", &cv::Size_< float >::width );
-        Size2f_exposer.def("from_ndarray", &bp::from_ndarray< cv::Size2f >, (bp::arg("arr")) );
-        Size2f_exposer.staticmethod("from_ndarray");
-        Size2f_exposer.add_property("ndarray", &bp::as_ndarray< cv::Size2f >);
     }
 
 }

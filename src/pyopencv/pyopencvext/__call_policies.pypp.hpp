@@ -147,11 +147,6 @@ struct as_tuple_impl{
         MemoryManager::deallocate_array( arr );
         return bpl::incref( bpl::tuple( list_ ).ptr() );
     }
-
-    static PyTypeObject const *get_pytype(){
-        return &PyTuple_Type;
-    }
-
 };
 
 }

@@ -384,8 +384,8 @@ CV_DIST_MASK_PRECISE = 0
     for z in (
         'cvMatchContourTrees', 
         'cvMaxRect', 'cvBoxPoints', 
-        # 'cvClearHist', 'cvNormalizeHist', 'cvThreshHist', 'cvCompareHist', -- disabled by Minh-Tri Pham
-        # 'cvCalcProbDensity', 'cvEqualizeHist', -- disabled by Minh-Tri Pham
+        'cvClearHist', 'cvNormalizeHist', 'cvThreshHist', 'cvCompareHist',
+        'cvCalcProbDensity', 'cvEqualizeHist',
         ):
         mb.free_fun(z).include()
 
@@ -404,58 +404,84 @@ CV_DIST_MASK_PRECISE = 0
     # cvPointSeqFromMat
     FT.expose_func(mb.free_fun('cvPointSeqFromMat'), ward_indices=(3,2))
 
+    # cvMakeHistHeaderForArray, not a safe way to create a histogram, disabled by Minh-Tri Pham
+
+    # cvCreateHist
+    FT.expose_func(mb.free_fun('cvCreateHist'), ownershiplevel=1, transformer_creators=[
+        FT.input_array2d('ranges')])
+
+    # cvSetHistBinRanges
+    FT.expose_func(mb.free_fun('cvSetHistBinRanges'), return_pointee=False, transformer_creators=[
+        FT.input_array2d('ranges')])
+
+    # cvReleaseHist
+    FT.add_underscore(mb.free_fun('cvReleaseHist'))
+
+    # cvGetMinMaxHistValue
+    z = mb.free_fun('cvGetMinMaxHistValue')
+    FT.add_underscore(z)
+    z._transformer_creators.append(FT.from_address('min_value'))
+    z._transformer_creators.append(FT.from_address('max_value'))
+    z._transformer_creators.append(FT.from_address('min_idx'))
+    z._transformer_creators.append(FT.from_address('max_idx'))
+    cc.write('''
+def getMinMaxHistValue(hist, return_min_idx=False, return_max_idx=False):
+    """(float) min_value, (float) max_value[, (tuple_of_ints)min_idx][, (tuple_of_ints)max_idx] = getMinMaxHistValue((CvHistogram) hist, (bool)return_min_idx=False, (bool)return_max_idx=False)
+
+    Finds the minimum and maximum histogram bins
+    [pyopencv] 'min_idx' is returned if 'return_min_idx' is True. 
+    [pyopencv] 'max_idx' is returned if 'return_max_idx' is True. 
+    """
+    min_val = _CT.c_float()
+    max_val = _CT.c_float()
+
+    dims = cvGetDims(hist.bins)
+    if return_min_idx:
+        min_idx = (_CT.c_int*dims)()
+        min_addr = _CT.addressof(min_idx)
+    else:
+        min_addr = 0
+    if return_max_idx:
+        max_idx = (_CT.c_int*dims)()
+        max_addr = _CT.addressof(max_idx)
+    else:
+        max_addr = 0
+
+    _PE.cvGetMinMaxHistValue(hist, _CT.addressof(min_val), _CT.addressof(max_val), min_addr, max_addr)
+
+    z = (min_val.value, max_val.value)
+    if return_min_idx:
+        z.append(tuple(min_idx))
+    if return_max_idx:
+        z.append(tuple(max_idx))
+    return z
+    ''')
+
+    # cvCopyHist, special case, two transformations
+    z = mb.free_fun('cvCopyHist')
+    FT.expose_func(z, ownershiplevel=1, transformer_creators=[FT.output_type1('dst', ignore_call_policies=False)])
+    # z.add_transformation(FT.input_double_pointee('dst')) -- wait until requested, buggy though
+
+    # cvCalcBayesianProb
+    FT.expose_func(mb.free_fun('cvCalcBayesianProb'), return_pointee=False, transformer_creators=[
+        FT.input_array1d('src', 'number'), FT.input_array1d('dst')])
+
+    # cvCalcArrHist and cvCalcHist
+    FT.expose_func(mb.free_fun('cvCalcArrHist'), return_pointee=False, transformer_creators=[FT.input_array1d('arr')])
+    FT.expose_func(mb.free_fun('cvCalcHist'), return_pointee=False, transformer_creators=[FT.input_array1d('image')])
+
     # cvCalcArrBackProject and cvCalcArrBackProjectPatch
-    # for z in ('cvCalcArrBackProject', 'cvCalcArrBackProjectPatch'):
-        # FT.expose_func(mb.free_fun(z), return_pointee=False, transformer_creators=[FT.input_array1d('image')])
-    # cc.write('''
-# backProject = calcArrBackProject
-# backProjectPatch = calcArrBackProjectPatch
-    # ''')
+    for z in ('cvCalcArrBackProject', 'cvCalcArrBackProjectPatch'):
+        FT.expose_func(mb.free_fun(z), return_pointee=False, transformer_creators=[FT.input_array1d('image')])
+    cc.write('''
+backProject = calcArrBackProject
+backProjectPatch = calcArrBackProjectPatch
+    ''')
 
 
     # cvSnakeImage
-    # FT.expose_func(mb.free_fun('cvSnakeImage'), return_pointee=False, transformer_creators=[
-        # FT.input_array1d('alpha'), FT.input_array1d('beta'), FT.input_array1d('gamma')])
-    mb.free_fun('cvSnakeImage').exclude()
-    mb.add_declaration_code('''
-static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::object const & alpha, bp::object const & beta, bp::object const & gamma, int coeff_usage, cv::Size const & win, cv::TermCriteria const & criteria, int calc_gradient=1 ){
-    char s[500];
-    float alpha2, beta2, gamma2;
-    std::vector<float> alpha3, beta3, gamma3;
-    
-    cv::Point *points2; int points2_len; convert_from_Mat_to_array_of_T(points, points2, points2_len);
-    
-    IplImage img = image;
-    
-    switch (coeff_usage)
-    {
-    case CV_VALUE:
-        alpha2 = (float) bp::extract<float>(alpha);
-        beta2 = (float) bp::extract<float>(beta);
-        gamma2 = (float) bp::extract<float>(gamma);
-        ::cvSnakeImage(&img, (CvPoint *)points2, points2_len, &alpha2, &beta2, &gamma2, coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
-        break;
-    case CV_ARRAY:
-        convert_from_object_to_T(alpha, alpha3);
-        convert_from_object_to_T(beta, beta3);
-        convert_from_object_to_T(gamma, gamma3);
-        ::cvSnakeImage(&img, (CvPoint *)points2, points2_len, &alpha3[0], &beta3[0], &gamma3[0], coeff_usage, (CvSize)win, (CvTermCriteria)criteria, calc_gradient);
-        break;
-    default:
-        sprintf(s, "coeff_usage only takes either CV_VALUE or CV_ARRAY as value, %d was given.", coeff_usage);
-        PyErr_SetString(PyExc_ValueError, s);
-        throw bp::error_already_set(); 
-    }
-}
-
-    ''')
-    mb.add_registration_code('''
-    bp::def( 
-        "snakeImage"
-        , &sdSnakeImage
-        , ( bp::arg("image"), bp::arg("points"), bp::arg("alpha"), bp::arg("beta"), bp::arg("gamma"), bp::arg("coeff_usage"), bp::arg("win"), bp::arg("criteria"), bp::arg("calc_gradient")=(int)(1) ) );
-
-    ''')
+    FT.expose_func(mb.free_fun('cvSnakeImage'), return_pointee=False, transformer_creators=[
+        FT.input_array1d('alpha'), FT.input_array1d('beta'), FT.input_array1d('gamma')])
 
     # cvCalcImageHomography
     FT.expose_func(mb.free_fun('cvCalcImageHomography'), return_pointee=False, transformer_creators=[

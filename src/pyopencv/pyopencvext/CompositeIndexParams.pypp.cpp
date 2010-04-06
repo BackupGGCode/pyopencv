@@ -39,30 +39,18 @@ struct CompositeIndexParams_wrapper : cv::flann::CompositeIndexParams, bp::wrapp
 
 void register_CompositeIndexParams_class(){
 
-    { //::cv::flann::CompositeIndexParams
-        typedef bp::class_< CompositeIndexParams_wrapper, bp::bases< cv::flann::IndexParams > > CompositeIndexParams_exposer_t;
-        CompositeIndexParams_exposer_t CompositeIndexParams_exposer = CompositeIndexParams_exposer_t( "CompositeIndexParams", bp::init< bp::optional< int, int, int, cv::flann::flann_centers_init_t, float > >(( bp::arg("trees_")=(int)(4), bp::arg("branching_")=(int)(32), bp::arg("iterations_")=(int)(11), bp::arg("centers_init_")=::cv::flann::CENTERS_RANDOM, bp::arg("cb_index_")=2.00000000000000011102230246251565404236316680908e-1 )) );
-        bp::scope CompositeIndexParams_scope( CompositeIndexParams_exposer );
-        CompositeIndexParams_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::CompositeIndexParams >() );
-        bp::implicitly_convertible< int, cv::flann::CompositeIndexParams >();
-        { //::cv::flann::CompositeIndexParams::createIndex
-        
-            typedef ::flann::Index * ( ::cv::flann::CompositeIndexParams::*createIndex_function_type )( ::cv::Mat const & ) const;
-            typedef ::flann::Index * ( CompositeIndexParams_wrapper::*default_createIndex_function_type )( ::cv::Mat const & ) const;
-            
-            CompositeIndexParams_exposer.def( 
-                "createIndex"
-                , createIndex_function_type(&::cv::flann::CompositeIndexParams::createIndex)
-                , default_createIndex_function_type(&CompositeIndexParams_wrapper::default_createIndex)
-                , ( bp::arg("dataset") )
-                , bp::return_value_policy< bp::reference_existing_object >() );
-        
-        }
-        CompositeIndexParams_exposer.def_readwrite( "branching", &cv::flann::CompositeIndexParams::branching );
-        CompositeIndexParams_exposer.def_readwrite( "cb_index", &cv::flann::CompositeIndexParams::cb_index );
-        CompositeIndexParams_exposer.def_readwrite( "centers_init", &cv::flann::CompositeIndexParams::centers_init );
-        CompositeIndexParams_exposer.def_readwrite( "iterations", &cv::flann::CompositeIndexParams::iterations );
-        CompositeIndexParams_exposer.def_readwrite( "trees", &cv::flann::CompositeIndexParams::trees );
-    }
+    bp::class_< CompositeIndexParams_wrapper >( "CompositeIndexParams", bp::init< bp::optional< int, int, int, cv::flann::flann_centers_init_t, float > >(( bp::arg("trees_")=(int)(4), bp::arg("branching_")=(int)(32), bp::arg("iterations_")=(int)(11), bp::arg("centers_init_")=::cv::flann::CENTERS_RANDOM, bp::arg("cb_index_")=2.00000000000000011102230246251565404236316680908e-1 )) )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::CompositeIndexParams >() )    
+        .def( 
+            "createIndex"
+            , (::flann::Index * ( ::cv::flann::CompositeIndexParams::* )( ::cv::Mat const & ) const)(&::cv::flann::CompositeIndexParams::createIndex)
+            , (::flann::Index * ( CompositeIndexParams_wrapper::* )( ::cv::Mat const & ) const)(&CompositeIndexParams_wrapper::default_createIndex)
+            , ( bp::arg("dataset") )
+            , bp::return_value_policy< bp::reference_existing_object >() )    
+        .def_readwrite( "branching", &cv::flann::CompositeIndexParams::branching )    
+        .def_readwrite( "cb_index", &cv::flann::CompositeIndexParams::cb_index )    
+        .def_readwrite( "centers_init", &cv::flann::CompositeIndexParams::centers_init )    
+        .def_readwrite( "iterations", &cv::flann::CompositeIndexParams::iterations )    
+        .def_readwrite( "trees", &cv::flann::CompositeIndexParams::trees );
 
 }

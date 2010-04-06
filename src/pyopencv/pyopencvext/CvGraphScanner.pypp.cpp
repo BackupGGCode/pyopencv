@@ -8,26 +8,54 @@
 
 namespace bp = boost::python;
 
-static ::CvGraphVtx * get_vtx( ::CvGraphScanner const & inst ) { return inst.vtx; }
+struct CvGraphScanner_wrapper : CvGraphScanner, bp::wrapper< CvGraphScanner > {
 
-static ::CvGraphVtx * get_dst( ::CvGraphScanner const & inst ) { return inst.dst; }
+    CvGraphScanner_wrapper(CvGraphScanner const & arg )
+    : CvGraphScanner( arg )
+      , bp::wrapper< CvGraphScanner >(){
+        // copy constructor
+        
+    }
 
-static ::CvGraphEdge * get_edge( ::CvGraphScanner const & inst ) { return inst.edge; }
+    CvGraphScanner_wrapper()
+    : CvGraphScanner()
+      , bp::wrapper< CvGraphScanner >(){
+        // null constructor
+        
+    }
 
-static ::CvGraph * get_graph( ::CvGraphScanner const & inst ) { return inst.graph; }
+    static bp::object get_vtx( ::CvGraphScanner const & inst ){        
+        return inst.vtx? bp::object(inst.vtx): bp::object();
+    }
 
-static ::CvSeq * get_stack( ::CvGraphScanner const & inst ) { return inst.stack; }
+    static bp::object get_dst( ::CvGraphScanner const & inst ){        
+        return inst.dst? bp::object(inst.dst): bp::object();
+    }
+
+    static bp::object get_edge( ::CvGraphScanner const & inst ){        
+        return inst.edge? bp::object(inst.edge): bp::object();
+    }
+
+    static bp::object get_graph( ::CvGraphScanner const & inst ){        
+        return inst.graph? bp::object(inst.graph): bp::object();
+    }
+
+    static bp::object get_stack( ::CvGraphScanner const & inst ){        
+        return inst.stack? bp::object(inst.stack): bp::object();
+    }
+
+};
 
 void register_CvGraphScanner_class(){
 
-    bp::class_< CvGraphScanner >( "CvGraphScanner" )    
+    bp::class_< CvGraphScanner_wrapper >( "CvGraphScanner" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvGraphScanner >() )    
         .def_readwrite( "index", &CvGraphScanner::index )    
         .def_readwrite( "mask", &CvGraphScanner::mask )    
-        .add_property( "vtx", bp::make_function(&::get_vtx, bp::return_internal_reference<>()) )    
-        .add_property( "dst", bp::make_function(&::get_dst, bp::return_internal_reference<>()) )    
-        .add_property( "edge", bp::make_function(&::get_edge, bp::return_internal_reference<>()) )    
-        .add_property( "graph", bp::make_function(&::get_graph, bp::return_internal_reference<>()) )    
-        .add_property( "stack", bp::make_function(&::get_stack, bp::return_internal_reference<>()) );
+        .add_property( "vtx", bp::make_function(&::CvGraphScanner_wrapper::get_vtx) )    
+        .add_property( "dst", bp::make_function(&::CvGraphScanner_wrapper::get_dst) )    
+        .add_property( "edge", bp::make_function(&::CvGraphScanner_wrapper::get_edge) )    
+        .add_property( "graph", bp::make_function(&::CvGraphScanner_wrapper::get_graph) )    
+        .add_property( "stack", bp::make_function(&::CvGraphScanner_wrapper::get_stack) );
 
 }

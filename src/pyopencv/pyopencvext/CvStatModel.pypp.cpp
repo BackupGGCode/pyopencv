@@ -117,13 +117,7 @@ void register_CvStatModel_class(){
         .def( 
             "read"
             , (void (*)( ::CvStatModel &,::cv::FileStorage &,::cv::FileNode & ))( &CvStatModel_wrapper::default_read )
-            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-            , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") ) )    
         .def( 
             "save"
             , (void ( ::CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
@@ -132,9 +126,6 @@ void register_CvStatModel_class(){
         .def( 
             "write"
             , (void (*)( ::CvStatModel const &,::cv::FileStorage &,char const * ))( &CvStatModel_wrapper::default_write )
-            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
-            , "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+            , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") ) );
 
 }

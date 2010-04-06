@@ -34,22 +34,10 @@ def generate_code(mb, cc, D, FT, CP):
         flann_Index = flanns[1]
         cvflann_Index = flanns[0]
     flann_Index.rename('flann_Index')
-    
-    mb.init_class(cvflann_Index)
-    for t in ('knnSearch', 'radiusSearch'):
-        for z in cvflann_Index.mem_funs(t):
-            z._transformer_kwds['alias'] = t
-        z = cvflann_Index.mem_fun(lambda x: x.name==t and 'vector' in x.decl_string)
-        z._transformer_creators.append(FT.arg_std_vector('indices', 2))
-        z._transformer_creators.append(FT.arg_std_vector('dists', 2))
-    mb.finalize_class(cvflann_Index)
-    
-    # IndexParams
-    mb.class_('IndexParams').include()
-    
+    # FT.expose_member_as_pointee(cvflann_Index, 'nnIndex')
+
     # IndexFactory classes
     for name in (
-        'IndexFactory',
         'LinearIndexParams', 'KDTreeIndexParams', 'KMeansIndexParams',
         'CompositeIndexParams', 'AutotunedIndexParams', 'SavedIndexParams', 
         ):

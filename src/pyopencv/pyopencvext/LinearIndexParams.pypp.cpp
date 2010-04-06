@@ -39,7 +39,7 @@ struct LinearIndexParams_wrapper : cv::flann::LinearIndexParams, bp::wrapper< cv
 
 void register_LinearIndexParams_class(){
 
-    bp::class_< LinearIndexParams_wrapper, bp::bases< cv::flann::IndexParams > >( "LinearIndexParams", bp::init< >() )    
+    bp::class_< LinearIndexParams_wrapper >( "LinearIndexParams", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::LinearIndexParams >() )    
         .def( 
             "createIndex"

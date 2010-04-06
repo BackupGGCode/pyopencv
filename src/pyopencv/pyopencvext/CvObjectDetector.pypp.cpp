@@ -2,7 +2,7 @@
 
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
-#include "opencv_converters.hpp"
+#include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "CvObjectDetector.pypp.hpp"
@@ -28,10 +28,7 @@ void register_CvObjectDetector_class(){
             CvObjectDetector_exposer.def( 
                 "Detect"
                 , Detect_function_type( &Detect_d8fa7b620f024b1a2f20fc4afa978e15 )
-                , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1")=bp::object() )
-                , "\nArgument 'arg0':"\
-    "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat." );
+                , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1")=bp::object() ) );
         
         }
         { //::CvObjectDetector::GetMaxBorderSize

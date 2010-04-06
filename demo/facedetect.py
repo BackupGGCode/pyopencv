@@ -33,7 +33,7 @@ def detectAndDraw(img, cascade, nestedCascade, scale):
         #|CascadeClassifier.DO_ROUGH_SEARCH
         |CascadeClassifier.SCALE_IMAGE
         ,
-        Size(30, 30) ).to_list_of_Rect()
+        Size(30, 30) )
     t = getTickCount() - t
     print( "detection time = %lf ms\n" % (t/(getTickFrequency()*1000.)) )
     for i in range(len(faces)):
@@ -52,7 +52,7 @@ def detectAndDraw(img, cascade, nestedCascade, scale):
             #|CascadeClassifier.DO_CANNY_PRUNING
             |CascadeClassifier.SCALE_IMAGE
             ,
-            Size(30, 30) ).to_list_of_Rect()
+            Size(30, 30) )
         for nr in nestedObjects:
             center = Point(round((r.x + nr.x + nr.width*0.5)*scale), round((r.y + nr.y + nr.height*0.5)*scale))
             radius = round((nr.width + nr.height)*0.25*scale)

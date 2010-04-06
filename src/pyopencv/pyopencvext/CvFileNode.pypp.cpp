@@ -8,14 +8,34 @@
 
 namespace bp = boost::python;
 
-static ::CvTypeInfo * get_info( ::CvFileNode const & inst ) { return inst.info; }
+struct CvFileNode_wrapper : CvFileNode, bp::wrapper< CvFileNode > {
+
+    CvFileNode_wrapper(CvFileNode const & arg )
+    : CvFileNode( arg )
+      , bp::wrapper< CvFileNode >(){
+        // copy constructor
+        
+    }
+
+    CvFileNode_wrapper()
+    : CvFileNode()
+      , bp::wrapper< CvFileNode >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_info( ::CvFileNode const & inst ){        
+        return inst.info? bp::object(inst.info): bp::object();
+    }
+
+};
 
 void register_CvFileNode_class(){
 
-    bp::class_< CvFileNode >( "CvFileNode" )    
+    bp::class_< CvFileNode_wrapper >( "CvFileNode" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvFileNode >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvFileNode >() )    
         .def_readwrite( "tag", &CvFileNode::tag )    
-        .add_property( "info", bp::make_function(&::get_info, bp::return_internal_reference<>()) );
+        .add_property( "info", bp::make_function(&::CvFileNode_wrapper::get_info) );
 
 }

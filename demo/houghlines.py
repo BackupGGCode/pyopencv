@@ -28,7 +28,7 @@ if __name__ == "__main__":
     cvtColor( dst, color_dst, CV_GRAY2BGR )
 
     if USE_STANDARD:
-        lines = HoughLines( dst, 1, CV_PI/180, 100, 0, 0 ).to_list_of_Vec2f()
+        lines = HoughLines( dst, 1, CV_PI/180, 100, 0, 0 )
 
         for i in range(min(len(lines), 100)):
             l = lines[i]
@@ -43,9 +43,9 @@ if __name__ == "__main__":
             line( color_dst, pt1, pt2, CV_RGB(255,0,0), 3, 8 )
 
     else:
-        pts = HoughLinesP( dst, 1, CV_PI/180, 50, 50, 10 ).to_list_of_Point2i()
-        for i in xrange(int(len(pts)/2)):
-            line( color_dst, pts[i*2], pts[i*2+1], CV_RGB(255,0,0), 3, 8 )
+        lines = HoughLinesP( dst, 1, CV_PI/180, 50, 50, 10 )
+        for l in lines:
+            line( color_dst, Point(int(l[0]), int(l[1])), Point(int(l[2]), int(l[3])), CV_RGB(255,0,0), 3, 8 )
 
     namedWindow( "Source", 1 )
     imshow( "Source", src )

@@ -112,13 +112,7 @@ void register_CvVSModule_class(){
         .def( 
             "LoadState"
             , (void (*)( ::CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvVSModule_wrapper::default_LoadState )
-            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
-            , "\nArgument 'arg0':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
-    "\nArgument 'arg1':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." )    
+            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") ) )    
         .def( 
             "ParamUpdate"
             , (void ( ::CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
@@ -129,10 +123,7 @@ void register_CvVSModule_class(){
         .def( 
             "SaveState"
             , (void (*)( ::CvVSModule &,::cv::FileStorage & ))( &CvVSModule_wrapper::default_SaveState )
-            , ( bp::arg("inst"), bp::arg("arg0") )
-            , "\nArgument 'arg0':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+            , ( bp::arg("inst"), bp::arg("arg0") ) )    
         .def( 
             "SetNickName"
             , (void ( ::CvVSModule::* )( char const * ) )( &::CvVSModule::SetNickName )

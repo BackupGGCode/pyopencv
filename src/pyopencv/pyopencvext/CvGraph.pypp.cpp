@@ -9,35 +9,71 @@
 
 namespace bp = boost::python;
 
-static ::CvSeq * get_h_prev( ::CvGraph const & inst ) { return inst.h_prev; }
+struct CvGraph_wrapper : CvGraph, bp::wrapper< CvGraph > {
 
-static ::CvSeq * get_h_next( ::CvGraph const & inst ) { return inst.h_next; }
+    CvGraph_wrapper(CvGraph const & arg )
+    : CvGraph( arg )
+      , bp::wrapper< CvGraph >(){
+        // copy constructor
+        
+    }
 
-static ::CvSeq * get_v_prev( ::CvGraph const & inst ) { return inst.v_prev; }
+    CvGraph_wrapper()
+    : CvGraph()
+      , bp::wrapper< CvGraph >(){
+        // null constructor
+        
+    }
 
-static ::CvSeq * get_v_next( ::CvGraph const & inst ) { return inst.v_next; }
+    static bp::object get_h_prev( ::CvGraph const & inst ){        
+        return inst.h_prev? bp::object(inst.h_prev): bp::object();
+    }
 
-static ::CvMemStorage * get_storage( ::CvGraph const & inst ) { return inst.storage; }
+    static bp::object get_h_next( ::CvGraph const & inst ){        
+        return inst.h_next? bp::object(inst.h_next): bp::object();
+    }
 
-static ::CvSeqBlock * get_free_blocks( ::CvGraph const & inst ) { return inst.free_blocks; }
+    static bp::object get_v_prev( ::CvGraph const & inst ){        
+        return inst.v_prev? bp::object(inst.v_prev): bp::object();
+    }
 
-static ::CvSeqBlock * get_first( ::CvGraph const & inst ) { return inst.first; }
+    static bp::object get_v_next( ::CvGraph const & inst ){        
+        return inst.v_next? bp::object(inst.v_next): bp::object();
+    }
 
-static bp::object get_block_max( ::CvGraph const & inst ){        
-    return inst.block_max? bp::str(inst.block_max): bp::object();
-}
+    static bp::object get_storage( ::CvGraph const & inst ){        
+        return inst.storage? bp::object(inst.storage): bp::object();
+    }
 
-static bp::object get_ptr( ::CvGraph const & inst ){        
-    return inst.ptr? bp::str(inst.ptr): bp::object();
-}
+    static bp::object get_free_blocks( ::CvGraph const & inst ){        
+        return inst.free_blocks? bp::object(inst.free_blocks): bp::object();
+    }
 
-static ::CvSetElem * get_free_elems( ::CvGraph const & inst ) { return inst.free_elems; }
+    static bp::object get_first( ::CvGraph const & inst ){        
+        return inst.first? bp::object(inst.first): bp::object();
+    }
 
-static ::CvSet * get_edges( ::CvGraph const & inst ) { return inst.edges; }
+    static bp::object get_block_max( ::CvGraph const & inst ){        
+        return inst.block_max? bp::str(inst.block_max): bp::object();
+    }
+
+    static bp::object get_ptr( ::CvGraph const & inst ){        
+        return inst.ptr? bp::str(inst.ptr): bp::object();
+    }
+
+    static bp::object get_free_elems( ::CvGraph const & inst ){        
+        return inst.free_elems? bp::object(inst.free_elems): bp::object();
+    }
+
+    static bp::object get_edges( ::CvGraph const & inst ){        
+        return inst.edges? bp::object(inst.edges): bp::object();
+    }
+
+};
 
 void register_CvGraph_class(){
 
-    bp::class_< CvGraph >( "CvGraph" )    
+    bp::class_< CvGraph_wrapper >( "CvGraph" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvGraph >() )    
         .def_readwrite( "active_count", &CvGraph::active_count )    
         .def_readwrite( "delta_elems", &CvGraph::delta_elems )    
@@ -45,16 +81,16 @@ void register_CvGraph_class(){
         .def_readwrite( "flags", &CvGraph::flags )    
         .def_readwrite( "header_size", &CvGraph::header_size )    
         .def_readwrite( "total", &CvGraph::total )    
-        .add_property( "h_prev", bp::make_function(&::get_h_prev, bp::return_internal_reference<>()) )    
-        .add_property( "h_next", bp::make_function(&::get_h_next, bp::return_internal_reference<>()) )    
-        .add_property( "v_prev", bp::make_function(&::get_v_prev, bp::return_internal_reference<>()) )    
-        .add_property( "v_next", bp::make_function(&::get_v_next, bp::return_internal_reference<>()) )    
-        .add_property( "storage", bp::make_function(&::get_storage, bp::return_internal_reference<>()) )    
-        .add_property( "free_blocks", bp::make_function(&::get_free_blocks, bp::return_internal_reference<>()) )    
-        .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
-        .add_property( "block_max", &::get_block_max )    
-        .add_property( "ptr", &::get_ptr )    
-        .add_property( "free_elems", bp::make_function(&::get_free_elems, bp::return_internal_reference<>()) )    
-        .add_property( "edges", bp::make_function(&::get_edges, bp::return_internal_reference<>()) );
+        .add_property( "h_prev", bp::make_function(&::CvGraph_wrapper::get_h_prev) )    
+        .add_property( "h_next", bp::make_function(&::CvGraph_wrapper::get_h_next) )    
+        .add_property( "v_prev", bp::make_function(&::CvGraph_wrapper::get_v_prev) )    
+        .add_property( "v_next", bp::make_function(&::CvGraph_wrapper::get_v_next) )    
+        .add_property( "storage", bp::make_function(&::CvGraph_wrapper::get_storage) )    
+        .add_property( "free_blocks", bp::make_function(&::CvGraph_wrapper::get_free_blocks) )    
+        .add_property( "first", bp::make_function(&::CvGraph_wrapper::get_first) )    
+        .add_property( "block_max", bp::make_function(&::CvGraph_wrapper::get_block_max) )    
+        .add_property( "ptr", bp::make_function(&::CvGraph_wrapper::get_ptr) )    
+        .add_property( "free_elems", bp::make_function(&::CvGraph_wrapper::get_free_elems) )    
+        .add_property( "edges", bp::make_function(&::CvGraph_wrapper::get_edges) );
 
 }

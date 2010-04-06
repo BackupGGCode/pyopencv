@@ -8,15 +8,37 @@
 
 namespace bp = boost::python;
 
-static ::CvMemBlock * get_prev( ::CvMemBlock const & inst ) { return inst.prev; }
+struct CvMemBlock_wrapper : CvMemBlock, bp::wrapper< CvMemBlock > {
 
-static ::CvMemBlock * get_next( ::CvMemBlock const & inst ) { return inst.next; }
+    CvMemBlock_wrapper(CvMemBlock const & arg )
+    : CvMemBlock( arg )
+      , bp::wrapper< CvMemBlock >(){
+        // copy constructor
+        
+    }
+
+    CvMemBlock_wrapper()
+    : CvMemBlock()
+      , bp::wrapper< CvMemBlock >(){
+        // null constructor
+        
+    }
+
+    static bp::object get_prev( ::CvMemBlock const & inst ){        
+        return inst.prev? bp::object(inst.prev): bp::object();
+    }
+
+    static bp::object get_next( ::CvMemBlock const & inst ){        
+        return inst.next? bp::object(inst.next): bp::object();
+    }
+
+};
 
 void register_CvMemBlock_class(){
 
-    bp::class_< CvMemBlock >( "CvMemBlock" )    
+    bp::class_< CvMemBlock_wrapper >( "CvMemBlock" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvMemBlock >() )    
-        .add_property( "prev", bp::make_function(&::get_prev, bp::return_internal_reference<>()) )    
-        .add_property( "next", bp::make_function(&::get_next, bp::return_internal_reference<>()) );
+        .add_property( "prev", bp::make_function(&::CvMemBlock_wrapper::get_prev) )    
+        .add_property( "next", bp::make_function(&::CvMemBlock_wrapper::get_next) );
 
 }

@@ -19,7 +19,6 @@ void register_StereoBM_class(){
         bp::scope().attr("FISH_EYE_PRESET") = (int)cv::StereoBM::FISH_EYE_PRESET;
         bp::scope().attr("NARROW_PRESET") = (int)cv::StereoBM::NARROW_PRESET;
         StereoBM_exposer.def( bp::init< int, bp::optional< int, int > >(( bp::arg("preset"), bp::arg("ndisparities")=(int)(0), bp::arg("SADWindowSize")=(int)(21) )) );
-        bp::implicitly_convertible< int, cv::StereoBM >();
         { //::cv::StereoBM::init
         
             typedef void ( ::cv::StereoBM::*init_function_type )( int,int,int ) ;

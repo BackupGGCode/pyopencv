@@ -72,21 +72,23 @@ def findSquares4( img, thresh ):
             for contour in contours:
                 # approximate contour with accuracy proportional
                 # to the contour perimeter
-                result = approxPolyDP( contour, arcLength(contour, False)*0.02, False )
+                mat_contour = asMat(contour)
+                result = approxPolyDP( mat_contour, arcLength(mat_contour, False)*0.02, False )
+                mat_result = asMat(result)
                 # square contours should have 4 vertices after approximation
                 # relatively large area (to filter out noisy contours)
                 # and be convex.
                 # Note: absolute value of an area is used because
                 # area may be positive or negative - in accordance with the
                 # contour orientation
-                if( result.cols == 4 and 
-                    abs(contourArea(result)) > 1000 and 
-                    isContourConvex(result) ):
+                if( len(result) == 4 and 
+                    abs(contourArea(mat_result)) > 1000 and 
+                    isContourConvex(mat_result) ):
                     s = 0;
                     for i in range(4):
                         # find minimum angle between joint
                         # edges (maximum of cosine)
-                        t = abs(angle( result[0,i], result[0,i-2], result[0,i-1]))
+                        t = abs(angle( result[i], result[i-2], result[i-1]))
                         if s<t:
                             s=t
                     # if cosines of all angles are small

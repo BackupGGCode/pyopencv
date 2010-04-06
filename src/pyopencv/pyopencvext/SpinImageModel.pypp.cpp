@@ -2,7 +2,7 @@
 
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
-#include "opencv_converters.hpp"
+#include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "SpinImageModel.pypp.hpp"
@@ -10,16 +10,16 @@
 namespace bp = boost::python;
 
 static boost::python::object match_86773a6b4d89ae97806d1109a2438811( ::cv::SpinImageModel & inst, ::cv::SpinImageModel const & scene ){
-    std::vector<std::vector<cv::Vec<int, 2>, std::allocator<cv::Vec<int, 2> > >, std::allocator<std::vector<cv::Vec<int, 2>, std::allocator<cv::Vec<int, 2> > > > > result3;
-    bp::list result4;
-    inst.match(scene, result3);
-    convert_from_T_to_object(result3, result4);
-    return bp::object( result4 );
+    bp::sequence result3;
+    std::vector<std::vector<cv::Vec<int, 2>, std::allocator<cv::Vec<int, 2> > >, std::allocator<std::vector<cv::Vec<int, 2>, std::allocator<cv::Vec<int, 2> > > > > result4;
+    inst.match(scene, result4);
+    result3 = convert_vector_vector_to_seq(result4);
+    return bp::object( result3 );
 }
 
-static void setSubset_89bf1b6d328936932f08aaf660288e7a( ::cv::SpinImageModel & inst, cv::Mat const & subset ){
+static void setSubset_89bf1b6d328936932f08aaf660288e7a( ::cv::SpinImageModel & inst, bp::sequence subset ){
     std::vector<int, std::allocator<int> > subset2;
-    convert_from_Mat_to_vector_of_T(subset, subset2);
+    convert_seq_to_vector(subset, subset2);
     inst.setSubset(subset2);
 }
 
@@ -109,14 +109,7 @@ void register_SpinImageModel_class(){
             SpinImageModel_exposer.def( 
                 "match"
                 , match_function_type( &match_86773a6b4d89ae97806d1109a2438811 )
-                , ( bp::arg("inst"), bp::arg("scene") )
-                , "\nArgument 'result':"\
-    "\n    C/C++ type: ::std::vector< std::vector< cv::Vec<int, 2> > > &."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
-    "\n    Invoke asMat() to convert every 1D Python sequence into a Mat, e.g. "\
-    "\n    [asMat([0,1,2]), asMat((0,1,2)]."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+                , ( bp::arg("inst"), bp::arg("scene") ) );
         
         }
         { //::cv::SpinImageModel::packRandomScaledSpins
@@ -141,17 +134,12 @@ void register_SpinImageModel_class(){
         }
         { //::cv::SpinImageModel::setSubset
         
-            typedef void ( *setSubset_function_type )( ::cv::SpinImageModel &,cv::Mat const & );
+            typedef void ( *setSubset_function_type )( ::cv::SpinImageModel &,bp::sequence );
             
             SpinImageModel_exposer.def( 
                 "setSubset"
                 , setSubset_function_type( &setSubset_89bf1b6d328936932f08aaf660288e7a )
-                , ( bp::arg("inst"), bp::arg("subset") )
-                , "\nArgument 'subset':"\
-    "\n    C/C++ type: ::std::vector< int > const &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+                , ( bp::arg("inst"), bp::arg("subset") ) );
         
         }
         { //::cv::SpinImageModel::spinCorrelation

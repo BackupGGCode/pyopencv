@@ -4,50 +4,37 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "boost/python/object.hpp"
-#include "opencv_converters.hpp"
 #include "CvHaarClassifier.pypp.hpp"
 
 namespace bp = boost::python;
 
-static ::CvHaarFeature * get_haar_feature( ::CvHaarClassifier const & inst ) { return inst.haar_feature; }
+struct CvHaarClassifier_wrapper : CvHaarClassifier, bp::wrapper< CvHaarClassifier > {
 
-static cv::Mat get_threshold(::CvHaarClassifier const &inst)
-{
-    cv::Mat threshold2;
-    convert_from_array_of_T_to_Mat(inst.threshold, inst.count+0, threshold2);
-    return threshold2;
-}
+    CvHaarClassifier_wrapper(CvHaarClassifier const & arg )
+    : CvHaarClassifier( arg )
+      , bp::wrapper< CvHaarClassifier >(){
+        // copy constructor
+        
+    }
 
-static cv::Mat get_left(::CvHaarClassifier const &inst)
-{
-    cv::Mat left2;
-    convert_from_array_of_T_to_Mat(inst.left, inst.count+0, left2);
-    return left2;
-}
+    CvHaarClassifier_wrapper()
+    : CvHaarClassifier()
+      , bp::wrapper< CvHaarClassifier >(){
+        // null constructor
+        
+    }
 
-static cv::Mat get_right(::CvHaarClassifier const &inst)
-{
-    cv::Mat right2;
-    convert_from_array_of_T_to_Mat(inst.right, inst.count+0, right2);
-    return right2;
-}
+    static bp::object get_haar_feature( ::CvHaarClassifier const & inst ){        
+        return inst.haar_feature? bp::object(inst.haar_feature): bp::object();
+    }
 
-static cv::Mat get_alpha(::CvHaarClassifier const &inst)
-{
-    cv::Mat alpha2;
-    convert_from_array_of_T_to_Mat(inst.alpha, inst.count+1, alpha2);
-    return alpha2;
-}
+};
 
 void register_CvHaarClassifier_class(){
 
-    bp::class_< CvHaarClassifier >( "CvHaarClassifier" )    
+    bp::class_< CvHaarClassifier_wrapper >( "CvHaarClassifier" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvHaarClassifier >() )    
         .def_readwrite( "count", &CvHaarClassifier::count )    
-        .add_property( "haar_feature", bp::make_function(&::get_haar_feature, bp::return_internal_reference<>()) )    
-        .add_property( "threshold", &::get_threshold)    
-        .add_property( "left", &::get_left)    
-        .add_property( "right", &::get_right)    
-        .add_property( "alpha", &::get_alpha);
+        .add_property( "haar_feature", bp::make_function(&::CvHaarClassifier_wrapper::get_haar_feature) );
 
 }

@@ -271,13 +271,7 @@ void register_CvSVM_class(){
             CvSVM_exposer.def( 
                 "read"
                 , default_read_function_type( &CvSVM_wrapper::default_read )
-                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-                , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") ) );
         
         }
         { //::CvSVM::train
@@ -311,10 +305,7 @@ void register_CvSVM_class(){
             CvSVM_exposer.def( 
                 "write"
                 , default_write_function_type( &CvSVM_wrapper::default_write )
-                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
-                , "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") ) );
         
         }
         { //::CvStatModel::load

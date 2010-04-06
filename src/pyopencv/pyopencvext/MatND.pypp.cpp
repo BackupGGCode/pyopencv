@@ -3,12 +3,11 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__array_1.pypp.hpp"
-#include "opencv_converters.hpp"
+#include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "boost/python/make_function.hpp"
-#include "opencv_converters.hpp"
-#include "boost/python/str.hpp"
+#include "opencv_extra.hpp"
 #include "ndarray.hpp"
 #include "MatND.pypp.hpp"
 
@@ -30,18 +29,20 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
     
     }
 
-    static void create( ::cv::MatND & inst, cv::Mat const & _sizes, int _type ){
-        int _sizes2;
-        int * _sizes3;
-        convert_from_Mat_to_array_of_T(_sizes, _sizes3, _sizes2);
-        inst.create(_sizes2, _sizes3, _type);
+    static void create( ::cv::MatND & inst, boost::python::object _sizes, int _type ){
+        bool b__sizes= _sizes.ptr() != Py_None;
+        int l__sizes= b__sizes? bp::len(_sizes): 0;
+        std::vector< int > v__sizes(l__sizes); convert_seq_to_vector(_sizes, v__sizes);
+    
+        inst.create(l__sizes, b__sizes? &v__sizes[0]: 0, _type);
     }
 
-    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, cv::Mat _newsz=cv::Mat() ){
-        int _newsz2;
-        int * _newsz3;
-        convert_from_Mat_to_array_of_T(_newsz, _newsz3, _newsz2);
-        ::cv::MatND result = inst.reshape(_newcn, _newsz2, _newsz3);
+    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, boost::python::object _newsz=bp::object() ){
+        bool b__newsz= _newsz.ptr() != Py_None;
+        int l__newsz= b__newsz? bp::len(_newsz): 0;
+        std::vector< int > v__newsz(l__newsz); convert_seq_to_vector(_newsz, v__newsz);
+    
+        ::cv::MatND result = inst.reshape(_newcn, l__newsz, b__newsz? &v__newsz[0]: 0);
         return bp::object( result );
     }
 
@@ -57,33 +58,28 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
 
 };
 
-static boost::shared_ptr<cv::MatND> MatND__init1__(cv::Mat const &_sizes, int _type)
+static boost::shared_ptr<cv::MatND> MatND__init1__(const bp::sequence &_sizes, int _type)
 {
-    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes3, _sizes2, _type));
+    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes2.size(), &_sizes2[0], _type));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init2__(cv::Mat const &_sizes, int _type, const cv::Scalar& _s)
+static boost::shared_ptr<cv::MatND> MatND__init2__(const bp::sequence &_sizes, int _type, const cv::Scalar& _s)
 {
-    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes3, _sizes2, _type, _s));
+    std::vector<int> _sizes2; convert_seq_to_vector(_sizes, _sizes2);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes2.size(), &_sizes2[0], _type, _s));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, cv::Mat const &_ranges)
+static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, const bp::sequence &_ranges)
 {
-    cv::Range* _ranges2; int _ranges3; convert_from_Mat_to_array_of_T(_ranges, _ranges2, _ranges3);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(m, _ranges2));
+    std::vector<cv::Range> _ranges2; convert_seq_to_vector(_ranges, _ranges2);
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(m, &_ranges2[0]));
 }
 
-static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
+static cv::MatND MatND__call__(const cv::MatND& inst, const bp::sequence &ranges)
 {
-    cv::Range* ranges2; int ranges3; convert_from_Mat_to_array_of_T(ranges, ranges2, ranges3);
-    return inst(ranges2);
-}
-
-static bp::object get_data(cv::MatND const &inst)
-{
-    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory ((void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1])));
+    std::vector<cv::Range> ranges2; convert_seq_to_vector(ranges, ranges2);
+    return inst(&ranges2[0]);
 }
 
 void register_MatND_class(){
@@ -167,20 +163,12 @@ void register_MatND_class(){
         }
         { //::cv::MatND::create
         
-            typedef void ( *create_function_type )( ::cv::MatND &,cv::Mat const &,int );
+            typedef void ( *create_function_type )( ::cv::MatND &,boost::python::object,int );
             
             MatND_exposer.def( 
                 "create"
                 , create_function_type( &MatND_wrapper::create )
-                , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") )
-                , "\nArgument '_ndims':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument '_sizes'."\
-    "\nArgument '_sizes':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+                , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") ) );
         
         }
         { //::cv::MatND::depth
@@ -219,8 +207,7 @@ void register_MatND_class(){
                 , isContinuous_function_type( &::cv::MatND::isContinuous ) );
         
         }
-        MatND_exposer.def( "as__scope_cv_scope_Mat", &cv::MatND::operator ::cv::Mat , "\nWrapped function:"
-    "\n    operator ::cv::Mat" );
+        MatND_exposer.def( "as__scope_cv_scope_Mat", &cv::MatND::operator ::cv::Mat  );
         { //::cv::MatND::operator=
         
             typedef ::cv::MatND & ( ::cv::MatND::*assign_function_type )( ::cv::MatND const & ) ;
@@ -229,9 +216,7 @@ void register_MatND_class(){
                 "assign"
                 , assign_function_type( &::cv::MatND::operator= )
                 , ( bp::arg("m") )
-                , bp::return_self< >()
-                , "\nWrapped function:"
-    "\n    operator=" );
+                , bp::return_self< >() );
         
         }
         { //::cv::MatND::operator=
@@ -242,9 +227,7 @@ void register_MatND_class(){
                 "assign"
                 , assign_function_type( &::cv::MatND::operator= )
                 , ( bp::arg("s") )
-                , bp::return_self< >()
-                , "\nWrapped function:"
-    "\n    operator=" );
+                , bp::return_self< >() );
         
         }
         { //::cv::MatND::release
@@ -258,20 +241,12 @@ void register_MatND_class(){
         }
         { //::cv::MatND::reshape
         
-            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,cv::Mat );
+            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,boost::python::object );
             
             MatND_exposer.def( 
                 "reshape"
                 , reshape_function_type( &MatND_wrapper::reshape )
-                , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=cv::Mat() )
-                , "\nArgument '_newsz':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument '_newndims':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument '_newsz'." );
+                , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=bp::object() ) );
         
         }
         { //::cv::MatND::setTo
@@ -323,11 +298,10 @@ void register_MatND_class(){
                 , bp::make_function( array_wrapper_creator(&MatND_wrapper::pyplusplus_step_wrapper)
                                     , bp::with_custodian_and_ward_postcall< 0, 1 >() ) );
         }
-        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )), "Use asMat() to convert '_sizes' from a Python sequence to a Mat.");
-        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )), "Use asMat() to convert '_sizes' from a Python sequence to a Mat.");
-        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )), "Use asMat() to convert '_ranges' from a Python sequence to a Mat.");
-        MatND_exposer.def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))), "Use asMat() to convert 'ranges' from a Python sequence to a Mat.");
-        MatND_exposer.add_property("data", ::get_data);
+        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )));
+        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )));
+        MatND_exposer.def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )));
+        MatND_exposer.def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))));
         MatND_exposer.def("from_ndarray", &bp::from_ndarray< cv::MatND >, (bp::arg("arr")) );
         MatND_exposer.staticmethod("from_ndarray");
         MatND_exposer.add_property("ndarray", &bp::as_ndarray< cv::MatND >);

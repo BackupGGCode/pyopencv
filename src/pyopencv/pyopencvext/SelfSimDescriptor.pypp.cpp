@@ -3,7 +3,7 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
-#include "opencv_converters.hpp"
+#include "opencv_extra.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "SelfSimDescriptor.pypp.hpp"
@@ -55,18 +55,19 @@ struct SelfSimDescriptor_wrapper : cv::SelfSimDescriptor, bp::wrapper< cv::SelfS
         }
     }
     
-    static void default_compute( ::cv::SelfSimDescriptor const & inst, ::cv::Mat const & img, cv::Mat & descriptors, ::cv::Size winStride=cv::Size_<int>(), cv::Mat const & locations=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ){
+    static boost::python::object default_compute( ::cv::SelfSimDescriptor const & inst, ::cv::Mat const & img, bp::sequence descriptors, ::cv::Size winStride=cv::Size_<int>(), bp::sequence locations=convert_vector_to_seq(std::vector<cv::Point>()) ){
         std::vector<float, std::allocator<float> > descriptors2;
         std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > locations2;
-        convert_from_Mat_to_vector_of_T(descriptors, descriptors2);
-        convert_from_Mat_to_vector_of_T(locations, locations2);
+        convert_seq_to_vector(descriptors, descriptors2);
+        convert_seq_to_vector(locations, locations2);
         if( dynamic_cast< SelfSimDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::SelfSimDescriptor::compute(img, descriptors2, winStride, locations2);
         }
         else{
             inst.compute(img, descriptors2, winStride, locations2);
         }
-        convert_from_vector_of_T_to_Mat(descriptors2, descriptors);
+        descriptors = convert_vector_to_seq(descriptors2);
+        return bp::object( descriptors );
     }
 
     virtual void computeLogPolarMapping( ::cv::Mat & mappingMask ) const  {
@@ -111,22 +112,12 @@ void register_SelfSimDescriptor_class(){
         }
         { //::cv::SelfSimDescriptor::compute
         
-            typedef void ( *default_compute_function_type )( ::cv::SelfSimDescriptor const &,::cv::Mat const &,cv::Mat &,::cv::Size,cv::Mat const & );
+            typedef boost::python::object ( *default_compute_function_type )( ::cv::SelfSimDescriptor const &,::cv::Mat const &,bp::sequence,::cv::Size,bp::sequence );
             
             SelfSimDescriptor_exposer.def( 
                 "compute"
                 , default_compute_function_type( &SelfSimDescriptor_wrapper::default_compute )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("descriptors"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("locations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) )
-                , "\nArgument 'descriptors':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'locations':"\
-    "\n    C/C++ type: ::std::vector< cv::Point_<int> > const &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("descriptors"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("locations")=convert_vector_to_seq(std::vector<cv::Point>()) ) );
         
         }
         { //::cv::SelfSimDescriptor::computeLogPolarMapping
@@ -168,9 +159,7 @@ void register_SelfSimDescriptor_class(){
                 "assign"
                 , assign_function_type( &::cv::SelfSimDescriptor::operator= )
                 , ( bp::arg("ss") )
-                , bp::return_self< >()
-                , "\nWrapped function:"
-    "\n    operator=" );
+                , bp::return_self< >() );
         
         }
         SelfSimDescriptor_exposer.def_readwrite( "largeSize", &cv::SelfSimDescriptor::largeSize );

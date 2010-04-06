@@ -40,7 +40,7 @@ struct KDTreeIndexParams_wrapper : cv::flann::KDTreeIndexParams, bp::wrapper< cv
 void register_KDTreeIndexParams_class(){
 
     { //::cv::flann::KDTreeIndexParams
-        typedef bp::class_< KDTreeIndexParams_wrapper, bp::bases< cv::flann::IndexParams > > KDTreeIndexParams_exposer_t;
+        typedef bp::class_< KDTreeIndexParams_wrapper > KDTreeIndexParams_exposer_t;
         KDTreeIndexParams_exposer_t KDTreeIndexParams_exposer = KDTreeIndexParams_exposer_t( "KDTreeIndexParams", bp::init< bp::optional< int > >(( bp::arg("trees_")=(int)(4) )) );
         bp::scope KDTreeIndexParams_scope( KDTreeIndexParams_exposer );
         KDTreeIndexParams_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::KDTreeIndexParams >() );

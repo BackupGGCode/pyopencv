@@ -25,11 +25,11 @@ struct CvPluginFuncInfo_wrapper : CvPluginFuncInfo, bp::wrapper< CvPluginFuncInf
         
     }
 
-};
+    static bp::object get_func_names( ::CvPluginFuncInfo const & inst ){        
+        return inst.func_names? bp::str(inst.func_names): bp::object();
+    }
 
-static bp::object get_func_names( ::CvPluginFuncInfo const & inst ){        
-    return inst.func_names? bp::str(inst.func_names): bp::object();
-}
+};
 
 void register_CvPluginFuncInfo_class(){
 
@@ -43,6 +43,6 @@ void register_CvPluginFuncInfo_class(){
                     , pyplus_conv::make_address_setter(&CvPluginFuncInfo::func_addr) )    
         .def_readwrite( "loaded_from", &CvPluginFuncInfo::loaded_from )    
         .def_readwrite( "search_modules", &CvPluginFuncInfo::search_modules )    
-        .add_property( "func_names", &::get_func_names );
+        .add_property( "func_names", bp::make_function(&::CvPluginFuncInfo_wrapper::get_func_names) );
 
 }

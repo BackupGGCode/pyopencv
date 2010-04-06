@@ -37,8 +37,8 @@ public:
     explicit ndarray(T const& x) : object(x) {}
 
     int ndim() const;
-    const Py_intptr_t *shape() const;
-    const Py_intptr_t *strides() const;
+    const int *shape() const;
+    const int *strides() const;
     int itemsize() const;
     int dtype() const;
     const void *data() const;
@@ -173,22 +173,8 @@ NDARRAY_TO_VECTOR(cv::Point3i);
 NDARRAY_TO_VECTOR(cv::Point3f);
 NDARRAY_TO_VECTOR(cv::Point3d);
 
-// Rect-like
-NDARRAY_TO_VECTOR(cv::Rect);
-NDARRAY_TO_VECTOR(cv::Rectf);
-NDARRAY_TO_VECTOR(cv::Rectd);
-NDARRAY_TO_VECTOR(cv::RotatedRect);
-
-// Size-like
-NDARRAY_TO_VECTOR(cv::Size2i);
-NDARRAY_TO_VECTOR(cv::Size2f);
-NDARRAY_TO_VECTOR(cv::Size2d);
-
 // Scalar
 NDARRAY_TO_VECTOR(cv::Scalar);
-
-// Range
-NDARRAY_TO_VECTOR(cv::Range);
 
 // ================================================================================================
 
@@ -246,22 +232,8 @@ VECTOR_TO_NDARRAY(cv::Point3i);
 VECTOR_TO_NDARRAY(cv::Point3f);
 VECTOR_TO_NDARRAY(cv::Point3d);
 
-// Rect-like
-VECTOR_TO_NDARRAY(cv::Rect);
-VECTOR_TO_NDARRAY(cv::Rectf);
-VECTOR_TO_NDARRAY(cv::Rectd);
-VECTOR_TO_NDARRAY(cv::RotatedRect);
-
-// Size-like
-VECTOR_TO_NDARRAY(cv::Size2i);
-VECTOR_TO_NDARRAY(cv::Size2f);
-VECTOR_TO_NDARRAY(cv::Size2d);
-
 // Scalar
 VECTOR_TO_NDARRAY(cv::Scalar);
-
-// Range
-VECTOR_TO_NDARRAY(cv::Range);
 
 
 // ================================================================================================
@@ -308,22 +280,8 @@ AS_NDARRAY(cv::Point3i);
 AS_NDARRAY(cv::Point3f);
 AS_NDARRAY(cv::Point3d);
 
-// Rect-like
-AS_NDARRAY(cv::Rect);
-AS_NDARRAY(cv::Rectf);
-AS_NDARRAY(cv::Rectd);
-AS_NDARRAY(cv::RotatedRect);
-
-// Size-like
-AS_NDARRAY(cv::Size2i);
-AS_NDARRAY(cv::Size2f);
-AS_NDARRAY(cv::Size2d);
-
 // Scalar
 AS_NDARRAY(cv::Scalar);
-
-// Range
-AS_NDARRAY(cv::Range);
 
 // Mat
 AS_NDARRAY(cv::Mat);
@@ -375,22 +333,8 @@ FROM_NDARRAY(cv::Point3i);
 FROM_NDARRAY(cv::Point3f);
 FROM_NDARRAY(cv::Point3d);
 
-// Rect-like
-FROM_NDARRAY(cv::Rect);
-FROM_NDARRAY(cv::Rectf);
-FROM_NDARRAY(cv::Rectd);
-FROM_NDARRAY(cv::RotatedRect);
-
-// Size-like
-FROM_NDARRAY(cv::Size2i);
-FROM_NDARRAY(cv::Size2f);
-FROM_NDARRAY(cv::Size2d);
-
 // Scalar
 FROM_NDARRAY(cv::Scalar);
-
-// Range
-FROM_NDARRAY(cv::Range);
 
 // Mat
 FROM_NDARRAY(cv::Mat);
@@ -398,6 +342,10 @@ FROM_NDARRAY(cv::Mat);
 // MatND
 FROM_NDARRAY(cv::MatND);
 
+// ================================================================================================
+
+void mixChannels(const tuple src, tuple dst, const ndarray &fromTo);
+tuple minMaxLoc(const object& a, const object& mask=object());
 
 }} // namespace boost::python
 

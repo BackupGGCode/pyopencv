@@ -18,7 +18,6 @@ void register_SVD_class(){
         bp::scope().attr("NO_UV") = (int)cv::SVD::NO_UV;
         bp::scope().attr("FULL_UV") = (int)cv::SVD::FULL_UV;
         SVD_exposer.def( bp::init< cv::Mat const &, bp::optional< int > >(( bp::arg("m"), bp::arg("flags")=(int)(0) )) );
-        bp::implicitly_convertible< cv::Mat const &, cv::SVD >();
         { //::cv::SVD::backSubst
         
             typedef void ( ::cv::SVD::*backSubst_function_type )( ::cv::Mat const &,::cv::Mat & ) const;
