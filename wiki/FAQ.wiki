@@ -4,7 +4,7 @@
 
 ===Which version of OpenCV is PyOpenCV compatible with?===
 
-PyOpenCV is compatible with OpenCV version 2.0 and 2.1.0. The main line of development currently supports OpenCV 2.1.0, which is available in the `trunk` folder of the svn repository. The line of development that supports OpenCV 2.0 is available in the `branches/2.0` folder of the svn repository.
+PyOpenCV is compatible with OpenCV version 2.0 and 2.1.0. The main line of development currently supports OpenCV 2.1.0, which is available in the `trunk` folder of the svn repository. The line of development that supports OpenCV 2.0 is available in the `branches/2.0.0` folder of the svn repository.
 
 ===Is PyOpenCV 64-bit compatible?===
 
