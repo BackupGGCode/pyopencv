@@ -104,8 +104,15 @@ def generate_code(mb, cc, D, FT, CP):
     
     # StereoBM
     z = mb.class_('StereoBM')
-    z.include()
+    mb.init_class(z)
     mb.expose_class_Ptr('CvStereoBMState')
+    mb.finalize_class(z)
+    
+    # StereoSGBM
+    z = mb.class_('StereoSGBM')
+    mb.init_class(z)
+    mb.finalize_class(z)
+    
     
     # KeyPoint
     mb.class_('KeyPoint').include()
@@ -189,7 +196,8 @@ def generate_code(mb, cc, D, FT, CP):
         'composeRT', 'solvePnP', 'initCameraMatrix2D', 'drawChessboardCorners',
         'calibrationMatrixValues', 'stereoCalibrate', 
         # 'stereoRectify', # TODO: fix this in OpenCV 2.1.0
-        'stereoRectifyUncalibrated', 'reprojectImageTo3D',         
+        'stereoRectifyUncalibrated', 'reprojectImageTo3D', 
+        'filterSpeckles', 'getValidDisparityROI', 'validateDisparity',
         ):
         mb.free_funs(z).include()
         

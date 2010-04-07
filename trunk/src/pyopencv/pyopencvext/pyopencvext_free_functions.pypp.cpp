@@ -2629,6 +2629,17 @@ void register_free_functions(){
     
     }
 
+    { //::cv::filterSpeckles
+    
+        typedef void ( *filterSpeckles_function_type )( ::cv::Mat &,double,int,double,::cv::Mat & );
+        
+        bp::def( 
+            "filterSpeckles"
+            , filterSpeckles_function_type( &::cv::filterSpeckles )
+            , ( bp::arg("img"), bp::arg("newVal"), bp::arg("maxSpeckleSize"), bp::arg("maxDiff"), bp::arg("buf") ) );
+    
+    }
+
     { //::cv::findFundamentalMat
     
         typedef ::cv::Mat ( *findFundamentalMat_function_type )( ::cv::Mat const &,::cv::Mat const &,int,double,double );
@@ -2941,6 +2952,17 @@ void register_free_functions(){
         bp::def( 
             "getTickFrequency"
             , getTickFrequency_function_type( &::cv::getTickFrequency ) );
+    
+    }
+
+    { //::cv::getValidDisparityROI
+    
+        typedef ::cv::Rect ( *getValidDisparityROI_function_type )( ::cv::Rect,::cv::Rect,int,int,int );
+        
+        bp::def( 
+            "getValidDisparityROI"
+            , getValidDisparityROI_function_type( &::cv::getValidDisparityROI )
+            , ( bp::arg("roi1"), bp::arg("roi2"), bp::arg("minDisparity"), bp::arg("numberOfDisparities"), bp::arg("SADWindowSize") ) );
     
     }
 
@@ -4226,6 +4248,17 @@ void register_free_functions(){
         bp::def( 
             "useOptimized"
             , useOptimized_function_type( &::cv::useOptimized ) );
+    
+    }
+
+    { //::cv::validateDisparity
+    
+        typedef void ( *validateDisparity_function_type )( ::cv::Mat &,::cv::Mat const &,int,int,int );
+        
+        bp::def( 
+            "validateDisparity"
+            , validateDisparity_function_type( &::cv::validateDisparity )
+            , ( bp::arg("disparity"), bp::arg("cost"), bp::arg("minDisparity"), bp::arg("numberOfDisparities"), bp::arg("disp12MaxDisp")=(int)(1) ) );
     
     }
 
