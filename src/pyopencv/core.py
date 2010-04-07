@@ -1874,13 +1874,6 @@ def _CvContourScanner__del__(self):
         _PE._cvEndFindContours(self)
 CvContourScanner.__del__ = _CvContourScanner__del__
 
-CvConDensation._ownershiplevel = 0
-
-def _CvConDensation__del__(self):
-    if self._ownershiplevel==1:
-        _PE._cvReleaseConDensation(self)
-CvConDensation.__del__ = _CvConDensation__del__
-
 #=============================================================================
 # cv.h
 #=============================================================================
@@ -2003,6 +1996,8 @@ CV_SHAPE_CROSS = 1
 CV_SHAPE_ELLIPSE = 2
 CV_SHAPE_CUSTOM = 100
 
+CV_MOP_ERODE = 0
+CV_MOP_DILATE = 1
 CV_MOP_OPEN = 2
 CV_MOP_CLOSE = 3
 CV_MOP_GRADIENT = 4
@@ -2046,12 +2041,6 @@ CV_LKFLOW_PYR_A_READY = 1
 CV_LKFLOW_PYR_B_READY = 2
 CV_LKFLOW_INITIAL_GUESSES = 4
 CV_LKFLOW_GET_MIN_EIGENVALS = 8
-
-
-    
-#-----------------------------------------------------------------------------
-# Object Tracking
-#-----------------------------------------------------------------------------
 
 
     
@@ -2234,6 +2223,19 @@ CV_DISPARITY_BIRCHFIELD  = 0
 
     
     
+#-----------------------------------------------------------------------------
+# Object Tracking
+#-----------------------------------------------------------------------------
+
+
+    
+CvConDensation._ownershiplevel = 0
+
+def _CvConDensation__del__(self):
+    if self._ownershiplevel==1:
+        _PE._cvReleaseConDensation(self)
+CvConDensation.__del__ = _CvConDensation__del__
+
 #=============================================================================
 # cvaux.hpp
 #=============================================================================

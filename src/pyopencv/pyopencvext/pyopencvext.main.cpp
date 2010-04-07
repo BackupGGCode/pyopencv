@@ -735,6 +735,10 @@ static void cvCalcOpticalFlowBM_3537c5574d176e4f3dea85450be5ee9f( ::cv::Mat & pr
     ::cvCalcOpticalFlowBM(get_CvMat_ptr(prev), get_CvMat_ptr(curr), block_size, shift_size, max_range, use_previous, get_CvMat_ptr(velx), get_CvMat_ptr(vely));
 }
 
+static void cvCalcOpticalFlowFarneback_409b7a55ce4ab8f251cb192176e9376c( ::cv::Mat & prev, ::cv::Mat & next, ::cv::Mat & flow, double pyr_scale, int levels, int winsize, int iterations, int poly_n, double poly_sigma, int flags ){
+    ::cvCalcOpticalFlowFarneback(get_CvMat_ptr(prev), get_CvMat_ptr(next), get_CvMat_ptr(flow), pyr_scale, levels, winsize, iterations, poly_n, poly_sigma, flags);
+}
+
 static void cvCalcOpticalFlowHS_0757feb4eeb7fd8c38b710aec2f5f8e9( ::cv::Mat & prev, ::cv::Mat & curr, int use_previous, ::cv::Mat & velx, ::cv::Mat & vely, double lambda, ::CvTermCriteria criteria ){
     ::cvCalcOpticalFlowHS(get_CvMat_ptr(prev), get_CvMat_ptr(curr), use_previous, get_CvMat_ptr(velx), get_CvMat_ptr(vely), lambda, criteria);
 }
@@ -3248,6 +3252,28 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\nArgument 'velx':"\
     "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat." );
+    
+    }
+
+    { //::cvCalcOpticalFlowFarneback
+    
+        typedef void ( *calcOpticalFlowFarneback_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,double,int,int,int,int,double,int );
+        
+        bp::def( 
+            "calcOpticalFlowFarneback"
+            , calcOpticalFlowFarneback_function_type( &cvCalcOpticalFlowFarneback_409b7a55ce4ab8f251cb192176e9376c )
+            , ( bp::arg("prev"), bp::arg("next"), bp::arg("flow"), bp::arg("pyr_scale"), bp::arg("levels"), bp::arg("winsize"), bp::arg("iterations"), bp::arg("poly_n"), bp::arg("poly_sigma"), bp::arg("flags") )
+            , "\nWrapped function:"
+    "\n    cvCalcOpticalFlowFarneback"
+    "\nArgument 'prev':"\
+    "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'flow':"\
+    "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'next':"\
+    "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat." );
     
     }
