@@ -264,14 +264,11 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
 
     for z in (
         'cvCalcOpticalFlowLK', 'cvCalcOpticalFlowBM', 'cvCalcOpticalFlowHS',
+        'cvEstimateRigidTransform', 'cvCalcOpticalFlowFarneback',
         'cvUpdateMotionHistory', 'cvCalcMotionGradient', 'cvCalcGlobalOrientation',
         'cvAcc', 'cvSquareAcc', 'cvMultiplyAcc', 'cvRunningAvg',
         ):
         mb.free_fun(z).include()
-
-    # estimateRigidTransform
-    z = mb.free_fun('cvEstimateRigidTransform')
-    z.include()
 
 
     # cvCalcOpticalFlowPyrLK
@@ -285,30 +282,6 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
     # cvSegmentMotion
     FT.expose_func(mb.free_fun('cvSegmentMotion'), ward_indices=(3,))
     
-
-    # Object Tracking
-    cc.write('''
-#-----------------------------------------------------------------------------
-# Object Tracking
-#-----------------------------------------------------------------------------
-
-
-    ''')
-
-    for z in (
-        'cvConDensUpdateByTime', 'cvConDensInitSampleSet',
-        ):
-        mb.free_fun(z).include()
-
-
-    # cvCreateConDensation
-    FT.expose_func(mb.free_fun('cvCreateConDensation'), ownershiplevel=1)
-    
-    # cvReleaseConDensation
-    z = mb.free_fun('cvReleaseConDensation')
-    FT.add_underscore(z)
-    z._transformer_creators.append(FT.input_double_pointee('condens'))
-
 
     # Planar Subdivisions
     cc.write('''

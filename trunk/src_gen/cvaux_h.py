@@ -158,3 +158,37 @@ CV_DISPARITY_BIRCHFIELD  = 0
 
     
     ''')
+
+
+    # Object Tracking
+    cc.write('''
+#-----------------------------------------------------------------------------
+# Object Tracking
+#-----------------------------------------------------------------------------
+
+
+    ''')
+
+    # CvConDensation
+    z = mb.class_('CvConDensation')
+    z.include()
+    for arg in z.vars():
+        if D.is_pointer(arg.type):
+            arg.exclude() # wait until requested
+    mb.insert_del_interface('CvConDensation', '_PE._cvReleaseConDensation')
+
+    for z in (
+        'cvConDensUpdateByTime', 'cvConDensInitSampleSet',
+        ):
+        mb.free_fun(z).include()
+
+
+    # cvCreateConDensation
+    FT.expose_func(mb.free_fun('cvCreateConDensation'), ownershiplevel=1)
+    
+    # cvReleaseConDensation
+    z = mb.free_fun('cvReleaseConDensation')
+    FT.add_underscore(z)
+    z._transformer_creators.append(FT.input_double_pointee('condens'))
+
+
