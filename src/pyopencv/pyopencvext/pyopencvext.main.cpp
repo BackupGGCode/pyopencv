@@ -763,6 +763,11 @@ static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b1283
                             , convert_from_T_to_object(curr_features2) );
 }
 
+static boost::python::object cvCheckChessboard_59f8753d978791ecd1fc97cea5e10f04( ::cv::Mat & src, ::CvSize size ){
+    int result = ::cvCheckChessboard(get_IplImage_ptr(src), size);
+    return bp::object( result );
+}
+
 static void cvConDensInitSampleSet_2b2c9d04e9f57fb36a248c795590341d( ::CvConDensation * condens, ::cv::Mat & lower_bound, ::cv::Mat & upper_bound ){
     ::cvConDensInitSampleSet(condens, get_CvMat_ptr(lower_bound), get_CvMat_ptr(upper_bound));
 }
@@ -3366,6 +3371,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    returned along with the function's return value (if any)."\
     "\nArgument 'curr_pyr':"\
     "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat." );
+    
+    }
+
+    { //::cvCheckChessboard
+    
+        typedef boost::python::object ( *checkChessboard_function_type )( ::cv::Mat &,::CvSize );
+        
+        bp::def( 
+            "checkChessboard"
+            , checkChessboard_function_type( &cvCheckChessboard_59f8753d978791ecd1fc97cea5e10f04 )
+            , ( bp::arg("src"), bp::arg("size") )
+            , "\nWrapped function:"
+    "\n    cvCheckChessboard"
+    "\nArgument 'src':"\
+    "\n    C/C++ type: ::IplImage *."\
     "\n    Python type: Mat." );
     
     }

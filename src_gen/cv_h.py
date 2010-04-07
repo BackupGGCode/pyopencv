@@ -331,8 +331,6 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
 
 CV_POLY_APPROX_DP = 0
 
-CV_DOMINANT_IPAN = 1
-
 CV_CONTOURS_MATCH_I1 = 1
 CV_CONTOURS_MATCH_I2 = 2
 CV_CONTOURS_MATCH_I3 = 3
@@ -353,6 +351,8 @@ CV_ARRAY = 2
 CV_DIST_MASK_3 = 3
 CV_DIST_MASK_5 = 5
 CV_DIST_MASK_PRECISE = 0
+
+CV_CALIB_CB_FAST_CHECK = 8 # OpenCV 2.1: Equivalent C++ constant not yet available
 
     ''')
 
@@ -432,10 +432,6 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
 
     ''')
 
-    # cvCalcImageHomography
-    FT.expose_func(mb.free_fun('cvCalcImageHomography'), return_pointee=False, transformer_creators=[
-        FT.input_static_array('line', 3), FT.input_static_array('intrinsic', 9), FT.output_static_array('homography', 9)])
-
     # cvDistTransform
     FT.expose_func(mb.free_fun('cvDistTransform'), return_pointee=False, transformer_creators=[FT.input_array1d('mask')])
 
@@ -454,8 +450,8 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     for z in (
         'cvFindFeatures', 'cvFindFeaturesBoxed',
         'LSHSize', 'cvLSHAdd', 'cvLSHRemove', 'cvLSHQuery',
-        'cvSURFPoint',
-        'cvStarKeypoint', 
+        'cvSURFPoint', 'cvStarKeypoint', 
+        'cvCheckChessboard', # TODO: convert CvSize of cvCheckChessboard into cv::Size
         ):
         mb.free_fun(z).include()
 
