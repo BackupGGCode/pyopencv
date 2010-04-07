@@ -206,6 +206,23 @@ static boost::shared_ptr<cv::PlanarObjectDetector> PlanarObjectDetector_init1(bp
     z.add_registration_code('def("__init__", bp::make_constructor(&PlanarObjectDetector_init1, bp::default_call_policies(), ( bp::arg("pyr"), bp::arg("_npoints")=(int)(300), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )) )')
     mb.finalize_class(z)
     
+    # LevMarqSparse
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('LevMarqSparse')
+    z.include()
+    z.decls().exclude()
+    
+    for t in (
+        'DefaultRngAuto', 'BackgroundSubtractor', 
+        'BackgroundSubtractorMOG', 'CvAffinePose',
+        ):
+        z = mb.class_(t)
+        mb.init_class(z)
+        mb.finalize_class(z)
+    
+    # TODO: BaseKeypoint, CSMatrixGenerator, RandomizedTree, RTreeNode, 
+    # RTreeClassifier
+
     # OneWayDescriptor
     # TODO: fix the rest of the member declarations
     z = mb.class_('OneWayDescriptor')
@@ -225,16 +242,15 @@ static boost::shared_ptr<cv::PlanarObjectDetector> PlanarObjectDetector_init1(bp
     # z.include()
     # z.decls().exclude()
     
-    # LevMarqSparse
-    # TODO: fix the rest of the member declarations
-    z = mb.class_('LevMarqSparse')
-    z.include()
-    z.decls().exclude()
-
     
     #=============================================================================
     # Free Functions
     #=============================================================================
+    
+    for t in (
+        'find4QuadCornerSubpix',
+        ):
+        mb.free_fun(t).include()
 
     # TODO:
     # TickMeter's operator <<
