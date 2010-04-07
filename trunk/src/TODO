@@ -11,3 +11,5 @@ Fix squares.py demo, something's wrong with the algorithm. It's running but too 
 Add iterator for SparseMat
 
 Expose unnamed enums. They are currently unexposed.
+
+Expose Mat_xyz classes.
