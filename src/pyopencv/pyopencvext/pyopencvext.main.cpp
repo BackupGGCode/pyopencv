@@ -368,6 +368,8 @@
 
 #include "pyopencvext/StereoBM.pypp.hpp"
 
+#include "pyopencvext/StereoSGBM.pypp.hpp"
+
 #include "pyopencvext/TermCriteria.pypp.hpp"
 
 #include "pyopencvext/TickMeter.pypp.hpp"
@@ -2570,6 +2572,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_StarDetector_class();
 
     register_StereoBM_class();
+
+    register_StereoSGBM_class();
 
     register_TickMeter_class();
 

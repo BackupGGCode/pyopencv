@@ -38,7 +38,9 @@ void register_StereoBM_class(){
             StereoBM_exposer.def( 
                 "__call__"
                 , __call___function_type( &::cv::StereoBM::operator() )
-                , ( bp::arg("left"), bp::arg("right"), bp::arg("disparity"), bp::arg("disptype")=(int)(3) ) );
+                , ( bp::arg("left"), bp::arg("right"), bp::arg("disparity"), bp::arg("disptype")=(int)(3) )
+                , "\nWrapped function:"
+    "\n    operator()" );
         
         }
         StereoBM_exposer.def_readwrite( "state", &cv::StereoBM::state );
