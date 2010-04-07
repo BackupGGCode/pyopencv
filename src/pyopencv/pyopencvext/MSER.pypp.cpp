@@ -9,7 +9,7 @@
 
 namespace bp = boost::python;
 
-static boost::python::object __call___3db7f85e36cc2236e94ccc0caba03336( ::cv::MSER const & inst, ::cv::Mat const & image, ::cv::Mat const & mask ){
+static boost::python::object __call___0ae44c044fa04acb6166d31628f834f3( ::cv::MSER const & inst, ::cv::Mat & image, ::cv::Mat const & mask ){
     std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > msers2;
     bp::list msers3;
     inst.operator()(image, msers2, mask);
@@ -24,7 +24,7 @@ void register_MSER_class(){
         .def( bp::init< int, int, int, float, float, int, double, double, int >(( bp::arg("_delta"), bp::arg("_min_area"), bp::arg("_max_area"), bp::arg("_max_variation"), bp::arg("_min_diversity"), bp::arg("_max_evolution"), bp::arg("_area_threshold"), bp::arg("_min_margin"), bp::arg("_edge_blur_size") )) )    
         .def( 
             "__call__"
-            , (boost::python::object (*)( ::cv::MSER const &,::cv::Mat const &,::cv::Mat const & ))( &__call___3db7f85e36cc2236e94ccc0caba03336 )
+            , (boost::python::object (*)( ::cv::MSER const &,::cv::Mat &,::cv::Mat const & ))( &__call___0ae44c044fa04acb6166d31628f834f3 )
             , ( bp::arg("inst"), bp::arg("image"), bp::arg("mask") )
             , "\nWrapped function:"
     "\n    operator()"

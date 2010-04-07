@@ -36,7 +36,6 @@ def generate_code(mb, cc, D, FT, CP):
     # functions
     for z in (
         'namedWindow', 'imshow', 'imread', 'imwrite', 'imencode', 'imdecode', 'waitKey',
-        'setWindowProperty', 'getWindowProperty',
         ):
         mb.free_fun(z).include()
         

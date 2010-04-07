@@ -736,17 +736,6 @@ void register_free_functions(){
     
     }
 
-    { //::cv::checkHardwareSupport
-    
-        typedef bool ( *checkHardwareSupport_function_type )( int );
-        
-        bp::def( 
-            "checkHardwareSupport"
-            , checkHardwareSupport_function_type( &::cv::checkHardwareSupport )
-            , ( bp::arg("feature") ) );
-    
-    }
-
     { //::cv::circle
     
         typedef void ( *circle_function_type )( ::cv::Mat &,::cv::Point,int,::cv::Scalar const &,int,int,int );
@@ -900,12 +889,12 @@ void register_free_functions(){
 
     { //::cv::contourArea
     
-        typedef double ( *contourArea_function_type )( ::cv::Mat const &,bool );
+        typedef double ( *contourArea_function_type )( ::cv::Mat const & );
         
         bp::def( 
             "contourArea"
             , contourArea_function_type( &::cv::contourArea )
-            , ( bp::arg("contour"), bp::arg("oriented")=(bool)(false) ) );
+            , ( bp::arg("contour") ) );
     
     }
 
@@ -2640,17 +2629,6 @@ void register_free_functions(){
     
     }
 
-    { //::cv::filterSpeckles
-    
-        typedef void ( *filterSpeckles_function_type )( ::cv::Mat &,double,int,double,::cv::Mat & );
-        
-        bp::def( 
-            "filterSpeckles"
-            , filterSpeckles_function_type( &::cv::filterSpeckles )
-            , ( bp::arg("img"), bp::arg("newVal"), bp::arg("maxSpeckleSize"), bp::arg("maxDiff"), bp::arg("buf") ) );
-    
-    }
-
     { //::cv::findFundamentalMat
     
         typedef ::cv::Mat ( *findFundamentalMat_function_type )( ::cv::Mat const &,::cv::Mat const &,int,double,double );
@@ -2736,16 +2714,6 @@ void register_free_functions(){
             "gemm"
             , gemm_function_type( &::cv::gemm )
             , ( bp::arg("a"), bp::arg("b"), bp::arg("alpha"), bp::arg("c"), bp::arg("gamma"), bp::arg("d"), bp::arg("flags")=(int)(0) ) );
-    
-    }
-
-    { //::cv::getCPUTickCount
-    
-        typedef ::int64 ( *getCPUTickCount_function_type )(  );
-        
-        bp::def( 
-            "getCPUTickCount"
-            , getCPUTickCount_function_type( &::cv::getCPUTickCount ) );
     
     }
 
@@ -2973,39 +2941,6 @@ void register_free_functions(){
         bp::def( 
             "getTickFrequency"
             , getTickFrequency_function_type( &::cv::getTickFrequency ) );
-    
-    }
-
-    { //::cv::getValidDisparityROI
-    
-        typedef ::cv::Rect ( *getValidDisparityROI_function_type )( ::cv::Rect,::cv::Rect,int,int,int );
-        
-        bp::def( 
-            "getValidDisparityROI"
-            , getValidDisparityROI_function_type( &::cv::getValidDisparityROI )
-            , ( bp::arg("roi1"), bp::arg("roi2"), bp::arg("minDisparity"), bp::arg("numberOfDisparities"), bp::arg("SADWindowSize") ) );
-    
-    }
-
-    { //::cv::getWindowProperty
-    
-        typedef double ( *getWindowProperty_function_type )( ::std::string const &,int );
-        
-        bp::def( 
-            "getWindowProperty"
-            , getWindowProperty_function_type( &::cv::getWindowProperty )
-            , ( bp::arg("winname"), bp::arg("prop_id") ) );
-    
-    }
-
-    { //::cv::grabCut
-    
-        typedef void ( *grabCut_function_type )( ::cv::Mat const &,::cv::Mat &,::cv::Rect,::cv::Mat &,::cv::Mat &,int,int );
-        
-        bp::def( 
-            "grabCut"
-            , grabCut_function_type( &::cv::grabCut )
-            , ( bp::arg("img"), bp::arg("mask"), bp::arg("rect"), bp::arg("bgdModel"), bp::arg("fgdModel"), bp::arg("iterCount"), bp::arg("mode")=int(::cv::GC_EVAL) ) );
     
     }
 
@@ -3565,7 +3500,7 @@ void register_free_functions(){
         bp::def( 
             "namedWindow"
             , namedWindow_function_type( &::cv::namedWindow )
-            , ( bp::arg("winname"), bp::arg("flags")=(int)(1) ) );
+            , ( bp::arg("winname"), bp::arg("flags") ) );
     
     }
 
@@ -3835,17 +3770,6 @@ void register_free_functions(){
 
     { //::cv::rectangle
     
-        typedef void ( *rectangle_function_type )( ::cv::Mat &,::cv::Rect,::cv::Scalar const &,int,int,int );
-        
-        bp::def( 
-            "rectangle"
-            , rectangle_function_type( &::cv::rectangle )
-            , ( bp::arg("img"), bp::arg("rec"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) ) );
-    
-    }
-
-    { //::cv::rectangle
-    
         typedef void ( *rectangle_function_type )( ::cv::Mat &,::cv::Point,::cv::Point,::cv::Scalar const &,int,int,int );
         
         bp::def( 
@@ -3917,7 +3841,7 @@ void register_free_functions(){
         bp::def( 
             "resize"
             , resize_function_type( &::cv::resize )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("dsize"), bp::arg("fx")=0, bp::arg("fy")=0, bp::arg("interpolation")=int(::cv::INTER_LINEAR) ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("dsize")=cv::Size_<int>(), bp::arg("fx")=0, bp::arg("fy")=0, bp::arg("interpolation")=int(::cv::INTER_LINEAR) ) );
     
     }
 
@@ -3987,17 +3911,6 @@ void register_free_functions(){
     
     }
 
-    { //::cv::setWindowProperty
-    
-        typedef void ( *setWindowProperty_function_type )( ::std::string const &,int,double );
-        
-        bp::def( 
-            "setWindowProperty"
-            , setWindowProperty_function_type( &::cv::setWindowProperty )
-            , ( bp::arg("winname"), bp::arg("prop_id"), bp::arg("prop_value") ) );
-    
-    }
-
     { //::cv::solve
     
         typedef bool ( *solve_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat &,int );
@@ -4061,6 +3974,17 @@ void register_free_functions(){
             "sqrt"
             , sqrt_function_type( &::cv::sqrt )
             , ( bp::arg("a"), bp::arg("b") ) );
+    
+    }
+
+    { //::cv::stereoRectify
+    
+        typedef void ( *stereoRectify_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Size,::cv::Mat const &,::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,int );
+        
+        bp::def( 
+            "stereoRectify"
+            , stereoRectify_function_type( &::cv::stereoRectify )
+            , ( bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("R1"), bp::arg("R2"), bp::arg("P1"), bp::arg("P2"), bp::arg("Q"), bp::arg("flags")=int(::cv::CALIB_ZERO_DISPARITY) ) );
     
     }
 
@@ -4291,17 +4215,6 @@ void register_free_functions(){
         bp::def( 
             "useOptimized"
             , useOptimized_function_type( &::cv::useOptimized ) );
-    
-    }
-
-    { //::cv::validateDisparity
-    
-        typedef void ( *validateDisparity_function_type )( ::cv::Mat &,::cv::Mat const &,int,int,int );
-        
-        bp::def( 
-            "validateDisparity"
-            , validateDisparity_function_type( &::cv::validateDisparity )
-            , ( bp::arg("disparity"), bp::arg("cost"), bp::arg("minDisparity"), bp::arg("numberOfDisparities"), bp::arg("disp12MaxDisp")=(int)(1) ) );
     
     }
 

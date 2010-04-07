@@ -164,8 +164,6 @@ CV_SHAPE_CROSS = 1
 CV_SHAPE_ELLIPSE = 2
 CV_SHAPE_CUSTOM = 100
 
-CV_MOP_ERODE = 0
-CV_MOP_DILATE = 1
 CV_MOP_OPEN = 2
 CV_MOP_CLOSE = 3
 CV_MOP_GRADIENT = 4
@@ -264,11 +262,14 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
 
     for z in (
         'cvCalcOpticalFlowLK', 'cvCalcOpticalFlowBM', 'cvCalcOpticalFlowHS',
-        'cvEstimateRigidTransform', 'cvCalcOpticalFlowFarneback',
         'cvUpdateMotionHistory', 'cvCalcMotionGradient', 'cvCalcGlobalOrientation',
         'cvAcc', 'cvSquareAcc', 'cvMultiplyAcc', 'cvRunningAvg',
         ):
         mb.free_fun(z).include()
+
+    # estimateRigidTransform
+    z = mb.free_fun('cvEstimateRigidTransform')
+    z.include()
 
 
     # cvCalcOpticalFlowPyrLK
@@ -282,6 +283,30 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
     # cvSegmentMotion
     FT.expose_func(mb.free_fun('cvSegmentMotion'), ward_indices=(3,))
     
+
+    # Object Tracking
+    cc.write('''
+#-----------------------------------------------------------------------------
+# Object Tracking
+#-----------------------------------------------------------------------------
+
+
+    ''')
+
+    for z in (
+        'cvConDensUpdateByTime', 'cvConDensInitSampleSet',
+        ):
+        mb.free_fun(z).include()
+
+
+    # cvCreateConDensation
+    FT.expose_func(mb.free_fun('cvCreateConDensation'), ownershiplevel=1)
+    
+    # cvReleaseConDensation
+    z = mb.free_fun('cvReleaseConDensation')
+    FT.add_underscore(z)
+    z._transformer_creators.append(FT.input_double_pointee('condens'))
+
 
     # Planar Subdivisions
     cc.write('''
@@ -331,6 +356,8 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
 
 CV_POLY_APPROX_DP = 0
 
+CV_DOMINANT_IPAN = 1
+
 CV_CONTOURS_MATCH_I1 = 1
 CV_CONTOURS_MATCH_I2 = 2
 CV_CONTOURS_MATCH_I3 = 3
@@ -351,8 +378,6 @@ CV_ARRAY = 2
 CV_DIST_MASK_3 = 3
 CV_DIST_MASK_5 = 5
 CV_DIST_MASK_PRECISE = 0
-
-CV_CALIB_CB_FAST_CHECK = 8 # OpenCV 2.1: Equivalent C++ constant not yet available
 
     ''')
 
@@ -432,6 +457,10 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
 
     ''')
 
+    # cvCalcImageHomography
+    FT.expose_func(mb.free_fun('cvCalcImageHomography'), return_pointee=False, transformer_creators=[
+        FT.input_static_array('line', 3), FT.input_static_array('intrinsic', 9), FT.output_static_array('homography', 9)])
+
     # cvDistTransform
     FT.expose_func(mb.free_fun('cvDistTransform'), return_pointee=False, transformer_creators=[FT.input_array1d('mask')])
 
@@ -450,8 +479,8 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     for z in (
         'cvFindFeatures', 'cvFindFeaturesBoxed',
         'LSHSize', 'cvLSHAdd', 'cvLSHRemove', 'cvLSHQuery',
-        'cvSURFPoint', 'cvStarKeypoint', 
-        'cvCheckChessboard', # TODO: convert CvSize of cvCheckChessboard into cv::Size
+        'cvSURFPoint',
+        'cvStarKeypoint', 
         ):
         mb.free_fun(z).include()
 

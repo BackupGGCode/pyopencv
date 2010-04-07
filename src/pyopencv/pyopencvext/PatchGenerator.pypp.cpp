@@ -27,7 +27,7 @@ void register_PatchGenerator_class(){
         .def( 
             "warpWholeImage"
             , (void ( ::cv::PatchGenerator::* )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,int,::cv::RNG & ) const)( &::cv::PatchGenerator::warpWholeImage )
-            , ( bp::arg("image"), bp::arg("matT"), bp::arg("buf"), bp::arg("warped"), bp::arg("border"), bp::arg("rng") ) )    
+            , ( bp::arg("image"), bp::arg("_T"), bp::arg("buf"), bp::arg("warped"), bp::arg("border"), bp::arg("rng") ) )    
         .def_readwrite( "backgroundMax", &cv::PatchGenerator::backgroundMax )    
         .def_readwrite( "backgroundMin", &cv::PatchGenerator::backgroundMin )    
         .def_readwrite( "lambdaMax", &cv::PatchGenerator::lambdaMax )    

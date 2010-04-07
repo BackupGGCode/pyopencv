@@ -19,7 +19,7 @@ static boost::python::object __call___c2d97c9701a9c79dcec3239fd753dffc( ::cv::St
 
 void register_StarDetector_class(){
 
-    bp::class_< cv::StarDetector, bp::bases< CvStarDetectorParams > >( "StarDetector", bp::init< >() )    
+    bp::class_< cv::StarDetector >( "StarDetector", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::StarDetector >() )    
         .def( bp::init< int, int, int, int, int >(( bp::arg("_maxSize"), bp::arg("_responseThreshold"), bp::arg("_lineThresholdProjected"), bp::arg("_lineThresholdBinarized"), bp::arg("_suppressNonmaxSize") )) )    
         .def( 

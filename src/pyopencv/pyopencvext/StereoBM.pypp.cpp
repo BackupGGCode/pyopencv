@@ -14,8 +14,7 @@ void register_StereoBM_class(){
         StereoBM_exposer_t StereoBM_exposer = StereoBM_exposer_t( "StereoBM", bp::init< >() );
         bp::scope StereoBM_scope( StereoBM_exposer );
         StereoBM_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::StereoBM >() );
-        bp::scope().attr("PREFILTER_NORMALIZED_RESPONSE") = (int)cv::StereoBM::PREFILTER_NORMALIZED_RESPONSE;
-        bp::scope().attr("PREFILTER_XSOBEL") = (int)cv::StereoBM::PREFILTER_XSOBEL;
+        bp::scope().attr("NORMALIZED_RESPONSE") = (int)cv::StereoBM::NORMALIZED_RESPONSE;
         bp::scope().attr("BASIC_PRESET") = (int)cv::StereoBM::BASIC_PRESET;
         bp::scope().attr("FISH_EYE_PRESET") = (int)cv::StereoBM::FISH_EYE_PRESET;
         bp::scope().attr("NARROW_PRESET") = (int)cv::StereoBM::NARROW_PRESET;
@@ -33,14 +32,12 @@ void register_StereoBM_class(){
         }
         { //::cv::StereoBM::operator()
         
-            typedef void ( ::cv::StereoBM::*__call___function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat &,int ) ;
+            typedef void ( ::cv::StereoBM::*__call___function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat & ) ;
             
             StereoBM_exposer.def( 
                 "__call__"
                 , __call___function_type( &::cv::StereoBM::operator() )
-                , ( bp::arg("left"), bp::arg("right"), bp::arg("disparity"), bp::arg("disptype")=(int)(3) )
-                , "\nWrapped function:"
-    "\n    operator()" );
+                , ( bp::arg("left"), bp::arg("right"), bp::arg("disparity") ) );
         
         }
         StereoBM_exposer.def_readwrite( "state", &cv::StereoBM::state );

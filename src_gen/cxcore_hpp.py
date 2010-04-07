@@ -581,7 +581,7 @@ static bp::tuple children(cv::FileNode const &inst)
     # free functions
     for z in ('fromUtf16', 'toUtf16',
         'setNumThreads', 'getNumThreads', 'getThreadNum',
-        'getTickCount', 'getTickFrequency', 'getCPUTickCount', 'checkHardwareSupport',
+        'getTickCount', 'getTickFrequency',
         'setUseOptimized', 'useOptimized',
         ):
         mb.free_fun(lambda decl: z in decl.name).include()

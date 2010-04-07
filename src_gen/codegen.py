@@ -133,9 +133,9 @@ import ctypes as _CT
 #=============================================================================
 
 CV_MAJOR_VERSION    = 2
-CV_MINOR_VERSION    = 1
+CV_MINOR_VERSION    = 0
 CV_SUBMINOR_VERSION = 0
-CV_VERSION          = "2.1.0"
+CV_VERSION          = "2.0.0"
 
 
 
@@ -403,7 +403,7 @@ def finalize_class(self, z):
     # ignore all non-public members
     for t in z.decls():
         try:
-            if t.access_type != 'public' or t.name.startswith('~'):
+            if t.access_type != 'public':
                 t.exclude()
         except:
             pass

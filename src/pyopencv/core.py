@@ -69,9 +69,9 @@ import ctypes as _CT
 #=============================================================================
 
 CV_MAJOR_VERSION    = 2
-CV_MINOR_VERSION    = 1
+CV_MINOR_VERSION    = 0
 CV_SUBMINOR_VERSION = 0
-CV_VERSION          = "2.1.0"
+CV_VERSION          = "2.0.0"
 
 
 
@@ -579,21 +579,6 @@ CV_ErrModeSilent = 2
 # Data Persistence
 #-----------------------------------------------------------------------------
 
-
-#-----------------------------------------------------------------------------
-# CPU capabilities
-#-----------------------------------------------------------------------------
-
-CV_CPU_NONE    = 0    
-CV_CPU_MMX     = 1
-CV_CPU_SSE     = 2
-CV_CPU_SSE2    = 3
-CV_CPU_SSE3    = 4
-CV_CPU_SSSE3   = 5
-CV_CPU_SSE4_1  = 6
-CV_CPU_SSE4_2  = 7
-CV_CPU_AVX    = 10
-CV_HARDWARE_MAX_FEATURE = 255
     
 
     
@@ -1889,6 +1874,13 @@ def _CvContourScanner__del__(self):
         _PE._cvEndFindContours(self)
 CvContourScanner.__del__ = _CvContourScanner__del__
 
+CvConDensation._ownershiplevel = 0
+
+def _CvConDensation__del__(self):
+    if self._ownershiplevel==1:
+        _PE._cvReleaseConDensation(self)
+CvConDensation.__del__ = _CvConDensation__del__
+
 #=============================================================================
 # cv.h
 #=============================================================================
@@ -2011,8 +2003,6 @@ CV_SHAPE_CROSS = 1
 CV_SHAPE_ELLIPSE = 2
 CV_SHAPE_CUSTOM = 100
 
-CV_MOP_ERODE = 0
-CV_MOP_DILATE = 1
 CV_MOP_OPEN = 2
 CV_MOP_CLOSE = 3
 CV_MOP_GRADIENT = 4
@@ -2060,6 +2050,12 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
 
     
 #-----------------------------------------------------------------------------
+# Object Tracking
+#-----------------------------------------------------------------------------
+
+
+    
+#-----------------------------------------------------------------------------
 # Planar Subdivisions
 #-----------------------------------------------------------------------------
 
@@ -2071,6 +2067,8 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
 
 
 CV_POLY_APPROX_DP = 0
+
+CV_DOMINANT_IPAN = 1
 
 CV_CONTOURS_MATCH_I1 = 1
 CV_CONTOURS_MATCH_I2 = 2
@@ -2092,8 +2090,6 @@ CV_ARRAY = 2
 CV_DIST_MASK_3 = 3
 CV_DIST_MASK_5 = 5
 CV_DIST_MASK_PRECISE = 0
-
-CV_CALIB_CB_FAST_CHECK = 8 # OpenCV 2.1: Equivalent C++ constant not yet available
 
     
 #-----------------------------------------------------------------------------
@@ -2182,8 +2178,6 @@ CvStereoGCState.__del__ = _CvStereoGCState__del__
 # More operations on sequences
 #-----------------------------------------------------------------------------
 
-
-CV_DOMINANT_IPAN = 1
     
     
 CV_UNDEF_SC_PARAM = 12345
@@ -2240,19 +2234,6 @@ CV_DISPARITY_BIRCHFIELD  = 0
 
     
     
-#-----------------------------------------------------------------------------
-# Object Tracking
-#-----------------------------------------------------------------------------
-
-
-    
-CvConDensation._ownershiplevel = 0
-
-def _CvConDensation__del__(self):
-    if self._ownershiplevel==1:
-        _PE._cvReleaseConDensation(self)
-CvConDensation.__del__ = _CvConDensation__del__
-
 #=============================================================================
 # cvaux.hpp
 #=============================================================================
@@ -2367,12 +2348,6 @@ CvParamGrid.__repr__ = _CvParamGrid__repr__
     
 CV_WINDOW_AUTOSIZE = 1
 
-CV_WND_PROP_FULLSCREEN	 = 0
-CV_WND_PROP_AUTOSIZE	 = 1
-CV_WINDOW_NORMAL	 	 = 0
-CV_WINDOW_FULLSCREEN	 = 1
-
-
 # Holds references to ctypes function wrappers for callbacks to keep the
 # Python side object alive.  Keyed by window name, with a window value being
 # a dictionary of callbacks, keyed by "mouse" mouse callback, or "trackbar-name"
@@ -2434,7 +2409,6 @@ CV_TYZX_Z = 403
 CV_CAP_QT = 500     # Quicktime
 CV_CAP_UNICAP = 600   # Unicap drivers
 CV_CAP_DSHOW = 700   # DirectShow (via videoInput)
-CV_CAP_PVAPI = 800   # PvAPI, Prosilica GigE SDK
 
 CV_CAP_PROP_POS_MSEC      = 0
 CV_CAP_PROP_POS_FRAMES    = 1

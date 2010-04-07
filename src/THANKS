@@ -1,5 +1,5 @@
 =======================================================================
-PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
+PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
 =======================================================================
 
 Thanks go to many people in the ctypes-opencv Google group as well as

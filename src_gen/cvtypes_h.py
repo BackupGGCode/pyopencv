@@ -159,3 +159,11 @@ static void set_rect_weight(CvHaarFeature &inst, int i, float _weight)
     FT.expose_member_as_pointee(z, 'hid_cascade')
     
                     
+    # CvConDensation
+    z = mb.class_('CvConDensation')
+    z.include()
+    for arg in z.vars():
+        if D.is_pointer(arg.type):
+            arg.exclude() # wait until requested
+    mb.insert_del_interface('CvConDensation', '_PE._cvReleaseConDensation')
+

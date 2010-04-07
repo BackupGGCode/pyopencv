@@ -13,7 +13,6 @@ void register_CvSubdiv2DPoint_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSubdiv2DPoint >() )    
         .def_readwrite( "first", &CvSubdiv2DPoint::first )    
         .def_readwrite( "flags", &CvSubdiv2DPoint::flags )    
-        .def_readwrite( "id", &CvSubdiv2DPoint::id )    
         .def_readwrite( "pt", &CvSubdiv2DPoint::pt );
 
 }
