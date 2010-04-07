@@ -7,11 +7,16 @@ Download a PyOpenCV source archive from the [http://code.google.com/p/pyopencv/d
 svn checkout http://pyopencv.googlecode.com/svn/trunk/src/ pyopencv
 }}}
 
+If you want to check out PyOpenCV for OpenCV 2.0, however, check out at:
+{{{
+svn checkout http://pyopencv.googlecode.com/svn/branches/2.0.0/src/ pyopencv
+}}}
+
 ===Edit file `config.py`===
 
-PyOpenCV needs to be told where to find OpenCV 2.0 and Boost. It needs to know the libraries to link against and the directories to search for those libraries. Put this text into file `config.py` located at PyOpenCV's source directory (potentially with adapted paths and libraries): 
+PyOpenCV needs to be told where to find OpenCV 2.x and Boost. It needs to know the libraries to link against and the directories to search for those libraries. Put this text into file `config.py` located at PyOpenCV's source directory (potentially with adapted paths and libraries): 
 {{{
-# OpenCV 2.0 library
+# OpenCV 2.x library
 opencv_dir = <opencv_dir> # the root dir of your OpenCV build
 opencv_include_dirs = [opencv_dir+"/include/opencv"]
 opencv_library_dirs = [opencv_dir+"/lib"]
@@ -33,9 +38,9 @@ This is the configuration file that provides PyOpenCV information about OpenCV a
 Eventually, the file should have the following variables (each of which is a list/tuple of strings) exposed:
 
  * `opencv_include_dirs` == list of folders that contain OpenCV's include header files
- * `opencv_library_dirs` == list of folders that contain OpenCV's library files to be linked against (e.g. a folder containing files like cv200.lib, libcv200.a, libcv200.so, or libcv200.dylib)
+ * `opencv_library_dirs` == list of folders that contain OpenCV's library files to be linked against (e.g. a folder containing files like cv210.lib, libcv210.a, libcv210.so, or libcv210.dylib)
  * `opencv_libraries` == list of library files that are to be linked against. 
- * *Windows only:* `opencv_runtime_library_dirs` == list of folders that contain OpenCV's shared library files that are actually loaded at run-time (e.g. cv200.dll)
+ * *Windows only:* `opencv_runtime_library_dirs` == list of folders that contain OpenCV's shared library files that are actually loaded at run-time (e.g. cv210.dll)
  * *Windows only:* `opencv_runtime_libraries_to_be_bundled` == list of shared library files that are actually loaded at run-time. If this variable is an empty list (i.e. `[]`), all the folders specified in the 'opencv_runtime_library_dirs' variable are inserted at the front of the PATH environment whenever PyOpenCV is imported. Otherwise, these shared library files are bundled with PyOpenCV at install-time.
 
  * `boost_include_dirs` == list of folders that contain Boost's include header files. The first item of the list must be the root path of Boost.
@@ -49,11 +54,11 @@ Here are some examples of `config.py`:
   * *On Windows:*
 
 {{{
-# OpenCV 2.0 library
-opencv_dir = "C:/Program Files/OpenCV"
+# OpenCV 2.1.0 library, built with MinGW
+opencv_dir = "C:/MinGW/OpenCV"
 opencv_include_dirs = [opencv_dir+"/include/opencv"]
 opencv_library_dirs = [opencv_dir+"/lib"]
-opencv_libraries = ["cvaux200.dll", "ml200.dll", "highgui200.dll", "cv200.dll", "cxcore200.dll"]
+opencv_libraries = ["cvaux210.dll", "ml210.dll", "highgui210.dll", "cv210.dll", "cxcore210.dll"]
 opencv_runtime_library_dirs = [opencv_dir+"/bin"]
 opencv_runtime_libraries_to_be_bundled = []
 
@@ -69,11 +74,11 @@ boost_runtime_libraries_to_be_bundled = []
   * *On Linux:*
 
 {{{
-# OpenCV 2.0 library
+# OpenCV 2.1.0 library
 opencv_dir = "/usr/local"
 opencv_include_dirs = [opencv_dir+"/include/opencv"]
 opencv_library_dirs = [opencv_dir+"/lib"]
-opencv_libraries = ["cvaux200.dll", "ml200.dll", "highgui200.dll", "cv200.dll", "cxcore200.dll"]
+opencv_libraries = ["highgui", "ml", "cvaux", "cv", "cxcore"]
 opencv_runtime_library_dirs = []
 opencv_runtime_libraries_to_be_bundled = []
 
