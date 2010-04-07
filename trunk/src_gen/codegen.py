@@ -438,14 +438,14 @@ def dtypecast(self, casting_list):
             if t1 == t2:
                 continue
             z2 = self.class_(t2).alias
-            self.add_declaration_code('''
+            self.dummy_struct.add_declaration_code('''
 static inline CLASS2 cvt_KLASS1_KLASS2(CLASS1 const &inst)
 {
     return inst.operator CLASS2();
 }
                 '''.replace('KLASS1', z1).replace('KLASS2', z2)\
                 .replace('CLASS1', t1).replace('CLASS2', t2))
-            self.add_registration_code(\
+            self.dummy_struct.add_reg_code(\
                 'bp::def("asKLASS2", &cvt_KLASS1_KLASS2, (bp::arg("inst_KLASS1")));'\
                 .replace('KLASS1', z1).replace('KLASS2', z2))
 
@@ -471,6 +471,18 @@ mb.classes().expose_this = True
 
 # expose all enumerations
 mb.enums().include()
+
+# dummy struct
+z = mb.class_("dummy_struct")
+mb.dummy_struct = z
+z.include()
+z.decls().exclude()
+z.class_('dummy_struct2').include()
+z.rename("__dummy_struct")
+z._reg_code = ""
+def add_dummy_reg_code(s):
+    mb.dummy_struct._reg_code += "\n        "+s
+z.add_reg_code = add_dummy_reg_code
 
 # get the list of OpenCV functions
 opencv_funs = mb.free_funs() # mb.free_funs(lambda decl: decl.name.startswith('cv'))
@@ -574,6 +586,13 @@ for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
 mb.enums(lambda x: x.decl_string.startswith('::std')).exclude()
 mb.enums(lambda x: x.decl_string.startswith('::tag')).exclude()
 
+# dummy struct
+mb.dummy_struct.add_registration_code('''setattr("v0", 0);
+    }
+    {
+        %s''' % mb.dummy_struct._reg_code)
+
+
 # rename functions that starts with 'cv'
 for z in mb.free_funs():
     if z.alias[:2] == 'cv'and z.alias[2].isupper():
@@ -602,6 +621,7 @@ OP.normcase = _new_normcase
 
 #Writing code to file.
 mb.split_module('pyopencvext')
+
 
 #Return old normcase
 OP.normcase = _old_normcase

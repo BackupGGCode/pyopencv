@@ -89,6 +89,36 @@ def generate_ti():
     
     add_ti('Ptr', 'FilterEngine')
     
+    add_ti('Mat_', 'uchar', 'Mat1b')
+    add_ti('Mat_', 'Vec2b', 'Mat2b')
+    add_ti('Mat_', 'Vec3b', 'Mat3b')
+    add_ti('Mat_', 'Vec4b', 'Mat4b')
+    
+    add_ti('Mat_', 'short', 'Mat1s')
+    add_ti('Mat_', 'Vec2s', 'Mat2s')
+    add_ti('Mat_', 'Vec3s', 'Mat3s')
+    add_ti('Mat_', 'Vec4s', 'Mat4s')
+    
+    add_ti('Mat_', 'ushort', 'Mat1w')
+    add_ti('Mat_', 'Vec2w', 'Mat2w')
+    add_ti('Mat_', 'Vec3w', 'Mat3w')
+    add_ti('Mat_', 'Vec4w', 'Mat4w')
+    
+    add_ti('Mat_', 'int', 'Mat1i') # 32-bit, 64-bit, workaround, be careful here
+    add_ti('Mat_', 'Vec2i', 'Mat2i')
+    add_ti('Mat_', 'Vec3i', 'Mat3i')
+    add_ti('Mat_', 'Vec4i', 'Mat4i')
+    
+    add_ti('Mat_', 'float', 'Mat1f')
+    add_ti('Mat_', 'Vec2f', 'Mat2f')
+    add_ti('Mat_', 'Vec3f', 'Mat3f')
+    add_ti('Mat_', 'Vec4f', 'Mat4f')
+    
+    add_ti('Mat_', 'double', 'Mat1d')
+    add_ti('Mat_', 'Vec2d', 'Mat2d')
+    add_ti('Mat_', 'Vec3d', 'Mat3d')
+    add_ti('Mat_', 'Vec4d', 'Mat4d')
+    
     add_ti('vector', 'char', 'vector_int8')
     add_ti('vector', 'unsigned char', 'vector_uint8')
     add_ti('vector', 'short', 'vector_int16')
@@ -152,11 +182,12 @@ namespace cv {
 
     tif.write('''
 
-    struct __dummy_struct {
+    struct dummy_struct {
+        struct dummy_struct2 {};
 ''')
 
     for i in xrange(len(ti)):
-        tif.write('         %s var%d;\n' % (ti[i][2], i))
+        tif.write('        %s var%d;\n' % (ti[i][2], i))
 
     tif.write('''    };
 }

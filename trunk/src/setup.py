@@ -40,6 +40,11 @@ ctypes-based and swig-based wrappers. Its main features include:
     * OpenCV extensions: classes DifferentialImage, IntegralImage, and 
       IntegralHistogram. 
 
+To the best of our knowledge, PyOpenCV is the largest wrapper among 
+existing Python wrappers for OpenCV. It exposes to Python 200+ classes 
+and 300+ free functions of OpenCV 2.x, including those instantiated from 
+templates.
+
 In addition, we use NumPy to provide fast indexing and slicing 
 functionality to OpenCV's dense data types like Vec-like, Point-like, 
 Rect-like, Size-like, Scalar, Mat, and MatND, and to offer the user an 

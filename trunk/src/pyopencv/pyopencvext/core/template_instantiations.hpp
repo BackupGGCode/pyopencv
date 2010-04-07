@@ -278,6 +278,126 @@ namespace cv {
     #endif
 
 
+    #ifndef Mat1b
+    typedef Mat_ < uchar > Mat1b;
+    #endif
+
+
+    #ifndef Mat2b
+    typedef Mat_ < Vec2b > Mat2b;
+    #endif
+
+
+    #ifndef Mat3b
+    typedef Mat_ < Vec3b > Mat3b;
+    #endif
+
+
+    #ifndef Mat4b
+    typedef Mat_ < Vec4b > Mat4b;
+    #endif
+
+
+    #ifndef Mat1s
+    typedef Mat_ < short > Mat1s;
+    #endif
+
+
+    #ifndef Mat2s
+    typedef Mat_ < Vec2s > Mat2s;
+    #endif
+
+
+    #ifndef Mat3s
+    typedef Mat_ < Vec3s > Mat3s;
+    #endif
+
+
+    #ifndef Mat4s
+    typedef Mat_ < Vec4s > Mat4s;
+    #endif
+
+
+    #ifndef Mat1w
+    typedef Mat_ < ushort > Mat1w;
+    #endif
+
+
+    #ifndef Mat2w
+    typedef Mat_ < Vec2w > Mat2w;
+    #endif
+
+
+    #ifndef Mat3w
+    typedef Mat_ < Vec3w > Mat3w;
+    #endif
+
+
+    #ifndef Mat4w
+    typedef Mat_ < Vec4w > Mat4w;
+    #endif
+
+
+    #ifndef Mat1i
+    typedef Mat_ < int > Mat1i;
+    #endif
+
+
+    #ifndef Mat2i
+    typedef Mat_ < Vec2i > Mat2i;
+    #endif
+
+
+    #ifndef Mat3i
+    typedef Mat_ < Vec3i > Mat3i;
+    #endif
+
+
+    #ifndef Mat4i
+    typedef Mat_ < Vec4i > Mat4i;
+    #endif
+
+
+    #ifndef Mat1f
+    typedef Mat_ < float > Mat1f;
+    #endif
+
+
+    #ifndef Mat2f
+    typedef Mat_ < Vec2f > Mat2f;
+    #endif
+
+
+    #ifndef Mat3f
+    typedef Mat_ < Vec3f > Mat3f;
+    #endif
+
+
+    #ifndef Mat4f
+    typedef Mat_ < Vec4f > Mat4f;
+    #endif
+
+
+    #ifndef Mat1d
+    typedef Mat_ < double > Mat1d;
+    #endif
+
+
+    #ifndef Mat2d
+    typedef Mat_ < Vec2d > Mat2d;
+    #endif
+
+
+    #ifndef Mat3d
+    typedef Mat_ < Vec3d > Mat3d;
+    #endif
+
+
+    #ifndef Mat4d
+    typedef Mat_ < Vec4d > Mat4d;
+    #endif
+
+
     #ifndef vector_int8
     typedef vector < char > vector_int8;
     #endif
@@ -489,104 +609,129 @@ namespace cv {
 
 
 
-    struct __dummy_struct {
-         DataDepth_bool var0;
-         DataDepth_uchar var1;
-         DataDepth_schar var2;
-         DataDepth_ushort var3;
-         DataDepth_short var4;
-         DataDepth_int var5;
-         DataDepth_float var6;
-         DataDepth_double var7;
-         DataType_bool var8;
-         DataType_uchar var9;
-         DataType_schar var10;
-         DataType_ushort var11;
-         DataType_short var12;
-         DataType_int var13;
-         DataType_float var14;
-         DataType_double var15;
-         DataType_Range var16;
-         Rect var17;
-         Rectf var18;
-         Rectd var19;
-         Size var20;
-         Size2i var21;
-         Size2f var22;
-         Size2d var23;
-         Complexf var24;
-         Complexd var25;
-         Point var26;
-         Point2i var27;
-         Point2f var28;
-         Point2d var29;
-         Point3i var30;
-         Point3f var31;
-         Point3d var32;
-         Scalar var33;
-         Vec2b var34;
-         Vec3b var35;
-         Vec4b var36;
-         Vec2s var37;
-         Vec3s var38;
-         Vec4s var39;
-         Vec2w var40;
-         Vec3w var41;
-         Vec4w var42;
-         Vec2i var43;
-         Vec3i var44;
-         Vec4i var45;
-         Vec2f var46;
-         Vec3f var47;
-         Vec4f var48;
-         Vec6f var49;
-         Vec2d var50;
-         Vec3d var51;
-         Vec4d var52;
-         Vec6d var53;
-         Ptr_FilterEngine var54;
-         vector_int8 var55;
-         vector_uint8 var56;
-         vector_int16 var57;
-         vector_uint16 var58;
-         vector_int var59;
-         vector_uint var60;
-         vector_int32 var61;
-         vector_uint32 var62;
-         vector_int64 var63;
-         vector_uint64 var64;
-         vector_float32 var65;
-         vector_float64 var66;
-         vector_Vec2i var67;
-         vector_Vec2f var68;
-         vector_Vec3f var69;
-         vector_Vec4i var70;
-         vector_Point var71;
-         vector_Point2f var72;
-         vector_Point3 var73;
-         vector_Point3f var74;
-         vector_Mat var75;
-         vector_MatND var76;
-         vector_KeyPoint var77;
-         vector_CascadeClassifier_DTreeNode var78;
-         vector_CascadeClassifier_DTree var79;
-         vector_CascadeClassifier_Stage var80;
-         vector_FernClassifier_Feature var81;
-         Ptr_Mat var82;
-         vector_Ptr_Mat var83;
-         vector_Octree_Node var84;
-         vector_CvFuzzyRule_Ptr var85;
-         vector_CvFuzzyCurve var86;
-         vector_CvFuzzyPoint var87;
-         vector_string var88;
-         vector_KDTree_Node var89;
-         vector_vector_int var90;
-         vector_vector_float32 var91;
-         vector_vector_Point var92;
-         vector_vector_Point2f var93;
-         vector_vector_Point3f var94;
-         vector_vector_Vec2i var95;
-         vector_Rect var96;
+    struct dummy_struct {
+        struct dummy_struct2 {};
+        DataDepth_bool var0;
+        DataDepth_uchar var1;
+        DataDepth_schar var2;
+        DataDepth_ushort var3;
+        DataDepth_short var4;
+        DataDepth_int var5;
+        DataDepth_float var6;
+        DataDepth_double var7;
+        DataType_bool var8;
+        DataType_uchar var9;
+        DataType_schar var10;
+        DataType_ushort var11;
+        DataType_short var12;
+        DataType_int var13;
+        DataType_float var14;
+        DataType_double var15;
+        DataType_Range var16;
+        Rect var17;
+        Rectf var18;
+        Rectd var19;
+        Size var20;
+        Size2i var21;
+        Size2f var22;
+        Size2d var23;
+        Complexf var24;
+        Complexd var25;
+        Point var26;
+        Point2i var27;
+        Point2f var28;
+        Point2d var29;
+        Point3i var30;
+        Point3f var31;
+        Point3d var32;
+        Scalar var33;
+        Vec2b var34;
+        Vec3b var35;
+        Vec4b var36;
+        Vec2s var37;
+        Vec3s var38;
+        Vec4s var39;
+        Vec2w var40;
+        Vec3w var41;
+        Vec4w var42;
+        Vec2i var43;
+        Vec3i var44;
+        Vec4i var45;
+        Vec2f var46;
+        Vec3f var47;
+        Vec4f var48;
+        Vec6f var49;
+        Vec2d var50;
+        Vec3d var51;
+        Vec4d var52;
+        Vec6d var53;
+        Ptr_FilterEngine var54;
+        Mat1b var55;
+        Mat2b var56;
+        Mat3b var57;
+        Mat4b var58;
+        Mat1s var59;
+        Mat2s var60;
+        Mat3s var61;
+        Mat4s var62;
+        Mat1w var63;
+        Mat2w var64;
+        Mat3w var65;
+        Mat4w var66;
+        Mat1i var67;
+        Mat2i var68;
+        Mat3i var69;
+        Mat4i var70;
+        Mat1f var71;
+        Mat2f var72;
+        Mat3f var73;
+        Mat4f var74;
+        Mat1d var75;
+        Mat2d var76;
+        Mat3d var77;
+        Mat4d var78;
+        vector_int8 var79;
+        vector_uint8 var80;
+        vector_int16 var81;
+        vector_uint16 var82;
+        vector_int var83;
+        vector_uint var84;
+        vector_int32 var85;
+        vector_uint32 var86;
+        vector_int64 var87;
+        vector_uint64 var88;
+        vector_float32 var89;
+        vector_float64 var90;
+        vector_Vec2i var91;
+        vector_Vec2f var92;
+        vector_Vec3f var93;
+        vector_Vec4i var94;
+        vector_Point var95;
+        vector_Point2f var96;
+        vector_Point3 var97;
+        vector_Point3f var98;
+        vector_Mat var99;
+        vector_MatND var100;
+        vector_KeyPoint var101;
+        vector_CascadeClassifier_DTreeNode var102;
+        vector_CascadeClassifier_DTree var103;
+        vector_CascadeClassifier_Stage var104;
+        vector_FernClassifier_Feature var105;
+        Ptr_Mat var106;
+        vector_Ptr_Mat var107;
+        vector_Octree_Node var108;
+        vector_CvFuzzyRule_Ptr var109;
+        vector_CvFuzzyCurve var110;
+        vector_CvFuzzyPoint var111;
+        vector_string var112;
+        vector_KDTree_Node var113;
+        vector_vector_int var114;
+        vector_vector_float32 var115;
+        vector_vector_Point var116;
+        vector_vector_Point2f var117;
+        vector_vector_Point3f var118;
+        vector_vector_Vec2i var119;
+        vector_Rect var120;
     };
 }
 
