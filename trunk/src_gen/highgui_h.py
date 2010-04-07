@@ -34,6 +34,12 @@ def generate_code(mb, cc, D, FT, CP):
     
 CV_WINDOW_AUTOSIZE = 1
 
+CV_WND_PROP_FULLSCREEN	 = 0
+CV_WND_PROP_AUTOSIZE	 = 1
+CV_WINDOW_NORMAL	 	 = 0
+CV_WINDOW_FULLSCREEN	 = 1
+
+
 # Holds references to ctypes function wrappers for callbacks to keep the
 # Python side object alive.  Keyed by window name, with a window value being
 # a dictionary of callbacks, keyed by "mouse" mouse callback, or "trackbar-name"
@@ -95,6 +101,7 @@ CV_TYZX_Z = 403
 CV_CAP_QT = 500     # Quicktime
 CV_CAP_UNICAP = 600   # Unicap drivers
 CV_CAP_DSHOW = 700   # DirectShow (via videoInput)
+CV_CAP_PVAPI = 800   # PvAPI, Prosilica GigE SDK
 
 CV_CAP_PROP_POS_MSEC      = 0
 CV_CAP_PROP_POS_FRAMES    = 1
