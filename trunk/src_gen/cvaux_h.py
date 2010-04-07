@@ -53,6 +53,10 @@ def generate_code(mb, cc, D, FT, CP):
     
     ''')
 
+    # cvCalcImageHomography
+    FT.expose_func(mb.free_fun('cvCalcImageHomography'), return_pointee=False, transformer_creators=[
+        FT.input_static_array('line', 3), FT.input_static_array('intrinsic', 9), FT.output_static_array('homography', 9)])
+
     # Additional operations on Subdivisions -- TODO
     cc.write('''
 #-----------------------------------------------------------------------------
@@ -68,6 +72,8 @@ def generate_code(mb, cc, D, FT, CP):
 # More operations on sequences
 #-----------------------------------------------------------------------------
 
+
+CV_DOMINANT_IPAN = 1
     
     ''')
 

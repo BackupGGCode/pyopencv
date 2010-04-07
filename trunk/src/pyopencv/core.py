@@ -2057,8 +2057,6 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
 
 CV_POLY_APPROX_DP = 0
 
-CV_DOMINANT_IPAN = 1
-
 CV_CONTOURS_MATCH_I1 = 1
 CV_CONTOURS_MATCH_I2 = 2
 CV_CONTOURS_MATCH_I3 = 3
@@ -2079,6 +2077,8 @@ CV_ARRAY = 2
 CV_DIST_MASK_3 = 3
 CV_DIST_MASK_5 = 5
 CV_DIST_MASK_PRECISE = 0
+
+CV_CALIB_CB_FAST_CHECK = 8 # OpenCV 2.1: Equivalent C++ constant not yet available
 
     
 #-----------------------------------------------------------------------------
@@ -2167,6 +2167,8 @@ CvStereoGCState.__del__ = _CvStereoGCState__del__
 # More operations on sequences
 #-----------------------------------------------------------------------------
 
+
+CV_DOMINANT_IPAN = 1
     
     
 CV_UNDEF_SC_PARAM = 12345
