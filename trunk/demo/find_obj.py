@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# OpenCV 2.0's C demo
+# OpenCV 2.x's C demo
 # -- adapted by Daniel to work with PyOpenCV
 # -- modified a bit Minh-Tri Pham
 
