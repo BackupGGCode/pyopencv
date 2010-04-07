@@ -29,7 +29,18 @@ def generate_code(mb, cc, D, FT, CP):
     #=============================================================================
     
     # Vec et al
-    mb.class_('::cv::Vec<int, 4>').rename('Vec4i')
+    dtype_dict = {
+        'b': 'unsigned char',
+        's': 'short',
+        'w': 'unsigned short',
+        'i': 'int',
+        'f': 'float',
+        'd': 'double',
+    }
+    
+    for suffix in dtype_dict:
+        for i in xrange(2,5):
+            mb.class_('::cv::Vec<%s, %i>' % (dtype_dict[suffix], i)).rename('Vec%d%s' % (i, suffix))
     zz = mb.classes(lambda z: z.name.startswith('Vec<'))
     for z in zz:
         z.include()
@@ -343,6 +354,25 @@ def asMat(obj, force_single_channel=False):
         
     return out_mat
     ''')
+    
+    # Mat_
+    Mat_list = []
+    for suffix in "bswifd":
+        for i in xrange(1,5):
+            z = mb.class_(lambda x: x.alias=="Mat"+str(i)+suffix)
+            Mat_list.append("::cv::"+z.name)
+            z.include_files.append("opencv_converters.hpp")
+            z.include()
+            z.constructor(lambda x: len(x.arguments)==4 and '*' in \
+                x.arguments[2].type.partial_decl_string).exclude() # TODO
+            z.mem_funs('adjustROI').call_policies = CP.return_self()
+            for t in ('MatExp', 'vector'):
+                z.decls(lambda x: t in x.decl_string).exclude()
+            for t in ('begin', 'end'):
+                z.decls(t).exclude() # TODO
+            z.operators().exclude() # TODO
+
+    mb.dtypecast(Mat_list)
 
     # RNG
     z = mb.class_('RNG')

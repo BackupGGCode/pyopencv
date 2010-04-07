@@ -286,6 +286,54 @@
 
 #include "pyopencvext/Mat.pypp.hpp"
 
+#include "pyopencvext/Mat1b.pypp.hpp"
+
+#include "pyopencvext/Mat1d.pypp.hpp"
+
+#include "pyopencvext/Mat1f.pypp.hpp"
+
+#include "pyopencvext/Mat1i.pypp.hpp"
+
+#include "pyopencvext/Mat1s.pypp.hpp"
+
+#include "pyopencvext/Mat1w.pypp.hpp"
+
+#include "pyopencvext/Mat2b.pypp.hpp"
+
+#include "pyopencvext/Mat2d.pypp.hpp"
+
+#include "pyopencvext/Mat2f.pypp.hpp"
+
+#include "pyopencvext/Mat2i.pypp.hpp"
+
+#include "pyopencvext/Mat2s.pypp.hpp"
+
+#include "pyopencvext/Mat2w.pypp.hpp"
+
+#include "pyopencvext/Mat3b.pypp.hpp"
+
+#include "pyopencvext/Mat3d.pypp.hpp"
+
+#include "pyopencvext/Mat3f.pypp.hpp"
+
+#include "pyopencvext/Mat3i.pypp.hpp"
+
+#include "pyopencvext/Mat3s.pypp.hpp"
+
+#include "pyopencvext/Mat3w.pypp.hpp"
+
+#include "pyopencvext/Mat4b.pypp.hpp"
+
+#include "pyopencvext/Mat4d.pypp.hpp"
+
+#include "pyopencvext/Mat4f.pypp.hpp"
+
+#include "pyopencvext/Mat4i.pypp.hpp"
+
+#include "pyopencvext/Mat4s.pypp.hpp"
+
+#include "pyopencvext/Mat4w.pypp.hpp"
+
 #include "pyopencvext/MatND.pypp.hpp"
 
 #include "pyopencvext/Mesh3D.pypp.hpp"
@@ -425,6 +473,8 @@
 #include "pyopencvext/VideoCapture.pypp.hpp"
 
 #include "pyopencvext/VideoWriter.pypp.hpp"
+
+#include "pyopencvext/__dummy_struct.pypp.hpp"
 
 #include "pyopencvext/flann_Index.pypp.hpp"
 
@@ -1574,596 +1624,6 @@ struct CvSlice_to_python
     }
 };
 
-static inline ::cv::Vec<short, 2> cvt_Vec2b_Vec2s(::cv::Vec<unsigned char, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 2>();
-}
-
-static inline ::cv::Vec<unsigned short, 2> cvt_Vec2b_Vec2w(::cv::Vec<unsigned char, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 2>();
-}
-
-static inline ::cv::Vec<int, 2> cvt_Vec2b_Vec2i(::cv::Vec<unsigned char, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 2>();
-}
-
-static inline ::cv::Vec<float, 2> cvt_Vec2b_Vec2f(::cv::Vec<unsigned char, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 2>();
-}
-
-static inline ::cv::Vec<double, 2> cvt_Vec2b_Vec2d(::cv::Vec<unsigned char, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 2>();
-}
-
-static inline ::cv::Vec<unsigned char, 2> cvt_Vec2s_Vec2b(::cv::Vec<short, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 2>();
-}
-
-static inline ::cv::Vec<unsigned short, 2> cvt_Vec2s_Vec2w(::cv::Vec<short, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 2>();
-}
-
-static inline ::cv::Vec<int, 2> cvt_Vec2s_Vec2i(::cv::Vec<short, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 2>();
-}
-
-static inline ::cv::Vec<float, 2> cvt_Vec2s_Vec2f(::cv::Vec<short, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 2>();
-}
-
-static inline ::cv::Vec<double, 2> cvt_Vec2s_Vec2d(::cv::Vec<short, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 2>();
-}
-
-static inline ::cv::Vec<unsigned char, 2> cvt_Vec2w_Vec2b(::cv::Vec<unsigned short, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 2>();
-}
-
-static inline ::cv::Vec<short, 2> cvt_Vec2w_Vec2s(::cv::Vec<unsigned short, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 2>();
-}
-
-static inline ::cv::Vec<int, 2> cvt_Vec2w_Vec2i(::cv::Vec<unsigned short, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 2>();
-}
-
-static inline ::cv::Vec<float, 2> cvt_Vec2w_Vec2f(::cv::Vec<unsigned short, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 2>();
-}
-
-static inline ::cv::Vec<double, 2> cvt_Vec2w_Vec2d(::cv::Vec<unsigned short, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 2>();
-}
-
-static inline ::cv::Vec<unsigned char, 2> cvt_Vec2i_Vec2b(::cv::Vec<int, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 2>();
-}
-
-static inline ::cv::Vec<short, 2> cvt_Vec2i_Vec2s(::cv::Vec<int, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 2>();
-}
-
-static inline ::cv::Vec<unsigned short, 2> cvt_Vec2i_Vec2w(::cv::Vec<int, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 2>();
-}
-
-static inline ::cv::Vec<float, 2> cvt_Vec2i_Vec2f(::cv::Vec<int, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 2>();
-}
-
-static inline ::cv::Vec<double, 2> cvt_Vec2i_Vec2d(::cv::Vec<int, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 2>();
-}
-
-static inline ::cv::Vec<unsigned char, 2> cvt_Vec2f_Vec2b(::cv::Vec<float, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 2>();
-}
-
-static inline ::cv::Vec<short, 2> cvt_Vec2f_Vec2s(::cv::Vec<float, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 2>();
-}
-
-static inline ::cv::Vec<unsigned short, 2> cvt_Vec2f_Vec2w(::cv::Vec<float, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 2>();
-}
-
-static inline ::cv::Vec<int, 2> cvt_Vec2f_Vec2i(::cv::Vec<float, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 2>();
-}
-
-static inline ::cv::Vec<double, 2> cvt_Vec2f_Vec2d(::cv::Vec<float, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 2>();
-}
-
-static inline ::cv::Vec<unsigned char, 2> cvt_Vec2d_Vec2b(::cv::Vec<double, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 2>();
-}
-
-static inline ::cv::Vec<short, 2> cvt_Vec2d_Vec2s(::cv::Vec<double, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 2>();
-}
-
-static inline ::cv::Vec<unsigned short, 2> cvt_Vec2d_Vec2w(::cv::Vec<double, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 2>();
-}
-
-static inline ::cv::Vec<int, 2> cvt_Vec2d_Vec2i(::cv::Vec<double, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 2>();
-}
-
-static inline ::cv::Vec<float, 2> cvt_Vec2d_Vec2f(::cv::Vec<double, 2> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 2>();
-}
-
-static inline ::cv::Vec<short, 3> cvt_Vec3b_Vec3s(::cv::Vec<unsigned char, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 3>();
-}
-
-static inline ::cv::Vec<unsigned short, 3> cvt_Vec3b_Vec3w(::cv::Vec<unsigned char, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 3>();
-}
-
-static inline ::cv::Vec<int, 3> cvt_Vec3b_Vec3i(::cv::Vec<unsigned char, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 3>();
-}
-
-static inline ::cv::Vec<float, 3> cvt_Vec3b_Vec3f(::cv::Vec<unsigned char, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 3>();
-}
-
-static inline ::cv::Vec<double, 3> cvt_Vec3b_Vec3d(::cv::Vec<unsigned char, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 3>();
-}
-
-static inline ::cv::Vec<unsigned char, 3> cvt_Vec3s_Vec3b(::cv::Vec<short, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 3>();
-}
-
-static inline ::cv::Vec<unsigned short, 3> cvt_Vec3s_Vec3w(::cv::Vec<short, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 3>();
-}
-
-static inline ::cv::Vec<int, 3> cvt_Vec3s_Vec3i(::cv::Vec<short, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 3>();
-}
-
-static inline ::cv::Vec<float, 3> cvt_Vec3s_Vec3f(::cv::Vec<short, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 3>();
-}
-
-static inline ::cv::Vec<double, 3> cvt_Vec3s_Vec3d(::cv::Vec<short, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 3>();
-}
-
-static inline ::cv::Vec<unsigned char, 3> cvt_Vec3w_Vec3b(::cv::Vec<unsigned short, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 3>();
-}
-
-static inline ::cv::Vec<short, 3> cvt_Vec3w_Vec3s(::cv::Vec<unsigned short, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 3>();
-}
-
-static inline ::cv::Vec<int, 3> cvt_Vec3w_Vec3i(::cv::Vec<unsigned short, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 3>();
-}
-
-static inline ::cv::Vec<float, 3> cvt_Vec3w_Vec3f(::cv::Vec<unsigned short, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 3>();
-}
-
-static inline ::cv::Vec<double, 3> cvt_Vec3w_Vec3d(::cv::Vec<unsigned short, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 3>();
-}
-
-static inline ::cv::Vec<unsigned char, 3> cvt_Vec3i_Vec3b(::cv::Vec<int, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 3>();
-}
-
-static inline ::cv::Vec<short, 3> cvt_Vec3i_Vec3s(::cv::Vec<int, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 3>();
-}
-
-static inline ::cv::Vec<unsigned short, 3> cvt_Vec3i_Vec3w(::cv::Vec<int, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 3>();
-}
-
-static inline ::cv::Vec<float, 3> cvt_Vec3i_Vec3f(::cv::Vec<int, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 3>();
-}
-
-static inline ::cv::Vec<double, 3> cvt_Vec3i_Vec3d(::cv::Vec<int, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 3>();
-}
-
-static inline ::cv::Vec<unsigned char, 3> cvt_Vec3f_Vec3b(::cv::Vec<float, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 3>();
-}
-
-static inline ::cv::Vec<short, 3> cvt_Vec3f_Vec3s(::cv::Vec<float, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 3>();
-}
-
-static inline ::cv::Vec<unsigned short, 3> cvt_Vec3f_Vec3w(::cv::Vec<float, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 3>();
-}
-
-static inline ::cv::Vec<int, 3> cvt_Vec3f_Vec3i(::cv::Vec<float, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 3>();
-}
-
-static inline ::cv::Vec<double, 3> cvt_Vec3f_Vec3d(::cv::Vec<float, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 3>();
-}
-
-static inline ::cv::Vec<unsigned char, 3> cvt_Vec3d_Vec3b(::cv::Vec<double, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 3>();
-}
-
-static inline ::cv::Vec<short, 3> cvt_Vec3d_Vec3s(::cv::Vec<double, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 3>();
-}
-
-static inline ::cv::Vec<unsigned short, 3> cvt_Vec3d_Vec3w(::cv::Vec<double, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 3>();
-}
-
-static inline ::cv::Vec<int, 3> cvt_Vec3d_Vec3i(::cv::Vec<double, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 3>();
-}
-
-static inline ::cv::Vec<float, 3> cvt_Vec3d_Vec3f(::cv::Vec<double, 3> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 3>();
-}
-
-static inline ::cv::Vec<short, 4> cvt_Vec4b_Vec4s(::cv::Vec<unsigned char, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 4>();
-}
-
-static inline ::cv::Vec<unsigned short, 4> cvt_Vec4b_Vec4w(::cv::Vec<unsigned char, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 4>();
-}
-
-static inline ::cv::Vec<int, 4> cvt_Vec4b_Vec4i(::cv::Vec<unsigned char, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 4>();
-}
-
-static inline ::cv::Vec<float, 4> cvt_Vec4b_Vec4f(::cv::Vec<unsigned char, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 4>();
-}
-
-static inline ::cv::Vec<double, 4> cvt_Vec4b_Vec4d(::cv::Vec<unsigned char, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 4>();
-}
-
-static inline ::cv::Vec<unsigned char, 4> cvt_Vec4s_Vec4b(::cv::Vec<short, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 4>();
-}
-
-static inline ::cv::Vec<unsigned short, 4> cvt_Vec4s_Vec4w(::cv::Vec<short, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 4>();
-}
-
-static inline ::cv::Vec<int, 4> cvt_Vec4s_Vec4i(::cv::Vec<short, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 4>();
-}
-
-static inline ::cv::Vec<float, 4> cvt_Vec4s_Vec4f(::cv::Vec<short, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 4>();
-}
-
-static inline ::cv::Vec<double, 4> cvt_Vec4s_Vec4d(::cv::Vec<short, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 4>();
-}
-
-static inline ::cv::Vec<unsigned char, 4> cvt_Vec4w_Vec4b(::cv::Vec<unsigned short, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 4>();
-}
-
-static inline ::cv::Vec<short, 4> cvt_Vec4w_Vec4s(::cv::Vec<unsigned short, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 4>();
-}
-
-static inline ::cv::Vec<int, 4> cvt_Vec4w_Vec4i(::cv::Vec<unsigned short, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 4>();
-}
-
-static inline ::cv::Vec<float, 4> cvt_Vec4w_Vec4f(::cv::Vec<unsigned short, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 4>();
-}
-
-static inline ::cv::Vec<double, 4> cvt_Vec4w_Vec4d(::cv::Vec<unsigned short, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 4>();
-}
-
-static inline ::cv::Vec<unsigned char, 4> cvt_Vec4i_Vec4b(::cv::Vec<int, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 4>();
-}
-
-static inline ::cv::Vec<short, 4> cvt_Vec4i_Vec4s(::cv::Vec<int, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 4>();
-}
-
-static inline ::cv::Vec<unsigned short, 4> cvt_Vec4i_Vec4w(::cv::Vec<int, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 4>();
-}
-
-static inline ::cv::Vec<float, 4> cvt_Vec4i_Vec4f(::cv::Vec<int, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 4>();
-}
-
-static inline ::cv::Vec<double, 4> cvt_Vec4i_Vec4d(::cv::Vec<int, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 4>();
-}
-
-static inline ::cv::Vec<unsigned char, 4> cvt_Vec4f_Vec4b(::cv::Vec<float, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 4>();
-}
-
-static inline ::cv::Vec<short, 4> cvt_Vec4f_Vec4s(::cv::Vec<float, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 4>();
-}
-
-static inline ::cv::Vec<unsigned short, 4> cvt_Vec4f_Vec4w(::cv::Vec<float, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 4>();
-}
-
-static inline ::cv::Vec<int, 4> cvt_Vec4f_Vec4i(::cv::Vec<float, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 4>();
-}
-
-static inline ::cv::Vec<double, 4> cvt_Vec4f_Vec4d(::cv::Vec<float, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 4>();
-}
-
-static inline ::cv::Vec<unsigned char, 4> cvt_Vec4d_Vec4b(::cv::Vec<double, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned char, 4>();
-}
-
-static inline ::cv::Vec<short, 4> cvt_Vec4d_Vec4s(::cv::Vec<double, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<short, 4>();
-}
-
-static inline ::cv::Vec<unsigned short, 4> cvt_Vec4d_Vec4w(::cv::Vec<double, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<unsigned short, 4>();
-}
-
-static inline ::cv::Vec<int, 4> cvt_Vec4d_Vec4i(::cv::Vec<double, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<int, 4>();
-}
-
-static inline ::cv::Vec<float, 4> cvt_Vec4d_Vec4f(::cv::Vec<double, 4> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 4>();
-}
-
-static inline ::cv::Vec<double, 6> cvt_Vec6f_Vec6d(::cv::Vec<float, 6> const &inst)
-{
-    return inst.operator ::cv::Vec<double, 6>();
-}
-
-static inline ::cv::Vec<float, 6> cvt_Vec6d_Vec6f(::cv::Vec<double, 6> const &inst)
-{
-    return inst.operator ::cv::Vec<float, 6>();
-}
-
-static inline ::cv::Complex<double> cvt_Complexf_Complexd(::cv::Complex<float> const &inst)
-{
-    return inst.operator ::cv::Complex<double>();
-}
-
-static inline ::cv::Complex<float> cvt_Complexd_Complexf(::cv::Complex<double> const &inst)
-{
-    return inst.operator ::cv::Complex<float>();
-}
-
-static inline ::cv::Point_<float> cvt_Point2i_Point2f(::cv::Point_<int> const &inst)
-{
-    return inst.operator ::cv::Point_<float>();
-}
-
-static inline ::cv::Point_<double> cvt_Point2i_Point2d(::cv::Point_<int> const &inst)
-{
-    return inst.operator ::cv::Point_<double>();
-}
-
-static inline ::cv::Point_<int> cvt_Point2f_Point2i(::cv::Point_<float> const &inst)
-{
-    return inst.operator ::cv::Point_<int>();
-}
-
-static inline ::cv::Point_<double> cvt_Point2f_Point2d(::cv::Point_<float> const &inst)
-{
-    return inst.operator ::cv::Point_<double>();
-}
-
-static inline ::cv::Point_<int> cvt_Point2d_Point2i(::cv::Point_<double> const &inst)
-{
-    return inst.operator ::cv::Point_<int>();
-}
-
-static inline ::cv::Point_<float> cvt_Point2d_Point2f(::cv::Point_<double> const &inst)
-{
-    return inst.operator ::cv::Point_<float>();
-}
-
-static inline ::cv::Point3_<float> cvt_Point3i_Point3f(::cv::Point3_<int> const &inst)
-{
-    return inst.operator ::cv::Point3_<float>();
-}
-
-static inline ::cv::Point3_<double> cvt_Point3i_Point3d(::cv::Point3_<int> const &inst)
-{
-    return inst.operator ::cv::Point3_<double>();
-}
-
-static inline ::cv::Point3_<int> cvt_Point3f_Point3i(::cv::Point3_<float> const &inst)
-{
-    return inst.operator ::cv::Point3_<int>();
-}
-
-static inline ::cv::Point3_<double> cvt_Point3f_Point3d(::cv::Point3_<float> const &inst)
-{
-    return inst.operator ::cv::Point3_<double>();
-}
-
-static inline ::cv::Point3_<int> cvt_Point3d_Point3i(::cv::Point3_<double> const &inst)
-{
-    return inst.operator ::cv::Point3_<int>();
-}
-
-static inline ::cv::Point3_<float> cvt_Point3d_Point3f(::cv::Point3_<double> const &inst)
-{
-    return inst.operator ::cv::Point3_<float>();
-}
-
-static inline ::cv::Size_<float> cvt_Size2i_Size2f(::cv::Size_<int> const &inst)
-{
-    return inst.operator ::cv::Size_<float>();
-}
-
-static inline ::cv::Size_<double> cvt_Size2i_Size2d(::cv::Size_<int> const &inst)
-{
-    return inst.operator ::cv::Size_<double>();
-}
-
-static inline ::cv::Size_<int> cvt_Size2f_Size2i(::cv::Size_<float> const &inst)
-{
-    return inst.operator ::cv::Size_<int>();
-}
-
-static inline ::cv::Size_<double> cvt_Size2f_Size2d(::cv::Size_<float> const &inst)
-{
-    return inst.operator ::cv::Size_<double>();
-}
-
-static inline ::cv::Size_<int> cvt_Size2d_Size2i(::cv::Size_<double> const &inst)
-{
-    return inst.operator ::cv::Size_<int>();
-}
-
-static inline ::cv::Size_<float> cvt_Size2d_Size2f(::cv::Size_<double> const &inst)
-{
-    return inst.operator ::cv::Size_<float>();
-}
-
-static inline ::cv::Rect_<float> cvt_Rect_Rectf(::cv::Rect_<int> const &inst)
-{
-    return inst.operator ::cv::Rect_<float>();
-}
-
-static inline ::cv::Rect_<double> cvt_Rect_Rectd(::cv::Rect_<int> const &inst)
-{
-    return inst.operator ::cv::Rect_<double>();
-}
-
-static inline ::cv::Rect_<int> cvt_Rectf_Rect(::cv::Rect_<float> const &inst)
-{
-    return inst.operator ::cv::Rect_<int>();
-}
-
-static inline ::cv::Rect_<double> cvt_Rectf_Rectd(::cv::Rect_<float> const &inst)
-{
-    return inst.operator ::cv::Rect_<double>();
-}
-
-static inline ::cv::Rect_<int> cvt_Rectd_Rect(::cv::Rect_<double> const &inst)
-{
-    return inst.operator ::cv::Rect_<int>();
-}
-
-static inline ::cv::Rect_<float> cvt_Rectd_Rectf(::cv::Rect_<double> const &inst)
-{
-    return inst.operator ::cv::Rect_<float>();
-}
-
 static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::object const & alpha, bp::object const & beta, bp::object const & gamma, int coeff_usage, cv::Size const & win, cv::TermCriteria const & criteria, int calc_gradient=1 ){
     char s[500];
     float alpha2, beta2, gamma2;
@@ -2495,6 +1955,54 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::implicitly_convertible< cv::MatND, cv::Mat >();
 
+    register_Mat2d_class();
+
+    register_Mat3d_class();
+
+    register_Mat4d_class();
+
+    register_Mat2f_class();
+
+    register_Mat3f_class();
+
+    register_Mat4f_class();
+
+    register_Mat2i_class();
+
+    register_Mat3i_class();
+
+    register_Mat4i_class();
+
+    register_Mat2s_class();
+
+    register_Mat3s_class();
+
+    register_Mat4s_class();
+
+    register_Mat2b_class();
+
+    register_Mat3b_class();
+
+    register_Mat4b_class();
+
+    register_Mat2w_class();
+
+    register_Mat3w_class();
+
+    register_Mat4w_class();
+
+    register_Mat1d_class();
+
+    register_Mat1f_class();
+
+    register_Mat1i_class();
+
+    register_Mat1s_class();
+
+    register_Mat1b_class();
+
+    register_Mat1w_class();
+
     register_Mesh3D_class();
 
     register_Moments_class();
@@ -2642,6 +2150,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_VideoCapture_class();
 
     register_VideoWriter_class();
+
+    register___dummy_struct_class();
 
     register_IndexFactory_class();
 
@@ -5603,17 +5113,23 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::to_python_converter<CvSlice, CvSlice_to_python, false>();
 
-    bp::def("asVec6d", &bp::from_ndarray< cv::Vec6d >, (bp::arg("arr")) );
+    bp::def("asVec4d", &bp::from_ndarray< cv::Vec4d >, (bp::arg("arr")) );
+
+    bp::def("asVec3d", &bp::from_ndarray< cv::Vec3d >, (bp::arg("arr")) );
 
     bp::def("asVec2d", &bp::from_ndarray< cv::Vec2d >, (bp::arg("arr")) );
 
-    bp::def("asVec6f", &bp::from_ndarray< cv::Vec6f >, (bp::arg("arr")) );
-
     bp::def("asVec4f", &bp::from_ndarray< cv::Vec4f >, (bp::arg("arr")) );
+
+    bp::def("asVec3f", &bp::from_ndarray< cv::Vec3f >, (bp::arg("arr")) );
+
+    bp::def("asVec2f", &bp::from_ndarray< cv::Vec2f >, (bp::arg("arr")) );
 
     bp::def("asVec4i", &bp::from_ndarray< cv::Vec4i >, (bp::arg("arr")) );
 
     bp::def("asVec3i", &bp::from_ndarray< cv::Vec3i >, (bp::arg("arr")) );
+
+    bp::def("asVec2i", &bp::from_ndarray< cv::Vec2i >, (bp::arg("arr")) );
 
     bp::def("asVec4w", &bp::from_ndarray< cv::Vec4w >, (bp::arg("arr")) );
 
@@ -5633,221 +5149,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asVec2b", &bp::from_ndarray< cv::Vec2b >, (bp::arg("arr")) );
 
-    bp::def("asVec3d", &bp::from_ndarray< cv::Vec3d >, (bp::arg("arr")) );
+    bp::def("asVec6d", &bp::from_ndarray< cv::Vec6d >, (bp::arg("arr")) );
 
-    bp::def("asVec3f", &bp::from_ndarray< cv::Vec3f >, (bp::arg("arr")) );
+    bp::def("asVec6f", &bp::from_ndarray< cv::Vec6f >, (bp::arg("arr")) );
 
-    bp::def("asVec4d", &bp::from_ndarray< cv::Vec4d >, (bp::arg("arr")) );
-
-    bp::def("asVec2f", &bp::from_ndarray< cv::Vec2f >, (bp::arg("arr")) );
-
-    bp::def("asVec2i", &bp::from_ndarray< cv::Vec2i >, (bp::arg("arr")) );
-
-    bp::def("asVec2s", &cvt_Vec2b_Vec2s, (bp::arg("inst_Vec2b")));
-
-    bp::def("asVec2w", &cvt_Vec2b_Vec2w, (bp::arg("inst_Vec2b")));
-
-    bp::def("asVec2i", &cvt_Vec2b_Vec2i, (bp::arg("inst_Vec2b")));
-
-    bp::def("asVec2f", &cvt_Vec2b_Vec2f, (bp::arg("inst_Vec2b")));
-
-    bp::def("asVec2d", &cvt_Vec2b_Vec2d, (bp::arg("inst_Vec2b")));
-
-    bp::def("asVec2b", &cvt_Vec2s_Vec2b, (bp::arg("inst_Vec2s")));
-
-    bp::def("asVec2w", &cvt_Vec2s_Vec2w, (bp::arg("inst_Vec2s")));
-
-    bp::def("asVec2i", &cvt_Vec2s_Vec2i, (bp::arg("inst_Vec2s")));
-
-    bp::def("asVec2f", &cvt_Vec2s_Vec2f, (bp::arg("inst_Vec2s")));
-
-    bp::def("asVec2d", &cvt_Vec2s_Vec2d, (bp::arg("inst_Vec2s")));
-
-    bp::def("asVec2b", &cvt_Vec2w_Vec2b, (bp::arg("inst_Vec2w")));
-
-    bp::def("asVec2s", &cvt_Vec2w_Vec2s, (bp::arg("inst_Vec2w")));
-
-    bp::def("asVec2i", &cvt_Vec2w_Vec2i, (bp::arg("inst_Vec2w")));
-
-    bp::def("asVec2f", &cvt_Vec2w_Vec2f, (bp::arg("inst_Vec2w")));
-
-    bp::def("asVec2d", &cvt_Vec2w_Vec2d, (bp::arg("inst_Vec2w")));
-
-    bp::def("asVec2b", &cvt_Vec2i_Vec2b, (bp::arg("inst_Vec2i")));
-
-    bp::def("asVec2s", &cvt_Vec2i_Vec2s, (bp::arg("inst_Vec2i")));
-
-    bp::def("asVec2w", &cvt_Vec2i_Vec2w, (bp::arg("inst_Vec2i")));
-
-    bp::def("asVec2f", &cvt_Vec2i_Vec2f, (bp::arg("inst_Vec2i")));
-
-    bp::def("asVec2d", &cvt_Vec2i_Vec2d, (bp::arg("inst_Vec2i")));
-
-    bp::def("asVec2b", &cvt_Vec2f_Vec2b, (bp::arg("inst_Vec2f")));
-
-    bp::def("asVec2s", &cvt_Vec2f_Vec2s, (bp::arg("inst_Vec2f")));
-
-    bp::def("asVec2w", &cvt_Vec2f_Vec2w, (bp::arg("inst_Vec2f")));
-
-    bp::def("asVec2i", &cvt_Vec2f_Vec2i, (bp::arg("inst_Vec2f")));
-
-    bp::def("asVec2d", &cvt_Vec2f_Vec2d, (bp::arg("inst_Vec2f")));
-
-    bp::def("asVec2b", &cvt_Vec2d_Vec2b, (bp::arg("inst_Vec2d")));
-
-    bp::def("asVec2s", &cvt_Vec2d_Vec2s, (bp::arg("inst_Vec2d")));
-
-    bp::def("asVec2w", &cvt_Vec2d_Vec2w, (bp::arg("inst_Vec2d")));
-
-    bp::def("asVec2i", &cvt_Vec2d_Vec2i, (bp::arg("inst_Vec2d")));
-
-    bp::def("asVec2f", &cvt_Vec2d_Vec2f, (bp::arg("inst_Vec2d")));
-
-    bp::def("asVec3s", &cvt_Vec3b_Vec3s, (bp::arg("inst_Vec3b")));
-
-    bp::def("asVec3w", &cvt_Vec3b_Vec3w, (bp::arg("inst_Vec3b")));
-
-    bp::def("asVec3i", &cvt_Vec3b_Vec3i, (bp::arg("inst_Vec3b")));
-
-    bp::def("asVec3f", &cvt_Vec3b_Vec3f, (bp::arg("inst_Vec3b")));
-
-    bp::def("asVec3d", &cvt_Vec3b_Vec3d, (bp::arg("inst_Vec3b")));
-
-    bp::def("asVec3b", &cvt_Vec3s_Vec3b, (bp::arg("inst_Vec3s")));
-
-    bp::def("asVec3w", &cvt_Vec3s_Vec3w, (bp::arg("inst_Vec3s")));
-
-    bp::def("asVec3i", &cvt_Vec3s_Vec3i, (bp::arg("inst_Vec3s")));
-
-    bp::def("asVec3f", &cvt_Vec3s_Vec3f, (bp::arg("inst_Vec3s")));
-
-    bp::def("asVec3d", &cvt_Vec3s_Vec3d, (bp::arg("inst_Vec3s")));
-
-    bp::def("asVec3b", &cvt_Vec3w_Vec3b, (bp::arg("inst_Vec3w")));
-
-    bp::def("asVec3s", &cvt_Vec3w_Vec3s, (bp::arg("inst_Vec3w")));
-
-    bp::def("asVec3i", &cvt_Vec3w_Vec3i, (bp::arg("inst_Vec3w")));
-
-    bp::def("asVec3f", &cvt_Vec3w_Vec3f, (bp::arg("inst_Vec3w")));
-
-    bp::def("asVec3d", &cvt_Vec3w_Vec3d, (bp::arg("inst_Vec3w")));
-
-    bp::def("asVec3b", &cvt_Vec3i_Vec3b, (bp::arg("inst_Vec3i")));
-
-    bp::def("asVec3s", &cvt_Vec3i_Vec3s, (bp::arg("inst_Vec3i")));
-
-    bp::def("asVec3w", &cvt_Vec3i_Vec3w, (bp::arg("inst_Vec3i")));
-
-    bp::def("asVec3f", &cvt_Vec3i_Vec3f, (bp::arg("inst_Vec3i")));
-
-    bp::def("asVec3d", &cvt_Vec3i_Vec3d, (bp::arg("inst_Vec3i")));
-
-    bp::def("asVec3b", &cvt_Vec3f_Vec3b, (bp::arg("inst_Vec3f")));
-
-    bp::def("asVec3s", &cvt_Vec3f_Vec3s, (bp::arg("inst_Vec3f")));
-
-    bp::def("asVec3w", &cvt_Vec3f_Vec3w, (bp::arg("inst_Vec3f")));
-
-    bp::def("asVec3i", &cvt_Vec3f_Vec3i, (bp::arg("inst_Vec3f")));
-
-    bp::def("asVec3d", &cvt_Vec3f_Vec3d, (bp::arg("inst_Vec3f")));
-
-    bp::def("asVec3b", &cvt_Vec3d_Vec3b, (bp::arg("inst_Vec3d")));
-
-    bp::def("asVec3s", &cvt_Vec3d_Vec3s, (bp::arg("inst_Vec3d")));
-
-    bp::def("asVec3w", &cvt_Vec3d_Vec3w, (bp::arg("inst_Vec3d")));
-
-    bp::def("asVec3i", &cvt_Vec3d_Vec3i, (bp::arg("inst_Vec3d")));
-
-    bp::def("asVec3f", &cvt_Vec3d_Vec3f, (bp::arg("inst_Vec3d")));
-
-    bp::def("asVec4s", &cvt_Vec4b_Vec4s, (bp::arg("inst_Vec4b")));
-
-    bp::def("asVec4w", &cvt_Vec4b_Vec4w, (bp::arg("inst_Vec4b")));
-
-    bp::def("asVec4i", &cvt_Vec4b_Vec4i, (bp::arg("inst_Vec4b")));
-
-    bp::def("asVec4f", &cvt_Vec4b_Vec4f, (bp::arg("inst_Vec4b")));
-
-    bp::def("asVec4d", &cvt_Vec4b_Vec4d, (bp::arg("inst_Vec4b")));
-
-    bp::def("asVec4b", &cvt_Vec4s_Vec4b, (bp::arg("inst_Vec4s")));
-
-    bp::def("asVec4w", &cvt_Vec4s_Vec4w, (bp::arg("inst_Vec4s")));
-
-    bp::def("asVec4i", &cvt_Vec4s_Vec4i, (bp::arg("inst_Vec4s")));
-
-    bp::def("asVec4f", &cvt_Vec4s_Vec4f, (bp::arg("inst_Vec4s")));
-
-    bp::def("asVec4d", &cvt_Vec4s_Vec4d, (bp::arg("inst_Vec4s")));
-
-    bp::def("asVec4b", &cvt_Vec4w_Vec4b, (bp::arg("inst_Vec4w")));
-
-    bp::def("asVec4s", &cvt_Vec4w_Vec4s, (bp::arg("inst_Vec4w")));
-
-    bp::def("asVec4i", &cvt_Vec4w_Vec4i, (bp::arg("inst_Vec4w")));
-
-    bp::def("asVec4f", &cvt_Vec4w_Vec4f, (bp::arg("inst_Vec4w")));
-
-    bp::def("asVec4d", &cvt_Vec4w_Vec4d, (bp::arg("inst_Vec4w")));
-
-    bp::def("asVec4b", &cvt_Vec4i_Vec4b, (bp::arg("inst_Vec4i")));
-
-    bp::def("asVec4s", &cvt_Vec4i_Vec4s, (bp::arg("inst_Vec4i")));
-
-    bp::def("asVec4w", &cvt_Vec4i_Vec4w, (bp::arg("inst_Vec4i")));
-
-    bp::def("asVec4f", &cvt_Vec4i_Vec4f, (bp::arg("inst_Vec4i")));
-
-    bp::def("asVec4d", &cvt_Vec4i_Vec4d, (bp::arg("inst_Vec4i")));
-
-    bp::def("asVec4b", &cvt_Vec4f_Vec4b, (bp::arg("inst_Vec4f")));
-
-    bp::def("asVec4s", &cvt_Vec4f_Vec4s, (bp::arg("inst_Vec4f")));
-
-    bp::def("asVec4w", &cvt_Vec4f_Vec4w, (bp::arg("inst_Vec4f")));
-
-    bp::def("asVec4i", &cvt_Vec4f_Vec4i, (bp::arg("inst_Vec4f")));
-
-    bp::def("asVec4d", &cvt_Vec4f_Vec4d, (bp::arg("inst_Vec4f")));
-
-    bp::def("asVec4b", &cvt_Vec4d_Vec4b, (bp::arg("inst_Vec4d")));
-
-    bp::def("asVec4s", &cvt_Vec4d_Vec4s, (bp::arg("inst_Vec4d")));
-
-    bp::def("asVec4w", &cvt_Vec4d_Vec4w, (bp::arg("inst_Vec4d")));
-
-    bp::def("asVec4i", &cvt_Vec4d_Vec4i, (bp::arg("inst_Vec4d")));
-
-    bp::def("asVec4f", &cvt_Vec4d_Vec4f, (bp::arg("inst_Vec4d")));
-
-    bp::def("asVec6d", &cvt_Vec6f_Vec6d, (bp::arg("inst_Vec6f")));
-
-    bp::def("asVec6f", &cvt_Vec6d_Vec6f, (bp::arg("inst_Vec6d")));
-
-    bp::def("asComplexd", &cvt_Complexf_Complexd, (bp::arg("inst_Complexf")));
-
-    bp::def("asComplexf", &cvt_Complexd_Complexf, (bp::arg("inst_Complexd")));
+    bp::def("asPoint2i", &bp::from_ndarray< cv::Point2i >, (bp::arg("arr")) );
 
     bp::def("asPoint2d", &bp::from_ndarray< cv::Point2d >, (bp::arg("arr")) );
 
     bp::def("asPoint2f", &bp::from_ndarray< cv::Point2f >, (bp::arg("arr")) );
-
-    bp::def("asPoint2i", &bp::from_ndarray< cv::Point2i >, (bp::arg("arr")) );
-
-    bp::def("asPoint2f", &cvt_Point2i_Point2f, (bp::arg("inst_Point2i")));
-
-    bp::def("asPoint2d", &cvt_Point2i_Point2d, (bp::arg("inst_Point2i")));
-
-    bp::def("asPoint2i", &cvt_Point2f_Point2i, (bp::arg("inst_Point2f")));
-
-    bp::def("asPoint2d", &cvt_Point2f_Point2d, (bp::arg("inst_Point2f")));
-
-    bp::def("asPoint2i", &cvt_Point2d_Point2i, (bp::arg("inst_Point2d")));
-
-    bp::def("asPoint2f", &cvt_Point2d_Point2f, (bp::arg("inst_Point2d")));
 
     bp::def("asPoint3d", &bp::from_ndarray< cv::Point3d >, (bp::arg("arr")) );
 
@@ -5855,53 +5165,17 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asPoint3i", &bp::from_ndarray< cv::Point3i >, (bp::arg("arr")) );
 
-    bp::def("asPoint3f", &cvt_Point3i_Point3f, (bp::arg("inst_Point3i")));
-
-    bp::def("asPoint3d", &cvt_Point3i_Point3d, (bp::arg("inst_Point3i")));
-
-    bp::def("asPoint3i", &cvt_Point3f_Point3i, (bp::arg("inst_Point3f")));
-
-    bp::def("asPoint3d", &cvt_Point3f_Point3d, (bp::arg("inst_Point3f")));
-
-    bp::def("asPoint3i", &cvt_Point3d_Point3i, (bp::arg("inst_Point3d")));
-
-    bp::def("asPoint3f", &cvt_Point3d_Point3f, (bp::arg("inst_Point3d")));
-
     bp::def("asSize2i", &bp::from_ndarray< cv::Size2i >, (bp::arg("arr")) );
 
     bp::def("asSize2d", &bp::from_ndarray< cv::Size2d >, (bp::arg("arr")) );
 
     bp::def("asSize2f", &bp::from_ndarray< cv::Size2f >, (bp::arg("arr")) );
 
-    bp::def("asSize2f", &cvt_Size2i_Size2f, (bp::arg("inst_Size2i")));
-
-    bp::def("asSize2d", &cvt_Size2i_Size2d, (bp::arg("inst_Size2i")));
-
-    bp::def("asSize2i", &cvt_Size2f_Size2i, (bp::arg("inst_Size2f")));
-
-    bp::def("asSize2d", &cvt_Size2f_Size2d, (bp::arg("inst_Size2f")));
-
-    bp::def("asSize2i", &cvt_Size2d_Size2i, (bp::arg("inst_Size2d")));
-
-    bp::def("asSize2f", &cvt_Size2d_Size2f, (bp::arg("inst_Size2d")));
+    bp::def("asRect", &bp::from_ndarray< cv::Rect >, (bp::arg("arr")) );
 
     bp::def("asRectd", &bp::from_ndarray< cv::Rectd >, (bp::arg("arr")) );
 
     bp::def("asRectf", &bp::from_ndarray< cv::Rectf >, (bp::arg("arr")) );
-
-    bp::def("asRect", &bp::from_ndarray< cv::Rect >, (bp::arg("arr")) );
-
-    bp::def("asRectf", &cvt_Rect_Rectf, (bp::arg("inst_Rect")));
-
-    bp::def("asRectd", &cvt_Rect_Rectd, (bp::arg("inst_Rect")));
-
-    bp::def("asRect", &cvt_Rectf_Rect, (bp::arg("inst_Rectf")));
-
-    bp::def("asRectd", &cvt_Rectf_Rectd, (bp::arg("inst_Rectf")));
-
-    bp::def("asRect", &cvt_Rectd_Rect, (bp::arg("inst_Rectd")));
-
-    bp::def("asRectf", &cvt_Rectd_Rectf, (bp::arg("inst_Rectd")));
 
     bp::def("asRotatedRect", &bp::from_ndarray< cv::RotatedRect >, (bp::arg("arr")) );
 
