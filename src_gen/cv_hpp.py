@@ -191,7 +191,7 @@ def generate_code(mb, cc, D, FT, CP):
         'minEnclosingCircle', 'matchShapes', 'isContourConvex', 'fitEllipse',
         'fitLine', 'pointPolygonTest', 'updateMotionHistory', 
         'calcMotionGradient', 'calcGlobalOrientation', 'CamShift', 'meanShift', 
-        'estimateAffine3D', 'groupRectangles',
+        'estimateAffine3D', 
         'Rodrigues', 'RQDecomp3x3', 'decomposeProjectionMatrix', 'matMulDeriv', 
         'composeRT', 'solvePnP', 'initCameraMatrix2D', 'drawChessboardCorners',
         'calibrationMatrixValues', 'stereoCalibrate', 
@@ -282,6 +282,11 @@ def generate_code(mb, cc, D, FT, CP):
     z.include()
     z._transformer_kwds['alias'] = 'findContours'
     z._transformer_creators.append(FT.arg_std_vector('contours', 2))
+    
+    # groupRectangles
+    for z in mb.free_funs('groupRectangles'):
+        z.include()
+        z._transformer_kwds['alias'] = 'groupRectangles'
         
     # approxPolyDP
     mb.free_funs('approxPolyDP').exclude()

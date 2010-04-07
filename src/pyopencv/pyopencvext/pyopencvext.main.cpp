@@ -4620,15 +4620,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::groupRectangles
     
-        typedef void ( *groupRectangles_d5f10e6823ff191659b8e372e1acdb8b_function_type )( cv::Mat &,cv::Mat &,int,double );
+        typedef void ( *groupRectangles_function_type )( cv::Mat &,cv::Mat &,int,double );
         
         bp::def( 
-            "groupRectangles_d5f10e6823ff191659b8e372e1acdb8b"
-            , groupRectangles_d5f10e6823ff191659b8e372e1acdb8b_function_type( &groupRectangles_d5f10e6823ff191659b8e372e1acdb8b )
+            "groupRectangles"
+            , groupRectangles_function_type( &groupRectangles_d5f10e6823ff191659b8e372e1acdb8b )
             , ( bp::arg("rectList"), bp::arg("weights"), bp::arg("groupThreshold"), bp::arg("eps")=2.00000000000000011102230246251565404236316680908e-1 )
-            , "\nWrapped function:"
-    "\n    groupRectangles"
-    "\nArgument 'weights':"\
+            , "\nArgument 'weights':"\
     "\n    C/C++ type: ::std::vector< int > &."\
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
@@ -4643,15 +4641,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::groupRectangles
     
-        typedef void ( *groupRectangles_daddb1eb144574c44042d3cef39f8656_function_type )( cv::Mat &,int,double );
+        typedef void ( *groupRectangles_function_type )( cv::Mat &,int,double );
         
         bp::def( 
-            "groupRectangles_daddb1eb144574c44042d3cef39f8656"
-            , groupRectangles_daddb1eb144574c44042d3cef39f8656_function_type( &groupRectangles_daddb1eb144574c44042d3cef39f8656 )
+            "groupRectangles"
+            , groupRectangles_function_type( &groupRectangles_daddb1eb144574c44042d3cef39f8656 )
             , ( bp::arg("rectList"), bp::arg("groupThreshold"), bp::arg("eps")=2.00000000000000011102230246251565404236316680908e-1 )
-            , "\nWrapped function:"
-    "\n    groupRectangles"
-    "\nArgument 'rectList':"\
+            , "\nArgument 'rectList':"\
     "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
