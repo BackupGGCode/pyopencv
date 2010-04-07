@@ -306,7 +306,7 @@ CV_HARDWARE_MAX_FEATURE = 255
         'cvReadInt', 'cvReadIntByName', 'cvReadReal', 'cvReadRealByName', 'cvReadString', 'cvReadStringByName',
         'cvStartReadRawData', 'cvWriteFileNode', 'cvGetFileNodeName',
         'cvRegisterType', 'cvUnregisterType',
-        'cvGetTickCount', 'cvGetTickFrequency', 'cvCheckHardwareSupport',
+        'cvGetTickCount', 'cvGetTickFrequency',
         'cvGetNumThreads', 'cvSetNumThreads', 'cvGetThreadNum',
         ):
         mb.free_fun(z).include()

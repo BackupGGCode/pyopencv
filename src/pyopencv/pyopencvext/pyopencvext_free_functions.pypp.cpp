@@ -736,6 +736,17 @@ void register_free_functions(){
     
     }
 
+    { //::cv::checkHardwareSupport
+    
+        typedef bool ( *checkHardwareSupport_function_type )( int );
+        
+        bp::def( 
+            "checkHardwareSupport"
+            , checkHardwareSupport_function_type( &::cv::checkHardwareSupport )
+            , ( bp::arg("feature") ) );
+    
+    }
+
     { //::cv::circle
     
         typedef void ( *circle_function_type )( ::cv::Mat &,::cv::Point,int,::cv::Scalar const &,int,int,int );
@@ -1148,19 +1159,6 @@ void register_free_functions(){
             , ( bp::arg("value") )
             , "\nWrapped function:"
     "\n    cvCeil" );
-    
-    }
-
-    { //::cvCheckHardwareSupport
-    
-        typedef int ( *checkHardwareSupport_function_type )( int );
-        
-        bp::def( 
-            "checkHardwareSupport"
-            , checkHardwareSupport_function_type( &::cvCheckHardwareSupport )
-            , ( bp::arg("feature") )
-            , "\nWrapped function:"
-    "\n    cvCheckHardwareSupport" );
     
     }
 
@@ -2741,6 +2739,16 @@ void register_free_functions(){
     
     }
 
+    { //::cv::getCPUTickCount
+    
+        typedef ::int64 ( *getCPUTickCount_function_type )(  );
+        
+        bp::def( 
+            "getCPUTickCount"
+            , getCPUTickCount_function_type( &::cv::getCPUTickCount ) );
+    
+    }
+
     { //::cv::getColumnSumFilter
     
         typedef ::cv::Ptr< cv::BaseColumnFilter > ( *getColumnSumFilter_function_type )( int,int,int,int,double );
@@ -2976,6 +2984,17 @@ void register_free_functions(){
             "getValidDisparityROI"
             , getValidDisparityROI_function_type( &::cv::getValidDisparityROI )
             , ( bp::arg("roi1"), bp::arg("roi2"), bp::arg("minDisparity"), bp::arg("numberOfDisparities"), bp::arg("SADWindowSize") ) );
+    
+    }
+
+    { //::cv::getWindowProperty
+    
+        typedef double ( *getWindowProperty_function_type )( ::std::string const &,int );
+        
+        bp::def( 
+            "getWindowProperty"
+            , getWindowProperty_function_type( &::cv::getWindowProperty )
+            , ( bp::arg("winname"), bp::arg("prop_id") ) );
     
     }
 
@@ -3965,6 +3984,17 @@ void register_free_functions(){
             "setUseOptimized"
             , setUseOptimized_function_type( &::cv::setUseOptimized )
             , ( bp::arg("arg0") ) );
+    
+    }
+
+    { //::cv::setWindowProperty
+    
+        typedef void ( *setWindowProperty_function_type )( ::std::string const &,int,double );
+        
+        bp::def( 
+            "setWindowProperty"
+            , setWindowProperty_function_type( &::cv::setWindowProperty )
+            , ( bp::arg("winname"), bp::arg("prop_id"), bp::arg("prop_value") ) );
     
     }
 
