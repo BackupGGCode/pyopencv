@@ -2944,6 +2944,17 @@ void register_free_functions(){
     
     }
 
+    { //::cv::grabCut
+    
+        typedef void ( *grabCut_function_type )( ::cv::Mat const &,::cv::Mat &,::cv::Rect,::cv::Mat &,::cv::Mat &,int,int );
+        
+        bp::def( 
+            "grabCut"
+            , grabCut_function_type( &::cv::grabCut )
+            , ( bp::arg("img"), bp::arg("mask"), bp::arg("rect"), bp::arg("bgdModel"), bp::arg("fgdModel"), bp::arg("iterCount"), bp::arg("mode")=int(::cv::GC_EVAL) ) );
+    
+    }
+
     { //::cv::flann::hierarchicalClustering
     
         typedef int ( *hierarchicalClustering_function_type )( ::cv::Mat const &,::cv::Mat &,::cv::flann::KMeansIndexParams const & );
