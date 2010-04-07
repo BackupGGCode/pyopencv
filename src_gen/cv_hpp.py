@@ -177,6 +177,7 @@ def generate_code(mb, cc, D, FT, CP):
         'initUndistortRectifyMap', 'getDefaultNewCameraMatrix',
         'calcOpticalFlowPyrLK',
         'calcOpticalFlowFarneback', 'compareHist', 'equalizeHist', 'watershed',
+        'grabCut',
         'inpaint', 'distanceTransform', 'cvtColor', 'moments', 'matchTemplate',
         'drawContours', 
         'arcLength', 'boundingRect', 'contourArea', 'minAreaRect', 
@@ -235,6 +236,8 @@ def generate_code(mb, cc, D, FT, CP):
     FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, transformer_creators=[FT.arg_std_vector('circles', 2)])
     FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
     FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
+    
+    # getOptimalNewCameraMatrix -- TODO: opencv 2.1
     
     # calcHist
     for z in mb.free_funs('calcHist'):
