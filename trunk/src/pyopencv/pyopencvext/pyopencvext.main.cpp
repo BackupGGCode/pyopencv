@@ -30,6 +30,10 @@
 
 #include "pyopencvext/AutotunedIndexParams.pypp.hpp"
 
+#include "pyopencvext/BackgroundSubtractor.pypp.hpp"
+
+#include "pyopencvext/BackgroundSubtractorMOG.pypp.hpp"
+
 #include "pyopencvext/CascadeClassifier.pypp.hpp"
 
 #include "pyopencvext/Complexd.pypp.hpp"
@@ -43,6 +47,8 @@
 #include "pyopencvext/CvANN_MLP_TrainParams.pypp.hpp"
 
 #include "pyopencvext/CvAdaptiveSkinDetector.pypp.hpp"
+
+#include "pyopencvext/CvAffinePose.pypp.hpp"
 
 #include "pyopencvext/CvAttrList.pypp.hpp"
 
@@ -231,6 +237,8 @@
 #include "pyopencvext/CvVSModule.pypp.hpp"
 
 #include "pyopencvext/CvVectors.pypp.hpp"
+
+#include "pyopencvext/DefaultRngAuto.pypp.hpp"
 
 #include "pyopencvext/DifferentialImage.pypp.hpp"
 
@@ -1180,6 +1188,14 @@ static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, bp::obje
     }
         
     ::cv::fillPoly(img, (::cv::Point const * *) &buf_pts[0], &n1_pts[0], n0_pts, color, lineType, shift, offset);
+}
+
+static boost::python::object find4QuadCornerSubpix_ca00fc1537bfc5b612545bbb0796233b( ::cv::Mat const & img, cv::Mat & corners, ::cv::Size region_size ){
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > corners2;
+    convert_from_Mat_to_vector_of_T(corners, corners2);
+    bool result = ::cv::find4QuadCornerSubpix(img, corners2, region_size);
+    convert_from_vector_of_T_to_Mat(corners2, corners);
+    return bp::object( result );
 }
 
 static boost::python::tuple findChessboardCorners_dbf15a4ace0e613206118382aa1793ea( ::cv::Mat const & image, ::cv::Size patternSize, int flags=3 ){
@@ -2411,6 +2427,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvContourScanner_class();
 
+    register_BackgroundSubtractor_class();
+
+    register_BackgroundSubtractorMOG_class();
+
     register_Size2i_class();
 
     register_CascadeClassifier_class();
@@ -2418,6 +2438,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_Complexd_class();
 
     register_Complexf_class();
+
+    register_CvAffinePose_class();
+
+    register_DefaultRngAuto_class();
 
     register_FeatureEvaluator_class();
 
@@ -4856,6 +4880,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: 2d list."\
     "\n    Depending on its C++ argument type, it should be a list of Mats or a "\
     "\n    list of lists." );
+    
+    }
+
+    { //::cv::find4QuadCornerSubpix
+    
+        typedef boost::python::object ( *find4QuadCornerSubpix_function_type )( ::cv::Mat const &,cv::Mat &,::cv::Size );
+        
+        bp::def( 
+            "find4QuadCornerSubpix"
+            , find4QuadCornerSubpix_function_type( &find4QuadCornerSubpix_ca00fc1537bfc5b612545bbb0796233b )
+            , ( bp::arg("img"), bp::arg("corners"), bp::arg("region_size") )
+            , "\nArgument 'corners':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
     
     }
 
