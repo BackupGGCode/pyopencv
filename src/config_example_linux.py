@@ -1,5 +1,5 @@
 ﻿#!/usr/bin/env python
-# PyOpenCV - A Python wrapper for OpenCV 2.0 using Boost.Python and NumPy
+# PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 
 # Copyright (c) 2009, Minh-Tri Pham
 # All rights reserved.
@@ -35,7 +35,7 @@
 import os
 from glob import glob
 
-# OpenCV 2.0 library, to be linked against using bjam+gcc
+# OpenCV 2.x library, to be linked against using bjam+gcc
 opencv_dir = "/usr/local"
 opencv_include_dirs = [opencv_dir+"/include/opencv"]
 opencv_library_dirs = [opencv_dir+"/lib"]
