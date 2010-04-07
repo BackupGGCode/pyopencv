@@ -69,9 +69,9 @@ import ctypes as _CT
 #=============================================================================
 
 CV_MAJOR_VERSION    = 2
-CV_MINOR_VERSION    = 0
+CV_MINOR_VERSION    = 1
 CV_SUBMINOR_VERSION = 0
-CV_VERSION          = "2.0.0"
+CV_VERSION          = "2.1.0"
 
 
 
@@ -579,6 +579,21 @@ CV_ErrModeSilent = 2
 # Data Persistence
 #-----------------------------------------------------------------------------
 
+
+#-----------------------------------------------------------------------------
+# CPU capabilities
+#-----------------------------------------------------------------------------
+
+CV_CPU_NONE    = 0    
+CV_CPU_MMX     = 1
+CV_CPU_SSE     = 2
+CV_CPU_SSE2    = 3
+CV_CPU_SSE3    = 4
+CV_CPU_SSSE3   = 5
+CV_CPU_SSE4_1  = 6
+CV_CPU_SSE4_2  = 7
+CV_CPU_AVX    = 10
+CV_HARDWARE_MAX_FEATURE = 255
     
 
     

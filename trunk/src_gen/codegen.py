@@ -133,9 +133,9 @@ import ctypes as _CT
 #=============================================================================
 
 CV_MAJOR_VERSION    = 2
-CV_MINOR_VERSION    = 0
+CV_MINOR_VERSION    = 1
 CV_SUBMINOR_VERSION = 0
-CV_VERSION          = "2.0.0"
+CV_VERSION          = "2.1.0"
 
 
 

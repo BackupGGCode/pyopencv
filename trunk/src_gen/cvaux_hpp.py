@@ -212,8 +212,14 @@ static boost::shared_ptr<cv::PlanarObjectDetector> PlanarObjectDetector_init1(bp
     z.include()
     z.decls().exclude()
     
+    # DefaultRngAuto
+    # TODO: fix the rest of the member declarations
+    z = mb.class_('DefaultRngAuto')
+    z.include()
+    z.decls().exclude()
+    
     for t in (
-        'DefaultRngAuto', 'BackgroundSubtractor', 
+        'BackgroundSubtractor', 
         'BackgroundSubtractorMOG', 'CvAffinePose',
         ):
         z = mb.class_(t)

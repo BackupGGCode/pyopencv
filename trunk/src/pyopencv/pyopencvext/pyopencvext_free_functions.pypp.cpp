@@ -1151,6 +1151,19 @@ void register_free_functions(){
     
     }
 
+    { //::cvCheckHardwareSupport
+    
+        typedef int ( *checkHardwareSupport_function_type )( int );
+        
+        bp::def( 
+            "checkHardwareSupport"
+            , checkHardwareSupport_function_type( &::cvCheckHardwareSupport )
+            , ( bp::arg("feature") )
+            , "\nWrapped function:"
+    "\n    cvCheckHardwareSupport" );
+    
+    }
+
     { //::cvClearMemStorage
     
         typedef void ( *clearMemStorage_function_type )( ::CvMemStorage * );

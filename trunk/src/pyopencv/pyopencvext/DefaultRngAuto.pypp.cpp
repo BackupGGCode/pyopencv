@@ -14,22 +14,6 @@ void register_DefaultRngAuto_class(){
         DefaultRngAuto_exposer_t DefaultRngAuto_exposer = DefaultRngAuto_exposer_t( "DefaultRngAuto", bp::no_init );
         bp::scope DefaultRngAuto_scope( DefaultRngAuto_exposer );
         DefaultRngAuto_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::DefaultRngAuto >() );
-        DefaultRngAuto_exposer.def( bp::init< >() );
-        { //::cv::DefaultRngAuto::operator=
-        
-            typedef ::cv::DefaultRngAuto & ( ::cv::DefaultRngAuto::*assign_function_type )( ::cv::DefaultRngAuto const & ) ;
-            
-            DefaultRngAuto_exposer.def( 
-                "assign"
-                , assign_function_type( &::cv::DefaultRngAuto::operator= )
-                , ( bp::arg("arg0") )
-                , bp::return_self< >()
-                , "\nWrapped function:"
-    "\n    operator=" );
-        
-        }
-        DefaultRngAuto_exposer.def_readonly( "def_state", cv::DefaultRngAuto::def_state );
-        DefaultRngAuto_exposer.def_readonly( "old_state", &cv::DefaultRngAuto::old_state );
     }
 
 }
