@@ -13,3 +13,8 @@ Add iterator for SparseMat
 What about Seq template class?
 
 Expose Mat_xyz classes.
+
+------------------------------------------
+Making a snapshot release using setuptools:
+
+http://peak.telecommunity.com/DevCenter/setuptools#id33
