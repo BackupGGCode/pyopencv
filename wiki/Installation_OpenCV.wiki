@@ -19,7 +19,7 @@ If you have decided to build OpenCV 2.x from source, just use the standard `cmak
     Before running `cmake`, edit file `CMakeLists.txt`, search for "-D_GLIBCXX_PARALLEL" and remove it. Basically, when this option is set, experimental "parallel mode" STL containers are used, which are incompatible with the standard "normal mode" STL containers used by Boost.Python and other libraries. Of course, if you could recompile every single library that is connected to OpenCV with option "-D_GLIBCXX_PARALLEL" set, then it would be another matter.
   # *On Windows:* enabling the VideoInput library:
     The `libvideoInput.a` library file that comes with OpenCV was built with the old SJLJ exception handling method. Hence, you can only link against it using a compiler that uses SJLJ. To link against it using a compiler that uses the DWARF-2 exception handling method, replace the `libvideoInput.a` file in OpenCV with this [http://pyopencv.googlecode.com/files/libvideoInput.a file].
-    In addition, search in file `src/highgui/CMakeLists.txt` for a line consisting "videoInput strmiids". It should be at somewhere near line 199. Then, insert " ole32 oleaut32 uuid" right after "videoInput strmiids". The developers have forgotten to insert them.
+    In addition, search in file `src/highgui/CMakeLists.txt` for the following text: "videoInput strmiids". It should be at somewhere near line 199. Then, insert " ole32 oleaut32 uuid" right after the text, i.e. "videoInput strmiids ole32 oleaut32 uuid". The developers have forgotten to insert these Windows libraries.
 
 ===Downloading a pre-compiled OpenCV 2.x build===
 
