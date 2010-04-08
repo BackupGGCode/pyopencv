@@ -18,11 +18,8 @@ If you have decided to build OpenCV 2.x from source, just use the standard `cmak
   # If you want to enable OpenMP when building OpenCV 2.0:
     Before running `cmake`, edit file `CMakeLists.txt`, search for "-D_GLIBCXX_PARALLEL" and remove it. Basically, when this option is set, experimental "parallel mode" STL containers are used, which are incompatible with the standard "normal mode" STL containers used by Boost.Python and other libraries. Of course, if you could recompile every single library that is connected to OpenCV with option "-D_GLIBCXX_PARALLEL" set, then it would be another matter.
   # *On Windows:* enabling the VideoInput library:
-    The `libvideoInput.a` library file provided by Willow Garage was built with the old SJLJ exception handling method. Therefore, you cannot link against it using compilers that use the new DWARF-2 exception handling method like MinGW 4.4.x, unless you rebuild the `libvideoInput.a` file using MinGW. The best bet for compilers using DWARF-2 is not to use VideoInput at all. This can be done by taking the following step:
-      # Comment the line containing "#define HAVE_VIDEOINPUT 1" (i.e. near line 101 or 105), in file `src/highgui/_highgui.h`. 
-    In contrast, for old compilers using SJLJ like TDM, to have VideoInput included in OpenCV 2.0:
-      # Edit file `src/highgui/CMakeLists.txt`
-      # At line 199, insert " ole32 oleaut32 uuid" at the end of the list of libraries to be linked against (i.e. after "videoInput strmiids"). The developers have forgotten to insert them.
+    The `libvideoInput.a` library file that comes with OpenCV was built with the old SJLJ exception handling method. Hence, you can only link against it using a compiler that uses SJLJ. To link against it using a compiler that uses the DWARF-2 exception handling method, replace the `libvideoInput.a` file in OpenCV with this [http://pyopencv.googlecode.com/files/libvideoInput.a file].
+    In addition, search in file `src/highgui/CMakeLists.txt` for a line consisting "videoInput strmiids". It should be at somewhere near line 199. Then, insert " ole32 oleaut32 uuid" right after "videoInput strmiids". The developers have forgotten to insert them.
 
 ===Downloading a pre-compiled OpenCV 2.x build===
 
