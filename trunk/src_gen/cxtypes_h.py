@@ -238,7 +238,6 @@ CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
     # CvRect -- for backward compatibility
     z = mb.class_('CvRect')
     z.include()
-    mb.add_ndarray_interface(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + \\
@@ -250,7 +249,6 @@ KLASS.__repr__ = _KLASS__repr__
     # CvSize -- for backward compatibility
     z = mb.class_('CvSize')
     z.include()
-    mb.add_ndarray_interface(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
@@ -261,7 +259,6 @@ KLASS.__repr__ = _KLASS__repr__
     # CvScalar -- for backward compatibility
     z = mb.class_('CvScalar')
     z.include()
-    mb.add_ndarray_interface(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(" + self.ndarray.__str__() + ")"
@@ -269,33 +266,30 @@ KLASS.__repr__ = _KLASS__repr__
         
     '''.replace("KLASS", z.alias))
 
+    # CvPoint, CvPoint2D32f, CvPoint2D64f  -- for backward compatibility
+    for t in ('CvPoint', 'CvPoint2D32f', 'CvPoint2D64f'):
+        z = mb.class_(t)
+        z.include()
+        cc.write('''
+def _KLASS__repr__(self):
+    return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
+KLASS.__repr__ = _KLASS__repr__
+        
+        '''.replace("KLASS", z.alias))
+
+    # CvPoint3D32f, CvPoint3D64f  -- for backward compatibility
+    for t in ('CvPoint3D32f', 'CvPoint3D64f'):
+        z = mb.class_(t)
+        z.include()
+        cc.write('''
+def _KLASS__repr__(self):
+    return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
+KLASS.__repr__ = _KLASS__repr__
+        
+        '''.replace("KLASS", z.alias))
+
     
     mb.add_declaration_code('''
-struct CvPoint_to_python
-{
-    static PyObject* convert(CvPoint const& x)
-    {
-        return bp::incref(bp::object(cv::Point(x)).ptr());
-    }
-};
-
-struct CvPoint2D32f_to_python
-{
-    static PyObject* convert(CvPoint2D32f const& x)
-    {
-        return bp::incref(bp::object(cv::Point2f(x)).ptr());
-    }
-};
-
-struct CvPoint3D32f_to_python
-{
-    static PyObject* convert(CvPoint3D32f const& x)
-    {
-        return bp::incref(bp::object(cv::Point3f(x)).ptr());
-    }
-};
-
-
 struct CvBox2D_to_python
 {
     static PyObject* convert(CvBox2D const& x)
@@ -313,19 +307,15 @@ struct CvTermCriteria_to_python
 };
 
     ''')
-    mb.add_registration_code('bp::to_python_converter<CvPoint, CvPoint_to_python, false>();')
-    mb.add_registration_code('bp::to_python_converter<CvPoint2D32f, CvPoint2D32f_to_python, false>();')
-    mb.add_registration_code('bp::to_python_converter<CvPoint3D32f, CvPoint3D32f_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvBox2D, CvBox2D_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();')
     
     # CvSlice -- for backward compatibility
     z = mb.class_('CvSlice')
     z.include()
-    mb.add_ndarray_interface(z)
     cc.write('''
 def _KLASS__repr__(self):
-    return "KLASS(start=" + repr(self.start) + ", end=" + repr(self.end) + ")"
+    return "KLASS(start=" + repr(self.start_index) + ", end=" + repr(self.end_index) + ")"
 KLASS.__repr__ = _KLASS__repr__
         
     '''.replace("KLASS", z.alias))

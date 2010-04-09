@@ -17,6 +17,10 @@ void register_Point2f_class(){
         Point2f_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Point_< float > >() );
         Point2f_exposer.def( bp::init< float, float >(( bp::arg("_x"), bp::arg("_y") )) );
         Point2f_exposer.def( bp::init< cv::Point_< float > const & >(( bp::arg("pt") )) );
+        Point2f_exposer.def( bp::init< CvPoint const & >(( bp::arg("pt") )) );
+        bp::implicitly_convertible< CvPoint const &, cv::Point_< float > >();
+        Point2f_exposer.def( bp::init< CvPoint2D32f const & >(( bp::arg("pt") )) );
+        bp::implicitly_convertible< CvPoint2D32f const &, cv::Point_< float > >();
         Point2f_exposer.def( bp::init< cv::Size_< float > const & >(( bp::arg("sz") )) );
         bp::implicitly_convertible< cv::Size_< float > const &, cv::Point_< float > >();
         Point2f_exposer.def( bp::init< cv::Vec< float, 2 > const & >(( bp::arg("v") )) );

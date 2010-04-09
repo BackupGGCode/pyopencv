@@ -577,6 +577,21 @@ static inline ::cv::Complex<float> cvt_Complexd_Complexf(::cv::Complex<double> c
     return inst.operator ::cv::Complex<float>();
 }
 
+static inline CvPoint cvt_Point2i_CvPoint(Point_<int> const &inst)
+{
+    return inst.operator CvPoint();
+}
+
+static inline CvPoint cvt_Point2d_CvPoint(Point_<double> const &inst)
+{
+    return inst.operator CvPoint();
+}
+
+static inline CvPoint cvt_Point2f_CvPoint(Point_<float> const &inst)
+{
+    return inst.operator CvPoint();
+}
+
 static inline ::cv::Point_<float> cvt_Point2i_Point2f(::cv::Point_<int> const &inst)
 {
     return inst.operator ::cv::Point_<float>();
@@ -605,6 +620,21 @@ static inline ::cv::Point_<int> cvt_Point2d_Point2i(::cv::Point_<double> const &
 static inline ::cv::Point_<float> cvt_Point2d_Point2f(::cv::Point_<double> const &inst)
 {
     return inst.operator ::cv::Point_<float>();
+}
+
+static inline CvPoint3D32f cvt_Point3d_CvPoint3D32f(Point3_<double> const &inst)
+{
+    return inst.operator CvPoint3D32f();
+}
+
+static inline CvPoint3D32f cvt_Point3f_CvPoint3D32f(Point3_<float> const &inst)
+{
+    return inst.operator CvPoint3D32f();
+}
+
+static inline CvPoint3D32f cvt_Point3i_CvPoint3D32f(Point3_<int> const &inst)
+{
+    return inst.operator CvPoint3D32f();
 }
 
 static inline ::cv::Point3_<float> cvt_Point3i_Point3f(::cv::Point3_<int> const &inst)
@@ -834,12 +864,18 @@ void register___dummy_struct_class(){
         bp::def("asVec6f", &cvt_Vec6d_Vec6f, (bp::arg("inst_Vec6d")));
         bp::def("asComplexd", &cvt_Complexf_Complexd, (bp::arg("inst_Complexf")));
         bp::def("asComplexf", &cvt_Complexd_Complexf, (bp::arg("inst_Complexd")));
+        bp::def("asCvPoint", &cvt_Point2i_CvPoint, (bp::arg("inst_Point2i")));
+        bp::def("asCvPoint", &cvt_Point2d_CvPoint, (bp::arg("inst_Point2d")));
+        bp::def("asCvPoint", &cvt_Point2f_CvPoint, (bp::arg("inst_Point2f")));
         bp::def("asPoint2f", &cvt_Point2i_Point2f, (bp::arg("inst_Point2i")));
         bp::def("asPoint2d", &cvt_Point2i_Point2d, (bp::arg("inst_Point2i")));
         bp::def("asPoint2i", &cvt_Point2f_Point2i, (bp::arg("inst_Point2f")));
         bp::def("asPoint2d", &cvt_Point2f_Point2d, (bp::arg("inst_Point2f")));
         bp::def("asPoint2i", &cvt_Point2d_Point2i, (bp::arg("inst_Point2d")));
         bp::def("asPoint2f", &cvt_Point2d_Point2f, (bp::arg("inst_Point2d")));
+        bp::def("asCvPoint3D32f", &cvt_Point3d_CvPoint3D32f, (bp::arg("inst_Point3d")));
+        bp::def("asCvPoint3D32f", &cvt_Point3f_CvPoint3D32f, (bp::arg("inst_Point3f")));
+        bp::def("asCvPoint3D32f", &cvt_Point3i_CvPoint3D32f, (bp::arg("inst_Point3i")));
         bp::def("asPoint3f", &cvt_Point3i_Point3f, (bp::arg("inst_Point3i")));
         bp::def("asPoint3d", &cvt_Point3i_Point3d, (bp::arg("inst_Point3i")));
         bp::def("asPoint3i", &cvt_Point3f_Point3i, (bp::arg("inst_Point3f")));
