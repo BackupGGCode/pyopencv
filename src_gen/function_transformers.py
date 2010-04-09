@@ -545,7 +545,7 @@ class output_type1_t( transformer.transformer_t ):
         return [ code_repository.convenience.file_name, "ndarray.hpp" ]
 
     def __configure_sealed( self, controller ):
-        #removing arg from the function wrapper definition
+        # removing arg from the function wrapper definition
         controller.remove_wrapper_arg( self.arg.name )
         # documentation
         doc_common(self.function, self.arg, "Python equivalence of the C/C++ type without pointer")
@@ -565,15 +565,6 @@ class output_type1_t( transformer.transformer_t ):
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
 
-    def __configure_v_mem_fun_override( self, controller ):
-        controller.remove_py_arg( self.arg_index )
-        tmpl = string.Template(
-            '$name = boost::python::extract< $type >( pyplus_conv::get_out_argument( $py_result, "$name" ) );' )
-        store_py_result_in_arg = tmpl.substitute( name=self.arg.name
-                                                  , type=remove_ref_or_ptr( self.arg.type ).decl_string
-                                                  , py_result=controller.py_result_variable.name )
-        controller.add_py_post_call_code( store_py_result_in_arg )
-
     def configure_mem_fun( self, controller ):
         self.__configure_sealed( controller )
 
@@ -582,7 +573,6 @@ class output_type1_t( transformer.transformer_t ):
 
     def configure_virtual_mem_fun( self, controller ):
         self.__configure_v_mem_fun_default( controller.default_controller )
-        self.__configure_v_mem_fun_override( controller.override_controller )
 
 def output_type1( *args, **keywd ):
     def creator( function ):

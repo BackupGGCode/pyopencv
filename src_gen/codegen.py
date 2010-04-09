@@ -430,6 +430,18 @@ static bp::object get_MEMBER(KLASS const &inst) { return convert_from_T_to_objec
 
 module_builder.module_builder_t.finalize_class = finalize_class
 
+def asClass2(self, src_class_Pname, src_class_Cname, dst_class_Pname, dst_class_Cname):
+    self.dummy_struct.add_declaration_code('''
+static inline CLASS2 cvt_KLASS1_KLASS2(CLASS1 const &inst)
+{
+    return inst.operator CLASS2();
+}
+        '''.replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname)\
+        .replace('CLASS1', src_class_Cname).replace('CLASS2', dst_class_Cname))
+    self.dummy_struct.add_reg_code(\
+        'bp::def("asKLASS2", &cvt_KLASS1_KLASS2, (bp::arg("inst_KLASS1")));'\
+        .replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname))
+module_builder.module_builder_t.asClass2 = asClass2
 
 def dtypecast(self, casting_list):
     for t1 in casting_list:
@@ -438,29 +450,14 @@ def dtypecast(self, casting_list):
             if t1 == t2:
                 continue
             z2 = self.class_(t2).alias
-            self.dummy_struct.add_declaration_code('''
-static inline CLASS2 cvt_KLASS1_KLASS2(CLASS1 const &inst)
-{
-    return inst.operator CLASS2();
-}
-                '''.replace('KLASS1', z1).replace('KLASS2', z2)\
-                .replace('CLASS1', t1).replace('CLASS2', t2))
-            self.dummy_struct.add_reg_code(\
-                'bp::def("asKLASS2", &cvt_KLASS1_KLASS2, (bp::arg("inst_KLASS1")));'\
-                .replace('KLASS1', z1).replace('KLASS2', z2))
+            asClass2(self, z1, t1, z2, t2)
 
 module_builder.module_builder_t.dtypecast = dtypecast
 
 def asClass(self, src_class, dst_class):
-    t1 = src_class.name
-    z1 = src_class.alias
-    t2 = dst_class.name
-    z2 = dst_class.alias
-    self.dummy_struct.add_reg_code(\
-        'bp::def("asKLASS2", &CLASS1::operator CLASS2, (bp::arg("inst_KLASS1")));'\
-            .replace('KLASS1', z1).replace('KLASS2', z2)\
-            .replace('CLASS1', t1).replace('CLASS2', t2))
-
+    asClass2(self, src_class.alias, src_class.name, dst_class.alias, dst_class.name)
+    src_class.operator(lambda x: dst_class.name in x.name).exclude()
+module_builder.module_builder_t.asClass = asClass
 
 #=============================================================================
 # Initialization

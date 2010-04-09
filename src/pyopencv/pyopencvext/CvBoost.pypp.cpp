@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
+#include "ndarray.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "CvBoost.pypp.hpp"
@@ -42,6 +43,41 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
     
     void default_clear(  ) {
         CvBoost::clear( );
+    }
+
+    virtual float predict( ::cv::Mat const & _sample, ::cv::Mat const & _missing=cv::Mat(), ::cv::Mat * weak_responses=0, ::CvSlice slice=cvSlice(0, 1073741823), bool raw_mode=false, bool return_sum=false ) const  {
+        namespace bpl = boost::python;
+        if( bpl::override func_predict = this->get_override( "predict" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_predict.ptr(), _sample, _missing, weak_responses, slice, raw_mode, return_sum );
+            return bpl::extract< float >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvBoost::predict( boost::ref(_sample), boost::ref(_missing), boost::python::ptr(weak_responses), slice, raw_mode, return_sum );
+        }
+    }
+    
+    static boost::python::tuple default_predict_457b8998388d215e0ce5b2a4e8c7c55f( ::CvBoost const & inst, ::cv::Mat const & _sample, ::cv::Mat const & _missing=cv::Mat(), ::CvSlice slice=cvSlice(0, 1073741823), bool raw_mode=false, bool return_sum=false ){
+        cv::Mat weak_responses2;
+        float result;
+        if( dynamic_cast< CvBoost_wrapper const* >( boost::addressof( inst ) ) ){
+            result = inst.::CvBoost::predict(_sample, _missing, &weak_responses2, slice, raw_mode, return_sum);
+        }
+        else{
+            result = inst.predict(_sample, _missing, &weak_responses2, slice, raw_mode, return_sum);
+        }
+        return bp::make_tuple( result, weak_responses2 );
+    }
+
+    virtual void prune( ::CvSlice slice ) {
+        if( bp::override func_prune = this->get_override( "prune" ) )
+            func_prune( slice );
+        else{
+            this->CvBoost::prune( slice );
+        }
+    }
+    
+    void default_prune( ::CvSlice slice ) {
+        CvBoost::prune( slice );
     }
 
     virtual void read( ::CvFileStorage * storage, ::CvFileNode * node ) {
@@ -177,6 +213,33 @@ void register_CvBoost_class(){
                 "get_params"
                 , get_params_function_type( &::CvBoost::get_params )
                 , bp::return_value_policy< bp::copy_const_reference >() );
+        
+        }
+        { //::CvBoost::predict
+        
+            typedef boost::python::tuple ( *default_predict_function_type )( ::CvBoost const &,::cv::Mat const &,::cv::Mat const &,::CvSlice,bool,bool );
+            
+            CvBoost_exposer.def( 
+                "predict"
+                , default_predict_function_type( &CvBoost_wrapper::default_predict_457b8998388d215e0ce5b2a4e8c7c55f )
+                , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("_missing")=cv::Mat(), bp::arg("slice")=cvSlice(0, 1073741823), bp::arg("raw_mode")=(bool)(false), bp::arg("return_sum")=(bool)(false) )
+                , "\nArgument 'weak_responses':"\
+    "\n    C/C++ type: ::cv::Mat *."\
+    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
+        
+        }
+        { //::CvBoost::prune
+        
+            typedef void ( ::CvBoost::*prune_function_type )( ::CvSlice ) ;
+            typedef void ( CvBoost_wrapper::*default_prune_function_type )( ::CvSlice ) ;
+            
+            CvBoost_exposer.def( 
+                "prune"
+                , prune_function_type(&::CvBoost::prune)
+                , default_prune_function_type(&CvBoost_wrapper::default_prune)
+                , ( bp::arg("slice") ) );
         
         }
         { //::CvBoost::read

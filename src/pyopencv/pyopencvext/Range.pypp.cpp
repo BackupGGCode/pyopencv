@@ -36,7 +36,6 @@ void register_Range_class(){
                 , empty_function_type( &::cv::Range::empty ) );
         
         }
-        Range_exposer.def( "as_CvSlice", &cv::Range::operator ::CvSlice  );
         { //::cv::Range::size
         
             typedef int ( ::cv::Range::*size_function_type )(  ) const;

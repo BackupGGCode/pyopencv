@@ -6,11 +6,11 @@
 
 #include "__convenience.pypp.hpp"
 
+#include "ndarray.hpp"
+
 #include "__array_1.pypp.hpp"
 
 #include "opencv_converters.hpp"
-
-#include "ndarray.hpp"
 
 #include "boost/python/object.hpp"
 
@@ -1985,8 +1985,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::implicitly_convertible< cv::RNG, unsigned int >();
 
     register_Range_class();
-
-    bp::implicitly_convertible< cv::Range, CvSlice >();
 
     register_Rectd_class();
 
