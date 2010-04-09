@@ -198,6 +198,8 @@
 
 #include "pyopencvext/CvSVMParams.pypp.hpp"
 
+#include "pyopencvext/CvScalar.pypp.hpp"
+
 #include "pyopencvext/CvSeq.pypp.hpp"
 
 #include "pyopencvext/CvSeqBlock.pypp.hpp"
@@ -1566,14 +1568,6 @@ struct CvRNG_to_python
     }
 };
 
-struct CvScalar_to_python
-{
-    static PyObject* convert(CvScalar const& x)
-    {
-        return bp::incref(bp::object(cv::Scalar(x)).ptr());
-    }
-};
-
 struct CvPoint_to_python
 {
     static PyObject* convert(CvPoint const& x)
@@ -1805,6 +1799,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvSVMParams_class();
 
     register_CvSVM_class();
+
+    register_CvScalar_class();
 
     register_CvSeq_class();
 
@@ -5123,7 +5119,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::to_python_converter<CvRNG, CvRNG_to_python, false>();
 
-    bp::to_python_converter<CvScalar, CvScalar_to_python, false>();
+    bp::def("asCvRect", &bp::from_ndarray< cv::CvRect >, (bp::arg("arr")) );
+
+    bp::def("asCvSize", &bp::from_ndarray< cv::CvSize >, (bp::arg("arr")) );
+
+    bp::def("asCvScalar", &bp::from_ndarray< cv::CvScalar >, (bp::arg("arr")) );
 
     bp::to_python_converter<CvPoint, CvPoint_to_python, false>();
 
@@ -5134,6 +5134,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::to_python_converter<CvBox2D, CvBox2D_to_python, false>();
 
     bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();
+
+    bp::def("asCvSlice", &bp::from_ndarray< cv::CvSlice >, (bp::arg("arr")) );
 
     bp::def("asVec4d", &bp::from_ndarray< cv::Vec4d >, (bp::arg("arr")) );
 

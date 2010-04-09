@@ -238,36 +238,39 @@ CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
     # CvRect -- for backward compatibility
     z = mb.class_('CvRect')
     z.include()
-    z.add_declaration_code('''
-static boost::shared_ptr<CvRect> CvRect_init(int x, int y, int width, int height)
-{
-    CvRect *r = new CvRect(); *r = cvRect(x,y,width,height);
-    return boost::shared_ptr<CvRect>(r);
-}
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&CvRect_init, bp::default_call_policies(), ( bp::arg("x"), bp::arg("y"), bp::arg("width"), bp::arg("height") )))')
+    mb.add_ndarray_interface(z)
+    cc.write('''
+def _KLASS__repr__(self):
+    return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + \\
+        ", width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
+KLASS.__repr__ = _KLASS__repr__
+        
+    '''.replace("KLASS", z.alias))
 
     # CvSize -- for backward compatibility
     z = mb.class_('CvSize')
     z.include()
-    z.add_declaration_code('''
-static boost::shared_ptr<CvSize> CvSize_init(int width, int height)
-{
-    CvSize *r = new CvSize(); *r = cvSize(width,height);
-    return boost::shared_ptr<CvSize>(r);
-}
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&CvSize_init, bp::default_call_policies(), ( bp::arg("width"), bp::arg("height") )))')
+    mb.add_ndarray_interface(z)
+    cc.write('''
+def _KLASS__repr__(self):
+    return "KLASS(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
+KLASS.__repr__ = _KLASS__repr__
+        
+    '''.replace("KLASS", z.alias))
+
+    # CvScalar -- for backward compatibility
+    z = mb.class_('CvScalar')
+    z.include()
+    mb.add_ndarray_interface(z)
+    cc.write('''
+def _KLASS__repr__(self):
+    return "KLASS(" + self.ndarray.__str__() + ")"
+KLASS.__repr__ = _KLASS__repr__
+        
+    '''.replace("KLASS", z.alias))
+
     
     mb.add_declaration_code('''
-struct CvScalar_to_python
-{
-    static PyObject* convert(CvScalar const& x)
-    {
-        return bp::incref(bp::object(cv::Scalar(x)).ptr());
-    }
-};
-
 struct CvPoint_to_python
 {
     static PyObject* convert(CvPoint const& x)
@@ -310,7 +313,6 @@ struct CvTermCriteria_to_python
 };
 
     ''')
-    mb.add_registration_code('bp::to_python_converter<CvScalar, CvScalar_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvPoint, CvPoint_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvPoint2D32f, CvPoint2D32f_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvPoint3D32f, CvPoint3D32f_to_python, false>();')
@@ -320,14 +322,13 @@ struct CvTermCriteria_to_python
     # CvSlice -- for backward compatibility
     z = mb.class_('CvSlice')
     z.include()
-    z.add_declaration_code('''
-static boost::shared_ptr<CvSlice> CvSlice_init(int start, int end)
-{
-    CvSlice *z = new CvSlice(); *z = cvSlice(start, end);
-    return boost::shared_ptr<CvSlice>(z);
-}
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&CvSlice_init, bp::default_call_policies(), ( bp::arg("start"), bp::arg("end") )))')
+    mb.add_ndarray_interface(z)
+    cc.write('''
+def _KLASS__repr__(self):
+    return "KLASS(start=" + repr(self.start) + ", end=" + repr(self.end) + ")"
+KLASS.__repr__ = _KLASS__repr__
+        
+    '''.replace("KLASS", z.alias))
     
 
     # Dynamic Data structures

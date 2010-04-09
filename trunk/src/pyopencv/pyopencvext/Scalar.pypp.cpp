@@ -16,6 +16,8 @@ void register_Scalar_class(){
         bp::scope Scalar_scope( Scalar_exposer );
         Scalar_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Scalar_< double > >() );
         Scalar_exposer.def( bp::init< double, double, bp::optional< double, double > >(( bp::arg("v0"), bp::arg("v1"), bp::arg("v2")=0, bp::arg("v3")=0 )) );
+        Scalar_exposer.def( bp::init< CvScalar const & >(( bp::arg("s") )) );
+        bp::implicitly_convertible< CvScalar const &, cv::Scalar_< double > >();
         Scalar_exposer.def( bp::init< double >(( bp::arg("v0") )) );
         bp::implicitly_convertible< double, cv::Scalar_< double > >();
         { //::cv::Scalar_< double >::all

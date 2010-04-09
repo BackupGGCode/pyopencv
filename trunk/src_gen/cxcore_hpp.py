@@ -44,7 +44,7 @@ def generate_code(mb, cc, D, FT, CP):
     zz = mb.classes(lambda z: z.name.startswith('Vec<'))
     for z in zz:
         z.include()
-        z.decls(lambda x: 'CvScalar' in x.decl_string).exclude()
+        mb.asClass(z, mb.class_('CvScalar'))
         z.decl('val').exclude() # use operator[] instead
         mb.add_ndarray_interface(z)
         cc.write('''
@@ -160,7 +160,7 @@ KLASS.__repr__ = _KLASS__repr__
     zz = mb.classes(lambda z: z.name.startswith('Scalar_<'))
     for z in zz:
         z.include()
-        z.decls(lambda x: 'CvScalar' in x.decl_string).exclude()
+        mb.asClass(z, mb.class_('CvScalar'))
     z = mb.class_('::cv::Scalar_<double>')
     z.rename('Scalar')    
     mb.add_ndarray_interface(z)
@@ -173,7 +173,6 @@ Scalar.__repr__ = _Scalar__repr__
     # Range
     z = mb.class_('Range')
     z.include()
-    # z.operator(lambda x: x.name.endswith('::CvSlice')).rename('as_CvSlice')
     mb.asClass(z, mb.class_('CvSlice'))
     mb.add_ndarray_interface(z)
     cc.write('''

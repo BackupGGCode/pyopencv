@@ -276,6 +276,139 @@ CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
 
 
     
+_str = "\n    Creates a CvRect view on an ndarray instance."
+if CvRect.from_ndarray.__doc__ is None:
+    CvRect.from_ndarray.__doc__ = _str
+else:
+    CvRect.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of CvRect that shares the same data with an ndarray instance, use:\n        'CvRect.from_ndarray(a)' or 'asCvRect(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if CvRect.__doc__ is None:
+    CvRect.__doc__ = _str
+else:
+    CvRect.__doc__ += _str
+    
+def _CvRect__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+CvRect.__getitem__ = _CvRect__getitem__
+            
+def _CvRect__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+CvRect.__setitem__ = _CvRect__setitem__
+            
+def _CvRect__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+CvRect.__getslice__ = _CvRect__getslice__
+            
+def _CvRect__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+CvRect.__setslice__ = _CvRect__setslice__
+        
+def _CvRect__repr__(self):
+    return "CvRect(x=" + repr(self.x) + ", y=" + repr(self.y) + \
+        ", width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
+CvRect.__repr__ = _CvRect__repr__
+        
+    
+_str = "\n    Creates a CvSize view on an ndarray instance."
+if CvSize.from_ndarray.__doc__ is None:
+    CvSize.from_ndarray.__doc__ = _str
+else:
+    CvSize.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of CvSize that shares the same data with an ndarray instance, use:\n        'CvSize.from_ndarray(a)' or 'asCvSize(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if CvSize.__doc__ is None:
+    CvSize.__doc__ = _str
+else:
+    CvSize.__doc__ += _str
+    
+def _CvSize__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+CvSize.__getitem__ = _CvSize__getitem__
+            
+def _CvSize__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+CvSize.__setitem__ = _CvSize__setitem__
+            
+def _CvSize__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+CvSize.__getslice__ = _CvSize__getslice__
+            
+def _CvSize__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+CvSize.__setslice__ = _CvSize__setslice__
+        
+def _CvSize__repr__(self):
+    return "CvSize(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
+CvSize.__repr__ = _CvSize__repr__
+        
+    
+_str = "\n    Creates a CvScalar view on an ndarray instance."
+if CvScalar.from_ndarray.__doc__ is None:
+    CvScalar.from_ndarray.__doc__ = _str
+else:
+    CvScalar.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of CvScalar that shares the same data with an ndarray instance, use:\n        'CvScalar.from_ndarray(a)' or 'asCvScalar(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if CvScalar.__doc__ is None:
+    CvScalar.__doc__ = _str
+else:
+    CvScalar.__doc__ += _str
+    
+def _CvScalar__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+CvScalar.__getitem__ = _CvScalar__getitem__
+            
+def _CvScalar__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+CvScalar.__setitem__ = _CvScalar__setitem__
+            
+def _CvScalar__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+CvScalar.__getslice__ = _CvScalar__getslice__
+            
+def _CvScalar__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+CvScalar.__setslice__ = _CvScalar__setslice__
+        
+def _CvScalar__repr__(self):
+    return "CvScalar(" + self.ndarray.__str__() + ")"
+CvScalar.__repr__ = _CvScalar__repr__
+        
+    
+_str = "\n    Creates a CvSlice view on an ndarray instance."
+if CvSlice.from_ndarray.__doc__ is None:
+    CvSlice.from_ndarray.__doc__ = _str
+else:
+    CvSlice.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of CvSlice that shares the same data with an ndarray instance, use:\n        'CvSlice.from_ndarray(a)' or 'asCvSlice(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if CvSlice.__doc__ is None:
+    CvSlice.__doc__ = _str
+else:
+    CvSlice.__doc__ += _str
+    
+def _CvSlice__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+CvSlice.__getitem__ = _CvSlice__getitem__
+            
+def _CvSlice__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+CvSlice.__setitem__ = _CvSlice__setitem__
+            
+def _CvSlice__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+CvSlice.__getslice__ = _CvSlice__getslice__
+            
+def _CvSlice__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+CvSlice.__setslice__ = _CvSlice__setslice__
+        
+def _CvSlice__repr__(self):
+    return "CvSlice(start=" + repr(self.start) + ", end=" + repr(self.end) + ")"
+CvSlice.__repr__ = _CvSlice__repr__
+        
+    
 #-----------------------------------------------------------------------------
 # Dynamic Data structures
 #-----------------------------------------------------------------------------

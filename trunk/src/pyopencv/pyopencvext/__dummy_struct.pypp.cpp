@@ -7,6 +7,106 @@
 
 namespace bp = boost::python;
 
+static inline CvScalar cvt_Vec4d_CvScalar(Vec<double, 4> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec3d_CvScalar(Vec<double, 3> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec2d_CvScalar(Vec<double, 2> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec4f_CvScalar(Vec<float, 4> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec3f_CvScalar(Vec<float, 3> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec2f_CvScalar(Vec<float, 2> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec4i_CvScalar(Vec<int, 4> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec3i_CvScalar(Vec<int, 3> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec2i_CvScalar(Vec<int, 2> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec4w_CvScalar(Vec<unsigned short, 4> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec3w_CvScalar(Vec<unsigned short, 3> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec2w_CvScalar(Vec<unsigned short, 2> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec4s_CvScalar(Vec<short, 4> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec3s_CvScalar(Vec<short, 3> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec2s_CvScalar(Vec<short, 2> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec4b_CvScalar(Vec<unsigned char, 4> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec3b_CvScalar(Vec<unsigned char, 3> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec2b_CvScalar(Vec<unsigned char, 2> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec6d_CvScalar(Vec<double, 6> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
+static inline CvScalar cvt_Vec6f_CvScalar(Vec<float, 6> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
 static inline ::cv::Vec<short, 2> cvt_Vec2b_Vec2s(::cv::Vec<unsigned char, 2> const &inst)
 {
     return inst.operator ::cv::Vec<short, 2>();
@@ -597,6 +697,11 @@ static inline ::cv::Rect_<float> cvt_Rectd_Rectf(::cv::Rect_<double> const &inst
     return inst.operator ::cv::Rect_<float>();
 }
 
+static inline CvScalar cvt_Scalar__less__double__greater__CvScalar(Scalar_<double> const &inst)
+{
+    return inst.operator CvScalar();
+}
+
 static inline CvSlice cvt_Range_CvSlice(Range const &inst)
 {
     return inst.operator CvSlice();
@@ -615,6 +720,26 @@ void register___dummy_struct_class(){
     }
     {
         
+        bp::def("asCvScalar", &cvt_Vec4d_CvScalar, (bp::arg("inst_Vec4d")));
+        bp::def("asCvScalar", &cvt_Vec3d_CvScalar, (bp::arg("inst_Vec3d")));
+        bp::def("asCvScalar", &cvt_Vec2d_CvScalar, (bp::arg("inst_Vec2d")));
+        bp::def("asCvScalar", &cvt_Vec4f_CvScalar, (bp::arg("inst_Vec4f")));
+        bp::def("asCvScalar", &cvt_Vec3f_CvScalar, (bp::arg("inst_Vec3f")));
+        bp::def("asCvScalar", &cvt_Vec2f_CvScalar, (bp::arg("inst_Vec2f")));
+        bp::def("asCvScalar", &cvt_Vec4i_CvScalar, (bp::arg("inst_Vec4i")));
+        bp::def("asCvScalar", &cvt_Vec3i_CvScalar, (bp::arg("inst_Vec3i")));
+        bp::def("asCvScalar", &cvt_Vec2i_CvScalar, (bp::arg("inst_Vec2i")));
+        bp::def("asCvScalar", &cvt_Vec4w_CvScalar, (bp::arg("inst_Vec4w")));
+        bp::def("asCvScalar", &cvt_Vec3w_CvScalar, (bp::arg("inst_Vec3w")));
+        bp::def("asCvScalar", &cvt_Vec2w_CvScalar, (bp::arg("inst_Vec2w")));
+        bp::def("asCvScalar", &cvt_Vec4s_CvScalar, (bp::arg("inst_Vec4s")));
+        bp::def("asCvScalar", &cvt_Vec3s_CvScalar, (bp::arg("inst_Vec3s")));
+        bp::def("asCvScalar", &cvt_Vec2s_CvScalar, (bp::arg("inst_Vec2s")));
+        bp::def("asCvScalar", &cvt_Vec4b_CvScalar, (bp::arg("inst_Vec4b")));
+        bp::def("asCvScalar", &cvt_Vec3b_CvScalar, (bp::arg("inst_Vec3b")));
+        bp::def("asCvScalar", &cvt_Vec2b_CvScalar, (bp::arg("inst_Vec2b")));
+        bp::def("asCvScalar", &cvt_Vec6d_CvScalar, (bp::arg("inst_Vec6d")));
+        bp::def("asCvScalar", &cvt_Vec6f_CvScalar, (bp::arg("inst_Vec6f")));
         bp::def("asVec2s", &cvt_Vec2b_Vec2s, (bp::arg("inst_Vec2b")));
         bp::def("asVec2w", &cvt_Vec2b_Vec2w, (bp::arg("inst_Vec2b")));
         bp::def("asVec2i", &cvt_Vec2b_Vec2i, (bp::arg("inst_Vec2b")));
@@ -733,6 +858,7 @@ void register___dummy_struct_class(){
         bp::def("asRectd", &cvt_Rectf_Rectd, (bp::arg("inst_Rectf")));
         bp::def("asRect", &cvt_Rectd_Rect, (bp::arg("inst_Rectd")));
         bp::def("asRectf", &cvt_Rectd_Rectf, (bp::arg("inst_Rectd")));
+        bp::def("asCvScalar", &cvt_Scalar__less__double__greater__CvScalar, (bp::arg("inst_Scalar__less__double__greater_")));
         bp::def("asCvSlice", &cvt_Range_CvSlice, (bp::arg("inst_Range")));;
     }
 
