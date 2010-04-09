@@ -3,7 +3,6 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "ndarray.hpp"
 #include "CvSize.pypp.hpp"
 
 namespace bp = boost::python;
@@ -13,9 +12,6 @@ void register_CvSize_class(){
     bp::class_< CvSize >( "CvSize" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSize >() )    
         .def_readwrite( "height", &CvSize::height )    
-        .def_readwrite( "width", &CvSize::width )    
-        .def("from_ndarray", &bp::from_ndarray< cv::CvSize >, (bp::arg("arr")) )    
-        .staticmethod("from_ndarray")    
-        .add_property("ndarray", &bp::as_ndarray< cv::CvSize >);
+        .def_readwrite( "width", &CvSize::width );
 
 }

@@ -182,6 +182,16 @@
 
 #include "pyopencvext/CvPluginFuncInfo.pypp.hpp"
 
+#include "pyopencvext/CvPoint.pypp.hpp"
+
+#include "pyopencvext/CvPoint2D32f.pypp.hpp"
+
+#include "pyopencvext/CvPoint2D64f.pypp.hpp"
+
+#include "pyopencvext/CvPoint3D32f.pypp.hpp"
+
+#include "pyopencvext/CvPoint3D64f.pypp.hpp"
+
 #include "pyopencvext/CvQuadEdge2D.pypp.hpp"
 
 #include "pyopencvext/CvRTParams.pypp.hpp"
@@ -1568,31 +1578,6 @@ struct CvRNG_to_python
     }
 };
 
-struct CvPoint_to_python
-{
-    static PyObject* convert(CvPoint const& x)
-    {
-        return bp::incref(bp::object(cv::Point(x)).ptr());
-    }
-};
-
-struct CvPoint2D32f_to_python
-{
-    static PyObject* convert(CvPoint2D32f const& x)
-    {
-        return bp::incref(bp::object(cv::Point2f(x)).ptr());
-    }
-};
-
-struct CvPoint3D32f_to_python
-{
-    static PyObject* convert(CvPoint3D32f const& x)
-    {
-        return bp::incref(bp::object(cv::Point3f(x)).ptr());
-    }
-};
-
-
 struct CvBox2D_to_python
 {
     static PyObject* convert(CvBox2D const& x)
@@ -1787,6 +1772,16 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvParamGrid_class();
 
     register_CvPluginFuncInfo_class();
+
+    register_CvPoint_class();
+
+    register_CvPoint2D32f_class();
+
+    register_CvPoint2D64f_class();
+
+    register_CvPoint3D32f_class();
+
+    register_CvPoint3D64f_class();
 
     register_CvQuadEdge2D_class();
 
@@ -5119,23 +5114,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::to_python_converter<CvRNG, CvRNG_to_python, false>();
 
-    bp::def("asCvRect", &bp::from_ndarray< cv::CvRect >, (bp::arg("arr")) );
-
-    bp::def("asCvSize", &bp::from_ndarray< cv::CvSize >, (bp::arg("arr")) );
-
-    bp::def("asCvScalar", &bp::from_ndarray< cv::CvScalar >, (bp::arg("arr")) );
-
-    bp::to_python_converter<CvPoint, CvPoint_to_python, false>();
-
-    bp::to_python_converter<CvPoint2D32f, CvPoint2D32f_to_python, false>();
-
-    bp::to_python_converter<CvPoint3D32f, CvPoint3D32f_to_python, false>();
-
     bp::to_python_converter<CvBox2D, CvBox2D_to_python, false>();
 
     bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();
-
-    bp::def("asCvSlice", &bp::from_ndarray< cv::CvSlice >, (bp::arg("arr")) );
 
     bp::def("asVec4d", &bp::from_ndarray< cv::Vec4d >, (bp::arg("arr")) );
 

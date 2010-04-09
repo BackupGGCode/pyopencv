@@ -77,7 +77,7 @@ KLASS.__repr__ = _KLASS__repr__
     zz = mb.classes(lambda z: z.name.startswith('Point_<'))
     for z in zz:
         z.include()
-        z.decls(lambda x: 'CvPoint' in x.decl_string).exclude()
+        mb.asClass(z, mb.class_('CvPoint'))
         z.operator(lambda x: '::cv::Vec<' in x.name).rename('as_Vec'+z.alias[-2:])
         cc.write('''
 def _KLASS__repr__(self):
@@ -98,7 +98,7 @@ asPoint = asPoint2i
     zz = mb.classes(lambda z: z.name.startswith('Point3_<'))
     for z in zz:
         z.include()
-        z.decls(lambda x: 'CvPoint' in x.decl_string).exclude()
+        mb.asClass(z, mb.class_('CvPoint3D32f'))
         z.operator(lambda x: '::cv::Vec<' in x.name).rename('as_Vec'+z.alias[-2:])
         mb.add_ndarray_interface(z)
         cc.write('''

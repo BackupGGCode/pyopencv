@@ -4,7 +4,6 @@
 #include "__array_1.pypp.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "ndarray.hpp"
 #include "CvScalar.pypp.hpp"
 
 namespace bp = boost::python;
@@ -48,9 +47,6 @@ void register_CvScalar_class(){
                 , bp::make_function( array_wrapper_creator(&CvScalar_wrapper::pyplusplus_val_wrapper)
                                     , bp::with_custodian_and_ward_postcall< 0, 1 >() ) );
         }
-        CvScalar_exposer.def("from_ndarray", &bp::from_ndarray< cv::CvScalar >, (bp::arg("arr")) );
-        CvScalar_exposer.staticmethod("from_ndarray");
-        CvScalar_exposer.add_property("ndarray", &bp::as_ndarray< cv::CvScalar >);
     }
 
 }

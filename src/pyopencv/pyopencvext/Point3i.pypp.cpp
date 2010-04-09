@@ -19,6 +19,8 @@ void register_Point3i_class(){
         Point3i_exposer.def( bp::init< cv::Point3_< int > const & >(( bp::arg("pt") )) );
         Point3i_exposer.def( bp::init< cv::Point_< int > const & >(( bp::arg("pt") )) );
         bp::implicitly_convertible< cv::Point_< int > const &, cv::Point3_< int > >();
+        Point3i_exposer.def( bp::init< CvPoint3D32f const & >(( bp::arg("pt") )) );
+        bp::implicitly_convertible< CvPoint3D32f const &, cv::Point3_< int > >();
         Point3i_exposer.def( bp::init< cv::Vec< int, 3 > const & >(( bp::arg("v") )) );
         bp::implicitly_convertible< cv::Vec< int, 3 > const &, cv::Point3_< int > >();
         { //::cv::Point3_< int >::ddot
