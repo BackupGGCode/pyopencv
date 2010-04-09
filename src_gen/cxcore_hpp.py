@@ -146,7 +146,7 @@ KLASS.__repr__ = _KLASS__repr__
     # RotatedRect
     z = mb.class_('RotatedRect')
     z.include()
-    z.decls(lambda x: 'CvBox2D' in x.decl_string).exclude()
+    mb.asClass(z, mb.class_('CvBox2D'))
     mb.add_ndarray_interface(z)
     cc.write('''
 def _KLASS__repr__(self):

@@ -288,16 +288,19 @@ KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
 
+    # CvBox2D -- for backward compatibility
+    z = mb.class_('CvBox2D')
+    z.include()
+    cc.write('''
+def _KLASS__repr__(self):
+    return "KLASS(center=" + repr(self.center) + ", size=" + repr(self.size) + \\
+        ", angle=" + repr(self.angle) + ")"
+KLASS.__repr__ = _KLASS__repr__
+        
+    '''.replace("KLASS", z.alias))
+
     
     mb.add_declaration_code('''
-struct CvBox2D_to_python
-{
-    static PyObject* convert(CvBox2D const& x)
-    {
-        return bp::incref(bp::object(cv::RotatedRect(x)).ptr());
-    }
-};
-
 struct CvTermCriteria_to_python
 {
     static PyObject* convert(CvTermCriteria const& x)
@@ -307,7 +310,6 @@ struct CvTermCriteria_to_python
 };
 
     ''')
-    mb.add_registration_code('bp::to_python_converter<CvBox2D, CvBox2D_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();')
     
     # CvSlice -- for backward compatibility
