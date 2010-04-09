@@ -742,6 +742,11 @@ static inline ::CvSlice cvt_Range_CvSlice(::cv::Range const &inst)
     return inst.operator ::CvSlice();
 }
 
+static inline ::CvTermCriteria cvt_TermCriteria_CvTermCriteria(::cv::TermCriteria const &inst)
+{
+    return inst.operator ::CvTermCriteria();
+}
+
 void register___dummy_struct_class(){
 
     { //::cv::dummy_struct
@@ -901,7 +906,8 @@ void register___dummy_struct_class(){
         bp::def("asRectf", &cvt_Rectd_Rectf, (bp::arg("inst_Rectd")));
         bp::def("asCvBox2D", &cvt_RotatedRect_CvBox2D, (bp::arg("inst_RotatedRect")));
         bp::def("asCvScalar", &cvt_Scalar__less__double__greater__CvScalar, (bp::arg("inst_Scalar__less__double__greater_")));
-        bp::def("asCvSlice", &cvt_Range_CvSlice, (bp::arg("inst_Range")));;
+        bp::def("asCvSlice", &cvt_Range_CvSlice, (bp::arg("inst_Range")));
+        bp::def("asCvTermCriteria", &cvt_TermCriteria_CvTermCriteria, (bp::arg("inst_TermCriteria")));;
     }
 
 }

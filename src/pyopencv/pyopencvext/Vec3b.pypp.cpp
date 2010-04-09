@@ -74,6 +74,7 @@ void register_Vec3b_class(){
                 , ( bp::arg("v") ) );
         
         }
+        Vec3b_exposer.def( "__temp_func", &cv::Vec< unsigned char, 3 >::operator ::CvScalar  );
         { //::cv::Vec< unsigned char, 3 >::operator[]
         
             typedef cv::Vec< unsigned char, 3 > exported_class_t;

@@ -181,7 +181,7 @@ KLASS.__repr__ = _KLASS__repr__
     z.var('class_weights').exclude()
     z.constructors(lambda x: len(x.arguments) > 1).exclude()
     FT.expose_member_as_Mat(z, 'class_weights')
-    FT.expose_member_as_TermCriteria(z, 'term_crit')
+    # FT.expose_member_as_TermCriteria(z, 'term_crit')
     z.add_wrapper_code('''
     CvSVMParams_wrapper(int _svm_type, int _kernel_type, double _degree, double _gamma, double _coef0, double _C, double _nu, double _p, cv::Mat const & _class_weights, cv::TermCriteria const &_term_crit )
     : CvSVMParams( _svm_type, _kernel_type, _degree, _gamma, _coef0, _C, _nu, _p, 0, (CvTermCriteria)_term_crit )

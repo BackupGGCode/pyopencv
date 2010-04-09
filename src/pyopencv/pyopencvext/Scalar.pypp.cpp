@@ -42,6 +42,7 @@ void register_Scalar_class(){
                 , ( bp::arg("t"), bp::arg("scale")=1 ) );
         
         }
+        Scalar_exposer.def( "__temp_func", &cv::Scalar_< double >::operator ::CvScalar  );
         Scalar_exposer.staticmethod( "all" );
         Scalar_exposer.def("from_ndarray", &bp::from_ndarray< cv::Scalar >, (bp::arg("arr")) );
         Scalar_exposer.staticmethod("from_ndarray");

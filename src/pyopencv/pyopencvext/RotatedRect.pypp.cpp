@@ -27,6 +27,7 @@ void register_RotatedRect_class(){
                 , boundingRect_function_type( &::cv::RotatedRect::boundingRect ) );
         
         }
+        RotatedRect_exposer.def( "__temp_func", &cv::RotatedRect::operator ::CvBox2D  );
         { //::cv::RotatedRect::points
         
             typedef void ( ::cv::RotatedRect::*points_function_type )( ::cv::Point2f * ) const;

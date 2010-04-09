@@ -267,9 +267,9 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 # Other supplementary data type definitions
 #-----------------------------------------------------------------------------
 
-# CV_TERMCRIT_ITER    = 1
-# CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
-# CV_TERMCRIT_EPS     = 2
+CV_TERMCRIT_ITER    = 1
+CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
+CV_TERMCRIT_EPS     = 2
 
 CV_WHOLE_SEQ_END_INDEX = 0x3fffffff
 CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
@@ -321,6 +321,12 @@ def _CvBox2D__repr__(self):
     return "CvBox2D(center=" + repr(self.center) + ", size=" + repr(self.size) + \
         ", angle=" + repr(self.angle) + ")"
 CvBox2D.__repr__ = _CvBox2D__repr__
+        
+    
+def _CvTermCriteria__repr__(self):
+    return "CvTermCriteria(type=" + repr(self.type) + ", max_iter=" + repr(self.max_iter) + \
+        ", epsilon=" + repr(self.epsilon) + ")"
+CvTermCriteria.__repr__ = _CvTermCriteria__repr__
         
     
 def _CvSlice__repr__(self):

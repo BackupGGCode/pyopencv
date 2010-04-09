@@ -45,6 +45,7 @@ void register_Point3i_class(){
                 , ( bp::arg("pt") ) );
         
         }
+        Point3i_exposer.def( "__temp_func", &cv::Point3_< int >::operator ::CvPoint3D32f  );
         Point3i_exposer.def( "as_Vec3i", &cv::Point3_< int >::operator ::cv::Vec< int, 3 >  );
         { //::cv::Point3_< int >::operator=
         

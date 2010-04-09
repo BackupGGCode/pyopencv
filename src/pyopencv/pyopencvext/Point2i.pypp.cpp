@@ -58,6 +58,8 @@ void register_Point2i_class(){
                 , ( bp::arg("r") ) );
         
         }
+        Point2i_exposer.def( "__temp_func", &cv::Point_< int >::operator ::CvPoint  );
+        Point2i_exposer.def( "__temp_func", &cv::Point_< int >::operator ::CvPoint2D32f  );
         Point2i_exposer.def( "as_Vec2i", &cv::Point_< int >::operator ::cv::Vec< int, 2 >  );
         { //::cv::Point_< int >::operator=
         
