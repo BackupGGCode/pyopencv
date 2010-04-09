@@ -1529,6 +1529,13 @@ static boost::python::object stereoCalibrate_14726b7172922289400130b4861f4a12( b
     return bp::object( result );
 }
 
+static boost::python::tuple stereoRectify_82767028a891c6d71aa41b85e724aef7( ::cv::Mat const & cameraMatrix1, ::cv::Mat const & distCoeffs1, ::cv::Mat const & cameraMatrix2, ::cv::Mat const & distCoeffs2, ::cv::Size imageSize, ::cv::Mat const & R, ::cv::Mat const & T, ::cv::Mat & R1, ::cv::Mat & R2, ::cv::Mat & P1, ::cv::Mat & P2, ::cv::Mat & Q, double alpha, ::cv::Size newImageSize=cv::Size_<int>(), int flags=int(::cv::CALIB_ZERO_DISPARITY) ){
+    cv::Rect_<int> validPixROI12;
+    cv::Rect_<int> validPixROI22;
+    ::cv::stereoRectify(cameraMatrix1, distCoeffs1, cameraMatrix2, distCoeffs2, imageSize, R, T, R1, R2, P1, P2, Q, alpha, newImageSize, &validPixROI12, &validPixROI22, flags);
+    return bp::make_tuple( validPixROI12, validPixROI22 );
+}
+
 static boost::python::object undistortPoints_e5fdbe55500ffb118c2a9845da49f34b( ::cv::Mat const & src, ::cv::Mat const & cameraMatrix, ::cv::Mat const & distCoeffs, ::cv::Mat const & R=cv::Mat(), ::cv::Mat const & P=cv::Mat() ){
     std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > dst2;
     cv::Mat dst3;
@@ -5036,6 +5043,29 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\n    Invoke asMat() to convert every 1D Python sequence into a Mat, e.g. "\
     "\n    [asMat([0,1,2]), asMat((0,1,2)]." );
+    
+    }
+
+    { //::cv::stereoRectify
+    
+        typedef boost::python::tuple ( *stereoRectify2_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Size,::cv::Mat const &,::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,double,::cv::Size,int );
+        
+        bp::def( 
+            "stereoRectify2"
+            , stereoRectify2_function_type( &stereoRectify_82767028a891c6d71aa41b85e724aef7 )
+            , ( bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("R1"), bp::arg("R2"), bp::arg("P1"), bp::arg("P2"), bp::arg("Q"), bp::arg("alpha"), bp::arg("newImageSize")=cv::Size_<int>(), bp::arg("flags")=int(::cv::CALIB_ZERO_DISPARITY) )
+            , "\nWrapped function:"
+    "\n    stereoRectify"
+    "\nArgument 'validPixROI2':"\
+    "\n    C/C++ type: ::cv::Rect *."\
+    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)."\
+    "\nArgument 'validPixROI1':"\
+    "\n    C/C++ type: ::cv::Rect *."\
+    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
