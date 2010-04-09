@@ -242,11 +242,16 @@ def generate_code(mb, cc, D, FT, CP):
         transformer_creators=[FT.arg_std_vector('corners', 2)])
 
     # 'HoughCircles', 'HoughLines', 'HoughLinesP'
-    FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, transformer_creators=[FT.arg_std_vector('circles', 2)])
-    FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
-    FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, transformer_creators=[FT.arg_std_vector('lines', 2)])
+    FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, 
+        transformer_creators=[FT.arg_std_vector('circles', 2)])
+    FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, 
+        transformer_creators=[FT.arg_std_vector('lines', 2)])
+    FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, 
+        transformer_creators=[FT.arg_std_vector('lines', 2)])
     
-    # getOptimalNewCameraMatrix -- TODO: opencv 2.1
+    # getOptimalNewCameraMatrix
+    FT.expose_func(mb.free_fun('getOptimalNewCameraMatrix'), return_pointee=False, 
+        transformer_creators=[FT.output_type1('validPixROI')])
     
     # calcHist
     for z in mb.free_funs('calcHist'):
@@ -329,7 +334,10 @@ def generate_code(mb, cc, D, FT, CP):
     # projectPoints
     for z in mb.free_funs('projectPoints'):
         z.include()
-        z._transformer_kwds['alias'] = 'projectPoints' in len(z.arguments)<10 else 'projectPoints2'
+        if len(z.arguments) < 10:
+            z._transformer_kwds['alias'] = 'projectPoints' 
+        else:
+            z._transformer_kwds['alias'] = 'projectPoints2'
         z._transformer_creators.append(FT.arg_std_vector('imagePoints', 2))
 
     # findChessboardCorners

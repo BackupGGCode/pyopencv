@@ -1298,6 +1298,12 @@ static boost::python::object getAffineTransform_aa493630c3e4efe1ff49141fe5060922
     return bp::object( result );
 }
 
+static boost::python::tuple getOptimalNewCameraMatrix_e98b8ab28b52edfb3a210046fcf0527e( ::cv::Mat const & cameraMatrix, ::cv::Mat const & distCoeffs, ::cv::Size imageSize, double alpha, ::cv::Size newImgSize=cv::Size_<int>() ){
+    cv::Rect_<int> validPixROI2;
+    ::cv::Mat result = ::cv::getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, imageSize, alpha, newImgSize, &validPixROI2);
+    return bp::make_tuple( result, validPixROI2 );
+}
+
 static boost::python::object getPerspectiveTransform_c06a0392152cb20f6b57ae1ff2ac2c11( cv::Mat const & src, cv::Mat const & dst ){
     int src2;
     cv::Point_<float> * src3;
@@ -4549,6 +4555,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+    
+    }
+
+    { //::cv::getOptimalNewCameraMatrix
+    
+        typedef boost::python::tuple ( *getOptimalNewCameraMatrix_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Size,double,::cv::Size );
+        
+        bp::def( 
+            "getOptimalNewCameraMatrix"
+            , getOptimalNewCameraMatrix_function_type( &getOptimalNewCameraMatrix_e98b8ab28b52edfb3a210046fcf0527e )
+            , ( bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("imageSize"), bp::arg("alpha"), bp::arg("newImgSize")=cv::Size_<int>() )
+            , "\nArgument 'validPixROI':"\
+    "\n    C/C++ type: ::cv::Rect *."\
+    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
