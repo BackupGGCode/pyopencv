@@ -208,7 +208,8 @@ def generate_code(mb, cc, D, FT, CP):
             z._transformer_kwds['alias'] = 'write'
     
     # FileNode's 'read' functions
-    z = mb.free_fun(lambda x: x.name=='read' and 'cv::FileNode' in x.arguments[0].type.decl_string and x.arguments[1].name=='keypoints')
+    z = mb.free_fun(lambda x: x.name=='read' and 'cv::FileNode' in \
+        x.arguments[0].type.decl_string and x.arguments[1].name=='keypoints')
     z.include()
     z._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
     z._transformer_kwds['alias'] = 'read_KeyPoints'
@@ -227,7 +228,8 @@ def generate_code(mb, cc, D, FT, CP):
         'bool &': 'bool',
     }
     for elem in read_rename_dict:
-        z = mb.free_fun(lambda x: x.name=='read' and 'cv::FileNode' in x.arguments[0].type.decl_string and x.arguments[1].type.decl_string==elem)
+        z = mb.free_fun(lambda x: x.name=='read' and 'cv::FileNode' in \
+            x.arguments[0].type.decl_string and x.arguments[1].type.decl_string==elem)
         z.include()
         z._transformer_creators.append(FT.output(z.arguments[1].name))
         z._transformer_kwds['alias'] = 'read_'+read_rename_dict[elem]
@@ -238,7 +240,8 @@ def generate_code(mb, cc, D, FT, CP):
             transformer_creators=[FT.input_array1d('src'), FT.input_array1d('dst')])
             
     # goodFeaturesToTrack
-    FT.expose_func(mb.free_fun('goodFeaturesToTrack'), return_pointee=False, transformer_creators=[FT.arg_std_vector('corners', 2)])
+    FT.expose_func(mb.free_fun('goodFeaturesToTrack'), return_pointee=False, 
+        transformer_creators=[FT.arg_std_vector('corners', 2)])
 
     # 'HoughCircles', 'HoughLines', 'HoughLinesP'
     FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, transformer_creators=[FT.arg_std_vector('circles', 2)])
@@ -288,30 +291,17 @@ def generate_code(mb, cc, D, FT, CP):
         z.include()
         z._transformer_kwds['alias'] = 'groupRectangles'
         
-    # approxPolyDP
-    mb.free_funs('approxPolyDP').exclude()
-    mb.add_declaration_code('''
-static cv::Mat sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
-    cv::Mat approxCurve;
-    if(curve.type() == CV_32SC2) 
-    {
-        std::vector<cv::Point> point2i;
-        cv::approxPolyDP(curve, point2i, epsilon, closed);
-        convert_from_vector_of_T_to_Mat(point2i, approxCurve);
-    }
-    else
-    {
-        std::vector<cv::Point2f> point2f;
-        cv::approxPolyDP(curve, point2f, epsilon, closed);
-        convert_from_vector_of_T_to_Mat(point2f, approxCurve);
-    }
-    return approxCurve;
-}    
-    ''')
-    mb.add_registration_code('''bp::def( 
-        "approxPolyDP"
-        , (cv::Mat (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
-        , ( bp::arg("curve"), bp::arg("epsilon"), bp::arg("closed") ) );''')
+    # approxPolyDP    
+    for z in mb.free_funs('approxPolyDP'):
+        z.include()
+        z._transformer_creators.append(FT.arg_std_vector('approxCurve', 2))
+        x = z.arguments[1].type.partial_decl_string
+        if 'Point_<int>' in x:
+            z._transformer_kwds['alias'] = 'approxPolyDP_int'
+        elif 'Point_<float>' in x:
+            z._transformer_kwds['alias'] = 'approxPolyDP_float32'
+        else:
+            z._transformer_kwds['alias'] = 'approxPolyDP' # won't ever occur
         
     # convexHull
     mb.free_funs('convexHull').exclude()

@@ -480,6 +480,22 @@ static boost::python::object HuMoments_646f4ee3824db566d9124eee2bb204ab( ::cv::M
     return bp::object( py_hu );
 }
 
+static boost::python::object approxPolyDP_6246fabc9452f087130300d2a52e2a7d( ::cv::Mat const & curve, double epsilon, bool closed ){
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > approxCurve2;
+    cv::Mat approxCurve3;
+    ::cv::approxPolyDP(curve, approxCurve2, epsilon, closed);
+    convert_from_vector_of_T_to_Mat(approxCurve2, approxCurve3);
+    return bp::object( approxCurve3 );
+}
+
+static boost::python::object approxPolyDP_d6c85380d14cce99fc92c414781ada55( ::cv::Mat const & curve, double epsilon, bool closed ){
+    std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > approxCurve2;
+    cv::Mat approxCurve3;
+    ::cv::approxPolyDP(curve, approxCurve2, epsilon, closed);
+    convert_from_vector_of_T_to_Mat(approxCurve2, approxCurve3);
+    return bp::object( approxCurve3 );
+}
+
 static void buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac( ::cv::Mat const & src, bp::list & dst, int maxlevel ){
     std::vector<cv::Mat, std::allocator<cv::Mat> > dst2;
     convert_from_object_to_T(dst, dst2);
@@ -1606,23 +1622,6 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     }
 }
 
-static cv::Mat sd_approxPolyDP( cv::Mat const &curve, double epsilon, bool closed) {
-    cv::Mat approxCurve;
-    if(curve.type() == CV_32SC2) 
-    {
-        std::vector<cv::Point> point2i;
-        cv::approxPolyDP(curve, point2i, epsilon, closed);
-        convert_from_vector_of_T_to_Mat(point2i, approxCurve);
-    }
-    else
-    {
-        std::vector<cv::Point2f> point2f;
-        cv::approxPolyDP(curve, point2f, epsilon, closed);
-        convert_from_vector_of_T_to_Mat(point2f, approxCurve);
-    }
-    return approxCurve;
-}
-
 static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
     cv::Mat obj;
     if(points.type() == CV_32SC2)
@@ -2167,6 +2166,46 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "HuMoments"
             , HuMoments_function_type( &HuMoments_646f4ee3824db566d9124eee2bb204ab )
             , ( bp::arg("moments") ) );
+    
+    }
+
+    { //::cv::approxPolyDP
+    
+        typedef boost::python::object ( *approxPolyDP_float32_function_type )( ::cv::Mat const &,double,bool );
+        
+        bp::def( 
+            "approxPolyDP_float32"
+            , approxPolyDP_float32_function_type( &approxPolyDP_6246fabc9452f087130300d2a52e2a7d )
+            , ( bp::arg("curve"), bp::arg("epsilon"), bp::arg("closed") )
+            , "\nWrapped function:"
+    "\n    approxPolyDP"
+    "\nArgument 'approxCurve':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
+    
+    }
+
+    { //::cv::approxPolyDP
+    
+        typedef boost::python::object ( *approxPolyDP_int_function_type )( ::cv::Mat const &,double,bool );
+        
+        bp::def( 
+            "approxPolyDP_int"
+            , approxPolyDP_int_function_type( &approxPolyDP_d6c85380d14cce99fc92c414781ada55 )
+            , ( bp::arg("curve"), bp::arg("epsilon"), bp::arg("closed") )
+            , "\nWrapped function:"
+    "\n    approxPolyDP"
+    "\nArgument 'approxCurve':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<int> > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
@@ -5095,11 +5134,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
         "snakeImage"
         , &sdSnakeImage
         , ( bp::arg("image"), bp::arg("points"), bp::arg("alpha"), bp::arg("beta"), bp::arg("gamma"), bp::arg("coeff_usage"), bp::arg("win"), bp::arg("criteria"), bp::arg("calc_gradient")=(int)(1) ) );
-
-    bp::def( 
-        "approxPolyDP"
-        , (cv::Mat (*)( cv::Mat const &, double, bool ))( &sd_approxPolyDP )
-        , ( bp::arg("curve"), bp::arg("epsilon"), bp::arg("closed") ) );
 
     bp::def( 
         "convexHull"
