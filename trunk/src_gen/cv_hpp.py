@@ -304,34 +304,45 @@ def generate_code(mb, cc, D, FT, CP):
             z._transformer_kwds['alias'] = 'approxPolyDP' # won't ever occur
         
     # convexHull
-    mb.free_funs('convexHull').exclude()
-    z = mb.free_fun(lambda x: x.name=='convexHull' and 'vector<int' in x.arguments[1].type.decl_string)
-    z.include()
-    z._transformer_kwds['alias'] = 'convexHullIdx'
-    z._transformer_creators.append(FT.arg_std_vector('hull', 2))
+    for z in mb.free_funs('convexHull'):
+        z.include()
+        z._transformer_creators.append(FT.arg_std_vector('hull', 2))
+        x = z.arguments[1].type.partial_decl_string
+        if 'Point_<int>' in x:
+            z._transformer_kwds['alias'] = 'convexHull_int'
+        elif 'Point_<float>' in x:
+            z._transformer_kwds['alias'] = 'convexHull_float32'
+        else:
+            z._transformer_kwds['alias'] = 'convexHullIdx' # won't ever occur
+        
+    # mb.free_funs('convexHull').exclude()
+    # z = mb.free_fun(lambda x: x.name=='convexHull' and 'vector<int' in x.arguments[1].type.decl_string)
+    # z.include()
+    # z._transformer_kwds['alias'] = 'convexHullIdx'
+    # z._transformer_creators.append(FT.arg_std_vector('hull', 2))
     
-    mb.add_declaration_code('''
-static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
-    cv::Mat obj;
-    if(points.type() == CV_32SC2)
-    {
-        std::vector<cv::Point> hull2i;
-        cv::convexHull(points, hull2i, clockwise);
-        convert_from_vector_of_T_to_Mat(hull2i, obj);
-    }
-    else
-    {
-        std::vector<cv::Point2f> hull2f;
-        cv::convexHull(points, hull2f, clockwise);
-        convert_from_vector_of_T_to_Mat(hull2f, obj);
-    }
-    return obj;
-}    
-    ''')
-    mb.add_registration_code('''bp::def( 
-        "convexHull"
-        , (cv::Mat (*)( cv::Mat const &, bool ))( &sd_convexHull )
-        , ( bp::arg("points"), bp::arg("clockwise")=bp::object(false) ) );''')
+    # mb.add_declaration_code('''
+# static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
+    # cv::Mat obj;
+    # if(points.type() == CV_32SC2)
+    # {
+        # std::vector<cv::Point> hull2i;
+        # cv::convexHull(points, hull2i, clockwise);
+        # convert_from_vector_of_T_to_Mat(hull2i, obj);
+    # }
+    # else
+    # {
+        # std::vector<cv::Point2f> hull2f;
+        # cv::convexHull(points, hull2f, clockwise);
+        # convert_from_vector_of_T_to_Mat(hull2f, obj);
+    # }
+    # return obj;
+# }    
+    # ''')
+    # mb.add_registration_code('''bp::def( 
+        # "convexHull"
+        # , (cv::Mat (*)( cv::Mat const &, bool ))( &sd_convexHull )
+        # , ( bp::arg("points"), bp::arg("clockwise")=bp::object(false) ) );''')
         
     # undistortPoints
     mb.free_funs('undistortPoints').include()
