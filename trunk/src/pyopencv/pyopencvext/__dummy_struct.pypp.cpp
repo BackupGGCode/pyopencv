@@ -597,6 +597,11 @@ static inline ::cv::Rect_<float> cvt_Rectd_Rectf(::cv::Rect_<double> const &inst
     return inst.operator ::cv::Rect_<float>();
 }
 
+static inline CvSlice cvt_Range_CvSlice(Range const &inst)
+{
+    return inst.operator CvSlice();
+}
+
 void register___dummy_struct_class(){
 
     { //::cv::dummy_struct
@@ -727,7 +732,8 @@ void register___dummy_struct_class(){
         bp::def("asRect", &cvt_Rectf_Rect, (bp::arg("inst_Rectf")));
         bp::def("asRectd", &cvt_Rectf_Rectd, (bp::arg("inst_Rectf")));
         bp::def("asRect", &cvt_Rectd_Rect, (bp::arg("inst_Rectd")));
-        bp::def("asRectf", &cvt_Rectd_Rectf, (bp::arg("inst_Rectd")));;
+        bp::def("asRectf", &cvt_Rectd_Rectf, (bp::arg("inst_Rectd")));
+        bp::def("asCvSlice", &cvt_Range_CvSlice, (bp::arg("inst_Range")));;
     }
 
 }

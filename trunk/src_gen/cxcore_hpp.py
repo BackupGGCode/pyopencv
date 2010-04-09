@@ -173,7 +173,8 @@ Scalar.__repr__ = _Scalar__repr__
     # Range
     z = mb.class_('Range')
     z.include()
-    z.operator(lambda x: x.name.endswith('::CvSlice')).rename('as_CvSlice')
+    # z.operator(lambda x: x.name.endswith('::CvSlice')).rename('as_CvSlice')
+    mb.asClass(z, mb.class_('CvSlice'))
     mb.add_ndarray_interface(z)
     cc.write('''
 def _KLASS__repr__(self):

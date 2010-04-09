@@ -391,10 +391,11 @@ KLASS.__repr__ = _KLASS__repr__
     z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
     z.mem_fun('calc_error').exclude() # TODO: fix this function
     z.mem_funs(lambda x: 'CvSeq' in x.decl_string).exclude() # TODO: fix these functions
-    z.mem_funs(lambda x: 'CvSlice' in x.decl_string).exclude() # TODO: fix these functions
     for t in ('train', 'predict'):
         for t2 in z.mem_funs(t):
             t2._transformer_kwds['alias'] = t
+            if t=='predict':
+                t2._transformer_creators.append(FT.output_type1('weak_responses'))
     mb.finalize_class(z)
 
     # CvANN_MLP_TrainParams
