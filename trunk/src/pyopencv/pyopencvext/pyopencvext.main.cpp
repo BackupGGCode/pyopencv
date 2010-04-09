@@ -244,6 +244,8 @@
 
 #include "pyopencvext/CvSubdiv2DPoint.pypp.hpp"
 
+#include "pyopencvext/CvTermCriteria.pypp.hpp"
+
 #include "pyopencvext/CvTreeNodeIterator.pypp.hpp"
 
 #include "pyopencvext/CvType.pypp.hpp"
@@ -1580,14 +1582,6 @@ struct CvRNG_to_python
     }
 };
 
-struct CvTermCriteria_to_python
-{
-    static PyObject* convert(CvTermCriteria const& x)
-    {
-        return bp::incref(bp::object(cv::TermCriteria(x)).ptr());
-    }
-};
-
 static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::object const & alpha, bp::object const & beta, bp::object const & gamma, int coeff_usage, cv::Size const & win, cv::TermCriteria const & criteria, int calc_gradient=1 ){
     char s[500];
     float alpha2, beta2, gamma2;
@@ -1680,6 +1674,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvDefParam_class();
 
     register_CvDetectedBlob_class();
+
+    register_CvTermCriteria_class();
 
     register_CvEMParams_class();
 
@@ -1869,13 +1865,21 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Point2i_class();
 
+    bp::implicitly_convertible< cv::Point_< int >, CvPoint >();
+
+    bp::implicitly_convertible< cv::Point_< int >, CvPoint2D32f >();
+
     bp::implicitly_convertible< cv::Point_< int >, cv::Vec< int, 2 > >();
 
     register_Rect_class();
 
     register_Vec4d_class();
 
+    bp::implicitly_convertible< cv::Vec< double, 4 >, CvScalar >();
+
     register_Scalar_class();
+
+    bp::implicitly_convertible< cv::Scalar_< double >, CvScalar >();
 
     register_FilterEngine_class();
 
@@ -1890,6 +1894,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_LDetector_class();
 
     register_TermCriteria_class();
+
+    bp::implicitly_convertible< cv::TermCriteria, CvTermCriteria >();
 
     register_LevMarqSparse_class();
 
@@ -1919,21 +1925,35 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Point3d_class();
 
+    bp::implicitly_convertible< cv::Point3_< double >, CvPoint3D32f >();
+
     bp::implicitly_convertible< cv::Point3_< double >, cv::Vec< double, 3 > >();
 
     register_Point3f_class();
+
+    bp::implicitly_convertible< cv::Point3_< float >, CvPoint3D32f >();
 
     bp::implicitly_convertible< cv::Point3_< float >, cv::Vec< float, 3 > >();
 
     register_Point3i_class();
 
+    bp::implicitly_convertible< cv::Point3_< int >, CvPoint3D32f >();
+
     bp::implicitly_convertible< cv::Point3_< int >, cv::Vec< int, 3 > >();
 
     register_Point2d_class();
 
+    bp::implicitly_convertible< cv::Point_< double >, CvPoint >();
+
+    bp::implicitly_convertible< cv::Point_< double >, CvPoint2D32f >();
+
     bp::implicitly_convertible< cv::Point_< double >, cv::Vec< double, 2 > >();
 
     register_Point2f_class();
+
+    bp::implicitly_convertible< cv::Point_< float >, CvPoint >();
+
+    bp::implicitly_convertible< cv::Point_< float >, CvPoint2D32f >();
 
     bp::implicitly_convertible< cv::Point_< float >, cv::Vec< float, 2 > >();
 
@@ -1973,11 +1993,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Range_class();
 
+    bp::implicitly_convertible< cv::Range, CvSlice >();
+
     register_Rectd_class();
 
     register_Rectf_class();
 
     register_RotatedRect_class();
+
+    bp::implicitly_convertible< cv::RotatedRect, CvBox2D >();
 
     register_SURF_class();
 
@@ -2007,41 +2031,79 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Vec2d_class();
 
+    bp::implicitly_convertible< cv::Vec< double, 2 >, CvScalar >();
+
     register_Vec3d_class();
+
+    bp::implicitly_convertible< cv::Vec< double, 3 >, CvScalar >();
 
     register_Vec6d_class();
 
+    bp::implicitly_convertible< cv::Vec< double, 6 >, CvScalar >();
+
     register_Vec2f_class();
+
+    bp::implicitly_convertible< cv::Vec< float, 2 >, CvScalar >();
 
     register_Vec3f_class();
 
+    bp::implicitly_convertible< cv::Vec< float, 3 >, CvScalar >();
+
     register_Vec4f_class();
+
+    bp::implicitly_convertible< cv::Vec< float, 4 >, CvScalar >();
 
     register_Vec6f_class();
 
+    bp::implicitly_convertible< cv::Vec< float, 6 >, CvScalar >();
+
     register_Vec2i_class();
+
+    bp::implicitly_convertible< cv::Vec< int, 2 >, CvScalar >();
 
     register_Vec3i_class();
 
+    bp::implicitly_convertible< cv::Vec< int, 3 >, CvScalar >();
+
     register_Vec4i_class();
+
+    bp::implicitly_convertible< cv::Vec< int, 4 >, CvScalar >();
 
     register_Vec2s_class();
 
+    bp::implicitly_convertible< cv::Vec< short, 2 >, CvScalar >();
+
     register_Vec3s_class();
+
+    bp::implicitly_convertible< cv::Vec< short, 3 >, CvScalar >();
 
     register_Vec4s_class();
 
+    bp::implicitly_convertible< cv::Vec< short, 4 >, CvScalar >();
+
     register_Vec2b_class();
+
+    bp::implicitly_convertible< cv::Vec< unsigned char, 2 >, CvScalar >();
 
     register_Vec3b_class();
 
+    bp::implicitly_convertible< cv::Vec< unsigned char, 3 >, CvScalar >();
+
     register_Vec4b_class();
+
+    bp::implicitly_convertible< cv::Vec< unsigned char, 4 >, CvScalar >();
 
     register_Vec2w_class();
 
+    bp::implicitly_convertible< cv::Vec< unsigned short, 2 >, CvScalar >();
+
     register_Vec3w_class();
 
+    bp::implicitly_convertible< cv::Vec< unsigned short, 3 >, CvScalar >();
+
     register_Vec4w_class();
+
+    bp::implicitly_convertible< cv::Vec< unsigned short, 4 >, CvScalar >();
 
     register_VideoCapture_class();
 
@@ -5109,8 +5171,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     }
 
     bp::to_python_converter<CvRNG, CvRNG_to_python, false>();
-
-    bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();
 
     bp::def("asVec4d", &bp::from_ndarray< cv::Vec4d >, (bp::arg("arr")) );
 

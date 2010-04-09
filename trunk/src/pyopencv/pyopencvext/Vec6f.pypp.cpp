@@ -74,6 +74,7 @@ void register_Vec6f_class(){
                 , ( bp::arg("v") ) );
         
         }
+        Vec6f_exposer.def( "__temp_func", &cv::Vec< float, 6 >::operator ::CvScalar  );
         { //::cv::Vec< float, 6 >::operator[]
         
             typedef cv::Vec< float, 6 > exported_class_t;

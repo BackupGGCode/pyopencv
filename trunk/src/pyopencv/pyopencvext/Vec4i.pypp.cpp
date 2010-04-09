@@ -74,6 +74,7 @@ void register_Vec4i_class(){
                 , ( bp::arg("v") ) );
         
         }
+        Vec4i_exposer.def( "__temp_func", &cv::Vec< int, 4 >::operator ::CvScalar  );
         { //::cv::Vec< int, 4 >::operator[]
         
             typedef cv::Vec< int, 4 > exported_class_t;

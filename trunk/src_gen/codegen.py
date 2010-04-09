@@ -456,7 +456,8 @@ module_builder.module_builder_t.dtypecast = dtypecast
 
 def asClass(self, src_class, dst_class):
     asClass2(self, src_class.alias, src_class.partial_decl_string, dst_class.alias, dst_class.partial_decl_string)
-    src_class.operators(lambda x: dst_class.name in x.name).exclude()
+    for z in src_class.operators(lambda x: dst_class.name in x.name):
+        z.rename('__temp_func')
 module_builder.module_builder_t.asClass = asClass
 
 #=============================================================================

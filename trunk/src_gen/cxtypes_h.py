@@ -225,9 +225,9 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 # Other supplementary data type definitions
 #-----------------------------------------------------------------------------
 
-# CV_TERMCRIT_ITER    = 1
-# CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
-# CV_TERMCRIT_EPS     = 2
+CV_TERMCRIT_ITER    = 1
+CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
+CV_TERMCRIT_EPS     = 2
 
 CV_WHOLE_SEQ_END_INDEX = 0x3fffffff
 CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
@@ -299,19 +299,17 @@ KLASS.__repr__ = _KLASS__repr__
         
     '''.replace("KLASS", z.alias))
 
-    
-    mb.add_declaration_code('''
-struct CvTermCriteria_to_python
-{
-    static PyObject* convert(CvTermCriteria const& x)
-    {
-        return bp::incref(bp::object(cv::TermCriteria(x)).ptr());
-    }
-};
+    # CvTermCriteria -- for backward compatibility
+    z = mb.class_('CvTermCriteria')
+    z.include()
+    cc.write('''
+def _KLASS__repr__(self):
+    return "KLASS(type=" + repr(self.type) + ", max_iter=" + repr(self.max_iter) + \\
+        ", epsilon=" + repr(self.epsilon) + ")"
+KLASS.__repr__ = _KLASS__repr__
+        
+    '''.replace("KLASS", z.alias))
 
-    ''')
-    mb.add_registration_code('bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();')
-    
     # CvSlice -- for backward compatibility
     z = mb.class_('CvSlice')
     z.include()
