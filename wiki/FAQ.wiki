@@ -15,7 +15,7 @@ No, not yet. But it is a feature I hope PyOpenCV will have one day. The main pro
 Boost.Python is now compatible with Python 3. When NumPy is eventually compatible with Python 3, I will refine PyOpenCV to make it compatible with Python 3.
 
 
-===Help. On Linux, when building PyOpenCV, I receive an error: "...error: duplicate initialization of gcc with the following parameters:..."===
+===Help! On Linux, when building PyOpenCV, I receive an error: "...error: duplicate initialization of gcc with the following parameters:..."===
 
 It appears that there is a file named 'site-config.jam' located somewhere in your home folder. Try running `bjam` manually with `--debug-configuration` and look for a line that
 looks like:
