@@ -116,7 +116,6 @@ def generate_code(mb, cc, D, FT, CP):
     
     # KeyPoint
     mb.class_('KeyPoint').include()
-    mb.class_(lambda x: x.name.startswith('vector<cv::KeyPoint')).exclude()
     
     # SURF
     z = mb.class_('SURF')
@@ -195,7 +194,6 @@ def generate_code(mb, cc, D, FT, CP):
         'Rodrigues', 'RQDecomp3x3', 'decomposeProjectionMatrix', 'matMulDeriv', 
         'composeRT', 'solvePnP', 'initCameraMatrix2D', 'drawChessboardCorners',
         'calibrationMatrixValues', 'stereoCalibrate', 
-        # 'stereoRectify', # TODO: fix this in OpenCV 2.1.0
         'stereoRectifyUncalibrated', 'reprojectImageTo3D', 
         'filterSpeckles', 'getValidDisparityROI', 'validateDisparity',
         ):
@@ -313,36 +311,7 @@ def generate_code(mb, cc, D, FT, CP):
         elif 'Point_<float>' in x:
             z._transformer_kwds['alias'] = 'convexHull_float32'
         else:
-            z._transformer_kwds['alias'] = 'convexHullIdx' # won't ever occur
-        
-    # mb.free_funs('convexHull').exclude()
-    # z = mb.free_fun(lambda x: x.name=='convexHull' and 'vector<int' in x.arguments[1].type.decl_string)
-    # z.include()
-    # z._transformer_kwds['alias'] = 'convexHullIdx'
-    # z._transformer_creators.append(FT.arg_std_vector('hull', 2))
-    
-    # mb.add_declaration_code('''
-# static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
-    # cv::Mat obj;
-    # if(points.type() == CV_32SC2)
-    # {
-        # std::vector<cv::Point> hull2i;
-        # cv::convexHull(points, hull2i, clockwise);
-        # convert_from_vector_of_T_to_Mat(hull2i, obj);
-    # }
-    # else
-    # {
-        # std::vector<cv::Point2f> hull2f;
-        # cv::convexHull(points, hull2f, clockwise);
-        # convert_from_vector_of_T_to_Mat(hull2f, obj);
-    # }
-    # return obj;
-# }    
-    # ''')
-    # mb.add_registration_code('''bp::def( 
-        # "convexHull"
-        # , (cv::Mat (*)( cv::Mat const &, bool ))( &sd_convexHull )
-        # , ( bp::arg("points"), bp::arg("clockwise")=bp::object(false) ) );''')
+            z._transformer_kwds['alias'] = 'convexHullIdx'        
         
     # undistortPoints
     mb.free_funs('undistortPoints').include()
@@ -358,15 +327,10 @@ def generate_code(mb, cc, D, FT, CP):
     z._transformer_creators.append(FT.arg_std_vector('mask', 2))
         
     # projectPoints
-    mb.free_funs('projectPoints').exclude()
-    z = mb.free_fun(lambda x: x.name=='projectPoints' and len(x.arguments)==6)
-    z._transformer_kwds['alias'] = 'projectPoints'
-    FT.expose_func(z, return_pointee=False, transformer_creators=[
-        FT.arg_std_vector('imagePoints', 2)])
-    z = mb.free_fun(lambda x: x.name=='projectPoints' and len(x.arguments)==12)
-    z._transformer_kwds['alias'] = 'projectPoints2'
-    FT.expose_func(z, return_pointee=False, transformer_creators=[
-        FT.arg_std_vector('imagePoints', 2)])
+    for z in mb.free_funs('projectPoints'):
+        z.include()
+        z._transformer_kwds['alias'] = 'projectPoints' in len(z.arguments)<10 else 'projectPoints2'
+        z._transformer_creators.append(FT.arg_std_vector('imagePoints', 2))
 
     # findChessboardCorners
     FT.expose_func(mb.free_fun('findChessboardCorners'), return_pointee=False,
@@ -375,11 +339,22 @@ def generate_code(mb, cc, D, FT, CP):
     # calibrateCamera
     FT.expose_func(mb.free_fun('calibrateCamera'), return_pointee=False,
         transformer_creators=[FT.arg_std_vector('rvecs', 2), FT.arg_std_vector('tvecs', 2)])
+        
+    # stereoRectify
+    for z in mb.free_funs('stereoRectify'):
+        z.include()
+        if len(z.arguments)>15:
+            z._transformer_kwds['alias'] = 'stereoRectify2'
+            z._transformer_creators.extend([FT.output_type1('validPixROI1'), 
+                FT.output_type1('validPixROI2')])
+        else:
+            z._transformer_kwds['alias'] = 'stereoRectify'
     
     # convertPointsHomogeneous
     for z in mb.free_funs('convertPointsHomogeneous'):
         z.include()        
-        z._transformer_kwds['alias'] = 'convertPointsHomogeneous3D' if 'Point3' in z.decl_string else 'convertPointsHomogeneous2D'
+        z._transformer_kwds['alias'] = 'convertPointsHomogeneous3D' if \
+            'Point3' in z.decl_string else 'convertPointsHomogeneous2D'
         z._transformer_creators.append(FT.arg_std_vector('dst', 2))
         
     # findFundamentalMat
