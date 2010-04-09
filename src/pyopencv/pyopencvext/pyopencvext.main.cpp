@@ -286,54 +286,6 @@
 
 #include "pyopencvext/Mat.pypp.hpp"
 
-#include "pyopencvext/Mat1b.pypp.hpp"
-
-#include "pyopencvext/Mat1d.pypp.hpp"
-
-#include "pyopencvext/Mat1f.pypp.hpp"
-
-#include "pyopencvext/Mat1i.pypp.hpp"
-
-#include "pyopencvext/Mat1s.pypp.hpp"
-
-#include "pyopencvext/Mat1w.pypp.hpp"
-
-#include "pyopencvext/Mat2b.pypp.hpp"
-
-#include "pyopencvext/Mat2d.pypp.hpp"
-
-#include "pyopencvext/Mat2f.pypp.hpp"
-
-#include "pyopencvext/Mat2i.pypp.hpp"
-
-#include "pyopencvext/Mat2s.pypp.hpp"
-
-#include "pyopencvext/Mat2w.pypp.hpp"
-
-#include "pyopencvext/Mat3b.pypp.hpp"
-
-#include "pyopencvext/Mat3d.pypp.hpp"
-
-#include "pyopencvext/Mat3f.pypp.hpp"
-
-#include "pyopencvext/Mat3i.pypp.hpp"
-
-#include "pyopencvext/Mat3s.pypp.hpp"
-
-#include "pyopencvext/Mat3w.pypp.hpp"
-
-#include "pyopencvext/Mat4b.pypp.hpp"
-
-#include "pyopencvext/Mat4d.pypp.hpp"
-
-#include "pyopencvext/Mat4f.pypp.hpp"
-
-#include "pyopencvext/Mat4i.pypp.hpp"
-
-#include "pyopencvext/Mat4s.pypp.hpp"
-
-#include "pyopencvext/Mat4w.pypp.hpp"
-
 #include "pyopencvext/MatND.pypp.hpp"
 
 #include "pyopencvext/Mesh3D.pypp.hpp"
@@ -1954,54 +1906,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_MatND_class();
 
     bp::implicitly_convertible< cv::MatND, cv::Mat >();
-
-    register_Mat2d_class();
-
-    register_Mat3d_class();
-
-    register_Mat4d_class();
-
-    register_Mat2f_class();
-
-    register_Mat3f_class();
-
-    register_Mat4f_class();
-
-    register_Mat2i_class();
-
-    register_Mat3i_class();
-
-    register_Mat4i_class();
-
-    register_Mat2s_class();
-
-    register_Mat3s_class();
-
-    register_Mat4s_class();
-
-    register_Mat2b_class();
-
-    register_Mat3b_class();
-
-    register_Mat4b_class();
-
-    register_Mat2w_class();
-
-    register_Mat3w_class();
-
-    register_Mat4w_class();
-
-    register_Mat1d_class();
-
-    register_Mat1f_class();
-
-    register_Mat1i_class();
-
-    register_Mat1s_class();
-
-    register_Mat1b_class();
-
-    register_Mat1w_class();
 
     register_Mesh3D_class();
 
