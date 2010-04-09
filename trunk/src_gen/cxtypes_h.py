@@ -258,7 +258,7 @@ static boost::shared_ptr<CvSize> CvSize_init(int width, int height)
 }
     ''')
     z.add_registration_code('def("__init__", bp::make_constructor(&CvSize_init, bp::default_call_policies(), ( bp::arg("width"), bp::arg("height") )))')
-
+    
     mb.add_declaration_code('''
 struct CvScalar_to_python
 {
@@ -309,14 +309,6 @@ struct CvTermCriteria_to_python
     }
 };
 
-struct CvSlice_to_python
-{
-    static PyObject* convert(CvSlice const& x)
-    {
-        return bp::incref(bp::object(cv::Range(x)).ptr());
-    }
-};
-
     ''')
     mb.add_registration_code('bp::to_python_converter<CvScalar, CvScalar_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvPoint, CvPoint_to_python, false>();')
@@ -324,7 +316,19 @@ struct CvSlice_to_python
     mb.add_registration_code('bp::to_python_converter<CvPoint3D32f, CvPoint3D32f_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvBox2D, CvBox2D_to_python, false>();')
     mb.add_registration_code('bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();')
-    mb.add_registration_code('bp::to_python_converter<CvSlice, CvSlice_to_python, false>();')        
+    
+    # CvSlice -- for backward compatibility
+    z = mb.class_('CvSlice')
+    z.include()
+    z.add_declaration_code('''
+static boost::shared_ptr<CvSlice> CvSlice_init(int start, int end)
+{
+    CvSlice *z = new CvSlice(); *z = cvSlice(start, end);
+    return boost::shared_ptr<CvSlice>(z);
+}
+    ''')
+    z.add_registration_code('def("__init__", bp::make_constructor(&CvSlice_init, bp::default_call_policies(), ( bp::arg("start"), bp::arg("end") )))')
+    
 
     # Dynamic Data structures
     cc.write('''

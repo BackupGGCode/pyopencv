@@ -451,6 +451,16 @@ static inline CLASS2 cvt_KLASS1_KLASS2(CLASS1 const &inst)
 
 module_builder.module_builder_t.dtypecast = dtypecast
 
+def asClass(self, src_class, dst_class):
+    t1 = src_class.name
+    z1 = src_class.alias
+    t2 = dst_class.name
+    z2 = dst_class.alias
+    self.dummy_struct.add_reg_code(\
+        'bp::def("asKLASS2", &CLASS1::operator CLASS2, (bp::arg("inst_KLASS1")));'\
+            .replace('KLASS1', z1).replace('KLASS2', z2)\
+            .replace('CLASS1', t1).replace('CLASS2', t2))
+
 
 #=============================================================================
 # Initialization

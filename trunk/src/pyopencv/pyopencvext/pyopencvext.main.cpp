@@ -212,6 +212,8 @@
 
 #include "pyopencvext/CvSize.pypp.hpp"
 
+#include "pyopencvext/CvSlice.pypp.hpp"
+
 #include "pyopencvext/CvStarDetectorParams.pypp.hpp"
 
 #include "pyopencvext/CvStarKeypoint.pypp.hpp"
@@ -1613,14 +1615,6 @@ struct CvTermCriteria_to_python
     }
 };
 
-struct CvSlice_to_python
-{
-    static PyObject* convert(CvSlice const& x)
-    {
-        return bp::incref(bp::object(cv::Range(x)).ptr());
-    }
-};
-
 static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::object const & alpha, bp::object const & beta, bp::object const & gamma, int coeff_usage, cv::Size const & win, cv::TermCriteria const & criteria, int calc_gradient=1 ){
     char s[500];
     float alpha2, beta2, gamma2;
@@ -1679,6 +1673,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvDTreeParams_class();
 
     register_CvBoostParams_class();
+
+    register_CvSlice_class();
 
     register_CvBoost_class();
 
@@ -5140,8 +5136,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::to_python_converter<CvBox2D, CvBox2D_to_python, false>();
 
     bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();
-
-    bp::to_python_converter<CvSlice, CvSlice_to_python, false>();
 
     bp::def("asVec4d", &bp::from_ndarray< cv::Vec4d >, (bp::arg("arr")) );
 

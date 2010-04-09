@@ -28,7 +28,6 @@ def generate_code(mb, cc, D, FT, CP):
     # Structures
     #=============================================================================
     
-    # Vec et al
     dtype_dict = {
         'b': 'unsigned char',
         's': 'short',
@@ -38,6 +37,7 @@ def generate_code(mb, cc, D, FT, CP):
         'd': 'double',
     }
     
+    # Vec et al
     for suffix in dtype_dict:
         for i in xrange(2,5):
             mb.class_('::cv::Vec<%s, %i>' % (dtype_dict[suffix], i)).rename('Vec%d%s' % (i, suffix))
@@ -436,7 +436,7 @@ KLASS.__repr__ = _KLASS__repr__
     mb.init_class(z)
     
     z.constructors(lambda x: 'const *' in x.decl_string).exclude()
-    z.operator('()').exclude()
+    z.operator('()').exclude() # list of ranges, use ndarray instead
     z.add_declaration_code('''
 static boost::shared_ptr<cv::MatND> MatND__init1__(cv::Mat const &_sizes, int _type)
 {
