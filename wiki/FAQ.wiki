@@ -17,7 +17,7 @@ Boost.Python is now compatible with Python 3. When NumPy is eventually compatibl
 
 ===Help! On Linux, when building PyOpenCV, I receive an error: "...error: duplicate initialization of gcc with the following parameters:..."===
 
-It appears that there is a file named 'site-config.jam' located somewhere in your home folder. Try running `bjam` manually with `--debug-configuration` and look for a line that
+It appears that there is a file named `site-config.jam` located somewhere in your home folder. Try running `bjam` manually with `--debug-configuration` and look for a line that
 looks like:
 
 {{{
