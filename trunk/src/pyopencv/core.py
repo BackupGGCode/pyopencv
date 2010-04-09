@@ -317,6 +317,12 @@ def _CvPoint3D64f__repr__(self):
 CvPoint3D64f.__repr__ = _CvPoint3D64f__repr__
         
         
+def _CvBox2D__repr__(self):
+    return "CvBox2D(center=" + repr(self.center) + ", size=" + repr(self.size) + \
+        ", angle=" + repr(self.angle) + ")"
+CvBox2D.__repr__ = _CvBox2D__repr__
+        
+    
 def _CvSlice__repr__(self):
     return "CvSlice(start=" + repr(self.start_index) + ", end=" + repr(self.end_index) + ")"
 CvSlice.__repr__ = _CvSlice__repr__

@@ -727,6 +727,11 @@ static inline ::cv::Rect_<float> cvt_Rectd_Rectf(::cv::Rect_<double> const &inst
     return inst.operator ::cv::Rect_<float>();
 }
 
+static inline ::CvBox2D cvt_RotatedRect_CvBox2D(::cv::RotatedRect const &inst)
+{
+    return inst.operator ::CvBox2D();
+}
+
 static inline ::CvScalar cvt_Scalar__less__double__greater__CvScalar(::cv::Scalar_< double > const &inst)
 {
     return inst.operator ::CvScalar();
@@ -894,6 +899,7 @@ void register___dummy_struct_class(){
         bp::def("asRectd", &cvt_Rectf_Rectd, (bp::arg("inst_Rectf")));
         bp::def("asRect", &cvt_Rectd_Rect, (bp::arg("inst_Rectd")));
         bp::def("asRectf", &cvt_Rectd_Rectf, (bp::arg("inst_Rectd")));
+        bp::def("asCvBox2D", &cvt_RotatedRect_CvBox2D, (bp::arg("inst_RotatedRect")));
         bp::def("asCvScalar", &cvt_Scalar__less__double__greater__CvScalar, (bp::arg("inst_Scalar__less__double__greater_")));
         bp::def("asCvSlice", &cvt_Range_CvSlice, (bp::arg("inst_Range")));;
     }

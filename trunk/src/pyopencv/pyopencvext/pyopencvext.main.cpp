@@ -68,6 +68,8 @@
 
 #include "pyopencvext/CvBoostTree.pypp.hpp"
 
+#include "pyopencvext/CvBox2D.pypp.hpp"
+
 #include "pyopencvext/CvCamShiftTracker.pypp.hpp"
 
 #include "pyopencvext/CvChain.pypp.hpp"
@@ -1578,14 +1580,6 @@ struct CvRNG_to_python
     }
 };
 
-struct CvBox2D_to_python
-{
-    static PyObject* convert(CvBox2D const& x)
-    {
-        return bp::incref(bp::object(cv::RotatedRect(x)).ptr());
-    }
-};
-
 struct CvTermCriteria_to_python
 {
     static PyObject* convert(CvTermCriteria const& x)
@@ -1662,6 +1656,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvDTree_class();
 
     register_CvBoostTree_class();
+
+    register_CvBox2D_class();
 
     register_CvCamShiftTracker_class();
 
@@ -5113,8 +5109,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     }
 
     bp::to_python_converter<CvRNG, CvRNG_to_python, false>();
-
-    bp::to_python_converter<CvBox2D, CvBox2D_to_python, false>();
 
     bp::to_python_converter<CvTermCriteria, CvTermCriteria_to_python, false>();
 
