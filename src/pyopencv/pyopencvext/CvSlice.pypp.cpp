@@ -3,15 +3,10 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "ndarray.hpp"
 #include "CvSlice.pypp.hpp"
 
 namespace bp = boost::python;
-
-static boost::shared_ptr<CvSlice> CvSlice_init(int start, int end)
-{
-    CvSlice *z = new CvSlice(); *z = cvSlice(start, end);
-    return boost::shared_ptr<CvSlice>(z);
-}
 
 void register_CvSlice_class(){
 
@@ -19,6 +14,8 @@ void register_CvSlice_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSlice >() )    
         .def_readwrite( "end_index", &CvSlice::end_index )    
         .def_readwrite( "start_index", &CvSlice::start_index )    
-        .def("__init__", bp::make_constructor(&CvSlice_init, bp::default_call_policies(), ( bp::arg("start"), bp::arg("end") )));
+        .def("from_ndarray", &bp::from_ndarray< cv::CvSlice >, (bp::arg("arr")) )    
+        .staticmethod("from_ndarray")    
+        .add_property("ndarray", &bp::as_ndarray< cv::CvSlice >);
 
 }

@@ -3,15 +3,10 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "ndarray.hpp"
 #include "CvRect.pypp.hpp"
 
 namespace bp = boost::python;
-
-static boost::shared_ptr<CvRect> CvRect_init(int x, int y, int width, int height)
-{
-    CvRect *r = new CvRect(); *r = cvRect(x,y,width,height);
-    return boost::shared_ptr<CvRect>(r);
-}
 
 void register_CvRect_class(){
 
@@ -21,6 +16,8 @@ void register_CvRect_class(){
         .def_readwrite( "width", &CvRect::width )    
         .def_readwrite( "x", &CvRect::x )    
         .def_readwrite( "y", &CvRect::y )    
-        .def("__init__", bp::make_constructor(&CvRect_init, bp::default_call_policies(), ( bp::arg("x"), bp::arg("y"), bp::arg("width"), bp::arg("height") )));
+        .def("from_ndarray", &bp::from_ndarray< cv::CvRect >, (bp::arg("arr")) )    
+        .staticmethod("from_ndarray")    
+        .add_property("ndarray", &bp::as_ndarray< cv::CvRect >);
 
 }
