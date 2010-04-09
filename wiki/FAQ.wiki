@@ -20,6 +20,6 @@ If the declaration you are looking for belongs to the old C interface, check if 
 
 ===Is there any efficient way to find the relationship between an API in C and in PyOpenCV? For example, how can I find the correspondence of the method, cvNormalizeHist()?===
 
-If an OpenCV function in C is named as cvAbcXyz(), it is typically renamed as abcXyz() in C++. Just look for function abcXyz() in PyOpenCV. In some very rare cases, a character or a short string is concatenated with the name of a function to define different transforms of the function.
+If an OpenCV function in C is named as cvAbcXyz(), it is typically renamed as abcXyz() in C++. Just look for function abcXyz() in PyOpenCV. In some very rare cases, a character or a short string is concatenated with the name of a function to define a different transform of the function.
 
 If you do not see abcXyz(), then either an equivalent function/class in C++ exists or the function is not yet exposed. In the latter case, please file an issue on the project's Issues tab. I will try to resolve it when I have time.
