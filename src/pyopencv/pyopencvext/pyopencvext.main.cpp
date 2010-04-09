@@ -690,6 +690,22 @@ static boost::python::object convertPointsHomogeneous_d220e3269e8c59fdb5b2dc2f83
     return bp::object( dst3 );
 }
 
+static boost::python::object convexHull_42e8e723b1326dae78cb20a5c349e4e6( ::cv::Mat const & points, bool clockwise=false ){
+    std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > hull2;
+    cv::Mat hull3;
+    ::cv::convexHull(points, hull2, clockwise);
+    convert_from_vector_of_T_to_Mat(hull2, hull3);
+    return bp::object( hull3 );
+}
+
+static boost::python::object convexHull_bf35caecb3465c45234b484233937f99( ::cv::Mat const & points, bool clockwise=false ){
+    std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > hull2;
+    cv::Mat hull3;
+    ::cv::convexHull(points, hull2, clockwise);
+    convert_from_vector_of_T_to_Mat(hull2, hull3);
+    return bp::object( hull3 );
+}
+
 static boost::python::object convexHull_a7bf196b869588f11c69529c43975a42( ::cv::Mat const & points, bool clockwise=false ){
     std::vector<int, std::allocator<int> > hull2;
     cv::Mat hull3;
@@ -1622,23 +1638,6 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     }
 }
 
-static cv::Mat sd_convexHull( cv::Mat const &points, bool clockwise=false) {
-    cv::Mat obj;
-    if(points.type() == CV_32SC2)
-    {
-        std::vector<cv::Point> hull2i;
-        cv::convexHull(points, hull2i, clockwise);
-        convert_from_vector_of_T_to_Mat(hull2i, obj);
-    }
-    else
-    {
-        std::vector<cv::Point2f> hull2f;
-        cv::convexHull(points, hull2f, clockwise);
-        convert_from_vector_of_T_to_Mat(hull2f, obj);
-    }
-    return obj;
-}
-
 BOOST_PYTHON_MODULE(pyopencvext){
     register_enumerations();
 
@@ -2524,6 +2523,46 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    convertPointsHomogeneous"
     "\nArgument 'dst':"\
     "\n    C/C++ type: ::std::vector< cv::Point3_<float> > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
+    
+    }
+
+    { //::cv::convexHull
+    
+        typedef boost::python::object ( *convexHull_float32_function_type )( ::cv::Mat const &,bool );
+        
+        bp::def( 
+            "convexHull_float32"
+            , convexHull_float32_function_type( &convexHull_42e8e723b1326dae78cb20a5c349e4e6 )
+            , ( bp::arg("points"), bp::arg("clockwise")=(bool)(false) )
+            , "\nWrapped function:"
+    "\n    convexHull"
+    "\nArgument 'hull':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
+    
+    }
+
+    { //::cv::convexHull
+    
+        typedef boost::python::object ( *convexHull_int_function_type )( ::cv::Mat const &,bool );
+        
+        bp::def( 
+            "convexHull_int"
+            , convexHull_int_function_type( &convexHull_bf35caecb3465c45234b484233937f99 )
+            , ( bp::arg("points"), bp::arg("clockwise")=(bool)(false) )
+            , "\nWrapped function:"
+    "\n    convexHull"
+    "\nArgument 'hull':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<int> > &."\
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
@@ -5134,11 +5173,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
         "snakeImage"
         , &sdSnakeImage
         , ( bp::arg("image"), bp::arg("points"), bp::arg("alpha"), bp::arg("beta"), bp::arg("gamma"), bp::arg("coeff_usage"), bp::arg("win"), bp::arg("criteria"), bp::arg("calc_gradient")=(int)(1) ) );
-
-    bp::def( 
-        "convexHull"
-        , (cv::Mat (*)( cv::Mat const &, bool ))( &sd_convexHull )
-        , ( bp::arg("points"), bp::arg("clockwise")=bp::object(false) ) );
 
     register_global_variables();
 
