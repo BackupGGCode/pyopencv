@@ -63,9 +63,9 @@ void register_RNG_class(){
         RNG_exposer.def( "as_uint16", &cv::RNG::operator ::ushort  );
         RNG_exposer.def( "as_float64", &cv::RNG::operator double  );
         RNG_exposer.def( "as_float32", &cv::RNG::operator float  );
-        RNG_exposer.def( "as_int32", &cv::RNG::operator int  );
+        RNG_exposer.def( "as_int", &cv::RNG::operator int  );
         RNG_exposer.def( "as_int16", &cv::RNG::operator short int  );
-        RNG_exposer.def( "as_uint32", &cv::RNG::operator unsigned int  );
+        RNG_exposer.def( "as_uint", &cv::RNG::operator unsigned int  );
         { //::cv::RNG::operator()
         
             typedef unsigned int ( ::cv::RNG::*__call___function_type )( unsigned int ) ;
@@ -87,31 +87,31 @@ void register_RNG_class(){
         }
         { //::cv::RNG::uniform
         
-            typedef int ( ::cv::RNG::*uniform_function_type )( int,int ) ;
+            typedef int ( ::cv::RNG::*uniform_int_function_type )( int,int ) ;
             
             RNG_exposer.def( 
-                "uniform"
-                , uniform_function_type( &::cv::RNG::uniform )
+                "uniform_int"
+                , uniform_int_function_type( &::cv::RNG::uniform )
                 , ( bp::arg("a"), bp::arg("b") ) );
         
         }
         { //::cv::RNG::uniform
         
-            typedef float ( ::cv::RNG::*uniform_function_type )( float,float ) ;
+            typedef float ( ::cv::RNG::*uniform_float32_function_type )( float,float ) ;
             
             RNG_exposer.def( 
-                "uniform"
-                , uniform_function_type( &::cv::RNG::uniform )
+                "uniform_float32"
+                , uniform_float32_function_type( &::cv::RNG::uniform )
                 , ( bp::arg("a"), bp::arg("b") ) );
         
         }
         { //::cv::RNG::uniform
         
-            typedef double ( ::cv::RNG::*uniform_function_type )( double,double ) ;
+            typedef double ( ::cv::RNG::*uniform_float64_function_type )( double,double ) ;
             
             RNG_exposer.def( 
-                "uniform"
-                , uniform_function_type( &::cv::RNG::uniform )
+                "uniform_float64"
+                , uniform_float64_function_type( &::cv::RNG::uniform )
                 , ( bp::arg("a"), bp::arg("b") ) );
         
         }
