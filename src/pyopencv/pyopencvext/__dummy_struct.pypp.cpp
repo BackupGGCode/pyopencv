@@ -7,104 +7,104 @@
 
 namespace bp = boost::python;
 
-static inline CvScalar cvt_Vec4d_CvScalar(Vec<double, 4> const &inst)
+static inline ::CvScalar cvt_Vec4d_CvScalar(::cv::Vec< double, 4 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec3d_CvScalar(Vec<double, 3> const &inst)
+static inline ::CvScalar cvt_Vec3d_CvScalar(::cv::Vec< double, 3 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec2d_CvScalar(Vec<double, 2> const &inst)
+static inline ::CvScalar cvt_Vec2d_CvScalar(::cv::Vec< double, 2 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec4f_CvScalar(Vec<float, 4> const &inst)
+static inline ::CvScalar cvt_Vec4f_CvScalar(::cv::Vec< float, 4 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec3f_CvScalar(Vec<float, 3> const &inst)
+static inline ::CvScalar cvt_Vec3f_CvScalar(::cv::Vec< float, 3 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec2f_CvScalar(Vec<float, 2> const &inst)
+static inline ::CvScalar cvt_Vec2f_CvScalar(::cv::Vec< float, 2 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec4i_CvScalar(Vec<int, 4> const &inst)
+static inline ::CvScalar cvt_Vec4i_CvScalar(::cv::Vec< int, 4 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec3i_CvScalar(Vec<int, 3> const &inst)
+static inline ::CvScalar cvt_Vec3i_CvScalar(::cv::Vec< int, 3 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec2i_CvScalar(Vec<int, 2> const &inst)
+static inline ::CvScalar cvt_Vec2i_CvScalar(::cv::Vec< int, 2 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec4w_CvScalar(Vec<unsigned short, 4> const &inst)
+static inline ::CvScalar cvt_Vec4w_CvScalar(::cv::Vec< unsigned short, 4 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec3w_CvScalar(Vec<unsigned short, 3> const &inst)
+static inline ::CvScalar cvt_Vec3w_CvScalar(::cv::Vec< unsigned short, 3 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec2w_CvScalar(Vec<unsigned short, 2> const &inst)
+static inline ::CvScalar cvt_Vec2w_CvScalar(::cv::Vec< unsigned short, 2 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec4s_CvScalar(Vec<short, 4> const &inst)
+static inline ::CvScalar cvt_Vec4s_CvScalar(::cv::Vec< short, 4 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec3s_CvScalar(Vec<short, 3> const &inst)
+static inline ::CvScalar cvt_Vec3s_CvScalar(::cv::Vec< short, 3 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec2s_CvScalar(Vec<short, 2> const &inst)
+static inline ::CvScalar cvt_Vec2s_CvScalar(::cv::Vec< short, 2 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec4b_CvScalar(Vec<unsigned char, 4> const &inst)
+static inline ::CvScalar cvt_Vec4b_CvScalar(::cv::Vec< unsigned char, 4 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec3b_CvScalar(Vec<unsigned char, 3> const &inst)
+static inline ::CvScalar cvt_Vec3b_CvScalar(::cv::Vec< unsigned char, 3 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec2b_CvScalar(Vec<unsigned char, 2> const &inst)
+static inline ::CvScalar cvt_Vec2b_CvScalar(::cv::Vec< unsigned char, 2 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec6d_CvScalar(Vec<double, 6> const &inst)
+static inline ::CvScalar cvt_Vec6d_CvScalar(::cv::Vec< double, 6 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvScalar cvt_Vec6f_CvScalar(Vec<float, 6> const &inst)
+static inline ::CvScalar cvt_Vec6f_CvScalar(::cv::Vec< float, 6 > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
 static inline ::cv::Vec<short, 2> cvt_Vec2b_Vec2s(::cv::Vec<unsigned char, 2> const &inst)
@@ -577,19 +577,19 @@ static inline ::cv::Complex<float> cvt_Complexd_Complexf(::cv::Complex<double> c
     return inst.operator ::cv::Complex<float>();
 }
 
-static inline CvPoint cvt_Point2i_CvPoint(Point_<int> const &inst)
+static inline ::CvPoint cvt_Point2i_CvPoint(::cv::Point_< int > const &inst)
 {
-    return inst.operator CvPoint();
+    return inst.operator ::CvPoint();
 }
 
-static inline CvPoint cvt_Point2d_CvPoint(Point_<double> const &inst)
+static inline ::CvPoint cvt_Point2d_CvPoint(::cv::Point_< double > const &inst)
 {
-    return inst.operator CvPoint();
+    return inst.operator ::CvPoint();
 }
 
-static inline CvPoint cvt_Point2f_CvPoint(Point_<float> const &inst)
+static inline ::CvPoint cvt_Point2f_CvPoint(::cv::Point_< float > const &inst)
 {
-    return inst.operator CvPoint();
+    return inst.operator ::CvPoint();
 }
 
 static inline ::cv::Point_<float> cvt_Point2i_Point2f(::cv::Point_<int> const &inst)
@@ -622,19 +622,19 @@ static inline ::cv::Point_<float> cvt_Point2d_Point2f(::cv::Point_<double> const
     return inst.operator ::cv::Point_<float>();
 }
 
-static inline CvPoint3D32f cvt_Point3d_CvPoint3D32f(Point3_<double> const &inst)
+static inline ::CvPoint3D32f cvt_Point3d_CvPoint3D32f(::cv::Point3_< double > const &inst)
 {
-    return inst.operator CvPoint3D32f();
+    return inst.operator ::CvPoint3D32f();
 }
 
-static inline CvPoint3D32f cvt_Point3f_CvPoint3D32f(Point3_<float> const &inst)
+static inline ::CvPoint3D32f cvt_Point3f_CvPoint3D32f(::cv::Point3_< float > const &inst)
 {
-    return inst.operator CvPoint3D32f();
+    return inst.operator ::CvPoint3D32f();
 }
 
-static inline CvPoint3D32f cvt_Point3i_CvPoint3D32f(Point3_<int> const &inst)
+static inline ::CvPoint3D32f cvt_Point3i_CvPoint3D32f(::cv::Point3_< int > const &inst)
 {
-    return inst.operator CvPoint3D32f();
+    return inst.operator ::CvPoint3D32f();
 }
 
 static inline ::cv::Point3_<float> cvt_Point3i_Point3f(::cv::Point3_<int> const &inst)
@@ -727,14 +727,14 @@ static inline ::cv::Rect_<float> cvt_Rectd_Rectf(::cv::Rect_<double> const &inst
     return inst.operator ::cv::Rect_<float>();
 }
 
-static inline CvScalar cvt_Scalar__less__double__greater__CvScalar(Scalar_<double> const &inst)
+static inline ::CvScalar cvt_Scalar__less__double__greater__CvScalar(::cv::Scalar_< double > const &inst)
 {
-    return inst.operator CvScalar();
+    return inst.operator ::CvScalar();
 }
 
-static inline CvSlice cvt_Range_CvSlice(Range const &inst)
+static inline ::CvSlice cvt_Range_CvSlice(::cv::Range const &inst)
 {
-    return inst.operator CvSlice();
+    return inst.operator ::CvSlice();
 }
 
 void register___dummy_struct_class(){

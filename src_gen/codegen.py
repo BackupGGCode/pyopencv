@@ -455,7 +455,7 @@ def dtypecast(self, casting_list):
 module_builder.module_builder_t.dtypecast = dtypecast
 
 def asClass(self, src_class, dst_class):
-    asClass2(self, src_class.alias, src_class.name, dst_class.alias, dst_class.name)
+    asClass2(self, src_class.alias, src_class.partial_decl_string, dst_class.alias, dst_class.partial_decl_string)
     src_class.operators(lambda x: dst_class.name in x.name).exclude()
 module_builder.module_builder_t.asClass = asClass
 
