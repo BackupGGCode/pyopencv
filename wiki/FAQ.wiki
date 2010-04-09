@@ -14,6 +14,25 @@ No, not yet. But it is a feature I hope PyOpenCV will have one day. The main pro
 
 Boost.Python is now compatible with Python 3. When NumPy is eventually compatible with Python 3, I will refine PyOpenCV to make it compatible with Python 3.
 
+
+===Help. On Linux, when building PyOpenCV, I receive an error: "...error: duplicate initialization of gcc with the following parameters:..."===
+
+It appears that there is a file named 'site-config.jam' located somewhere in your home folder. Try running `bjam` manually with `--debug-configuration` and look for a line that
+looks like:
+
+{{{
+    notice: Loading site-config configuration file site-config.jam from
+    path/to/site-config.jam . 
+}}}
+
+and uncomment a line that looks like
+
+{{{
+    using gcc ;
+}}}
+
+in that file. Then, run setup.py again.
+
 ===Declaration X or declaration X of class Y is not exposed. Can I have it exposed?===
 
 If the declaration you are looking for belongs to the old C interface, check if there is an equivalent declaration in the new C++ interface. Otherwise, find the related issue in the "Issues" tab (or file one if there is none), and post your request. I will try to fix the issue when I have time. Certainly, the more requests there are, the higher priority the issue will receive.
