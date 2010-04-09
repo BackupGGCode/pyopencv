@@ -31,7 +31,7 @@ and uncomment a line that looks like
     using gcc ;
 }}}
 
-in that file. Then, run setup.py again.
+in that file. Then, build PyOpenCV by running `setup.py` again.
 
 ===Declaration X or declaration X of class Y is not exposed. Can I have it exposed?===
 
