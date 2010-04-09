@@ -9,4 +9,4 @@ Follow the link(s) below to go to the epydoc-generated API documentation pages o
   * [http://packages.python.org/pyopencv/2.1.0.wr1.0.0 Generated API for version 1.0.0]
 
 ==OpenCV 2.0.0==
-  * [http://packages.python.org/pyopencv Generated API for version 1.1.0]
+  * [http://packages.python.org/pyopencv Generated API for version 1.1.0] (temporarily down)
