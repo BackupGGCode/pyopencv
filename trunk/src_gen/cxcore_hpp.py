@@ -356,23 +356,25 @@ def asMat(obj, force_single_channel=False):
     ''')
     
     # Mat_
-    Mat_list = []
-    for suffix in "bswifd":
-        for i in xrange(1,5):
-            z = mb.class_(lambda x: x.alias=="Mat"+str(i)+suffix)
-            Mat_list.append("::cv::"+z.name)
-            z.include_files.append("opencv_converters.hpp")
-            z.include()
-            z.constructor(lambda x: len(x.arguments)==4 and '*' in \
-                x.arguments[2].type.partial_decl_string).exclude() # TODO
-            z.mem_funs('adjustROI').call_policies = CP.return_self()
-            for t in ('MatExp', 'vector'):
-                z.decls(lambda x: t in x.decl_string).exclude()
-            for t in ('begin', 'end'):
-                z.decls(t).exclude() # TODO
-            z.operators().exclude() # TODO
+    # Minh-Tri: really bad idea to enable these classes, longer compilation 
+    # time yet no real gain is observed
+    # Mat_list = []
+    # for suffix in "bswifd":
+        # for i in xrange(1,5):
+            # z = mb.class_(lambda x: x.alias=="Mat"+str(i)+suffix)
+            # Mat_list.append("::cv::"+z.name)
+            # z.include_files.append("opencv_converters.hpp")
+            # z.include()
+            # z.constructor(lambda x: len(x.arguments)==4 and '*' in \
+                # x.arguments[2].type.partial_decl_string).exclude() # TODO
+            # z.mem_funs('adjustROI').call_policies = CP.return_self()
+            # for t in ('MatExp', 'vector'):
+                # z.decls(lambda x: t in x.decl_string).exclude()
+            # for t in ('begin', 'end'):
+                # z.decls(t).exclude() # TODO
+            # z.operators().exclude() # TODO
 
-    mb.dtypecast(Mat_list)
+    # mb.dtypecast(Mat_list)
 
     # RNG
     z = mb.class_('RNG')
