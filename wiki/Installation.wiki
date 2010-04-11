@@ -30,4 +30,4 @@ In short, there are three major steps:
     # [Installation_Boost_Python Install Boost and bjam]
     # [Installation_PyOpenCV Download, configure, build, and install PyOpenCV]
 
-~~See also the FAQ entries on installation.~~
+~~See also the FAQ entries to avoid some installation issues.
