@@ -4,6 +4,8 @@
 
 ==Get Boost==
 
+PyOpenCV relies on Boost.Python (and partially on Boost.MPL) to wrap C/C++ code. Please follow the instructions below to get the Boost library:
+
   # Go to http://www.boost.org.
   # Download [http://sourceforge.net/projects/boost/files/boost/ Boost source distribution] version [http://sourceforge.net/projects/boost/files/boost/1.41.0/ 1.41.0] or later. There is a bug in using Boost.Python under Python 2.6.3 and later that has only been fixed very recently in Boost 1.41.0 (thanks to Guy K. Kloss for having pointed it out).
   # Extract the source distribution to somewhere on your platform. We refer to the extracted folder as `<boost_dir>`. It is not necessary to install Boost.
