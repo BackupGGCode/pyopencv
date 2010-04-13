@@ -5,6 +5,35 @@ PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 Change Log
 ==========
 
+pyopencv-2.1.0.wr1.0.1 bug-fix release
+--------------------------------------
+
+This bug-fix release is released earlier than scheduled due toa bug at 
+file 'bjamcompiler.py', which may lead to a "Segmentation Fault" while 
+building PyOpenCV on Linux. Other changes including spliting some 
+meta-functions into a individual ones and removing 24 unnecessary 
+Mat_<...> classes.
+
+- fixed a bug in bjamcompiler.py that could lead to a "Segmentation Fault" 
+  if numpy has not been installed at the build-time of PyOpenCV
+- improved the docstrings in old-style C structures
+- re-enabled CvTermCriteria to support old C-style structures
+- re-enabled CvBox2D for backward compatibility with old C-style structures
+- re-enabled CvPoint* classes, for backward compatibility with old C-style 
+  structures
+- re-enabled CvScalar to support old C-style structures
+- replaced Range.as_CvSlice() with asCvSlice()
+- reenabled CvSlice to support old C-style structures
+- added function getOptimalNewCameraMatrix()
+- added stereoRectify() and stereoRectify2()
+- split function convexHull() into convexHull_int() and 
+  convexHull_float32()
+- split function approxPolyDP() into approxPolyDP_int() and 
+  approxPolyDP_float32()
+- removed the 24 Mat_<...> classes; yup, bad idea to have included them
+- split RNG.uniform() into 3 functions
+
+
 pyopencv-2.1.0.wr1.0.0 bug-fix release
 --------------------------------------
 
