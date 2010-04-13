@@ -9,8 +9,12 @@ namespace bp = boost::python;
 
 void register_CvPoint_class(){
 
-    bp::class_< CvPoint >( "CvPoint" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvPoint >() )    
+    bp::class_< CvPoint >( "CvPoint", "\n2D point with integer coordinates (usually zero-based)."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint" )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvPoint >(), "\n2D point with integer coordinates (usually zero-based)."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint" )    
         .def_readwrite( "x", &CvPoint::x )    
         .def_readwrite( "y", &CvPoint::y );
 

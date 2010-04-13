@@ -104,7 +104,7 @@ def generate_ti():
     add_ti('Mat_', 'Vec3w', 'Mat3w')
     add_ti('Mat_', 'Vec4w', 'Mat4w')
     
-    add_ti('Mat_', 'int', 'Mat1i') # 32-bit, 64-bit, workaround, be careful here
+    add_ti('Mat_', 'int', 'Mat1i')
     add_ti('Mat_', 'Vec2i', 'Mat2i')
     add_ti('Mat_', 'Vec3i', 'Mat3i')
     add_ti('Mat_', 'Vec4i', 'Mat4i')
@@ -123,12 +123,12 @@ def generate_ti():
     add_ti('vector', 'unsigned char', 'vector_uint8')
     add_ti('vector', 'short', 'vector_int16')
     add_ti('vector', 'unsigned short', 'vector_uint16')
-    add_ti('vector', 'int', 'vector_int')
-    add_ti('vector', 'unsigned int', 'vector_uint')
-    add_ti('vector', 'long', 'vector_int32')
-    add_ti('vector', 'unsigned long', 'vector_uint32')
-    add_ti('vector', 'long long', 'vector_int64')
-    add_ti('vector', 'unsigned long long', 'vector_uint64')
+    add_ti('vector', 'int', 'vector_int') # be careful: 32-bit 64-bit issue
+    add_ti('vector', 'unsigned int', 'vector_uint') # be careful: 32-bit 64-bit issue
+    add_ti('vector', 'long', 'vector_int32') # be careful: 32-bit 64-bit issue
+    add_ti('vector', 'unsigned long', 'vector_uint32') # be careful: 32-bit 64-bit issue
+    add_ti('vector', 'long long', 'vector_int64') # be careful: 32-bit 64-bit issue
+    add_ti('vector', 'unsigned long long', 'vector_uint64') # be careful: 32-bit 64-bit issue
     add_ti('vector', 'float', 'vector_float32')
     add_ti('vector', 'double', 'vector_float64')
     

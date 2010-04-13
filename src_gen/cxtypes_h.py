@@ -237,7 +237,8 @@ CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
     
     # CvRect -- for backward compatibility
     z = mb.class_('CvRect')
-    z.include()
+    mb.init_class(z)
+    mb.finalize_class(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + \\
@@ -248,7 +249,8 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvSize -- for backward compatibility
     z = mb.class_('CvSize')
-    z.include()
+    mb.init_class(z)
+    mb.finalize_class(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
@@ -258,7 +260,9 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvScalar -- for backward compatibility
     z = mb.class_('CvScalar')
-    z.include()
+    mb.init_class(z)
+    mb.finalize_class(z)
+    mb.finalize_class(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(" + self.ndarray.__str__() + ")"
@@ -269,7 +273,8 @@ KLASS.__repr__ = _KLASS__repr__
     # CvPoint, CvPoint2D32f, CvPoint2D64f  -- for backward compatibility
     for t in ('CvPoint', 'CvPoint2D32f', 'CvPoint2D64f'):
         z = mb.class_(t)
-        z.include()
+        mb.init_class(z)
+        mb.finalize_class(z)
         cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
@@ -280,7 +285,8 @@ KLASS.__repr__ = _KLASS__repr__
     # CvPoint3D32f, CvPoint3D64f  -- for backward compatibility
     for t in ('CvPoint3D32f', 'CvPoint3D64f'):
         z = mb.class_(t)
-        z.include()
+        mb.init_class(z)
+        mb.finalize_class(z)
         cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
@@ -290,7 +296,8 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvBox2D -- for backward compatibility
     z = mb.class_('CvBox2D')
-    z.include()
+    mb.init_class(z)
+    mb.finalize_class(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(center=" + repr(self.center) + ", size=" + repr(self.size) + \\
@@ -301,7 +308,8 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvTermCriteria -- for backward compatibility
     z = mb.class_('CvTermCriteria')
-    z.include()
+    mb.init_class(z)
+    mb.finalize_class(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(type=" + repr(self.type) + ", max_iter=" + repr(self.max_iter) + \\
@@ -312,7 +320,8 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvSlice -- for backward compatibility
     z = mb.class_('CvSlice')
-    z.include()
+    mb.init_class(z)
+    mb.finalize_class(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(start=" + repr(self.start_index) + ", end=" + repr(self.end_index) + ")"
