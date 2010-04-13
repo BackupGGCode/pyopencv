@@ -8,9 +8,9 @@ Change Log
 pyopencv-2.1.0.wr1.0.1 bug-fix release
 --------------------------------------
 
-This bug-fix release is released earlier than scheduled due toa bug at 
+This bug-fix release is released earlier than scheduled due to a bug at 
 file 'bjamcompiler.py', which may lead to a "Segmentation Fault" while 
-building PyOpenCV on Linux. Other changes including spliting some 
+building PyOpenCV on Linux. Other changes include spliting some 
 meta-functions into a individual ones and removing 24 unnecessary 
 Mat_<...> classes.
 
