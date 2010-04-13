@@ -72,7 +72,7 @@ def findSquares4( img, thresh ):
             for contour in contours:
                 # approximate contour with accuracy proportional
                 # to the contour perimeter
-                result = approxPolyDP( contour, arcLength(contour, False)*0.02, False )
+                result = approxPolyDP_int( contour, arcLength(contour, False)*0.02, False )
                 # square contours should have 4 vertices after approximation
                 # relatively large area (to filter out noisy contours)
                 # and be convex.

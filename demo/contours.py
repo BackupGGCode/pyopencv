@@ -66,7 +66,7 @@ if __name__=='__main__':
     contours, hierarchy = findContours( img, RETR_TREE, CHAIN_APPROX_SIMPLE, Point(0,0) )
 
     # comment this out if you do not want approximation
-    contours = [approxPolyDP(x, 3, 1) for x in contours]
+    contours = [approxPolyDP_int(x, 3, 1) for x in contours]
 
     namedWindow( "contours", 1 )
     createTrackbar( "levels+3", "contours", levels, 7, on_trackbar )
