@@ -1,0 +1,155 @@
+=======================================================================
+PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
+=======================================================================
+
+Change Log
+==========
+
+pyopencv-2.1.0.wr1.0.1 bug-fix release
+--------------------------------------
+
+This bug-fix release is released earlier than scheduled due toa bug at 
+file 'bjamcompiler.py', which may lead to a "Segmentation Fault" while 
+building PyOpenCV on Linux. Other changes including spliting some 
+meta-functions into a individual ones and removing 24 unnecessary 
+Mat_<...> classes.
+
+- fixed a bug in bjamcompiler.py that could lead to a "Segmentation Fault" 
+  if numpy has not been installed at the build-time of PyOpenCV
+- improved the docstrings in old-style C structures
+- re-enabled CvTermCriteria to support old C-style structures
+- re-enabled CvBox2D for backward compatibility with old C-style structures
+- re-enabled CvPoint* classes, for backward compatibility with old C-style 
+  structures
+- re-enabled CvScalar to support old C-style structures
+- replaced Range.as_CvSlice() with asCvSlice()
+- reenabled CvSlice to support old C-style structures
+- added function getOptimalNewCameraMatrix()
+- added stereoRectify() and stereoRectify2()
+- split function convexHull() into convexHull_int() and 
+  convexHull_float32()
+- split function approxPolyDP() into approxPolyDP_int() and 
+  approxPolyDP_float32()
+- removed the 24 Mat_<...> classes; yup, bad idea to have included them
+- split RNG.uniform() into 3 functions
+
+
+pyopencv-2.1.0.wr1.0.0 bug-fix release
+--------------------------------------
+
+This is the first release of PyOpenCV that supports OpenCV 2.1.0. The 
+wrapper's version has been reset to 1.0.0. All new features of OpenCV 2.1.0 
+have been exposed.
+
+- added 24 Mat_<...> classes of OpenCV 2.1
+- added function getCPUTickCount()
+- added functions set/getWindowProperty()
+- added function cvCheckHardwareSupport()
+- added 4 classes: BackgroundSubtractor, BackgroundSubtractorMOG, 
+  CvAffinePose, and DefaultRngAuto
+- added function find4QuadCornerSubpix()
+- added class StereoSGBM
+- added functions filterSpeckles(), getValidDisparityROI(), and 
+  validateDisparity()
+- added function grabCut()
+- added function cvCheckChessboard()
+- added function cvCalcOpticalFlowFarneback()
+- updated almost all changes in existing functions
+- temporarily removed class OneWayDescriptorObject as it is somehow not 
+  included in OpenCV's shared library
+
+pyopencv-2.0.wr1.1.1 bug-fix release
+------------------------------------
+
+- improved the exposal of class CvHaarClassifier and its member variables
+- re-enabled CvRect, CvSize, and CvHidHaarClassifierCascade for supporting 
+  some old C code
+- exposed some member variables of CvHaarClassifier
+- split function_transformers.py into two
+- exposed other member variables of CvHaarFeature
+- improved the exposal of class FernClassifier
+- improved functions calcBackProject() and calcHist()
+- exposed some parts of class NAryMatNDIterator
+- improved many docstrings
+- added C++ functions to convert a list of Mats to a C/C++-equivalent array
+- improved the docstrings of function arguments of type std::vector
+- fixed some calling sequences of min(), max(), sqrt(), pow(), exp(), len()
+- added docstrings to some MatND's constructors
+- fixed a bug in ndarray
+- added a large number of conversion functions in the form of as<ClassName>()
+- added representation strings for classes Complexd and Complexf
+- improved function asMat()
+- added a demo of using DifferentialImage
+
+pyopencv-2.0.wr1.1.0 beta release
+---------------------------------
+
+This release is backward-incompatible with previous releases. A large number 
+of function arguments and calling sequences have been tweaked. These 
+necessary tweaks would allow PyOpenCV to run slightly more efficiently and 
+to be easier to use.
+
+- added find_obj.py, a demo on using SURF and flann
+- added docstrings for a large number of functions
+- added code that converts between Mat and external image representations 
+  like wx.Bitmap, gtk.pixbuf, PIL.Image
+- provided ndarray interface for Size-like classes
+- provided converters to convert between cv::Mat and Python list of items
+- converted input 1d array arguments into cv::Mat
+- added FernClassifier and PlanarObjectDetector classes
+- improved calling sequences in classes SURF, MSER, LDetector, and 
+  StarDetector
+- improved all output function arguments of type std::vector
+- improved get_CvMat_ptr() and get_IplImage_ptr()
+- lots of bug-fixes
+
+pyopencv-2.0.wr1.0.2 beta release
+---------------------------------
+- improved snakeImage()
+- added 3 new classes: DifferentialImage, IntegralImage, and IntegralHistogram
+- removed all the C functions related to CvHistogram. They are deprecated. Use 
+  calcHist(), equalizeHist(), compareHist() instead.
+- modified CascadeClassifier so that runAt() and setImage() also support old 
+  cascades
+- fixed a calling sequence of functions knnSearch() and radiusSearch() of class 
+  Index
+- added ndarray interface to Rect-like classes and the Range class
+- improved the behavior of 1d array function arguments
+- fixed a bug that could lead to a segfault
+- added classes: IndexParams, IndexFactory
+- improved SURF, mixChannels() and minMaxLoc()
+
+pyopencv-2.0.wr1.0.1 beta release
+---------------------------------
+
+- fixed the demo files according to recent changes
+- improved conversion from ndarray to Mat and MatND
+- removed from_ndarray() functions
+- common std::vectors of primitive data types like 'int', 'float', etc and 
+  fixed-size data types like Vec-like, Point-like, Scalar are now represented 
+  as ndarrays
+- improved contours.py
+- added a few classes of cvvidsurv.hpp, fixed a bug in OpenCV's findContours() 
+  function, and added contours.py demo
+- fixed a bug in getting a temporary pointer to CvMat or IplImage, this patch 
+  will incur a complete rebuild if you are building pyopencv from source
+- renamed convertPointsHomogeneous functions
+- fixed read() and write() functions
+- added some more machine-learning classes
+- added a few tree-based classes
+- added CvDTreeTrainData
+- fixed a bug in CvEM
+- fixed a bug in CvKNearest
+- fixed a bug in CvNormalBayesClassifier
+- fixed a bug in CvSVM
+- added CvSVM::get_support_vector()
+- fixed a bug in CvSVMParams
+- fixed a bug in invoking Mat(int, int, int)
+
+pyopencv-2.0.wr1.0.0 pre-beta release
+-------------------------------------
+
+- The first release of PyOpenCV. Many fundamentals of OpenCV have been
+ported to Python. However, there is still some functionality not fully
+available. Lots of small issues need ironing out. Just tell me which
+parts you want PyOpenCV to improve and I will take time to improve them.
