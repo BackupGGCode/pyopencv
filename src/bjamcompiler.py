@@ -30,6 +30,16 @@ class BjamCompiler(ccompiler.CCompiler):
               extra_postargs=None,
               build_temp=None,
               target_lang=None):
+              
+        # generate a dump module
+        f = open('__dump_module.cpp', 'wt')
+        f.write('''
+#include "boost/python.hpp"
+
+BOOST_PYTHON_MODULE(dumpmodule){
+}
+        ''')
+              
         # generate file 'Jamroot'
         f = open('Jamroot', 'wt')
         f.write('''
@@ -56,6 +66,8 @@ use-project boost
 
 project
   : requirements <library>/boost/python//boost_python ;
+  
+python-extension dumpmodule : __dump_module.cpp ;
 
 python-extension pyopencvext :
 ''' % (boost_dir, ))
@@ -65,7 +77,7 @@ python-extension pyopencvext :
 
 import testing ;
 
-testing.make-test run-pyd : pyopencvext _get_ext.py : : test_ext ;
+testing.make-test run-pyd : dumpmodule pyopencvext _get_ext.py : : test_ext ;
         
 alias test : test_ext ;
 
@@ -82,9 +94,9 @@ boost-build %s/tools/build/v2 ;
         # script to get the extension
         f = open('_get_ext.py', 'wt')
         f.write('''
-import pyopencvext as _P
+import dumpmodule as _P
 import distutils.file_util as _D
-_D.copy_file(_P.__file__, '%s')
+_D.copy_file(_P.__file__.replace('dumpmodule', 'pyopencvext'), '%s')
 ''' % mypath(os.path.abspath(output_filename)))
         f.close()
         
@@ -95,6 +107,7 @@ _D.copy_file(_P.__file__, '%s')
         os.remove('boost-build.jam')
         os.remove('Jamroot')
         os.remove('_get_ext.py')
+        os.remove('__dump_module.cpp')
         
 
 ccompiler.BjamCompiler = BjamCompiler
