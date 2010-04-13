@@ -9,8 +9,12 @@ namespace bp = boost::python;
 
 void register_CvSize_class(){
 
-    bp::class_< CvSize >( "CvSize" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSize >() )    
+    bp::class_< CvSize >( "CvSize", "\nPixel-accurate size of a rectangle."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvsize" )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSize >(), "\nPixel-accurate size of a rectangle."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvsize" )    
         .def_readwrite( "height", &CvSize::height )    
         .def_readwrite( "width", &CvSize::width );
 

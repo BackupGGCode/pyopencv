@@ -383,11 +383,11 @@ def asMat(obj, force_single_channel=False):
     z.operator(lambda x: x.name.endswith('schar')).rename('as_int8')
     z.operator(lambda x: x.name.endswith('ushort')).rename('as_uint16')
     z.operator(lambda x: x.name.endswith('short int')).rename('as_int16')
-    z.operator(lambda x: x.name.endswith('unsigned int')).rename('as_uint') # ok for both 32-bit and 64-bit
-    z.operator(lambda x: x.name.endswith('operator int')).rename('as_int') # ok for both 32-bit and 64-bit
+    z.operator(lambda x: x.name.endswith('unsigned int')).rename('as_uint')
+    z.operator(lambda x: x.name.endswith('operator int')).rename('as_int')
     z.operator(lambda x: x.name.endswith('float')).rename('as_float32')
     z.operator(lambda x: x.name.endswith('double')).rename('as_float64')
-    z.mem_fun(lambda x: x.name=='uniform' and 'int' in x.partial_decl_string).rename('uniform_int') # ok for both 32-bit and 64-bit
+    z.mem_fun(lambda x: x.name=='uniform' and 'int' in x.partial_decl_string).rename('uniform_int')
     z.mem_fun(lambda x: x.name=='uniform' and 'float' in x.partial_decl_string).rename('uniform_float32')
     z.mem_fun(lambda x: x.name=='uniform' and 'double' in x.partial_decl_string).rename('uniform_float64')
     cc.write('''

@@ -229,6 +229,7 @@ def init_class(self, z):
         pass
     common.init_transformers(funs)
     z._funs = funs
+    common.add_decl_desc(z)
 module_builder.module_builder_t.init_class = init_class
 
 
