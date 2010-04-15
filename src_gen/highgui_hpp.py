@@ -59,7 +59,7 @@ def createTrackbar(trackbar_name, window_name, value, count, on_change=None, use
     return result
 createTrackbar.__doc__ = _PE._createTrackbar.__doc__
     ''')
-    mb.add_doc('createTrackbar', "'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_long, it keeps the current position of the trackbar at any time.", "'onChange' can be passed with None.")
+    mb.add_doc('createTrackbar', "'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_long, it holds the current position of the trackbar at any time.")
 
     # VideoCapture
     z = mb.class_('VideoCapture')

@@ -217,6 +217,10 @@ dict_decl_name_to_desc = {
     ("PCA", "operator()"): ("Performs Principal Component Analysis of the supplied dataset.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-operator"),
     ("PCA", "project"): ("Project vector(s) to the principal component subspace.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-project"),
     ("PCA", "backProject"): ("Reconstruct vectors from their PC projections.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-backproject"),
+    ("cv", "perspectiveTransform"): ("Performs perspective matrix transformation of vectors.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-perspectivetransform"),
+    ("cv", "phase"): ("Calculates the rotation angle of 2d vectors.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-phase"),
+    ("cv", "polarToCart"): ("Computes x and y coordinates of 2D vectors from their magnitude and angle.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-polartocart"),
+    ("cv", "pow"): ("Raises every array element to a power.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pow"),
     ("cv", "XXXXX"): (".", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-xxxx"),
     # TODO: append this
 

@@ -3901,7 +3901,10 @@ void register_free_functions(){
         bp::def( 
             "perspectiveTransform"
             , perspectiveTransform_function_type( &::cv::perspectiveTransform )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("m") ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("m") )
+            , "\nPerforms perspective matrix transformation of vectors."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-perspectivetransform" );
     
     }
 
@@ -3912,7 +3915,10 @@ void register_free_functions(){
         bp::def( 
             "phase"
             , phase_function_type( &::cv::phase )
-            , ( bp::arg("x"), bp::arg("y"), bp::arg("angle"), bp::arg("angleInDegrees")=(bool)(false) ) );
+            , ( bp::arg("x"), bp::arg("y"), bp::arg("angle"), bp::arg("angleInDegrees")=(bool)(false) )
+            , "\nCalculates the rotation angle of 2d vectors."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-phase" );
     
     }
 
@@ -3934,7 +3940,11 @@ void register_free_functions(){
         bp::def( 
             "polarToCart"
             , polarToCart_function_type( &::cv::polarToCart )
-            , ( bp::arg("magnitude"), bp::arg("angle"), bp::arg("x"), bp::arg("y"), bp::arg("angleInDegrees")=(bool)(false) ) );
+            , ( bp::arg("magnitude"), bp::arg("angle"), bp::arg("x"), bp::arg("y"), bp::arg("angleInDegrees")=(bool)(false) )
+            , "\nComputes x and y coordinates of 2D vectors from their magnitude and "
+    "\nangle."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-polartocart" );
     
     }
 
@@ -3945,7 +3955,10 @@ void register_free_functions(){
         bp::def( 
             "pow"
             , pow_function_type( &::cv::pow )
-            , ( bp::arg("a"), bp::arg("power"), bp::arg("b") ) );
+            , ( bp::arg("a"), bp::arg("power"), bp::arg("b") )
+            , "\nRaises every array element to a power."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pow" );
     
     }
 
@@ -3956,7 +3969,10 @@ void register_free_functions(){
         bp::def( 
             "pow"
             , pow_function_type( &::cv::pow )
-            , ( bp::arg("a"), bp::arg("power"), bp::arg("b") ) );
+            , ( bp::arg("a"), bp::arg("power"), bp::arg("b") )
+            , "\nRaises every array element to a power."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pow" );
     
     }
 
