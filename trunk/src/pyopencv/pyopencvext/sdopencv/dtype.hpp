@@ -279,7 +279,7 @@ typedef unsigned short      uint16;
 #   if defined(TARGET_COMPILER_GCC)
 typedef int32_t             int32;
 #   elif defined(TARGET_COMPILER_ICC) || defined(TARGET_COMPILER_VC)
-typedef int                 int32;
+typedef int                 int32; // may not work in ILP64 64-bit systems (i.e. int is 64-bit)
 #   endif
 #endif
 

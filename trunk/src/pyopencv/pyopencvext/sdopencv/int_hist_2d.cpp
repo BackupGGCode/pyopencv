@@ -55,7 +55,7 @@ namespace sdopencv
             case CV_8U: values_to_bin_indices(image.ptr<uint8>(y), image.cols, indices); break;
             case CV_8S: values_to_bin_indices(image.ptr<int8>(y), image.cols, indices); break;
             case CV_16S: values_to_bin_indices(image.ptr<int16>(y), image.cols, indices); break;
-            case CV_32S: values_to_bin_indices(image.ptr<int32>(y), image.cols, indices); break;
+            case CV_32S: values_to_bin_indices(image.ptr<int>(y), image.cols, indices); break;
             case CV_32F: values_to_bin_indices(image.ptr<float32>(y), image.cols, indices); break;
             case CV_64F: values_to_bin_indices(image.ptr<float64>(y), image.cols, indices); break;
             default: CV_Error( -1, "Unsupported image depth" );
@@ -87,14 +87,14 @@ namespace sdopencv
             cv::Scalar s;
             for(i = 0, dhist = &out_hist[0]; i < n_iimages-1; ++i, dhist += 4)
             {
-                s = iimages[i].sum_rect<int32>(rect);
+                s = iimages[i].sum_rect<int>(rect);
                 dhist[0] = (int) s.val[0];
                 dhist[1] = (int) s.val[1];
                 dhist[2] = (int) s.val[2];
                 dhist[3] = (int) s.val[3];
             }
             
-            s = iimages[i].sum_rect<int32>(rect);
+            s = iimages[i].sum_rect<int>(rect);
             i = last_nc; while(--i >= 0) dhist[i] = (int) s.val[i];
         }
         else

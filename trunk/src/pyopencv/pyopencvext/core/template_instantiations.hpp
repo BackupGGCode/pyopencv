@@ -428,13 +428,13 @@ namespace cv {
     #endif
 
 
-    #ifndef vector_int32
-    typedef vector < long > vector_int32;
+    #ifndef vector_long
+    typedef vector < long > vector_long;
     #endif
 
 
-    #ifndef vector_uint32
-    typedef vector < unsigned long > vector_uint32;
+    #ifndef vector_ulong
+    typedef vector < unsigned long > vector_ulong;
     #endif
 
 
@@ -696,8 +696,8 @@ namespace cv {
         vector_uint16 var82;
         vector_int var83;
         vector_uint var84;
-        vector_int32 var85;
-        vector_uint32 var86;
+        vector_long var85;
+        vector_ulong var86;
         vector_int64 var87;
         vector_uint64 var88;
         vector_float32 var89;

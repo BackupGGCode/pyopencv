@@ -63,7 +63,19 @@ int convert_dtype_to_cvdepth(int dtype)
     case NPY_UBYTE: return CV_8U;
     case NPY_SHORT: return CV_16S;
     case NPY_USHORT: return CV_16U;
-    case NPY_LONG: return CV_32S;
+    case NPY_INT: return CV_32S;
+    case NPY_LONG:
+        if(PyArray_EquivTypenums(NPY_INT, NPY_LONG))
+            return CV_32S;
+        PyErr_SetString(PyExc_TypeError, "Unconvertable dtype NPY_LONG because it is 64-bit and there is no equivalent CV_64S type.");
+        throw error_already_set();
+        return -1;
+    case NPY_LONGLONG:
+        if(PyArray_EquivTypenums(NPY_INT, NPY_LONGLONG))
+            return CV_32S;
+        PyErr_SetString(PyExc_TypeError, "Unconvertable dtype NPY_LONGLONG because it is 64-bit and there is no equivalent CV_64S type.");
+        throw error_already_set();
+        return -1;
     case NPY_FLOAT: return CV_32F;
     case NPY_DOUBLE: return CV_64F;
     }
@@ -82,7 +94,7 @@ int convert_cvdepth_to_dtype(int depth)
     case CV_8U: return NPY_UBYTE;
     case CV_16S: return NPY_SHORT;
     case CV_16U: return NPY_USHORT;
-    case CV_32S: return NPY_LONG;
+    case CV_32S: return NPY_INT;
     case CV_32F: return NPY_FLOAT;
     case CV_64F: return NPY_DOUBLE;
     }

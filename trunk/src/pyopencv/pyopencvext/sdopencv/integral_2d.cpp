@@ -49,7 +49,7 @@ namespace sdopencv
     {
         if(!adjust_rect(rect)) return cv::Scalar();
         
-        if(sdepth == CV_32S) return sum_rect<int32>(rect);
+        if(sdepth == CV_32S) return sum_rect<int>(rect);
         if(sdepth == CV_32F) return sum_rect<float32>(rect);
         if(sdepth == CV_64F) return sum_rect<float64>(rect);
         
