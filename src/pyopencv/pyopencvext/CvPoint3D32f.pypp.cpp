@@ -10,11 +10,13 @@ namespace bp = boost::python;
 void register_CvPoint3D32f_class(){
 
     bp::class_< CvPoint3D32f >( "CvPoint3D32f", "\n3D point with floating-point coordinates."
+    "\n"
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Point3f instead."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint3d32f" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvPoint3D32f >(), "\n3D point with floating-point coordinates."
+    "\n"
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Point3f instead."
     "\nReference:"

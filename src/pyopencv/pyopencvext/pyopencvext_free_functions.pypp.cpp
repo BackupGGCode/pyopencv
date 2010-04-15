@@ -3524,7 +3524,10 @@ void register_free_functions(){
         bp::def( 
             "meanStdDev"
             , meanStdDev_function_type( &::cv::meanStdDev )
-            , ( bp::arg("m"), bp::arg("mean"), bp::arg("stddev"), bp::arg("mask")=cv::MatND() ) );
+            , ( bp::arg("m"), bp::arg("mean"), bp::arg("stddev"), bp::arg("mask")=cv::MatND() )
+            , "\nCalculates mean and standard deviation of array elements."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-meanstddev" );
     
     }
 
@@ -3535,7 +3538,10 @@ void register_free_functions(){
         bp::def( 
             "meanStdDev"
             , meanStdDev_function_type( &::cv::meanStdDev )
-            , ( bp::arg("m"), bp::arg("mean"), bp::arg("stddev"), bp::arg("mask")=cv::Mat() ) );
+            , ( bp::arg("m"), bp::arg("mean"), bp::arg("stddev"), bp::arg("mask")=cv::Mat() )
+            , "\nCalculates mean and standard deviation of array elements."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-meanstddev" );
     
     }
 
@@ -3557,7 +3563,10 @@ void register_free_functions(){
         bp::def( 
             "min"
             , min_function_type( &::cv::min )
-            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") )
+            , "\nCalculates per-element minimum of two arrays or array and a scalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min" );
     
     }
 
@@ -3568,7 +3577,10 @@ void register_free_functions(){
         bp::def( 
             "min"
             , min_function_type( &::cv::min )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
+            , "\nCalculates per-element minimum of two arrays or array and a scalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min" );
     
     }
 
@@ -3579,7 +3591,10 @@ void register_free_functions(){
         bp::def( 
             "min"
             , min_function_type( &::cv::min )
-            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") )
+            , "\nCalculates per-element minimum of two arrays or array and a scalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min" );
     
     }
 
@@ -3590,7 +3605,10 @@ void register_free_functions(){
         bp::def( 
             "min"
             , min_function_type( &::cv::min )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
+            , "\nCalculates per-element minimum of two arrays or array and a scalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min" );
     
     }
 

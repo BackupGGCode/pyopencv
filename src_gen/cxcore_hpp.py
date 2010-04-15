@@ -645,21 +645,28 @@ static bp::tuple children(cv::FileNode const &inst)
             if 'cv::Mat' in z.decl_string:
                 z.include()
 
-    # split
-    for z in mb.free_funs('split'):
-        if z.arguments[1].type == D.dummy_type_t('::cv::Mat *') or \
-            z.arguments[1].type == D.dummy_type_t('::cv::MatND *'):
-            z.include()
-            z._transformer_creators.append(FT.input_array1d(1))
-            z._transformer_kwds['alias'] = 'split'
-    
+    # split, merge
+    for t in ('split', 'merge'):
+        for z in mb.free_funs(t):
+            if 'vector' in z.partial_decl_string:
+                z.include()
+                z._transformer_creators.append(FT.arg_std_vector('mv'))
+                z._transformer_kwds['alias'] = t
+            
     # mixChannels
-    z = mb.free_funs('mixChannels').exclude()
-    mb.add_registration_code('bp::def("mixChannels", &::mixChannels, ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo") ));')
+    for z in mb.free_funs('mixChannels'):
+        if 'vector' in z.partial_decl_string:
+            z.include()
+            z._transformer_creators.append(FT.arg_std_vector('src'))
+            z._transformer_creators.append(FT.arg_std_vector('dst'))
+            z._transformer_kwds['alias'] = 'mixChannels'
+            z._transformer_creators.append(FT.input_array1d('fromTo'))
     
     # minMaxLoc
-    z = mb.free_funs('minMaxLoc').exclude()
-    mb.add_registration_code('bp::def("minMaxLoc", &::minMaxLoc, ( bp::arg("a"), bp::arg("mask")=bp::object() ));')
+    for z in mb.free_funs('minMaxLoc'):
+        z.include()
+        for i in xrange(1,5):
+            z._transformer_creators.append(FT.output_type1(i))
     
     # checkRange
     for z in mb.free_funs('checkRange'):
@@ -672,14 +679,6 @@ static bp::tuple children(cv::FileNode const &inst)
     z.include()
     z._transformer_creators.append(FT.output_type1('centers'))
     
-    # merge
-    for z in mb.free_funs('merge'):
-        if z.arguments[0].type == D.dummy_type_t('::cv::Mat const *') or \
-            z.arguments[0].type == D.dummy_type_t('::cv::MatND const *'):
-            z.include()
-            z._transformer_creators.append(FT.input_array1d(0, 'count'))
-            z._transformer_kwds['alias'] = 'merge'
-            
     # calcCovarMatrix
     for z in mb.free_funs('calcCovarMatrix'):
         z.include()

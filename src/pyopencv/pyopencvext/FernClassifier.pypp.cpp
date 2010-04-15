@@ -58,7 +58,7 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
     }
     
     static boost::python::tuple default___call___c4d2198033cf380377bb6f32571c2657( ::cv::FernClassifier const & inst, ::cv::Mat const & img, ::cv::Point2f kpt ){
-        std::vector<float, std::allocator<float> > signature2;
+        ::std::vector< float > signature2;
         cv::Mat signature3;
         int result;
         if( dynamic_cast< FernClassifier_wrapper const* >( boost::addressof( inst ) ) ){
@@ -83,7 +83,7 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
     }
     
     static boost::python::tuple default___call___ddcd7402f4cc50fa35ce4888642630c7( ::cv::FernClassifier const & inst, ::cv::Mat const & patch ){
-        std::vector<float, std::allocator<float> > signature2;
+        ::std::vector< float > signature2;
         cv::Mat signature3;
         int result;
         if( dynamic_cast< FernClassifier_wrapper const* >( boost::addressof( inst ) ) ){
@@ -119,9 +119,9 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
     }
     
     static void default_train( ::cv::FernClassifier & inst, cv::Mat const & points, bp::list const & refimgs, cv::Mat const & labels=convert_from_vector_of_T_to_Mat(std::vector<int>()), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
-        std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > points2;
-        std::vector<cv::Ptr<cv::Mat>, std::allocator<cv::Ptr<cv::Mat> > > refimgs2;
-        std::vector<int, std::allocator<int> > labels2;
+        ::std::vector< cv::Point_<float> > points2;
+        ::std::vector< cv::Ptr<cv::Mat> > refimgs2;
+        ::std::vector< int > labels2;
         convert_from_Mat_to_vector_of_T(points, points2);
         convert_from_object_to_T(refimgs, refimgs2);
         convert_from_Mat_to_vector_of_T(labels, labels2);
@@ -144,7 +144,7 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
     }
     
     static void default_trainFromSingleView( ::cv::FernClassifier & inst, ::cv::Mat const & image, bp::list const & keypoints, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
-        std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+        ::std::vector< cv::KeyPoint > keypoints2;
         convert_from_object_to_T(keypoints, keypoints2);
         if( dynamic_cast< FernClassifier_wrapper * >( boost::addressof( inst ) ) ){
             inst.::cv::FernClassifier::trainFromSingleView(image, keypoints2, _patchSize, _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, patchGenerator);
@@ -335,9 +335,7 @@ void register_FernClassifier_class(){
                 , ( bp::arg("inst"), bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=convert_from_vector_of_T_to_Mat(std::vector<int>()), bp::arg("_nclasses")=(int)(0), bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() )
                 , "\nArgument 'refimgs':"\
     "\n    C/C++ type: ::std::vector< cv::Ptr<cv::Mat> > const &."\
-    "\n    Python type: list."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()."\
+    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'labels':"\
     "\n    C/C++ type: ::std::vector< int > const &."\
     "\n    Python type: Mat."\

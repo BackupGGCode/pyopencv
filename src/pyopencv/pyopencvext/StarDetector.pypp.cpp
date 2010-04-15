@@ -10,7 +10,7 @@
 namespace bp = boost::python;
 
 static boost::python::object __call___c2d97c9701a9c79dcec3239fd753dffc( ::cv::StarDetector const & inst, ::cv::Mat const & image ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    ::std::vector< cv::KeyPoint > keypoints2;
     bp::list keypoints3;
     inst.operator()(image, keypoints2);
     convert_from_T_to_object(keypoints2, keypoints3);

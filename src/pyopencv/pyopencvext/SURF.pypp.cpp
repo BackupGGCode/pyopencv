@@ -10,7 +10,7 @@
 namespace bp = boost::python;
 
 static boost::python::object __call___8fbaf2f3b7cf23fdd67db0f4874c6b20( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    ::std::vector< cv::KeyPoint > keypoints2;
     bp::list keypoints3;
     inst.operator()(img, mask, keypoints2);
     convert_from_T_to_object(keypoints2, keypoints3);
@@ -18,9 +18,9 @@ static boost::python::object __call___8fbaf2f3b7cf23fdd67db0f4874c6b20( ::cv::SU
 }
 
 static boost::python::object __call___8904ace00c2f24b8eb00d3aa8ac85014( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::list & keypoints, bool useProvidedKeypoints=false ){
-    std::vector<float, std::allocator<float> > descriptors2;
+    ::std::vector< float > descriptors2;
     cv::Mat descriptors3;
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    ::std::vector< cv::KeyPoint > keypoints2;
     convert_from_object_to_T(keypoints, keypoints2);
     inst.operator()(img, mask, keypoints2, descriptors2, useProvidedKeypoints);
     convert_from_vector_of_T_to_Mat(descriptors2, descriptors3);

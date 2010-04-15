@@ -62,7 +62,7 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
     }
     
     static void default_buildTree( ::cv::Octree & inst, cv::Mat const & points, int maxLevels=10, int minPoints=20 ){
-        std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > points2;
+        ::std::vector< cv::Point3_<float> > points2;
         convert_from_Mat_to_vector_of_T(points, points2);
         if( dynamic_cast< Octree_wrapper * >( boost::addressof( inst ) ) ){
             inst.::cv::Octree::buildTree(points2, maxLevels, minPoints);
@@ -83,7 +83,7 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
     }
     
     static boost::python::object default_getPointsWithinSphere( ::cv::Octree const & inst, ::cv::Point3f const & center, float radius ){
-        std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > points2;
+        ::std::vector< cv::Point3_<float> > points2;
         cv::Mat points3;
         if( dynamic_cast< Octree_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::Octree::getPointsWithinSphere(center, radius, points2);

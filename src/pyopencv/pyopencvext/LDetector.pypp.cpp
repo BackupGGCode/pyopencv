@@ -10,14 +10,14 @@
 namespace bp = boost::python;
 
 static void getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d( ::cv::LDetector const & inst, ::cv::Mat const & image, bp::list & keypoints, int maxCount, ::cv::PatchGenerator const & patchGenerator ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    ::std::vector< cv::KeyPoint > keypoints2;
     convert_from_object_to_T(keypoints, keypoints2);
     inst.getMostStable2D(image, keypoints2, maxCount, patchGenerator);
     convert_from_T_to_object(keypoints2, keypoints);
 }
 
 static boost::python::object __call___14ec982e59fdc13237968e34b82d6fe2( ::cv::LDetector const & inst, ::cv::Mat const & image, int maxCount=0, bool scaleCoords=true ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    ::std::vector< cv::KeyPoint > keypoints2;
     bp::list keypoints3;
     inst.operator()(image, keypoints2, maxCount, scaleCoords);
     convert_from_T_to_object(keypoints2, keypoints3);
@@ -25,9 +25,9 @@ static boost::python::object __call___14ec982e59fdc13237968e34b82d6fe2( ::cv::LD
 }
 
 static boost::python::object __call___015c5cd98f14b41d0eaab62238a1a6fe( ::cv::LDetector const & inst, bp::list const & pyr, int maxCount=0, bool scaleCoords=true ){
-    std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > keypoints2;
+    ::std::vector< cv::KeyPoint > keypoints2;
     bp::list keypoints3;
-    std::vector<cv::Mat, std::allocator<cv::Mat> > pyr2;
+    ::std::vector< cv::Mat > pyr2;
     convert_from_object_to_T(pyr, pyr2);
     inst.operator()(pyr2, keypoints2, maxCount, scaleCoords);
     convert_from_T_to_object(keypoints2, keypoints3);
@@ -69,9 +69,7 @@ void register_LDetector_class(){
     "\n    operator()"
     "\nArgument 'pyr':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
-    "\n    Python type: list."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()."\
+    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
     "\n    Python type: list."\

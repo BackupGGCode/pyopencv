@@ -52,9 +52,9 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     }
     
     static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), cv::Mat const & locations=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ){
-        std::vector<float, std::allocator<float> > descriptors2;
+        ::std::vector< float > descriptors2;
         cv::Mat descriptors3;
-        std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > locations2;
+        ::std::vector< cv::Point_<int> > locations2;
         convert_from_Mat_to_vector_of_T(locations, locations2);
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::HOGDescriptor::compute(img, descriptors2, winStride, padding, locations2);
@@ -89,9 +89,9 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     }
     
     static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), cv::Mat const & searchLocations=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ){
-        std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > foundLocations2;
+        ::std::vector< cv::Point_<int> > foundLocations2;
         cv::Mat foundLocations3;
-        std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > searchLocations2;
+        ::std::vector< cv::Point_<int> > searchLocations2;
         convert_from_Mat_to_vector_of_T(searchLocations, searchLocations2);
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::HOGDescriptor::detect(img, foundLocations2, hitThreshold, winStride, padding, searchLocations2);
@@ -114,7 +114,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     }
     
     static boost::python::object default_detectMultiScale( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), double scale=1.05000000000000004440892098500626161694526672363e+0, int groupThreshold=2 ){
-        std::vector<cv::Rect_<int>, std::allocator<cv::Rect_<int> > > foundLocations2;
+        ::std::vector< cv::Rect_<int> > foundLocations2;
         cv::Mat foundLocations3;
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::HOGDescriptor::detectMultiScale(img, foundLocations2, hitThreshold, winStride, padding, scale, groupThreshold);
@@ -161,7 +161,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     }
     
     static void default_setSVMDetector( ::cv::HOGDescriptor & inst, cv::Mat const & _svmdetector ){
-        std::vector<float, std::allocator<float> > _svmdetector2;
+        ::std::vector< float > _svmdetector2;
         convert_from_Mat_to_vector_of_T(_svmdetector, _svmdetector2);
         if( dynamic_cast< HOGDescriptor_wrapper * >( boost::addressof( inst ) ) ){
             inst.::cv::HOGDescriptor::setSVMDetector(_svmdetector2);

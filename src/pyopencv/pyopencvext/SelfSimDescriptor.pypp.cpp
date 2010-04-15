@@ -56,8 +56,8 @@ struct SelfSimDescriptor_wrapper : cv::SelfSimDescriptor, bp::wrapper< cv::SelfS
     }
     
     static void default_compute( ::cv::SelfSimDescriptor const & inst, ::cv::Mat const & img, cv::Mat & descriptors, ::cv::Size winStride=cv::Size_<int>(), cv::Mat const & locations=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ){
-        std::vector<float, std::allocator<float> > descriptors2;
-        std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > locations2;
+        ::std::vector< float > descriptors2;
+        ::std::vector< cv::Point_<int> > locations2;
         convert_from_Mat_to_vector_of_T(descriptors, descriptors2);
         convert_from_Mat_to_vector_of_T(locations, locations2);
         if( dynamic_cast< SelfSimDescriptor_wrapper const* >( boost::addressof( inst ) ) ){

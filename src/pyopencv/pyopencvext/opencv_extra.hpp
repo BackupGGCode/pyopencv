@@ -45,10 +45,5 @@ template<> inline int cvtypeof<int>() { return CV_32S; }
 template<> inline int cvtypeof<float>() { return CV_32F; }
 template<> inline int cvtypeof<double>() { return CV_64F; }
 
-// ================================================================================================
-
-bp::sequence mixChannels(const bp::sequence &src, bp::sequence &dst, const bp::ndarray &fromTo);
-bp::tuple minMaxLoc(const bp::object& a, const bp::object& mask=bp::object());
-
 
 #endif
