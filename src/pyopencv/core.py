@@ -286,7 +286,12 @@ def _CvSize__repr__(self):
     return "CvSize(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
 CvSize.__repr__ = _CvSize__repr__
         
-    
+        
+def _CvSize2D32f__repr__(self):
+    return "CvSize2D32f(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
+CvSize2D32f.__repr__ = _CvSize2D32f__repr__
+        
+        
 def _CvScalar__repr__(self):
     return "CvScalar(" + self.ndarray.__str__() + ")"
 CvScalar.__repr__ = _CvScalar__repr__

@@ -667,6 +667,36 @@ static inline ::cv::Point3_<float> cvt_Point3d_Point3f(::cv::Point3_<double> con
     return inst.operator ::cv::Point3_<float>();
 }
 
+static inline ::CvSize cvt_Size2i_CvSize(::cv::Size_< int > const &inst)
+{
+    return inst.operator ::CvSize();
+}
+
+static inline ::CvSize2D32f cvt_Size2i_CvSize2D32f(::cv::Size_< int > const &inst)
+{
+    return inst.operator ::CvSize2D32f();
+}
+
+static inline ::CvSize cvt_Size2d_CvSize(::cv::Size_< double > const &inst)
+{
+    return inst.operator ::CvSize();
+}
+
+static inline ::CvSize2D32f cvt_Size2d_CvSize2D32f(::cv::Size_< double > const &inst)
+{
+    return inst.operator ::CvSize2D32f();
+}
+
+static inline ::CvSize cvt_Size2f_CvSize(::cv::Size_< float > const &inst)
+{
+    return inst.operator ::CvSize();
+}
+
+static inline ::CvSize2D32f cvt_Size2f_CvSize2D32f(::cv::Size_< float > const &inst)
+{
+    return inst.operator ::CvSize2D32f();
+}
+
 static inline ::cv::Size_<float> cvt_Size2i_Size2f(::cv::Size_<int> const &inst)
 {
     return inst.operator ::cv::Size_<float>();
@@ -892,6 +922,12 @@ void register___dummy_struct_class(){
         bp::def("asPoint3d", &cvt_Point3f_Point3d, (bp::arg("inst_Point3f")));
         bp::def("asPoint3i", &cvt_Point3d_Point3i, (bp::arg("inst_Point3d")));
         bp::def("asPoint3f", &cvt_Point3d_Point3f, (bp::arg("inst_Point3d")));
+        bp::def("asCvSize", &cvt_Size2i_CvSize, (bp::arg("inst_Size2i")));
+        bp::def("asCvSize2D32f", &cvt_Size2i_CvSize2D32f, (bp::arg("inst_Size2i")));
+        bp::def("asCvSize", &cvt_Size2d_CvSize, (bp::arg("inst_Size2d")));
+        bp::def("asCvSize2D32f", &cvt_Size2d_CvSize2D32f, (bp::arg("inst_Size2d")));
+        bp::def("asCvSize", &cvt_Size2f_CvSize, (bp::arg("inst_Size2f")));
+        bp::def("asCvSize2D32f", &cvt_Size2f_CvSize2D32f, (bp::arg("inst_Size2f")));
         bp::def("asSize2f", &cvt_Size2i_Size2f, (bp::arg("inst_Size2i")));
         bp::def("asSize2d", &cvt_Size2i_Size2d, (bp::arg("inst_Size2i")));
         bp::def("asSize2i", &cvt_Size2f_Size2i, (bp::arg("inst_Size2f")));

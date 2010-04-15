@@ -10,9 +10,13 @@ namespace bp = boost::python;
 void register_CvTermCriteria_class(){
 
     bp::class_< CvTermCriteria >( "CvTermCriteria", "\nTermination criteria for iterative algorithms."
+    "\nWarning: This structure is obsolete. It exists only to support "
+    "\nbackward compatibility. Please use class TermCriteria instead."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvtermcriteria" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvTermCriteria >(), "\nTermination criteria for iterative algorithms."
+    "\nWarning: This structure is obsolete. It exists only to support "
+    "\nbackward compatibility. Please use class TermCriteria instead."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvtermcriteria" )    
         .def_readwrite( "epsilon", &CvTermCriteria::epsilon )    
