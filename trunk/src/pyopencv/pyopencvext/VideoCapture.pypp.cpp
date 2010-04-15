@@ -133,17 +133,21 @@ struct VideoCapture_wrapper : cv::VideoCapture, bp::wrapper< cv::VideoCapture > 
         return cv::VideoCapture::set( propId, value );
     }
 
-    VideoCapture &rshift( cv::Mat &x ){ return *this >> x; }
-
 };
+
+static cv::VideoCapture &rshift( cv::VideoCapture &inst, cv::Mat &x ){ return inst >> x; }
 
 void register_VideoCapture_class(){
 
     { //::cv::VideoCapture
         typedef bp::class_< VideoCapture_wrapper > VideoCapture_exposer_t;
-        VideoCapture_exposer_t VideoCapture_exposer = VideoCapture_exposer_t( "VideoCapture", bp::init< >() );
+        VideoCapture_exposer_t VideoCapture_exposer = VideoCapture_exposer_t( "VideoCapture", "\nClass for video capturing from video files or cameras."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#VideoCapture", bp::init< >() );
         bp::scope VideoCapture_scope( VideoCapture_exposer );
-        VideoCapture_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::VideoCapture >() );
+        VideoCapture_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::VideoCapture >(), "\nClass for video capturing from video files or cameras."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#VideoCapture" );
         VideoCapture_exposer.def( bp::init< std::string const & >(( bp::arg("filename") )) );
         bp::implicitly_convertible< std::string const &, cv::VideoCapture >();
         VideoCapture_exposer.def( bp::init< int >(( bp::arg("device") )) );
@@ -241,7 +245,7 @@ void register_VideoCapture_class(){
                 , ( bp::arg("propId"), bp::arg("value") ) );
         
         }
-        VideoCapture_exposer.def( "__rshift__", &VideoCapture_wrapper::rshift, bp::return_self<>() );
+        VideoCapture_exposer.def( "__rshift__", &::rshift, bp::return_self<>() );
     }
 
 }

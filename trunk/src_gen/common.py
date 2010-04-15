@@ -145,6 +145,19 @@ dict_decl_name_to_desc = {
     
     # TODO: append the rest of the C reference
 
+    # C -- highgui
+    ("::", "cvConvertImage"): ("Converts one image to another with an optional vertical flip.", "http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#convertimage"),
+    ("::", "cvDestroyAllWindows"): ("Destroys all of the HighGUI windows.", "http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#destroyallwindows"),
+    ("::", "cvDestroyWindow"): ("Destroys a window.", "http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#destroywindow"),
+    ("::", "cvGetWindowHandle"): ("Gets the window's handle by its name.", "http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#getwindowhandle"),
+    ("::", "cvGetWindowName"): ("Gets the window's name by its handle.", "http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#getwindowname"),
+    ("::", "cvInitSystem"): ("Initializes HighGUI.", "http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#initsystem"),
+    ("::", "cvMoveWindow"): ("Sets the position of the window.", "http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#movewindow"),
+    ("::", "cvResizeWindow"): ("Sets the window size.", "http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#resizewindow"),
+    ("::", "cvSetMouseCallback"): ("Assigns callback for mouse events.", "http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#setmousecallback"),
+
+    # TODO: append the rest of the C reference
+
     
     # C++ -- cxcore -- Basic Structures
     ("::", "XXXX"): ("", ""),
@@ -172,9 +185,43 @@ dict_decl_name_to_desc = {
     ("cv", "divide"): ("Performs per-element division of two arrays or a scalar by an array.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide"),
     ("cv", "determinant"): ("Returns determinant of a square floating-point matrix.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-determinant"),
     ("cv", "eigen"): ("Computes eigenvalues and eigenvectors of a symmetric matrix.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-eigen"),
+    ("cv", "exp"): ("Calculates the exponent of every array element.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-exp"),
+    ("cv", "extractImageCOI"): ("Extract the selected image channel.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-extractimagecoi"),
+    ("cv", "fastAtan2"): ("Calculates the angle of a 2D vector in degrees.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-fastatan2"),
+    ("cv", "flip"): ("Flips a 2D array around vertical, horizontal or both axes.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-flip"),
+    ("cv", "gemm"): ("Performs generalized matrix multiplication.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-gemm"),
+    ("cv", "getConvertElem"): ("Returns conversion function for a single pixel.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-getconvertelem"),
+    ("cv", "getOptimalDFTSize"): ("Returns optimal DFT size for a given vector size.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-getoptimaldftsize"),
+    ("cv", "idct"): ("Computes inverse Discrete Cosine Transform of a 1D or 2D array.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-idct"),
+    ("cv", "idft"): ("Computes inverse Discrete Fourier Transform of a 1D or 2D array.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-idft"),
+    ("cv", "inRange"): ("Checks if array elements lie between the elements of two other arrays.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange"),
+    ("cv", "invert"): ("Finds the inverse or pseudo-inverse of a matrix.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-invert"),
+    ("cv", "log"): ("Calculates the natural logarithm of every array element.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-log"),
+    ("cv", "LUT"): ("Performs a look-up table transform of an array.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-lut"),
+    ("cv", "magnitude"): ("Calculates magnitude of 2D vectors.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-magnitude"),
+    ("cv", "Mahalanobis"): ("Calculates the Mahalanobis distance between two vectors.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mahalanobis"),
+    ("cv", "max"): ("Calculates per-element maximum of two arrays or array and a scalar.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max"),
+    ("cv", "mean"): ("Calculates average (mean) of array elements.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean"),
     ("cv", "XXXXX"): (".", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-xxxx"),
     # TODO: append this
 
+    # TODO: append other C++ sections
+    
+    # C++ -- highgui
+    ("cv", "createTrackbar"): ("Creates a trackbar and attaches it to the specified window.", "http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-createtrackbar"),
+    ("cv", "getTrackbarPos"): ("Returns the trackbar position.", "http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-gettrackbarpos"),
+    ("cv", "imshow"): ("Displays the image in the specified window.", "http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-imshow"),
+    ("cv", "namedWindow"): ("Creates a window.", "http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-namedwindow"),
+    ("cv", "setTrackbarPos"): ("Sets the trackbar position.", "http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-settrackbarpos"),
+    ("cv", "waitKey"): ("Waits for a pressed key.", "http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-waitkey"),
+    ("cv", "imdecode"): ("Reads an image from a buffer in memory.", "http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imdecode"),
+    ("cv", "imencode"): ("Encode an image into a memory buffer.", "http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imencode"),
+    ("cv", "imread"): ("Loads an image from a file.", "http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imread"),
+    ("cv", "imwrite"): ("Saves an image to a specified file.", "http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imwrite"),
+    ("cv", "VideoCapture"): ("Class for video capturing from video files or cameras.", "http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#VideoCapture"),
+    ("cv", "VideoWriter"): ("Video writer class.", "http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#videowriter"),
+
+    # TODO: append other C++ sections
 }
 
 def add_decl_desc(decl):

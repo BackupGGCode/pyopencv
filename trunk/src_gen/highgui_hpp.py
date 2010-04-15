@@ -42,18 +42,39 @@ def generate_code(mb, cc, D, FT, CP):
         
     mb.free_fun('imencode')._transformer_creators.append(FT.arg_std_vector('buf', 2))
         
+    # createTrackbar
+    z = mb.free_fun('createTrackbar')
+    FT.expose_func(z, return_pointee=False, transformer_creators=[
+        FT.trackbar_callback2_func('onChange', 'userdata'), FT.from_address('value')])
+    FT.add_underscore(z)
+    cc.write('''
+def createTrackbar(trackbar_name, window_name, value, count, on_change=None, userdata=None):
+    if not isinstance(value, _CT.c_int):
+        value = _CT.c_int(value)
+
+    result, z = _PE._createTrackbar(trackbar_name, window_name, _CT.addressof(value), count, on_change, userdata=userdata)
+    if result:
+        cb_key = 'tracker-' + trackbar_name
+        _windows_callbacks.setdefault(window_name,{})[cb_key] = z
+    return result
+createTrackbar.__doc__ = _PE._createTrackbar.__doc__
+    ''')
+    mb.add_doc('createTrackbar', "'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_int, it keeps the current position of the trackbar at any time.", "'onChange' can be passed with None.")
+
     # VideoCapture
     z = mb.class_('VideoCapture')
-    z.include()    
+    mb.init_class(z)
     z.operator('>>').exclude()
-    z.add_wrapper_code('VideoCapture &rshift( cv::Mat &x ){ return *this >> x; }')
-    z.add_registration_code('def( "__rshift__", &VideoCapture_wrapper::rshift, bp::return_self<>() )')
+    z.add_declaration_code('static cv::VideoCapture &rshift( cv::VideoCapture &inst, cv::Mat &x ){ return inst >> x; }')
+    z.add_registration_code('def( "__rshift__", &::rshift, bp::return_self<>() )')
+    mb.finalize_class(z)
     
     # VideoWriter
     z = mb.class_('VideoWriter')
-    z.include()
+    mb.init_class(z)
     z.operator('<<').exclude()
-    z.add_wrapper_code('VideoWriter &lshift( cv::Mat const &x ){ return *this << x; }')
-    z.add_registration_code('def( "__lshift__", &VideoWriter_wrapper::lshift, bp::return_self<>() )')
+    z.add_declaration_code('static cv::VideoWriter &lshift( cv::VideoWriter &inst, cv::Mat const &x ){ return inst << x; }')
+    z.add_registration_code('def( "__lshift__", &::lshift, bp::return_self<>() )')
+    mb.finalize_class(z)
             
 

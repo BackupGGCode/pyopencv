@@ -16,9 +16,9 @@
 
 #include "boost/python/tuple.hpp"
 
-#include "with_ownershiplevel_postcall.hpp"
-
 #include "opencv_extra.hpp"
+
+#include "with_ownershiplevel_postcall.hpp"
 
 #include "boost/python/str.hpp"
 
@@ -741,6 +741,12 @@ static void cornerSubPix_897410ee39f221d5b382cc794de38b84( ::cv::Mat const & ima
     convert_from_vector_of_T_to_Mat(corners2, corners);
 }
 
+static boost::python::tuple createTrackbar_a255009d4d0c76c9c0a784685d2594ee( ::std::string const & trackbarname, ::std::string const & winname, unsigned int value, int count, boost::python::object onChange=bp::object(), boost::python::object userdata=bp::object() ){
+    bp::tuple z_onChange= bp::make_tuple(onChange, userdata);
+    int result = ::cv::createTrackbar(trackbarname, winname, reinterpret_cast< int * >( value ), count, sdTrackbarCallback2, (void *)(z_onChange.ptr()));
+    return bp::make_tuple( result, z_onChange );
+}
+
 static void cvAcc_ef7ed9735ac6fce4129e5e89f645482d( ::cv::Mat & image, ::cv::Mat & sum, ::cv::Mat mask=cv::Mat() ){
     ::cvAcc(get_CvMat_ptr(image), get_CvMat_ptr(sum), get_CvMat_ptr(mask));
 }
@@ -860,12 +866,6 @@ static boost::python::object cvCreateSpillTree_22146c3478f3d8c8ff22213a86f1b244(
     ::CvFeatureTree * result = ::cvCreateSpillTree(get_CvMat_ptr(raw_data), naive, rho, tau);
     typedef bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvFeatureTree * >( result ) );
-}
-
-static boost::python::tuple cvCreateTrackbar2_c093a5d4e70019414d270b02dacaafb5( char const * trackbar_name, char const * window_name, unsigned int value, int count, boost::python::object on_change, boost::python::object userdata=bp::object() ){
-    bp::tuple z_on_change= bp::make_tuple(on_change, userdata);
-    int result = ::cvCreateTrackbar2(trackbar_name, window_name, reinterpret_cast< int * >( value ), count, sdTrackbarCallback2, (void *)(z_on_change.ptr()));
-    return bp::make_tuple( result, z_on_change );
 }
 
 static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, ::cv::Mat & dst, int distance_type=2, int mask_size=3, cv::Mat mask=cv::Mat(), ::cv::Mat labels=cv::Mat() ){
@@ -2679,6 +2679,27 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cv::createTrackbar
+    
+        typedef boost::python::tuple ( *_createTrackbar_function_type )( ::std::string const &,::std::string const &,unsigned int,int,boost::python::object,boost::python::object );
+        
+        bp::def( 
+            "_createTrackbar"
+            , _createTrackbar_function_type( &createTrackbar_a255009d4d0c76c9c0a784685d2594ee )
+            , ( bp::arg("trackbarname"), bp::arg("winname"), bp::arg("value"), bp::arg("count"), bp::arg("onChange")=bp::object(), bp::arg("userdata")=bp::object() )
+            , "\nCreates a trackbar and attaches it to the specified window."
+    "\nWrapped function:"
+    "\n    createTrackbar"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-createtrackbar"
+    "\nArgument 'onChange' is a Python function that should look like below:"\
+    "\n    def on_trackbar(pos, user_data):"\
+    "\n        ..."\
+    "\nArgument 'userdata' is a Python object that is passed to function "\
+    "\non_trackbar() as 'user_data'." );
+    
+    }
+
     { //::cvAcc
     
         typedef void ( *acc_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat );
@@ -3010,8 +3031,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "convertImage"
             , convertImage_function_type( &cvConvertImage_9d5028440635df77832885475bf0ea00 )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0) )
-            , "\nWrapped function:"
+            , "\nConverts one image to another with an optional vertical flip."
+    "\nWrapped function:"
     "\n    cvConvertImage"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#convertimage"
     "\nArgument 'src':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
@@ -3097,24 +3121,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'raw_data':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
-    
-    }
-
-    { //::cvCreateTrackbar2
-    
-        typedef boost::python::tuple ( *_cvCreateTrackbar2_function_type )( char const *,char const *,unsigned int,int,boost::python::object,boost::python::object );
-        
-        bp::def( 
-            "_cvCreateTrackbar2"
-            , _cvCreateTrackbar2_function_type( &cvCreateTrackbar2_c093a5d4e70019414d270b02dacaafb5 )
-            , ( bp::arg("trackbar_name"), bp::arg("window_name"), bp::arg("value"), bp::arg("count"), bp::arg("on_change"), bp::arg("userdata")=bp::object() )
-            , "\nWrapped function:"
-    "\n    cvCreateTrackbar2"
-    "\nArgument 'on_change' is a Python function that should look like below:"\
-    "\n    def on_trackbar(pos, user_data):"\
-    "\n        ..."\
-    "\nArgument 'userdata' is a Python object that is passed to function "\
-    "\non_trackbar() as 'user_data'." );
     
     }
 
@@ -3427,8 +3433,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "initSystem"
             , initSystem_function_type( &cvInitSystem_f0aa383f9ae0b2f0bf89bbcb5e73da23 )
             , ( bp::arg("argv") )
-            , "\nWrapped function:"
+            , "\nInitializes HighGUI."
+    "\nWrapped function:"
     "\n    cvInitSystem"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#initsystem"
     "\nArgument 'argc':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument 'argv'."\
@@ -3979,8 +3988,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "_cvSetMouseCallback"
             , _cvSetMouseCallback_function_type( &cvSetMouseCallback_c212defec0903d7de57c5c0b0ee9b03d )
             , ( bp::arg("window_name"), bp::arg("on_mouse"), bp::arg("param")=bp::object() )
-            , "\nWrapped function:"
+            , "\nAssigns callback for mouse events."
+    "\nWrapped function:"
     "\n    cvSetMouseCallback"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#setmousecallback"
     "\nArgument 'on_mouse' is a Python function that should look like below:"\
     "\n    def on_mouse(event, x, y, flags, user_data):"\
     "\n        ..."\
@@ -4733,7 +4745,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "imencode"
             , imencode_function_type( &imencode_7058867f40db2ceceebdc74b4943c841 )
             , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
-            , "\nArgument 'params':"\
+            , "\nEncode an image into a memory buffer."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imencode"
+    "\nArgument 'params':"\
     "\n    C/C++ type: ::std::vector< int > const &."\
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
@@ -4756,7 +4771,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "imwrite"
             , imwrite_function_type( &imwrite_08123c4d4c07e7af51577328378c9683 )
             , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
-            , "\nArgument 'params':"\
+            , "\nSaves an image to a specified file."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imwrite"
+    "\nArgument 'params':"\
     "\n    C/C++ type: ::std::vector< int > const &."\
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\

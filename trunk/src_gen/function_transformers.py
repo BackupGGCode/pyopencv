@@ -612,6 +612,9 @@ class trackbar_callback2_func_t(transformer.transformer_t):
         w_arg2 = controller.find_wrapper_arg( self.arg2.name )
         w_arg2.type = _D.dummy_type_t( "boost::python::object" )
 
+        if self.arg1.default_value == '0' or self.arg1.default_value == 'NULL':
+            w_arg1.default_value = 'bp::object()'
+        
         if self.arg2.default_value == '0' or self.arg2.default_value == 'NULL':
             w_arg2.default_value = 'bp::object()'
         

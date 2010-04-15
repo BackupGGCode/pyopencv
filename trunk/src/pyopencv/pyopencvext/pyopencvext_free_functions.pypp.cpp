@@ -60,7 +60,10 @@ void register_free_functions(){
         bp::def( 
             "LUT"
             , LUT_function_type( &::cv::LUT )
-            , ( bp::arg("a"), bp::arg("lut"), bp::arg("b") ) );
+            , ( bp::arg("a"), bp::arg("lut"), bp::arg("b") )
+            , "\nPerforms a look-up table transform of an array."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-lut" );
     
     }
 
@@ -82,7 +85,10 @@ void register_free_functions(){
         bp::def( 
             "Mahalanobis"
             , Mahalanobis_function_type( &::cv::Mahalanobis )
-            , ( bp::arg("v1"), bp::arg("v2"), bp::arg("icovar") ) );
+            , ( bp::arg("v1"), bp::arg("v2"), bp::arg("icovar") )
+            , "\nCalculates the Mahalanobis distance between two vectors."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mahalanobis" );
     
     }
 
@@ -1446,8 +1452,11 @@ void register_free_functions(){
         bp::def( 
             "_cvDestroyAllWindows"
             , _cvDestroyAllWindows_function_type( &::cvDestroyAllWindows )
-            , "\nWrapped function:"
-    "\n    cvDestroyAllWindows" );
+            , "\nDestroys all of the HighGUI windows."
+    "\nWrapped function:"
+    "\n    cvDestroyAllWindows"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#destroyallwindows" );
     
     }
 
@@ -1459,8 +1468,11 @@ void register_free_functions(){
             "_cvDestroyWindow"
             , _cvDestroyWindow_function_type( &::cvDestroyWindow )
             , ( bp::arg("name") )
-            , "\nWrapped function:"
-    "\n    cvDestroyWindow" );
+            , "\nDestroys a window."
+    "\nWrapped function:"
+    "\n    cvDestroyWindow"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#destroywindow" );
     
     }
 
@@ -1759,8 +1771,11 @@ void register_free_functions(){
             "getWindowName"
             , getWindowName_function_type( &::cvGetWindowName )
             , ( bp::arg("window_handle") )
-            , "\nWrapped function:"
-    "\n    cvGetWindowName" );
+            , "\nGets the window's name by its handle."
+    "\nWrapped function:"
+    "\n    cvGetWindowName"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#getwindowname" );
     
     }
 
@@ -1851,8 +1866,11 @@ void register_free_functions(){
             "moveWindow"
             , moveWindow_function_type( &::cvMoveWindow )
             , ( bp::arg("name"), bp::arg("x"), bp::arg("y") )
-            , "\nWrapped function:"
-    "\n    cvMoveWindow" );
+            , "\nSets the position of the window."
+    "\nWrapped function:"
+    "\n    cvMoveWindow"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#movewindow" );
     
     }
 
@@ -1982,8 +2000,11 @@ void register_free_functions(){
             "resizeWindow"
             , resizeWindow_function_type( &::cvResizeWindow )
             , ( bp::arg("name"), bp::arg("width"), bp::arg("height") )
-            , "\nWrapped function:"
-    "\n    cvResizeWindow" );
+            , "\nSets the window size."
+    "\nWrapped function:"
+    "\n    cvResizeWindow"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#resizewindow" );
     
     }
 
@@ -2635,7 +2656,10 @@ void register_free_functions(){
         bp::def( 
             "exp"
             , exp_function_type( &::cv::exp )
-            , ( bp::arg("a"), bp::arg("b") ) );
+            , ( bp::arg("a"), bp::arg("b") )
+            , "\nCalculates the exponent of every array element."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-exp" );
     
     }
 
@@ -2646,7 +2670,10 @@ void register_free_functions(){
         bp::def( 
             "exp"
             , exp_function_type( &::cv::exp )
-            , ( bp::arg("a"), bp::arg("b") ) );
+            , ( bp::arg("a"), bp::arg("b") )
+            , "\nCalculates the exponent of every array element."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-exp" );
     
     }
 
@@ -2657,7 +2684,10 @@ void register_free_functions(){
         bp::def( 
             "fastAtan2"
             , fastAtan2_function_type( &::cv::fastAtan2 )
-            , ( bp::arg("y"), bp::arg("x") ) );
+            , ( bp::arg("y"), bp::arg("x") )
+            , "\nCalculates the angle of a 2D vector in degrees."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-fastatan2" );
     
     }
 
@@ -2745,7 +2775,10 @@ void register_free_functions(){
         bp::def( 
             "flip"
             , flip_function_type( &::cv::flip )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("flipCode") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("flipCode") )
+            , "\nFlips a 2D array around vertical, horizontal or both axes."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-flip" );
     
     }
 
@@ -2767,7 +2800,10 @@ void register_free_functions(){
         bp::def( 
             "gemm"
             , gemm_function_type( &::cv::gemm )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("alpha"), bp::arg("c"), bp::arg("gamma"), bp::arg("d"), bp::arg("flags")=(int)(0) ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("alpha"), bp::arg("c"), bp::arg("gamma"), bp::arg("d"), bp::arg("flags")=(int)(0) )
+            , "\nPerforms generalized matrix multiplication."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-gemm" );
     
     }
 
@@ -2930,7 +2966,10 @@ void register_free_functions(){
         bp::def( 
             "getOptimalDFTSize"
             , getOptimalDFTSize_function_type( &::cv::getOptimalDFTSize )
-            , ( bp::arg("vecsize") ) );
+            , ( bp::arg("vecsize") )
+            , "\nReturns optimal DFT size for a given vector size."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-getoptimaldftsize" );
     
     }
 
@@ -3059,7 +3098,10 @@ void register_free_functions(){
         bp::def( 
             "idct"
             , idct_function_type( &::cv::idct )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0) ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0) )
+            , "\nComputes inverse Discrete Cosine Transform of a 1D or 2D array."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-idct" );
     
     }
 
@@ -3070,7 +3112,10 @@ void register_free_functions(){
         bp::def( 
             "idft"
             , idft_function_type( &::cv::idft )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0), bp::arg("nonzeroRows")=(int)(0) ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0), bp::arg("nonzeroRows")=(int)(0) )
+            , "\nComputes inverse Discrete Fourier Transform of a 1D or 2D array."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-idft" );
     
     }
 
@@ -3081,7 +3126,10 @@ void register_free_functions(){
         bp::def( 
             "imdecode"
             , imdecode_function_type( &::cv::imdecode )
-            , ( bp::arg("buf"), bp::arg("flags") ) );
+            , ( bp::arg("buf"), bp::arg("flags") )
+            , "\nReads an image from a buffer in memory."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imdecode" );
     
     }
 
@@ -3092,7 +3140,10 @@ void register_free_functions(){
         bp::def( 
             "imread"
             , imread_function_type( &::cv::imread )
-            , ( bp::arg("filename"), bp::arg("flags")=(int)(1) ) );
+            , ( bp::arg("filename"), bp::arg("flags")=(int)(1) )
+            , "\nLoads an image from a file."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imread" );
     
     }
 
@@ -3103,7 +3154,10 @@ void register_free_functions(){
         bp::def( 
             "imshow"
             , imshow_function_type( &::cv::imshow )
-            , ( bp::arg("winname"), bp::arg("mat") ) );
+            , ( bp::arg("winname"), bp::arg("mat") )
+            , "\nDisplays the image in the specified window."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-imshow" );
     
     }
 
@@ -3114,7 +3168,10 @@ void register_free_functions(){
         bp::def( 
             "inRange"
             , inRange_function_type( &::cv::inRange )
-            , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") ) );
+            , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") )
+            , "\nChecks if array elements lie between the elements of two other arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange" );
     
     }
 
@@ -3125,7 +3182,10 @@ void register_free_functions(){
         bp::def( 
             "inRange"
             , inRange_function_type( &::cv::inRange )
-            , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") ) );
+            , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") )
+            , "\nChecks if array elements lie between the elements of two other arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange" );
     
     }
 
@@ -3136,7 +3196,10 @@ void register_free_functions(){
         bp::def( 
             "inRange"
             , inRange_function_type( &::cv::inRange )
-            , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") ) );
+            , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") )
+            , "\nChecks if array elements lie between the elements of two other arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange" );
     
     }
 
@@ -3147,7 +3210,10 @@ void register_free_functions(){
         bp::def( 
             "inRange"
             , inRange_function_type( &::cv::inRange )
-            , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") ) );
+            , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") )
+            , "\nChecks if array elements lie between the elements of two other arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange" );
     
     }
 
@@ -3213,7 +3279,10 @@ void register_free_functions(){
         bp::def( 
             "invert"
             , invert_function_type( &::cv::invert )
-            , ( bp::arg("a"), bp::arg("c"), bp::arg("flags")=int(::cv::DECOMP_LU) ) );
+            , ( bp::arg("a"), bp::arg("c"), bp::arg("flags")=int(::cv::DECOMP_LU) )
+            , "\nFinds the inverse or pseudo-inverse of a matrix."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-invert" );
     
     }
 
@@ -3257,7 +3326,10 @@ void register_free_functions(){
         bp::def( 
             "log"
             , log_function_type( &::cv::log )
-            , ( bp::arg("a"), bp::arg("b") ) );
+            , ( bp::arg("a"), bp::arg("b") )
+            , "\nCalculates the natural logarithm of every array element."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-log" );
     
     }
 
@@ -3268,7 +3340,10 @@ void register_free_functions(){
         bp::def( 
             "log"
             , log_function_type( &::cv::log )
-            , ( bp::arg("a"), bp::arg("b") ) );
+            , ( bp::arg("a"), bp::arg("b") )
+            , "\nCalculates the natural logarithm of every array element."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-log" );
     
     }
 
@@ -3279,7 +3354,10 @@ void register_free_functions(){
         bp::def( 
             "magnitude"
             , magnitude_function_type( &::cv::magnitude )
-            , ( bp::arg("x"), bp::arg("y"), bp::arg("magnitude") ) );
+            , ( bp::arg("x"), bp::arg("y"), bp::arg("magnitude") )
+            , "\nCalculates magnitude of 2D vectors."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-magnitude" );
     
     }
 
@@ -3323,7 +3401,10 @@ void register_free_functions(){
         bp::def( 
             "max"
             , max_function_type( &::cv::max )
-            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") )
+            , "\nCalculates per-element maximum of two arrays or array and a scalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max" );
     
     }
 
@@ -3334,7 +3415,10 @@ void register_free_functions(){
         bp::def( 
             "max"
             , max_function_type( &::cv::max )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
+            , "\nCalculates per-element maximum of two arrays or array and a scalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max" );
     
     }
 
@@ -3345,7 +3429,10 @@ void register_free_functions(){
         bp::def( 
             "max"
             , max_function_type( &::cv::max )
-            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") )
+            , "\nCalculates per-element maximum of two arrays or array and a scalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max" );
     
     }
 
@@ -3356,7 +3443,10 @@ void register_free_functions(){
         bp::def( 
             "max"
             , max_function_type( &::cv::max )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
+            , "\nCalculates per-element maximum of two arrays or array and a scalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max" );
     
     }
 
@@ -3367,7 +3457,10 @@ void register_free_functions(){
         bp::def( 
             "mean"
             , mean_function_type( &::cv::mean )
-            , ( bp::arg("m"), bp::arg("mask") ) );
+            , ( bp::arg("m"), bp::arg("mask") )
+            , "\nCalculates average (mean) of array elements."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean" );
     
     }
 
@@ -3378,7 +3471,10 @@ void register_free_functions(){
         bp::def( 
             "mean"
             , mean_function_type( &::cv::mean )
-            , ( bp::arg("m") ) );
+            , ( bp::arg("m") )
+            , "\nCalculates average (mean) of array elements."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean" );
     
     }
 
@@ -3389,7 +3485,10 @@ void register_free_functions(){
         bp::def( 
             "mean"
             , mean_function_type( &::cv::mean )
-            , ( bp::arg("m"), bp::arg("mask") ) );
+            , ( bp::arg("m"), bp::arg("mask") )
+            , "\nCalculates average (mean) of array elements."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean" );
     
     }
 
@@ -3400,7 +3499,10 @@ void register_free_functions(){
         bp::def( 
             "mean"
             , mean_function_type( &::cv::mean )
-            , ( bp::arg("m") ) );
+            , ( bp::arg("m") )
+            , "\nCalculates average (mean) of array elements."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean" );
     
     }
 
@@ -3597,7 +3699,10 @@ void register_free_functions(){
         bp::def( 
             "namedWindow"
             , namedWindow_function_type( &::cv::namedWindow )
-            , ( bp::arg("winname"), bp::arg("flags")=(int)(1) ) );
+            , ( bp::arg("winname"), bp::arg("flags")=(int)(1) )
+            , "\nCreates a window."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-namedwindow" );
     
     }
 
@@ -4355,7 +4460,10 @@ void register_free_functions(){
         bp::def( 
             "waitKey"
             , waitKey_function_type( &::cv::waitKey )
-            , ( bp::arg("delay")=(int)(0) ) );
+            , ( bp::arg("delay")=(int)(0) )
+            , "\nWaits for a pressed key."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-waitkey" );
     
     }
 
