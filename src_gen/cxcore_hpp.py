@@ -285,7 +285,7 @@ static boost::shared_ptr<cv::Mat> Mat__init3__(bp::object const &arg1, bp::objec
         'uint8': 'unsigned char',
         'int16': 'short',
         'uint16': 'unsigned short',
-        'int32': 'int', # workaround, not working for 64-bit
+        'int': 'int',
         'float32': 'float',
         'float64': 'double',
         'Vec2b': 'cv::Vec2b',

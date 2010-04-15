@@ -40,7 +40,22 @@ template<> inline int cvtypeof<char>() { return CV_8S; }
 template<> inline int cvtypeof<unsigned char>() { return CV_8U; }
 template<> inline int cvtypeof<short>() { return CV_16S; }
 template<> inline int cvtypeof<unsigned short>() { return CV_16U; }
-template<> inline int cvtypeof<long>() { return CV_32S; }
+template<> inline int cvtypeof<long>()
+{
+    if(sizeof(int)==sizeof(long))
+        return CV_32S;        
+    PyErr_SetString(PyExc_TypeError, "Unconvertable type 'long' because it is 64-bit and there is no equivalent CV_64S type.");
+    throw bp::error_already_set(); 
+    return -1;
+}
+template<> inline int cvtypeof<long long>()
+{
+    if(sizeof(int)==sizeof(long long))
+        return CV_32S;        
+    PyErr_SetString(PyExc_TypeError, "Unconvertable type 'long long' because it is 64-bit and there is no equivalent CV_64S type.");
+    throw bp::error_already_set(); 
+    return -1;
+}
 template<> inline int cvtypeof<int>() { return CV_32S; }
 template<> inline int cvtypeof<float>() { return CV_32F; }
 template<> inline int cvtypeof<double>() { return CV_64F; }

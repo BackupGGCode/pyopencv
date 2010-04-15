@@ -99,16 +99,18 @@ inline int elem_type_of()
 }
 
 // basic
-template<> inline int elem_type_of<char>() { return CV_8S; }
-template<> inline int elem_type_of<unsigned char>() { return CV_8U; }
-template<> inline int elem_type_of<short>() { return CV_16S; }
-template<> inline int elem_type_of<unsigned short>() { return CV_16U; }
-template<> inline int elem_type_of<long>() { return CV_32S; } // workaround, only works for 32-bit
-// template<> inline int elem_type_of<unsigned long>() { return CV_32U; } // workaround, only works for 32-bit
-template<> inline int elem_type_of<int>() { return CV_32S; } // workaround, only works for 32-bit
-// template<> inline int elem_type_of<unsigned int>() { return CV_32U; } // workaround, only works for 32-bit
-template<> inline int elem_type_of<float>() { return CV_32F; }
-template<> inline int elem_type_of<double>() { return CV_64F; }
+template<> inline int elem_type_of<char>() { return cvtypeof<char>(); }
+template<> inline int elem_type_of<unsigned char>() { return cvtypeof<unsigned char>(); }
+template<> inline int elem_type_of<short>() { return cvtypeof<short>(); }
+template<> inline int elem_type_of<unsigned short>() { return cvtypeof<unsigned short>(); }
+template<> inline int elem_type_of<int>() { return cvtypeof<int>(); }
+// template<> inline int elem_type_of<unsigned int>() { return cvtypeof<unsigned ing>(); }
+template<> inline int elem_type_of<long>() { return cvtypeof<long>(); }
+// template<> inline int elem_type_of<unsigned long>() { return cvtypeof<unsigned long>(); }
+template<> inline int elem_type_of<long long>() { return cvtypeof<long long>(); }
+// template<> inline int elem_type_of<unsigned long long>() { return cvtypeof<unsigned long long>(); }
+template<> inline int elem_type_of<float>() { return cvtypeof<float>(); }
+template<> inline int elem_type_of<double>() { return cvtypeof<double>(); }
 
 // Vec-like
 template<> inline int elem_type_of<cv::Vec2b>() { return CV_8U; }
@@ -120,9 +122,9 @@ template<> inline int elem_type_of<cv::Vec4s>() { return CV_16S; }
 template<> inline int elem_type_of<cv::Vec2w>() { return CV_16U; }
 template<> inline int elem_type_of<cv::Vec3w>() { return CV_16U; }
 template<> inline int elem_type_of<cv::Vec4w>() { return CV_16U; }
-template<> inline int elem_type_of<cv::Vec2i>() { return CV_32S; } // workaround, only works for 32-bit
-template<> inline int elem_type_of<cv::Vec3i>() { return CV_32S; } // workaround, only works for 32-bit
-template<> inline int elem_type_of<cv::Vec4i>() { return CV_32S; } // workaround, only works for 32-bit
+template<> inline int elem_type_of<cv::Vec2i>() { return CV_32S; }
+template<> inline int elem_type_of<cv::Vec3i>() { return CV_32S; }
+template<> inline int elem_type_of<cv::Vec4i>() { return CV_32S; }
 template<> inline int elem_type_of<cv::Vec2f>() { return CV_32F; }
 template<> inline int elem_type_of<cv::Vec3f>() { return CV_32F; }
 template<> inline int elem_type_of<cv::Vec4f>() { return CV_32F; }
@@ -133,21 +135,21 @@ template<> inline int elem_type_of<cv::Vec4d>() { return CV_64F; }
 template<> inline int elem_type_of<cv::Vec6d>() { return CV_64F; }
 
 // Point-like
-template<> inline int elem_type_of<cv::Point2i>() { return CV_32S; } // workaround, only works for 32-bit
+template<> inline int elem_type_of<cv::Point2i>() { return CV_32S; }
 template<> inline int elem_type_of<cv::Point2f>() { return CV_32F; }
 template<> inline int elem_type_of<cv::Point2d>() { return CV_64F; }
-template<> inline int elem_type_of<cv::Point3i>() { return CV_32S; } // workaround, only works for 32-bit
+template<> inline int elem_type_of<cv::Point3i>() { return CV_32S; }
 template<> inline int elem_type_of<cv::Point3f>() { return CV_32F; }
 template<> inline int elem_type_of<cv::Point3d>() { return CV_64F; }
 
 // Rect-like
-template<> inline int elem_type_of<cv::Rect>() { return CV_32S; } // workaround, only works for 32-bit
+template<> inline int elem_type_of<cv::Rect>() { return CV_32S; }
 template<> inline int elem_type_of<cv::Rectf>() { return CV_32F; }
 template<> inline int elem_type_of<cv::Rectd>() { return CV_64F; }
 template<> inline int elem_type_of<cv::RotatedRect>() { return CV_32F; }
 
 // Size-like
-template<> inline int elem_type_of<cv::Size2i>() { return CV_32S; } // workaround, only works for 32-bit
+template<> inline int elem_type_of<cv::Size2i>() { return CV_32S; }
 template<> inline int elem_type_of<cv::Size2f>() { return CV_32F; }
 template<> inline int elem_type_of<cv::Size2d>() { return CV_64F; }
 
@@ -155,7 +157,7 @@ template<> inline int elem_type_of<cv::Size2d>() { return CV_64F; }
 template<> inline int elem_type_of<cv::Scalar>() { return CV_64F; }
 
 // Range
-template<> inline int elem_type_of<cv::Range>() { return CV_32S; } // workaround, only works for 32-bit
+template<> inline int elem_type_of<cv::Range>() { return CV_32S; }
 
 
 // ------------------------------------------------------------------------------------------------
