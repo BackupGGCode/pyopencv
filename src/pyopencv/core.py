@@ -2526,23 +2526,6 @@ CV_FOURCC_PROMPT = -1 # Windows only
 CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
 
     
-def createTrackbar(trackbar_name, window_name, value, count, on_change=None, userdata=None):
-    if not isinstance(value, _CT.c_int):
-        value = _CT.c_int(value)
-
-    result, z = _PE._cvCreateTrackbar2(trackbar_name, window_name, _CT.addressof(value), count, on_change, userdata=userdata)
-    if result:
-        cb_key = 'tracker-' + trackbar_name
-        _windows_callbacks.setdefault(window_name,{})[cb_key] = z
-    return result
-createTrackbar.__doc__ = _PE._cvCreateTrackbar2.__doc__
-    
-_str = "\n    'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_int, it keeps the current position of the trackbar at any time.\n    'on_change' can be passed with None."
-if createTrackbar.__doc__ is None:
-    createTrackbar.__doc__ = _str
-else:
-    createTrackbar.__doc__ += _str
-
 def setMouseCallback(window_name, on_mouse, param=None):
     _windows_callbacks.setdefault(window_name,{})["mouse"] = _PE._cvSetMouseCallback(window_name, on_mouse, param=param)
 setMouseCallback.__doc__ = _PE._cvSetMouseCallback.__doc__
@@ -2578,6 +2561,23 @@ atexit.register(destroyAllWindows)
 #-----------------------------------------------------------------------------
 
     
+def createTrackbar(trackbar_name, window_name, value, count, on_change=None, userdata=None):
+    if not isinstance(value, _CT.c_int):
+        value = _CT.c_int(value)
+
+    result, z = _PE._createTrackbar(trackbar_name, window_name, _CT.addressof(value), count, on_change, userdata=userdata)
+    if result:
+        cb_key = 'tracker-' + trackbar_name
+        _windows_callbacks.setdefault(window_name,{})[cb_key] = z
+    return result
+createTrackbar.__doc__ = _PE._createTrackbar.__doc__
+    
+_str = "\n    'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_int, it keeps the current position of the trackbar at any time.\n    'onChange' can be passed with None."
+if createTrackbar.__doc__ is None:
+    createTrackbar.__doc__ = _str
+else:
+    createTrackbar.__doc__ += _str
+
 #=============================================================================
 # sdopencv
 #=============================================================================

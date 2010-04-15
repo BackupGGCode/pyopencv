@@ -54,14 +54,18 @@ struct VideoWriter_wrapper : cv::VideoWriter, bp::wrapper< cv::VideoWriter > {
         return cv::VideoWriter::open( filename, fourcc, fps, frameSize, isColor );
     }
 
-    VideoWriter &lshift( cv::Mat const &x ){ return *this << x; }
-
 };
+
+static cv::VideoWriter &lshift( cv::VideoWriter &inst, cv::Mat const &x ){ return inst << x; }
 
 void register_VideoWriter_class(){
 
-    bp::class_< VideoWriter_wrapper >( "VideoWriter", bp::init< >() )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::VideoWriter >() )    
+    bp::class_< VideoWriter_wrapper >( "VideoWriter", "\nVideo writer class."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#videowriter", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::VideoWriter >(), "\nVideo writer class."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#videowriter" )    
         .def( bp::init< std::string const &, int, double, cv::Size, bp::optional< bool > >(( bp::arg("filename"), bp::arg("fourcc"), bp::arg("fps"), bp::arg("frameSize"), bp::arg("isColor")=(bool)(true) )) )    
         .def( 
             "isOpened"
@@ -72,6 +76,6 @@ void register_VideoWriter_class(){
             , (bool ( ::cv::VideoWriter::* )( ::std::string const &,int,double,::cv::Size,bool ) )(&::cv::VideoWriter::open)
             , (bool ( VideoWriter_wrapper::* )( ::std::string const &,int,double,::cv::Size,bool ) )(&VideoWriter_wrapper::default_open)
             , ( bp::arg("filename"), bp::arg("fourcc"), bp::arg("fps"), bp::arg("frameSize"), bp::arg("isColor")=(bool)(true) ) )    
-        .def( "__lshift__", &VideoWriter_wrapper::lshift, bp::return_self<>() );
+        .def( "__lshift__", &::lshift, bp::return_self<>() );
 
 }
