@@ -667,6 +667,7 @@ static bp::tuple children(cv::FileNode const &inst)
     # minMaxLoc
     for z in mb.free_funs('minMaxLoc'):
         z.include()
+        z._transformer_kwds['alias'] = 'minMaxLoc'
         for i in xrange(1,5):
             z._transformer_creators.append(FT.output_type1(i))
     

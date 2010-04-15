@@ -4899,15 +4899,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::minMaxLoc
     
-        typedef boost::python::tuple ( *minMaxLoc_5898fb91ebb58d1df6569148b5c62cce_function_type )( ::cv::SparseMat const & );
+        typedef boost::python::tuple ( *minMaxLoc_function_type )( ::cv::SparseMat const & );
         
         bp::def( 
-            "minMaxLoc_5898fb91ebb58d1df6569148b5c62cce"
-            , minMaxLoc_5898fb91ebb58d1df6569148b5c62cce_function_type( &minMaxLoc_5898fb91ebb58d1df6569148b5c62cce )
+            "minMaxLoc"
+            , minMaxLoc_function_type( &minMaxLoc_5898fb91ebb58d1df6569148b5c62cce )
             , ( bp::arg("a") )
             , "\nFinds global minimum and maximum in a whole array or sub-array."
-    "\nWrapped function:"
-    "\n    minMaxLoc"
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
     "\nArgument 'maxVal':"\
@@ -4935,15 +4933,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::minMaxLoc
     
-        typedef boost::python::tuple ( *minMaxLoc_794fc6a6cce59bf895fdda1a015e64b1_function_type )( ::cv::MatND const &,::cv::MatND const & );
+        typedef boost::python::tuple ( *minMaxLoc_function_type )( ::cv::MatND const &,::cv::MatND const & );
         
         bp::def( 
-            "minMaxLoc_794fc6a6cce59bf895fdda1a015e64b1"
-            , minMaxLoc_794fc6a6cce59bf895fdda1a015e64b1_function_type( &minMaxLoc_794fc6a6cce59bf895fdda1a015e64b1 )
+            "minMaxLoc"
+            , minMaxLoc_function_type( &minMaxLoc_794fc6a6cce59bf895fdda1a015e64b1 )
             , ( bp::arg("a"), bp::arg("mask")=cv::MatND() )
             , "\nFinds global minimum and maximum in a whole array or sub-array."
-    "\nWrapped function:"
-    "\n    minMaxLoc"
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
     "\nArgument 'maxVal':"\
@@ -4971,15 +4967,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::minMaxLoc
     
-        typedef boost::python::tuple ( *minMaxLoc_35f2a2e80fcf305e891ee746d58be725_function_type )( ::cv::Mat const &,::cv::Mat const & );
+        typedef boost::python::tuple ( *minMaxLoc_function_type )( ::cv::Mat const &,::cv::Mat const & );
         
         bp::def( 
-            "minMaxLoc_35f2a2e80fcf305e891ee746d58be725"
-            , minMaxLoc_35f2a2e80fcf305e891ee746d58be725_function_type( &minMaxLoc_35f2a2e80fcf305e891ee746d58be725 )
+            "minMaxLoc"
+            , minMaxLoc_function_type( &minMaxLoc_35f2a2e80fcf305e891ee746d58be725 )
             , ( bp::arg("a"), bp::arg("mask")=cv::Mat() )
             , "\nFinds global minimum and maximum in a whole array or sub-array."
-    "\nWrapped function:"
-    "\n    minMaxLoc"
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
     "\nArgument 'minLoc':"\
