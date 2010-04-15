@@ -535,7 +535,7 @@ class output_type1_t( transformer.transformer_t ):
 
         if not _D.is_pointer( self.arg.type ):
             raise ValueError( '%s\nin order to use "output_type1" transformation, argument %s type must be a pointer (got %s).' ) \
-                  % ( function, self.arg_ref.name, arg.type)
+                  % ( function, self.arg.name, arg.type)
 
     def __str__(self):
         return "output_type1(%d)"%(self.arg.name)
@@ -1316,7 +1316,8 @@ class arg_std_vector_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         # intermediate variable
-        v = controller.declare_variable( _D.remove_const(_D.remove_reference(self.arg.type)), self.arg.name )
+        vect_str = _D.remove_const(_D.remove_reference(self.arg.type)).partial_decl_string
+        v = controller.declare_variable( vect_str, self.arg.name )
         
         # conversion code
         if is_elem_type_fixed_size(self.elem_type): # cv::Mat-equivalent
@@ -1333,7 +1334,12 @@ class arg_std_vector_t(transformer_t):
                 doc_list_of_Mat(self.function, self.arg)
                 common.add_func_arg_doc(self.function, self.arg, "Invoke asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)].")
             else:
-                doc_list(self.function, self.arg)
+                if 'MatND' in self.elem_type.decl_string: # workaround, assume list of MatND
+                    doc_list_of_MatND(self.function, self.arg)
+                elif 'Mat' in self.elem_type.decl_string: # workaround, assume list of Mat
+                    doc_list_of_Mat(self.function, self.arg)
+                else:
+                    doc_list(self.function, self.arg)
 
         
         # check argument kind

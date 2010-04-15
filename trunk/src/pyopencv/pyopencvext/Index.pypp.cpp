@@ -10,11 +10,11 @@
 namespace bp = boost::python;
 
 static boost::python::tuple knnSearch_b27556db8034853ef4327f12b2570dc5( ::cv::flann::Index & inst, cv::Mat const & queries, int knn, ::cv::flann::SearchParams const & params ){
-    std::vector<int, std::allocator<int> > indices2;
+    ::std::vector< int > indices2;
     cv::Mat indices3;
-    std::vector<float, std::allocator<float> > dists2;
+    ::std::vector< float > dists2;
     cv::Mat dists3;
-    std::vector<float, std::allocator<float> > queries2;
+    ::std::vector< float > queries2;
     convert_from_Mat_to_vector_of_T(queries, queries2);
     inst.knnSearch(queries2, indices2, dists2, knn, params);
     convert_from_vector_of_T_to_Mat(indices2, indices3);
@@ -23,11 +23,11 @@ static boost::python::tuple knnSearch_b27556db8034853ef4327f12b2570dc5( ::cv::fl
 }
 
 static boost::python::tuple radiusSearch_9595058c6922b247b15bed6a4e25038c( ::cv::flann::Index & inst, cv::Mat const & query, float radius, ::cv::flann::SearchParams const & params ){
-    std::vector<int, std::allocator<int> > indices2;
+    ::std::vector< int > indices2;
     cv::Mat indices3;
-    std::vector<float, std::allocator<float> > dists2;
+    ::std::vector< float > dists2;
     cv::Mat dists3;
-    std::vector<float, std::allocator<float> > query2;
+    ::std::vector< float > query2;
     convert_from_Mat_to_vector_of_T(query, query2);
     int result = inst.radiusSearch(query2, indices2, dists2, radius, params);
     convert_from_vector_of_T_to_Mat(indices2, indices3);

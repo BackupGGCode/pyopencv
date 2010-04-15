@@ -11,7 +11,7 @@
 namespace bp = boost::python;
 
 static void calcHist_7e977de6e27427b53a27b192cb2b370c( ::sdopencv::IntegralHistogram & inst, ::cv::Rect rect, cv::Mat & out_hist ){
-    std::vector<int, std::allocator<int> > out_hist2;
+    ::std::vector< int > out_hist2;
     convert_from_Mat_to_vector_of_T(out_hist, out_hist2);
     inst.calcHist(rect, out_hist2);
     convert_from_vector_of_T_to_Mat(out_hist2, out_hist);

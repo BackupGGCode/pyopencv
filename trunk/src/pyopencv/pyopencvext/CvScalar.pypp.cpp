@@ -37,6 +37,7 @@ void register_CvScalar_class(){
         typedef bp::class_< CvScalar_wrapper > CvScalar_exposer_t;
         CvScalar_exposer_t CvScalar_exposer = CvScalar_exposer_t( "CvScalar", "\nA container for 1-,2-,3- or 4-tuples of doubles.CvScalar is always "
     "\nrepresented as a 4-tuple.."
+    "\n"
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Scalar instead."
     "\nReference:"
@@ -44,6 +45,7 @@ void register_CvScalar_class(){
         bp::scope CvScalar_scope( CvScalar_exposer );
         CvScalar_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< CvScalar >(), "\nA container for 1-,2-,3- or 4-tuples of doubles.CvScalar is always "
     "\nrepresented as a 4-tuple.."
+    "\n"
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Scalar instead."
     "\nReference:"

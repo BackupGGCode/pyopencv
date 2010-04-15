@@ -10,7 +10,7 @@
 namespace bp = boost::python;
 
 static boost::python::object __call___3db7f85e36cc2236e94ccc0caba03336( ::cv::MSER const & inst, ::cv::Mat const & image, ::cv::Mat const & mask ){
-    std::vector<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >, std::allocator<std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > > > msers2;
+    ::std::vector< std::vector< cv::Point_<int> > > msers2;
     bp::list msers3;
     inst.operator()(image, msers2, mask);
     convert_from_T_to_object(msers2, msers3);
