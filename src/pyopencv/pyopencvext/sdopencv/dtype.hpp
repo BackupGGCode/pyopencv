@@ -45,6 +45,8 @@ TARGET_COMPILER_VC
 TARGET_COMPILER_ICC
     Intel C++ Compiler
 
+TARGET_CPU_BITS
+    32-bit or 64-bit CPU
  */
 
 #ifndef __included_cc_platform_detect_h
@@ -339,6 +341,13 @@ typedef float float32;
 typedef double float64;
 #endif
 
+#if !defined(address_t)
+#if TARGET_CPU_BITS==32
+typedef int32 address_t;
+#else
+typedef int64 address_t;
+#endif
+#endif
 
 
 }

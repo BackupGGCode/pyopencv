@@ -30,7 +30,7 @@ if __name__ == "__main__":
             TermCriteria(TermCriteria.EPS+TermCriteria.MAX_ITER, 10, 1.0), 3, KMEANS_RANDOM_CENTERS)
 
         img.setTo(0)
-        pts = points[:].reshape(sample_count, 2).astype('int32')
+        pts = points[:].reshape(sample_count, 2).astype('int')
         for i in range(sample_count):
             circle(img, asPoint(pts[i]), 2, color_tab[clusters[i,0]], CV_FILLED, CV_AA, 0)
         

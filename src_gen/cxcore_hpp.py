@@ -344,7 +344,7 @@ def asMat(obj, force_single_channel=False):
     else:
         z = obj[0]
         if isinstance(z, int):
-            out_mat = Mat.from_list_of_int32(obj)
+            out_mat = Mat.from_list_of_int(obj)
         elif isinstance(z, float):
             out_mat = Mat.from_list_of_float64(obj)
         else:
@@ -413,16 +413,18 @@ KLASS.__repr__ = _KLASS__repr__
     # PCA and SVD
     for t in ('::cv::PCA', '::cv::SVD'):
         z = mb.class_(t)
-        z.include()
+        mb.init_class(z)
         z.operator('()').call_policies = CP.return_self()
+        mb.finalize_class(z)
         
     # LineIterator
     z = mb.class_('LineIterator')
+    z.include_files.append("sdopencv/dtype.hpp")
     z.include()
     z.operator('*').exclude()
     z.var('ptr').exclude()
     # replace operator*() with 'get_pixel_addr', not the best solution, if you have a better one, send me a patch
-    z.add_declaration_code('static int get_pixel_addr(cv::LineIterator &inst) { return (int)(*inst); }')
+    z.add_declaration_code('static sdopencv::address_t get_pixel_addr(cv::LineIterator &inst) { return (sdopencv::address_t)(*inst); }')
     z.add_registration_code('def("get_pixel_addr", &get_pixel_addr)')
     # replace operator++() with 'inc'
     z.operators('++').exclude()

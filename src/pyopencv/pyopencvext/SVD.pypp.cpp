@@ -37,7 +37,9 @@ void register_SVD_class(){
                 "__call__"
                 , __call___function_type( &::cv::SVD::operator() )
                 , ( bp::arg("m"), bp::arg("flags")=(int)(0) )
-                , bp::return_self< >() );
+                , bp::return_self< >()
+                , "\nWrapped function:"
+    "\n    operator()" );
         
         }
         { //::cv::SVD::solveZ

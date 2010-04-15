@@ -41,7 +41,6 @@ def generate_code(mb, cc, D, FT, CP):
     # mat.var(z).exclude()
 # TODO: expose the 'data' member as read-write buffer
 # mat.var('data').exclude()
-# expose_addressof_member(mat, 'data')
 # mat.decls('ptr').exclude()
 
  

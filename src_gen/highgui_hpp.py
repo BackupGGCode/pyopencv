@@ -49,8 +49,8 @@ def generate_code(mb, cc, D, FT, CP):
     FT.add_underscore(z)
     cc.write('''
 def createTrackbar(trackbar_name, window_name, value, count, on_change=None, userdata=None):
-    if not isinstance(value, _CT.c_int):
-        value = _CT.c_int(value)
+    if not isinstance(value, _CT.c_long):
+        value = _CT.c_long(value)
 
     result, z = _PE._createTrackbar(trackbar_name, window_name, _CT.addressof(value), count, on_change, userdata=userdata)
     if result:
@@ -59,7 +59,7 @@ def createTrackbar(trackbar_name, window_name, value, count, on_change=None, use
     return result
 createTrackbar.__doc__ = _PE._createTrackbar.__doc__
     ''')
-    mb.add_doc('createTrackbar', "'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_int, it keeps the current position of the trackbar at any time.", "'onChange' can be passed with None.")
+    mb.add_doc('createTrackbar', "'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_long, it keeps the current position of the trackbar at any time.", "'onChange' can be passed with None.")
 
     # VideoCapture
     z = mb.class_('VideoCapture')

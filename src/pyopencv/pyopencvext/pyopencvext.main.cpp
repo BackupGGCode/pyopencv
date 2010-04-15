@@ -5013,7 +5013,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "mixChannels"
             , mixChannels_function_type( &mixChannels_c8fa9614f4fb5a79f84423883d102a9e )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo"), bp::arg("npairs") )
-            , "\nArgument 'src':"\
+            , "\nCopies specified channels from input arrays to the specified channels "
+    "\nof output arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
+    "\nArgument 'src':"\
     "\n    C/C++ type: ::std::vector< cv::MatND > const &."\
     "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
     "\nArgument 'dst':"\
@@ -5035,7 +5039,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "mixChannels"
             , mixChannels_function_type( &mixChannels_269d2fa250748779c49641b632451e5f )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("fromTo"), bp::arg("npairs") )
-            , "\nArgument 'src':"\
+            , "\nCopies specified channels from input arrays to the specified channels "
+    "\nof output arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
+    "\nArgument 'src':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'dst':"\
