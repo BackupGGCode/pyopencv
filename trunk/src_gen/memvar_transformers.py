@@ -29,18 +29,6 @@ import common
 # -----------------------------------------------------------------------------------------------
 
 
-def expose_addressof_member(klass, member_name, exclude_member=True):
-    klass.include_files.append( "boost/python/long.hpp" )
-    if exclude_member:
-        klass.var(member_name).exclude()
-    klass.add_declaration_code('''
-    boost::python::long_ get_MEMBER_NAME_addr( CLASS_TYPE const & inst ){
-        return boost::python::long_((int)&inst.MEMBER_NAME);
-    }
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
-    klass.add_registration_code('def( "get_MEMBER_NAME_addr", &::get_MEMBER_NAME_addr )'.replace("MEMBER_NAME", member_name))
-    # TODO: finish the wrapping with ctypes code
-    
 def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True):
     klass.var(member_name).exclude()
     CvMat = 'CvMat' if is_CvMat_ptr else 'IplImage'

@@ -2471,7 +2471,7 @@ void register_free_functions(){
             , dft_function_type( &::cv::dft )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0), bp::arg("nonzeroRows")=(int)(0) )
             , "\nPerforms a forward or inverse Discrete Fourier transform of 1D or 2D "
-    "\nfloating-point array.."
+    "\nfloating-point array."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-dft" );
     
@@ -3673,7 +3673,10 @@ void register_free_functions(){
         bp::def( 
             "mulSpectrums"
             , mulSpectrums_function_type( &::cv::mulSpectrums )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("flags"), bp::arg("conjB")=(bool)(false) ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("flags"), bp::arg("conjB")=(bool)(false) )
+            , "\nPerforms per-element multiplication of two Fourier spectrums."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mulspectrums" );
     
     }
 
@@ -3684,7 +3687,10 @@ void register_free_functions(){
         bp::def( 
             "mulTransposed"
             , mulTransposed_function_type( &::cv::mulTransposed )
-            , ( bp::arg("a"), bp::arg("c"), bp::arg("aTa"), bp::arg("delta")=cv::Mat(), bp::arg("scale")=1, bp::arg("rtype")=(int)(-0x000000001) ) );
+            , ( bp::arg("a"), bp::arg("c"), bp::arg("aTa"), bp::arg("delta")=cv::Mat(), bp::arg("scale")=1, bp::arg("rtype")=(int)(-0x000000001) )
+            , "\nCalculates the product of a matrix and its transposition."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-multransposed" );
     
     }
 
@@ -3695,7 +3701,10 @@ void register_free_functions(){
         bp::def( 
             "multiply"
             , multiply_function_type( &::cv::multiply )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 )
+            , "\nCalculates the per-element scaled product of two arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-multiply" );
     
     }
 
@@ -3706,7 +3715,10 @@ void register_free_functions(){
         bp::def( 
             "multiply"
             , multiply_function_type( &::cv::multiply )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 )
+            , "\nCalculates the per-element scaled product of two arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-multiply" );
     
     }
 
@@ -3731,7 +3743,11 @@ void register_free_functions(){
         bp::def( 
             "norm"
             , norm_function_type( &::cv::norm )
-            , ( bp::arg("src"), bp::arg("normType") ) );
+            , ( bp::arg("src"), bp::arg("normType") )
+            , "\nCalculates absolute array norm, absolute difference norm, or relative "
+    "\ndifference norm."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
     
     }
 
@@ -3742,7 +3758,11 @@ void register_free_functions(){
         bp::def( 
             "norm"
             , norm_function_type( &::cv::norm )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("normType")=int(::cv::NORM_L2), bp::arg("mask")=cv::MatND() ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("normType")=int(::cv::NORM_L2), bp::arg("mask")=cv::MatND() )
+            , "\nCalculates absolute array norm, absolute difference norm, or relative "
+    "\ndifference norm."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
     
     }
 
@@ -3753,7 +3773,11 @@ void register_free_functions(){
         bp::def( 
             "norm"
             , norm_function_type( &::cv::norm )
-            , ( bp::arg("a"), bp::arg("normType")=int(::cv::NORM_L2), bp::arg("mask")=cv::MatND() ) );
+            , ( bp::arg("a"), bp::arg("normType")=int(::cv::NORM_L2), bp::arg("mask")=cv::MatND() )
+            , "\nCalculates absolute array norm, absolute difference norm, or relative "
+    "\ndifference norm."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
     
     }
 
@@ -3764,7 +3788,11 @@ void register_free_functions(){
         bp::def( 
             "norm"
             , norm_function_type( &::cv::norm )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("normType"), bp::arg("mask") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("normType"), bp::arg("mask") )
+            , "\nCalculates absolute array norm, absolute difference norm, or relative "
+    "\ndifference norm."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
     
     }
 
@@ -3775,7 +3803,11 @@ void register_free_functions(){
         bp::def( 
             "norm"
             , norm_function_type( &::cv::norm )
-            , ( bp::arg("a"), bp::arg("normType"), bp::arg("mask") ) );
+            , ( bp::arg("a"), bp::arg("normType"), bp::arg("mask") )
+            , "\nCalculates absolute array norm, absolute difference norm, or relative "
+    "\ndifference norm."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
     
     }
 
@@ -3786,7 +3818,11 @@ void register_free_functions(){
         bp::def( 
             "norm"
             , norm_function_type( &::cv::norm )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("normType")=int(::cv::NORM_L2) ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("normType")=int(::cv::NORM_L2) )
+            , "\nCalculates absolute array norm, absolute difference norm, or relative "
+    "\ndifference norm."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
     
     }
 
@@ -3797,7 +3833,11 @@ void register_free_functions(){
         bp::def( 
             "norm"
             , norm_function_type( &::cv::norm )
-            , ( bp::arg("a"), bp::arg("normType")=int(::cv::NORM_L2) ) );
+            , ( bp::arg("a"), bp::arg("normType")=int(::cv::NORM_L2) )
+            , "\nCalculates absolute array norm, absolute difference norm, or relative "
+    "\ndifference norm."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
     
     }
 
@@ -3808,7 +3848,10 @@ void register_free_functions(){
         bp::def( 
             "normalize"
             , normalize_function_type( &::cv::normalize )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("alpha"), bp::arg("normType") ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("alpha"), bp::arg("normType") )
+            , "\nNormalizes array's norm or the range."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-normalize" );
     
     }
 
@@ -3819,7 +3862,10 @@ void register_free_functions(){
         bp::def( 
             "normalize"
             , normalize_function_type( &::cv::normalize )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("alpha")=1, bp::arg("beta")=0, bp::arg("norm_type")=int(::cv::NORM_L2), bp::arg("rtype")=(int)(-0x000000001), bp::arg("mask")=cv::MatND() ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("alpha")=1, bp::arg("beta")=0, bp::arg("norm_type")=int(::cv::NORM_L2), bp::arg("rtype")=(int)(-0x000000001), bp::arg("mask")=cv::MatND() )
+            , "\nNormalizes array's norm or the range."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-normalize" );
     
     }
 
@@ -3830,7 +3876,10 @@ void register_free_functions(){
         bp::def( 
             "normalize"
             , normalize_function_type( &::cv::normalize )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("alpha")=1, bp::arg("beta")=0, bp::arg("norm_type")=int(::cv::NORM_L2), bp::arg("rtype")=(int)(-0x000000001), bp::arg("mask")=cv::Mat() ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("alpha")=1, bp::arg("beta")=0, bp::arg("norm_type")=int(::cv::NORM_L2), bp::arg("rtype")=(int)(-0x000000001), bp::arg("mask")=cv::Mat() )
+            , "\nNormalizes array's norm or the range."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-normalize" );
     
     }
 

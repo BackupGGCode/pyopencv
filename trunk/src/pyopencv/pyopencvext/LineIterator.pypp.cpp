@@ -3,11 +3,12 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "sdopencv/dtype.hpp"
 #include "LineIterator.pypp.hpp"
 
 namespace bp = boost::python;
 
-static int get_pixel_addr(cv::LineIterator &inst) { return (int)(*inst); }
+static sdopencv::address_t get_pixel_addr(cv::LineIterator &inst) { return (sdopencv::address_t)(*inst); }
 
 static cv::LineIterator & inc(cv::LineIterator &inst) { return ++inst; }
 
