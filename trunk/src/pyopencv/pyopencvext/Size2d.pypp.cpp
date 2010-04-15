@@ -17,6 +17,10 @@ void register_Size2d_class(){
         Size2d_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Size_< double > >() );
         Size2d_exposer.def( bp::init< double, double >(( bp::arg("_width"), bp::arg("_height") )) );
         Size2d_exposer.def( bp::init< cv::Size_< double > const & >(( bp::arg("sz") )) );
+        Size2d_exposer.def( bp::init< CvSize const & >(( bp::arg("sz") )) );
+        bp::implicitly_convertible< CvSize const &, cv::Size_< double > >();
+        Size2d_exposer.def( bp::init< CvSize2D32f const & >(( bp::arg("sz") )) );
+        bp::implicitly_convertible< CvSize2D32f const &, cv::Size_< double > >();
         Size2d_exposer.def( bp::init< cv::Point_< double > const & >(( bp::arg("pt") )) );
         bp::implicitly_convertible< cv::Point_< double > const &, cv::Size_< double > >();
         { //::cv::Size_< double >::area
@@ -29,6 +33,8 @@ void register_Size2d_class(){
                 , area_function_type( &::cv::Size_< double >::area ) );
         
         }
+        Size2d_exposer.def( "__temp_func", &cv::Size_< double >::operator ::CvSize  );
+        Size2d_exposer.def( "__temp_func", &cv::Size_< double >::operator ::CvSize2D32f  );
         { //::cv::Size_< double >::operator=
         
             typedef cv::Size_< double > exported_class_t;

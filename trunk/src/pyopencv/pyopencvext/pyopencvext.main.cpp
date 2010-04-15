@@ -226,6 +226,8 @@
 
 #include "pyopencvext/CvSize.pypp.hpp"
 
+#include "pyopencvext/CvSize2D32f.pypp.hpp"
+
 #include "pyopencvext/CvSlice.pypp.hpp"
 
 #include "pyopencvext/CvStarDetectorParams.pypp.hpp"
@@ -1803,6 +1805,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvSize_class();
 
+    register_CvSize2D32f_class();
+
     register_CvStarDetectorParams_class();
 
     register_CvStarKeypoint_class();
@@ -1834,6 +1838,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_BackgroundSubtractorMOG_class();
 
     register_Size2i_class();
+
+    bp::implicitly_convertible< cv::Size_< int >, CvSize >();
+
+    bp::implicitly_convertible< cv::Size_< int >, CvSize2D32f >();
 
     register_CascadeClassifier_class();
 
@@ -2011,7 +2019,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Size2d_class();
 
+    bp::implicitly_convertible< cv::Size_< double >, CvSize >();
+
+    bp::implicitly_convertible< cv::Size_< double >, CvSize2D32f >();
+
     register_Size2f_class();
+
+    bp::implicitly_convertible< cv::Size_< float >, CvSize >();
+
+    bp::implicitly_convertible< cv::Size_< float >, CvSize2D32f >();
 
     register_SparseMat_class();
 

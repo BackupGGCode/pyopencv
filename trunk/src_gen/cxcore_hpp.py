@@ -114,7 +114,8 @@ KLASS.__repr__ = _KLASS__repr__
     zz = mb.classes(lambda z: z.name.startswith('Size_<'))
     for z in zz:
         z.include()
-        z.decls(lambda x: 'CvSize' in x.decl_string).exclude()
+        mb.asClass(z, mb.class_('CvSize'))
+        mb.asClass(z, mb.class_('CvSize2D32f'))
         mb.add_ndarray_interface(z)
         cc.write('''
 def _KLASS__repr__(self):

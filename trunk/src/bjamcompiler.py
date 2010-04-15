@@ -45,7 +45,7 @@ BOOST_PYTHON_MODULE(dumpmodule){
         f.write('''
 import python ;
 
-using gcc :  :  g++ : <compileflags>-O3
+using gcc :  :  g++ : <compileflags>-O3 <linkflags>-Wl,--enable-auto-import
 ''')
         for include_dir in objects[1]['include_dirs']:
             f.write('    <compileflags>-I%s\n' % mypath(include_dir))

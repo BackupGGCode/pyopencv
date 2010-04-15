@@ -71,19 +71,20 @@ def add_decl_boost_doc(decl, s="", append=True, word_wrap=True):
 
 dict_decl_name_to_desc = {
     # C -- cxcore -- Basic Structures
-    ("::", "CvPoint"): ("2D point with integer coordinates (usually zero-based).", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint"),
-    ("::", "CvPoint2D32f"): ("2D point with floating-point coordinates.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint2d32f"),
-    ("::", "CvPoint3D32f"): ("3D point with floating-point coordinates.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint3d32f"),
-    ("::", "CvPoint2D64f"): ("2D point with double precision floating-point coordinates.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint2d64f"),
-    ("::", "CvPoint3D64f"): ("3D point with double precision floating-point coordinates.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint3d64f"),
-    ("::", "CvSize"): ("Pixel-accurate size of a rectangle.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvsize"),
-    ("::", "CvScalar"): ("A container for 1-,2-,3- or 4-tuples of doubles.CvScalar is always represented as a 4-tuple..", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvscalar"),
-    ("::", "CvTermCriteria"): ("Termination criteria for iterative algorithms.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvtermcriteria"),
-    ("::", "CvMat"): ("A multi-channel matrix.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvmat"),
-    ("::", "CvMatND"): ("Multi-dimensional dense multi-channel array.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvmatnd"),
-    ("::", "CvSparseMat"): ("Multi-dimensional sparse multi-channel array.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvsparsemat"),
-    ("::", "IplImage"): ("IPL image header.", "http://opencv.willowgarage.com/documentation/basic_structures.html#iplimage"),
-    ("::", "CvArr"): ("Arbitrary array.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvarr"),
+    ("::", "CvPoint"): ("2D point with integer coordinates (usually zero-based).", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Point2i instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint"),
+    ("::", "CvPoint2D32f"): ("2D point with floating-point coordinates.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Point2f instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint2d32f"),
+    ("::", "CvPoint3D32f"): ("3D point with floating-point coordinates.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Point3f instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint3d32f"),
+    ("::", "CvPoint2D64f"): ("2D point with double precision floating-point coordinates.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Point2d instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint2d64f"),
+    ("::", "CvPoint3D64f"): ("3D point with double precision floating-point coordinates.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Point3d instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint3d64f"),
+    ("::", "CvSize"): ("Pixel-accurate size of a rectangle.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Size2i instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvsize"),
+    ("::", "CvSize2D32f"): ("Sub-pixel-accurate size of a rectangle.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Size2f instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvsize2d32f"),
+    ("::", "CvScalar"): ("A container for 1-,2-,3- or 4-tuples of doubles.CvScalar is always represented as a 4-tuple..", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Scalar instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvscalar"),
+    ("::", "CvTermCriteria"): ("Termination criteria for iterative algorithms.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class TermCriteria instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvtermcriteria"),
+    ("::", "CvMat"): ("A multi-channel matrix.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Mat instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvmat"),
+    ("::", "CvMatND"): ("Multi-dimensional dense multi-channel array.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Mat instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvmatnd"),
+    ("::", "CvSparseMat"): ("Multi-dimensional sparse multi-channel array.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class SparseMat instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvsparsemat"),
+    ("::", "IplImage"): ("IPL image header.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Mat instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#iplimage"),
+    ("::", "CvArr"): ("Arbitrary array.", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Mat instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvarr"),
     
     # C -- cxcore -- Operations on Arrays
     ("::", "cvAbsDiff"): ("Calculates absolute difference between two arrays.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#absdiff"),
@@ -98,6 +99,16 @@ dict_decl_name_to_desc = {
     ("::", "cvCalcCovarMatrix"): ("Calculates covariance matrix of a set of vectors.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#calccovarmatrix"),
     ("::", "cvCartToPolar"): ("Calculates the magnitude and/or angle of 2d vectors.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#carttopolar"),
     ("::", "cvCbrt"): ("Calculates the cubic root.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#cbrt"),
+    ("::", "cvCmp"): ("Performs per-element comparison of two arrays.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#cmp"),
+    ("::", "cvCmpS"): ("Performs per-element comparison of an array and a scalar.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#cmps"),
+    ("::", "cvConvertScale"): ("Converts one array to another with optional linear transformation.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#convertscale"),
+    ("::", "cvConvertScaleAbs"): ("Converts input array elements to another 8-bit unsigned integer with optional linear transformation.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#convertscaleabs"),
+    ("::", "cvCvtScaleAbs"): ("Converts input array elements to another 8-bit unsigned integer with optional linear transformation.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#cvtscaleabs"),
+    ("::", "cvCopy"): ("Copies one array to another.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#copy"),
+    ("::", "cvCmp"): ("Performs per-element comparison of two arrays.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#cmp"),
+    ("::", "cvCountNonZero"): ("Counts non-zero array elements.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#countnonzero"),
+    ("::", "cvCrossProduct"): ("Calculates the cross product of two 3D vectors.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#crossproduct"),
+    ("::", "cvDCT"): ("Performs a forward or inverse Discrete Cosine transform of a 1D or 2D floating-point array.", "http://opencv.willowgarage.com/documentation/operations_on_arrays.html#dct"),
     # TODO: append this
 
     # C -- cxcore -- Dynamic Structures
@@ -155,7 +166,13 @@ dict_decl_name_to_desc = {
     ("cv", "completeSymm"): ("Copies the lower or the upper half of a square matrix to another half.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#completesymm"),
     ("cv", "convertScaleAbs"): ("Scales, computes absolute values and converts the result to 8-bit.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#convertscaleabs"),
     ("cv", "countNonZero"): ("Counts non-zero array elements.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#countnonzero"),
-    ("cv", "XXXXX"): (".", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff"),
+    ("cv", "cubeRoot"): ("Computes cube root of the argument.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-cuberoot"),
+    ("cv", "dct"): ("Performs a forward or inverse discrete cosine transform of 1D or 2D array.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-dct"),
+    ("cv", "dft"): ("Performs a forward or inverse Discrete Fourier transform of 1D or 2D floating-point array..", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-dft"),
+    ("cv", "divide"): ("Performs per-element division of two arrays or a scalar by an array.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide"),
+    ("cv", "determinant"): ("Returns determinant of a square floating-point matrix.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-determinant"),
+    ("cv", "eigen"): ("Computes eigenvalues and eigenvectors of a symmetric matrix.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-eigen"),
+    ("cv", "XXXXX"): (".", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-xxxx"),
     # TODO: append this
 
 }

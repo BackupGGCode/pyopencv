@@ -1079,7 +1079,10 @@ void register_free_functions(){
         bp::def( 
             "cubeRoot"
             , cubeRoot_function_type( &::cv::cubeRoot )
-            , ( bp::arg("val") ) );
+            , ( bp::arg("val") )
+            , "\nComputes cube root of the argument."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-cuberoot" );
     
     }
 
@@ -2394,7 +2397,11 @@ void register_free_functions(){
         bp::def( 
             "dct"
             , dct_function_type( &::cv::dct )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0) ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0) )
+            , "\nPerforms a forward or inverse discrete cosine transform of 1D or 2D "
+    "\narray."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-dct" );
     
     }
 
@@ -2427,7 +2434,10 @@ void register_free_functions(){
         bp::def( 
             "determinant"
             , determinant_function_type( &::cv::determinant )
-            , ( bp::arg("m") ) );
+            , ( bp::arg("m") )
+            , "\nReturns determinant of a square floating-point matrix."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-determinant" );
     
     }
 
@@ -2438,7 +2448,11 @@ void register_free_functions(){
         bp::def( 
             "dft"
             , dft_function_type( &::cv::dft )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0), bp::arg("nonzeroRows")=(int)(0) ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0), bp::arg("nonzeroRows")=(int)(0) )
+            , "\nPerforms a forward or inverse Discrete Fourier transform of 1D or 2D "
+    "\nfloating-point array.."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-dft" );
     
     }
 
@@ -2482,7 +2496,10 @@ void register_free_functions(){
         bp::def( 
             "divide"
             , divide_function_type( &::cv::divide )
-            , ( bp::arg("scale"), bp::arg("b"), bp::arg("c") ) );
+            , ( bp::arg("scale"), bp::arg("b"), bp::arg("c") )
+            , "\nPerforms per-element division of two arrays or a scalar by an array."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide" );
     
     }
 
@@ -2493,7 +2510,10 @@ void register_free_functions(){
         bp::def( 
             "divide"
             , divide_function_type( &::cv::divide )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 )
+            , "\nPerforms per-element division of two arrays or a scalar by an array."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide" );
     
     }
 
@@ -2504,7 +2524,10 @@ void register_free_functions(){
         bp::def( 
             "divide"
             , divide_function_type( &::cv::divide )
-            , ( bp::arg("scale"), bp::arg("b"), bp::arg("c") ) );
+            , ( bp::arg("scale"), bp::arg("b"), bp::arg("c") )
+            , "\nPerforms per-element division of two arrays or a scalar by an array."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide" );
     
     }
 
@@ -2515,7 +2538,10 @@ void register_free_functions(){
         bp::def( 
             "divide"
             , divide_function_type( &::cv::divide )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 )
+            , "\nPerforms per-element division of two arrays or a scalar by an array."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide" );
     
     }
 
@@ -2537,7 +2563,10 @@ void register_free_functions(){
         bp::def( 
             "eigen"
             , eigen_function_type( &::cv::eigen )
-            , ( bp::arg("a"), bp::arg("eigenvalues"), bp::arg("eigenvectors"), bp::arg("lowindex")=(int)(-0x000000001), bp::arg("highindex")=(int)(-0x000000001) ) );
+            , ( bp::arg("a"), bp::arg("eigenvalues"), bp::arg("eigenvectors"), bp::arg("lowindex")=(int)(-0x000000001), bp::arg("highindex")=(int)(-0x000000001) )
+            , "\nComputes eigenvalues and eigenvectors of a symmetric matrix."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-eigen" );
     
     }
 
@@ -2548,7 +2577,10 @@ void register_free_functions(){
         bp::def( 
             "eigen"
             , eigen_function_type( &::cv::eigen )
-            , ( bp::arg("a"), bp::arg("eigenvalues"), bp::arg("lowindex")=(int)(-0x000000001), bp::arg("highindex")=(int)(-0x000000001) ) );
+            , ( bp::arg("a"), bp::arg("eigenvalues"), bp::arg("lowindex")=(int)(-0x000000001), bp::arg("highindex")=(int)(-0x000000001) )
+            , "\nComputes eigenvalues and eigenvectors of a symmetric matrix."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-eigen" );
     
     }
 
