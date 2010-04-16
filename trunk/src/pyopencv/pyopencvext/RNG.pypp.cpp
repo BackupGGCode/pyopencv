@@ -11,13 +11,23 @@ void register_RNG_class(){
 
     { //::cv::RNG
         typedef bp::class_< cv::RNG > RNG_exposer_t;
-        RNG_exposer_t RNG_exposer = RNG_exposer_t( "RNG", bp::init< >() );
+        RNG_exposer_t RNG_exposer = RNG_exposer_t( "RNG", "\nRandom number generator class."
+    "\n"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#rng", bp::init< >("\nRNG constructors."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-rng") );
         bp::scope RNG_scope( RNG_exposer );
-        RNG_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::RNG >() );
+        RNG_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::RNG >(), "\nRandom number generator class."
+    "\n"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#rng" );
         bp::scope().attr("A") = (int)cv::RNG::A;
         bp::scope().attr("UNIFORM") = (int)cv::RNG::UNIFORM;
         bp::scope().attr("NORMAL") = (int)cv::RNG::NORMAL;
-        RNG_exposer.def( bp::init< uint64 >(( bp::arg("_state") )) );
+        RNG_exposer.def( bp::init< uint64 >(( bp::arg("_state") ), "\nRNG constructors."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-rng") );
         bp::implicitly_convertible< uint64, cv::RNG >();
         { //::cv::RNG::fill
         
@@ -26,7 +36,10 @@ void register_RNG_class(){
             RNG_exposer.def( 
                 "fill"
                 , fill_function_type( &::cv::RNG::fill )
-                , ( bp::arg("mat"), bp::arg("distType"), bp::arg("a"), bp::arg("b") ) );
+                , ( bp::arg("mat"), bp::arg("distType"), bp::arg("a"), bp::arg("b") )
+                , "\nFill arrays with random numbers."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-fill" );
         
         }
         { //::cv::RNG::fill
@@ -36,7 +49,10 @@ void register_RNG_class(){
             RNG_exposer.def( 
                 "fill"
                 , fill_function_type( &::cv::RNG::fill )
-                , ( bp::arg("mat"), bp::arg("distType"), bp::arg("a"), bp::arg("b") ) );
+                , ( bp::arg("mat"), bp::arg("distType"), bp::arg("a"), bp::arg("b") )
+                , "\nFill arrays with random numbers."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-fill" );
         
         }
         { //::cv::RNG::gaussian
@@ -46,7 +62,10 @@ void register_RNG_class(){
             RNG_exposer.def( 
                 "gaussian"
                 , gaussian_function_type( &::cv::RNG::gaussian )
-                , ( bp::arg("sigma") ) );
+                , ( bp::arg("sigma") )
+                , "\nReturns the next random number sampled from the Gaussian distribution."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-gaussian" );
         
         }
         { //::cv::RNG::next
@@ -55,17 +74,28 @@ void register_RNG_class(){
             
             RNG_exposer.def( 
                 "next"
-                , next_function_type( &::cv::RNG::next ) );
+                , next_function_type( &::cv::RNG::next )
+                , "\nReturns the next random number."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-next" );
         
         }
-        RNG_exposer.def( "as_int8", &cv::RNG::operator ::schar  );
-        RNG_exposer.def( "as_uint8", &cv::RNG::operator ::uchar  );
-        RNG_exposer.def( "as_uint16", &cv::RNG::operator ::ushort  );
-        RNG_exposer.def( "as_float64", &cv::RNG::operator double  );
-        RNG_exposer.def( "as_float32", &cv::RNG::operator float  );
-        RNG_exposer.def( "as_int", &cv::RNG::operator int  );
-        RNG_exposer.def( "as_int16", &cv::RNG::operator short int  );
-        RNG_exposer.def( "as_uint", &cv::RNG::operator unsigned int  );
+        RNG_exposer.def( "as_int8", &cv::RNG::operator ::schar , "\nWrapped function:"
+    "\n    operator ::schar" );
+        RNG_exposer.def( "as_uint8", &cv::RNG::operator ::uchar , "\nWrapped function:"
+    "\n    operator ::uchar" );
+        RNG_exposer.def( "as_uint16", &cv::RNG::operator ::ushort , "\nWrapped function:"
+    "\n    operator ::ushort" );
+        RNG_exposer.def( "as_float64", &cv::RNG::operator double , "\nWrapped function:"
+    "\n    operator double" );
+        RNG_exposer.def( "as_float32", &cv::RNG::operator float , "\nWrapped function:"
+    "\n    operator float" );
+        RNG_exposer.def( "as_int", &cv::RNG::operator int , "\nWrapped function:"
+    "\n    operator int" );
+        RNG_exposer.def( "as_int16", &cv::RNG::operator short int , "\nWrapped function:"
+    "\n    operator short int" );
+        RNG_exposer.def( "as_uint", &cv::RNG::operator unsigned int , "\nWrapped function:"
+    "\n    operator unsigned int" );
         { //::cv::RNG::operator()
         
             typedef unsigned int ( ::cv::RNG::*__call___function_type )( unsigned int ) ;
@@ -73,7 +103,12 @@ void register_RNG_class(){
             RNG_exposer.def( 
                 "__call__"
                 , __call___function_type( &::cv::RNG::operator() )
-                , ( bp::arg("N") ) );
+                , ( bp::arg("N") )
+                , "\nReturns the next random number."
+    "\nWrapped function:"
+    "\n    operator()"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-operator" );
         
         }
         { //::cv::RNG::operator()
@@ -82,7 +117,12 @@ void register_RNG_class(){
             
             RNG_exposer.def( 
                 "__call__"
-                , __call___function_type( &::cv::RNG::operator() ) );
+                , __call___function_type( &::cv::RNG::operator() )
+                , "\nReturns the next random number."
+    "\nWrapped function:"
+    "\n    operator()"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-operator" );
         
         }
         { //::cv::RNG::uniform
@@ -92,7 +132,12 @@ void register_RNG_class(){
             RNG_exposer.def( 
                 "uniform_int"
                 , uniform_int_function_type( &::cv::RNG::uniform )
-                , ( bp::arg("a"), bp::arg("b") ) );
+                , ( bp::arg("a"), bp::arg("b") )
+                , "\nReturns the next random number sampled from the uniform distribution."
+    "\nWrapped function:"
+    "\n    uniform"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-uniform" );
         
         }
         { //::cv::RNG::uniform
@@ -102,7 +147,12 @@ void register_RNG_class(){
             RNG_exposer.def( 
                 "uniform_float32"
                 , uniform_float32_function_type( &::cv::RNG::uniform )
-                , ( bp::arg("a"), bp::arg("b") ) );
+                , ( bp::arg("a"), bp::arg("b") )
+                , "\nReturns the next random number sampled from the uniform distribution."
+    "\nWrapped function:"
+    "\n    uniform"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-uniform" );
         
         }
         { //::cv::RNG::uniform
@@ -112,7 +162,12 @@ void register_RNG_class(){
             RNG_exposer.def( 
                 "uniform_float64"
                 , uniform_float64_function_type( &::cv::RNG::uniform )
-                , ( bp::arg("a"), bp::arg("b") ) );
+                , ( bp::arg("a"), bp::arg("b") )
+                , "\nReturns the next random number sampled from the uniform distribution."
+    "\nWrapped function:"
+    "\n    uniform"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-uniform" );
         
         }
         RNG_exposer.def_readwrite( "state", &cv::RNG::state );
