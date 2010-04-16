@@ -781,9 +781,13 @@ CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(cv::MatND *);
 
 template<typename T1, typename T2> inline T1 __add__(T1 const &inst1, T2 const &inst2)
     { return inst1+inst2; }
+template<typename T1, typename T2> inline T2 __radd__(T1 const &inst1, T2 const &inst2)
+    { return inst1+inst2; }
 template<typename T1, typename T2> inline T1 __sub__(T1 const &inst1, T2 const &inst2)
     { return inst1-inst2; }
 template<typename T1, typename T2> inline T1 __mul__(T1 const &inst1, T2 const &inst2)
+    { return inst1*inst2; }
+template<typename T1, typename T2> inline T2 __rmul__(T1 const &inst1, T2 const &inst2)
     { return inst1*inst2; }
 template<typename T1, typename T2> inline T1 __div__(T1 const &inst1, T2 const &inst2)
     { return inst1/inst2; }

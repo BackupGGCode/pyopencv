@@ -60,6 +60,7 @@ void register_Range_class(){
         Range_exposer.def("__eq__", &__eq__<cv::Range, cv::Range> );
         Range_exposer.def("__add__", &__add__<cv::Range, int> );
         Range_exposer.def("__sub__", &__sub__<cv::Range, int> );
+        Range_exposer.def("__radd__", &__radd__<int, cv::Range> );
     }
 
 }

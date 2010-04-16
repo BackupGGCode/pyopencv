@@ -121,6 +121,7 @@ void register_Vec2w_class(){
         Vec2w_exposer.def("__ne__", &__ne__<cv::Vec2w, cv::Vec2w> );
         Vec2w_exposer.def("__imul__", &__imul__<cv::Vec2w, unsigned short>, bp::return_self<>() );
         Vec2w_exposer.def("__mul__", &__mul__<cv::Vec2w, unsigned short> );
+        Vec2w_exposer.def("__rmul__", &__rmul__<unsigned short, cv::Vec2w> );
         Vec2w_exposer.def("__neg__", &__neg__<cv::Vec2w> );
     }
 

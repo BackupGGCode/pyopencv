@@ -74,6 +74,7 @@ void register_Point3i_class(){
         Point3i_exposer.def("__eq__", &__eq__<cv::Point3i, cv::Point3i> );
         Point3i_exposer.def("__neg__", &__neg__<cv::Point3i> );
         Point3i_exposer.def("__mul__", &__mul__<cv::Point3i, double> );
+        Point3i_exposer.def("__rmul__", &__rmul__<double, cv::Point3i> );
     }
 
 }

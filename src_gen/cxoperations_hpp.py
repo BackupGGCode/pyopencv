@@ -64,6 +64,8 @@ def generate_code(mb, cc, D, FT, CP):
                     .replace("CLASS1", a1).replace("TP1", dtype_dict[Tp1]))
                 c1.add_registration_code('def("__mul__", &__mul__<CLASS1, TP1> )' \
                     .replace("CLASS1", a1).replace("TP1", dtype_dict[Tp1]))
+                c1.add_registration_code('def("__rmul__", &__rmul__<TP1, CLASS1> )' \
+                    .replace("CLASS1", a1).replace("TP1", dtype_dict[Tp1]))
             c1.add_registration_code('def("__neg__", &__neg__<CLASS1> )' \
                 .replace("CLASS1", a1))
         
@@ -86,6 +88,8 @@ def generate_code(mb, cc, D, FT, CP):
         c.add_registration_code('def("__neg__", &__neg__<CLASS> )' \
             .replace("CLASS", a))
         c.add_registration_code('def("__mul__", &__mul__<CLASS, double> )' \
+            .replace("CLASS", a))
+        c.add_registration_code('def("__rmul__", &__rmul__<double, CLASS> )' \
             .replace("CLASS", a))
         
     # Size-like
@@ -143,7 +147,9 @@ def generate_code(mb, cc, D, FT, CP):
     for t2 in ('__add__', '__sub__', '__ne__', '__eq__'):
         c.add_registration_code('def("OPERATOR", &OPERATOR<CLASS, CLASS> )' \
             .replace("CLASS", a).replace("OPERATOR", t2))
-    c.add_registration_code('def("__mul__", &__mul__<CLASS, double > )' \
+    c.add_registration_code('def("__mul__", &__mul__<CLASS, double> )' \
+        .replace("CLASS", a))
+    c.add_registration_code('def("__rmul__", &__rmul__<double, CLASS> )' \
         .replace("CLASS", a))
     c.add_registration_code('def("__neg__", &__neg__<CLASS> )' \
         .replace("CLASS", a))
@@ -162,5 +168,7 @@ def generate_code(mb, cc, D, FT, CP):
     for t2 in ('__add__', '__sub__'):
         c.add_registration_code('def("OPERATOR", &OPERATOR<CLASS, int> )' \
             .replace("CLASS", a).replace("OPERATOR", t2))
+    c.add_registration_code('def("__radd__", &__radd__<int, CLASS> )' \
+        .replace("CLASS", a))
         
     

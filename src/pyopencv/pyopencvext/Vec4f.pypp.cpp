@@ -121,6 +121,7 @@ void register_Vec4f_class(){
         Vec4f_exposer.def("__ne__", &__ne__<cv::Vec4f, cv::Vec4f> );
         Vec4f_exposer.def("__imul__", &__imul__<cv::Vec4f, float>, bp::return_self<>() );
         Vec4f_exposer.def("__mul__", &__mul__<cv::Vec4f, float> );
+        Vec4f_exposer.def("__rmul__", &__rmul__<float, cv::Vec4f> );
         Vec4f_exposer.def("__neg__", &__neg__<cv::Vec4f> );
     }
 

@@ -121,6 +121,7 @@ void register_Vec2f_class(){
         Vec2f_exposer.def("__ne__", &__ne__<cv::Vec2f, cv::Vec2f> );
         Vec2f_exposer.def("__imul__", &__imul__<cv::Vec2f, float>, bp::return_self<>() );
         Vec2f_exposer.def("__mul__", &__mul__<cv::Vec2f, float> );
+        Vec2f_exposer.def("__rmul__", &__rmul__<float, cv::Vec2f> );
         Vec2f_exposer.def("__neg__", &__neg__<cv::Vec2f> );
     }
 

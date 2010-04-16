@@ -121,6 +121,7 @@ void register_Vec4i_class(){
         Vec4i_exposer.def("__ne__", &__ne__<cv::Vec4i, cv::Vec4i> );
         Vec4i_exposer.def("__imul__", &__imul__<cv::Vec4i, int>, bp::return_self<>() );
         Vec4i_exposer.def("__mul__", &__mul__<cv::Vec4i, int> );
+        Vec4i_exposer.def("__rmul__", &__rmul__<int, cv::Vec4i> );
         Vec4i_exposer.def("__neg__", &__neg__<cv::Vec4i> );
     }
 
