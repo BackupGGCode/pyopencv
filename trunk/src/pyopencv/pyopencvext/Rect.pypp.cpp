@@ -4,6 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "ndarray.hpp"
+#include "opencv_converters.hpp"
 #include "Rect.pypp.hpp"
 
 namespace bp = boost::python;
@@ -89,6 +90,18 @@ void register_Rect_class(){
         Rect_exposer.def("from_ndarray", &bp::from_ndarray< cv::Rect >, (bp::arg("arr")) );
         Rect_exposer.staticmethod("from_ndarray");
         Rect_exposer.add_property("ndarray", &bp::as_ndarray< cv::Rect >);
+        Rect_exposer.def("__iadd__", &__iadd__<cv::Rect, cv::Point_<int> >, bp::return_self<>() );
+        Rect_exposer.def("__iadd__", &__iadd__<cv::Rect, cv::Size_<int> >, bp::return_self<>() );
+        Rect_exposer.def("__isub__", &__isub__<cv::Rect, cv::Point_<int> >, bp::return_self<>() );
+        Rect_exposer.def("__isub__", &__isub__<cv::Rect, cv::Size_<int> >, bp::return_self<>() );
+        Rect_exposer.def("__iand__", &__iand__<cv::Rect, cv::Rect>, bp::return_self<>() );
+        Rect_exposer.def("__ior__", &__ior__<cv::Rect, cv::Rect>, bp::return_self<>() );
+        Rect_exposer.def("__and__", &__and__<cv::Rect, cv::Rect> );
+        Rect_exposer.def("__or__", &__or__<cv::Rect, cv::Rect> );
+        Rect_exposer.def("__eq__", &__eq__<cv::Rect, cv::Rect> );
+        Rect_exposer.def("__add__", &__add__<cv::Rect, cv::Point_<int> > );
+        Rect_exposer.def("__sub__", &__sub__<cv::Rect, cv::Point_<int> > );
+        Rect_exposer.def("__add__", &__add__<cv::Rect, cv::Size_<int> > );
     }
 
 }

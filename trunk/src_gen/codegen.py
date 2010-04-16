@@ -27,6 +27,7 @@ import cxerror_h
 import cxtypes_h
 import cxcore_h
 import cxcore_hpp
+import cxoperations_hpp
 import cxflann_h
 import cxmat_hpp
 import cvtypes_h
@@ -541,6 +542,9 @@ cxcore_h.generate_code(mb, cc, D, FT, CP)
 
 # cxcore.hpp
 cxcore_hpp.generate_code(mb, cc, D, FT, CP)
+
+# cxcore.hpp
+cxoperations_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cxflann.h
 cxflann_h.generate_code(mb, cc, D, FT, CP)

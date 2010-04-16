@@ -4,6 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "ndarray.hpp"
+#include "opencv_converters.hpp"
 #include "Point2i.pypp.hpp"
 
 namespace bp = boost::python;
@@ -78,6 +79,14 @@ void register_Point2i_class(){
         Point2i_exposer.def("from_ndarray", &bp::from_ndarray< cv::Point2i >, (bp::arg("arr")) );
         Point2i_exposer.staticmethod("from_ndarray");
         Point2i_exposer.add_property("ndarray", &bp::as_ndarray< cv::Point2i >);
+        Point2i_exposer.def("__iadd__", &__iadd__<cv::Point2i, cv::Point2i>, bp::return_self<>() );
+        Point2i_exposer.def("__isub__", &__isub__<cv::Point2i, cv::Point2i>, bp::return_self<>() );
+        Point2i_exposer.def("__imul__", &__imul__<cv::Point2i, double>, bp::return_self<>() );
+        Point2i_exposer.def("__add__", &__add__<cv::Point2i, cv::Point2i> );
+        Point2i_exposer.def("__sub__", &__sub__<cv::Point2i, cv::Point2i> );
+        Point2i_exposer.def("__eq__", &__eq__<cv::Point2i, cv::Point2i> );
+        Point2i_exposer.def("__neg__", &__neg__<cv::Point2i> );
+        Point2i_exposer.def("__mul__", &__mul__<cv::Point2i, double> );
     }
 
 }

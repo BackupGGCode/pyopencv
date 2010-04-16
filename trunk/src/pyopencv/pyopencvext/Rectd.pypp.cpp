@@ -4,6 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "ndarray.hpp"
+#include "opencv_converters.hpp"
 #include "Rectd.pypp.hpp"
 
 namespace bp = boost::python;
@@ -89,6 +90,18 @@ void register_Rectd_class(){
         Rectd_exposer.def("from_ndarray", &bp::from_ndarray< cv::Rectd >, (bp::arg("arr")) );
         Rectd_exposer.staticmethod("from_ndarray");
         Rectd_exposer.add_property("ndarray", &bp::as_ndarray< cv::Rectd >);
+        Rectd_exposer.def("__iadd__", &__iadd__<cv::Rectd, cv::Point_<double> >, bp::return_self<>() );
+        Rectd_exposer.def("__iadd__", &__iadd__<cv::Rectd, cv::Size_<double> >, bp::return_self<>() );
+        Rectd_exposer.def("__isub__", &__isub__<cv::Rectd, cv::Point_<double> >, bp::return_self<>() );
+        Rectd_exposer.def("__isub__", &__isub__<cv::Rectd, cv::Size_<double> >, bp::return_self<>() );
+        Rectd_exposer.def("__iand__", &__iand__<cv::Rectd, cv::Rectd>, bp::return_self<>() );
+        Rectd_exposer.def("__ior__", &__ior__<cv::Rectd, cv::Rectd>, bp::return_self<>() );
+        Rectd_exposer.def("__and__", &__and__<cv::Rectd, cv::Rectd> );
+        Rectd_exposer.def("__or__", &__or__<cv::Rectd, cv::Rectd> );
+        Rectd_exposer.def("__eq__", &__eq__<cv::Rectd, cv::Rectd> );
+        Rectd_exposer.def("__add__", &__add__<cv::Rectd, cv::Point_<double> > );
+        Rectd_exposer.def("__sub__", &__sub__<cv::Rectd, cv::Point_<double> > );
+        Rectd_exposer.def("__add__", &__add__<cv::Rectd, cv::Size_<double> > );
     }
 
 }

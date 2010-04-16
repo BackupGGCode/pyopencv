@@ -4,6 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "ndarray.hpp"
+#include "opencv_converters.hpp"
 #include "Vec6f.pypp.hpp"
 
 namespace bp = boost::python;
@@ -102,6 +103,15 @@ void register_Vec6f_class(){
         Vec6f_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec6f >, (bp::arg("arr")) );
         Vec6f_exposer.staticmethod("from_ndarray");
         Vec6f_exposer.add_property("ndarray", &bp::as_ndarray< cv::Vec6f >);
+        Vec6f_exposer.def("__iadd__", &__iadd__<cv::Vec6f, cv::Vec6f>, bp::return_self<>() );
+        Vec6f_exposer.def("__isub__", &__isub__<cv::Vec6f, cv::Vec6f>, bp::return_self<>() );
+        Vec6f_exposer.def("__iadd__", &__iadd__<cv::Vec6f, cv::Vec6d>, bp::return_self<>() );
+        Vec6f_exposer.def("__isub__", &__isub__<cv::Vec6f, cv::Vec6d>, bp::return_self<>() );
+        Vec6f_exposer.def("__add__", &__add__<cv::Vec6f, cv::Vec6f> );
+        Vec6f_exposer.def("__sub__", &__sub__<cv::Vec6f, cv::Vec6f> );
+        Vec6f_exposer.def("__eq__", &__eq__<cv::Vec6f, cv::Vec6f> );
+        Vec6f_exposer.def("__ne__", &__ne__<cv::Vec6f, cv::Vec6f> );
+        Vec6f_exposer.def("__neg__", &__neg__<cv::Vec6f> );
     }
 
 }

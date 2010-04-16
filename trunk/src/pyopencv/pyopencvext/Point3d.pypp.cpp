@@ -4,6 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "ndarray.hpp"
+#include "opencv_converters.hpp"
 #include "Point3d.pypp.hpp"
 
 namespace bp = boost::python;
@@ -65,6 +66,14 @@ void register_Point3d_class(){
         Point3d_exposer.def("from_ndarray", &bp::from_ndarray< cv::Point3d >, (bp::arg("arr")) );
         Point3d_exposer.staticmethod("from_ndarray");
         Point3d_exposer.add_property("ndarray", &bp::as_ndarray< cv::Point3d >);
+        Point3d_exposer.def("__iadd__", &__iadd__<cv::Point3d, cv::Point3d>, bp::return_self<>() );
+        Point3d_exposer.def("__isub__", &__isub__<cv::Point3d, cv::Point3d>, bp::return_self<>() );
+        Point3d_exposer.def("__imul__", &__imul__<cv::Point3d, double>, bp::return_self<>() );
+        Point3d_exposer.def("__add__", &__add__<cv::Point3d, cv::Point3d> );
+        Point3d_exposer.def("__sub__", &__sub__<cv::Point3d, cv::Point3d> );
+        Point3d_exposer.def("__eq__", &__eq__<cv::Point3d, cv::Point3d> );
+        Point3d_exposer.def("__neg__", &__neg__<cv::Point3d> );
+        Point3d_exposer.def("__mul__", &__mul__<cv::Point3d, double> );
     }
 
 }

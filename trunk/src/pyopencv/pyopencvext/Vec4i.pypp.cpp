@@ -4,6 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "ndarray.hpp"
+#include "opencv_converters.hpp"
 #include "Vec4i.pypp.hpp"
 
 namespace bp = boost::python;
@@ -102,6 +103,25 @@ void register_Vec4i_class(){
         Vec4i_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec4i >, (bp::arg("arr")) );
         Vec4i_exposer.staticmethod("from_ndarray");
         Vec4i_exposer.add_property("ndarray", &bp::as_ndarray< cv::Vec4i >);
+        Vec4i_exposer.def("__iadd__", &__iadd__<cv::Vec4i, cv::Vec4b>, bp::return_self<>() );
+        Vec4i_exposer.def("__isub__", &__isub__<cv::Vec4i, cv::Vec4b>, bp::return_self<>() );
+        Vec4i_exposer.def("__iadd__", &__iadd__<cv::Vec4i, cv::Vec4s>, bp::return_self<>() );
+        Vec4i_exposer.def("__isub__", &__isub__<cv::Vec4i, cv::Vec4s>, bp::return_self<>() );
+        Vec4i_exposer.def("__iadd__", &__iadd__<cv::Vec4i, cv::Vec4w>, bp::return_self<>() );
+        Vec4i_exposer.def("__isub__", &__isub__<cv::Vec4i, cv::Vec4w>, bp::return_self<>() );
+        Vec4i_exposer.def("__iadd__", &__iadd__<cv::Vec4i, cv::Vec4i>, bp::return_self<>() );
+        Vec4i_exposer.def("__isub__", &__isub__<cv::Vec4i, cv::Vec4i>, bp::return_self<>() );
+        Vec4i_exposer.def("__iadd__", &__iadd__<cv::Vec4i, cv::Vec4f>, bp::return_self<>() );
+        Vec4i_exposer.def("__isub__", &__isub__<cv::Vec4i, cv::Vec4f>, bp::return_self<>() );
+        Vec4i_exposer.def("__iadd__", &__iadd__<cv::Vec4i, cv::Vec4d>, bp::return_self<>() );
+        Vec4i_exposer.def("__isub__", &__isub__<cv::Vec4i, cv::Vec4d>, bp::return_self<>() );
+        Vec4i_exposer.def("__add__", &__add__<cv::Vec4i, cv::Vec4i> );
+        Vec4i_exposer.def("__sub__", &__sub__<cv::Vec4i, cv::Vec4i> );
+        Vec4i_exposer.def("__eq__", &__eq__<cv::Vec4i, cv::Vec4i> );
+        Vec4i_exposer.def("__ne__", &__ne__<cv::Vec4i, cv::Vec4i> );
+        Vec4i_exposer.def("__imul__", &__imul__<cv::Vec4i, int>, bp::return_self<>() );
+        Vec4i_exposer.def("__mul__", &__mul__<cv::Vec4i, int> );
+        Vec4i_exposer.def("__neg__", &__neg__<cv::Vec4i> );
     }
 
 }

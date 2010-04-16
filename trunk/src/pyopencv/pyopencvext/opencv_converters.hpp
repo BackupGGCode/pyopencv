@@ -779,6 +779,48 @@ CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(cv::MatND *);
 
 // ================================================================================================
 
+template<typename T1, typename T2> inline T1 __add__(T1 const &inst1, T2 const &inst2)
+    { return inst1+inst2; }
+template<typename T1, typename T2> inline T1 __sub__(T1 const &inst1, T2 const &inst2)
+    { return inst1-inst2; }
+template<typename T1, typename T2> inline T1 __mul__(T1 const &inst1, T2 const &inst2)
+    { return inst1*inst2; }
+template<typename T1, typename T2> inline T1 __div__(T1 const &inst1, T2 const &inst2)
+    { return inst1/inst2; }
+template<typename T1, typename T2> inline T1 __and__(T1 const &inst1, T2 const &inst2)
+    { return inst1&inst2; }
+template<typename T1, typename T2> inline T1 __or__(T1 const &inst1, T2 const &inst2)
+    { return inst1|inst2; }
 
+template<typename T1> inline T1 __neg__(T1 const &inst)
+    { return -inst; }
+template<typename T1> inline bool __not__(T1 const &inst)
+    { return !inst; }
+
+template<typename T1, typename T2> inline T1 &__iadd__(T1 &inst1, T2 const &inst2)
+    { return inst1 += inst2; }
+template<typename T1, typename T2> inline T1 &__isub__(T1 &inst1, T2 const &inst2)
+    { return inst1 -= inst2; }
+template<typename T1, typename T2> inline T1 &__imul__(T1 &inst1, T2 const &inst2)
+    { return inst1 *= inst2; }
+template<typename T1, typename T2> inline T1 &__idiv__(T1 &inst1, T2 const &inst2)
+    { return inst1 /= inst2; }
+template<typename T1, typename T2> inline T1 &__iand__(T1 &inst1, T2 const &inst2)
+    { return inst1 &= inst2; }
+template<typename T1, typename T2> inline T1 &__ior__(T1 &inst1, T2 const &inst2)
+    { return inst1 |= inst2; }
+
+template<typename T1, typename T2> inline bool __lt__(T1 const&inst1, T2 const &inst2)
+    { return inst1 < inst2; }
+template<typename T1, typename T2> inline bool __le__(T1 const&inst1, T2 const &inst2)
+    { return inst1 <= inst2; }
+template<typename T1, typename T2> inline bool __gt__(T1 const&inst1, T2 const &inst2)
+    { return inst1 > inst2; }
+template<typename T1, typename T2> inline bool __ge__(T1 const&inst1, T2 const &inst2)
+    { return inst1 >= inst2; }
+template<typename T1, typename T2> inline bool __ne__(T1 const&inst1, T2 const &inst2)
+    { return inst1 != inst2; }
+template<typename T1, typename T2> inline bool __eq__(T1 const&inst1, T2 const &inst2)
+    { return inst1 == inst2; }
 
 #endif

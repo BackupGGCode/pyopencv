@@ -4,6 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "ndarray.hpp"
+#include "opencv_converters.hpp"
 #include "Size2f.pypp.hpp"
 
 namespace bp = boost::python;
@@ -52,6 +53,13 @@ void register_Size2f_class(){
         Size2f_exposer.def("from_ndarray", &bp::from_ndarray< cv::Size2f >, (bp::arg("arr")) );
         Size2f_exposer.staticmethod("from_ndarray");
         Size2f_exposer.add_property("ndarray", &bp::as_ndarray< cv::Size2f >);
+        Size2f_exposer.def("__iadd__", &__iadd__<cv::Size2f, cv::Size2f>, bp::return_self<>() );
+        Size2f_exposer.def("__isub__", &__isub__<cv::Size2f, cv::Size2f>, bp::return_self<>() );
+        Size2f_exposer.def("__add__", &__add__<cv::Size2f, cv::Size2f> );
+        Size2f_exposer.def("__sub__", &__sub__<cv::Size2f, cv::Size2f> );
+        Size2f_exposer.def("__eq__", &__eq__<cv::Size2f, cv::Size2f> );
+        Size2f_exposer.def("__ne__", &__ne__<cv::Size2f, cv::Size2f> );
+        Size2f_exposer.def("__mul__", &__mul__<cv::Size2f, float> );
     }
 
 }
