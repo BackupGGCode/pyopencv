@@ -379,7 +379,7 @@ def asMat(obj, force_single_channel=False):
 
     # RNG
     z = mb.class_('RNG')
-    z.include()
+    mb.init_class(z)
     z.operator(lambda x: x.name.endswith('uchar')).rename('as_uint8')
     z.operator(lambda x: x.name.endswith('schar')).rename('as_int8')
     z.operator(lambda x: x.name.endswith('ushort')).rename('as_uint16')
@@ -397,6 +397,7 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
     '''.replace("KLASS", z.alias))
+    mb.finalize_class(z)
     
     # TermCriteria
     z = mb.class_('TermCriteria')

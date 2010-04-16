@@ -11,13 +11,23 @@ void register_SVD_class(){
 
     { //::cv::SVD
         typedef bp::class_< cv::SVD > SVD_exposer_t;
-        SVD_exposer_t SVD_exposer = SVD_exposer_t( "SVD", bp::init< >() );
+        SVD_exposer_t SVD_exposer = SVD_exposer_t( "SVD", "\nClass for computing Singular Value Decomposition."
+    "\n"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#svd", bp::init< >("\nSVD constructors."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-svd-svd") );
         bp::scope SVD_scope( SVD_exposer );
-        SVD_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::SVD >() );
+        SVD_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::SVD >(), "\nClass for computing Singular Value Decomposition."
+    "\n"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#svd" );
         bp::scope().attr("MODIFY_A") = (int)cv::SVD::MODIFY_A;
         bp::scope().attr("NO_UV") = (int)cv::SVD::NO_UV;
         bp::scope().attr("FULL_UV") = (int)cv::SVD::FULL_UV;
-        SVD_exposer.def( bp::init< cv::Mat const &, bp::optional< int > >(( bp::arg("m"), bp::arg("flags")=(int)(0) )) );
+        SVD_exposer.def( bp::init< cv::Mat const &, bp::optional< int > >(( bp::arg("m"), bp::arg("flags")=(int)(0) ), "\nSVD constructors."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-svd-svd") );
         bp::implicitly_convertible< cv::Mat const &, cv::SVD >();
         { //::cv::SVD::backSubst
         
@@ -26,7 +36,10 @@ void register_SVD_class(){
             SVD_exposer.def( 
                 "backSubst"
                 , backSubst_function_type( &::cv::SVD::backSubst )
-                , ( bp::arg("rhs"), bp::arg("dst") ) );
+                , ( bp::arg("rhs"), bp::arg("dst") )
+                , "\nPerforms singular value back substitution."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-svd-backsubst" );
         
         }
         { //::cv::SVD::operator()
@@ -38,8 +51,11 @@ void register_SVD_class(){
                 , __call___function_type( &::cv::SVD::operator() )
                 , ( bp::arg("m"), bp::arg("flags")=(int)(0) )
                 , bp::return_self< >()
-                , "\nWrapped function:"
-    "\n    operator()" );
+                , "\nPerforms SVD of a matrix."
+    "\nWrapped function:"
+    "\n    operator()"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-svd-operator" );
         
         }
         { //::cv::SVD::solveZ
@@ -49,7 +65,10 @@ void register_SVD_class(){
             SVD_exposer.def( 
                 "solveZ"
                 , solveZ_function_type( &::cv::SVD::solveZ )
-                , ( bp::arg("m"), bp::arg("dst") ) );
+                , ( bp::arg("m"), bp::arg("dst") )
+                , "\nSolves under-determined singular linear system."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-svd-solvez" );
         
         }
         SVD_exposer.def_readwrite( "u", &cv::SVD::u );
