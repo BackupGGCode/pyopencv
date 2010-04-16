@@ -87,6 +87,7 @@ void register_Point2d_class(){
         Point2d_exposer.def("__eq__", &__eq__<cv::Point2d, cv::Point2d> );
         Point2d_exposer.def("__neg__", &__neg__<cv::Point2d> );
         Point2d_exposer.def("__mul__", &__mul__<cv::Point2d, double> );
+        Point2d_exposer.def("__rmul__", &__rmul__<double, cv::Point2d> );
     }
 
 }

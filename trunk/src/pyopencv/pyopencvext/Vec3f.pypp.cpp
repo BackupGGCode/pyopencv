@@ -121,6 +121,7 @@ void register_Vec3f_class(){
         Vec3f_exposer.def("__ne__", &__ne__<cv::Vec3f, cv::Vec3f> );
         Vec3f_exposer.def("__imul__", &__imul__<cv::Vec3f, float>, bp::return_self<>() );
         Vec3f_exposer.def("__mul__", &__mul__<cv::Vec3f, float> );
+        Vec3f_exposer.def("__rmul__", &__rmul__<float, cv::Vec3f> );
         Vec3f_exposer.def("__neg__", &__neg__<cv::Vec3f> );
     }
 

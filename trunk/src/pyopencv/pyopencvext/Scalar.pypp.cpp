@@ -55,7 +55,8 @@ void register_Scalar_class(){
         Scalar_exposer.def("__sub__", &__sub__<cv::Scalar, cv::Scalar> );
         Scalar_exposer.def("__ne__", &__ne__<cv::Scalar, cv::Scalar> );
         Scalar_exposer.def("__eq__", &__eq__<cv::Scalar, cv::Scalar> );
-        Scalar_exposer.def("__mul__", &__mul__<cv::Scalar, double > );
+        Scalar_exposer.def("__mul__", &__mul__<cv::Scalar, double> );
+        Scalar_exposer.def("__rmul__", &__rmul__<double, cv::Scalar> );
         Scalar_exposer.def("__neg__", &__neg__<cv::Scalar> );
     }
 
