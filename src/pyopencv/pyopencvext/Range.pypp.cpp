@@ -4,6 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "ndarray.hpp"
+#include "opencv_converters.hpp"
 #include "Range.pypp.hpp"
 
 namespace bp = boost::python;
@@ -52,6 +53,13 @@ void register_Range_class(){
         Range_exposer.def("from_ndarray", &bp::from_ndarray< cv::Range >, (bp::arg("arr")) );
         Range_exposer.staticmethod("from_ndarray");
         Range_exposer.add_property("ndarray", &bp::as_ndarray< cv::Range >);
+        Range_exposer.def("__not__", &__not__<cv::Range> );
+        Range_exposer.def("__iand__", &__iand__<cv::Range, cv::Range >, bp::return_self<>() );
+        Range_exposer.def("__and__", &__and__<cv::Range, cv::Range> );
+        Range_exposer.def("__ne__", &__ne__<cv::Range, cv::Range> );
+        Range_exposer.def("__eq__", &__eq__<cv::Range, cv::Range> );
+        Range_exposer.def("__add__", &__add__<cv::Range, int> );
+        Range_exposer.def("__sub__", &__sub__<cv::Range, int> );
     }
 
 }

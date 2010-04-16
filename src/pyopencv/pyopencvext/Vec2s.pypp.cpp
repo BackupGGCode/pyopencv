@@ -4,6 +4,7 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "ndarray.hpp"
+#include "opencv_converters.hpp"
 #include "Vec2s.pypp.hpp"
 
 namespace bp = boost::python;
@@ -102,6 +103,25 @@ void register_Vec2s_class(){
         Vec2s_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec2s >, (bp::arg("arr")) );
         Vec2s_exposer.staticmethod("from_ndarray");
         Vec2s_exposer.add_property("ndarray", &bp::as_ndarray< cv::Vec2s >);
+        Vec2s_exposer.def("__iadd__", &__iadd__<cv::Vec2s, cv::Vec2b>, bp::return_self<>() );
+        Vec2s_exposer.def("__isub__", &__isub__<cv::Vec2s, cv::Vec2b>, bp::return_self<>() );
+        Vec2s_exposer.def("__iadd__", &__iadd__<cv::Vec2s, cv::Vec2s>, bp::return_self<>() );
+        Vec2s_exposer.def("__isub__", &__isub__<cv::Vec2s, cv::Vec2s>, bp::return_self<>() );
+        Vec2s_exposer.def("__iadd__", &__iadd__<cv::Vec2s, cv::Vec2w>, bp::return_self<>() );
+        Vec2s_exposer.def("__isub__", &__isub__<cv::Vec2s, cv::Vec2w>, bp::return_self<>() );
+        Vec2s_exposer.def("__iadd__", &__iadd__<cv::Vec2s, cv::Vec2i>, bp::return_self<>() );
+        Vec2s_exposer.def("__isub__", &__isub__<cv::Vec2s, cv::Vec2i>, bp::return_self<>() );
+        Vec2s_exposer.def("__iadd__", &__iadd__<cv::Vec2s, cv::Vec2f>, bp::return_self<>() );
+        Vec2s_exposer.def("__isub__", &__isub__<cv::Vec2s, cv::Vec2f>, bp::return_self<>() );
+        Vec2s_exposer.def("__iadd__", &__iadd__<cv::Vec2s, cv::Vec2d>, bp::return_self<>() );
+        Vec2s_exposer.def("__isub__", &__isub__<cv::Vec2s, cv::Vec2d>, bp::return_self<>() );
+        Vec2s_exposer.def("__add__", &__add__<cv::Vec2s, cv::Vec2s> );
+        Vec2s_exposer.def("__sub__", &__sub__<cv::Vec2s, cv::Vec2s> );
+        Vec2s_exposer.def("__eq__", &__eq__<cv::Vec2s, cv::Vec2s> );
+        Vec2s_exposer.def("__ne__", &__ne__<cv::Vec2s, cv::Vec2s> );
+        Vec2s_exposer.def("__imul__", &__imul__<cv::Vec2s, short>, bp::return_self<>() );
+        Vec2s_exposer.def("__mul__", &__mul__<cv::Vec2s, short> );
+        Vec2s_exposer.def("__neg__", &__neg__<cv::Vec2s> );
     }
 
 }
