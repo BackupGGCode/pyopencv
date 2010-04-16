@@ -433,16 +433,20 @@ static bp::object get_MEMBER(KLASS const &inst) { return convert_from_T_to_objec
 module_builder.module_builder_t.finalize_class = finalize_class
 
 def asClass2(self, src_class_Pname, src_class_Cname, dst_class_Pname, dst_class_Cname):
-    self.dummy_struct.add_declaration_code('''
-static inline CLASS2 cvt_KLASS1_KLASS2(CLASS1 const &inst)
-{
-    return inst.operator CLASS2();
-}
-        '''.replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname)\
-        .replace('CLASS1', src_class_Cname).replace('CLASS2', dst_class_Cname))
     self.dummy_struct.add_reg_code(\
-        'bp::def("asKLASS2", &cvt_KLASS1_KLASS2, (bp::arg("inst_KLASS1")));'\
-        .replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname))
+        'bp::def("asKLASS2", &::normal_cast< CLASS1, CLASS2 >, (bp::arg("inst_KLASS1")));'\
+        .replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname)\
+        .replace('CLASS1', src_class_Cname).replace('CLASS2', dst_class_Cname))
+    # self.dummy_struct.add_declaration_code('''
+# static inline CLASS2 cvt_KLASS1_KLASS2(CLASS1 const &inst)
+# {
+    # return inst.operator CLASS2();
+# }
+        # '''.replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname)\
+        # .replace('CLASS1', src_class_Cname).replace('CLASS2', dst_class_Cname))
+    # self.dummy_struct.add_reg_code(\
+        # 'bp::def("asKLASS2", &cvt_KLASS1_KLASS2, (bp::arg("inst_KLASS1")));'\
+        # .replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname))
 module_builder.module_builder_t.asClass2 = asClass2
 
 def dtypecast(self, casting_list):
@@ -484,6 +488,7 @@ mb.enums().include()
 
 # dummy struct
 z = mb.class_("dummy_struct")
+z.include_files.append("opencv_converters.hpp")
 mb.dummy_struct = z
 z.include()
 z.decls().exclude()
