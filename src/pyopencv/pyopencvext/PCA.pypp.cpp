@@ -10,11 +10,13 @@ namespace bp = boost::python;
 void register_PCA_class(){
 
     bp::class_< cv::PCA >( "PCA", "\nClass for Principal Component Analysis."
+    "\n"
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#pca", bp::init< >("\nPCA constructors."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-pca") )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::PCA >(), "\nClass for Principal Component Analysis."
+    "\n"
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#pca" )    
         .def( bp::init< cv::Mat const &, cv::Mat const &, int, bp::optional< int > >(( bp::arg("data"), bp::arg("mean"), bp::arg("flags"), bp::arg("maxComponents")=(int)(0) ), "\nPCA constructors."

@@ -4027,7 +4027,10 @@ void register_free_functions(){
         bp::def( 
             "randShuffle"
             , randShuffle_function_type( &::cv::randShuffle )
-            , ( bp::arg("dst"), bp::arg("iterFactor")=1.0e+0, bp::arg("rng")=bp::object() ) );
+            , ( bp::arg("dst"), bp::arg("iterFactor")=1.0e+0, bp::arg("rng")=bp::object() )
+            , "\nShuffles the array elements randomly."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-randshuffle" );
     
     }
 
@@ -4038,7 +4041,10 @@ void register_free_functions(){
         bp::def( 
             "randn"
             , randn_function_type( &::cv::randn )
-            , ( bp::arg("dst"), bp::arg("mean"), bp::arg("stddev") ) );
+            , ( bp::arg("dst"), bp::arg("mean"), bp::arg("stddev") )
+            , "\nFills array with normally distributed random numbers."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-randn" );
     
     }
 
@@ -4049,7 +4055,11 @@ void register_free_functions(){
         bp::def( 
             "randu"
             , randu_function_type( &::cv::randu )
-            , ( bp::arg("dst"), bp::arg("low"), bp::arg("high") ) );
+            , ( bp::arg("dst"), bp::arg("low"), bp::arg("high") )
+            , "\nGenerates a single uniformly-distributed random number or array of "
+    "\nrandom numbers."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-randu" );
     
     }
 
@@ -4082,7 +4092,10 @@ void register_free_functions(){
         bp::def( 
             "reduce"
             , reduce_function_type( &::cv::reduce )
-            , ( bp::arg("m"), bp::arg("dst"), bp::arg("dim"), bp::arg("rtype"), bp::arg("dtype")=(int)(-0x000000001) ) );
+            , ( bp::arg("m"), bp::arg("dst"), bp::arg("dim"), bp::arg("rtype"), bp::arg("dtype")=(int)(-0x000000001) )
+            , "\nReduces a matrix to a vector."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-reduce" );
     
     }
 
@@ -4104,7 +4117,10 @@ void register_free_functions(){
         bp::def( 
             "repeat"
             , repeat_function_type( &::cv::repeat )
-            , ( bp::arg("src"), bp::arg("ny"), bp::arg("nx") ) );
+            , ( bp::arg("src"), bp::arg("ny"), bp::arg("nx") )
+            , "\nFill the destination array with repeated copies of the source array."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-repeat" );
     
     }
 
@@ -4115,7 +4131,10 @@ void register_free_functions(){
         bp::def( 
             "repeat"
             , repeat_function_type( &::cv::repeat )
-            , ( bp::arg("a"), bp::arg("ny"), bp::arg("nx"), bp::arg("b") ) );
+            , ( bp::arg("a"), bp::arg("ny"), bp::arg("nx"), bp::arg("b") )
+            , "\nFill the destination array with repeated copies of the source array."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-repeat" );
     
     }
 
@@ -4148,7 +4167,10 @@ void register_free_functions(){
         bp::def( 
             "scaleAdd"
             , scaleAdd_function_type( &::cv::scaleAdd )
-            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("c") )
+            , "\nCalculates the sum of a scaled array and another array."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-scaleadd" );
     
     }
 
@@ -4159,7 +4181,10 @@ void register_free_functions(){
         bp::def( 
             "scaleAdd"
             , scaleAdd_function_type( &::cv::scaleAdd )
-            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("c") )
+            , "\nCalculates the sum of a scaled array and another array."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-scaleadd" );
     
     }
 
@@ -4181,7 +4206,10 @@ void register_free_functions(){
         bp::def( 
             "setIdentity"
             , setIdentity_function_type( &::cv::setIdentity )
-            , ( bp::arg("c"), bp::arg("s")=cv::Scalar_<double>(1.0e+0) ) );
+            , ( bp::arg("c"), bp::arg("s")=cv::Scalar_<double>(1.0e+0) )
+            , "\nInitializes a scaled identity matrix."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-setidentity" );
     
     }
 
@@ -4225,7 +4253,10 @@ void register_free_functions(){
         bp::def( 
             "solve"
             , solve_function_type( &::cv::solve )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("x"), bp::arg("flags")=int(::cv::DECOMP_LU) ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("x"), bp::arg("flags")=int(::cv::DECOMP_LU) )
+            , "\nSolves one or more linear systems or least-squares problems."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-solve" );
     
     }
 
@@ -4247,7 +4278,10 @@ void register_free_functions(){
         bp::def( 
             "sort"
             , sort_function_type( &::cv::sort )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("flags") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("flags") )
+            , "\nSorts each row or each column of a matrix."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sort" );
     
     }
 
@@ -4258,7 +4292,10 @@ void register_free_functions(){
         bp::def( 
             "sortIdx"
             , sortIdx_function_type( &::cv::sortIdx )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("flags") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("flags") )
+            , "\nSorts each row or each column of a matrix."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sortIdx" );
     
     }
 
@@ -4269,7 +4306,10 @@ void register_free_functions(){
         bp::def( 
             "sqrt"
             , sqrt_function_type( &::cv::sqrt )
-            , ( bp::arg("a"), bp::arg("b") ) );
+            , ( bp::arg("a"), bp::arg("b") )
+            , "\nCalculates square root of array elements."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sqrt" );
     
     }
 
@@ -4280,7 +4320,10 @@ void register_free_functions(){
         bp::def( 
             "sqrt"
             , sqrt_function_type( &::cv::sqrt )
-            , ( bp::arg("a"), bp::arg("b") ) );
+            , ( bp::arg("a"), bp::arg("b") )
+            , "\nCalculates square root of array elements."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sqrt" );
     
     }
 
@@ -4313,7 +4356,11 @@ void register_free_functions(){
         bp::def( 
             "subtract"
             , subtract_function_type( &::cv::subtract )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::MatND() ) );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::MatND() )
+            , "\nCalculates per-element difference between two arrays or array and a "
+    "\nscalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
     
     }
 
@@ -4324,7 +4371,11 @@ void register_free_functions(){
         bp::def( 
             "subtract"
             , subtract_function_type( &::cv::subtract )
-            , ( bp::arg("s"), bp::arg("a"), bp::arg("c"), bp::arg("mask")=cv::MatND() ) );
+            , ( bp::arg("s"), bp::arg("a"), bp::arg("c"), bp::arg("mask")=cv::MatND() )
+            , "\nCalculates per-element difference between two arrays or array and a "
+    "\nscalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
     
     }
 
@@ -4335,7 +4386,11 @@ void register_free_functions(){
         bp::def( 
             "subtract"
             , subtract_function_type( &::cv::subtract )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
+            , "\nCalculates per-element difference between two arrays or array and a "
+    "\nscalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
     
     }
 
@@ -4346,7 +4401,11 @@ void register_free_functions(){
         bp::def( 
             "subtract"
             , subtract_function_type( &::cv::subtract )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask") )
+            , "\nCalculates per-element difference between two arrays or array and a "
+    "\nscalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
     
     }
 
@@ -4357,7 +4416,11 @@ void register_free_functions(){
         bp::def( 
             "subtract"
             , subtract_function_type( &::cv::subtract )
-            , ( bp::arg("s"), bp::arg("a"), bp::arg("c"), bp::arg("mask")=cv::Mat() ) );
+            , ( bp::arg("s"), bp::arg("a"), bp::arg("c"), bp::arg("mask")=cv::Mat() )
+            , "\nCalculates per-element difference between two arrays or array and a "
+    "\nscalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
     
     }
 
@@ -4368,7 +4431,11 @@ void register_free_functions(){
         bp::def( 
             "subtract"
             , subtract_function_type( &::cv::subtract )
-            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::Mat() ) );
+            , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::Mat() )
+            , "\nCalculates per-element difference between two arrays or array and a "
+    "\nscalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
     
     }
 
@@ -4379,7 +4446,11 @@ void register_free_functions(){
         bp::def( 
             "subtract"
             , subtract_function_type( &::cv::subtract )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
+            , "\nCalculates per-element difference between two arrays or array and a "
+    "\nscalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
     
     }
 
@@ -4390,7 +4461,11 @@ void register_free_functions(){
         bp::def( 
             "subtract"
             , subtract_function_type( &::cv::subtract )
-            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask") ) );
+            , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask") )
+            , "\nCalculates per-element difference between two arrays or array and a "
+    "\nscalar."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
     
     }
 
@@ -4401,7 +4476,10 @@ void register_free_functions(){
         bp::def( 
             "sum"
             , sum_function_type( &::cv::sum )
-            , ( bp::arg("m") ) );
+            , ( bp::arg("m") )
+            , "\nCalculates sum of array elements."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sum" );
     
     }
 
@@ -4412,7 +4490,10 @@ void register_free_functions(){
         bp::def( 
             "sum"
             , sum_function_type( &::cv::sum )
-            , ( bp::arg("m") ) );
+            , ( bp::arg("m") )
+            , "\nCalculates sum of array elements."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sum" );
     
     }
 
@@ -4423,7 +4504,10 @@ void register_free_functions(){
         bp::def( 
             "theRNG"
             , theRNG_function_type( &::cv::theRNG )
-            , bp::return_value_policy< bp::reference_existing_object >() );
+            , bp::return_value_policy< bp::reference_existing_object >()
+            , "\nReturns the default random number generator."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-therng" );
     
     }
 
@@ -4456,7 +4540,10 @@ void register_free_functions(){
         bp::def( 
             "trace"
             , trace_function_type( &::cv::trace )
-            , ( bp::arg("m") ) );
+            , ( bp::arg("m") )
+            , "\nReturns the trace of a matrix."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-trace" );
     
     }
 
@@ -4467,7 +4554,10 @@ void register_free_functions(){
         bp::def( 
             "transform"
             , transform_function_type( &::cv::transform )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("m") ) );
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("m") )
+            , "\nPerforms matrix transformation of every array element."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-transform" );
     
     }
 
@@ -4478,7 +4568,10 @@ void register_free_functions(){
         bp::def( 
             "transpose"
             , transpose_function_type( &::cv::transpose )
-            , ( bp::arg("a"), bp::arg("b") ) );
+            , ( bp::arg("a"), bp::arg("b") )
+            , "\nTransposes a matrix."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-transpose" );
     
     }
 

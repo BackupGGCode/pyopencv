@@ -5295,7 +5295,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "split"
             , split_function_type( &split_12da852b2108a4c5223916b7b3caf48f )
             , ( bp::arg("m"), bp::arg("mv") )
-            , "\nArgument 'mv':"\
+            , "\nDivides multi-channel array into several single-channel arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split"
+    "\nArgument 'mv':"\
     "\n    C/C++ type: ::std::vector< cv::MatND > &."\
     "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]." );
     
@@ -5309,7 +5312,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "split"
             , split_function_type( &split_5e87cb7b08d019948a672b023e58e480 )
             , ( bp::arg("m"), bp::arg("mv") )
-            , "\nArgument 'mv':"\
+            , "\nDivides multi-channel array into several single-channel arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split"
+    "\nArgument 'mv':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
     
