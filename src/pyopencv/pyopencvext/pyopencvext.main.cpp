@@ -523,7 +523,7 @@ static void buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac( ::cv::Mat const & src
     convert_from_T_to_object(dst2, dst);
 }
 
-static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( bp::sequence images, cv::Mat const & channels, ::cv::SparseMat const & hist, ::cv::Mat & backProject, bp::object const & ranges, double scale=1, bool uniform=true ){
+static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( sdcpp::sequence images, cv::Mat const & channels, ::cv::SparseMat const & hist, ::cv::Mat & backProject, bp::object const & ranges, double scale=1, bool uniform=true ){
     std::vector< ::cv::Mat > images2;
     int channels2;
     int * channels3;
@@ -550,7 +550,7 @@ static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( bp::sequence image
     ::cv::calcBackProject((::cv::Mat const *)&images2[0], images2.size(), channels3, hist, backProject, (float const * *) &buf_ranges[0], scale, uniform);
 }
 
-static void calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8( bp::sequence images, cv::Mat const & channels, ::cv::MatND const & hist, ::cv::Mat & backProject, bp::object const & ranges, double scale=1, bool uniform=true ){
+static void calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8( sdcpp::sequence images, cv::Mat const & channels, ::cv::MatND const & hist, ::cv::Mat & backProject, bp::object const & ranges, double scale=1, bool uniform=true ){
     std::vector< ::cv::Mat > images2;
     int channels2;
     int * channels3;
@@ -584,7 +584,7 @@ static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( bp::list const & s
     ::cv::calcCovarMatrix(&samples3[0], samples2, covar, mean, flags, ctype);
 }
 
-static void calcHist_8e436c4da97e1e09468541e1bed60274( bp::sequence images, cv::Mat const & channels, ::cv::Mat const & mask, ::cv::SparseMat & hist, cv::Mat const & histSize, bp::object const & ranges, bool uniform=true, bool accumulate=false ){
+static void calcHist_8e436c4da97e1e09468541e1bed60274( sdcpp::sequence images, cv::Mat const & channels, ::cv::Mat const & mask, ::cv::SparseMat & hist, cv::Mat const & histSize, bp::object const & ranges, bool uniform=true, bool accumulate=false ){
     std::vector< ::cv::Mat > images2;
     int channels2;
     int * channels3;
@@ -614,7 +614,7 @@ static void calcHist_8e436c4da97e1e09468541e1bed60274( bp::sequence images, cv::
     ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), channels3, mask, hist, histSize2, histSize3, (float const * *) &buf_ranges[0], uniform, accumulate);
 }
 
-static void calcHist_a4cce9bdd9689d0fb0adf901f467bfa0( bp::sequence images, cv::Mat const & channels, ::cv::Mat const & mask, ::cv::MatND & hist, cv::Mat const & histSize, bp::object const & ranges, bool uniform=true, bool accumulate=false ){
+static void calcHist_a4cce9bdd9689d0fb0adf901f467bfa0( sdcpp::sequence images, cv::Mat const & channels, ::cv::Mat const & mask, ::cv::MatND & hist, cv::Mat const & histSize, bp::object const & ranges, bool uniform=true, bool accumulate=false ){
     std::vector< ::cv::Mat > images2;
     int channels2;
     int * channels3;
@@ -2345,7 +2345,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcBackProject
     
-        typedef void ( *calcBackProject_function_type )( bp::sequence,cv::Mat const &,::cv::SparseMat const &,::cv::Mat &,bp::object const &,double,bool );
+        typedef void ( *calcBackProject_function_type )( sdcpp::sequence,cv::Mat const &,::cv::SparseMat const &,::cv::Mat &,bp::object const &,double,bool );
         
         bp::def( 
             "calcBackProject"
@@ -2372,7 +2372,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcBackProject
     
-        typedef void ( *calcBackProject_function_type )( bp::sequence,cv::Mat const &,::cv::MatND const &,::cv::Mat &,bp::object const &,double,bool );
+        typedef void ( *calcBackProject_function_type )( sdcpp::sequence,cv::Mat const &,::cv::MatND const &,::cv::Mat &,bp::object const &,double,bool );
         
         bp::def( 
             "calcBackProject"
@@ -2407,7 +2407,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("samples"), bp::arg("covar"), bp::arg("mean"), bp::arg("flags"), bp::arg("ctype")=(int)(6) )
             , "\nCalculates covariation matrix of a set of vectors."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#calccovarmatrix"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#calccovarmatrix`_"
     "\nArgument 'nsamples':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument 'samples'."\
@@ -2419,7 +2419,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcHist
     
-        typedef void ( *calcHist_function_type )( bp::sequence,cv::Mat const &,::cv::Mat const &,::cv::SparseMat &,cv::Mat const &,bp::object const &,bool,bool );
+        typedef void ( *calcHist_function_type )( sdcpp::sequence,cv::Mat const &,::cv::Mat const &,::cv::SparseMat &,cv::Mat const &,bp::object const &,bool,bool );
         
         bp::def( 
             "calcHist"
@@ -2454,7 +2454,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcHist
     
-        typedef void ( *calcHist_function_type )( bp::sequence,cv::Mat const &,::cv::Mat const &,::cv::MatND &,cv::Mat const &,bp::object const &,bool,bool );
+        typedef void ( *calcHist_function_type )( sdcpp::sequence,cv::Mat const &,::cv::Mat const &,::cv::MatND &,cv::Mat const &,bp::object const &,bool,bool );
         
         bp::def( 
             "calcHist"
@@ -2560,7 +2560,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("a"), bp::arg("quiet")=(bool)(true), bp::arg("minVal")=-1.79769313486231570814527423731704356798070567526e+308, bp::arg("maxVal")=1.79769313486231570814527423731704356798070567526e+308 )
             , "\nChecks every element of an input array for invalid values."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#checkrange"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#checkrange`_"
     "\nArgument 'idx':"\
     "\n    C/C++ type: int *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -2579,7 +2579,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("a"), bp::arg("quiet")=(bool)(true), bp::arg("minVal")=-1.79769313486231570814527423731704356798070567526e+308, bp::arg("maxVal")=1.79769313486231570814527423731704356798070567526e+308 )
             , "\nChecks every element of an input array for invalid values."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#checkrange"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#checkrange`_"
     "\nArgument 'pt':"\
     "\n    C/C++ type: ::cv::Point *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -2734,7 +2734,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nWrapped function:"
     "\n    createTrackbar"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-createtrackbar"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-createtrackbar`_"
     "\nArgument 'onChange' is a Python function that should look like below:"\
     "\n    def on_trackbar(pos, user_data):"\
     "\n        ..."\
@@ -3078,7 +3078,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nWrapped function:"
     "\n    cvConvertImage"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#convertimage"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#convertimage`_"
     "\nArgument 'src':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
@@ -3480,7 +3480,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nWrapped function:"
     "\n    cvInitSystem"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#initsystem"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#initsystem`_"
     "\nArgument 'argc':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument 'argv'."\
@@ -4035,7 +4035,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nWrapped function:"
     "\n    cvSetMouseCallback"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#setmousecallback"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#setmousecallback`_"
     "\nArgument 'on_mouse' is a Python function that should look like below:"\
     "\n    def on_mouse(event, x, y, flags, user_data):"\
     "\n        ..."\
@@ -4790,7 +4790,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
             , "\nEncode an image into a memory buffer."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imencode"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imencode`_"
     "\nArgument 'params':"\
     "\n    C/C++ type: ::std::vector< int > const &."\
     "\n    Python type: Mat."\
@@ -4816,7 +4816,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
             , "\nSaves an image to a specified file."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imwrite"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imwrite`_"
     "\nArgument 'params':"\
     "\n    C/C++ type: ::std::vector< int > const &."\
     "\n    Python type: Mat."\
@@ -4873,7 +4873,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("mv"), bp::arg("dst") )
             , "\nComposes a multi-channel array from several single-channel arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge`_"
     "\nArgument 'mv':"\
     "\n    C/C++ type: ::std::vector< cv::MatND > const &."\
     "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]." );
@@ -4890,7 +4890,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("mv"), bp::arg("dst") )
             , "\nComposes a multi-channel array from several single-channel arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge`_"
     "\nArgument 'mv':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
@@ -4907,7 +4907,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("a") )
             , "\nFinds global minimum and maximum in a whole array or sub-array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc`_"
     "\nArgument 'maxVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -4941,7 +4941,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("a"), bp::arg("mask")=cv::MatND() )
             , "\nFinds global minimum and maximum in a whole array or sub-array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc`_"
     "\nArgument 'maxVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -4975,7 +4975,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("a"), bp::arg("mask")=cv::Mat() )
             , "\nFinds global minimum and maximum in a whole array or sub-array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc`_"
     "\nArgument 'minLoc':"\
     "\n    C/C++ type: ::cv::Point *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -5010,7 +5010,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nCopies specified channels from input arrays to the specified channels "
     "\nof output arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels`_"
     "\nArgument 'src':"\
     "\n    C/C++ type: ::std::vector< cv::MatND > const &."\
     "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
@@ -5036,7 +5036,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nCopies specified channels from input arrays to the specified channels "
     "\nof output arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels`_"
     "\nArgument 'src':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
@@ -5297,7 +5297,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("m"), bp::arg("mv") )
             , "\nDivides multi-channel array into several single-channel arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split`_"
     "\nArgument 'mv':"\
     "\n    C/C++ type: ::std::vector< cv::MatND > &."\
     "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]." );
@@ -5314,7 +5314,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("m"), bp::arg("mv") )
             , "\nDivides multi-channel array into several single-channel arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split"
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split`_"
     "\nArgument 'mv':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
@@ -5409,79 +5409,79 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::to_python_converter<CvRNG, CvRNG_to_python, false>();
 
-    bp::def("asVec4d", &bp::from_ndarray< cv::Vec4d >, (bp::arg("arr")) );
+    bp::def("asVec4d", &sdcpp::from_ndarray< cv::Vec4d >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec3d", &bp::from_ndarray< cv::Vec3d >, (bp::arg("arr")) );
+    bp::def("asVec3d", &sdcpp::from_ndarray< cv::Vec3d >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2d", &bp::from_ndarray< cv::Vec2d >, (bp::arg("arr")) );
+    bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec2d >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4f", &bp::from_ndarray< cv::Vec4f >, (bp::arg("arr")) );
+    bp::def("asVec4f", &sdcpp::from_ndarray< cv::Vec4f >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec3f", &bp::from_ndarray< cv::Vec3f >, (bp::arg("arr")) );
+    bp::def("asVec3f", &sdcpp::from_ndarray< cv::Vec3f >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2f", &bp::from_ndarray< cv::Vec2f >, (bp::arg("arr")) );
+    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec2f >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4i", &bp::from_ndarray< cv::Vec4i >, (bp::arg("arr")) );
+    bp::def("asVec4i", &sdcpp::from_ndarray< cv::Vec4i >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec3i", &bp::from_ndarray< cv::Vec3i >, (bp::arg("arr")) );
+    bp::def("asVec3i", &sdcpp::from_ndarray< cv::Vec3i >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2i", &bp::from_ndarray< cv::Vec2i >, (bp::arg("arr")) );
+    bp::def("asVec2i", &sdcpp::from_ndarray< cv::Vec2i >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4w", &bp::from_ndarray< cv::Vec4w >, (bp::arg("arr")) );
+    bp::def("asVec4w", &sdcpp::from_ndarray< cv::Vec4w >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec3w", &bp::from_ndarray< cv::Vec3w >, (bp::arg("arr")) );
+    bp::def("asVec3w", &sdcpp::from_ndarray< cv::Vec3w >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2w", &bp::from_ndarray< cv::Vec2w >, (bp::arg("arr")) );
+    bp::def("asVec2w", &sdcpp::from_ndarray< cv::Vec2w >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4s", &bp::from_ndarray< cv::Vec4s >, (bp::arg("arr")) );
+    bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec4s >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec3s", &bp::from_ndarray< cv::Vec3s >, (bp::arg("arr")) );
+    bp::def("asVec3s", &sdcpp::from_ndarray< cv::Vec3s >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2s", &bp::from_ndarray< cv::Vec2s >, (bp::arg("arr")) );
+    bp::def("asVec2s", &sdcpp::from_ndarray< cv::Vec2s >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4b", &bp::from_ndarray< cv::Vec4b >, (bp::arg("arr")) );
+    bp::def("asVec4b", &sdcpp::from_ndarray< cv::Vec4b >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec3b", &bp::from_ndarray< cv::Vec3b >, (bp::arg("arr")) );
+    bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2b", &bp::from_ndarray< cv::Vec2b >, (bp::arg("arr")) );
+    bp::def("asVec2b", &sdcpp::from_ndarray< cv::Vec2b >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec6d", &bp::from_ndarray< cv::Vec6d >, (bp::arg("arr")) );
+    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec6d >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec6f", &bp::from_ndarray< cv::Vec6f >, (bp::arg("arr")) );
+    bp::def("asVec6f", &sdcpp::from_ndarray< cv::Vec6f >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint2i", &bp::from_ndarray< cv::Point2i >, (bp::arg("arr")) );
+    bp::def("asPoint2i", &sdcpp::from_ndarray< cv::Point2i >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint2d", &bp::from_ndarray< cv::Point2d >, (bp::arg("arr")) );
+    bp::def("asPoint2d", &sdcpp::from_ndarray< cv::Point2d >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint2f", &bp::from_ndarray< cv::Point2f >, (bp::arg("arr")) );
+    bp::def("asPoint2f", &sdcpp::from_ndarray< cv::Point2f >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint3d", &bp::from_ndarray< cv::Point3d >, (bp::arg("arr")) );
+    bp::def("asPoint3d", &sdcpp::from_ndarray< cv::Point3d >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint3f", &bp::from_ndarray< cv::Point3f >, (bp::arg("arr")) );
+    bp::def("asPoint3f", &sdcpp::from_ndarray< cv::Point3f >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint3i", &bp::from_ndarray< cv::Point3i >, (bp::arg("arr")) );
+    bp::def("asPoint3i", &sdcpp::from_ndarray< cv::Point3i >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asSize2i", &bp::from_ndarray< cv::Size2i >, (bp::arg("arr")) );
+    bp::def("asSize2i", &sdcpp::from_ndarray< cv::Size2i >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asSize2d", &bp::from_ndarray< cv::Size2d >, (bp::arg("arr")) );
+    bp::def("asSize2d", &sdcpp::from_ndarray< cv::Size2d >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asSize2f", &bp::from_ndarray< cv::Size2f >, (bp::arg("arr")) );
+    bp::def("asSize2f", &sdcpp::from_ndarray< cv::Size2f >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asRect", &bp::from_ndarray< cv::Rect >, (bp::arg("arr")) );
+    bp::def("asRect", &sdcpp::from_ndarray< cv::Rect >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asRectd", &bp::from_ndarray< cv::Rectd >, (bp::arg("arr")) );
+    bp::def("asRectd", &sdcpp::from_ndarray< cv::Rectd >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asRectf", &bp::from_ndarray< cv::Rectf >, (bp::arg("arr")) );
+    bp::def("asRectf", &sdcpp::from_ndarray< cv::Rectf >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asRotatedRect", &bp::from_ndarray< cv::RotatedRect >, (bp::arg("arr")) );
+    bp::def("asRotatedRect", &sdcpp::from_ndarray< cv::RotatedRect >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asScalar", &bp::from_ndarray< cv::Scalar >, (bp::arg("arr")) );
+    bp::def("asScalar", &sdcpp::from_ndarray< cv::Scalar >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asRange", &bp::from_ndarray< cv::Range >, (bp::arg("arr")) );
+    bp::def("asRange", &sdcpp::from_ndarray< cv::Range >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asMat", &bp::from_ndarray< cv::Mat >, (bp::arg("arr")) );
+    bp::def("asMat", &sdcpp::from_ndarray< cv::Mat >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asMatND", &bp::from_ndarray< cv::MatND >, (bp::arg("arr")) );
+    bp::def("asMatND", &sdcpp::from_ndarray< cv::MatND >, (bp::arg("inst_ndarray")) );
 
     bp::def( 
         "snakeImage"

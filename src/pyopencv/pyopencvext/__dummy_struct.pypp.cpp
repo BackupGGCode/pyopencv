@@ -4,6 +4,8 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "opencv_converters.hpp"
+#include "sequence.hpp"
+#include "ndarray.hpp"
 #include "__dummy_struct.pypp.hpp"
 
 namespace bp = boost::python;
@@ -21,6 +23,8 @@ void register___dummy_struct_class(){
     }
     {
         
+        sdcpp::register_sdobject<sdcpp::sequence>();
+        sdcpp::register_sdobject<sdcpp::ndarray>();
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 4 >, ::CvScalar >, (bp::arg("inst_Vec4d")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 3 >, ::CvScalar >, (bp::arg("inst_Vec3d")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 2 >, ::CvScalar >, (bp::arg("inst_Vec2d")));

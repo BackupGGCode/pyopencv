@@ -50,9 +50,9 @@ void register_Size2i_class(){
         }
         Size2i_exposer.def_readwrite( "height", &cv::Size_< int >::height );
         Size2i_exposer.def_readwrite( "width", &cv::Size_< int >::width );
-        Size2i_exposer.def("from_ndarray", &bp::from_ndarray< cv::Size2i >, (bp::arg("arr")) );
+        Size2i_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Size2i >, (bp::arg("inst_ndarray")) );
         Size2i_exposer.staticmethod("from_ndarray");
-        Size2i_exposer.add_property("ndarray", &bp::as_ndarray< cv::Size2i >);
+        Size2i_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Size2i >);
         Size2i_exposer.def("__iadd__", &__iadd__<cv::Size2i, cv::Size2i>, bp::return_self<>() );
         Size2i_exposer.def("__isub__", &__isub__<cv::Size2i, cv::Size2i>, bp::return_self<>() );
         Size2i_exposer.def("__add__", &__add__<cv::Size2i, cv::Size2i> );

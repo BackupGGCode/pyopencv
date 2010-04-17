@@ -1139,7 +1139,7 @@ class input_as_list_of_Mat_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg(self.arg.name)
-        w_arg.type = _D.dummy_type_t( "bp::sequence" )
+        w_arg.type = _D.dummy_type_t( "sdcpp::sequence" )
         
         # intermediate variable
         vec = controller.declare_variable(_D.dummy_type_t("std::vector< %s >" % self.elem_type_str), self.arg.name)
@@ -1219,7 +1219,7 @@ class input_as_list_of_MatND_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg(self.arg.name)
-        w_arg.type = _D.dummy_type_t( "bp::sequence" )
+        w_arg.type = _D.dummy_type_t( "sdcpp::sequence" )
         
         # intermediate variable
         vec = controller.declare_variable(_D.dummy_type_t("std::vector< %s >" % self.elem_type_str), self.arg.name)

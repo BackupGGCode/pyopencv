@@ -171,7 +171,8 @@ struct CvSVM_wrapper : CvSVM, bp::wrapper< CvSVM > {
       
     bp::object get_support_vector_(int i) {
         int len = get_var_count();
-        bp::object result = bp::new_(1, &len, NPY_FLOAT, 0, (void *)get_support_vector(i), NPY_C_CONTIGUOUS);
+        bp::object result = sdcpp::new_ndarray(1, &len, NPY_FLOAT, 0, 
+            (void *)get_support_vector(i), NPY_C_CONTIGUOUS).get_obj();
         bp::objects::make_nurse_and_patient(result.ptr(), bp::object(bp::ptr(this)).ptr());
         return result;
     }

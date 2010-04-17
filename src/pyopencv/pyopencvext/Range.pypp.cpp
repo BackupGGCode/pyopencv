@@ -50,9 +50,9 @@ void register_Range_class(){
         Range_exposer.def_readwrite( "end", &cv::Range::end );
         Range_exposer.def_readwrite( "start", &cv::Range::start );
         Range_exposer.staticmethod( "all" );
-        Range_exposer.def("from_ndarray", &bp::from_ndarray< cv::Range >, (bp::arg("arr")) );
+        Range_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Range >, (bp::arg("inst_ndarray")) );
         Range_exposer.staticmethod("from_ndarray");
-        Range_exposer.add_property("ndarray", &bp::as_ndarray< cv::Range >);
+        Range_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Range >);
         Range_exposer.def("__not__", &__not__<cv::Range> );
         Range_exposer.def("__iand__", &__iand__<cv::Range, cv::Range >, bp::return_self<>() );
         Range_exposer.def("__and__", &__and__<cv::Range, cv::Range> );

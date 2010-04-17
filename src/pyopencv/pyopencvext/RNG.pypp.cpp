@@ -14,20 +14,20 @@ void register_RNG_class(){
         RNG_exposer_t RNG_exposer = RNG_exposer_t( "RNG", "\nRandom number generator class."
     "\n"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#rng", bp::init< >("\nRNG constructors."
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#rng`_", bp::init< >("\nRNG constructors."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-rng") );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-rng`_") );
         bp::scope RNG_scope( RNG_exposer );
         RNG_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::RNG >(), "\nRandom number generator class."
     "\n"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#rng" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#rng`_" );
         bp::scope().attr("A") = (int)cv::RNG::A;
         bp::scope().attr("UNIFORM") = (int)cv::RNG::UNIFORM;
         bp::scope().attr("NORMAL") = (int)cv::RNG::NORMAL;
         RNG_exposer.def( bp::init< uint64 >(( bp::arg("_state") ), "\nRNG constructors."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-rng") );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-rng`_") );
         bp::implicitly_convertible< uint64, cv::RNG >();
         { //::cv::RNG::fill
         
@@ -39,7 +39,7 @@ void register_RNG_class(){
                 , ( bp::arg("mat"), bp::arg("distType"), bp::arg("a"), bp::arg("b") )
                 , "\nFill arrays with random numbers."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-fill" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-fill`_" );
         
         }
         { //::cv::RNG::fill
@@ -52,7 +52,7 @@ void register_RNG_class(){
                 , ( bp::arg("mat"), bp::arg("distType"), bp::arg("a"), bp::arg("b") )
                 , "\nFill arrays with random numbers."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-fill" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-fill`_" );
         
         }
         { //::cv::RNG::gaussian
@@ -65,7 +65,7 @@ void register_RNG_class(){
                 , ( bp::arg("sigma") )
                 , "\nReturns the next random number sampled from the Gaussian distribution."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-gaussian" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-gaussian`_" );
         
         }
         { //::cv::RNG::next
@@ -77,7 +77,7 @@ void register_RNG_class(){
                 , next_function_type( &::cv::RNG::next )
                 , "\nReturns the next random number."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-next" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-next`_" );
         
         }
         RNG_exposer.def( "as_int8", &cv::RNG::operator ::schar , "\nWrapped function:"
@@ -108,7 +108,7 @@ void register_RNG_class(){
     "\nWrapped function:"
     "\n    operator()"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-operator" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-operator`_" );
         
         }
         { //::cv::RNG::operator()
@@ -122,7 +122,7 @@ void register_RNG_class(){
     "\nWrapped function:"
     "\n    operator()"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-operator" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-operator`_" );
         
         }
         { //::cv::RNG::uniform
@@ -137,7 +137,7 @@ void register_RNG_class(){
     "\nWrapped function:"
     "\n    uniform"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-uniform" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-uniform`_" );
         
         }
         { //::cv::RNG::uniform
@@ -152,7 +152,7 @@ void register_RNG_class(){
     "\nWrapped function:"
     "\n    uniform"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-uniform" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-uniform`_" );
         
         }
         { //::cv::RNG::uniform
@@ -167,7 +167,7 @@ void register_RNG_class(){
     "\nWrapped function:"
     "\n    uniform"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-uniform" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-uniform`_" );
         
         }
         RNG_exposer.def_readwrite( "state", &cv::RNG::state );

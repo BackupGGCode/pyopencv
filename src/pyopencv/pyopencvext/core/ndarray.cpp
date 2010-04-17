@@ -3,6 +3,8 @@
 // accompanying file LICENSE_1_0.txt or copy at
 // http://www.boost.org/LICENSE_1_0.txt)
 
+#include <boost/python.hpp>
+#include <boost/python/object.hpp>
 #include <boost/python/handle.hpp>
 #include <boost/python/cast.hpp>
 #include <boost/python/ptr.hpp>
@@ -17,13 +19,8 @@
 
 namespace bp = boost::python;
 
-namespace boost { namespace python {
-
 // ================================================================================================
-// Stuff related to numpy's ndarray
-// ================================================================================================
-
-
+// Initialization
 // ================================================================================================
 
 void npy_init1()
@@ -39,104 +36,37 @@ bool npy_init2()
 
 bool npy_inited = npy_init2();
 
+
+// ================================================================================================
+// Stuff related to new numpy's ndarray
 // ================================================================================================
 
-// dtypeof
-template<> int dtypeof<char>() { return NPY_BYTE; }
-template<> int dtypeof<unsigned char>() { return NPY_UBYTE; }
-template<> int dtypeof<short>() { return NPY_SHORT; }
-template<> int dtypeof<unsigned short>() { return NPY_USHORT; }
-template<> int dtypeof<long>() { return NPY_LONG; }
-template<> int dtypeof<unsigned long>() { return NPY_ULONG; }
-template<> int dtypeof<int>() { return sizeof(int) == 4? NPY_LONG : NPY_LONGLONG; }
-template<> int dtypeof<unsigned int>() { return sizeof(int) == 4? NPY_ULONG : NPY_ULONGLONG; }
-template<> int dtypeof<float>() { return NPY_FLOAT; }
-template<> int dtypeof<double>() { return NPY_DOUBLE; }
+namespace sdcpp {
 
 // ================================================================================================
 
-int convert_dtype_to_cvdepth(int dtype)
+void ndarray::check_obj(object const &obj) const
 {
-    switch(dtype)
+    if(!PyArray_Check(obj.ptr())) // not an ndarray
     {
-    case NPY_BYTE: return CV_8S;
-    case NPY_UBYTE: return CV_8U;
-    case NPY_SHORT: return CV_16S;
-    case NPY_USHORT: return CV_16U;
-    case NPY_INT: return CV_32S;
-    case NPY_LONG:
-        if(PyArray_EquivTypenums(NPY_INT, NPY_LONG))
-            return CV_32S;
-        PyErr_SetString(PyExc_TypeError, "Unconvertable dtype NPY_LONG because it is 64-bit and there is no equivalent CV_64S type.");
-        throw error_already_set();
-        return -1;
-    case NPY_LONGLONG:
-        if(PyArray_EquivTypenums(NPY_INT, NPY_LONGLONG))
-            return CV_32S;
-        PyErr_SetString(PyExc_TypeError, "Unconvertable dtype NPY_LONGLONG because it is 64-bit and there is no equivalent CV_64S type.");
-        throw error_already_set();
-        return -1;
-    case NPY_FLOAT: return CV_32F;
-    case NPY_DOUBLE: return CV_64F;
-    }
-    PyErr_SetString(PyExc_TypeError, "Unconvertable dtype.");
-    throw error_already_set();
-    return -1;
-}
-
-// ================================================================================================
-
-int convert_cvdepth_to_dtype(int depth)
-{
-    switch(depth)
-    {
-    case CV_8S: return NPY_BYTE;
-    case CV_8U: return NPY_UBYTE;
-    case CV_16S: return NPY_SHORT;
-    case CV_16U: return NPY_USHORT;
-    case CV_32S: return NPY_INT;
-    case CV_32F: return NPY_FLOAT;
-    case CV_64F: return NPY_DOUBLE;
-    }
-    PyErr_SetString(PyExc_TypeError, "Unconvertable cvdepth.");
-    throw error_already_set();
-    return -1;
-}
-
-// ================================================================================================
-
-namespace aux
-{
-    bool array_object_manager_traits::check(PyObject* obj)
-    {
-        return PyArray_Check(obj) == 1;
-    }
-
-    python::detail::new_non_null_reference
-    array_object_manager_traits::adopt(PyObject* obj)
-    {
-        return detail::new_non_null_reference(
-        pytype_check(&PyArray_Type, obj));
-    }
-
-    PyTypeObject const* array_object_manager_traits::get_pytype()
-    {
-        return &PyArray_Type;
+        PyErr_SetString(PyExc_TypeError, "Not an ndarray.");
+        throw bp::error_already_set();
     }
 }
 
-int ndarray::ndim() const { return PyArray_NDIM(ptr()); }
-const Py_intptr_t* ndarray::shape() const { return PyArray_DIMS(ptr()); }
-const Py_intptr_t* ndarray::strides() const { return PyArray_STRIDES(ptr()); }
-int ndarray::itemsize() const { return PyArray_ITEMSIZE(ptr()); }
-int ndarray::dtype() const { return PyArray_TYPE(ptr()); }
-const void *ndarray::data() const { return PyArray_DATA(ptr()); }
-const void *ndarray::getptr1(int i1) const { return PyArray_GETPTR1(ptr(), i1); }
-const void *ndarray::getptr2(int i1, int i2) const { return PyArray_GETPTR2(ptr(), i1, i2); }
-const void *ndarray::getptr3(int i1, int i2, int i3) const { return PyArray_GETPTR3(ptr(), i1, i2, i3); }
-bool ndarray::iscontiguous() const { return PyArray_ISCONTIGUOUS(ptr()); }
+template<> bool check<ndarray>(object const &obj){ return PyArray_Check(obj.ptr()) == 1; }
+template<> PyTypeObject const *get_pytype<ndarray>() { return &PyArray_Type; }
 
-// ================================================================================================
+int ndarray::ndim() const { return PyArray_NDIM(obj.ptr()); }
+const Py_intptr_t* ndarray::shape() const { return PyArray_DIMS(obj.ptr()); }
+const Py_intptr_t* ndarray::strides() const { return PyArray_STRIDES(obj.ptr()); }
+int ndarray::itemsize() const { return PyArray_ITEMSIZE(obj.ptr()); }
+int ndarray::dtype() const { return PyArray_TYPE(obj.ptr()); }
+const void *ndarray::data() const { return PyArray_DATA(obj.ptr()); }
+const void *ndarray::getptr1(int i1) const { return PyArray_GETPTR1(obj.ptr(), i1); }
+const void *ndarray::getptr2(int i1, int i2) const { return PyArray_GETPTR2(obj.ptr(), i1, i2); }
+const void *ndarray::getptr3(int i1, int i2, int i3) const { return PyArray_GETPTR3(obj.ptr(), i1, i2, i3); }
+bool ndarray::iscontiguous() const { return PyArray_ISCONTIGUOUS(obj.ptr()); }
 
 bool ndarray::last_dim_as_cvchannel() const
 {
@@ -157,15 +87,80 @@ int ndarray::cvrank() const { return ndim()-last_dim_as_cvchannel(); }
 
 // ================================================================================================
 
-ndarray simplenew(int len, const int *shape, int dtype)
+ndarray simplenew_ndarray(int len, const int *shape, int dtype)
 {
-    return extract<ndarray>(object(handle<>(PyArray_SimpleNew(len, (npy_intp *)shape, dtype))));
+    return ndarray(object(handle<>(borrowed(PyArray_SimpleNew(len, 
+        (npy_intp *)shape, dtype)))));
 }
 
-ndarray new_(int len, const int *shape, int dtype, const int *strides, void *data, int flags)
+ndarray new_ndarray(int len, const int *shape, int dtype, const int *strides, void *data, int flags)
 {
-    return extract<ndarray>(object(handle<>(PyArray_New(&PyArray_Type, len, (npy_intp *)shape, 
-        dtype, (npy_intp *)strides, data, 0, flags, NULL))));
+    return ndarray(object(handle<>(borrowed(PyArray_New(&PyArray_Type, len, 
+        (npy_intp *)shape, dtype, (npy_intp *)strides, data, 0, flags, NULL)))));
+}
+
+// ================================================================================================
+
+// dtypeof
+template<> int dtypeof<char>() { return NPY_BYTE; }
+template<> int dtypeof<unsigned char>() { return NPY_UBYTE; }
+template<> int dtypeof<short>() { return NPY_SHORT; }
+template<> int dtypeof<unsigned short>() { return NPY_USHORT; }
+template<> int dtypeof<long>() { return NPY_LONG; }
+template<> int dtypeof<unsigned long>() { return NPY_ULONG; }
+template<> int dtypeof<int>() { return NPY_INT; }
+template<> int dtypeof<unsigned int>() { return NPY_UINT; }
+template<> int dtypeof<float>() { return NPY_FLOAT; }
+template<> int dtypeof<double>() { return NPY_DOUBLE; }
+
+// ================================================================================================
+
+int convert_dtype_to_cvdepth(int dtype)
+{
+    switch(dtype)
+    {
+    case NPY_BYTE: return CV_8S;
+    case NPY_UBYTE: return CV_8U;
+    case NPY_SHORT: return CV_16S;
+    case NPY_USHORT: return CV_16U;
+    case NPY_INT: return CV_32S;
+    case NPY_LONG:
+        if(PyArray_EquivTypenums(NPY_INT, NPY_LONG))
+            return CV_32S;
+        PyErr_SetString(PyExc_TypeError, "Unconvertable dtype NPY_LONG because it is 64-bit and there is no equivalent CV_64S type.");
+        throw bp::error_already_set();
+        return -1;
+    case NPY_LONGLONG:
+        if(PyArray_EquivTypenums(NPY_INT, NPY_LONGLONG))
+            return CV_32S;
+        PyErr_SetString(PyExc_TypeError, "Unconvertable dtype NPY_LONGLONG because it is 64-bit and there is no equivalent CV_64S type.");
+        throw bp::error_already_set();
+        return -1;
+    case NPY_FLOAT: return CV_32F;
+    case NPY_DOUBLE: return CV_64F;
+    }
+    PyErr_SetString(PyExc_TypeError, "Unconvertable dtype.");
+    throw bp::error_already_set();
+    return -1;
+}
+
+// ================================================================================================
+
+int convert_cvdepth_to_dtype(int depth)
+{
+    switch(depth)
+    {
+    case CV_8S: return NPY_BYTE;
+    case CV_8U: return NPY_UBYTE;
+    case CV_16S: return NPY_SHORT;
+    case CV_16U: return NPY_USHORT;
+    case CV_32S: return NPY_INT;
+    case CV_32F: return NPY_FLOAT;
+    case CV_64F: return NPY_DOUBLE;
+    }
+    PyErr_SetString(PyExc_TypeError, "Unconvertable cvdepth.");
+    throw bp::error_already_set();
+    return -1;
 }
 
 // ================================================================================================
@@ -185,13 +180,13 @@ void ndarray_to_vector_basic( const ndarray &in_arr, std::vector<Type> &out_arr 
     {
         sprintf(s, "Ndarray must be of rank 1, rank %d detected.", nd);
         PyErr_SetString(PyExc_TypeError, s);
-        throw error_already_set(); 
+        throw bp::error_already_set(); 
     }
-    if(in_arr.dtype() != dtypeof<Type>())
+    if(!PyArray_EquivTypenums(in_arr.dtype(), dtypeof<Type>()))
     {
         sprintf(s, "Ndarray's element type is not the same as that of std::vector. ndarray's dtype=%d, vector's dtype=%d.", in_arr.dtype(), dtypeof<Type>());
         PyErr_SetString(PyExc_TypeError, s);
-        throw error_already_set(); 
+        throw bp::error_already_set(); 
     }
     
     int len = in_arr.shape()[0];
@@ -220,11 +215,11 @@ void ndarray_to_vector_array( const ndarray &in_arr, std::vector<VectType> &out_
     char s[100];
     if(!in_arr.ndim()) { out_arr.clear(); return; }
 
-    if(in_arr.dtype() != NumpyType)
+    if(!PyArray_EquivTypenums(in_arr.dtype(), NumpyType))
     {
         sprintf(s, "Ndarray's element type is not the same as that of std::vector. ndarray's dtype=%d, vector's dtype=%d.", in_arr.dtype(), NumpyType);
         PyErr_SetString(PyExc_TypeError, s);
-        throw error_already_set(); 
+        throw bp::error_already_set(); 
     }
     
     int len = in_arr.shape()[0];
@@ -292,7 +287,7 @@ template<typename Type>
 void vector_to_ndarray_basic( const std::vector<Type> &in_arr, ndarray &out_arr )
 {
     int len = in_arr.size();
-    out_arr = simplenew(1, &len, dtypeof<Type>());
+    out_arr = simplenew_ndarray(1, &len, dtypeof<Type>());
     Type *data = (Type *)out_arr.data();
     for(int i = 0; i < len; ++i) data[i] = in_arr[i];
 }
@@ -317,7 +312,7 @@ void vector_to_ndarray_array( const std::vector<VectType> &in_arr, ndarray &out_
 {
     int len = in_arr.size();
     int arr[2]; arr[0] = len; arr[1] = VectLen;
-    out_arr = simplenew(2, arr, NumpyType);
+    out_arr = simplenew_ndarray(2, arr, NumpyType);
     VectType *data = (VectType *)out_arr.data();
     for(int i = 0; i < len; ++i) data[i] = in_arr[i];
 }
@@ -380,11 +375,9 @@ template<typename VectType, int NumpyType, int VectLen>
 ndarray Vect_as_ndarray(const object &obj)
 {
     int nd = VectLen;
-    ndarray result;
-    if(obj.ptr() == Py_None) return result;
-    result = new_(1, &nd, NumpyType, 0, (void *)&(extract<const VectType &>(obj)()), 
+    ndarray result = new_ndarray(1, &nd, NumpyType, 0, (void *)&(extract<const VectType &>(obj)()), 
         NPY_C_CONTIGUOUS | NPY_WRITEABLE);
-    objects::make_nurse_and_patient(result.ptr(), obj.ptr());
+    objects::make_nurse_and_patient(result.get_obj().ptr(), obj.ptr());
     return result;
 }
 
@@ -442,11 +435,18 @@ VECT_AS_NDARRAY(cv::Range, NPY_LONG, 2);
 template<> ndarray as_ndarray<cv::Mat>(const object &obj)
 {
     int nd, shape[CV_MAX_DIM], strides[CV_MAX_DIM];
-    ndarray result;
-    if(obj.ptr() == Py_None) return result;
+    if(obj.ptr() == Py_None)
+    {
+        PyErr_SetString(PyExc_TypeError, "'None' cannot be converted into ndarray.");
+        throw bp::error_already_set();
+    }
 
-    cv::Mat mat = extract<const cv::Mat &>(obj)();
-    if(!mat.flags) return result; // empty cv::Mat
+    cv::Mat mat = extract<const cv::Mat &>(obj);
+    if(!mat.flags)
+    {
+        PyErr_SetString(PyExc_TypeError, "Empty Mat cannot be converted into ndarray.");
+        throw bp::error_already_set();
+    }
     
     if(mat.channels() > 1)
     {
@@ -460,8 +460,9 @@ template<> ndarray as_ndarray<cv::Mat>(const object &obj)
         shape[0] = mat.rows; shape[1] = mat.cols; 
         strides[0] = mat.step; strides[1] = mat.elemSize();
     }
-    result = new_(nd, shape, convert_cvdepth_to_dtype(mat.depth()), strides, mat.data, NPY_WRITEABLE);
-    objects::make_nurse_and_patient(result.ptr(), obj.ptr());
+    ndarray result = new_ndarray(nd, shape, convert_cvdepth_to_dtype(mat.depth()), 
+        strides, mat.data, NPY_WRITEABLE);
+    objects::make_nurse_and_patient(result.get_obj().ptr(), obj.ptr());
     return result;
 }
 
@@ -469,11 +470,18 @@ template<> ndarray as_ndarray<cv::Mat>(const object &obj)
 template<> ndarray as_ndarray<cv::MatND>(const object &obj)
 {
     int i, nd, shape[CV_MAX_DIM], strides[CV_MAX_DIM];
-    ndarray result;
-    if(obj.ptr() == Py_None) return result;
+    if(obj.ptr() == Py_None)
+    {
+        PyErr_SetString(PyExc_TypeError, "'None' cannot be converted into ndarray.");
+        throw bp::error_already_set();
+    }
 
     cv::MatND matnd = extract<const cv::MatND &>(obj)();
-    if(!matnd.flags) return result; // empty cv::MatND
+    if(!matnd.flags)
+    {
+        PyErr_SetString(PyExc_TypeError, "Empty MatND cannot be converted into ndarray.");
+        throw bp::error_already_set();
+    }
     
     nd = matnd.dims;
     for(i = 0; i < nd; ++i)
@@ -487,8 +495,9 @@ template<> ndarray as_ndarray<cv::MatND>(const object &obj)
         shape[nd] = matnd.channels();
         strides[nd++] = matnd.elemSize1();
     }
-    result = new_(nd, shape, convert_cvdepth_to_dtype(matnd.depth()), strides, matnd.data, NPY_WRITEABLE);
-    objects::make_nurse_and_patient(result.ptr(), obj.ptr());
+    ndarray result = new_ndarray(nd, shape, convert_cvdepth_to_dtype(matnd.depth()), 
+        strides, matnd.data, NPY_WRITEABLE);
+    objects::make_nurse_and_patient(result.get_obj().ptr(), obj.ptr());
     return result;
 }
 
@@ -501,32 +510,32 @@ object ndarray_as_Vect(const ndarray &arr)
     char s[200];
     
     // checking
-    PyObject *obj = arr.ptr();
+    PyObject *obj = arr.get_obj().ptr();
     
     int nd = arr.ndim();
     if(nd != 1)
     {
         sprintf(s, "Cannot convert from ndarray to %s because ndim=%d (must be 1).", typeid(VectType).name(), nd);
         PyErr_SetString(PyExc_TypeError, s);
-        throw error_already_set();
+        throw bp::error_already_set();
     }
-    if(arr.dtype() != NumpyType)
+    if(!PyArray_EquivTypenums(arr.dtype(), NumpyType))
     {
         sprintf(s, "Element type must be equivalent to numpy type %d, dtype=%d detected.", NumpyType, arr.dtype());
         PyErr_SetString(PyExc_TypeError, s);
-        throw error_already_set();
+        throw bp::error_already_set();
     }
     if(!arr.iscontiguous())
     {
         sprintf(s, "The ndarray to be converted must be contiguous .");
         PyErr_SetString(PyExc_TypeError, s);
-        throw error_already_set();
+        throw bp::error_already_set();
     }
     if(arr.shape()[0] != VectLen)
     {
         sprintf(s, "Number of elements must be %d, shape[0]=%d detected.", VectLen, arr.shape()[0]);
         PyErr_SetString(PyExc_TypeError, s);
-        throw error_already_set();
+        throw bp::error_already_set();
     }
     
     // wrapping
@@ -671,7 +680,7 @@ FROM_NDARRAY(cv::Mat)
         char s[1000];    
         sprintf(s, "Cannot convert from ndarray to Mat because the dimension %d is not contiguous.", i);
         PyErr_SetString(PyExc_TypeError, s);
-        throw error_already_set();
+        throw bp::error_already_set();
     }
     
     // wrapping
@@ -683,7 +692,7 @@ FROM_NDARRAY(cv::Mat)
     else mat = cv::Mat(shape[nd-1]*strides[nd-1]/strides[1], shape[0], cvdepth, data, strides[1]);
     
     object result(mat);
-    objects::make_nurse_and_patient(result.ptr(), arr.ptr());
+    objects::make_nurse_and_patient(result.ptr(), arr.get_obj().ptr());
     return result;
 }
 
@@ -697,7 +706,7 @@ FROM_NDARRAY(cv::MatND)
     {
         sprintf(s, "Cannot convert because the ndarray is not contiguous.");
         PyErr_SetString(PyExc_TypeError, s);
-        throw error_already_set();
+        throw bp::error_already_set();
     }
     
     std::vector<int> shape, strides;
@@ -713,10 +722,11 @@ FROM_NDARRAY(cv::MatND)
     cvInitMatNDHeader(&cvmatnd, nd, &shape[0], CV_MAKETYPE(convert_dtype_to_cvdepth(arr.dtype()), nchannels), 
         (void *)arr.data());
     object result(cv::MatND(&cvmatnd, false));
-    objects::make_nurse_and_patient(result.ptr(), arr.ptr());
+    objects::make_nurse_and_patient(result.ptr(), arr.get_obj().ptr());
     return result;
 }
 
 // ================================================================================================
 
-}} // namespace boost::python
+} // namespace sdcpp
+

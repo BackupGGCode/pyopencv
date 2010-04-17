@@ -150,12 +150,12 @@ mb.cc = cc
 
 def add_ndarray_interface(self, klass):
     klass.include_files.append("ndarray.hpp")
-    klass.add_registration_code('def("from_ndarray", &bp::from_ndarray< cv::%s >, (bp::arg("arr")) )' % klass.alias)
-    self.add_registration_code('bp::def("as%s", &bp::from_ndarray< cv::%s >, (bp::arg("arr")) );' % (klass.alias, klass.alias))
+    klass.add_registration_code('def("from_ndarray", &sdcpp::from_ndarray< cv::%s >, (bp::arg("inst_ndarray")) )' % klass.alias)
+    self.add_registration_code('bp::def("as%s", &sdcpp::from_ndarray< cv::%s >, (bp::arg("inst_ndarray")) );' % (klass.alias, klass.alias))
     klass.add_registration_code('staticmethod("from_ndarray")'.replace("KLASS", klass.alias))
     self.add_doc(klass.alias+".from_ndarray", "Creates a %s view on an ndarray instance." % klass.alias)
-    klass.add_registration_code('add_property("ndarray", &bp::as_ndarray< cv::%s >)' % klass.alias)
-    # self.add_registration_code('bp::def("asndarray", &bp::as_ndarray< cv::%s >, (bp::arg("arr")) );' % klass.alias)
+    klass.add_registration_code('add_property("ndarray", &sdcpp::as_ndarray< cv::%s >)' % klass.alias)
+    # self.add_registration_code('bp::def("asndarray", &sdcpp::as_ndarray< cv::%s >, (bp::arg("inst_ndarray")) );' % klass.alias)
     self.add_doc(klass.alias, 
         "Property 'ndarray' provides a numpy.ndarray view on the object.",
         "If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!",
@@ -437,16 +437,6 @@ def asClass2(self, src_class_Pname, src_class_Cname, dst_class_Pname, dst_class_
         'bp::def("asKLASS2", &::normal_cast< CLASS1, CLASS2 >, (bp::arg("inst_KLASS1")));'\
         .replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname)\
         .replace('CLASS1', src_class_Cname).replace('CLASS2', dst_class_Cname))
-    # self.dummy_struct.add_declaration_code('''
-# static inline CLASS2 cvt_KLASS1_KLASS2(CLASS1 const &inst)
-# {
-    # return inst.operator CLASS2();
-# }
-        # '''.replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname)\
-        # .replace('CLASS1', src_class_Cname).replace('CLASS2', dst_class_Cname))
-    # self.dummy_struct.add_reg_code(\
-        # 'bp::def("asKLASS2", &cvt_KLASS1_KLASS2, (bp::arg("inst_KLASS1")));'\
-        # .replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname))
 module_builder.module_builder_t.asClass2 = asClass2
 
 def dtypecast(self, casting_list):
@@ -489,6 +479,8 @@ mb.enums().include()
 # dummy struct
 z = mb.class_("dummy_struct")
 z.include_files.append("opencv_converters.hpp")
+z.include_files.append("sequence.hpp")
+z.include_files.append("ndarray.hpp")
 mb.dummy_struct = z
 z.include()
 z.decls().exclude()
@@ -498,6 +490,9 @@ z._reg_code = ""
 def add_dummy_reg_code(s):
     mb.dummy_struct._reg_code += "\n        "+s
 z.add_reg_code = add_dummy_reg_code
+
+z.add_reg_code("sdcpp::register_sdobject<sdcpp::sequence>();")
+z.add_reg_code("sdcpp::register_sdobject<sdcpp::ndarray>();")
 
 # get the list of OpenCV functions
 opencv_funs = mb.free_funs() # mb.free_funs(lambda decl: decl.name.startswith('cv'))

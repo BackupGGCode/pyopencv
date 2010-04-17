@@ -45,9 +45,9 @@ void register_Scalar_class(){
         }
         Scalar_exposer.def( "__temp_func", &cv::Scalar_< double >::operator ::CvScalar  );
         Scalar_exposer.staticmethod( "all" );
-        Scalar_exposer.def("from_ndarray", &bp::from_ndarray< cv::Scalar >, (bp::arg("arr")) );
+        Scalar_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Scalar >, (bp::arg("inst_ndarray")) );
         Scalar_exposer.staticmethod("from_ndarray");
-        Scalar_exposer.add_property("ndarray", &bp::as_ndarray< cv::Scalar >);
+        Scalar_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Scalar >);
         Scalar_exposer.def("__iadd__", &__iadd__<cv::Scalar, cv::Scalar >, bp::return_self<>() );
         Scalar_exposer.def("__isub__", &__isub__<cv::Scalar, cv::Scalar >, bp::return_self<>() );
         Scalar_exposer.def("__imul__", &__imul__<cv::Scalar, double >, bp::return_self<>() );

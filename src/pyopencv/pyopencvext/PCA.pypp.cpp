@@ -12,30 +12,30 @@ void register_PCA_class(){
     bp::class_< cv::PCA >( "PCA", "\nClass for Principal Component Analysis."
     "\n"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#pca", bp::init< >("\nPCA constructors."
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#pca`_", bp::init< >("\nPCA constructors."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-pca") )    
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-pca`_") )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::PCA >(), "\nClass for Principal Component Analysis."
     "\n"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#pca" )    
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#pca`_" )    
         .def( bp::init< cv::Mat const &, cv::Mat const &, int, bp::optional< int > >(( bp::arg("data"), bp::arg("mean"), bp::arg("flags"), bp::arg("maxComponents")=(int)(0) ), "\nPCA constructors."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-pca") )    
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-pca`_") )    
         .def( 
             "backProject"
             , (::cv::Mat ( ::cv::PCA::* )( ::cv::Mat const & ) const)( &::cv::PCA::backProject )
             , ( bp::arg("vec") )
             , "\nReconstruct vectors from their PC projections."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-backproject" )    
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-backproject`_" )    
         .def( 
             "backProject"
             , (void ( ::cv::PCA::* )( ::cv::Mat const &,::cv::Mat & ) const)( &::cv::PCA::backProject )
             , ( bp::arg("vec"), bp::arg("result") )
             , "\nReconstruct vectors from their PC projections."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-backproject" )    
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-backproject`_" )    
         .def( 
             "__call__"
             , (::cv::PCA & ( ::cv::PCA::* )( ::cv::Mat const &,::cv::Mat const &,int,int ) )( &::cv::PCA::operator() )
@@ -45,21 +45,21 @@ void register_PCA_class(){
     "\nWrapped function:"
     "\n    operator()"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-operator" )    
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-operator`_" )    
         .def( 
             "project"
             , (::cv::Mat ( ::cv::PCA::* )( ::cv::Mat const & ) const)( &::cv::PCA::project )
             , ( bp::arg("vec") )
             , "\nProject vector(s) to the principal component subspace."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-project" )    
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-project`_" )    
         .def( 
             "project"
             , (void ( ::cv::PCA::* )( ::cv::Mat const &,::cv::Mat & ) const)( &::cv::PCA::project )
             , ( bp::arg("vec"), bp::arg("result") )
             , "\nProject vector(s) to the principal component subspace."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-project" )    
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-project`_" )    
         .def_readwrite( "eigenvalues", &cv::PCA::eigenvalues )    
         .def_readwrite( "eigenvectors", &cv::PCA::eigenvectors )    
         .def_readwrite( "mean", &cv::PCA::mean );

@@ -11,7 +11,8 @@ namespace bp = boost::python;
 
 static bp::object get_data(cv::Mat const &inst)
 {
-    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory ((void*)inst.data, inst.rows*inst.step)));
+    return bp::object(bp::handle<>(bp::borrowed(PyBuffer_FromReadWriteMemory(
+        (void*)inst.data, inst.rows*inst.step))));
 }
 
 static boost::shared_ptr<cv::Mat> Mat__init1__(bp::object const &arg1)
@@ -448,9 +449,9 @@ void register_Mat_class(){
         Mat_exposer.def_readwrite( "step", &cv::Mat::step );
         Mat_exposer.staticmethod( "diag" );
         Mat_exposer.add_property("data", &::get_data);
-        Mat_exposer.def("from_ndarray", &bp::from_ndarray< cv::Mat >, (bp::arg("arr")) );
+        Mat_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Mat >, (bp::arg("inst_ndarray")) );
         Mat_exposer.staticmethod("from_ndarray");
-        Mat_exposer.add_property("ndarray", &bp::as_ndarray< cv::Mat >);
+        Mat_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Mat >);
         Mat_exposer.def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("arg1") )));
         Mat_exposer.def("__init__", bp::make_constructor(&Mat__init2__, bp::default_call_policies(), ( bp::arg("arg1"), bp::arg("arg2") )));
         Mat_exposer.def("__init__", bp::make_constructor(&Mat__init3__, bp::default_call_policies(), ( bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3") )));

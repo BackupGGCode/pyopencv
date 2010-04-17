@@ -63,9 +63,9 @@ void register_Point3f_class(){
         Point3f_exposer.def_readwrite( "x", &cv::Point3_< float >::x );
         Point3f_exposer.def_readwrite( "y", &cv::Point3_< float >::y );
         Point3f_exposer.def_readwrite( "z", &cv::Point3_< float >::z );
-        Point3f_exposer.def("from_ndarray", &bp::from_ndarray< cv::Point3f >, (bp::arg("arr")) );
+        Point3f_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Point3f >, (bp::arg("inst_ndarray")) );
         Point3f_exposer.staticmethod("from_ndarray");
-        Point3f_exposer.add_property("ndarray", &bp::as_ndarray< cv::Point3f >);
+        Point3f_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Point3f >);
         Point3f_exposer.def("__iadd__", &__iadd__<cv::Point3f, cv::Point3f>, bp::return_self<>() );
         Point3f_exposer.def("__isub__", &__isub__<cv::Point3f, cv::Point3f>, bp::return_self<>() );
         Point3f_exposer.def("__imul__", &__imul__<cv::Point3f, double>, bp::return_self<>() );

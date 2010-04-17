@@ -63,7 +63,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("lut"), bp::arg("b") )
             , "\nPerforms a look-up table transform of an array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-lut" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-lut`_" );
     
     }
 
@@ -88,7 +88,7 @@ void register_free_functions(){
             , ( bp::arg("v1"), bp::arg("v2"), bp::arg("icovar") )
             , "\nCalculates the Mahalanobis distance between two vectors."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mahalanobis" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mahalanobis`_" );
     
     }
 
@@ -180,7 +180,7 @@ void register_free_functions(){
             , "\nComputes per-element absolute difference between 2 arrays or between "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff`_" );
     
     }
 
@@ -195,7 +195,7 @@ void register_free_functions(){
             , "\nComputes per-element absolute difference between 2 arrays or between "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff`_" );
     
     }
 
@@ -210,7 +210,7 @@ void register_free_functions(){
             , "\nComputes per-element absolute difference between 2 arrays or between "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff`_" );
     
     }
 
@@ -225,7 +225,7 @@ void register_free_functions(){
             , "\nComputes per-element absolute difference between 2 arrays or between "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#absdiff`_" );
     
     }
 
@@ -294,7 +294,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::MatND() )
             , "\nComputes the per-element sum of two arrays or an array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add`_" );
     
     }
 
@@ -308,7 +308,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
             , "\nComputes the per-element sum of two arrays or an array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add`_" );
     
     }
 
@@ -322,7 +322,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask") )
             , "\nComputes the per-element sum of two arrays or an array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add`_" );
     
     }
 
@@ -336,7 +336,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("s"), bp::arg("c"), bp::arg("mask")=cv::Mat() )
             , "\nComputes the per-element sum of two arrays or an array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add`_" );
     
     }
 
@@ -350,7 +350,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
             , "\nComputes the per-element sum of two arrays or an array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add`_" );
     
     }
 
@@ -364,7 +364,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("mask") )
             , "\nComputes the per-element sum of two arrays or an array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#add`_" );
     
     }
 
@@ -378,7 +378,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("beta"), bp::arg("gamma"), bp::arg("c") )
             , "\nComputes the weighted sum of two arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#addweighted" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#addweighted`_" );
     
     }
 
@@ -392,7 +392,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("beta"), bp::arg("gamma"), bp::arg("c") )
             , "\nComputes the weighted sum of two arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#addweighted" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#addweighted`_" );
     
     }
 
@@ -429,7 +429,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise conjunction of two arrays and an "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and`_" );
     
     }
 
@@ -444,7 +444,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise conjunction of two arrays and an "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and`_" );
     
     }
 
@@ -459,7 +459,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise conjunction of two arrays and an "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and`_" );
     
     }
 
@@ -474,7 +474,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise conjunction of two arrays and an "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-and`_" );
     
     }
 
@@ -488,7 +488,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("c") )
             , "\nInverts every bit of array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-not" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-not`_" );
     
     }
 
@@ -502,7 +502,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("c") )
             , "\nInverts every bit of array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-not" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-not`_" );
     
     }
 
@@ -517,7 +517,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise disjunction of two arrays and an "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or`_" );
     
     }
 
@@ -532,7 +532,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise disjunction of two arrays and an "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or`_" );
     
     }
 
@@ -547,7 +547,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise disjunction of two arrays and an "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or`_" );
     
     }
 
@@ -562,7 +562,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise disjunction of two arrays and an "
     "\narray and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-or`_" );
     
     }
 
@@ -577,7 +577,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise 'exclusive or' operation on two "
     "\narrays and an array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor`_" );
     
     }
 
@@ -592,7 +592,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise 'exclusive or' operation on two "
     "\narrays and an array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor`_" );
     
     }
 
@@ -607,7 +607,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise 'exclusive or' operation on two "
     "\narrays and an array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor`_" );
     
     }
 
@@ -622,7 +622,7 @@ void register_free_functions(){
             , "\nCalculates per-element bit-wise 'exclusive or' operation on two "
     "\narrays and an array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-bitwise-xor`_" );
     
     }
 
@@ -680,7 +680,7 @@ void register_free_functions(){
             , ( bp::arg("samples"), bp::arg("covar"), bp::arg("mean"), bp::arg("flags"), bp::arg("ctype")=(int)(6) )
             , "\nCalculates covariation matrix of a set of vectors."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#calccovarmatrix" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#calccovarmatrix`_" );
     
     }
 
@@ -738,7 +738,7 @@ void register_free_functions(){
             , ( bp::arg("x"), bp::arg("y"), bp::arg("magnitude"), bp::arg("angle"), bp::arg("angleInDegrees")=(bool)(false) )
             , "\nCalculates the magnitude and angle of 2d vectors."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#carttopolar" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#carttopolar`_" );
     
     }
 
@@ -797,7 +797,7 @@ void register_free_functions(){
             , "\nPerforms per-element comparison of two arrays or an array and scalar "
     "\nvalue."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare`_" );
     
     }
 
@@ -812,7 +812,7 @@ void register_free_functions(){
             , "\nPerforms per-element comparison of two arrays or an array and scalar "
     "\nvalue."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare`_" );
     
     }
 
@@ -827,7 +827,7 @@ void register_free_functions(){
             , "\nPerforms per-element comparison of two arrays or an array and scalar "
     "\nvalue."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare`_" );
     
     }
 
@@ -842,7 +842,7 @@ void register_free_functions(){
             , "\nPerforms per-element comparison of two arrays or an array and scalar "
     "\nvalue."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#compare`_" );
     
     }
 
@@ -878,7 +878,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("lowerToUpper")=(bool)(false) )
             , "\nCopies the lower or the upper half of a square matrix to another half."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#completesymm" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#completesymm`_" );
     
     }
 
@@ -936,7 +936,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("c"), bp::arg("alpha")=1, bp::arg("beta")=0 )
             , "\nScales, computes absolute values and converts the result to 8-bit."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#convertscaleabs" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#convertscaleabs`_" );
     
     }
 
@@ -994,7 +994,7 @@ void register_free_functions(){
             , ( bp::arg("m") )
             , "\nCounts non-zero array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#countnonzero" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#countnonzero`_" );
     
     }
 
@@ -1008,7 +1008,7 @@ void register_free_functions(){
             , ( bp::arg("m") )
             , "\nCounts non-zero array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#countnonzero" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#countnonzero`_" );
     
     }
 
@@ -1088,7 +1088,7 @@ void register_free_functions(){
             , ( bp::arg("val") )
             , "\nComputes cube root of the argument."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-cuberoot" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-cuberoot`_" );
     
     }
 
@@ -1456,7 +1456,7 @@ void register_free_functions(){
     "\nWrapped function:"
     "\n    cvDestroyAllWindows"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#destroyallwindows" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#destroyallwindows`_" );
     
     }
 
@@ -1472,7 +1472,7 @@ void register_free_functions(){
     "\nWrapped function:"
     "\n    cvDestroyWindow"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#destroywindow" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#destroywindow`_" );
     
     }
 
@@ -1775,7 +1775,7 @@ void register_free_functions(){
     "\nWrapped function:"
     "\n    cvGetWindowName"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#getwindowname" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#getwindowname`_" );
     
     }
 
@@ -1870,7 +1870,7 @@ void register_free_functions(){
     "\nWrapped function:"
     "\n    cvMoveWindow"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#movewindow" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#movewindow`_" );
     
     }
 
@@ -2004,7 +2004,7 @@ void register_free_functions(){
     "\nWrapped function:"
     "\n    cvResizeWindow"
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#resizewindow" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#resizewindow`_" );
     
     }
 
@@ -2422,7 +2422,7 @@ void register_free_functions(){
             , "\nPerforms a forward or inverse discrete cosine transform of 1D or 2D "
     "\narray."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-dct" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-dct`_" );
     
     }
 
@@ -2458,7 +2458,7 @@ void register_free_functions(){
             , ( bp::arg("m") )
             , "\nReturns determinant of a square floating-point matrix."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-determinant" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-determinant`_" );
     
     }
 
@@ -2473,7 +2473,7 @@ void register_free_functions(){
             , "\nPerforms a forward or inverse Discrete Fourier transform of 1D or 2D "
     "\nfloating-point array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-dft" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-dft`_" );
     
     }
 
@@ -2520,7 +2520,7 @@ void register_free_functions(){
             , ( bp::arg("scale"), bp::arg("b"), bp::arg("c") )
             , "\nPerforms per-element division of two arrays or a scalar by an array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide`_" );
     
     }
 
@@ -2534,7 +2534,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 )
             , "\nPerforms per-element division of two arrays or a scalar by an array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide`_" );
     
     }
 
@@ -2548,7 +2548,7 @@ void register_free_functions(){
             , ( bp::arg("scale"), bp::arg("b"), bp::arg("c") )
             , "\nPerforms per-element division of two arrays or a scalar by an array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide`_" );
     
     }
 
@@ -2562,7 +2562,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 )
             , "\nPerforms per-element division of two arrays or a scalar by an array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-divide`_" );
     
     }
 
@@ -2587,7 +2587,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("eigenvalues"), bp::arg("eigenvectors"), bp::arg("lowindex")=(int)(-0x000000001), bp::arg("highindex")=(int)(-0x000000001) )
             , "\nComputes eigenvalues and eigenvectors of a symmetric matrix."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-eigen" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-eigen`_" );
     
     }
 
@@ -2601,7 +2601,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("eigenvalues"), bp::arg("lowindex")=(int)(-0x000000001), bp::arg("highindex")=(int)(-0x000000001) )
             , "\nComputes eigenvalues and eigenvectors of a symmetric matrix."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-eigen" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-eigen`_" );
     
     }
 
@@ -2659,7 +2659,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b") )
             , "\nCalculates the exponent of every array element."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-exp" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-exp`_" );
     
     }
 
@@ -2673,7 +2673,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b") )
             , "\nCalculates the exponent of every array element."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-exp" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-exp`_" );
     
     }
 
@@ -2687,7 +2687,7 @@ void register_free_functions(){
             , ( bp::arg("y"), bp::arg("x") )
             , "\nCalculates the angle of a 2D vector in degrees."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-fastatan2" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-fastatan2`_" );
     
     }
 
@@ -2778,7 +2778,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("flipCode") )
             , "\nFlips a 2D array around vertical, horizontal or both axes."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-flip" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-flip`_" );
     
     }
 
@@ -2803,7 +2803,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("alpha"), bp::arg("c"), bp::arg("gamma"), bp::arg("d"), bp::arg("flags")=(int)(0) )
             , "\nPerforms generalized matrix multiplication."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-gemm" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-gemm`_" );
     
     }
 
@@ -2969,7 +2969,7 @@ void register_free_functions(){
             , ( bp::arg("vecsize") )
             , "\nReturns optimal DFT size for a given vector size."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-getoptimaldftsize" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-getoptimaldftsize`_" );
     
     }
 
@@ -3101,7 +3101,7 @@ void register_free_functions(){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0) )
             , "\nComputes inverse Discrete Cosine Transform of a 1D or 2D array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-idct" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-idct`_" );
     
     }
 
@@ -3115,7 +3115,7 @@ void register_free_functions(){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("flags")=(int)(0), bp::arg("nonzeroRows")=(int)(0) )
             , "\nComputes inverse Discrete Fourier Transform of a 1D or 2D array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-idft" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-idft`_" );
     
     }
 
@@ -3129,7 +3129,7 @@ void register_free_functions(){
             , ( bp::arg("buf"), bp::arg("flags") )
             , "\nReads an image from a buffer in memory."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imdecode" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imdecode`_" );
     
     }
 
@@ -3143,7 +3143,7 @@ void register_free_functions(){
             , ( bp::arg("filename"), bp::arg("flags")=(int)(1) )
             , "\nLoads an image from a file."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imread" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imread`_" );
     
     }
 
@@ -3157,7 +3157,7 @@ void register_free_functions(){
             , ( bp::arg("winname"), bp::arg("mat") )
             , "\nDisplays the image in the specified window."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-imshow" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-imshow`_" );
     
     }
 
@@ -3171,7 +3171,7 @@ void register_free_functions(){
             , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") )
             , "\nChecks if array elements lie between the elements of two other arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange`_" );
     
     }
 
@@ -3185,7 +3185,7 @@ void register_free_functions(){
             , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") )
             , "\nChecks if array elements lie between the elements of two other arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange`_" );
     
     }
 
@@ -3199,7 +3199,7 @@ void register_free_functions(){
             , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") )
             , "\nChecks if array elements lie between the elements of two other arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange`_" );
     
     }
 
@@ -3213,7 +3213,7 @@ void register_free_functions(){
             , ( bp::arg("src"), bp::arg("lowerb"), bp::arg("upperb"), bp::arg("dst") )
             , "\nChecks if array elements lie between the elements of two other arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange`_" );
     
     }
 
@@ -3282,7 +3282,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("c"), bp::arg("flags")=int(::cv::DECOMP_LU) )
             , "\nFinds the inverse or pseudo-inverse of a matrix."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-invert" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-invert`_" );
     
     }
 
@@ -3329,7 +3329,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b") )
             , "\nCalculates the natural logarithm of every array element."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-log" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-log`_" );
     
     }
 
@@ -3343,7 +3343,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b") )
             , "\nCalculates the natural logarithm of every array element."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-log" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-log`_" );
     
     }
 
@@ -3357,7 +3357,7 @@ void register_free_functions(){
             , ( bp::arg("x"), bp::arg("y"), bp::arg("magnitude") )
             , "\nCalculates magnitude of 2D vectors."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-magnitude" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-magnitude`_" );
     
     }
 
@@ -3404,7 +3404,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") )
             , "\nCalculates per-element maximum of two arrays or array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max`_" );
     
     }
 
@@ -3418,7 +3418,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
             , "\nCalculates per-element maximum of two arrays or array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max`_" );
     
     }
 
@@ -3432,7 +3432,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") )
             , "\nCalculates per-element maximum of two arrays or array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max`_" );
     
     }
 
@@ -3446,7 +3446,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
             , "\nCalculates per-element maximum of two arrays or array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-max`_" );
     
     }
 
@@ -3460,7 +3460,7 @@ void register_free_functions(){
             , ( bp::arg("m"), bp::arg("mask") )
             , "\nCalculates average (mean) of array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean`_" );
     
     }
 
@@ -3474,7 +3474,7 @@ void register_free_functions(){
             , ( bp::arg("m") )
             , "\nCalculates average (mean) of array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean`_" );
     
     }
 
@@ -3488,7 +3488,7 @@ void register_free_functions(){
             , ( bp::arg("m"), bp::arg("mask") )
             , "\nCalculates average (mean) of array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean`_" );
     
     }
 
@@ -3502,7 +3502,7 @@ void register_free_functions(){
             , ( bp::arg("m") )
             , "\nCalculates average (mean) of array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mean`_" );
     
     }
 
@@ -3527,7 +3527,7 @@ void register_free_functions(){
             , ( bp::arg("m"), bp::arg("mean"), bp::arg("stddev"), bp::arg("mask")=cv::MatND() )
             , "\nCalculates mean and standard deviation of array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-meanstddev" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-meanstddev`_" );
     
     }
 
@@ -3541,7 +3541,7 @@ void register_free_functions(){
             , ( bp::arg("m"), bp::arg("mean"), bp::arg("stddev"), bp::arg("mask")=cv::Mat() )
             , "\nCalculates mean and standard deviation of array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-meanstddev" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-meanstddev`_" );
     
     }
 
@@ -3566,7 +3566,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") )
             , "\nCalculates per-element minimum of two arrays or array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min`_" );
     
     }
 
@@ -3580,7 +3580,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
             , "\nCalculates per-element minimum of two arrays or array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min`_" );
     
     }
 
@@ -3594,7 +3594,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("alpha"), bp::arg("c") )
             , "\nCalculates per-element minimum of two arrays or array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min`_" );
     
     }
 
@@ -3608,7 +3608,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c") )
             , "\nCalculates per-element minimum of two arrays or array and a scalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-min`_" );
     
     }
 
@@ -3676,7 +3676,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("flags"), bp::arg("conjB")=(bool)(false) )
             , "\nPerforms per-element multiplication of two Fourier spectrums."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mulspectrums" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mulspectrums`_" );
     
     }
 
@@ -3690,7 +3690,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("c"), bp::arg("aTa"), bp::arg("delta")=cv::Mat(), bp::arg("scale")=1, bp::arg("rtype")=(int)(-0x000000001) )
             , "\nCalculates the product of a matrix and its transposition."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-multransposed" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-multransposed`_" );
     
     }
 
@@ -3704,7 +3704,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 )
             , "\nCalculates the per-element scaled product of two arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-multiply" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-multiply`_" );
     
     }
 
@@ -3718,7 +3718,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("c"), bp::arg("scale")=1 )
             , "\nCalculates the per-element scaled product of two arrays."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-multiply" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-multiply`_" );
     
     }
 
@@ -3732,7 +3732,7 @@ void register_free_functions(){
             , ( bp::arg("winname"), bp::arg("flags")=(int)(1) )
             , "\nCreates a window."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-namedwindow" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-namedwindow`_" );
     
     }
 
@@ -3747,7 +3747,7 @@ void register_free_functions(){
             , "\nCalculates absolute array norm, absolute difference norm, or relative "
     "\ndifference norm."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm`_" );
     
     }
 
@@ -3762,7 +3762,7 @@ void register_free_functions(){
             , "\nCalculates absolute array norm, absolute difference norm, or relative "
     "\ndifference norm."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm`_" );
     
     }
 
@@ -3777,7 +3777,7 @@ void register_free_functions(){
             , "\nCalculates absolute array norm, absolute difference norm, or relative "
     "\ndifference norm."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm`_" );
     
     }
 
@@ -3792,7 +3792,7 @@ void register_free_functions(){
             , "\nCalculates absolute array norm, absolute difference norm, or relative "
     "\ndifference norm."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm`_" );
     
     }
 
@@ -3807,7 +3807,7 @@ void register_free_functions(){
             , "\nCalculates absolute array norm, absolute difference norm, or relative "
     "\ndifference norm."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm`_" );
     
     }
 
@@ -3822,7 +3822,7 @@ void register_free_functions(){
             , "\nCalculates absolute array norm, absolute difference norm, or relative "
     "\ndifference norm."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm`_" );
     
     }
 
@@ -3837,7 +3837,7 @@ void register_free_functions(){
             , "\nCalculates absolute array norm, absolute difference norm, or relative "
     "\ndifference norm."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-norm`_" );
     
     }
 
@@ -3851,7 +3851,7 @@ void register_free_functions(){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("alpha"), bp::arg("normType") )
             , "\nNormalizes array's norm or the range."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-normalize" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-normalize`_" );
     
     }
 
@@ -3865,7 +3865,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("alpha")=1, bp::arg("beta")=0, bp::arg("norm_type")=int(::cv::NORM_L2), bp::arg("rtype")=(int)(-0x000000001), bp::arg("mask")=cv::MatND() )
             , "\nNormalizes array's norm or the range."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-normalize" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-normalize`_" );
     
     }
 
@@ -3879,7 +3879,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("alpha")=1, bp::arg("beta")=0, bp::arg("norm_type")=int(::cv::NORM_L2), bp::arg("rtype")=(int)(-0x000000001), bp::arg("mask")=cv::Mat() )
             , "\nNormalizes array's norm or the range."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-normalize" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-normalize`_" );
     
     }
 
@@ -3904,7 +3904,7 @@ void register_free_functions(){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("m") )
             , "\nPerforms perspective matrix transformation of vectors."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-perspectivetransform" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-perspectivetransform`_" );
     
     }
 
@@ -3918,7 +3918,7 @@ void register_free_functions(){
             , ( bp::arg("x"), bp::arg("y"), bp::arg("angle"), bp::arg("angleInDegrees")=(bool)(false) )
             , "\nCalculates the rotation angle of 2d vectors."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-phase" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-phase`_" );
     
     }
 
@@ -3944,7 +3944,7 @@ void register_free_functions(){
             , "\nComputes x and y coordinates of 2D vectors from their magnitude and "
     "\nangle."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-polartocart" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-polartocart`_" );
     
     }
 
@@ -3958,7 +3958,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("power"), bp::arg("b") )
             , "\nRaises every array element to a power."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pow" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pow`_" );
     
     }
 
@@ -3972,7 +3972,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("power"), bp::arg("b") )
             , "\nRaises every array element to a power."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pow" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pow`_" );
     
     }
 
@@ -4030,7 +4030,7 @@ void register_free_functions(){
             , ( bp::arg("dst"), bp::arg("iterFactor")=1.0e+0, bp::arg("rng")=bp::object() )
             , "\nShuffles the array elements randomly."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-randshuffle" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-randshuffle`_" );
     
     }
 
@@ -4044,7 +4044,7 @@ void register_free_functions(){
             , ( bp::arg("dst"), bp::arg("mean"), bp::arg("stddev") )
             , "\nFills array with normally distributed random numbers."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-randn" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-randn`_" );
     
     }
 
@@ -4059,7 +4059,7 @@ void register_free_functions(){
             , "\nGenerates a single uniformly-distributed random number or array of "
     "\nrandom numbers."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-randu" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-randu`_" );
     
     }
 
@@ -4095,7 +4095,7 @@ void register_free_functions(){
             , ( bp::arg("m"), bp::arg("dst"), bp::arg("dim"), bp::arg("rtype"), bp::arg("dtype")=(int)(-0x000000001) )
             , "\nReduces a matrix to a vector."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-reduce" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-reduce`_" );
     
     }
 
@@ -4120,7 +4120,7 @@ void register_free_functions(){
             , ( bp::arg("src"), bp::arg("ny"), bp::arg("nx") )
             , "\nFill the destination array with repeated copies of the source array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-repeat" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-repeat`_" );
     
     }
 
@@ -4134,7 +4134,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("ny"), bp::arg("nx"), bp::arg("b") )
             , "\nFill the destination array with repeated copies of the source array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-repeat" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-repeat`_" );
     
     }
 
@@ -4170,7 +4170,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("c") )
             , "\nCalculates the sum of a scaled array and another array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-scaleadd" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-scaleadd`_" );
     
     }
 
@@ -4184,7 +4184,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("alpha"), bp::arg("b"), bp::arg("c") )
             , "\nCalculates the sum of a scaled array and another array."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-scaleadd" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-scaleadd`_" );
     
     }
 
@@ -4209,7 +4209,7 @@ void register_free_functions(){
             , ( bp::arg("c"), bp::arg("s")=cv::Scalar_<double>(1.0e+0) )
             , "\nInitializes a scaled identity matrix."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-setidentity" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-setidentity`_" );
     
     }
 
@@ -4256,7 +4256,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("x"), bp::arg("flags")=int(::cv::DECOMP_LU) )
             , "\nSolves one or more linear systems or least-squares problems."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-solve" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-solve`_" );
     
     }
 
@@ -4281,7 +4281,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("flags") )
             , "\nSorts each row or each column of a matrix."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sort" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sort`_" );
     
     }
 
@@ -4295,7 +4295,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b"), bp::arg("flags") )
             , "\nSorts each row or each column of a matrix."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sortIdx" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sortIdx`_" );
     
     }
 
@@ -4309,7 +4309,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b") )
             , "\nCalculates square root of array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sqrt" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sqrt`_" );
     
     }
 
@@ -4323,7 +4323,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b") )
             , "\nCalculates square root of array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sqrt" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sqrt`_" );
     
     }
 
@@ -4360,7 +4360,7 @@ void register_free_functions(){
             , "\nCalculates per-element difference between two arrays or array and a "
     "\nscalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract`_" );
     
     }
 
@@ -4375,7 +4375,7 @@ void register_free_functions(){
             , "\nCalculates per-element difference between two arrays or array and a "
     "\nscalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract`_" );
     
     }
 
@@ -4390,7 +4390,7 @@ void register_free_functions(){
             , "\nCalculates per-element difference between two arrays or array and a "
     "\nscalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract`_" );
     
     }
 
@@ -4405,7 +4405,7 @@ void register_free_functions(){
             , "\nCalculates per-element difference between two arrays or array and a "
     "\nscalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract`_" );
     
     }
 
@@ -4420,7 +4420,7 @@ void register_free_functions(){
             , "\nCalculates per-element difference between two arrays or array and a "
     "\nscalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract`_" );
     
     }
 
@@ -4435,7 +4435,7 @@ void register_free_functions(){
             , "\nCalculates per-element difference between two arrays or array and a "
     "\nscalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract`_" );
     
     }
 
@@ -4450,7 +4450,7 @@ void register_free_functions(){
             , "\nCalculates per-element difference between two arrays or array and a "
     "\nscalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract`_" );
     
     }
 
@@ -4465,7 +4465,7 @@ void register_free_functions(){
             , "\nCalculates per-element difference between two arrays or array and a "
     "\nscalar."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-subtract`_" );
     
     }
 
@@ -4479,7 +4479,7 @@ void register_free_functions(){
             , ( bp::arg("m") )
             , "\nCalculates sum of array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sum" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sum`_" );
     
     }
 
@@ -4493,7 +4493,7 @@ void register_free_functions(){
             , ( bp::arg("m") )
             , "\nCalculates sum of array elements."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sum" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-sum`_" );
     
     }
 
@@ -4507,7 +4507,7 @@ void register_free_functions(){
             , bp::return_value_policy< bp::reference_existing_object >()
             , "\nReturns the default random number generator."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-therng" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-therng`_" );
     
     }
 
@@ -4543,7 +4543,7 @@ void register_free_functions(){
             , ( bp::arg("m") )
             , "\nReturns the trace of a matrix."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-trace" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-trace`_" );
     
     }
 
@@ -4557,7 +4557,7 @@ void register_free_functions(){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("m") )
             , "\nPerforms matrix transformation of every array element."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-transform" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-transform`_" );
     
     }
 
@@ -4571,7 +4571,7 @@ void register_free_functions(){
             , ( bp::arg("a"), bp::arg("b") )
             , "\nTransposes a matrix."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-transpose" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-transpose`_" );
     
     }
 
@@ -4639,7 +4639,7 @@ void register_free_functions(){
             , ( bp::arg("delay")=(int)(0) )
             , "\nWaits for a pressed key."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-waitkey" );
+    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-waitkey`_" );
     
     }
 

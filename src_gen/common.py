@@ -296,7 +296,7 @@ def add_decl_desc(decl):
         pass
         
     if reference is not None:
-        add_decl_boost_doc(decl, "    "+reference, False, word_wrap=False)
+        add_decl_boost_doc(decl, "    `wiki "+reference+"`_", False, word_wrap=False)
         add_decl_boost_doc(decl, "Reference:", False)    
     try:
         # assume decl is a function

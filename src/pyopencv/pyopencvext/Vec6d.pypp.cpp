@@ -100,9 +100,9 @@ void register_Vec6d_class(){
         
         }
         Vec6d_exposer.staticmethod( "all" );
-        Vec6d_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec6d >, (bp::arg("arr")) );
+        Vec6d_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Vec6d >, (bp::arg("inst_ndarray")) );
         Vec6d_exposer.staticmethod("from_ndarray");
-        Vec6d_exposer.add_property("ndarray", &bp::as_ndarray< cv::Vec6d >);
+        Vec6d_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Vec6d >);
         Vec6d_exposer.def("__iadd__", &__iadd__<cv::Vec6d, cv::Vec6f>, bp::return_self<>() );
         Vec6d_exposer.def("__isub__", &__isub__<cv::Vec6d, cv::Vec6f>, bp::return_self<>() );
         Vec6d_exposer.def("__iadd__", &__iadd__<cv::Vec6d, cv::Vec6d>, bp::return_self<>() );
