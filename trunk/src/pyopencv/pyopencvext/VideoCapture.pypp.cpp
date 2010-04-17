@@ -143,11 +143,11 @@ void register_VideoCapture_class(){
         typedef bp::class_< VideoCapture_wrapper > VideoCapture_exposer_t;
         VideoCapture_exposer_t VideoCapture_exposer = VideoCapture_exposer_t( "VideoCapture", "\nClass for video capturing from video files or cameras."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#VideoCapture`_", bp::init< >() );
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#VideoCapture", bp::init< >() );
         bp::scope VideoCapture_scope( VideoCapture_exposer );
         VideoCapture_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::VideoCapture >(), "\nClass for video capturing from video files or cameras."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#VideoCapture`_" );
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#VideoCapture" );
         VideoCapture_exposer.def( bp::init< std::string const & >(( bp::arg("filename") )) );
         bp::implicitly_convertible< std::string const &, cv::VideoCapture >();
         VideoCapture_exposer.def( bp::init< int >(( bp::arg("device") )) );

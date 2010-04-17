@@ -2407,7 +2407,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("samples"), bp::arg("covar"), bp::arg("mean"), bp::arg("flags"), bp::arg("ctype")=(int)(6) )
             , "\nCalculates covariation matrix of a set of vectors."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#calccovarmatrix`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#calccovarmatrix"
     "\nArgument 'nsamples':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument 'samples'."\
@@ -2560,7 +2560,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("a"), bp::arg("quiet")=(bool)(true), bp::arg("minVal")=-1.79769313486231570814527423731704356798070567526e+308, bp::arg("maxVal")=1.79769313486231570814527423731704356798070567526e+308 )
             , "\nChecks every element of an input array for invalid values."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#checkrange`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#checkrange"
     "\nArgument 'idx':"\
     "\n    C/C++ type: int *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -2579,7 +2579,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("a"), bp::arg("quiet")=(bool)(true), bp::arg("minVal")=-1.79769313486231570814527423731704356798070567526e+308, bp::arg("maxVal")=1.79769313486231570814527423731704356798070567526e+308 )
             , "\nChecks every element of an input array for invalid values."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#checkrange`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#checkrange"
     "\nArgument 'pt':"\
     "\n    C/C++ type: ::cv::Point *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -2734,7 +2734,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nWrapped function:"
     "\n    createTrackbar"
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-createtrackbar`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-createtrackbar"
     "\nArgument 'onChange' is a Python function that should look like below:"\
     "\n    def on_trackbar(pos, user_data):"\
     "\n        ..."\
@@ -3078,7 +3078,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nWrapped function:"
     "\n    cvConvertImage"
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#convertimage`_"
+    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#convertimage"
     "\nArgument 'src':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
@@ -3480,7 +3480,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nWrapped function:"
     "\n    cvInitSystem"
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#initsystem`_"
+    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#initsystem"
     "\nArgument 'argc':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument 'argv'."\
@@ -4035,7 +4035,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nWrapped function:"
     "\n    cvSetMouseCallback"
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#setmousecallback`_"
+    "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#setmousecallback"
     "\nArgument 'on_mouse' is a Python function that should look like below:"\
     "\n    def on_mouse(event, x, y, flags, user_data):"\
     "\n        ..."\
@@ -4790,7 +4790,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
             , "\nEncode an image into a memory buffer."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imencode`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imencode"
     "\nArgument 'params':"\
     "\n    C/C++ type: ::std::vector< int > const &."\
     "\n    Python type: Mat."\
@@ -4816,7 +4816,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
             , "\nSaves an image to a specified file."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imwrite`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imwrite"
     "\nArgument 'params':"\
     "\n    C/C++ type: ::std::vector< int > const &."\
     "\n    Python type: Mat."\
@@ -4873,7 +4873,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("mv"), bp::arg("dst") )
             , "\nComposes a multi-channel array from several single-channel arrays."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge"
     "\nArgument 'mv':"\
     "\n    C/C++ type: ::std::vector< cv::MatND > const &."\
     "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]." );
@@ -4890,7 +4890,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("mv"), bp::arg("dst") )
             , "\nComposes a multi-channel array from several single-channel arrays."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge"
     "\nArgument 'mv':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
@@ -4907,7 +4907,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("a") )
             , "\nFinds global minimum and maximum in a whole array or sub-array."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
     "\nArgument 'maxVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -4941,7 +4941,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("a"), bp::arg("mask")=cv::MatND() )
             , "\nFinds global minimum and maximum in a whole array or sub-array."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
     "\nArgument 'maxVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -4975,7 +4975,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("a"), bp::arg("mask")=cv::Mat() )
             , "\nFinds global minimum and maximum in a whole array or sub-array."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
     "\nArgument 'minLoc':"\
     "\n    C/C++ type: ::cv::Point *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -5010,7 +5010,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nCopies specified channels from input arrays to the specified channels "
     "\nof output arrays."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
     "\nArgument 'src':"\
     "\n    C/C++ type: ::std::vector< cv::MatND > const &."\
     "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
@@ -5036,7 +5036,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nCopies specified channels from input arrays to the specified channels "
     "\nof output arrays."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
     "\nArgument 'src':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
@@ -5297,7 +5297,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("m"), bp::arg("mv") )
             , "\nDivides multi-channel array into several single-channel arrays."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split"
     "\nArgument 'mv':"\
     "\n    C/C++ type: ::std::vector< cv::MatND > &."\
     "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]." );
@@ -5314,7 +5314,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("m"), bp::arg("mv") )
             , "\nDivides multi-channel array into several single-channel arrays."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split`_"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split"
     "\nArgument 'mv':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );

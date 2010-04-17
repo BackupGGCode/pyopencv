@@ -14,13 +14,13 @@ void register_CvTermCriteria_class(){
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class TermCriteria instead."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/basic_structures.html#cvtermcriteria`_" )    
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvtermcriteria" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvTermCriteria >(), "\nTermination criteria for iterative algorithms."
     "\n"
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class TermCriteria instead."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/basic_structures.html#cvtermcriteria`_" )    
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvtermcriteria" )    
         .def_readwrite( "epsilon", &CvTermCriteria::epsilon )    
         .def_readwrite( "max_iter", &CvTermCriteria::max_iter )    
         .def_readwrite( "type", &CvTermCriteria::type );

@@ -14,13 +14,13 @@ void register_CvPoint3D64f_class(){
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Point3d instead."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint3d64f`_" )    
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint3d64f" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvPoint3D64f >(), "\n3D point with double precision floating-point coordinates."
     "\n"
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Point3d instead."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint3d64f`_" )    
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint3d64f" )    
         .def_readwrite( "x", &CvPoint3D64f::x )    
         .def_readwrite( "y", &CvPoint3D64f::y )    
         .def_readwrite( "z", &CvPoint3D64f::z );

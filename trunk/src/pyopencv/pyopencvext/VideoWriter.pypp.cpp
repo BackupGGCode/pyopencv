@@ -62,10 +62,10 @@ void register_VideoWriter_class(){
 
     bp::class_< VideoWriter_wrapper >( "VideoWriter", "\nVideo writer class."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#videowriter`_", bp::init< >() )    
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#videowriter", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::VideoWriter >(), "\nVideo writer class."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#videowriter`_" )    
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#videowriter" )    
         .def( bp::init< std::string const &, int, double, cv::Size, bp::optional< bool > >(( bp::arg("filename"), bp::arg("fourcc"), bp::arg("fps"), bp::arg("frameSize"), bp::arg("isColor")=(bool)(true) )) )    
         .def( 
             "isOpened"
