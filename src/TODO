@@ -12,8 +12,6 @@ Add iterator for SparseMat
 
 What about Seq template class?
 
-to/from Python for class ndarray, using Py++'s documentation
-
 ------------------------------------------
 Making a snapshot release using setuptools:
 
