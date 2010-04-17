@@ -15,6 +15,7 @@
 #include "boost/python/to_python_value.hpp"
 
 #include "opencv_extra.hpp"
+#include "sequence.hpp"
 
 // ================================================================================================
 // Useful template functions that deal with fixed-size array-like data types
@@ -558,17 +559,19 @@ void convert_from_object_to_vector_of_T( bp::object const &in_arr, std::vector<T
 
 // convert_seq_to_vector
 template<typename T>
-void convert_seq_to_vector( const bp::object &in_arr, std::vector<T> &out_arr )
+void convert_seq_to_vector( const sdcpp::sequence &in_seq, std::vector<T> &out_arr )
 {
+    bp::object const &in_arr = in_seq.get_obj();
+
     // None
     out_arr.clear();
     if(in_arr.ptr() == Py_None) return;
     
     // ndarray
-    bp::extract<bp::ndarray> in_ndarray(in_arr);
+    bp::extract<sdcpp::ndarray> in_ndarray(in_arr);
     if(in_ndarray.check())
     {
-        bp::ndarray_to_vector<T>(in_ndarray(), out_arr);
+        sdcpp::ndarray_to_vector<T>(in_ndarray(), out_arr);
         return;
     }
     
@@ -580,16 +583,16 @@ void convert_seq_to_vector( const bp::object &in_arr, std::vector<T> &out_arr )
 
 // convert_vector_to_seq
 template<typename T>
-bp::sequence convert_vector_to_seq( const std::vector<T> &in_arr )
+sdcpp::sequence convert_vector_to_seq( const std::vector<T> &in_arr )
 {
     bp::list out_arr;
     int len = in_arr.size();
-    if(!len) return bp::sequence(bp::list());
+    if(!len) return sdcpp::sequence(bp::list());
     for(int i = 0; i < len; ++i) out_arr.append(bp::object(in_arr[i]));
-    return bp::sequence(out_arr);
+    return sdcpp::sequence(out_arr);
 }
 
-#define CONVERT_VECTOR_TO_SEQ(Type) template<> bp::sequence convert_vector_to_seq<Type>( const std::vector<Type> &in_arr )
+#define CONVERT_VECTOR_TO_SEQ(Type) template<> sdcpp::sequence convert_vector_to_seq<Type>( const std::vector<Type> &in_arr )
 
 // basic
 CONVERT_VECTOR_TO_SEQ(char);
@@ -663,8 +666,9 @@ struct vector_to_python {
 
 // convert_seq_to_vector_vector
 template<typename T>
-void convert_seq_to_vector_vector( const bp::object &in_arr, std::vector < std::vector < T > > &out_arr )
+void convert_seq_to_vector_vector( const sdcpp::sequence &in_seq, std::vector < std::vector < T > > &out_arr )
 {
+    bp::object const &in_arr = in_seq.get_obj();
     out_arr.clear();
     if(in_arr.ptr() == Py_None) return;
     int len = bp::len(in_arr);
@@ -675,13 +679,13 @@ void convert_seq_to_vector_vector( const bp::object &in_arr, std::vector < std::
 
 // convert_vector_vector_to_seq
 template<typename T>
-bp::sequence convert_vector_vector_to_seq( const std::vector < std::vector < T > > &in_arr )
+sdcpp::sequence convert_vector_vector_to_seq( const std::vector < std::vector < T > > &in_arr )
 {
     bp::list out_arr;
     int len = in_arr.size();
-    if(!len) return bp::sequence(bp::list());
+    if(!len) return sdcpp::sequence(bp::list());
     for(int i = 0; i < len; ++i) out_arr.append(convert_vector_to_seq(in_arr[i]));
-    return bp::sequence(out_arr);
+    return sdcpp::sequence(out_arr);
 }
 
 template<class T>
@@ -692,18 +696,19 @@ struct vector_vector_to_python {
 };
 
 // ================================================================================================
-// Converters between cv::Mat and bp::list/bp::sequence
+// Converters between cv::Mat and bp::list/sdcpp::sequence
 
-// Convert from bp::sequence to cv::Mat
+// Convert from sdcpp::sequence to cv::Mat
 template<typename T>
-bp::object convert_from_seq_to_Mat_object(bp::sequence const &in_arr)
+bp::object convert_from_seq_to_Mat_object(sdcpp::sequence const &in_seq)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     if(in_arr.ptr() == Py_None) return bp::object(cv::Mat());
     
-    bp::extract<bp::ndarray> in_arr2(in_arr);
-    if(in_arr2.check()) return bp::from_ndarray<cv::Mat>(in_arr2());
+    bp::extract<sdcpp::ndarray> in_arr2(in_arr);
+    if(in_arr2.check()) return sdcpp::from_ndarray<cv::Mat>(in_arr2());
     
-    std::vector<T> tmp_arr; convert_seq_to_vector(in_arr, tmp_arr);
+    std::vector<T> tmp_arr; convert_seq_to_vector(in_seq, tmp_arr);
     cv::Mat out_arr; convert_from_vector_of_T_to_Mat(tmp_arr, out_arr);
     return bp::object(out_arr);
 }
@@ -730,7 +735,7 @@ IplImage * get_IplImage_ptr(cv::Mat const &mat);
 // convert from a sequence of Mat to vector of Mat-equivalent type
 // i.e. IplImage, CvMat, IplImage *, CvMat *, cv::Mat, cv::Mat *
 template<typename T>
-void convert_from_seq_of_Mat_to_vector_of_T(bp::sequence const &in_arr, std::vector<T> &out_arr)
+void convert_from_seq_of_Mat_to_vector_of_T(sdcpp::sequence const &in_seq, std::vector<T> &out_arr)
 {
     char s[300];
     sprintf( s, "Instantiation of function convert_from_seq_of_Mat_to_vector_of_T() for class '%s' is not yet implemented.", typeid(T).name() );
@@ -739,7 +744,7 @@ void convert_from_seq_of_Mat_to_vector_of_T(bp::sequence const &in_arr, std::vec
 }
 
 #define CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(Type) \
-template<> void convert_from_seq_of_Mat_to_vector_of_T(bp::sequence const &in_arr, std::vector<Type> &out_arr)
+template<> void convert_from_seq_of_Mat_to_vector_of_T(sdcpp::sequence const &in_seq, std::vector<Type> &out_arr)
 
 CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(IplImage);
 CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(IplImage *);
@@ -760,7 +765,7 @@ CvMatND * get_CvMatND_ptr(cv::MatND const &matnd);
 // convert from a sequence of MatND to vector of MatND-equivalent type
 // i.e. CvMatND, CvMatND *, cv::MatND, cv::MatND *
 template<typename T>
-void convert_from_seq_of_MatND_to_vector_of_T(bp::sequence const &in_arr, std::vector<T> &out_arr)
+void convert_from_seq_of_MatND_to_vector_of_T(sdcpp::sequence const &in_seq, std::vector<T> &out_arr)
 {
     char s[300];
     sprintf( s, "Instantiation of function convert_from_seq_of_MatND_to_vector_of_T() for class '%s' is not yet implemented.", typeid(T).name() );
@@ -769,7 +774,7 @@ void convert_from_seq_of_MatND_to_vector_of_T(bp::sequence const &in_arr, std::v
 }
 
 #define CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(Type) \
-template<> void convert_from_seq_of_MatND_to_vector_of_T(bp::sequence const &in_arr, std::vector<Type> &out_arr)
+template<> void convert_from_seq_of_MatND_to_vector_of_T(sdcpp::sequence const &in_seq, std::vector<Type> &out_arr)
 
 CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(CvMatND);
 CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(CvMatND *);

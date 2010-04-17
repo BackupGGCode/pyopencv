@@ -9,7 +9,7 @@
 
 namespace bp = boost::python;
 
-static void init_7fe56bf20c87d279d051169d318b592c( ::cv::NAryMatNDIterator & inst, bp::sequence arrays ){
+static void init_7fe56bf20c87d279d051169d318b592c( ::cv::NAryMatNDIterator & inst, sdcpp::sequence arrays ){
     std::vector< ::cv::MatND * > arrays2;
     convert_from_seq_of_MatND_to_vector_of_T(arrays, arrays2);
     inst.init((::cv::MatND const * *)&arrays2[0], arrays2.size());
@@ -31,7 +31,7 @@ void register_NAryMatNDIterator_class(){
         NAryMatNDIterator_exposer.def( bp::init< >() );
         { //::cv::NAryMatNDIterator::init
         
-            typedef void ( *init_function_type )( ::cv::NAryMatNDIterator &,bp::sequence );
+            typedef void ( *init_function_type )( ::cv::NAryMatNDIterator &,sdcpp::sequence );
             
             NAryMatNDIterator_exposer.def( 
                 "init"

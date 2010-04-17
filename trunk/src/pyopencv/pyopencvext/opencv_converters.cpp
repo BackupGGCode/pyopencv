@@ -45,6 +45,7 @@ IplImage * get_IplImage_ptr(cv::Mat const &mat)
 
 CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(IplImage)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     int len = bp::len(in_arr);
     out_arr.resize(len);
     for(int i = 0; i < len; ++i) 
@@ -53,6 +54,7 @@ CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(IplImage)
 
 CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(IplImage *)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     int len = bp::len(in_arr);
     out_arr.resize(len);
     for(int i = 0; i < len; ++i) 
@@ -61,6 +63,7 @@ CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(IplImage *)
 
 CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(CvMat)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     int len = bp::len(in_arr);
     out_arr.resize(len);
     for(int i = 0; i < len; ++i) 
@@ -69,6 +72,7 @@ CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(CvMat)
 
 CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(CvMat *)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     int len = bp::len(in_arr);
     out_arr.resize(len);
     for(int i = 0; i < len; ++i) 
@@ -77,6 +81,7 @@ CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(CvMat *)
 
 CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Mat)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     int len = bp::len(in_arr);
     out_arr.resize(len);
     for(int i = 0; i < len; ++i) 
@@ -85,6 +90,7 @@ CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Mat)
 
 CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Mat *)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     int len = bp::len(in_arr);
     out_arr.resize(len);
     for(int i = 0; i < len; ++i) 
@@ -93,6 +99,7 @@ CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Mat *)
 
 CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Ptr<cv::Mat>)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     int len = bp::len(in_arr);
     out_arr.resize(len);
     for(int i = 0; i < len; ++i)
@@ -122,6 +129,7 @@ CvMatND * get_CvMatND_ptr(cv::MatND const &matnd)
 // i.e. CvMatND, CvMatND *, cv::MatND, cv::MatND *
 CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(CvMatND)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     int len = bp::len(in_arr);
     out_arr.resize(len);
     for(int i = 0; i < len; ++i) 
@@ -130,6 +138,7 @@ CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(CvMatND)
 
 CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(CvMatND *)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     int len = bp::len(in_arr);
     out_arr.resize(len);
     for(int i = 0; i < len; ++i) 
@@ -138,6 +147,7 @@ CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(CvMatND *)
 
 CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(cv::MatND)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     int len = bp::len(in_arr);
     out_arr.resize(len);
     for(int i = 0; i < len; ++i) 
@@ -146,6 +156,7 @@ CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(cv::MatND)
 
 CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(cv::MatND *)
 {
+    bp::object const &in_arr = in_seq.get_obj();
     int len = bp::len(in_arr);
     out_arr.resize(len);
     for(int i = 0; i < len; ++i) 
@@ -162,9 +173,9 @@ CONVERT_FROM_SEQ_OF_MATND_TO_VECTOR_OF_T(cv::MatND *)
 #define CONVERT_VECTOR_TO_NDARRAY(VectType) \
 CONVERT_VECTOR_TO_SEQ(VectType) \
 { \
-    bp::ndarray out_arr; \
-    bp::vector_to_ndarray(in_arr, out_arr); \
-    return bp::sequence(out_arr); \
+    sdcpp::ndarray out_arr = sdcpp::simplenew_ndarray(0,0,5); \
+    sdcpp::vector_to_ndarray(in_arr, out_arr); \
+    return sdcpp::sequence(out_arr.get_obj()); \
 }
 
 // basic

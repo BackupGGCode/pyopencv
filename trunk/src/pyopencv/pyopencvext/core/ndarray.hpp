@@ -16,26 +16,22 @@
 # include <boost/preprocessor/repetition/enum_binary_params.hpp>
 
 #include "opencv_headers.hpp"
+#include "sequence.hpp"
 
-namespace boost { namespace python {
+namespace sdcpp {
 
-namespace aux
-{
-    struct array_object_manager_traits
-    {
-        static bool check(PyObject* obj);
-        static detail::new_non_null_reference adopt(PyObject* obj);
-        static PyTypeObject const* get_pytype() ;
-    };
-} // namespace aux
-
-struct ndarray : object
+class ndarray : public sdobject
 {
 public:
-    ndarray() : object() {}
-    template <class T>
-    explicit ndarray(T const& x) : object(x) {}
-
+    ndarray(object const &obj) : sdobject(obj) { check_obj(obj); }
+    ndarray &operator=(ndarray const &inst)
+    {
+        sdobject::operator=(inst);
+        return *this;
+    }
+    
+    void check_obj(object const &obj) const;
+    
     int ndim() const;
     const Py_intptr_t *shape() const;
     const Py_intptr_t *strides() const;
@@ -49,29 +45,18 @@ public:
     
     bool last_dim_as_cvchannel() const;
     int cvrank() const; // = ndim() - last_dim_as_cvchannel()
-    
-public: // implementation detail - do not touch.
-    BOOST_PYTHON_FORWARD_OBJECT_CONSTRUCTORS(ndarray, object);
 };
 
-
-namespace converter
-{
-  template <>
-  struct object_manager_traits< ndarray >
-      : aux::array_object_manager_traits
-  {
-      BOOST_STATIC_CONSTANT(bool, is_specialized = true);
-  };
-}
+template<> bool check<ndarray>(object const &obj);
+template<> PyTypeObject const *get_pytype<ndarray>();
 
 
+// ================================================================================================
 
-ndarray simplenew(int len, const int *shape, int dtype);
+ndarray simplenew_ndarray(int len, const int *shape, int dtype);
 
 // be careful with the new_() function. you must keep the data alive until the ndarray is deleted.
-ndarray new_(int len, const int *shape, int dtype, const int *strides, void *data, int flags);
-
+ndarray new_ndarray(int len, const int *shape, int dtype, const int *strides, void *data, int flags);
 
 // ================================================================================================
 
@@ -398,7 +383,9 @@ FROM_NDARRAY(cv::Mat);
 // MatND
 FROM_NDARRAY(cv::MatND);
 
+// ================================================================================================
 
-}} // namespace boost::python
+} // namespace sdcpp
+
 
 #endif // SD_NDARRAY_HPP

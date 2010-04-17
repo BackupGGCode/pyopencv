@@ -87,9 +87,9 @@ void register_Rectd_class(){
         Rectd_exposer.def_readwrite( "width", &cv::Rect_< double >::width );
         Rectd_exposer.def_readwrite( "x", &cv::Rect_< double >::x );
         Rectd_exposer.def_readwrite( "y", &cv::Rect_< double >::y );
-        Rectd_exposer.def("from_ndarray", &bp::from_ndarray< cv::Rectd >, (bp::arg("arr")) );
+        Rectd_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Rectd >, (bp::arg("inst_ndarray")) );
         Rectd_exposer.staticmethod("from_ndarray");
-        Rectd_exposer.add_property("ndarray", &bp::as_ndarray< cv::Rectd >);
+        Rectd_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Rectd >);
         Rectd_exposer.def("__iadd__", &__iadd__<cv::Rectd, cv::Point_<double> >, bp::return_self<>() );
         Rectd_exposer.def("__iadd__", &__iadd__<cv::Rectd, cv::Size_<double> >, bp::return_self<>() );
         Rectd_exposer.def("__isub__", &__isub__<cv::Rectd, cv::Point_<double> >, bp::return_self<>() );

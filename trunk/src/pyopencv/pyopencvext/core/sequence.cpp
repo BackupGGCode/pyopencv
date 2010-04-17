@@ -11,49 +11,30 @@
 #include <boost/python/extract.hpp>
 #include <boost/python/reference_existing_object.hpp>
 #include <boost/python/object/life_support.hpp>
-#include "ndarray.hpp"
 
 #include "sequence.hpp"
+#include "ndarray.hpp"
 
 namespace bp = boost::python;
 
-namespace boost { namespace python {
+namespace sdcpp {
 
-// ================================================================================================
-
-namespace aux
+void sequence::check_obj(object const &obj) const
 {
-    bool sequence_object_manager_traits::check(PyObject* obj)
+    if(!check<sequence>(obj))
     {
-        return array_object_manager_traits::check(obj) || obj == Py_None ||
-            PyTuple_Check(obj) || PyList_Check(obj) || PyString_Check(obj);
-    }
-
-    python::detail::new_non_null_reference
-    sequence_object_manager_traits::adopt(PyObject* obj)
-    {
-        return detail::new_non_null_reference(
-        true); // let's return true for now
-    }
-
-    PyTypeObject const* sequence_object_manager_traits::get_pytype()
-    {
-        return &PyTuple_Type; // let's use PyTuple_Type for now
+        PyErr_SetString(PyExc_TypeError, "Not a sequence.");
+        throw bp::error_already_set();
     }
 }
 
-void sequence::check() const
+int sequence::len() const { return bp::len(get_obj()); }
+
+template<> bool check<sequence>(object const &obj)
 {
-    if(!aux::sequence_object_manager_traits::check(ptr()))
-    {
-        PyErr_SetString(PyExc_TypeError, "The variable is not a sequence.");
-        throw error_already_set(); 
-    }
+    if(check<ndarray>(obj)) return true;
+    PyObject *ptr = obj.ptr();
+    return ptr == Py_None || PyTuple_Check(ptr) || PyList_Check(ptr) || PyString_Check(ptr);
 }
 
-int sequence::len() const { check(); return bp::len(*this); }
-
-
-// ================================================================================================
-
-}} // namespace boost::python
+} // namespace sdcpp

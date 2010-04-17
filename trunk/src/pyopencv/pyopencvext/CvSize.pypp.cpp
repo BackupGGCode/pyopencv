@@ -14,13 +14,13 @@ void register_CvSize_class(){
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Size2i instead."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvsize" )    
+    "\n    `wiki http://opencv.willowgarage.com/documentation/basic_structures.html#cvsize`_" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSize >(), "\nPixel-accurate size of a rectangle."
     "\n"
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Size2i instead."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvsize" )    
+    "\n    `wiki http://opencv.willowgarage.com/documentation/basic_structures.html#cvsize`_" )    
         .def_readwrite( "height", &CvSize::height )    
         .def_readwrite( "width", &CvSize::width );
 

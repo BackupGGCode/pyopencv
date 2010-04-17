@@ -201,7 +201,8 @@ KLASS.__repr__ = _KLASS__repr__
     z.add_declaration_code('''
 static bp::object get_data(cv::Mat const &inst)
 {
-    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory ((void*)inst.data, inst.rows*inst.step)));
+    return bp::object(bp::handle<>(bp::borrowed(PyBuffer_FromReadWriteMemory(
+        (void*)inst.data, inst.rows*inst.step))));
 }
 
     ''')
@@ -491,7 +492,8 @@ static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
     z.add_declaration_code('''
 static bp::object get_data(cv::MatND const &inst)
 {
-    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory ((void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1])));
+    return bp::object(bp::handle<>(bp::borrowed(PyBuffer_FromReadWriteMemory(
+        (void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1]))));
 }
 
     ''')

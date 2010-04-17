@@ -50,9 +50,9 @@ void register_Size2d_class(){
         }
         Size2d_exposer.def_readwrite( "height", &cv::Size_< double >::height );
         Size2d_exposer.def_readwrite( "width", &cv::Size_< double >::width );
-        Size2d_exposer.def("from_ndarray", &bp::from_ndarray< cv::Size2d >, (bp::arg("arr")) );
+        Size2d_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Size2d >, (bp::arg("inst_ndarray")) );
         Size2d_exposer.staticmethod("from_ndarray");
-        Size2d_exposer.add_property("ndarray", &bp::as_ndarray< cv::Size2d >);
+        Size2d_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Size2d >);
         Size2d_exposer.def("__iadd__", &__iadd__<cv::Size2d, cv::Size2d>, bp::return_self<>() );
         Size2d_exposer.def("__isub__", &__isub__<cv::Size2d, cv::Size2d>, bp::return_self<>() );
         Size2d_exposer.def("__add__", &__add__<cv::Size2d, cv::Size2d> );

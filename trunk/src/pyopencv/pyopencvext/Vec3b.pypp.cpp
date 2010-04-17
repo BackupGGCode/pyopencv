@@ -100,9 +100,9 @@ void register_Vec3b_class(){
         
         }
         Vec3b_exposer.staticmethod( "all" );
-        Vec3b_exposer.def("from_ndarray", &bp::from_ndarray< cv::Vec3b >, (bp::arg("arr")) );
+        Vec3b_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
         Vec3b_exposer.staticmethod("from_ndarray");
-        Vec3b_exposer.add_property("ndarray", &bp::as_ndarray< cv::Vec3b >);
+        Vec3b_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Vec3b >);
         Vec3b_exposer.def("__iadd__", &__iadd__<cv::Vec3b, cv::Vec3b>, bp::return_self<>() );
         Vec3b_exposer.def("__isub__", &__isub__<cv::Vec3b, cv::Vec3b>, bp::return_self<>() );
         Vec3b_exposer.def("__iadd__", &__iadd__<cv::Vec3b, cv::Vec3s>, bp::return_self<>() );

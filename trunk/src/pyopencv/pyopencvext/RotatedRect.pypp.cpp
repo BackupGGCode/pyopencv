@@ -41,9 +41,9 @@ void register_RotatedRect_class(){
         RotatedRect_exposer.def_readwrite( "angle", &cv::RotatedRect::angle );
         RotatedRect_exposer.def_readwrite( "center", &cv::RotatedRect::center );
         RotatedRect_exposer.def_readwrite( "size", &cv::RotatedRect::size );
-        RotatedRect_exposer.def("from_ndarray", &bp::from_ndarray< cv::RotatedRect >, (bp::arg("arr")) );
+        RotatedRect_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::RotatedRect >, (bp::arg("inst_ndarray")) );
         RotatedRect_exposer.staticmethod("from_ndarray");
-        RotatedRect_exposer.add_property("ndarray", &bp::as_ndarray< cv::RotatedRect >);
+        RotatedRect_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::RotatedRect >);
     }
 
 }
