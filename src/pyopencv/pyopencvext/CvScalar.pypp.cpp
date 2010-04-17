@@ -41,7 +41,7 @@ void register_CvScalar_class(){
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Scalar instead."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/basic_structures.html#cvscalar`_" );
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvscalar" );
         bp::scope CvScalar_scope( CvScalar_exposer );
         CvScalar_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< CvScalar >(), "\nA container for 1-,2-,3- or 4-tuples of doubles. CvScalar is always "
     "\nrepresented as a 4-tuple.."
@@ -49,7 +49,7 @@ void register_CvScalar_class(){
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Scalar instead."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/basic_structures.html#cvscalar`_" );
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvscalar" );
         pyplusplus::containers::static_sized::register_array_1< double, 4 >( "__array_1_double_4" );
         { //CvScalar::val [variable], type=double[4]
         

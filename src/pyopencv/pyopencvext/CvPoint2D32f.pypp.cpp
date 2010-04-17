@@ -14,13 +14,13 @@ void register_CvPoint2D32f_class(){
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Point2f instead."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint2d32f`_" )    
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint2d32f" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvPoint2D32f >(), "\n2D point with floating-point coordinates."
     "\n"
     "\nWarning: This structure is obsolete. It exists only to support "
     "\nbackward compatibility. Please use class Point2f instead."
     "\nReference:"
-    "\n    `wiki http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint2d32f`_" )    
+    "\n    http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint2d32f" )    
         .def_readwrite( "x", &CvPoint2D32f::x )    
         .def_readwrite( "y", &CvPoint2D32f::y );
 
