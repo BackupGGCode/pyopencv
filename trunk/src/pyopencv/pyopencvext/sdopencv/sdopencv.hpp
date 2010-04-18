@@ -14,6 +14,7 @@
 #include "diffchar_2d.hpp"
 #include "integral_2d.hpp"
 #include "int_hist_2d.hpp"
+#include "iterators.hpp"
 
 #endif
 

@@ -78,7 +78,7 @@ dict_decl_name_to_desc = {
     ("::", "CvPoint3D64f"): ("3D point with double precision floating-point coordinates.", "", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Point3d instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvpoint3d64f"),
     ("::", "CvSize"): ("Pixel-accurate size of a rectangle.", "", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Size2i instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvsize"),
     ("::", "CvSize2D32f"): ("Sub-pixel-accurate size of a rectangle.", "", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Size2f instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvsize2d32f"),
-    ("::", "CvScalar"): ("A container for 1-,2-,3- or 4-tuples of doubles. CvScalar is always represented as a 4-tuple..", "", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Scalar instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvscalar"),
+    ("::", "CvScalar"): ("A container for 1-,2-,3- or 4-tuples of doubles. CvScalar is always represented as a 4-tuple.", "", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Scalar instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvscalar"),
     ("::", "CvTermCriteria"): ("Termination criteria for iterative algorithms.", "", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class TermCriteria instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvtermcriteria"),
     ("::", "CvMat"): ("A multi-channel matrix.", "", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Mat instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvmat"),
     ("::", "CvMatND"): ("Multi-dimensional dense multi-channel array.", "", "Warning: This structure is obsolete. It exists only to support backward compatibility. Please use class Mat instead.", "http://opencv.willowgarage.com/documentation/basic_structures.html#cvmatnd"),
@@ -255,6 +255,22 @@ dict_decl_name_to_desc = {
     ("cv", "transform"): ("Performs matrix transformation of every array element.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-transform"),
     ("cv", "transpose"): ("Transposes a matrix.", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-transpose"),
 
+    # C++ -- cxcore -- Drawing Functions
+    ("cv", "circle"): ("Draws a circle.", "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-circle"),
+    ("cv", "clipLine"): ("Clips the line against the image rectangle.", "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-clipline"),
+    ("cv", "elllipse"): ("Draws a simple or thick elliptic arc or an fills ellipse sector.", "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-ellipse"),
+    ("cv", "ellipse2Poly"): ("Approximates an elliptic arc with a polyline.", "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-ellipse2poly"),
+    ("cv", "fillConvexPoly"): ("Fills a convex polygon.", "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillconvexpoly"),
+    ("cv", "fillPoly"): ("Fills the area bounded by one or more polygons.", "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillpoly"),
+    ("cv", "getTextSize"): ("Calculates the width and height of a text string.", "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-gettextsize"),
+    ("cv", "line"): ("Draws a line segment connecting two points.", "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-line"),
+    ("sdopencv", "LineIterator"): ("Class for iterating pixels on a raster line.", "", 
+        "In PyOpenCV, LineIterator is a Python iterator which returns Point (instead of pixel address as in OpenCV) at every iteration.", 
+        "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#lineiterator"),
+    ("cv", "rectangle"): ("Draws a simple, thick, or filled up-right rectangle.", "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-rectangle"),
+    ("cv", "polylines"): ("Draws several polygonal curves.", "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-polylines"),
+    ("cv", "putText"): ("Draws a text string.", "http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-puttext"),
+    
     # TODO: append other C++ sections
     ("cv", "XXXXX"): (".", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-xxxx"),
     

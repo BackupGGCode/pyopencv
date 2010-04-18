@@ -1956,8 +1956,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_LevMarqSparse_class();
 
-    register_LineIterator_class();
-
     register_MSER_class();
 
     register_MatND_class();
@@ -2205,6 +2203,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_IntegralHistogram_class();
 
     register_IntegralImage_class();
+
+    register_LineIterator_class();
 
     { //::cv::FAST
     
@@ -4437,7 +4437,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "ellipse2Poly"
             , ellipse2Poly_function_type( &ellipse2Poly_a1937ebf152fa736fc27822db2e0081a )
             , ( bp::arg("center"), bp::arg("axes"), bp::arg("angle"), bp::arg("arcStart"), bp::arg("arcEnd"), bp::arg("delta"), bp::arg("pts") )
-            , "\nArgument 'pts':"\
+            , "\nApproximates an elliptic arc with a polyline."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-ellipse2poly"
+    "\nArgument 'pts':"\
     "\n    C/C++ type: ::std::vector< cv::Point_<int> > &."\
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
@@ -4469,7 +4472,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "fillConvexPoly"
             , fillConvexPoly_function_type( &fillConvexPoly_1312287b0cded13c02c57cc3d8ebf4b4 )
             , ( bp::arg("img"), bp::arg("pts"), bp::arg("color"), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) )
-            , "\nArgument 'npts':"\
+            , "\nFills a convex polygon."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillconvexpoly"
+    "\nArgument 'npts':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument 'pts'."\
     "\nArgument 'pts':"\
@@ -4488,7 +4494,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "fillPoly"
             , fillPoly_function_type( &fillPoly_e862cfcf1208f193efcd2bec59b744ec )
             , ( bp::arg("img"), bp::arg("pts"), bp::arg("color"), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0), bp::arg("offset")=cv::Point_<int>() )
-            , "\nArgument 'npts':"\
+            , "\nFills the area bounded by one or more polygons."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillpoly"
+    "\nArgument 'npts':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument 'pts'."\
     "\nArgument 'ncontours':"\
@@ -4717,7 +4726,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "getTextSize"
             , getTextSize_function_type( &getTextSize_efe6452b14ca0fcca5a50ca33199f5e7 )
             , ( bp::arg("text"), bp::arg("fontFace"), bp::arg("fontScale"), bp::arg("thickness") )
-            , "\nArgument 'baseLine':"\
+            , "\nCalculates the width and height of a text string."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-gettextsize"
+    "\nArgument 'baseLine':"\
     "\n    C/C++ type: int *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from the function's calling sequence, and is "\
@@ -5059,7 +5071,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "polylines"
             , polylines_function_type( &polylines_4b2b9aca4a0ee1864678eae6b982fcc0 )
             , ( bp::arg("img"), bp::arg("pts"), bp::arg("isClosed"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) )
-            , "\nArgument 'npts':"\
+            , "\nDraws several polygonal curves."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-polylines"
+    "\nArgument 'npts':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument 'pts'."\
     "\nArgument 'ncontours':"\
