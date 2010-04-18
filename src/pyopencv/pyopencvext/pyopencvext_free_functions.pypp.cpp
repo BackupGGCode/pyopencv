@@ -760,7 +760,10 @@ void register_free_functions(){
         bp::def( 
             "circle"
             , circle_function_type( &::cv::circle )
-            , ( bp::arg("img"), bp::arg("center"), bp::arg("radius"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) ) );
+            , ( bp::arg("img"), bp::arg("center"), bp::arg("radius"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) )
+            , "\nDraws a circle."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-circle" );
     
     }
 
@@ -771,7 +774,10 @@ void register_free_functions(){
         bp::def( 
             "clipLine"
             , clipLine_function_type( &::cv::clipLine )
-            , ( bp::arg("img_rect"), bp::arg("pt1"), bp::arg("pt2") ) );
+            , ( bp::arg("img_rect"), bp::arg("pt1"), bp::arg("pt2") )
+            , "\nClips the line against the image rectangle."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-clipline" );
     
     }
 
@@ -782,7 +788,10 @@ void register_free_functions(){
         bp::def( 
             "clipLine"
             , clipLine_function_type( &::cv::clipLine )
-            , ( bp::arg("imgSize"), bp::arg("pt1"), bp::arg("pt2") ) );
+            , ( bp::arg("imgSize"), bp::arg("pt1"), bp::arg("pt2") )
+            , "\nClips the line against the image rectangle."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-clipline" );
     
     }
 
@@ -3315,7 +3324,10 @@ void register_free_functions(){
         bp::def( 
             "line"
             , line_function_type( &::cv::line )
-            , ( bp::arg("img"), bp::arg("pt1"), bp::arg("pt2"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) ) );
+            , ( bp::arg("img"), bp::arg("pt1"), bp::arg("pt2"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) )
+            , "\nDraws a line segment connecting two points."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-line" );
     
     }
 
@@ -3994,7 +4006,10 @@ void register_free_functions(){
         bp::def( 
             "putText"
             , putText_function_type( &::cv::putText )
-            , ( bp::arg("img"), bp::arg("text"), bp::arg("org"), bp::arg("fontFace"), bp::arg("fontScale"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("linetype")=(int)(8), bp::arg("bottomLeftOrigin")=(bool)(false) ) );
+            , ( bp::arg("img"), bp::arg("text"), bp::arg("org"), bp::arg("fontFace"), bp::arg("fontScale"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("linetype")=(int)(8), bp::arg("bottomLeftOrigin")=(bool)(false) )
+            , "\nDraws a text string."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-puttext" );
     
     }
 
@@ -4070,7 +4085,10 @@ void register_free_functions(){
         bp::def( 
             "rectangle"
             , rectangle_function_type( &::cv::rectangle )
-            , ( bp::arg("img"), bp::arg("rec"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) ) );
+            , ( bp::arg("img"), bp::arg("rec"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) )
+            , "\nDraws a simple, thick, or filled up-right rectangle."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-rectangle" );
     
     }
 
@@ -4081,7 +4099,10 @@ void register_free_functions(){
         bp::def( 
             "rectangle"
             , rectangle_function_type( &::cv::rectangle )
-            , ( bp::arg("img"), bp::arg("pt1"), bp::arg("pt2"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) ) );
+            , ( bp::arg("img"), bp::arg("pt1"), bp::arg("pt2"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("shift")=(int)(0) )
+            , "\nDraws a simple, thick, or filled up-right rectangle."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-rectangle" );
     
     }
 

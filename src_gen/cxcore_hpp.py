@@ -420,18 +420,10 @@ KLASS.__repr__ = _KLASS__repr__
         mb.finalize_class(z)
         
     # LineIterator
-    z = mb.class_('LineIterator')
-    z.include_files.append("sdopencv/dtype.hpp")
-    z.include()
-    z.operator('*').exclude()
-    z.var('ptr').exclude()
-    # replace operator*() with 'get_pixel_addr', not the best solution, if you have a better one, send me a patch
-    z.add_declaration_code('static sdopencv::address_t get_pixel_addr(cv::LineIterator &inst) { return (sdopencv::address_t)(*inst); }')
-    z.add_registration_code('def("get_pixel_addr", &get_pixel_addr)')
-    # replace operator++() with 'inc'
-    z.operators('++').exclude()
-    z.add_declaration_code('static cv::LineIterator & inc(cv::LineIterator &inst) { return ++inst; }')
-    z.add_registration_code('def("inc", bp::make_function(&inc, bp::return_self<>()) )')
+    z = mb.class_(lambda x: x.name=='LineIterator' and x.parent.name=='sdopencv')
+    mb.init_class(z)
+    z.mem_fun('iter').rename('__iter__')
+    mb.finalize_class(z)
     
     # MatND
     z = mb.class_('MatND')
