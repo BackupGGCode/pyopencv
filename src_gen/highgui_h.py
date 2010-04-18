@@ -134,7 +134,7 @@ CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
     # functions
     for z in (
         'cvStartWindowThread', 'cvResizeWindow', 'cvMoveWindow', 
-        'cvGetWindowName', 'cvGetTrackbarPos', 'cvSetTrackbarPos',
+        'cvGetWindowName', 
         'cvConvertImage', 
         # 'cvWaitKey', 'cvGrabFrame', 'cvGetCaptureProperty', 'cvSetCaptureProperty', 'cvGetCaptureDomain',
         # 'cvWriteFrame',
