@@ -1759,19 +1759,6 @@ void register_free_functions(){
     
     }
 
-    { //::cvGetTrackbarPos
-    
-        typedef int ( *getTrackbarPos_function_type )( char const *,char const * );
-        
-        bp::def( 
-            "getTrackbarPos"
-            , getTrackbarPos_function_type( &::cvGetTrackbarPos )
-            , ( bp::arg("trackbar_name"), bp::arg("window_name") )
-            , "\nWrapped function:"
-    "\n    cvGetTrackbarPos" );
-    
-    }
-
     { //::cvGetWindowName
     
         typedef char const * ( *getWindowName_function_type )( void * );
@@ -2184,19 +2171,6 @@ void register_free_functions(){
             , ( bp::arg("reader"), bp::arg("index"), bp::arg("is_relative")=(int)(0) )
             , "\nWrapped function:"
     "\n    cvSetSeqReaderPos" );
-    
-    }
-
-    { //::cvSetTrackbarPos
-    
-        typedef void ( *setTrackbarPos_function_type )( char const *,char const *,int );
-        
-        bp::def( 
-            "setTrackbarPos"
-            , setTrackbarPos_function_type( &::cvSetTrackbarPos )
-            , ( bp::arg("trackbar_name"), bp::arg("window_name"), bp::arg("pos") )
-            , "\nWrapped function:"
-    "\n    cvSetTrackbarPos" );
     
     }
 
@@ -3053,6 +3027,20 @@ void register_free_functions(){
         bp::def( 
             "getTickFrequency"
             , getTickFrequency_function_type( &::cv::getTickFrequency ) );
+    
+    }
+
+    { //::cv::getTrackbarPos
+    
+        typedef int ( *getTrackbarPos_function_type )( ::std::string const &,::std::string const & );
+        
+        bp::def( 
+            "getTrackbarPos"
+            , getTrackbarPos_function_type( &::cv::getTrackbarPos )
+            , ( bp::arg("trackbarname"), bp::arg("winname") )
+            , "\nReturns the trackbar position."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-gettrackbarpos" );
     
     }
 
@@ -4242,6 +4230,20 @@ void register_free_functions(){
             "setNumThreads"
             , setNumThreads_function_type( &::cv::setNumThreads )
             , ( bp::arg("arg0") ) );
+    
+    }
+
+    { //::cv::setTrackbarPos
+    
+        typedef void ( *setTrackbarPos_function_type )( ::std::string const &,::std::string const &,int );
+        
+        bp::def( 
+            "setTrackbarPos"
+            , setTrackbarPos_function_type( &::cv::setTrackbarPos )
+            , ( bp::arg("trackbarname"), bp::arg("winname"), bp::arg("pos") )
+            , "\nSets the trackbar position."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-settrackbarpos" );
     
     }
 
