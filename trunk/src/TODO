@@ -12,8 +12,6 @@ Add iterator for SparseMat
 
 What about Seq template class?
 
-- asMat() not working well if we want to convert a list of 32-bit floating points to Mat
-
 - 2d lists should have better documentation: i.e. when is list of Mat, when is list of lists
 
 - introduce debugging mode so that people know which argument has been converted, which has been not
