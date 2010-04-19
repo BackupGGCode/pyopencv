@@ -34,8 +34,10 @@ void register_Size2f_class(){
                 , area_function_type( &::cv::Size_< float >::area ) );
         
         }
-        Size2f_exposer.def( "__temp_func", &cv::Size_< float >::operator ::CvSize  );
-        Size2f_exposer.def( "__temp_func", &cv::Size_< float >::operator ::CvSize2D32f  );
+        Size2f_exposer.def( "__temp_func", &cv::Size_< float >::operator ::CvSize , "\nWrapped function:"
+    "\n    operator ::CvSize" );
+        Size2f_exposer.def( "__temp_func", &cv::Size_< float >::operator ::CvSize2D32f , "\nWrapped function:"
+    "\n    operator ::CvSize2D32f" );
         { //::cv::Size_< float >::operator=
         
             typedef cv::Size_< float > exported_class_t;
@@ -45,7 +47,9 @@ void register_Size2f_class(){
                 "assign"
                 , assign_function_type( &::cv::Size_< float >::operator= )
                 , ( bp::arg("sz") )
-                , bp::return_self< >() );
+                , bp::return_self< >()
+                , "\nWrapped function:"
+    "\n    operator=" );
         
         }
         Size2f_exposer.def_readwrite( "height", &cv::Size_< float >::height );

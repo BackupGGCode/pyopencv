@@ -321,7 +321,9 @@ void register_Mat_class(){
             Mat_exposer.def( 
                 "__call__"
                 , __call___function_type( &::cv::Mat::operator() )
-                , ( bp::arg("rowRange"), bp::arg("colRange") ) );
+                , ( bp::arg("rowRange"), bp::arg("colRange") )
+                , "\nWrapped function:"
+    "\n    operator()" );
         
         }
         { //::cv::Mat::operator()
@@ -331,7 +333,9 @@ void register_Mat_class(){
             Mat_exposer.def( 
                 "__call__"
                 , __call___function_type( &::cv::Mat::operator() )
-                , ( bp::arg("roi") ) );
+                , ( bp::arg("roi") )
+                , "\nWrapped function:"
+    "\n    operator()" );
         
         }
         { //::cv::Mat::operator=
@@ -342,7 +346,9 @@ void register_Mat_class(){
                 "assign"
                 , assign_function_type( &::cv::Mat::operator= )
                 , ( bp::arg("m") )
-                , bp::return_self< >() );
+                , bp::return_self< >()
+                , "\nWrapped function:"
+    "\n    operator=" );
         
         }
         { //::cv::Mat::operator=
@@ -353,7 +359,9 @@ void register_Mat_class(){
                 "assign"
                 , assign_function_type( &::cv::Mat::operator= )
                 , ( bp::arg("s") )
-                , bp::return_self< >() );
+                , bp::return_self< >()
+                , "\nWrapped function:"
+    "\n    operator=" );
         
         }
         { //::cv::Mat::release

@@ -75,7 +75,8 @@ void register_Vec2w_class(){
                 , ( bp::arg("v") ) );
         
         }
-        Vec2w_exposer.def( "__temp_func", &cv::Vec< unsigned short, 2 >::operator ::CvScalar  );
+        Vec2w_exposer.def( "__temp_func", &cv::Vec< unsigned short, 2 >::operator ::CvScalar , "\nWrapped function:"
+    "\n    operator ::CvScalar" );
         { //::cv::Vec< unsigned short, 2 >::operator[]
         
             typedef cv::Vec< unsigned short, 2 > exported_class_t;
@@ -84,7 +85,9 @@ void register_Vec2w_class(){
             Vec2w_exposer.def( 
                 "__getitem__"
                 , __getitem___function_type( &::cv::Vec< unsigned short, 2 >::operator[] )
-                , ( bp::arg("i") ) );
+                , ( bp::arg("i") )
+                , "\nWrapped function:"
+    "\n    operator[]" );
         
         }
         { //::cv::Vec< unsigned short, 2 >::operator[]
@@ -96,7 +99,9 @@ void register_Vec2w_class(){
                 "__getitem__"
                 , __getitem___function_type( &::cv::Vec< unsigned short, 2 >::operator[] )
                 , ( bp::arg("i") )
-                , bp::return_value_policy< bp::copy_non_const_reference >() );
+                , bp::return_value_policy< bp::copy_non_const_reference >()
+                , "\nWrapped function:"
+    "\n    operator[]" );
         
         }
         Vec2w_exposer.staticmethod( "all" );

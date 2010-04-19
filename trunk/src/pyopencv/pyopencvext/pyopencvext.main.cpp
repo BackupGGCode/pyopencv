@@ -1930,6 +1930,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Rect_class();
 
+    bp::implicitly_convertible< cv::Rect_< int >, CvRect >();
+
     register_Vec4d_class();
 
     bp::implicitly_convertible< cv::Vec< double, 4 >, CvScalar >();
@@ -2052,7 +2054,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Rectd_class();
 
+    bp::implicitly_convertible< cv::Rect_< double >, CvRect >();
+
     register_Rectf_class();
+
+    bp::implicitly_convertible< cv::Rect_< float >, CvRect >();
 
     register_RotatedRect_class();
 
@@ -5466,15 +5472,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asPoint2i", &sdcpp::from_ndarray< cv::Point2i >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint2d", &sdcpp::from_ndarray< cv::Point2d >, (bp::arg("inst_ndarray")) );
-
     bp::def("asPoint2f", &sdcpp::from_ndarray< cv::Point2f >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint3d", &sdcpp::from_ndarray< cv::Point3d >, (bp::arg("inst_ndarray")) );
+    bp::def("asPoint2d", &sdcpp::from_ndarray< cv::Point2d >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asPoint3i", &sdcpp::from_ndarray< cv::Point3i >, (bp::arg("inst_ndarray")) );
 
     bp::def("asPoint3f", &sdcpp::from_ndarray< cv::Point3f >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint3i", &sdcpp::from_ndarray< cv::Point3i >, (bp::arg("inst_ndarray")) );
+    bp::def("asPoint3d", &sdcpp::from_ndarray< cv::Point3d >, (bp::arg("inst_ndarray")) );
 
     bp::def("asSize2i", &sdcpp::from_ndarray< cv::Size2i >, (bp::arg("inst_ndarray")) );
 

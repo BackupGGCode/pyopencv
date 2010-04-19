@@ -46,8 +46,10 @@ void register_Point3i_class(){
                 , ( bp::arg("pt") ) );
         
         }
-        Point3i_exposer.def( "__temp_func", &cv::Point3_< int >::operator ::CvPoint3D32f  );
-        Point3i_exposer.def( "as_Vec3i", &cv::Point3_< int >::operator ::cv::Vec< int, 3 >  );
+        Point3i_exposer.def( "__temp_func", &cv::Point3_< int >::operator ::CvPoint3D32f , "\nWrapped function:"
+    "\n    operator ::CvPoint3D32f" );
+        Point3i_exposer.def( "__temp_func", &cv::Point3_< int >::operator ::cv::Vec< int, 3 > , "\nWrapped function:"
+    "\n    operator ::cv::Vec<int, 3>" );
         { //::cv::Point3_< int >::operator=
         
             typedef cv::Point3_< int > exported_class_t;
@@ -57,7 +59,9 @@ void register_Point3i_class(){
                 "assign"
                 , assign_function_type( &::cv::Point3_< int >::operator= )
                 , ( bp::arg("pt") )
-                , bp::return_self< >() );
+                , bp::return_self< >()
+                , "\nWrapped function:"
+    "\n    operator=" );
         
         }
         Point3i_exposer.def_readwrite( "x", &cv::Point3_< int >::x );

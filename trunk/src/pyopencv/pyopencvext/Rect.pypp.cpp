@@ -18,6 +18,8 @@ void register_Rect_class(){
         Rect_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Rect_< int > >() );
         Rect_exposer.def( bp::init< int, int, int, int >(( bp::arg("_x"), bp::arg("_y"), bp::arg("_width"), bp::arg("_height") )) );
         Rect_exposer.def( bp::init< cv::Rect_< int > const & >(( bp::arg("r") )) );
+        Rect_exposer.def( bp::init< CvRect const & >(( bp::arg("r") )) );
+        bp::implicitly_convertible< CvRect const &, cv::Rect_< int > >();
         Rect_exposer.def( bp::init< cv::Point_< int > const &, cv::Size_< int > const & >(( bp::arg("org"), bp::arg("sz") )) );
         Rect_exposer.def( bp::init< cv::Point_< int > const &, cv::Point_< int > const & >(( bp::arg("pt1"), bp::arg("pt2") )) );
         { //::cv::Rect_< int >::area
@@ -51,6 +53,8 @@ void register_Rect_class(){
                 , ( bp::arg("pt") ) );
         
         }
+        Rect_exposer.def( "__temp_func", &cv::Rect_< int >::operator ::CvRect , "\nWrapped function:"
+    "\n    operator ::CvRect" );
         { //::cv::Rect_< int >::operator=
         
             typedef cv::Rect_< int > exported_class_t;
@@ -60,7 +64,9 @@ void register_Rect_class(){
                 "assign"
                 , assign_function_type( &::cv::Rect_< int >::operator= )
                 , ( bp::arg("r") )
-                , bp::return_self< >() );
+                , bp::return_self< >()
+                , "\nWrapped function:"
+    "\n    operator=" );
         
         }
         { //::cv::Rect_< int >::size
