@@ -1848,10 +1848,40 @@ def _Mat__repr__(self):
     return "Mat()" if self.empty() else "Mat(rows=" + repr(self.rows)         + ", cols=" + repr(self.cols) + ", nchannels=" + repr(self.channels())         + ", depth=" + repr(self.depth()) + "):\n" + repr(self.ndarray)
 Mat.__repr__ = _Mat__repr__
     
+def reshapeSingleChannel(mat):
+    """Reshapes a Mat object into one that has a single channel.
+    
+    The function returns mat itself if it is single-channel.
+
+    If it is multi-channel, the function invokes mat.reshape() to reshape
+    the object. If the object has a single row, the returning object has
+    rows=mat.cols and cols=mat.channels(). Otherwise, the returning object
+    has rows=mat.rows and cols=mat.cols*mat.channels().    
+    """
+    if mat.channels() != 1:    
+        return out_mat.reshape(1, out_mat.cols if out_mat.rows==1 else out_mat.rows)
+    return mat
+    
 def asMat(obj, force_single_channel=False):
     """Converts a Python object into a Mat object.
     
-    If 'force_single_channel' is True, the returing Mat is single-channel. Otherwise, PyOpenCV tries to return a multi-channel Mat whenever possible.
+    This general-purpose meta-function uses a simple heuristic method to
+    identify the type of the given Python object in order to convert it into
+    a Mat object. If the Python object is an ndarray, it invokes function 
+    Mat.from_ndarray(). Otherwise, it assumes the object is a Python sequence,
+    and invokes one of the Mat.from_list_of_...() methods. The function to be
+    invoked is decided by checking the first element of the Python sequence.
+    For example, if the first element is an integer, it invokes 
+    Mat.from_list_of_int(). If the first element is a floating-point number,
+    it invokes Mat.from_list_of_float64(), etc. 
+    
+    In the case that the above heuristic method does not convert into a Mat
+    object with your intended type and depth, use one of the 
+    Mat.from_list_of_...() functions instead.
+    
+    If 'force_single_channel' is True, the returing Mat is single-channel (by
+    invoking reshapeSingleChannel()). Otherwise, PyOpenCV tries to return a 
+    multi-channel Mat whenever possible.
     """
     
     if obj is None:
