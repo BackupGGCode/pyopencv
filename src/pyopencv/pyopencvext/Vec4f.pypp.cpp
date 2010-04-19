@@ -75,7 +75,8 @@ void register_Vec4f_class(){
                 , ( bp::arg("v") ) );
         
         }
-        Vec4f_exposer.def( "__temp_func", &cv::Vec< float, 4 >::operator ::CvScalar  );
+        Vec4f_exposer.def( "__temp_func", &cv::Vec< float, 4 >::operator ::CvScalar , "\nWrapped function:"
+    "\n    operator ::CvScalar" );
         { //::cv::Vec< float, 4 >::operator[]
         
             typedef cv::Vec< float, 4 > exported_class_t;
@@ -84,7 +85,9 @@ void register_Vec4f_class(){
             Vec4f_exposer.def( 
                 "__getitem__"
                 , __getitem___function_type( &::cv::Vec< float, 4 >::operator[] )
-                , ( bp::arg("i") ) );
+                , ( bp::arg("i") )
+                , "\nWrapped function:"
+    "\n    operator[]" );
         
         }
         { //::cv::Vec< float, 4 >::operator[]
@@ -96,7 +99,9 @@ void register_Vec4f_class(){
                 "__getitem__"
                 , __getitem___function_type( &::cv::Vec< float, 4 >::operator[] )
                 , ( bp::arg("i") )
-                , bp::return_value_policy< bp::copy_non_const_reference >() );
+                , bp::return_value_policy< bp::copy_non_const_reference >()
+                , "\nWrapped function:"
+    "\n    operator[]" );
         
         }
         Vec4f_exposer.staticmethod( "all" );

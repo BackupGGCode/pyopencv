@@ -18,6 +18,8 @@ void register_Rectf_class(){
         Rectf_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Rect_< float > >() );
         Rectf_exposer.def( bp::init< float, float, float, float >(( bp::arg("_x"), bp::arg("_y"), bp::arg("_width"), bp::arg("_height") )) );
         Rectf_exposer.def( bp::init< cv::Rect_< float > const & >(( bp::arg("r") )) );
+        Rectf_exposer.def( bp::init< CvRect const & >(( bp::arg("r") )) );
+        bp::implicitly_convertible< CvRect const &, cv::Rect_< float > >();
         Rectf_exposer.def( bp::init< cv::Point_< float > const &, cv::Size_< float > const & >(( bp::arg("org"), bp::arg("sz") )) );
         Rectf_exposer.def( bp::init< cv::Point_< float > const &, cv::Point_< float > const & >(( bp::arg("pt1"), bp::arg("pt2") )) );
         { //::cv::Rect_< float >::area
@@ -51,6 +53,8 @@ void register_Rectf_class(){
                 , ( bp::arg("pt") ) );
         
         }
+        Rectf_exposer.def( "__temp_func", &cv::Rect_< float >::operator ::CvRect , "\nWrapped function:"
+    "\n    operator ::CvRect" );
         { //::cv::Rect_< float >::operator=
         
             typedef cv::Rect_< float > exported_class_t;
@@ -60,7 +64,9 @@ void register_Rectf_class(){
                 "assign"
                 , assign_function_type( &::cv::Rect_< float >::operator= )
                 , ( bp::arg("r") )
-                , bp::return_self< >() );
+                , bp::return_self< >()
+                , "\nWrapped function:"
+    "\n    operator=" );
         
         }
         { //::cv::Rect_< float >::size

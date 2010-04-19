@@ -1346,39 +1346,6 @@ def _Point2i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point2i.__setslice__ = _Point2i__setslice__
         
-def _Point2d__repr__(self):
-    return "Point2d(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
-Point2d.__repr__ = _Point2d__repr__
-        
-        
-_str = "\n    Creates a Point2d view on an ndarray instance."
-if Point2d.from_ndarray.__doc__ is None:
-    Point2d.from_ndarray.__doc__ = _str
-else:
-    Point2d.from_ndarray.__doc__ += _str
-
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point2d that shares the same data with an ndarray instance, use:\n        'Point2d.from_ndarray(a)' or 'asPoint2d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Point2d.__doc__ is None:
-    Point2d.__doc__ = _str
-else:
-    Point2d.__doc__ += _str
-    
-def _Point2d__getitem__(self, *args, **kwds):
-    return self.ndarray.__getitem__(*args, **kwds)
-Point2d.__getitem__ = _Point2d__getitem__
-            
-def _Point2d__setitem__(self, *args, **kwds):
-    return self.ndarray.__setitem__(*args, **kwds)
-Point2d.__setitem__ = _Point2d__setitem__
-            
-def _Point2d__getslice__(self, *args, **kwds):
-    return self.ndarray.__getslice__(*args, **kwds)
-Point2d.__getslice__ = _Point2d__getslice__
-            
-def _Point2d__setslice__(self, *args, **kwds):
-    return self.ndarray.__setslice__(*args, **kwds)
-Point2d.__setslice__ = _Point2d__setslice__
-        
 def _Point2f__repr__(self):
     return "Point2f(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
 Point2f.__repr__ = _Point2f__repr__
@@ -1412,40 +1379,73 @@ def _Point2f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point2f.__setslice__ = _Point2f__setslice__
         
+def _Point2d__repr__(self):
+    return "Point2d(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
+Point2d.__repr__ = _Point2d__repr__
+        
+        
+_str = "\n    Creates a Point2d view on an ndarray instance."
+if Point2d.from_ndarray.__doc__ is None:
+    Point2d.from_ndarray.__doc__ = _str
+else:
+    Point2d.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point2d that shares the same data with an ndarray instance, use:\n        'Point2d.from_ndarray(a)' or 'asPoint2d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Point2d.__doc__ is None:
+    Point2d.__doc__ = _str
+else:
+    Point2d.__doc__ += _str
+    
+def _Point2d__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Point2d.__getitem__ = _Point2d__getitem__
+            
+def _Point2d__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Point2d.__setitem__ = _Point2d__setitem__
+            
+def _Point2d__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Point2d.__getslice__ = _Point2d__getslice__
+            
+def _Point2d__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Point2d.__setslice__ = _Point2d__setslice__
+        
 Point = Point2i
 asPoint = asPoint2i
     
-_str = "\n    Creates a Point3d view on an ndarray instance."
-if Point3d.from_ndarray.__doc__ is None:
-    Point3d.from_ndarray.__doc__ = _str
+_str = "\n    Creates a Point3i view on an ndarray instance."
+if Point3i.from_ndarray.__doc__ is None:
+    Point3i.from_ndarray.__doc__ = _str
 else:
-    Point3d.from_ndarray.__doc__ += _str
+    Point3i.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point3d that shares the same data with an ndarray instance, use:\n        'Point3d.from_ndarray(a)' or 'asPoint3d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Point3d.__doc__ is None:
-    Point3d.__doc__ = _str
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point3i that shares the same data with an ndarray instance, use:\n        'Point3i.from_ndarray(a)' or 'asPoint3i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Point3i.__doc__ is None:
+    Point3i.__doc__ = _str
 else:
-    Point3d.__doc__ += _str
+    Point3i.__doc__ += _str
     
-def _Point3d__getitem__(self, *args, **kwds):
+def _Point3i__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
-Point3d.__getitem__ = _Point3d__getitem__
+Point3i.__getitem__ = _Point3i__getitem__
             
-def _Point3d__setitem__(self, *args, **kwds):
+def _Point3i__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
-Point3d.__setitem__ = _Point3d__setitem__
+Point3i.__setitem__ = _Point3i__setitem__
             
-def _Point3d__getslice__(self, *args, **kwds):
+def _Point3i__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
-Point3d.__getslice__ = _Point3d__getslice__
+Point3i.__getslice__ = _Point3i__getslice__
             
-def _Point3d__setslice__(self, *args, **kwds):
+def _Point3i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
-Point3d.__setslice__ = _Point3d__setslice__
+Point3i.__setslice__ = _Point3i__setslice__
         
-def _Point3d__repr__(self):
-    return "Point3d(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
-Point3d.__repr__ = _Point3d__repr__
+def _Point3i__repr__(self):
+    return "Point3i(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
+Point3i.__repr__ = _Point3i__repr__
         
         
 _str = "\n    Creates a Point3f view on an ndarray instance."
@@ -1481,37 +1481,37 @@ def _Point3f__repr__(self):
 Point3f.__repr__ = _Point3f__repr__
         
         
-_str = "\n    Creates a Point3i view on an ndarray instance."
-if Point3i.from_ndarray.__doc__ is None:
-    Point3i.from_ndarray.__doc__ = _str
+_str = "\n    Creates a Point3d view on an ndarray instance."
+if Point3d.from_ndarray.__doc__ is None:
+    Point3d.from_ndarray.__doc__ = _str
 else:
-    Point3i.from_ndarray.__doc__ += _str
+    Point3d.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point3i that shares the same data with an ndarray instance, use:\n        'Point3i.from_ndarray(a)' or 'asPoint3i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Point3i.__doc__ is None:
-    Point3i.__doc__ = _str
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point3d that shares the same data with an ndarray instance, use:\n        'Point3d.from_ndarray(a)' or 'asPoint3d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Point3d.__doc__ is None:
+    Point3d.__doc__ = _str
 else:
-    Point3i.__doc__ += _str
+    Point3d.__doc__ += _str
     
-def _Point3i__getitem__(self, *args, **kwds):
+def _Point3d__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
-Point3i.__getitem__ = _Point3i__getitem__
+Point3d.__getitem__ = _Point3d__getitem__
             
-def _Point3i__setitem__(self, *args, **kwds):
+def _Point3d__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
-Point3i.__setitem__ = _Point3i__setitem__
+Point3d.__setitem__ = _Point3d__setitem__
             
-def _Point3i__getslice__(self, *args, **kwds):
+def _Point3d__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
-Point3i.__getslice__ = _Point3i__getslice__
+Point3d.__getslice__ = _Point3d__getslice__
             
-def _Point3i__setslice__(self, *args, **kwds):
+def _Point3d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
-Point3i.__setslice__ = _Point3i__setslice__
+Point3d.__setslice__ = _Point3d__setslice__
         
-def _Point3i__repr__(self):
-    return "Point3i(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
-Point3i.__repr__ = _Point3i__repr__
+def _Point3d__repr__(self):
+    return "Point3d(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
+Point3d.__repr__ = _Point3d__repr__
         
         
 _str = "\n    Creates a Size2i view on an ndarray instance."

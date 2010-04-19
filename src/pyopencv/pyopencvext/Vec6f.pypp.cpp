@@ -75,7 +75,8 @@ void register_Vec6f_class(){
                 , ( bp::arg("v") ) );
         
         }
-        Vec6f_exposer.def( "__temp_func", &cv::Vec< float, 6 >::operator ::CvScalar  );
+        Vec6f_exposer.def( "__temp_func", &cv::Vec< float, 6 >::operator ::CvScalar , "\nWrapped function:"
+    "\n    operator ::CvScalar" );
         { //::cv::Vec< float, 6 >::operator[]
         
             typedef cv::Vec< float, 6 > exported_class_t;
@@ -84,7 +85,9 @@ void register_Vec6f_class(){
             Vec6f_exposer.def( 
                 "__getitem__"
                 , __getitem___function_type( &::cv::Vec< float, 6 >::operator[] )
-                , ( bp::arg("i") ) );
+                , ( bp::arg("i") )
+                , "\nWrapped function:"
+    "\n    operator[]" );
         
         }
         { //::cv::Vec< float, 6 >::operator[]
@@ -96,7 +99,9 @@ void register_Vec6f_class(){
                 "__getitem__"
                 , __getitem___function_type( &::cv::Vec< float, 6 >::operator[] )
                 , ( bp::arg("i") )
-                , bp::return_value_policy< bp::copy_non_const_reference >() );
+                , bp::return_value_policy< bp::copy_non_const_reference >()
+                , "\nWrapped function:"
+    "\n    operator[]" );
         
         }
         Vec6f_exposer.staticmethod( "all" );

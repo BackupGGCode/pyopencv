@@ -43,7 +43,7 @@ def generate_code(mb, cc, D, FT, CP):
             mb.class_('::cv::Vec<%s, %i>' % (dtype_dict[suffix], i)).rename('Vec%d%s' % (i, suffix))
     zz = mb.classes(lambda z: z.name.startswith('Vec<'))
     for z in zz:
-        z.include()
+        mb.init_class(z)
         mb.asClass(z, mb.class_('CvScalar'))
         z.decl('val').exclude() # use operator[] instead
         mb.add_ndarray_interface(z)
@@ -52,6 +52,7 @@ def _KLASS__repr__(self):
     return "KLASS(" + self.ndarray.__str__() + ")"
 KLASS.__repr__ = _KLASS__repr__
         '''.replace('KLASS', z.alias))
+        mb.finalize_class(z)
     mb.dtypecast(['::cv::Vec<%s, 2>' % x \
         for x in ['unsigned char', 'short', 'unsigned short', 'int', 'float', 'double']])
     mb.dtypecast(['::cv::Vec<%s, 3>' % x \
@@ -63,22 +64,24 @@ KLASS.__repr__ = _KLASS__repr__
     # Complex et al
     zz = mb.classes(lambda z: z.name.startswith('Complex<'))
     for z in zz:
-        z.include()
+        mb.init_class(z)
         z.decls(lambda t: 'std::complex' in t.decl_string).exclude() # no std::complex please
         cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(re=" + repr(self.re) + ", im=" + repr(self.im) + ")"
 KLASS.__repr__ = _KLASS__repr__
         '''.replace('KLASS', z.alias))
+        mb.finalize_class(z)
     mb.dtypecast(['::cv::Complex<%s>' % x for x in ['float', 'double']])
     
     # Point et al
     mb.class_('::cv::Point_<int>').rename('Point2i')
-    zz = mb.classes(lambda z: z.name.startswith('Point_<'))
-    for z in zz:
-        z.include()
+    for t in ('int', 'float', 'double'):
+        z = mb.class_('Point_<%s>' % t)
+        mb.init_class(z)
         mb.asClass(z, mb.class_('CvPoint'))
-        z.operator(lambda x: '::cv::Vec<' in x.name).rename('as_Vec'+z.alias[-2:])
+        mb.asClass(z, mb.class_('CvPoint2D32f'))
+        mb.asClass(z, mb.class_('Vec<%s, 2>' % t)) 
         cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
@@ -86,6 +89,7 @@ KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
         mb.add_ndarray_interface(z)
+        mb.finalize_class(z)
     
     cc.write('''
 Point = Point2i
@@ -95,11 +99,11 @@ asPoint = asPoint2i
     
     # Point3 et al
     mb.class_('::cv::Point3_<float>').rename('Point3f')
-    zz = mb.classes(lambda z: z.name.startswith('Point3_<'))
-    for z in zz:
-        z.include()
+    for t in ('int', 'float', 'double'):
+        z = mb.class_('Point3_<%s>' % t)
+        mb.init_class(z)
         mb.asClass(z, mb.class_('CvPoint3D32f'))
-        z.operator(lambda x: '::cv::Vec<' in x.name).rename('as_Vec'+z.alias[-2:])
+        mb.asClass(z, mb.class_('Vec<%s, 3>' % t))
         mb.add_ndarray_interface(z)
         cc.write('''
 def _KLASS__repr__(self):
@@ -107,13 +111,14 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
+        mb.finalize_class(z)
     mb.dtypecast(['::cv::Point3_<%s>' % x for x in ['int', 'float', 'double']])
     
     # Size et al
     mb.class_('::cv::Size_<int>').rename('Size2i')
     zz = mb.classes(lambda z: z.name.startswith('Size_<'))
     for z in zz:
-        z.include()
+        mb.init_class(z)
         mb.asClass(z, mb.class_('CvSize'))
         mb.asClass(z, mb.class_('CvSize2D32f'))
         mb.add_ndarray_interface(z)
@@ -123,6 +128,7 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
+        mb.finalize_class(z)
     mb.dtypecast(['::cv::Size_<%s>' % x for x in ['int', 'float', 'double']])
         
     cc.write('''
@@ -132,8 +138,8 @@ Size = Size2i
     # Rect et al
     zz = mb.classes(lambda z: z.name.startswith('Rect_<'))
     for z in zz:
-        z.include()
-        z.decls(lambda x: 'CvRect' in x.decl_string).exclude()
+        mb.init_class(z)
+        mb.asClass(z, mb.class_('CvRect'))
         mb.add_ndarray_interface(z)
         cc.write('''
 def _KLASS__repr__(self):
@@ -142,11 +148,12 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
+        mb.finalize_class(z)
     mb.dtypecast(['::cv::Rect_<%s>' % x for x in ['int', 'float', 'double']])
     
     # RotatedRect
     z = mb.class_('RotatedRect')
-    z.include()
+    mb.init_class(z)
     mb.asClass(z, mb.class_('CvBox2D'))
     mb.add_ndarray_interface(z)
     cc.write('''
@@ -156,12 +163,14 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
     '''.replace("KLASS", z.alias))
+    mb.finalize_class(z)
     
     # Scalar et al
     zz = mb.classes(lambda z: z.name.startswith('Scalar_<'))
     for z in zz:
-        z.include()
+        mb.init_class(z)
         mb.asClass(z, mb.class_('CvScalar'))
+        mb.finalize_class(z)
     z = mb.class_('::cv::Scalar_<double>')
     z.rename('Scalar')    
     mb.add_ndarray_interface(z)
@@ -173,7 +182,7 @@ Scalar.__repr__ = _Scalar__repr__
     
     # Range
     z = mb.class_('Range')
-    z.include()
+    mb.init_class(z)
     mb.asClass(z, mb.class_('CvSlice'))
     mb.add_ndarray_interface(z)
     cc.write('''
@@ -182,13 +191,14 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
     '''.replace("KLASS", z.alias))
+    mb.finalize_class(z)
     
     # Ptr -- already exposed by mb.expose_class_Ptr
     
     # Mat
     z = mb.class_('Mat')
     z.include_files.append("opencv_converters.hpp")
-    z.include()
+    mb.init_class(z)
     for t in z.constructors():
         if 'void *' in t.decl_string:
             t.exclude()
@@ -329,6 +339,8 @@ static boost::shared_ptr<cv::Mat> Mat__init3__(bp::object const &arg1, bp::objec
         z.add_registration_code('def("to_list_of_%s", &convert_from_Mat_to_seq<%s> )' % (key, list_dict[key]))
         z.add_registration_code('def("from_list_of_%s", &convert_from_seq_to_Mat_object<%s> )' % (key, list_dict[key]))
         z.add_registration_code('staticmethod("from_list_of_%s")' % key)
+    mb.finalize_class(z)
+
     # rewrite the asMat function
     cc.write('''
 def reshapeSingleChannel(mat):
@@ -432,7 +444,7 @@ KLASS.__repr__ = _KLASS__repr__
     
     # TermCriteria
     z = mb.class_('TermCriteria')
-    z.include()
+    mb.init_class(z)
     mb.asClass(z, mb.class_('CvTermCriteria'))
     cc.write('''
 def _KLASS__repr__(self):
@@ -441,6 +453,7 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
     '''.replace("KLASS", z.alias))
+    mb.finalize_class(z)
     
     # PCA and SVD
     for t in ('::cv::PCA', '::cv::SVD'):
@@ -543,10 +556,8 @@ MatND.__repr__ = _MatND__repr__
     # wait until requested: fix the rest of the member declarations
     z = mb.class_('SparseMat')
     z.include_files.append("opencv_converters.hpp")
-    z.include()
     z.include_files.append("boost/python/make_function.hpp")
-    mb.init_class(z)
-    
+    mb.init_class(z)    
     z.constructors(lambda x: 'int const *' in x.decl_string).exclude()
     for t in ('CvSparseMat', 'Node', 'Hdr'):
         z.decls(lambda x: t in x.decl_string).exclude()
@@ -558,8 +569,7 @@ static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(cv::Mat const &_sizes
 }
 
     ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&SparseMat__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )))')
-    
+    z.add_registration_code('def("__init__", bp::make_constructor(&SparseMat__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )))')    
     z.mem_funs('size').exclude()
     z.add_declaration_code('''
 static bp::object my_size(cv::SparseMat const &inst, int i = -1)
@@ -580,9 +590,7 @@ static bp::object my_size(cv::SparseMat const &inst, int i = -1)
         if z2.arguments[0].name == 'idx':
             z2._transformer_creators.append(FT.input_array1d('idx'))
     for t in ('node', 'newNode', 'removeNode', 'hdr', 'ptr', 'begin', 'end'):
-        z.decls(t).exclude()
-            
-    
+        z.decls(t).exclude()                
     mb.finalize_class(z)
     
     # SparseMatConstIterator

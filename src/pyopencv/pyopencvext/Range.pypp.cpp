@@ -37,7 +37,8 @@ void register_Range_class(){
                 , empty_function_type( &::cv::Range::empty ) );
         
         }
-        Range_exposer.def( "__temp_func", &cv::Range::operator ::CvSlice  );
+        Range_exposer.def( "__temp_func", &cv::Range::operator ::CvSlice , "\nWrapped function:"
+    "\n    operator ::CvSlice" );
         { //::cv::Range::size
         
             typedef int ( ::cv::Range::*size_function_type )(  ) const;

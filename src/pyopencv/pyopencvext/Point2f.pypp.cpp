@@ -59,9 +59,12 @@ void register_Point2f_class(){
                 , ( bp::arg("r") ) );
         
         }
-        Point2f_exposer.def( "__temp_func", &cv::Point_< float >::operator ::CvPoint  );
-        Point2f_exposer.def( "__temp_func", &cv::Point_< float >::operator ::CvPoint2D32f  );
-        Point2f_exposer.def( "as_Vec2f", &cv::Point_< float >::operator ::cv::Vec< float, 2 >  );
+        Point2f_exposer.def( "__temp_func", &cv::Point_< float >::operator ::CvPoint , "\nWrapped function:"
+    "\n    operator ::CvPoint" );
+        Point2f_exposer.def( "__temp_func", &cv::Point_< float >::operator ::CvPoint2D32f , "\nWrapped function:"
+    "\n    operator ::CvPoint2D32f" );
+        Point2f_exposer.def( "__temp_func", &cv::Point_< float >::operator ::cv::Vec< float, 2 > , "\nWrapped function:"
+    "\n    operator ::cv::Vec<float, 2>" );
         { //::cv::Point_< float >::operator=
         
             typedef cv::Point_< float > exported_class_t;
@@ -71,7 +74,9 @@ void register_Point2f_class(){
                 "assign"
                 , assign_function_type( &::cv::Point_< float >::operator= )
                 , ( bp::arg("pt") )
-                , bp::return_self< >() );
+                , bp::return_self< >()
+                , "\nWrapped function:"
+    "\n    operator=" );
         
         }
         Point2f_exposer.def_readwrite( "x", &cv::Point_< float >::x );
