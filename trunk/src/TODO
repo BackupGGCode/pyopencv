@@ -4,7 +4,7 @@ PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 
 Image conversion to/from wxWidget
 
-Provide more demos
+Provide more demos -- may ask people to help :)
 
 Fix squares.py demo, something's wrong with the algorithm. It's running but too slow.
 
@@ -15,6 +15,8 @@ What about Seq template class?
 - 2d lists should have better documentation: i.e. when is list of Mat, when is list of lists
 
 - introduce debugging mode so that people know which argument has been converted, which has been not
+
+- build a class name mapper that maps from C++ name to Python name
 
 ------------------------------------------
 Making a snapshot release using setuptools:
