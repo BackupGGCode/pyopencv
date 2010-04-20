@@ -199,38 +199,52 @@ def generate_code(mb, cc, D, FT, CP):
         ):
         mb.free_funs(z).include()
         
+    # FileStorage's read/write functions
+    C_to_Python_name_dict = {
+        '::std::vector< cv::KeyPoint >': 'list_of_KeyPoint',
+        '::cv::SparseMat': 'SparseMat',
+        '::cv::MatND': 'MatND',
+        '::cv::Mat': 'Mat',
+        '::cv::Range': 'Range',
+        '::std::string': 'str',
+        'double': 'float64',
+        'float': 'float32',
+        'int': 'int',
+        'short int': 'int16',
+        '::ushort': 'uint16',
+        'short unsigned int': 'uint16',
+        '::schar': 'int8',
+        'signed char': 'int8',
+        '::uchar': 'uint8',
+        'unsigned char': 'uint8',
+        'bool': 'bool',
+    }
+        
     # FileStorage's 'write' functions
-    for z in mb.free_funs('write'):
-        if 'cv::FileStorage' in z.arguments[0].type.decl_string:
-            z.include()
-            z._transformer_kwds['alias'] = 'write'
+    for z in mb.free_funs(lambda x: x.name=='write' and \
+        x.arguments[0].type.partial_decl_string.startswith('::cv::FileStorage')):
+        z.include()
+        if len(z.arguments) > 2 and \
+            z.arguments[1].type.partial_decl_string.startswith('::std::string'):
+            t = D.remove_const(D.remove_reference(z.arguments[2].type))
+        else:
+            t = D.remove_const(D.remove_reference(z.arguments[1].type))
+        name = 'write_'+C_to_Python_name_dict[t.partial_decl_string]
+        z._transformer_kwds['alias'] = name
+        z.alias = name
     
     # FileNode's 'read' functions
-    z = mb.free_fun(lambda x: x.name=='read' and 'cv::FileNode' in \
-        x.arguments[0].type.decl_string and x.arguments[1].name=='keypoints')
-    z.include()
-    z._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
-    z._transformer_kwds['alias'] = 'read_KeyPoints'
-    read_rename_dict = {
-        '::cv::SparseMat &': 'SparseMat',
-        '::cv::MatND &': 'MatND',
-        '::cv::Mat &': 'Mat',
-        '::std::string &': 'str',
-        'double &': 'double',
-        'float &': 'float',
-        'int &': 'inst',
-        'short int &': 'short',
-        '::ushort &': 'ushort',
-        '::schar &': 'schar',
-        '::uchar &': 'uchar',
-        'bool &': 'bool',
-    }
-    for elem in read_rename_dict:
-        z = mb.free_fun(lambda x: x.name=='read' and 'cv::FileNode' in \
-            x.arguments[0].type.decl_string and x.arguments[1].type.decl_string==elem)
+    for z in mb.free_funs(lambda x: x.name=='read' and \
+        x.arguments[0].type.partial_decl_string.startswith('::cv::FileNode')):
         z.include()
-        z._transformer_creators.append(FT.output(z.arguments[1].name))
-        z._transformer_kwds['alias'] = 'read_'+read_rename_dict[elem]
+        if z.arguments[1].name=='keypoints':
+            z._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+        else:
+            z._transformer_creators.append(FT.output(z.arguments[1].name))
+            FT.doc_output(z, z.arguments[1])   
+        t = D.remove_const(D.remove_reference(z.arguments[1].type))
+        name = 'read_'+C_to_Python_name_dict[t.partial_decl_string]
+        z._transformer_kwds['alias'] = name
 
     # getPerspectiveTransform, getAffineTransform
     for t in ('getPerspectiveTransform', 'getAffineTransform'):

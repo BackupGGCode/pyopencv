@@ -1006,36 +1006,6 @@ static boost::python::object cvRange_073a997114e2c96bbeff2aaa986e76a1( ::cv::Mat
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvArr * >( result ) );
 }
 
-static boost::python::object cvReadInt_dca28f92c7fa1c5a899d9ab353ae882e( ::cv::FileNode const & node, int default_value=0 ){
-    int result = ::cvReadInt(*(node), default_value);
-    return bp::object( result );
-}
-
-static boost::python::object cvReadIntByName_7241d5979fbc58c330d0adada9c3a3db( ::CvFileStorage const * fs, ::cv::FileNode const & map, char const * name, int default_value=0 ){
-    int result = ::cvReadIntByName(fs, *(map), name, default_value);
-    return bp::object( result );
-}
-
-static boost::python::object cvReadReal_77fd0854d614bbd71a10b38d8f07166b( ::cv::FileNode const & node, double default_value=0.0 ){
-    double result = ::cvReadReal(*(node), default_value);
-    return bp::object( result );
-}
-
-static boost::python::object cvReadRealByName_28cd8eea8cf4c8740bae8bb907fc7ea4( ::CvFileStorage const * fs, ::cv::FileNode const & map, char const * name, double default_value=0.0 ){
-    double result = ::cvReadRealByName(fs, *(map), name, default_value);
-    return bp::object( result );
-}
-
-static boost::python::object cvReadString_2d9e9aabc6de8c1b6e5e3284f1e79619( ::cv::FileNode const & node, char const * default_value=0 ){
-    char const * result = ::cvReadString(*(node), default_value);
-    return bp::object( result );
-}
-
-static boost::python::object cvReadStringByName_b4debf88a87b4914bb1fcab2b777cee6( ::CvFileStorage const * fs, ::cv::FileNode const & map, char const * name, char const * default_value=0 ){
-    char const * result = ::cvReadStringByName(fs, *(map), name, default_value);
-    return bp::object( result );
-}
-
 static void cvReleaseConDensation_f998e5f5422410bd74b2ba960fd05e2c( ::CvConDensation condens ){
     CvConDensation * tmp_condens = reinterpret_cast< CvConDensation * >(& condens);
     ::cvReleaseConDensation(reinterpret_cast< CvConDensation * * >( & tmp_condens ));
@@ -1178,18 +1148,6 @@ static void cvWriteComment_3e89473031f5fbea0ed6232440721138( ::cv::FileStorage &
 
 static void cvWriteFileNode_4df1ea107367e738fdd6f88f15146fb9( ::cv::FileStorage & fs, char const * new_node_name, ::cv::FileNode const & node, int embed ){
     ::cvWriteFileNode(fs.fs, new_node_name, *(node), embed);
-}
-
-static void cvWriteInt_3ee9f31ea1735f25d28b6cfc1e87078a( ::cv::FileStorage & fs, char const * name, int value ){
-    ::cvWriteInt(fs.fs, name, value);
-}
-
-static void cvWriteReal_2c8a3a2d5d1328049eb47e9ef6cc9282( ::cv::FileStorage & fs, char const * name, double value ){
-    ::cvWriteReal(fs.fs, name, value);
-}
-
-static void cvWriteString_72043510addf587750a274c07091202d( ::cv::FileStorage & fs, char const * name, char const * str, int quote=0 ){
-    ::cvWriteString(fs.fs, name, str, quote);
 }
 
 static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::list const & contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, cv::Mat const & hierarchy=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
@@ -3718,102 +3676,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
-    { //::cvReadInt
-    
-        typedef boost::python::object ( *readInt_function_type )( ::cv::FileNode const &,int );
-        
-        bp::def( 
-            "readInt"
-            , readInt_function_type( &cvReadInt_dca28f92c7fa1c5a899d9ab353ae882e )
-            , ( bp::arg("node"), bp::arg("default_value")=(int)(0) )
-            , "\nWrapped function:"
-    "\n    cvReadInt"
-    "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode const *."\
-    "\n    Python type: FileNode." );
-    
-    }
-
-    { //::cvReadIntByName
-    
-        typedef boost::python::object ( *readIntByName_function_type )( ::CvFileStorage const *,::cv::FileNode const &,char const *,int );
-        
-        bp::def( 
-            "readIntByName"
-            , readIntByName_function_type( &cvReadIntByName_7241d5979fbc58c330d0adada9c3a3db )
-            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name"), bp::arg("default_value")=(int)(0) )
-            , "\nWrapped function:"
-    "\n    cvReadIntByName"
-    "\nArgument 'map':"\
-    "\n    C/C++ type: ::CvFileNode const *."\
-    "\n    Python type: FileNode." );
-    
-    }
-
-    { //::cvReadReal
-    
-        typedef boost::python::object ( *readReal_function_type )( ::cv::FileNode const &,double );
-        
-        bp::def( 
-            "readReal"
-            , readReal_function_type( &cvReadReal_77fd0854d614bbd71a10b38d8f07166b )
-            , ( bp::arg("node"), bp::arg("default_value")=0.0 )
-            , "\nWrapped function:"
-    "\n    cvReadReal"
-    "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode const *."\
-    "\n    Python type: FileNode." );
-    
-    }
-
-    { //::cvReadRealByName
-    
-        typedef boost::python::object ( *readRealByName_function_type )( ::CvFileStorage const *,::cv::FileNode const &,char const *,double );
-        
-        bp::def( 
-            "readRealByName"
-            , readRealByName_function_type( &cvReadRealByName_28cd8eea8cf4c8740bae8bb907fc7ea4 )
-            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name"), bp::arg("default_value")=0.0 )
-            , "\nWrapped function:"
-    "\n    cvReadRealByName"
-    "\nArgument 'map':"\
-    "\n    C/C++ type: ::CvFileNode const *."\
-    "\n    Python type: FileNode." );
-    
-    }
-
-    { //::cvReadString
-    
-        typedef boost::python::object ( *readString_function_type )( ::cv::FileNode const &,char const * );
-        
-        bp::def( 
-            "readString"
-            , readString_function_type( &cvReadString_2d9e9aabc6de8c1b6e5e3284f1e79619 )
-            , ( bp::arg("node"), bp::arg("default_value")=bp::object() )
-            , "\nWrapped function:"
-    "\n    cvReadString"
-    "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode const *."\
-    "\n    Python type: FileNode." );
-    
-    }
-
-    { //::cvReadStringByName
-    
-        typedef boost::python::object ( *readStringByName_function_type )( ::CvFileStorage const *,::cv::FileNode const &,char const *,char const * );
-        
-        bp::def( 
-            "readStringByName"
-            , readStringByName_function_type( &cvReadStringByName_b4debf88a87b4914bb1fcab2b777cee6 )
-            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name"), bp::arg("default_value")=bp::object() )
-            , "\nWrapped function:"
-    "\n    cvReadStringByName"
-    "\nArgument 'map':"\
-    "\n    C/C++ type: ::CvFileNode const *."\
-    "\n    Python type: FileNode." );
-    
-    }
-
     { //::cvReleaseConDensation
     
         typedef void ( *_cvReleaseConDensation_function_type )( ::CvConDensation );
@@ -4360,54 +4222,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'node':"\
     "\n    C/C++ type: ::CvFileNode const *."\
     "\n    Python type: FileNode."\
-    "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
-    
-    }
-
-    { //::cvWriteInt
-    
-        typedef void ( *writeInt_function_type )( ::cv::FileStorage &,char const *,int );
-        
-        bp::def( 
-            "writeInt"
-            , writeInt_function_type( &cvWriteInt_3ee9f31ea1735f25d28b6cfc1e87078a )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") )
-            , "\nWrapped function:"
-    "\n    cvWriteInt"
-    "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
-    
-    }
-
-    { //::cvWriteReal
-    
-        typedef void ( *writeReal_function_type )( ::cv::FileStorage &,char const *,double );
-        
-        bp::def( 
-            "writeReal"
-            , writeReal_function_type( &cvWriteReal_2c8a3a2d5d1328049eb47e9ef6cc9282 )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") )
-            , "\nWrapped function:"
-    "\n    cvWriteReal"
-    "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
-    
-    }
-
-    { //::cvWriteString
-    
-        typedef void ( *writeString_function_type )( ::cv::FileStorage &,char const *,char const *,int );
-        
-        bp::def( 
-            "writeString"
-            , writeString_function_type( &cvWriteString_72043510addf587750a274c07091202d )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("str"), bp::arg("quote")=(int)(0) )
-            , "\nWrapped function:"
-    "\n    cvWriteString"
     "\nArgument 'fs':"\
     "\n    C/C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
@@ -5134,11 +4948,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_KeyPoints_function_type )( ::cv::FileNode const & );
+        typedef boost::python::object ( *read_list_of_KeyPoint_function_type )( ::cv::FileNode const & );
         
         bp::def( 
-            "read_KeyPoints"
-            , read_KeyPoints_function_type( &read_19f776a07d0494421b17575379bc2106 )
+            "read_list_of_KeyPoint"
+            , read_list_of_KeyPoint_function_type( &read_19f776a07d0494421b17575379bc2106 )
             , ( bp::arg("node") )
             , "\nWrapped function:"
     "\n    read"
@@ -5161,7 +4975,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , read_SparseMat_function_type( &read_70c5e2668ef6bb953f654143837a7095 )
             , ( bp::arg("node"), bp::arg("default_mat")=cv::SparseMat() )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'mat':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
@@ -5174,7 +4991,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , read_MatND_function_type( &read_fcf3602693271e7c8a4e15ff65aede4c )
             , ( bp::arg("node"), bp::arg("default_mat")=cv::MatND() )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'mat':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
@@ -5187,7 +5007,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , read_Mat_function_type( &read_fd962997898e5b5f59cbef9efc942bcd )
             , ( bp::arg("node"), bp::arg("default_mat")=cv::Mat() )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'mat':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
@@ -5200,98 +5023,122 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , read_str_function_type( &read_31e582223a7f98972af6d67b7558569e )
             , ( bp::arg("node"), bp::arg("default_value") )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'value':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_double_function_type )( ::cv::FileNode const &,double );
+        typedef boost::python::object ( *read_float64_function_type )( ::cv::FileNode const &,double );
         
         bp::def( 
-            "read_double"
-            , read_double_function_type( &read_9a054275260bdb7b0741c9b9e8cf5aae )
+            "read_float64"
+            , read_float64_function_type( &read_9a054275260bdb7b0741c9b9e8cf5aae )
             , ( bp::arg("node"), bp::arg("default_value") )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'value':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_float_function_type )( ::cv::FileNode const &,float );
+        typedef boost::python::object ( *read_float32_function_type )( ::cv::FileNode const &,float );
         
         bp::def( 
-            "read_float"
-            , read_float_function_type( &read_9b06f36c44aa0d63d7f9f36cebc8d25f )
+            "read_float32"
+            , read_float32_function_type( &read_9b06f36c44aa0d63d7f9f36cebc8d25f )
             , ( bp::arg("node"), bp::arg("default_value") )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'value':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_inst_function_type )( ::cv::FileNode const &,int );
+        typedef boost::python::object ( *read_int_function_type )( ::cv::FileNode const &,int );
         
         bp::def( 
-            "read_inst"
-            , read_inst_function_type( &read_29c2b389d482b9f6d13cfbe5d7264926 )
+            "read_int"
+            , read_int_function_type( &read_29c2b389d482b9f6d13cfbe5d7264926 )
             , ( bp::arg("node"), bp::arg("default_value") )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'value':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_short_function_type )( ::cv::FileNode const &,short int );
+        typedef boost::python::object ( *read_int16_function_type )( ::cv::FileNode const &,short int );
         
         bp::def( 
-            "read_short"
-            , read_short_function_type( &read_62eac78db6563e1e714f1e282bf790db )
+            "read_int16"
+            , read_int16_function_type( &read_62eac78db6563e1e714f1e282bf790db )
             , ( bp::arg("node"), bp::arg("default_value") )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'value':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_ushort_function_type )( ::cv::FileNode const &,::ushort );
+        typedef boost::python::object ( *read_uint16_function_type )( ::cv::FileNode const &,::ushort );
         
         bp::def( 
-            "read_ushort"
-            , read_ushort_function_type( &read_81b0a1f4d595a311c77148001bd0046d )
+            "read_uint16"
+            , read_uint16_function_type( &read_81b0a1f4d595a311c77148001bd0046d )
             , ( bp::arg("node"), bp::arg("default_value") )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'value':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_schar_function_type )( ::cv::FileNode const &,::schar );
+        typedef boost::python::object ( *read_int8_function_type )( ::cv::FileNode const &,::schar );
         
         bp::def( 
-            "read_schar"
-            , read_schar_function_type( &read_b68923bb48bf8de904fed0f0570414f5 )
+            "read_int8"
+            , read_int8_function_type( &read_b68923bb48bf8de904fed0f0570414f5 )
             , ( bp::arg("node"), bp::arg("default_value") )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'value':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_uchar_function_type )( ::cv::FileNode const &,::uchar );
+        typedef boost::python::object ( *read_uint8_function_type )( ::cv::FileNode const &,::uchar );
         
         bp::def( 
-            "read_uchar"
-            , read_uchar_function_type( &read_e3dbdb6033985682cd13b98ac06df84e )
+            "read_uint8"
+            , read_uint8_function_type( &read_e3dbdb6033985682cd13b98ac06df84e )
             , ( bp::arg("node"), bp::arg("default_value") )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'value':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
@@ -5304,7 +5151,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , read_bool_function_type( &read_2ba57a356ec17a70685f21fbad5a9438 )
             , ( bp::arg("node"), bp::arg("default_value") )
             , "\nWrapped function:"
-    "\n    read" );
+    "\n    read"
+    "\nArgument 'value':"\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
     
     }
 
@@ -5414,13 +5264,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,bp::list const & );
+        typedef void ( *write_list_of_KeyPoint_function_type )( ::cv::FileStorage &,::std::string const &,bp::list const & );
         
         bp::def( 
-            "write"
-            , write_function_type( &write_df76e3ba45561ddd23c917a610929778 )
+            "write_list_of_KeyPoint"
+            , write_list_of_KeyPoint_function_type( &write_df76e3ba45561ddd23c917a610929778 )
             , ( bp::arg("fs"), bp::arg("name"), bp::arg("keypoints") )
-            , "\nArgument 'keypoints':"\
+            , "\nWrapped function:"
+    "\n    write"
+    "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > const &."\
     "\n    Python type: list."\
     "\n    To convert a Mat into a list, invoke one of Mat's member functions "\

@@ -4701,144 +4701,170 @@ void register_free_functions(){
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,::cv::SparseMat const & );
+        typedef void ( *write_SparseMat_function_type )( ::cv::FileStorage &,::std::string const &,::cv::SparseMat const & );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") ) );
+            "write_SparseMat"
+            , write_SparseMat_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,::cv::MatND const & );
+        typedef void ( *write_MatND_function_type )( ::cv::FileStorage &,::std::string const &,::cv::MatND const & );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") ) );
+            "write_MatND"
+            , write_MatND_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,::cv::Mat const & );
+        typedef void ( *write_Mat_function_type )( ::cv::FileStorage &,::std::string const &,::cv::Mat const & );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") ) );
+            "write_Mat"
+            , write_Mat_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,::cv::Range const & );
+        typedef void ( *write_Range_function_type )( ::cv::FileStorage &,::std::string const &,::cv::Range const & );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("r") ) );
+            "write_Range"
+            , write_Range_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("r") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::cv::Range const & );
+        typedef void ( *write_Range_function_type )( ::cv::FileStorage &,::cv::Range const & );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("r") ) );
+            "write_Range"
+            , write_Range_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("r") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,int const & );
+        typedef void ( *write_int_function_type )( ::cv::FileStorage &,int const & );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("value") ) );
+            "write_int"
+            , write_int_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("value") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const & );
+        typedef void ( *write_str_function_type )( ::cv::FileStorage &,::std::string const & );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("value") ) );
+            "write_str"
+            , write_str_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("value") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,double const & );
+        typedef void ( *write_float64_function_type )( ::cv::FileStorage &,double const & );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("value") ) );
+            "write_float64"
+            , write_float64_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("value") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,float const & );
+        typedef void ( *write_float32_function_type )( ::cv::FileStorage &,float const & );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("value") ) );
+            "write_float32"
+            , write_float32_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("value") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,::std::string const & );
+        typedef void ( *write_str_function_type )( ::cv::FileStorage &,::std::string const &,::std::string const & );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") ) );
+            "write_str"
+            , write_str_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,double );
+        typedef void ( *write_float64_function_type )( ::cv::FileStorage &,::std::string const &,double );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") ) );
+            "write_float64"
+            , write_float64_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,float );
+        typedef void ( *write_float32_function_type )( ::cv::FileStorage &,::std::string const &,float );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") ) );
+            "write_float32"
+            , write_float32_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 
     { //::cv::write
     
-        typedef void ( *write_function_type )( ::cv::FileStorage &,::std::string const &,int );
+        typedef void ( *write_int_function_type )( ::cv::FileStorage &,::std::string const &,int );
         
         bp::def( 
-            "write"
-            , write_function_type( &::cv::write )
-            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") ) );
+            "write_int"
+            , write_int_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("value") )
+            , "\nWrapped function:"
+    "\n    write" );
     
     }
 

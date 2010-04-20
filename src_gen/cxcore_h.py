@@ -301,9 +301,8 @@ CV_HARDWARE_MAX_FEATURE = 255
 
     # functions
     for z in (
-        'cvAttrValue', 'cvStartWriteStruct', 'cvEndWriteStruct', 'cvWriteInt', 'cvWriteReal',
-        'cvWriteString', 'cvWriteComment', 'cvStartNextStream',
-        'cvReadInt', 'cvReadIntByName', 'cvReadReal', 'cvReadRealByName', 'cvReadString', 'cvReadStringByName',
+        'cvAttrValue', 'cvStartWriteStruct', 'cvEndWriteStruct',
+        'cvWriteComment', 'cvStartNextStream',
         'cvStartReadRawData', 'cvWriteFileNode', 'cvGetFileNodeName',
         'cvRegisterType', 'cvUnregisterType',
         'cvGetTickCount', 'cvGetTickFrequency',
