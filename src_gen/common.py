@@ -160,6 +160,10 @@ dict_decl_name_to_desc = {
 
     
     # C++ -- cxcore -- Basic Structures
+    ("cv", "RotatedRect"): ("Possibly rotated rectangle.", "http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect"),
+    ("RotatedRect", "RotatedRect"): ("Constructor.", "http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect"),
+    ("RotatedRect", "boundingRect"): ("Returns minimal up-right rectangle that contains the rotated rectangle.", "http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect"),
+    ("cv", "XXXXX"): (".", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-xxxx"),
     ("::", "XXXX"): ("", ""),
     # TODO: append this
     

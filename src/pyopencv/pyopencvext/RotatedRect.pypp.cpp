@@ -12,11 +12,21 @@ void register_RotatedRect_class(){
 
     { //::cv::RotatedRect
         typedef bp::class_< cv::RotatedRect > RotatedRect_exposer_t;
-        RotatedRect_exposer_t RotatedRect_exposer = RotatedRect_exposer_t( "RotatedRect", bp::init< >() );
+        RotatedRect_exposer_t RotatedRect_exposer = RotatedRect_exposer_t( "RotatedRect", "\nPossibly rotated rectangle."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect", bp::init< >("\nConstructor."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect") );
         bp::scope RotatedRect_scope( RotatedRect_exposer );
-        RotatedRect_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::RotatedRect >() );
-        RotatedRect_exposer.def( bp::init< cv::Point2f const &, cv::Size2f const &, float >(( bp::arg("_center"), bp::arg("_size"), bp::arg("_angle") )) );
-        RotatedRect_exposer.def( bp::init< CvBox2D const & >(( bp::arg("box") )) );
+        RotatedRect_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::RotatedRect >(), "\nPossibly rotated rectangle."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect" );
+        RotatedRect_exposer.def( bp::init< cv::Point2f const &, cv::Size2f const &, float >(( bp::arg("_center"), bp::arg("_size"), bp::arg("_angle") ), "\nConstructor."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect") );
+        RotatedRect_exposer.def( bp::init< CvBox2D const & >(( bp::arg("box") ), "\nConstructor."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect") );
         bp::implicitly_convertible< CvBox2D const &, cv::RotatedRect >();
         { //::cv::RotatedRect::boundingRect
         
@@ -24,7 +34,11 @@ void register_RotatedRect_class(){
             
             RotatedRect_exposer.def( 
                 "boundingRect"
-                , boundingRect_function_type( &::cv::RotatedRect::boundingRect ) );
+                , boundingRect_function_type( &::cv::RotatedRect::boundingRect )
+                , "\nReturns minimal up-right rectangle that contains the rotated "
+    "\nrectangle."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect" );
         
         }
         RotatedRect_exposer.def( "__temp_func", &cv::RotatedRect::operator ::CvBox2D , "\nWrapped function:"
