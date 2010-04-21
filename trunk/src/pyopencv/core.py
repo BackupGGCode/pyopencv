@@ -519,13 +519,6 @@ def CV_NODE_SEQ_IS_SIMPLE(seq):
 
 
     
-CvFileStorage._ownershiplevel = 0
-
-def _CvFileStorage__del__(self):
-    if self._ownershiplevel==1:
-        _PE._cvReleaseFileStorage(self)
-CvFileStorage.__del__ = _CvFileStorage__del__
-
 #=============================================================================
 # cxcore.h
 #=============================================================================
