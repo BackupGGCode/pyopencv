@@ -80,10 +80,6 @@ void register_RNG_class(){
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-rng-next" );
         
         }
-        RNG_exposer.def( "as_int8", &cv::RNG::operator ::schar , "\nWrapped function:"
-    "\n    operator ::schar" );
-        RNG_exposer.def( "as_uint8", &cv::RNG::operator ::uchar , "\nWrapped function:"
-    "\n    operator ::uchar" );
         RNG_exposer.def( "as_uint16", &cv::RNG::operator ::ushort , "\nWrapped function:"
     "\n    operator ::ushort" );
         RNG_exposer.def( "as_float64", &cv::RNG::operator double , "\nWrapped function:"

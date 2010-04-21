@@ -600,9 +600,9 @@ def CV_NODE_SEQ_IS_SIMPLE(seq):
     ''')
 
     # CvFileStorage
-    z = mb.class_('CvFileStorage')
-    z.include()
-    mb.insert_del_interface('CvFileStorage', '_PE._cvReleaseFileStorage')
+    # z = mb.class_('CvFileStorage')
+    # z.include()
+    # mb.insert_del_interface('CvFileStorage', '_PE._cvReleaseFileStorage')
 
     # CvAttrList
     z = mb.class_('CvAttrList')
