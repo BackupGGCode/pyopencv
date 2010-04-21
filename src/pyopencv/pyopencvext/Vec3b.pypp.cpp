@@ -75,6 +75,35 @@ void register_Vec3b_class(){
                 , ( bp::arg("v") ) );
         
         }
+        Vec3b_exposer.def( "__temp_func", &cv::Vec< unsigned char, 3 >::operator ::CvScalar , "\nWrapped function:"
+    "\n    operator ::CvScalar" );
+        { //::cv::Vec< unsigned char, 3 >::operator[]
+        
+            typedef cv::Vec< unsigned char, 3 > exported_class_t;
+            typedef unsigned char ( exported_class_t::*__getitem___function_type )( int ) const;
+            
+            Vec3b_exposer.def( 
+                "__getitem__"
+                , __getitem___function_type( &::cv::Vec< unsigned char, 3 >::operator[] )
+                , ( bp::arg("i") )
+                , "\nWrapped function:"
+    "\n    operator[]" );
+        
+        }
+        { //::cv::Vec< unsigned char, 3 >::operator[]
+        
+            typedef cv::Vec< unsigned char, 3 > exported_class_t;
+            typedef unsigned char & ( exported_class_t::*__getitem___function_type )( int ) ;
+            
+            Vec3b_exposer.def( 
+                "__getitem__"
+                , __getitem___function_type( &::cv::Vec< unsigned char, 3 >::operator[] )
+                , ( bp::arg("i") )
+                , bp::return_value_policy< bp::copy_non_const_reference >()
+                , "\nWrapped function:"
+    "\n    operator[]" );
+        
+        }
         Vec3b_exposer.staticmethod( "all" );
         Vec3b_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
         Vec3b_exposer.staticmethod("from_ndarray");

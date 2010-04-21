@@ -20,6 +20,10 @@
 
 #include "with_ownershiplevel_postcall.hpp"
 
+#include "boost/python/str.hpp"
+
+#include "boost/python/extract.hpp"
+
 #include "__ctypes_integration.pypp.hpp"
 
 #include "opencv_headers.hpp"
@@ -867,6 +871,10 @@ static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, :
     ::cvDistTransform(get_CvMat_ptr(src), get_CvMat_ptr(dst), distance_type, mask_size, mask3, get_CvMat_ptr(labels));
 }
 
+static void cvEndWriteStruct_49df8f8a99539026dfbd302575d7a485( ::cv::FileStorage & fs ){
+    ::cvEndWriteStruct(fs.fs);
+}
+
 static boost::python::object cvEstimateRigidTransform_2f885814bd847b94c8621a570a36abad( ::cv::Mat & A, ::cv::Mat & B, ::cv::Mat & M, int full_affine ){
     int result = ::cvEstimateRigidTransform(get_CvMat_ptr(A), get_CvMat_ptr(B), get_CvMat_ptr(M), full_affine);
     return bp::object( result );
@@ -900,9 +908,27 @@ static boost::python::object cvGetElemType_28303ccd15acadc45a20b8189b3b5941( ::c
     return bp::object( result );
 }
 
+static boost::python::object cvGetFileNode_6a2476df18b42d117da27c3c0b8b7c10( ::cv::FileStorage & fs, ::cv::FileNode & map, ::CvStringHashNode const * key, int create_missing=0 ){
+    ::CvFileNode * result = ::cvGetFileNode(fs.fs, *(map), key, create_missing);
+    typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvFileNode * >( result ) );
+}
+
+static boost::python::object cvGetFileNodeByName_061e25a343ad5bb2f02da02bf45be998( ::CvFileStorage const * fs, ::cv::FileNode const & map, char const * name ){
+    ::CvFileNode * result = ::cvGetFileNodeByName(fs, *(map), name);
+    typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvFileNode * >( result ) );
+}
+
 static boost::python::object cvGetFileNodeName_dad254a89ba86caf1ba5012875e2fb32( ::cv::FileNode const & node ){
     char const * result = ::cvGetFileNodeName(*(node));
     return bp::object( result );
+}
+
+static boost::python::object cvGetHashedKey_5bf3bb09f908d63c5767d651120f813f( ::cv::FileStorage & fs, char const * name, int len=-0x000000001, int create_missing=0 ){
+    ::CvStringHashNode * result = ::cvGetHashedKey(fs.fs, name, len, create_missing);
+    typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvStringHashNode * >( result ) );
 }
 
 static void cvGetQuadrangleSubPix_fe2b1a5028fa8b02301dc960cdfbc131( ::cv::Mat & src, ::cv::Mat & dst, ::cv::Mat & map_matrix ){
@@ -979,6 +1005,11 @@ static boost::python::object cvRange_073a997114e2c96bbeff2aaa986e76a1( ::cv::Mat
 static void cvReleaseConDensation_f998e5f5422410bd74b2ba960fd05e2c( ::CvConDensation condens ){
     CvConDensation * tmp_condens = reinterpret_cast< CvConDensation * >(& condens);
     ::cvReleaseConDensation(reinterpret_cast< CvConDensation * * >( & tmp_condens ));
+}
+
+static void cvReleaseFileStorage_d53aa99c3241294fee03f3f038aa2bba( ::CvFileStorage fs ){
+    CvFileStorage * tmp_fs = reinterpret_cast< CvFileStorage * >(& fs);
+    ::cvReleaseFileStorage(reinterpret_cast< CvFileStorage * * >( & tmp_fs ));
 }
 
 static void cvReleaseMemStorage_6ff4687a489093fb83fd38fb1d920837( ::CvMemStorage storage ){
@@ -1060,6 +1091,18 @@ static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96c
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvContourScanner >( result ) );
 }
 
+static void cvStartNextStream_db71e53dfa9475145f4487a80d5d8bf2( ::cv::FileStorage & fs ){
+    ::cvStartNextStream(fs.fs);
+}
+
+static void cvStartReadRawData_4fe1fcc06b3f886cb6549cad64e1d1a0( ::CvFileStorage const * fs, ::cv::FileNode const & src, ::CvSeqReader * reader ){
+    ::cvStartReadRawData(fs, *(src), reader);
+}
+
+static void cvStartWriteStruct_e7e2128639c3a858bdb332c89468a8e0( ::cv::FileStorage & fs, char const * name, int struct_flags, char const * type_name=0, ::CvAttrList attributes=cvAttrList(0u, 0u) ){
+    ::cvStartWriteStruct(fs.fs, name, struct_flags, type_name, attributes);
+}
+
 static boost::python::tuple cvSubdiv2DLocate_1df86dbc29fc9de6df2bbdb2196d6db3( ::CvSubdiv2D * subdiv, const ::cv::Point2f & pt, ::CvSubdiv2DEdge * edge ){
     CvSubdiv2DPoint * vertex2=(::CvSubdiv2DPoint *)0;
     ::CvSubdiv2DPointLocation result = ::cvSubdiv2DLocate(subdiv, (CvPoint2D32f)(pt), edge, &vertex2);
@@ -1089,6 +1132,18 @@ static boost::python::object cvTypeOf_4e7bd20b082b35b68253f04b04f578ce( ::CvArr 
 
 static void cvUpdateMotionHistory_fb635b1eb55f77d94f46a70f41eac0b3( ::cv::Mat & silhouette, ::cv::Mat & mhi, double timestamp, double duration ){
     ::cvUpdateMotionHistory(get_CvMat_ptr(silhouette), get_CvMat_ptr(mhi), timestamp, duration);
+}
+
+static void cvWrite_00335cc764e72fb9408450c10fffab4a( ::cv::FileStorage & fs, char const * name, const char * ptr, ::CvAttrList attributes=cvAttrList(0u, 0u) ){
+    ::cvWrite(fs.fs, name, ((void const *) ptr), attributes);
+}
+
+static void cvWriteComment_3e89473031f5fbea0ed6232440721138( ::cv::FileStorage & fs, char const * comment, int eol_comment ){
+    ::cvWriteComment(fs.fs, comment, eol_comment);
+}
+
+static void cvWriteFileNode_4df1ea107367e738fdd6f88f15146fb9( ::cv::FileStorage & fs, char const * new_node_name, ::cv::FileNode const & node, int embed ){
+    ::cvWriteFileNode(fs.fs, new_node_name, *(node), embed);
 }
 
 static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::list const & contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, cv::Mat const & hierarchy=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
@@ -1927,6 +1982,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_RNG_class();
 
+    bp::implicitly_convertible< cv::RNG, schar >();
+
+    bp::implicitly_convertible< cv::RNG, uchar >();
+
     bp::implicitly_convertible< cv::RNG, ushort >();
 
     bp::implicitly_convertible< cv::RNG, double >();
@@ -2043,9 +2102,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Vec2b_class();
 
+    bp::implicitly_convertible< cv::Vec< unsigned char, 2 >, CvScalar >();
+
     register_Vec3b_class();
 
+    bp::implicitly_convertible< cv::Vec< unsigned char, 3 >, CvScalar >();
+
     register_Vec4b_class();
+
+    bp::implicitly_convertible< cv::Vec< unsigned char, 4 >, CvScalar >();
 
     register_Vec2w_class();
 
@@ -3085,6 +3150,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvEndWriteStruct
+    
+        typedef void ( *endWriteStruct_function_type )( ::cv::FileStorage & );
+        
+        bp::def( 
+            "endWriteStruct"
+            , endWriteStruct_function_type( &cvEndWriteStruct_49df8f8a99539026dfbd302575d7a485 )
+            , ( bp::arg("fs") )
+            , "\nWrapped function:"
+    "\n    cvEndWriteStruct"
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
+    
+    }
+
     { //::cvEstimateRigidTransform
     
         typedef boost::python::object ( *estimateRigidTransform_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,int );
@@ -3230,6 +3311,41 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvGetFileNode
+    
+        typedef boost::python::object ( *getFileNode_function_type )( ::cv::FileStorage &,::cv::FileNode &,::CvStringHashNode const *,int );
+        
+        bp::def( 
+            "getFileNode"
+            , getFileNode_function_type( &cvGetFileNode_6a2476df18b42d117da27c3c0b8b7c10 )
+            , ( bp::arg("fs"), bp::arg("map"), bp::arg("key"), bp::arg("create_missing")=(int)(0) )
+            , "\nWrapped function:"
+    "\n    cvGetFileNode"
+    "\nArgument 'map':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode."\
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
+    
+    }
+
+    { //::cvGetFileNodeByName
+    
+        typedef boost::python::object ( *getFileNodeByName_function_type )( ::CvFileStorage const *,::cv::FileNode const &,char const * );
+        
+        bp::def( 
+            "getFileNodeByName"
+            , getFileNodeByName_function_type( &cvGetFileNodeByName_061e25a343ad5bb2f02da02bf45be998 )
+            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name") )
+            , "\nWrapped function:"
+    "\n    cvGetFileNodeByName"
+    "\nArgument 'map':"\
+    "\n    C/C++ type: ::CvFileNode const *."\
+    "\n    Python type: FileNode." );
+    
+    }
+
     { //::cvGetFileNodeName
     
         typedef boost::python::object ( *getFileNodeName_function_type )( ::cv::FileNode const & );
@@ -3243,6 +3359,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'node':"\
     "\n    C/C++ type: ::CvFileNode const *."\
     "\n    Python type: FileNode." );
+    
+    }
+
+    { //::cvGetHashedKey
+    
+        typedef boost::python::object ( *getHashedKey_function_type )( ::cv::FileStorage &,char const *,int,int );
+        
+        bp::def( 
+            "getHashedKey"
+            , getHashedKey_function_type( &cvGetHashedKey_5bf3bb09f908d63c5767d651120f813f )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("len")=(int)(-0x000000001), bp::arg("create_missing")=(int)(0) )
+            , "\nWrapped function:"
+    "\n    cvGetHashedKey"
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
     
     }
 
@@ -3553,6 +3685,23 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvReleaseFileStorage
+    
+        typedef void ( *_cvReleaseFileStorage_function_type )( ::CvFileStorage );
+        
+        bp::def( 
+            "_cvReleaseFileStorage"
+            , _cvReleaseFileStorage_function_type( &cvReleaseFileStorage_d53aa99c3241294fee03f3f038aa2bba )
+            , ( bp::arg("fs") )
+            , "\nWrapped function:"
+    "\n    cvReleaseFileStorage"
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage * *."\
+    "\n    Python type: Python equivalence of the C/C++ type without double "\
+    "\n    pointer." );
+    
+    }
+
     { //::cvReleaseMemStorage
     
         typedef void ( *_cvReleaseMemStorage_function_type )( ::CvMemStorage );
@@ -3850,6 +3999,54 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvStartNextStream
+    
+        typedef void ( *startNextStream_function_type )( ::cv::FileStorage & );
+        
+        bp::def( 
+            "startNextStream"
+            , startNextStream_function_type( &cvStartNextStream_db71e53dfa9475145f4487a80d5d8bf2 )
+            , ( bp::arg("fs") )
+            , "\nWrapped function:"
+    "\n    cvStartNextStream"
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
+    
+    }
+
+    { //::cvStartReadRawData
+    
+        typedef void ( *startReadRawData_function_type )( ::CvFileStorage const *,::cv::FileNode const &,::CvSeqReader * );
+        
+        bp::def( 
+            "startReadRawData"
+            , startReadRawData_function_type( &cvStartReadRawData_4fe1fcc06b3f886cb6549cad64e1d1a0 )
+            , ( bp::arg("fs"), bp::arg("src"), bp::arg("reader") )
+            , "\nWrapped function:"
+    "\n    cvStartReadRawData"
+    "\nArgument 'src':"\
+    "\n    C/C++ type: ::CvFileNode const *."\
+    "\n    Python type: FileNode." );
+    
+    }
+
+    { //::cvStartWriteStruct
+    
+        typedef void ( *startWriteStruct_function_type )( ::cv::FileStorage &,char const *,int,char const *,::CvAttrList );
+        
+        bp::def( 
+            "startWriteStruct"
+            , startWriteStruct_function_type( &cvStartWriteStruct_e7e2128639c3a858bdb332c89468a8e0 )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("struct_flags"), bp::arg("type_name")=bp::object(), bp::arg("attributes")=cvAttrList(0u, 0u) )
+            , "\nWrapped function:"
+    "\n    cvStartWriteStruct"
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
+    
+    }
+
     { //::cvSubdiv2DLocate
     
         typedef boost::python::tuple ( *subdiv2DLocate_function_type )( ::CvSubdiv2D *,const ::cv::Point2f &,::CvSubdiv2DEdge * );
@@ -3966,6 +4163,60 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'mhi':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat." );
+    
+    }
+
+    { //::cvWrite
+    
+        typedef void ( *write_function_type )( ::cv::FileStorage &,char const *,const char *,::CvAttrList );
+        
+        bp::def( 
+            "write"
+            , write_function_type( &cvWrite_00335cc764e72fb9408450c10fffab4a )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("ptr"), bp::arg("attributes")=cvAttrList(0u, 0u) )
+            , "\nWrapped function:"
+    "\n    cvWrite"
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage."\
+    "\nArgument 'ptr':"\
+    "\n    C/C++ type: void const *."\
+    "\n    Python type: string." );
+    
+    }
+
+    { //::cvWriteComment
+    
+        typedef void ( *writeComment_function_type )( ::cv::FileStorage &,char const *,int );
+        
+        bp::def( 
+            "writeComment"
+            , writeComment_function_type( &cvWriteComment_3e89473031f5fbea0ed6232440721138 )
+            , ( bp::arg("fs"), bp::arg("comment"), bp::arg("eol_comment") )
+            , "\nWrapped function:"
+    "\n    cvWriteComment"
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
+    
+    }
+
+    { //::cvWriteFileNode
+    
+        typedef void ( *writeFileNode_function_type )( ::cv::FileStorage &,char const *,::cv::FileNode const &,int );
+        
+        bp::def( 
+            "writeFileNode"
+            , writeFileNode_function_type( &cvWriteFileNode_4df1ea107367e738fdd6f88f15146fb9 )
+            , ( bp::arg("fs"), bp::arg("new_node_name"), bp::arg("node"), bp::arg("embed") )
+            , "\nWrapped function:"
+    "\n    cvWriteFileNode"
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode const *."\
+    "\n    Python type: FileNode."\
+    "\nArgument 'fs':"\
+    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
     
     }
 
