@@ -82,12 +82,14 @@ void register_FileStorage_class(){
     { //::cv::FileStorage
         typedef bp::class_< FileStorage_wrapper > FileStorage_exposer_t;
         FileStorage_exposer_t FileStorage_exposer = FileStorage_exposer_t( "FileStorage", "\nThe XML/YAML file storage class."
+    "\n"
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage", bp::init< >("\nConstructor."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage") );
         bp::scope FileStorage_scope( FileStorage_exposer );
         FileStorage_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::FileStorage >(), "\nThe XML/YAML file storage class."
+    "\n"
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage" );
         bp::scope().attr("READ") = (int)cv::FileStorage::READ;
@@ -108,7 +110,7 @@ void register_FileStorage_class(){
                 "getDefaultObjectName"
                 , getDefaultObjectName_function_type( &::cv::FileStorage::getDefaultObjectName )
                 , ( bp::arg("filename") )
-                , "\nreturns the default object name from the filename (used by cvSave() "
+                , "\nReturns the default object name from the filename (used by cvSave() "
     "\nwith the default object name etc.)."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage" );
