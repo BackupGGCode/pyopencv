@@ -612,15 +612,15 @@ static bp::object my_size(cv::SparseMat const &inst, int i = -1)
     z.decls().exclude()
     
     # FileStorage
-    # TODO: wrap writeRaw and writeObj
     z = mb.class_('FileStorage')
-    z.include()
-    z.constructor(lambda x: 'CvFileStorage' in x.decl_string).exclude()
-    z.operators(lambda x: 'char' in x.decl_string).exclude()
-    z.operators('*').exclude()
-    for t in ('writeRaw', 'writeObj'):
-        z.decl(t).exclude()
-    mb.expose_class_Ptr('CvFileStorage')
+    mb.init_class(z)
+    mb.decls(lambda x: 'CvFileStorage' in x.decl_string).exclude()
+    mb.operators(lambda x: '*' in x.name or 'char' in x.decl_string).exclude()
+    z.mem_fun('writeRaw')._transformer_creators.append(FT.input_array1d('vec', 'len'))
+    z.mem_fun('writeObj').exclude() # too old
+    for t in ('structs', 'fs'): # TODO: expose 'structs' but not 'fs'
+        z.var(t).exclude()
+    mb.finalize_class(z)
    
     # FileNode
     # TODO: wrap readRaw and readObj, and fix the problem with operator float and double at the same time

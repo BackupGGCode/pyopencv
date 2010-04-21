@@ -278,6 +278,19 @@ dict_decl_name_to_desc = {
     # TODO: append other C++ sections
     ("cv", "XXXXX"): (".", "http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-xxxx"),
     
+    # C++ -- cxcore -- XML/YAML Persistence
+    ("cv", "FileStorage"): ("The XML/YAML file storage class.", "", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
+    ("FileStorage", "FileStorage"): ("Constructor.", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
+    ("FileStorage", "open"): ("Opens the specified file for reading (flags=FileStorage::READ) or writing (flags=FileStorage::WRITE).", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
+    ("FileStorage", "isOpened"): ("Checks if the storage is opened.", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
+    ("FileStorage", "release"): ("Closes the file.", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
+    ("FileStorage", "getFirstTopLevelNode"): ("Returns the first top-level node.", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
+    ("FileStorage", "root"): ("Returns the root file node (it's the parent of the first top-level node).", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
+    ("FileStorage", "operator[]"): ("Returns the top-level node by name.", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
+    ("FileStorage", "writeRaw"): ("Writes the certain number of elements of the specified format.", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
+    ("FileStorage", "writeObj"): ("Writes an old-style object (CvMat, CvMatND etc.).", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
+    ("FileStorage", "getDefaultObjectName"): ("Returns the default object name from the filename (used by cvSave() with the default object name etc.).", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
+
     # C++ -- highgui
     ("cv", "createTrackbar"): ("Creates a trackbar and attaches it to the specified window.", "http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-createtrackbar"),
     ("cv", "getTrackbarPos"): ("Returns the trackbar position.", "http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-gettrackbarpos"),
