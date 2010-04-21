@@ -1682,6 +1682,20 @@ void register_free_functions(){
     
     }
 
+    { //::cvGetRootFileNode
+    
+        typedef ::CvFileNode * ( *getRootFileNode_function_type )( ::CvFileStorage const *,int );
+        
+        bp::def( 
+            "getRootFileNode"
+            , getRootFileNode_function_type( &::cvGetRootFileNode )
+            , ( bp::arg("fs"), bp::arg("stream_index")=(int)(0) )
+            , bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > >()
+            , "\nWrapped function:"
+    "\n    cvGetRootFileNode" );
+    
+    }
+
     { //::cvGetSeqReaderPos
     
         typedef int ( *getSeqReaderPos_function_type )( ::CvSeqReader * );
@@ -1866,6 +1880,20 @@ void register_free_functions(){
             , ( bp::arg("array_iterator") )
             , "\nWrapped function:"
     "\n    cvNextNArraySlice" );
+    
+    }
+
+    { //::cvOpenFileStorage
+    
+        typedef ::CvFileStorage * ( *openFileStorage_function_type )( char const *,::CvMemStorage *,int );
+        
+        bp::def( 
+            "openFileStorage"
+            , openFileStorage_function_type( &::cvOpenFileStorage )
+            , ( bp::arg("filename"), bp::arg("memstorage"), bp::arg("flags") )
+            , bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > >()
+            , "\nWrapped function:"
+    "\n    cvOpenFileStorage" );
     
     }
 

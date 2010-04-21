@@ -614,8 +614,8 @@ static bp::object my_size(cv::SparseMat const &inst, int i = -1)
     # FileStorage
     z = mb.class_('FileStorage')
     mb.init_class(z)
-    mb.decls(lambda x: 'CvFileStorage' in x.decl_string).exclude()
-    mb.operators(lambda x: '*' in x.name or 'char' in x.decl_string).exclude()
+    z.decls(lambda x: 'CvFileStorage' in x.decl_string).exclude()
+    z.operators(lambda x: '*' in x.name or 'char' in x.decl_string).exclude()
     z.mem_fun('writeRaw')._transformer_creators.append(FT.input_array1d('vec', 'len'))
     z.mem_fun('writeObj').exclude() # too old
     for t in ('structs', 'fs'): # TODO: expose 'structs' but not 'fs'
