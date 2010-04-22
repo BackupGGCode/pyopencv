@@ -906,23 +906,6 @@ static boost::python::object cvGetElemType_28303ccd15acadc45a20b8189b3b5941( ::c
     return bp::object( result );
 }
 
-static boost::python::object cvGetFileNode_6a2476df18b42d117da27c3c0b8b7c10( ::cv::FileStorage & fs, ::cv::FileNode & map, ::CvStringHashNode const * key, int create_missing=0 ){
-    ::CvFileNode * result = ::cvGetFileNode(fs.fs, *(map), key, create_missing);
-    typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
-    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvFileNode * >( result ) );
-}
-
-static boost::python::object cvGetFileNodeByName_061e25a343ad5bb2f02da02bf45be998( ::CvFileStorage const * fs, ::cv::FileNode const & map, char const * name ){
-    ::CvFileNode * result = ::cvGetFileNodeByName(fs, *(map), name);
-    typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
-    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvFileNode * >( result ) );
-}
-
-static boost::python::object cvGetFileNodeName_dad254a89ba86caf1ba5012875e2fb32( ::cv::FileNode const & node ){
-    char const * result = ::cvGetFileNodeName(*(node));
-    return bp::object( result );
-}
-
 static boost::python::object cvGetHashedKey_5bf3bb09f908d63c5767d651120f813f( ::cv::FileStorage & fs, char const * name, int len=-0x000000001, int create_missing=0 ){
     ::CvStringHashNode * result = ::cvGetHashedKey(fs.fs, name, len, create_missing);
     typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
@@ -1091,10 +1074,6 @@ static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96c
 
 static void cvStartNextStream_db71e53dfa9475145f4487a80d5d8bf2( ::cv::FileStorage & fs ){
     ::cvStartNextStream(fs.fs);
-}
-
-static void cvStartReadRawData_4fe1fcc06b3f886cb6549cad64e1d1a0( ::CvFileStorage const * fs, ::cv::FileNode const & src, ::CvSeqReader * reader ){
-    ::cvStartReadRawData(fs, *(src), reader);
 }
 
 static void cvStartWriteStruct_e7e2128639c3a858bdb332c89468a8e0( ::cv::FileStorage & fs, char const * name, int struct_flags, char const * type_name=0, ::CvAttrList attributes=cvAttrList(0u, 0u) ){
@@ -3307,57 +3286,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
-    { //::cvGetFileNode
-    
-        typedef boost::python::object ( *getFileNode_function_type )( ::cv::FileStorage &,::cv::FileNode &,::CvStringHashNode const *,int );
-        
-        bp::def( 
-            "getFileNode"
-            , getFileNode_function_type( &cvGetFileNode_6a2476df18b42d117da27c3c0b8b7c10 )
-            , ( bp::arg("fs"), bp::arg("map"), bp::arg("key"), bp::arg("create_missing")=(int)(0) )
-            , "\nWrapped function:"
-    "\n    cvGetFileNode"
-    "\nArgument 'map':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
-    
-    }
-
-    { //::cvGetFileNodeByName
-    
-        typedef boost::python::object ( *getFileNodeByName_function_type )( ::CvFileStorage const *,::cv::FileNode const &,char const * );
-        
-        bp::def( 
-            "getFileNodeByName"
-            , getFileNodeByName_function_type( &cvGetFileNodeByName_061e25a343ad5bb2f02da02bf45be998 )
-            , ( bp::arg("fs"), bp::arg("map"), bp::arg("name") )
-            , "\nWrapped function:"
-    "\n    cvGetFileNodeByName"
-    "\nArgument 'map':"\
-    "\n    C/C++ type: ::CvFileNode const *."\
-    "\n    Python type: FileNode." );
-    
-    }
-
-    { //::cvGetFileNodeName
-    
-        typedef boost::python::object ( *getFileNodeName_function_type )( ::cv::FileNode const & );
-        
-        bp::def( 
-            "getFileNodeName"
-            , getFileNodeName_function_type( &cvGetFileNodeName_dad254a89ba86caf1ba5012875e2fb32 )
-            , ( bp::arg("node") )
-            , "\nWrapped function:"
-    "\n    cvGetFileNodeName"
-    "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode const *."\
-    "\n    Python type: FileNode." );
-    
-    }
-
     { //::cvGetHashedKey
     
         typedef boost::python::object ( *getHashedKey_function_type )( ::cv::FileStorage &,char const *,int,int );
@@ -4008,22 +3936,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'fs':"\
     "\n    C/C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
-    
-    }
-
-    { //::cvStartReadRawData
-    
-        typedef void ( *startReadRawData_function_type )( ::CvFileStorage const *,::cv::FileNode const &,::CvSeqReader * );
-        
-        bp::def( 
-            "startReadRawData"
-            , startReadRawData_function_type( &cvStartReadRawData_4fe1fcc06b3f886cb6549cad64e1d1a0 )
-            , ( bp::arg("fs"), bp::arg("src"), bp::arg("reader") )
-            , "\nWrapped function:"
-    "\n    cvStartReadRawData"
-    "\nArgument 'src':"\
-    "\n    C/C++ type: ::CvFileNode const *."\
-    "\n    Python type: FileNode." );
     
     }
 
