@@ -171,16 +171,6 @@ void register_FileNode_class(){
     "\n    operator[]" );
         
         }
-        { //::cv::FileNode::rawDataSize
-        
-            typedef int ( ::cv::FileNode::*rawDataSize_function_type )( ::std::string const & ) const;
-            
-            FileNode_exposer.def( 
-                "rawDataSize"
-                , rawDataSize_function_type( &::cv::FileNode::rawDataSize )
-                , ( bp::arg("fmt") ) );
-        
-        }
         { //::cv::FileNode::size
         
             typedef ::size_t ( ::cv::FileNode::*size_function_type )(  ) const;
