@@ -643,12 +643,11 @@ static bp::tuple children(cv::FileNode const &inst)
     return bp::tuple(l);
 }
 
-static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt)
+static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len)
 {
     std::vector<uchar> data;
-    int size = inst.rawDataSize(fmt);
-    data.resize(size);
-    inst.readRaw(fmt, &data[0], size);
+    data.resize(len);
+    inst.readRaw(fmt, &data[0], len);
     return convert_from_vector_of_T_to_Mat<uchar>(data);
 }
 
@@ -656,7 +655,8 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt)
     z.add_registration_code('add_property("children", &::children)')
     z.add_registration_code('def("__iter__", &::children)')
     z.mem_fun('readRaw').exclude()
-    z.add_registration_code('def("readRaw", &::readRaw, "Reads raw data. Argument \'len\' is determined using member \\nfunction \'rawDataSize()\'. Argument \'vec\' is returned as a Mat.")')
+    # wait until rawDataSize() is implemented
+    z.add_registration_code('def("readRaw", &::readRaw, ( arg("inst"), arg("fmt"), arg("len") ), "Reads raw data. Argument \'vec\' is returned as a Mat.")')
     mb.finalize_class(z)
     
     
