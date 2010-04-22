@@ -481,9 +481,6 @@ void register_Mat_class(){
         Mat_exposer.def("to_list_of_Vec4i", &convert_from_Mat_to_seq<cv::Vec4i> );
         Mat_exposer.def("from_list_of_Vec4i", &convert_from_seq_to_Mat_object<cv::Vec4i> );
         Mat_exposer.staticmethod("from_list_of_Vec4i");
-        Mat_exposer.def("to_list_of_Rectf", &convert_from_Mat_to_seq<cv::Rectf> );
-        Mat_exposer.def("from_list_of_Rectf", &convert_from_seq_to_Mat_object<cv::Rectf> );
-        Mat_exposer.staticmethod("from_list_of_Rectf");
         Mat_exposer.def("to_list_of_Vec4w", &convert_from_Mat_to_seq<cv::Vec4w> );
         Mat_exposer.def("from_list_of_Vec4w", &convert_from_seq_to_Mat_object<cv::Vec4w> );
         Mat_exposer.staticmethod("from_list_of_Vec4w");
@@ -508,9 +505,9 @@ void register_Mat_class(){
         Mat_exposer.def("to_list_of_RotatedRect", &convert_from_Mat_to_seq<cv::RotatedRect> );
         Mat_exposer.def("from_list_of_RotatedRect", &convert_from_seq_to_Mat_object<cv::RotatedRect> );
         Mat_exposer.staticmethod("from_list_of_RotatedRect");
-        Mat_exposer.def("to_list_of_Rectd", &convert_from_Mat_to_seq<cv::Rectd> );
-        Mat_exposer.def("from_list_of_Rectd", &convert_from_seq_to_Mat_object<cv::Rectd> );
-        Mat_exposer.staticmethod("from_list_of_Rectd");
+        Mat_exposer.def("to_list_of_Size2i", &convert_from_Mat_to_seq<cv::Size2i> );
+        Mat_exposer.def("from_list_of_Size2i", &convert_from_seq_to_Mat_object<cv::Size2i> );
+        Mat_exposer.staticmethod("from_list_of_Size2i");
         Mat_exposer.def("to_list_of_Point3d", &convert_from_Mat_to_seq<cv::Point3d> );
         Mat_exposer.def("from_list_of_Point3d", &convert_from_seq_to_Mat_object<cv::Point3d> );
         Mat_exposer.staticmethod("from_list_of_Point3d");
@@ -541,12 +538,6 @@ void register_Mat_class(){
         Mat_exposer.def("to_list_of_Size2f", &convert_from_Mat_to_seq<cv::Size2f> );
         Mat_exposer.def("from_list_of_Size2f", &convert_from_seq_to_Mat_object<cv::Size2f> );
         Mat_exposer.staticmethod("from_list_of_Size2f");
-        Mat_exposer.def("to_list_of_Size2i", &convert_from_Mat_to_seq<cv::Size2i> );
-        Mat_exposer.def("from_list_of_Size2i", &convert_from_seq_to_Mat_object<cv::Size2i> );
-        Mat_exposer.staticmethod("from_list_of_Size2i");
-        Mat_exposer.def("to_list_of_Size2d", &convert_from_Mat_to_seq<cv::Size2d> );
-        Mat_exposer.def("from_list_of_Size2d", &convert_from_seq_to_Mat_object<cv::Size2d> );
-        Mat_exposer.staticmethod("from_list_of_Size2d");
         Mat_exposer.def("to_list_of_Scalar", &convert_from_Mat_to_seq<cv::Scalar> );
         Mat_exposer.def("from_list_of_Scalar", &convert_from_seq_to_Mat_object<cv::Scalar> );
         Mat_exposer.staticmethod("from_list_of_Scalar");

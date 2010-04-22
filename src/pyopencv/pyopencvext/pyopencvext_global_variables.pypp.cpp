@@ -16,6 +16,10 @@ void register_global_variables(){
     bp::scope().attr("MORPH_TOPHAT") = (int)cv::MORPH_TOPHAT;
     bp::scope().attr("MORPH_BLACKHAT") = (int)cv::MORPH_BLACKHAT;
 
+    bp::scope().attr("MORPH_RECT") = (int)cv::MORPH_RECT;
+    bp::scope().attr("MORPH_CROSS") = (int)cv::MORPH_CROSS;
+    bp::scope().attr("MORPH_ELLIPSE") = (int)cv::MORPH_ELLIPSE;
+
     bp::scope().attr("LMEDS") = (int)cv::LMEDS;
     bp::scope().attr("RANSAC") = (int)cv::RANSAC;
 
@@ -104,10 +108,6 @@ void register_global_variables(){
     bp::scope().attr("BORDER_TRANSPARENT") = (int)cv::BORDER_TRANSPARENT;
     bp::scope().attr("BORDER_DEFAULT") = (int)cv::BORDER_DEFAULT;
     bp::scope().attr("BORDER_ISOLATED") = (int)cv::BORDER_ISOLATED;
-
-    bp::scope().attr("MORPH_RECT") = (int)cv::MORPH_RECT;
-    bp::scope().attr("MORPH_CROSS") = (int)cv::MORPH_CROSS;
-    bp::scope().attr("MORPH_ELLIPSE") = (int)cv::MORPH_ELLIPSE;
 
     bp::scope().attr("INTER_NEAREST") = (int)cv::INTER_NEAREST;
     bp::scope().attr("INTER_LINEAR") = (int)cv::INTER_LINEAR;

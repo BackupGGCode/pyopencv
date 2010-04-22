@@ -214,6 +214,8 @@ module_builder.module_builder_t.insert_del_interface = insert_del_interface
 
 def init_class(self, z):
     """Initializes a class z"""
+    if not z.partial_decl_string[2:] in _decls_reg:
+        self.register_ti(z.partial_decl_string[2:]) # register the class if not done so
     z.include()
     funs = []
     try:
@@ -463,11 +465,12 @@ _decls_reg = {}
 # pds = partial_decl_string without the preceeding '::'
 def register_decl(self, pyName, pds, cChildName_pds=None, pyEquivName=None):
     if '::' in pds: # assume it is a class
-        print "Renaming class %s to %s..." % (pds, pyName)
+        print "Registering class %s as %s..." % (pds, pyName)
         try:
             self.class_(lambda x: x.partial_decl_string=='::'+pds).rename(pyName)
         except RuntimeError:
-            print "Class %s does not exist." % pds
+            # print "Class %s does not exist." % pds
+            pass
     _decls_reg[pds] = (pyName, cChildName_pds, pyEquivName)
 module_builder.module_builder_t.register_decl = register_decl
 
@@ -520,20 +523,22 @@ def prepare_decls_registration_code(self):
     str = '''#ifndef SD_TEMPLATE_INSTANTIATIONS_H
 #define SD_TEMPLATE_INSTANTIATIONS_H
 
-struct dummy_struct3 {
+class dummy_struct {
+public:
     struct dummy_struct2 {};
 '''
 
     pdss = _decls_reg.keys()
     for i in xrange(len(pdss)):
-        str += '    %s var%d;\n' % (pdss[i], i)
+        if '<' in pdss[i]: # only instantiate those that need to
+            str += '    static int const var%d = sizeof(%s);\n' % (i, pdss[i])
 
     str += '''};
 
 #endif
 '''
     str2 = ""
-    file_path = OP.join('pyopencvext', 'core', 'template_instantiations2.hpp')
+    file_path = OP.join('pyopencvext', 'core', 'template_instantiations.hpp')
     if OP.exists(file_path):
         f = open(file_path, 'rt')
         str2 = f.read(-1)
@@ -606,12 +611,6 @@ _class_rename = {
 }
 for t in _class_rename:
     mb.class_(t).rename(_class_rename[t])
-
-# too many issues when exposing a std::vector as a member variable
-# to name a few: missing operators like ==
-for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
-    z.exclude() 
-    z.set_already_exposed(True)
 
 
 
@@ -720,6 +719,14 @@ for z in mb.free_funs():
         z.rename(zz)
         
 mb.beautify_func_list(opencv_funs)
+
+
+# too many issues when exposing a std::vector as a member variable
+# to name a few: missing operators like ==
+for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
+    z.exclude() 
+    z.set_already_exposed(True)
+
 
 
 #=============================================================================
