@@ -46,6 +46,24 @@ def generate_code(mb, cc, D, FT, CP):
     
     Point_dict = 'ifd'
     
+    mb.register_ti('cv::Mat')
+    mb.register_vec('std::vector', 'char', 'vector_int8', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'unsigned char', 'vector_uint8', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'short', 'vector_int16', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'unsigned short', 'vector_uint16', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'int', 'vector_int', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'unsigned int', 'vector_uint', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'long', 'vector_long', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'unsigned long', 'vector_ulong', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'long long', 'vector_int64', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'unsigned long long', 'vector_uint64', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'float', 'vector_float32', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'double', 'vector_float64', pyEquivName='Mat')
+    mb.register_vec('std::vector', 'unsigned char *', 'vector_string')
+    mb.register_vec('std::vector', 'std::vector< int >', 'vector_vector_int')
+    mb.register_vec('std::vector', 'std::vector< float >', 'vector_vector_float32')
+    
+
     # Vec et al
     for i in Vec_dict.keys():
         for suffix in Vec_dict[i]:
@@ -53,6 +71,8 @@ def generate_code(mb, cc, D, FT, CP):
     zz = mb.classes(lambda z: z.name.startswith('Vec<'))
     for z in zz:
         mb.init_class(z)
+        mb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+        mb.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
         mb.asClass(z, mb.class_('CvScalar'))
         z.decl('val').exclude() # use operator[] instead
         mb.add_ndarray_interface(z)
@@ -85,6 +105,8 @@ KLASS.__repr__ = _KLASS__repr__
         mb.register_ti('cv::Point_', [dtype_dict[suffix]], alias)
         z = mb.class_(lambda x: x.alias==alias)
         mb.init_class(z)
+        mb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+        mb.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
         mb.asClass(z, mb.class_('CvPoint'))
         mb.asClass(z, mb.class_('CvPoint2D32f'))
         mb.asClass(z, mb.class_('Vec<%s, 2>' % dtype_dict[suffix])) 
@@ -109,6 +131,8 @@ asPoint = asPoint2i
         mb.register_ti('cv::Point3_', [dtype_dict[suffix]], alias)
         z = mb.class_(lambda x: x.alias==alias)
         mb.init_class(z)
+        mb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+        mb.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
         mb.asClass(z, mb.class_('CvPoint3D32f'))
         mb.asClass(z, mb.class_('Vec<%s, 3>' % dtype_dict[suffix]))
         mb.add_ndarray_interface(z)
@@ -148,6 +172,7 @@ Size = Size2i
     mb.register_ti('cv::Rect_', ['int'], 'Rect')
     z = mb.class_(lambda x: x.alias=='Rect')
     mb.init_class(z)
+    mb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
     mb.asClass(z, mb.class_('CvRect'))
     mb.add_ndarray_interface(z)
     cc.write('''
@@ -161,7 +186,6 @@ KLASS.__repr__ = _KLASS__repr__
     # mb.dtypecast(['::cv::Rect_<%s>' % dtype_dict[suffix] for suffix in Point_dict])
     
     # RotatedRect
-    mb.register_ti('cv::RotatedRect')
     z = mb.class_('RotatedRect')
     mb.init_class(z)
     mb.asClass(z, mb.class_('CvBox2D'))
@@ -189,7 +213,6 @@ Scalar.__repr__ = _Scalar__repr__
     ''')
     
     # Range
-    mb.register_ti('cv::Range')
     z = mb.class_('Range')
     mb.init_class(z)
     mb.asClass(z, mb.class_('CvSlice'))
@@ -205,15 +228,14 @@ KLASS.__repr__ = _KLASS__repr__
     # Ptr -- already exposed by mb.expose_class_Ptr
     mb.register_ti('cv::FilterEngine')
     mb.register_ti('cv::Ptr', ['cv::FilterEngine'])
-    mb.register_ti('cv::Mat')
     mb.register_ti('cv::Ptr', ['cv::Mat'])
-    mb.register_vec('std::vector', 'cv::Ptr< cv::Mat >')
-    
+    mb.register_vec('std::vector', 'cv::Ptr< cv::Mat >')    
     
     # Mat
     z = mb.class_('Mat')
     z.include_files.append("opencv_converters.hpp")
     mb.init_class(z)
+    mb.register_vec('std::vector', 'cv::Mat')
     for t in z.constructors():
         if 'void *' in t.decl_string:
             t.exclude()
@@ -489,6 +511,7 @@ KLASS.__repr__ = _KLASS__repr__
     z.include_files.append("opencv_converters.hpp")
     z.include_files.append("boost/python/str.hpp")
     mb.init_class(z)
+    mb.register_vec('std::vector', 'cv::MatND')
     
     z.constructors(lambda x: 'const *' in x.decl_string).exclude()
     z.operator('()').exclude() # list of ranges, use ndarray instead
@@ -623,8 +646,10 @@ static bp::object my_size(cv::SparseMat const &inst, int i = -1)
     # KDTree
     # TODO: fix the rest of the member declarations
     z = mb.class_('KDTree')
-    z.include()
+    mb.init_class(z)
+    mb.register_vec('std::vector', 'cv::KDTree::Node', 'vector_KDTree_Node')
     z.decls().exclude()
+    mb.finalize_class(z)
     
     # FileStorage
     z = mb.class_('FileStorage')

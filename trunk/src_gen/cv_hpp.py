@@ -62,6 +62,9 @@ def generate_code(mb, cc, D, FT, CP):
     # CascadeClassifier
     z = mb.class_('CascadeClassifier')
     mb.init_class(z)
+    mb.register_vec('std::vector', 'cv::CascadeClassifier::DTreeNode', 'vector_CascadeClassifier_DTreeNode')
+    mb.register_vec('std::vector', 'cv::CascadeClassifier::DTree', 'vector_CascadeClassifier_DTree')
+    mb.register_vec('std::vector', 'cv::CascadeClassifier::Stage', 'vector_CascadeClassifier_Stage')
     z.mem_fun('detectMultiScale')._transformer_creators.append(FT.arg_std_vector('objects', 2))
     mb.finalize_class(z)
     mb.expose_class_Ptr('CvHaarClassifierCascade')    
@@ -115,7 +118,10 @@ def generate_code(mb, cc, D, FT, CP):
     
     
     # KeyPoint
-    mb.class_('KeyPoint').include()
+    z = mb.class_('KeyPoint')
+    mb.init_class(z)
+    mb.register_vec('std::vector', 'cv::KeyPoint')    
+    mb.finalize_class(z)
     
     # SURF
     z = mb.class_('SURF')
