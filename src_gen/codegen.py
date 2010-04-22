@@ -456,6 +456,94 @@ def asClass(self, src_class, dst_class):
         z.rename('__temp_func')
 module_builder.module_builder_t.asClass = asClass
 
+
+
+_decls_reg = {}
+    
+# pds = partial_decl_string without the preceeding '::'
+def register_decl(self, pyName, pds, cChildName_pds=None, pyEquivName=None):
+    if '::' in pds: # assume it is a class
+        print "Renaming class %s to %s..." % (pds, pyName)
+        try:
+            self.class_(lambda x: x.partial_decl_string=='::'+pds).rename(pyName)
+        except RuntimeError:
+            print "Class %s does not exist." % pds
+    _decls_reg[pds] = (pyName, cChildName_pds, pyEquivName)
+module_builder.module_builder_t.register_decl = register_decl
+
+# vector template instantiation
+# cName_pds : C name of the class without template element(s)
+# cChildName_pds : C name of the class without template element(s)
+# e.g. if partial_decl_string is '::std::vector<int>' then 
+#    cName_pds='std::vector'
+#    cChildName_pds='int'
+def register_vec(self, cName_pds, cChildName_pds, pyName=None, pds=None, pyEquivName=None):
+    if pyName is None:
+        pyName = cName_pds[cName_pds.rfind(':')+1:] + '_' + _decls_reg[cChildName_pds][0]
+    if pds is None:
+        pds = cName_pds + '< ' + cChildName_pds + ' >'
+    self.register_decl(pyName, pds, cChildName_pds, pyEquivName)
+module_builder.module_builder_t.register_vec = register_vec
+
+# non-vector template instantiation
+# cName_pds : C name of the class without template element(s)
+# cElemNames_pds : list of the C names of the template element(s)
+# numbers are represented as int, not as str
+# e.g. if partial_decl_string is '::cv::Vec<int, 4>' then 
+#    cName_pds='cv::Vec'
+#    cChildName_pds=['int', 4]
+def register_ti(self, cName_pds, cElemNames_pds=[], pyName=None, pds=None):
+    if pyName is None:
+        pyName = cName_pds[cName_pds.rfind(':')+1:]
+        for elem in cElemNames_pds:
+            pyName += '_' + (str(elem) if isinstance(elem, int) else _decls_reg[elem][0])
+    if pds is None:
+        pds = cName_pds
+        if len(cElemNames_pds)>0:
+            pds += '< '            
+            for elem in cElemNames_pds:
+                pds += (str(elem) if isinstance(elem, int) else elem) + ', '
+            pds = pds[:-2] + ' >'
+    self.register_decl(pyName, pds)
+module_builder.module_builder_t.register_ti = register_ti
+
+def get_decl_equivname(self, pds):
+    z = _decls_reg[pds]
+    if z[2] is not None:
+        return z[2]
+    if z[1] is not None:
+        return "list of "+self.get_decl_equivname(z[1])
+    return z[0]
+module_builder.module_builder_t.get_decl_equivname = get_decl_equivname
+
+def prepare_decls_registration_code(self):
+    str = '''#ifndef SD_TEMPLATE_INSTANTIATIONS_H
+#define SD_TEMPLATE_INSTANTIATIONS_H
+
+struct dummy_struct3 {
+    struct dummy_struct2 {};
+'''
+
+    pdss = _decls_reg.keys()
+    for i in xrange(len(pdss)):
+        str += '    %s var%d;\n' % (pdss[i], i)
+
+    str += '''};
+
+#endif
+'''
+    str2 = ""
+    file_path = OP.join('pyopencvext', 'core', 'template_instantiations2.hpp')
+    if OP.exists(file_path):
+        f = open(file_path, 'rt')
+        str2 = f.read(-1)
+    if str2!=str:
+        f = open(file_path, 'wt')
+        f.write(str)
+        print "Warning: File 'template_instantiations.hpp' has been modified. Run 'codegen.py' again."
+
+module_builder.module_builder_t.prepare_decls_registration_code = prepare_decls_registration_code
+
 #=============================================================================
 # Initialization
 #=============================================================================
@@ -532,57 +620,73 @@ for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
 #=============================================================================
 
 # cxerror.h
+print "Generating code for cxerror.h..."
 cxerror_h.generate_code(mb, cc, D, FT, CP)
 
 # cxtypes.h
+print "Generating code for cxtype.h..."
 cxtypes_h.generate_code(mb, cc, D, FT, CP)
 
 # cxcore.h
+print "Generating code for cxcore.h..."
 cxcore_h.generate_code(mb, cc, D, FT, CP)
 
 # cxcore.hpp
+print "Generating code for cxcore.hpp..."
 cxcore_hpp.generate_code(mb, cc, D, FT, CP)
 
-# cxcore.hpp
+# cxoperations.hpp
+print "Generating code for cxoperations.hpp..."
 cxoperations_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cxflann.h
+print "Generating code for cxflann.h..."
 cxflann_h.generate_code(mb, cc, D, FT, CP)
 
 # cxmat.hpp
 # cxmat_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cvtypes.h
+print "Generating code for cvtypes.h..."
 cvtypes_h.generate_code(mb, cc, D, FT, CP)
 
 # cv.h
+print "Generating code for cv.h..."
 cv_h.generate_code(mb, cc, D, FT, CP)
 
 # cv.hpp
+print "Generating code for cv.hpp..."
 cv_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cvcompat.h
 # cvcompat_h.generate_code(mb, cc, D, FT, CP)
 
 # cvaux.h
+print "Generating code for cvaux.h..."
 cvaux_h.generate_code(mb, cc, D, FT, CP)
 
 # cvaux.hpp
+print "Generating code for cvaux.hpp..."
 cvaux_hpp.generate_code(mb, cc, D, FT, CP)
 
 # cvvidsurv.hpp
+print "Generating code for cvvidsurf.hpp..."
 cvvidsurv_hpp.generate_code(mb, cc, D, FT, CP)
 
 # ml.h
+print "Generating code for ml.h..."
 ml_h.generate_code(mb, cc, D, FT, CP)
 
 # highgui.h
+print "Generating code for highgui.h..."
 highgui_h.generate_code(mb, cc, D, FT, CP)
 
 # highgui.hpp
+print "Generating code for highgui.hpp..."
 highgui_hpp.generate_code(mb, cc, D, FT, CP)
 
 # sdopencv
+print "Generating code for sdopencv..."
 sdopencv.generate_code(mb, cc, D, FT, CP)
 
 
@@ -635,6 +739,7 @@ OP.normcase = _new_normcase
 #Writing code to file.
 mb.split_module('pyopencvext')
 
+mb.prepare_decls_registration_code()
 
 #Return old normcase
 OP.normcase = _old_normcase

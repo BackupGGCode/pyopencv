@@ -354,10 +354,6 @@
 
 #include "pyopencvext/Rect.pypp.hpp"
 
-#include "pyopencvext/Rectd.pypp.hpp"
-
-#include "pyopencvext/Rectf.pypp.hpp"
-
 #include "pyopencvext/RotatedRect.pypp.hpp"
 
 #include "pyopencvext/SURF.pypp.hpp"
@@ -1976,14 +1972,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_Range_class();
 
     bp::implicitly_convertible< cv::Range, CvSlice >();
-
-    register_Rectd_class();
-
-    bp::implicitly_convertible< cv::Rect_< double >, CvRect >();
-
-    register_Rectf_class();
-
-    bp::implicitly_convertible< cv::Rect_< float >, CvRect >();
 
     register_RotatedRect_class();
 
@@ -5182,45 +5170,45 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::to_python_converter<CvRNG, CvRNG_to_python, false>();
 
+    bp::def("asVec2w", &sdcpp::from_ndarray< cv::Vec2w >, (bp::arg("inst_ndarray")) );
+
     bp::def("asVec4d", &sdcpp::from_ndarray< cv::Vec4d >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec3d", &sdcpp::from_ndarray< cv::Vec3d >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec2d >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec4f", &sdcpp::from_ndarray< cv::Vec4f >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec3f", &sdcpp::from_ndarray< cv::Vec3f >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec2f >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec4i", &sdcpp::from_ndarray< cv::Vec4i >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec3i", &sdcpp::from_ndarray< cv::Vec3i >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec2i", &sdcpp::from_ndarray< cv::Vec2i >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec4w", &sdcpp::from_ndarray< cv::Vec4w >, (bp::arg("inst_ndarray")) );
 
+    bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec2d >, (bp::arg("inst_ndarray")) );
+
     bp::def("asVec3w", &sdcpp::from_ndarray< cv::Vec3w >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2w", &sdcpp::from_ndarray< cv::Vec2w >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec2i", &sdcpp::from_ndarray< cv::Vec2i >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec4s >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec3i", &sdcpp::from_ndarray< cv::Vec3i >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec3d", &sdcpp::from_ndarray< cv::Vec3d >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec4i", &sdcpp::from_ndarray< cv::Vec4i >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec6d >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec3s", &sdcpp::from_ndarray< cv::Vec3s >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec2s", &sdcpp::from_ndarray< cv::Vec2s >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4b", &sdcpp::from_ndarray< cv::Vec4b >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec4s >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec2b", &sdcpp::from_ndarray< cv::Vec2b >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec6d >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec3f", &sdcpp::from_ndarray< cv::Vec3f >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec4b", &sdcpp::from_ndarray< cv::Vec4b >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec6f", &sdcpp::from_ndarray< cv::Vec6f >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec2f >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec4f", &sdcpp::from_ndarray< cv::Vec4f >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
 
     bp::def("asPoint2i", &sdcpp::from_ndarray< cv::Point2i >, (bp::arg("inst_ndarray")) );
 
@@ -5236,15 +5224,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asSize2i", &sdcpp::from_ndarray< cv::Size2i >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asSize2d", &sdcpp::from_ndarray< cv::Size2d >, (bp::arg("inst_ndarray")) );
-
     bp::def("asSize2f", &sdcpp::from_ndarray< cv::Size2f >, (bp::arg("inst_ndarray")) );
 
+    bp::def("asSize2d", &sdcpp::from_ndarray< cv::Size2d >, (bp::arg("inst_ndarray")) );
+
     bp::def("asRect", &sdcpp::from_ndarray< cv::Rect >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asRectd", &sdcpp::from_ndarray< cv::Rectd >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asRectf", &sdcpp::from_ndarray< cv::Rectf >, (bp::arg("inst_ndarray")) );
 
     bp::def("asRotatedRect", &sdcpp::from_ndarray< cv::RotatedRect >, (bp::arg("inst_ndarray")) );
 

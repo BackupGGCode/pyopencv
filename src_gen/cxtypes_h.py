@@ -49,6 +49,24 @@ def generate_code(mb, cc, D, FT, CP):
 
     # CvArr
     # mb.class_('CvArr').include()
+    
+    mb.register_decl('int8', 'char')
+    mb.register_decl('int8', 'signed char')
+    mb.register_decl('int8', 'schar')
+    mb.register_decl('uint8', 'unsigned char')
+    mb.register_decl('uint8', 'uchar')
+    mb.register_decl('int16', 'short')
+    mb.register_decl('uint16', 'unsigned short')
+    mb.register_decl('uint16', 'short unsigned int')
+    mb.register_decl('uint16', 'ushort')
+    mb.register_decl('int', 'int')
+    mb.register_decl('uint', 'unsigned int')
+    mb.register_decl('long', 'long')
+    mb.register_decl('ulong', 'unsigned long')
+    mb.register_decl('int64', 'long long')
+    mb.register_decl('uint64', 'unsigned long long')
+    mb.register_decl('float32', 'float')
+    mb.register_decl('float64', 'double')
 
     cc.write('''
 #-----------------------------------------------------------------------------

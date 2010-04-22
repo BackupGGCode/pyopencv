@@ -32,93 +32,7 @@ def add_ti(class_, element_type, new_name=None):
 
 def generate_ti():
     # template instantiations
-    basic_types = ('bool', 'uchar', 'schar', 'ushort', 'short', 'int', 'float', 'double')
-    for z1 in ('DataDepth', 'DataType'):
-        for z2 in basic_types:
-            add_ti(z1, z2)
-    add_ti('DataType', 'Range')
 
-    add_ti('Rect_', 'int', 'Rect')
-    add_ti('Rect_', 'float', 'Rectf')
-    add_ti('Rect_', 'double', 'Rectd')
-
-    add_ti('Size_', 'int', 'Size')
-    add_ti('Size_', 'int', 'Size2i')
-    add_ti('Size_', 'float', 'Size2f')
-    add_ti('Size_', 'double', 'Size2d')
-
-    add_ti('Complex', 'float', 'Complexf')
-    add_ti('Complex', 'double', 'Complexd')
-
-    add_ti('Point_', 'int', 'Point')
-    add_ti('Point_', 'int', 'Point2i')
-    add_ti('Point_', 'float', 'Point2f')
-    add_ti('Point_', 'double', 'Point2d')
-
-    add_ti('Point3_', 'int', 'Point3i')
-    add_ti('Point3_', 'float', 'Point3f')
-    add_ti('Point3_', 'double', 'Point3d')
-
-    add_ti('Scalar_', 'double', 'Scalar')
-
-    add_ti('Vec', 'uchar, 2', 'Vec2b')
-    add_ti('Vec', 'uchar, 3', 'Vec3b')
-    add_ti('Vec', 'uchar, 4', 'Vec4b')
-
-    add_ti('Vec', 'short, 2', 'Vec2s')
-    add_ti('Vec', 'short, 3', 'Vec3s')
-    add_ti('Vec', 'short, 4', 'Vec4s')
-
-    add_ti('Vec', 'ushort, 2', 'Vec2w')
-    add_ti('Vec', 'ushort, 3', 'Vec3w')
-    add_ti('Vec', 'ushort, 4', 'Vec4w')
-
-    add_ti('Vec', 'int, 2', 'Vec2i')
-    add_ti('Vec', 'int, 3', 'Vec3i')
-    add_ti('Vec', 'int, 4', 'Vec4i')
-
-    add_ti('Vec', 'float, 2', 'Vec2f')
-    add_ti('Vec', 'float, 3', 'Vec3f')
-    add_ti('Vec', 'float, 4', 'Vec4f')
-    add_ti('Vec', 'float, 6', 'Vec6f')
-
-    add_ti('Vec', 'double, 2', 'Vec2d')
-    add_ti('Vec', 'double, 3', 'Vec3d')
-    add_ti('Vec', 'double, 4', 'Vec4d')
-    add_ti('Vec', 'double, 6', 'Vec6d')
-    
-    add_ti('Ptr', 'FilterEngine')
-    
-    add_ti('Mat_', 'uchar', 'Mat1b')
-    add_ti('Mat_', 'Vec2b', 'Mat2b')
-    add_ti('Mat_', 'Vec3b', 'Mat3b')
-    add_ti('Mat_', 'Vec4b', 'Mat4b')
-    
-    add_ti('Mat_', 'short', 'Mat1s')
-    add_ti('Mat_', 'Vec2s', 'Mat2s')
-    add_ti('Mat_', 'Vec3s', 'Mat3s')
-    add_ti('Mat_', 'Vec4s', 'Mat4s')
-    
-    add_ti('Mat_', 'ushort', 'Mat1w')
-    add_ti('Mat_', 'Vec2w', 'Mat2w')
-    add_ti('Mat_', 'Vec3w', 'Mat3w')
-    add_ti('Mat_', 'Vec4w', 'Mat4w')
-    
-    add_ti('Mat_', 'int', 'Mat1i')
-    add_ti('Mat_', 'Vec2i', 'Mat2i')
-    add_ti('Mat_', 'Vec3i', 'Mat3i')
-    add_ti('Mat_', 'Vec4i', 'Mat4i')
-    
-    add_ti('Mat_', 'float', 'Mat1f')
-    add_ti('Mat_', 'Vec2f', 'Mat2f')
-    add_ti('Mat_', 'Vec3f', 'Mat3f')
-    add_ti('Mat_', 'Vec4f', 'Mat4f')
-    
-    add_ti('Mat_', 'double', 'Mat1d')
-    add_ti('Mat_', 'Vec2d', 'Mat2d')
-    add_ti('Mat_', 'Vec3d', 'Mat3d')
-    add_ti('Mat_', 'Vec4d', 'Mat4d')
-    
     add_ti('vector', 'char', 'vector_int8')
     add_ti('vector', 'unsigned char', 'vector_uint8')
     add_ti('vector', 'short', 'vector_int16')
@@ -147,8 +61,6 @@ def generate_ti():
     add_ti('vector', 'CascadeClassifier::DTree', 'vector_CascadeClassifier_DTree')
     add_ti('vector', 'CascadeClassifier::Stage', 'vector_CascadeClassifier_Stage')
     add_ti('vector', 'FernClassifier::Feature', 'vector_FernClassifier_Feature')
-    add_ti('Ptr', 'Mat', 'Ptr_Mat')
-    add_ti('vector', 'Ptr_Mat', 'vector_Ptr_Mat')
     add_ti('vector', 'Octree::Node', 'vector_Octree_Node')
     add_ti('vector', 'CvFuzzyRule*', 'vector_CvFuzzyRule_Ptr')
     add_ti('vector', 'CvFuzzyCurve', 'vector_CvFuzzyCurve')

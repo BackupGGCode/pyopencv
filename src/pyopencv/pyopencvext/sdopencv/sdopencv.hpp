@@ -16,5 +16,7 @@
 #include "int_hist_2d.hpp"
 #include "iterators.hpp"
 
+#include "template_instantiations2.hpp"
+
 #endif
 
