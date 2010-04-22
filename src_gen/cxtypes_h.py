@@ -659,13 +659,13 @@ add_property( "data", bp::make_function(&CvString_wrapper::get_data) )
     mb.class_('CvGenericHash').include()
 
     # CvFileNode
-    z = mb.class_('CvFileNode')
-    z.include()
-    FT.expose_member_as_pointee(z, 'info')
+    # z = mb.class_('CvFileNode')
+    # z.include()
+    # FT.expose_member_as_pointee(z, 'info')
     # deal with 'data' -- wait until requested
-    z.var('data').expose_address = True
-    for t in ('f', 'i', 'str', 'seq', 'map'):
-        z.var(t).exclude()
+    # z.var('data').expose_address = True
+    # for t in ('f', 'i', 'str', 'seq', 'map'):
+        # z.var(t).exclude()
         
     # CvPluginFuncInfo
     z = mb.class_('CvPluginFuncInfo')
