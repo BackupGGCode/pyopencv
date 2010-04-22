@@ -685,6 +685,10 @@ Vec3w.__getslice__ = _Vec3w__getslice__
 def _Vec3w__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3w.__setslice__ = _Vec3w__setslice__
+            
+def _Vec3w__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec3w.__iter__ = _Vec3w__iter__
         
 def _Vec3w__repr__(self):
     return "Vec3w(" + self.ndarray.__str__() + ")"
@@ -717,6 +721,10 @@ Vec4f.__getslice__ = _Vec4f__getslice__
 def _Vec4f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4f.__setslice__ = _Vec4f__setslice__
+            
+def _Vec4f__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec4f.__iter__ = _Vec4f__iter__
         
 def _Vec4f__repr__(self):
     return "Vec4f(" + self.ndarray.__str__() + ")"
@@ -749,6 +757,10 @@ Vec4d.__getslice__ = _Vec4d__getslice__
 def _Vec4d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4d.__setslice__ = _Vec4d__setslice__
+            
+def _Vec4d__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec4d.__iter__ = _Vec4d__iter__
         
 def _Vec4d__repr__(self):
     return "Vec4d(" + self.ndarray.__str__() + ")"
@@ -781,6 +793,10 @@ Vec3d.__getslice__ = _Vec3d__getslice__
 def _Vec3d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3d.__setslice__ = _Vec3d__setslice__
+            
+def _Vec3d__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec3d.__iter__ = _Vec3d__iter__
         
 def _Vec3d__repr__(self):
     return "Vec3d(" + self.ndarray.__str__() + ")"
@@ -813,6 +829,10 @@ Vec4i.__getslice__ = _Vec4i__getslice__
 def _Vec4i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4i.__setslice__ = _Vec4i__setslice__
+            
+def _Vec4i__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec4i.__iter__ = _Vec4i__iter__
         
 def _Vec4i__repr__(self):
     return "Vec4i(" + self.ndarray.__str__() + ")"
@@ -845,6 +865,10 @@ Vec2i.__getslice__ = _Vec2i__getslice__
 def _Vec2i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2i.__setslice__ = _Vec2i__setslice__
+            
+def _Vec2i__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec2i.__iter__ = _Vec2i__iter__
         
 def _Vec2i__repr__(self):
     return "Vec2i(" + self.ndarray.__str__() + ")"
@@ -877,6 +901,10 @@ Vec4b.__getslice__ = _Vec4b__getslice__
 def _Vec4b__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4b.__setslice__ = _Vec4b__setslice__
+            
+def _Vec4b__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec4b.__iter__ = _Vec4b__iter__
         
 def _Vec4b__repr__(self):
     return "Vec4b(" + self.ndarray.__str__() + ")"
@@ -909,6 +937,10 @@ Vec3b.__getslice__ = _Vec3b__getslice__
 def _Vec3b__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3b.__setslice__ = _Vec3b__setslice__
+            
+def _Vec3b__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec3b.__iter__ = _Vec3b__iter__
         
 def _Vec3b__repr__(self):
     return "Vec3b(" + self.ndarray.__str__() + ")"
@@ -941,6 +973,10 @@ Vec2b.__getslice__ = _Vec2b__getslice__
 def _Vec2b__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2b.__setslice__ = _Vec2b__setslice__
+            
+def _Vec2b__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec2b.__iter__ = _Vec2b__iter__
         
 def _Vec2b__repr__(self):
     return "Vec2b(" + self.ndarray.__str__() + ")"
@@ -973,6 +1009,10 @@ Vec3i.__getslice__ = _Vec3i__getslice__
 def _Vec3i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3i.__setslice__ = _Vec3i__setslice__
+            
+def _Vec3i__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec3i.__iter__ = _Vec3i__iter__
         
 def _Vec3i__repr__(self):
     return "Vec3i(" + self.ndarray.__str__() + ")"
@@ -1005,6 +1045,10 @@ Vec4s.__getslice__ = _Vec4s__getslice__
 def _Vec4s__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4s.__setslice__ = _Vec4s__setslice__
+            
+def _Vec4s__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec4s.__iter__ = _Vec4s__iter__
         
 def _Vec4s__repr__(self):
     return "Vec4s(" + self.ndarray.__str__() + ")"
@@ -1037,6 +1081,10 @@ Vec2f.__getslice__ = _Vec2f__getslice__
 def _Vec2f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2f.__setslice__ = _Vec2f__setslice__
+            
+def _Vec2f__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec2f.__iter__ = _Vec2f__iter__
         
 def _Vec2f__repr__(self):
     return "Vec2f(" + self.ndarray.__str__() + ")"
@@ -1069,6 +1117,10 @@ Vec2d.__getslice__ = _Vec2d__getslice__
 def _Vec2d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2d.__setslice__ = _Vec2d__setslice__
+            
+def _Vec2d__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec2d.__iter__ = _Vec2d__iter__
         
 def _Vec2d__repr__(self):
     return "Vec2d(" + self.ndarray.__str__() + ")"
@@ -1101,6 +1153,10 @@ Vec2w.__getslice__ = _Vec2w__getslice__
 def _Vec2w__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2w.__setslice__ = _Vec2w__setslice__
+            
+def _Vec2w__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec2w.__iter__ = _Vec2w__iter__
         
 def _Vec2w__repr__(self):
     return "Vec2w(" + self.ndarray.__str__() + ")"
@@ -1133,6 +1189,10 @@ Vec3f.__getslice__ = _Vec3f__getslice__
 def _Vec3f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3f.__setslice__ = _Vec3f__setslice__
+            
+def _Vec3f__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec3f.__iter__ = _Vec3f__iter__
         
 def _Vec3f__repr__(self):
     return "Vec3f(" + self.ndarray.__str__() + ")"
@@ -1165,6 +1225,10 @@ Vec6d.__getslice__ = _Vec6d__getslice__
 def _Vec6d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec6d.__setslice__ = _Vec6d__setslice__
+            
+def _Vec6d__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec6d.__iter__ = _Vec6d__iter__
         
 def _Vec6d__repr__(self):
     return "Vec6d(" + self.ndarray.__str__() + ")"
@@ -1197,6 +1261,10 @@ Vec6f.__getslice__ = _Vec6f__getslice__
 def _Vec6f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec6f.__setslice__ = _Vec6f__setslice__
+            
+def _Vec6f__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec6f.__iter__ = _Vec6f__iter__
         
 def _Vec6f__repr__(self):
     return "Vec6f(" + self.ndarray.__str__() + ")"
@@ -1229,6 +1297,10 @@ Vec2s.__getslice__ = _Vec2s__getslice__
 def _Vec2s__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2s.__setslice__ = _Vec2s__setslice__
+            
+def _Vec2s__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec2s.__iter__ = _Vec2s__iter__
         
 def _Vec2s__repr__(self):
     return "Vec2s(" + self.ndarray.__str__() + ")"
@@ -1261,6 +1333,10 @@ Vec3s.__getslice__ = _Vec3s__getslice__
 def _Vec3s__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3s.__setslice__ = _Vec3s__setslice__
+            
+def _Vec3s__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec3s.__iter__ = _Vec3s__iter__
         
 def _Vec3s__repr__(self):
     return "Vec3s(" + self.ndarray.__str__() + ")"
@@ -1293,6 +1369,10 @@ Vec4w.__getslice__ = _Vec4w__getslice__
 def _Vec4w__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4w.__setslice__ = _Vec4w__setslice__
+            
+def _Vec4w__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec4w.__iter__ = _Vec4w__iter__
         
 def _Vec4w__repr__(self):
     return "Vec4w(" + self.ndarray.__str__() + ")"
@@ -1338,6 +1418,10 @@ Point2i.__getslice__ = _Point2i__getslice__
 def _Point2i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point2i.__setslice__ = _Point2i__setslice__
+            
+def _Point2i__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Point2i.__iter__ = _Point2i__iter__
         
 def _Point2f__repr__(self):
     return "Point2f(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
@@ -1371,6 +1455,10 @@ Point2f.__getslice__ = _Point2f__getslice__
 def _Point2f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point2f.__setslice__ = _Point2f__setslice__
+            
+def _Point2f__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Point2f.__iter__ = _Point2f__iter__
         
 def _Point2d__repr__(self):
     return "Point2d(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
@@ -1404,6 +1492,10 @@ Point2d.__getslice__ = _Point2d__getslice__
 def _Point2d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point2d.__setslice__ = _Point2d__setslice__
+            
+def _Point2d__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Point2d.__iter__ = _Point2d__iter__
         
 Point = Point2i
 asPoint = asPoint2i
@@ -1435,6 +1527,10 @@ Point3i.__getslice__ = _Point3i__getslice__
 def _Point3i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point3i.__setslice__ = _Point3i__setslice__
+            
+def _Point3i__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Point3i.__iter__ = _Point3i__iter__
         
 def _Point3i__repr__(self):
     return "Point3i(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
@@ -1468,6 +1564,10 @@ Point3f.__getslice__ = _Point3f__getslice__
 def _Point3f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point3f.__setslice__ = _Point3f__setslice__
+            
+def _Point3f__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Point3f.__iter__ = _Point3f__iter__
         
 def _Point3f__repr__(self):
     return "Point3f(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
@@ -1501,6 +1601,10 @@ Point3d.__getslice__ = _Point3d__getslice__
 def _Point3d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point3d.__setslice__ = _Point3d__setslice__
+            
+def _Point3d__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Point3d.__iter__ = _Point3d__iter__
         
 def _Point3d__repr__(self):
     return "Point3d(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
@@ -1534,6 +1638,10 @@ Size2i.__getslice__ = _Size2i__getslice__
 def _Size2i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Size2i.__setslice__ = _Size2i__setslice__
+            
+def _Size2i__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Size2i.__iter__ = _Size2i__iter__
         
 def _Size2i__repr__(self):
     return "Size2i(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
@@ -1567,6 +1675,10 @@ Size2f.__getslice__ = _Size2f__getslice__
 def _Size2f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Size2f.__setslice__ = _Size2f__setslice__
+            
+def _Size2f__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Size2f.__iter__ = _Size2f__iter__
         
 def _Size2f__repr__(self):
     return "Size2f(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
@@ -1602,6 +1714,10 @@ Rect.__getslice__ = _Rect__getslice__
 def _Rect__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Rect.__setslice__ = _Rect__setslice__
+            
+def _Rect__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Rect.__iter__ = _Rect__iter__
         
 def _Rect__repr__(self):
     return "Rect(x=" + repr(self.x) + ", y=" + repr(self.y) + \
@@ -1636,6 +1752,10 @@ RotatedRect.__getslice__ = _RotatedRect__getslice__
 def _RotatedRect__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 RotatedRect.__setslice__ = _RotatedRect__setslice__
+            
+def _RotatedRect__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+RotatedRect.__iter__ = _RotatedRect__iter__
         
 def _RotatedRect__repr__(self):
     return "RotatedRect(center=" + repr(self.center) + ", size=" + repr(self.size) + \
@@ -1670,6 +1790,10 @@ Scalar.__getslice__ = _Scalar__getslice__
 def _Scalar__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Scalar.__setslice__ = _Scalar__setslice__
+            
+def _Scalar__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Scalar.__iter__ = _Scalar__iter__
         
 def _Scalar__repr__(self):
     return "Scalar(" + self.ndarray.__str__() + ")"
@@ -1702,6 +1826,10 @@ Range.__getslice__ = _Range__getslice__
 def _Range__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Range.__setslice__ = _Range__setslice__
+            
+def _Range__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Range.__iter__ = _Range__iter__
         
 def _Range__repr__(self):
     return "Range(start=" + repr(self.start) + ", end=" + repr(self.end) + ")"
@@ -1735,6 +1863,10 @@ Mat.__getslice__ = _Mat__getslice__
 def _Mat__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Mat.__setslice__ = _Mat__setslice__
+            
+def _Mat__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Mat.__iter__ = _Mat__iter__
         
 def _Mat__repr__(self):
     return "Mat()" if self.empty() else "Mat(rows=" + repr(self.rows)         + ", cols=" + repr(self.cols) + ", nchannels=" + repr(self.channels())         + ", depth=" + repr(self.depth()) + "):\n" + repr(self.ndarray)
@@ -1833,6 +1965,10 @@ MatND.__getslice__ = _MatND__getslice__
 def _MatND__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 MatND.__setslice__ = _MatND__setslice__
+            
+def _MatND__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+MatND.__iter__ = _MatND__iter__
         
 def _MatND__repr__(self):
     return "MatND(shape=" + repr(self.ndarray.shape) + ", nchannels=" + repr(self.channels())         + ", depth=" + repr(self.depth()) + "):\n" + repr(self.ndarray)

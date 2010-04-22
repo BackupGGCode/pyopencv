@@ -165,7 +165,7 @@ def add_ndarray_interface(self, klass):
         "To create an instance of %s that shares the same data with an ndarray instance, use:" % klass.alias,
         "    '%s.from_ndarray(a)' or 'as%s(a)" % (klass.alias, klass.alias),
         "where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted.")        
-    for t in ('getitem', 'setitem', 'getslice', 'setslice'):
+    for t in ('getitem', 'setitem', 'getslice', 'setslice', 'iter'):
         cc.write('''    
 def _KLASS__FUNC__(self, *args, **kwds):
     return self.ndarray.__FUNC__(*args, **kwds)
@@ -247,6 +247,7 @@ def is_arg_touched(f, arg_name):
 
 def beautify_func_list(self, func_list):
     # fix default values
+    func_list = [f for f in func_list if not f.ignore]
     for f in func_list:
         for arg in f.arguments:
             if isinstance(arg.default_value, str):
@@ -376,8 +377,7 @@ def beautify_func_list(self, func_list):
                 continue
             if arg.name == 'data' and D.is_void_pointer(arg.type):
                 f._transformer_creators.append(FT.input_string(arg.name))
-                if not f.ignore:
-                    mb.add_doc(f.name, "'data' is represented by a string")
+                mb.add_doc(f.name, "'data' is represented by a string")
                     
     # final step: apply all the function transformations
     for f in func_list:

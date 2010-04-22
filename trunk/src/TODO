@@ -16,7 +16,8 @@ What about Seq template class?
 
 - introduce debugging mode so that people know which argument has been converted, which has been not
 
-- build a class name mapper that maps from C++ name to Python name
+- propose to group a major change of representation from 1D array to cv::Vector 
+  and from 2D arrays to list of Vectors
 
 ------------------------------------------
 Making a snapshot release using setuptools:

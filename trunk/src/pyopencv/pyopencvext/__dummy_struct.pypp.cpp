@@ -176,7 +176,9 @@ void register___dummy_struct_class(){
         bp::def("asCvBox2D", &::normal_cast< ::cv::RotatedRect, ::CvBox2D >, (bp::arg("inst_RotatedRect")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Scalar_< double >, ::CvScalar >, (bp::arg("inst_Scalar")));
         bp::def("asCvSlice", &::normal_cast< ::cv::Range, ::CvSlice >, (bp::arg("inst_Range")));
-        bp::def("asCvTermCriteria", &::normal_cast< ::cv::TermCriteria, ::CvTermCriteria >, (bp::arg("inst_TermCriteria")));;
+        bp::def("asCvTermCriteria", &::normal_cast< ::cv::TermCriteria, ::CvTermCriteria >, (bp::arg("inst_TermCriteria")));
+        bp::def("asMat", &::normal_cast< ::cv::SdVector< int >, ::cv::Mat >, (bp::arg("inst_Vector_int")));
+        bp::def("asMat", &::normal_cast< ::cv::SdVector< cv::SdVector< int > >, ::cv::Mat >, (bp::arg("inst_Vector_Vector_int")));;
     }
 
 }
