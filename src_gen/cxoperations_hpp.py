@@ -15,6 +15,7 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
+import common
 
 def generate_code(mb, cc, D, FT, CP):
     cc.write('''
@@ -171,4 +172,49 @@ def generate_code(mb, cc, D, FT, CP):
     c.add_registration_code('def("__radd__", &__radd__<int, CLASS> )' \
         .replace("CLASS", a))
         
-    
+    z = None
+        
+    # Vector
+    Vector_list = [
+        'int',
+        'cv::SdVector< int >',
+    ]
+    for elem in Vector_list:
+        common.register_vec('cv::SdVector', elem, 'Vector_' + common._decls_reg[elem][0])
+        try:
+            cont = False
+            z = mb.class_(lambda x: x.partial_decl_string=='::cv::SdVector< %s >' % elem)
+        except RuntimeError:
+            cont = True
+        if cont:
+            continue
+        mb.init_class(z)
+        # remove typedefs and vars and mem_funs
+        for t in ('value_type', 'iterator', 'const_iterator', 'reference', 
+            'const_reference', 'Hdr', 'begin', 'end', 'set', 'back', 'front', 
+            'push_back', 'pop_back',):
+            z.decls(t).exclude()
+        for t in ('back', 'front'):
+            z.mem_fun(lambda x: x.name==t and 'const' in x.partial_decl_string).exclude()
+        z.decls(lambda x: 'std::vector' in x.partial_decl_string).exclude()
+        # remove share constructors
+        z.constructors(lambda x: len(x.arguments)>1 and \
+            x.arguments[len(x.arguments)-1].name=='_copyData').exclude()
+        # TODO: constructor from Vec to Vector
+        mb.asClass(z, mb.class_('Mat'))
+        
+        # make an iterator
+        z.add_declaration_code('''
+static bp::list iter(%s const &inst)
+{
+    bp::list l;
+    for(int i = 0; i < inst.size(); ++i) l.append(bp::object(inst[i]));
+    return l;
+}        
+        ''' % z.partial_decl_string)
+        z.add_registration_code('def("__iter__", &::iter)')
+        # TODO: make ndarray
+        z.add_registration_code('def("__len__", &%s::size)' % z.partial_decl_string)
+        z.add_registration_code('def("__setitem__", &%s::setitem)' % z.partial_decl_string)
+        mb.finalize_class(z)
+        
