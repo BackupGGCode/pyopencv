@@ -93,7 +93,7 @@ def generate_code(mb, cc, D, FT, CP):
             .replace("CLASS", a))
         
     # Size-like
-    for t in ('Size2i', 'Size2f', 'Size2d'):
+    for t in ('Size2i', 'Size2f'):
         c = mb.class_(lambda x: x.alias==t)
         c.include_files.append("opencv_converters.hpp")
         a = "cv::"+c.alias
@@ -108,7 +108,7 @@ def generate_code(mb, cc, D, FT, CP):
             .replace("CLASS", a).replace("TP1", c.var('width').type.partial_decl_string))
         
     # Rect-like
-    for dtype in ('int', 'float', 'double'):
+    for dtype in ('int',):
         c = mb.class_('::cv::Rect_<%s>' % dtype)
         c.include_files.append("opencv_converters.hpp")
         a = "cv::"+c.alias

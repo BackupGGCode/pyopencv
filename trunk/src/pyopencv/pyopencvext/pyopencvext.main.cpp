@@ -368,8 +368,6 @@
 
 #include "pyopencvext/SelfSimDescriptor.pypp.hpp"
 
-#include "pyopencvext/Size2d.pypp.hpp"
-
 #include "pyopencvext/Size2f.pypp.hpp"
 
 #include "pyopencvext/Size2i.pypp.hpp"
@@ -1982,12 +1980,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_SVD_class();
 
     register_SelfSimDescriptor_class();
-
-    register_Size2d_class();
-
-    bp::implicitly_convertible< cv::Size_< double >, CvSize >();
-
-    bp::implicitly_convertible< cv::Size_< double >, CvSize2D32f >();
 
     register_Size2f_class();
 
@@ -5225,8 +5217,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::def("asSize2i", &sdcpp::from_ndarray< cv::Size2i >, (bp::arg("inst_ndarray")) );
 
     bp::def("asSize2f", &sdcpp::from_ndarray< cv::Size2f >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asSize2d", &sdcpp::from_ndarray< cv::Size2d >, (bp::arg("inst_ndarray")) );
 
     bp::def("asRect", &sdcpp::from_ndarray< cv::Rect >, (bp::arg("inst_ndarray")) );
 

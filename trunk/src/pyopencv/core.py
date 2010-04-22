@@ -1573,39 +1573,6 @@ def _Size2f__repr__(self):
 Size2f.__repr__ = _Size2f__repr__
         
         
-_str = "\n    Creates a Size2d view on an ndarray instance."
-if Size2d.from_ndarray.__doc__ is None:
-    Size2d.from_ndarray.__doc__ = _str
-else:
-    Size2d.from_ndarray.__doc__ += _str
-
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Size2d that shares the same data with an ndarray instance, use:\n        'Size2d.from_ndarray(a)' or 'asSize2d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Size2d.__doc__ is None:
-    Size2d.__doc__ = _str
-else:
-    Size2d.__doc__ += _str
-    
-def _Size2d__getitem__(self, *args, **kwds):
-    return self.ndarray.__getitem__(*args, **kwds)
-Size2d.__getitem__ = _Size2d__getitem__
-            
-def _Size2d__setitem__(self, *args, **kwds):
-    return self.ndarray.__setitem__(*args, **kwds)
-Size2d.__setitem__ = _Size2d__setitem__
-            
-def _Size2d__getslice__(self, *args, **kwds):
-    return self.ndarray.__getslice__(*args, **kwds)
-Size2d.__getslice__ = _Size2d__getslice__
-            
-def _Size2d__setslice__(self, *args, **kwds):
-    return self.ndarray.__setslice__(*args, **kwds)
-Size2d.__setslice__ = _Size2d__setslice__
-        
-def _Size2d__repr__(self):
-    return "Size2d(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
-Size2d.__repr__ = _Size2d__repr__
-        
-        
 Size = Size2i
     
 _str = "\n    Creates a Rect view on an ndarray instance."
