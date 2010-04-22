@@ -632,7 +632,7 @@ static bp::object my_size(cv::SparseMat const &inst, int i = -1)
     z.operator(lambda x: x.name.endswith('float')).rename('as_float32')
     z.operator(lambda x: x.name.endswith('double')).rename('as_float64')
     z.operator(lambda x: x.name.endswith('string')).rename('as_str')
-    for t in ('readObj', 'readRaw', 'begin', 'end', 'fs', 'node'):
+    for t in ('readObj', 'readRaw', 'begin', 'end', 'fs', 'node', 'rawDataSize'):
         z.decl(t).exclude()
     z.add_declaration_code('''
 static bp::tuple children(cv::FileNode const &inst)
