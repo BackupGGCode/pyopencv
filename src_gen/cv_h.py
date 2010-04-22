@@ -26,24 +26,25 @@ def generate_code(mb, cc, D, FT, CP):
 
     # Data Structures in cv.h
     # pointers which are not Cv... * are excluded until further requested
-    for z in (
+    for t in (
         'CvSURFPoint', 
         'CvMSERParams', 
         'CvStarKeypoint',
         'CvPOSITObject',
         ):
-        k = mb.class_(z)
-        k.include()
+        z = mb.class_(t)
+        mb.init_class(z)
         try:
-            vv = k.vars()
+            vv = z.vars()
         except RuntimeError:
             vv = []
         for v in vv:
             if D.is_pointer(v.type):
                 if 'Cv' in v.type.decl_string:
-                    FT.expose_member_as_pointee(k, v.name)
+                    FT.expose_member_as_pointee(z, v.name)
                 else:
                     v.exclude()
+        mb.finalize_class(z)
 
 
     # Image Processing
@@ -515,11 +516,12 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
 
     # CvStereoGCState
     z = mb.class_('CvStereoGCState')
-    z.include()
+    mb.init_class(z)
     for t in (
         'left', 'right', 'dispLeft', 'dispRight', 'ptrLeft', 'ptrRight', 'vtxBuf', 'edgeBuf',
         ):
         z.var(t).exclude() # TODO: fix this
+    mb.finalize_class(z)
     mb.insert_del_interface('CvStereoGCState', '_PE._cvReleaseStereoGCState')
     
     z = mb.free_fun('cvReleaseStereoGCState')

@@ -177,10 +177,11 @@ CV_DISPARITY_BIRCHFIELD  = 0
 
     # CvConDensation
     z = mb.class_('CvConDensation')
-    z.include()
+    mb.init_class(z)
     for arg in z.vars():
         if D.is_pointer(arg.type):
             arg.exclude() # wait until requested
+    mb.finalize_class(z)
     mb.insert_del_interface('CvConDensation', '_PE._cvReleaseConDensation')
 
     for z in (

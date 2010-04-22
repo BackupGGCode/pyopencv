@@ -127,8 +127,11 @@ def remove_ptr( type_ ):
 
 
 # some doc functions
-def doc_common(func, func_arg, type_str):
+def doc_common(func, func_arg, type_str=None):
     common.add_func_arg_doc(func, func_arg, "C/C++ type: %s." % func_arg.type.partial_decl_string)
+    if type_str is None:
+        new_type = _D.remove_const(_D.remove_reference(func_arg.type))
+        type_str = common.get_decl_equivname(new_type.partial_decl_string[2:])
     common.add_func_arg_doc(func, func_arg, "Python type: %s." % type_str)
 
 
@@ -144,7 +147,7 @@ def doc_Mat(func, func_arg, from_list=False):
         common.add_func_arg_doc(func, func_arg, "Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. asMat([0,1,2]) or asMat((0,1,2)).")
 
 def doc_list(func, func_arg):
-    doc_common(func, func_arg, "list")
+    doc_common(func, func_arg)
     common.add_func_arg_doc(func, func_arg, "To convert a Mat into a list, invoke one of Mat's member functions to_list_of_...().")
     
 def doc_output(func, func_arg):
@@ -193,7 +196,8 @@ class input_double_pointee_t(transformer_t):
             casting_code = 'reinterpret_cast< %s >( & tmp_%s )' % (self.arg.type, w_arg.name)
             controller.modify_arg_expression(self.arg_index, casting_code)
         # documentation
-        doc_common(self.function, self.arg, "Python equivalence of the C/C++ type without double pointer")
+        doc_common(self.function, self.arg, 
+            common.get_decl_equivname(_D.remove_const(w_arg.type.partial_decl_string[2:])))
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -440,8 +444,11 @@ class input_array2d_t(transformer.transformer_t):
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         w_arg.type = _D.dummy_type_t( "bp::object const &" )
-        doc_common(self.function, self.arg, "2d list")
-        common.add_func_arg_doc(self.function, self.arg, "Depending on its C++ argument type, it should be a list of Mats or a list of lists.")
+        str = _D.remove_const(self.array_item_type).partial_decl_string
+        if str.startswith('::'):
+            str = str[2:]
+        str = "std::vector< std::vector< %s > >" % str
+        doc_common(self.function, self.arg, common.get_decl_equivname(str))
 
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
             w_arg.default_value = 'bp::object()'

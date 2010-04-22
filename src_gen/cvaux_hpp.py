@@ -15,6 +15,8 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
+import common
+
 def generate_code(mb, cc, D, FT, CP):
     cc.write('''
 #=============================================================================
@@ -43,13 +45,13 @@ def generate_code(mb, cc, D, FT, CP):
     # CvFuzzyPoint
     z = mb.class_('CvFuzzyPoint')
     mb.init_class(z)
-    mb.register_vec('std::vector', 'CvFuzzyPoint', 'vector_CvFuzzyPoint')    
+    common.register_vec('std::vector', 'CvFuzzyPoint', 'vector_CvFuzzyPoint')    
     mb.finalize_class(z)
     
     # CvFuzzyCurve
     z = mb.class_('CvFuzzyCurve')
     mb.init_class(z)
-    mb.register_vec('std::vector', 'CvFuzzyCurve', 'vector_CvFuzzyCurve')
+    common.register_vec('std::vector', 'CvFuzzyCurve', 'vector_CvFuzzyCurve')
     mb.finalize_class(z)
     
     # CvFuzzyFunction
@@ -63,7 +65,7 @@ def generate_code(mb, cc, D, FT, CP):
     z = mb.class_('CvFuzzyRule')
     mb.init_class(z)
     z.decls().exclude()
-    mb.register_vec('std::vector', 'CvFuzzyRule*', 'vector_CvFuzzyRule_Ptr')
+    common.register_vec('std::vector', 'CvFuzzyRule*', 'vector_CvFuzzyRule_Ptr')
     mb.finalize_class(z)
     
     # CvFuzzyController
@@ -82,7 +84,7 @@ def generate_code(mb, cc, D, FT, CP):
     z = mb.class_('Octree')
     z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
-    mb.register_vec('std::vector', 'cv::Octree::Node', 'vector_Octree_Node')
+    common.register_vec('std::vector', 'cv::Octree::Node', 'vector_Octree_Node')
     z.mem_fun('getPointsWithinSphere')._transformer_creators.append(FT.arg_std_vector('points', 2))
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
     z.mem_fun('getNodes').exclude()
@@ -176,7 +178,7 @@ YAPE = LDetector
     z = mb.class_('FernClassifier')
     z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
-    mb.register_vec('std::vector', 'cv::FernClassifier::Feature', 'vector_FernClassifier_Feature')
+    common.register_vec('std::vector', 'cv::FernClassifier::Feature', 'vector_FernClassifier_Feature')
     for t in z.operators('()'):
         t._transformer_creators.append(FT.arg_std_vector('signature', 2))
     z.constructor(lambda x: len(x.arguments) > 5).exclude()

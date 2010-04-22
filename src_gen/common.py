@@ -16,10 +16,13 @@
 # ----------------------------------------------------------------------------
 
 import re as _re
+import os.path as OP
 
 # -----------------------------------------------------------------------------------------------
 # Some useful common-ground sub-routines
 # -----------------------------------------------------------------------------------------------
+
+mb = None
 
 def init_transformers(func_list):
     for fun in func_list:
@@ -343,5 +346,89 @@ def add_decl_desc(decl):
         
     for i in xrange(desc_count-1, -1, -1):
         add_decl_boost_doc(decl, desc_list[i], False)
+
+
+        
+_decls_reg = {}
     
-    
+# pds = partial_decl_string without the preceeding '::'
+def register_decl(pyName, pds, cChildName_pds=None, pyEquivName=None):
+    if '::' in pds: # assume it is a class
+        print "Registering class %s as %s..." % (pds, pyName)
+        try:
+            mb.class_(lambda x: x.partial_decl_string=='::'+pds).rename(pyName)
+        except RuntimeError:
+            # print "Class %s does not exist." % pds
+            pass
+    _decls_reg[pds] = (pyName, cChildName_pds, pyEquivName)
+
+# vector template instantiation
+# cName_pds : C name of the class without template element(s)
+# cChildName_pds : C name of the class without template element(s)
+# e.g. if partial_decl_string is '::std::vector<int>' then 
+#    cName_pds='std::vector'
+#    cChildName_pds='int'
+def register_vec(cName_pds, cChildName_pds, pyName=None, pds=None, pyEquivName=None):
+    if pyName is None:
+        pyName = cName_pds[cName_pds.rfind(':')+1:] + '_' + _decls_reg[cChildName_pds][0]
+    if pds is None:
+        pds = cName_pds + '< ' + cChildName_pds + ' >'
+    register_decl(pyName, pds, cChildName_pds, pyEquivName)
+
+# non-vector template instantiation
+# cName_pds : C name of the class without template element(s)
+# cElemNames_pds : list of the C names of the template element(s)
+# numbers are represented as int, not as str
+# e.g. if partial_decl_string is '::cv::Vec<int, 4>' then 
+#    cName_pds='cv::Vec'
+#    cChildName_pds=['int', 4]
+def register_ti(cName_pds, cElemNames_pds=[], pyName=None, pds=None):
+    if pyName is None:
+        pyName = cName_pds[cName_pds.rfind(':')+1:]
+        for elem in cElemNames_pds:
+            pyName += '_' + (str(elem) if isinstance(elem, int) else _decls_reg[elem][0])
+    if pds is None:
+        pds = cName_pds
+        if len(cElemNames_pds)>0:
+            pds += '< '            
+            for elem in cElemNames_pds:
+                pds += (str(elem) if isinstance(elem, int) else elem) + ', '
+            pds = pds[:-2] + ' >'
+    register_decl(pyName, pds)
+
+def get_decl_equivname(pds):
+    z = _decls_reg[pds]
+    if z[2] is not None:
+        return z[2]
+    if z[1] is not None:
+        return "list of "+get_decl_equivname(z[1])
+    return z[0]
+
+def prepare_decls_registration_code():
+    str = '''#ifndef SD_TEMPLATE_INSTANTIATIONS_H
+#define SD_TEMPLATE_INSTANTIATIONS_H
+
+class dummy_struct {
+public:
+    struct dummy_struct2 {};
+'''
+
+    pdss = _decls_reg.keys()
+    for i in xrange(len(pdss)):
+        if '<' in pdss[i]: # only instantiate those that need to
+            str += '    static int const var%d = sizeof(%s);\n' % (i, pdss[i])
+
+    str += '''};
+
+#endif
+'''
+    str2 = ""
+    file_path = OP.join('pyopencvext', 'core', 'template_instantiations.hpp')
+    if OP.exists(file_path):
+        f = open(file_path, 'rt')
+        str2 = f.read(-1)
+    if str2!=str:
+        f = open(file_path, 'wt')
+        f.write(str)
+        print "Warning: File 'template_instantiations.hpp' has been modified. Run 'codegen.py' again."
+
