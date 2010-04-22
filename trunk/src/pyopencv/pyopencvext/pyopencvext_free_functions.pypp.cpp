@@ -3857,7 +3857,7 @@ void register_free_functions(){
 
     { //::sdopencv::patchBasedStdDev
     
-        typedef void ( *patchBasedStdDev_function_type )( ::cv::Mat const &,::cv::Size_< int > const &,::cv::Mat & );
+        typedef void ( *patchBasedStdDev_function_type )( ::cv::Mat const &,::cv::Size const &,::cv::Mat & );
         
         bp::def( 
             "patchBasedStdDev"

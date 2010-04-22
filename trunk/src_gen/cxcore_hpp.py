@@ -37,10 +37,19 @@ def generate_code(mb, cc, D, FT, CP):
         'd': 'double',
     }
     
+    Vec_dict = {
+        2: 'bswifd',
+        3: 'bswifd',
+        4: 'bswifd',
+        6: 'fd',
+    }
+    
+    Point_dict = 'ifd'
+    
     # Vec et al
-    for suffix in dtype_dict:
-        for i in xrange(2,5):
-            mb.class_('::cv::Vec<%s, %i>' % (dtype_dict[suffix], i)).rename('Vec%d%s' % (i, suffix))
+    for i in Vec_dict.keys():
+        for suffix in Vec_dict[i]:
+            mb.register_ti('cv::Vec', [dtype_dict[suffix], i], 'Vec%d%s' % (i, suffix))
     zz = mb.classes(lambda z: z.name.startswith('Vec<'))
     for z in zz:
         mb.init_class(z)
@@ -53,17 +62,13 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         '''.replace('KLASS', z.alias))
         mb.finalize_class(z)
-    mb.dtypecast(['::cv::Vec<%s, 2>' % x \
-        for x in ['unsigned char', 'short', 'unsigned short', 'int', 'float', 'double']])
-    mb.dtypecast(['::cv::Vec<%s, 3>' % x \
-        for x in ['unsigned char', 'short', 'unsigned short', 'int', 'float', 'double']])
-    mb.dtypecast(['::cv::Vec<%s, 4>' % x \
-        for x in ['unsigned char', 'short', 'unsigned short', 'int', 'float', 'double']])
-    mb.dtypecast(['::cv::Vec<%s, 6>' % x for x in ['float', 'double']])
+    for i in Vec_dict.keys():
+        mb.dtypecast(['::cv::Vec<%s, %d>' % (dtype_dict[suffix], i) for suffix in Vec_dict[i]])
         
     # Complex et al
-    zz = mb.classes(lambda z: z.name.startswith('Complex<'))
-    for z in zz:
+    for suffix in Vec_dict[6]:
+        mb.register_ti('cv::Complex', [dtype_dict[suffix]], 'Complex%s' % suffix)
+    for z in mb.classes(lambda z: z.name.startswith('Complex<')):
         mb.init_class(z)
         z.decls(lambda t: 'std::complex' in t.decl_string).exclude() # no std::complex please
         cc.write('''
@@ -72,16 +77,17 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         '''.replace('KLASS', z.alias))
         mb.finalize_class(z)
-    mb.dtypecast(['::cv::Complex<%s>' % x for x in ['float', 'double']])
+    mb.dtypecast(['::cv::Complex<%s>' % dtype_dict[suffix] for suffix in Vec_dict[6]])
     
     # Point et al
-    mb.class_('::cv::Point_<int>').rename('Point2i')
-    for t in ('int', 'float', 'double'):
-        z = mb.class_('Point_<%s>' % t)
+    for suffix in Point_dict:
+        alias = 'Point2%s' % suffix
+        mb.register_ti('cv::Point_', [dtype_dict[suffix]], alias)
+        z = mb.class_(lambda x: x.alias==alias)
         mb.init_class(z)
         mb.asClass(z, mb.class_('CvPoint'))
         mb.asClass(z, mb.class_('CvPoint2D32f'))
-        mb.asClass(z, mb.class_('Vec<%s, 2>' % t)) 
+        mb.asClass(z, mb.class_('Vec<%s, 2>' % dtype_dict[suffix])) 
         cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
@@ -95,15 +101,16 @@ KLASS.__repr__ = _KLASS__repr__
 Point = Point2i
 asPoint = asPoint2i
     ''')
-    mb.dtypecast(['::cv::Point_<%s>' % x for x in ['int', 'float', 'double']])
+    mb.dtypecast(['::cv::Point_<%s>' % dtype_dict[suffix] for suffix in Point_dict])
     
     # Point3 et al
-    mb.class_('::cv::Point3_<float>').rename('Point3f')
-    for t in ('int', 'float', 'double'):
-        z = mb.class_('Point3_<%s>' % t)
+    for suffix in Point_dict:
+        alias = 'Point3%s' % suffix
+        mb.register_ti('cv::Point3_', [dtype_dict[suffix]], alias)
+        z = mb.class_(lambda x: x.alias==alias)
         mb.init_class(z)
         mb.asClass(z, mb.class_('CvPoint3D32f'))
-        mb.asClass(z, mb.class_('Vec<%s, 3>' % t))
+        mb.asClass(z, mb.class_('Vec<%s, 3>' % dtype_dict[suffix]))
         mb.add_ndarray_interface(z)
         cc.write('''
 def _KLASS__repr__(self):
@@ -112,12 +119,13 @@ KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
         mb.finalize_class(z)
-    mb.dtypecast(['::cv::Point3_<%s>' % x for x in ['int', 'float', 'double']])
+    mb.dtypecast(['::cv::Point3_<%s>' % dtype_dict[suffix] for suffix in Point_dict])
     
     # Size et al
-    mb.class_('::cv::Size_<int>').rename('Size2i')
-    zz = mb.classes(lambda z: z.name.startswith('Size_<'))
-    for z in zz:
+    for suffix in Point_dict:
+        alias = 'Size2%s' % suffix
+        mb.register_ti('cv::Size_', [dtype_dict[suffix]], alias)
+        z = mb.class_(lambda x: x.alias==alias)
         mb.init_class(z)
         mb.asClass(z, mb.class_('CvSize'))
         mb.asClass(z, mb.class_('CvSize2D32f'))
@@ -129,29 +137,30 @@ KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
         mb.finalize_class(z)
-    mb.dtypecast(['::cv::Size_<%s>' % x for x in ['int', 'float', 'double']])
+    mb.dtypecast(['::cv::Size_<%s>' % dtype_dict[suffix] for suffix in Point_dict])
         
     cc.write('''
 Size = Size2i
     ''')
     
-    # Rect et al
-    zz = mb.classes(lambda z: z.name.startswith('Rect_<'))
-    for z in zz:
-        mb.init_class(z)
-        mb.asClass(z, mb.class_('CvRect'))
-        mb.add_ndarray_interface(z)
-        cc.write('''
+    # Rect
+    mb.register_ti('cv::Rect_', ['int'], 'Rect')
+    z = mb.class_(lambda x: x.alias=='Rect')
+    mb.init_class(z)
+    mb.asClass(z, mb.class_('CvRect'))
+    mb.add_ndarray_interface(z)
+    cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + \\
         ", width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
 KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
-        mb.finalize_class(z)
-    mb.dtypecast(['::cv::Rect_<%s>' % x for x in ['int', 'float', 'double']])
+    mb.finalize_class(z)
+    # mb.dtypecast(['::cv::Rect_<%s>' % dtype_dict[suffix] for suffix in Point_dict])
     
     # RotatedRect
+    mb.register_ti('cv::RotatedRect')
     z = mb.class_('RotatedRect')
     mb.init_class(z)
     mb.asClass(z, mb.class_('CvBox2D'))
@@ -166,13 +175,11 @@ KLASS.__repr__ = _KLASS__repr__
     mb.finalize_class(z)
     
     # Scalar et al
-    zz = mb.classes(lambda z: z.name.startswith('Scalar_<'))
-    for z in zz:
-        mb.init_class(z)
-        mb.asClass(z, mb.class_('CvScalar'))
-        mb.finalize_class(z)
+    mb.register_ti('cv::Scalar_', ['double'], 'Scalar')
     z = mb.class_('::cv::Scalar_<double>')
-    z.rename('Scalar')    
+    mb.init_class(z)
+    mb.asClass(z, mb.class_('CvScalar'))
+    mb.finalize_class(z)
     mb.add_ndarray_interface(z)
     cc.write('''
 def _Scalar__repr__(self):
@@ -181,6 +188,7 @@ Scalar.__repr__ = _Scalar__repr__
     ''')
     
     # Range
+    mb.register_ti('cv::Range')
     z = mb.class_('Range')
     mb.init_class(z)
     mb.asClass(z, mb.class_('CvSlice'))
@@ -194,6 +202,12 @@ KLASS.__repr__ = _KLASS__repr__
     mb.finalize_class(z)
     
     # Ptr -- already exposed by mb.expose_class_Ptr
+    mb.register_ti('cv::FilterEngine')
+    mb.register_ti('cv::Ptr', ['cv::FilterEngine'])
+    mb.register_ti('cv::Mat')
+    mb.register_ti('cv::Ptr', ['cv::Mat'])
+    mb.register_vec('std::vector', 'cv::Ptr< cv::Mat >')
+    
     
     # Mat
     z = mb.class_('Mat')

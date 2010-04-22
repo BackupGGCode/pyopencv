@@ -28,15 +28,21 @@ void register_FileNode_class(){
 
     { //::cv::FileNode
         typedef bp::class_< cv::FileNode > FileNode_exposer_t;
-        FileNode_exposer_t FileNode_exposer = FileNode_exposer_t( "FileNode", bp::init< >("\nThe XML/YAML file node class."
+        FileNode_exposer_t FileNode_exposer = FileNode_exposer_t( "FileNode", "\nThe XML/YAML file node class."
     "\n"
     "\nIn PyOpenCV, FileNode is a Python iterator which iterates over the "
     "\nchild nodes of type FileNode. You can use the read-only attribute "
     "\n'children' to get the list of child nodes, too."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filenode") );
+    "\n    http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filenode", bp::init< >() );
         bp::scope FileNode_scope( FileNode_exposer );
-        FileNode_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::FileNode >() );
+        FileNode_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::FileNode >(), "\nThe XML/YAML file node class."
+    "\n"
+    "\nIn PyOpenCV, FileNode is a Python iterator which iterates over the "
+    "\nchild nodes of type FileNode. You can use the read-only attribute "
+    "\n'children' to get the list of child nodes, too."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filenode" );
         bp::scope().attr("NONE") = (int)cv::FileNode::NONE;
         bp::scope().attr("INT") = (int)cv::FileNode::INT;
         bp::scope().attr("REAL") = (int)cv::FileNode::REAL;
@@ -51,13 +57,7 @@ void register_FileNode_class(){
         bp::scope().attr("USER") = (int)cv::FileNode::USER;
         bp::scope().attr("EMPTY") = (int)cv::FileNode::EMPTY;
         bp::scope().attr("NAMED") = (int)cv::FileNode::NAMED;
-        FileNode_exposer.def( bp::init< cv::FileNode const & >(( bp::arg("_node") ), "\nThe XML/YAML file node class."
-    "\n"
-    "\nIn PyOpenCV, FileNode is a Python iterator which iterates over the "
-    "\nchild nodes of type FileNode. You can use the read-only attribute "
-    "\n'children' to get the list of child nodes, too."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filenode") );
+        FileNode_exposer.def( bp::init< cv::FileNode const & >(( bp::arg("_node") )) );
         { //::cv::FileNode::empty
         
             typedef bool ( ::cv::FileNode::*empty_function_type )(  ) const;

@@ -21,4 +21,11 @@ namespace sdopencv
     };
 }
 
+namespace cv // missing classes in OpenCV 2.1
+{
+    typedef Size_<double> Size2d;
+    typedef Rect_<float> Rectf;
+    typedef Rect_<double> Rectd;
+}
+
 #endif // SDOPENCV_ITERATORS_HPP

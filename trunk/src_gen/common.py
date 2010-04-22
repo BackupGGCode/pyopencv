@@ -290,7 +290,7 @@ dict_decl_name_to_desc = {
     ("FileStorage", "writeRaw"): ("Writes the certain number of elements of the specified format.", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
     ("FileStorage", "writeObj"): ("Writes an old-style object (CvMat, CvMatND etc.).", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
     ("FileStorage", "getDefaultObjectName"): ("Returns the default object name from the filename (used by cvSave() with the default object name etc.).", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"),
-    ("FileNode", "FileNode"): ("The XML/YAML file node class.", "", "In PyOpenCV, FileNode is a Python iterator which iterates over the child nodes of type FileNode. You can use the read-only attribute 'children' to get the list of child nodes, too.", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filenode"),
+    ("cv", "FileNode"): ("The XML/YAML file node class.", "", "In PyOpenCV, FileNode is a Python iterator which iterates over the child nodes of type FileNode. You can use the read-only attribute 'children' to get the list of child nodes, too.", "http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filenode"),
 
     # C++ -- highgui
     ("cv", "createTrackbar"): ("Creates a trackbar and attaches it to the specified window.", "http://opencv.willowgarage.com/documentation/cpp/user_interface.html#cv-createtrackbar"),
@@ -343,4 +343,5 @@ def add_decl_desc(decl):
         
     for i in xrange(desc_count-1, -1, -1):
         add_decl_boost_doc(decl, desc_list[i], False)
+    
     

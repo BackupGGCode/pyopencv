@@ -14,7 +14,7 @@ void register_LineIterator_class(){
     "\nIn PyOpenCV, LineIterator is a Python iterator which returns Point "
     "\n(instead of pixel address as in OpenCV) at every iteration."
     "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#lineiterator", bp::init< cv::Mat const &, cv::Point_< int > const &, cv::Point_< int > const &, bp::optional< int, bool > >(( bp::arg("img"), bp::arg("pt1"), bp::arg("pt2"), bp::arg("connectivity")=(int)(8), bp::arg("leftToRight")=(bool)(false) )) )    
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#lineiterator", bp::init< cv::Mat const &, cv::Point const &, cv::Point const &, bp::optional< int, bool > >(( bp::arg("img"), bp::arg("pt1"), bp::arg("pt2"), bp::arg("connectivity")=(int)(8), bp::arg("leftToRight")=(bool)(false) )) )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< sdopencv::LineIterator >(), "\nClass for iterating pixels on a raster line."
     "\n"
     "\nIn PyOpenCV, LineIterator is a Python iterator which returns Point "
@@ -29,6 +29,6 @@ void register_LineIterator_class(){
     "\n    iter" )    
         .def( 
             "next"
-            , (::cv::Point_< int > ( ::sdopencv::LineIterator::* )(  ) )( &::sdopencv::LineIterator::next ) );
+            , (::cv::Point ( ::sdopencv::LineIterator::* )(  ) )( &::sdopencv::LineIterator::next ) );
 
 }
