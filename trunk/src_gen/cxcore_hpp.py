@@ -656,7 +656,7 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
     z.add_registration_code('def("__iter__", &::children)')
     z.mem_fun('readRaw').exclude()
     # wait until rawDataSize() is implemented
-    z.add_registration_code('def("readRaw", &::readRaw, ( arg("inst"), arg("fmt"), arg("len") ), "Reads raw data. Argument \'vec\' is returned as a Mat.")')
+    z.add_registration_code('def("readRaw", &::readRaw, ( bp::arg("inst"), bp::arg("fmt"), bp::arg("len") ), "Reads raw data. Argument \'vec\' is returned as a Mat.")')
     mb.finalize_class(z)
     
     

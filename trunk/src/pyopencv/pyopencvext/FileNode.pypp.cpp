@@ -201,7 +201,7 @@ void register_FileNode_class(){
         }
         FileNode_exposer.add_property("children", &::children);
         FileNode_exposer.def("__iter__", &::children);
-        FileNode_exposer.def("readRaw", &::readRaw, ( arg("inst"), arg("fmt"), arg("len") ), "Reads raw data. Argument 'vec' is returned as a Mat.");
+        FileNode_exposer.def("readRaw", &::readRaw, ( bp::arg("inst"), bp::arg("fmt"), bp::arg("len") ), "Reads raw data. Argument 'vec' is returned as a Mat.");
     }
 
 }
