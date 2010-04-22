@@ -42,7 +42,7 @@ void register_NAryMatNDIterator_class(){
     "\n    its value is derived from argument 'arrays'."\
     "\nArgument 'arrays':"\
     "\n    C/C++ type: ::cv::MatND const * *."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
+    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]." );
         
         }
         NAryMatNDIterator_exposer.def_readwrite( "nplanes", &cv::NAryMatNDIterator::nplanes );

@@ -2264,7 +2264,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("hist"), bp::arg("backProject"), bp::arg("ranges"), bp::arg("scale")=1, bp::arg("uniform")=(bool)(true) )
             , "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
-    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
+    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'channels':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: Mat."\
@@ -2289,7 +2289,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("hist"), bp::arg("backProject"), bp::arg("ranges"), bp::arg("scale")=1, bp::arg("uniform")=(bool)(true) )
             , "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
-    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
+    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'channels':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: Mat."\
@@ -2350,7 +2350,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    its value is derived from argument 'histSize'."\
     "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
-    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
+    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'nimages':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument 'images'." );
@@ -2383,7 +2383,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    its value is derived from argument 'histSize'."\
     "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
-    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
+    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'nimages':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument 'images'." );

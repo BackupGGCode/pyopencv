@@ -1169,7 +1169,7 @@ class input_as_list_of_Mat_t(transformer_t):
 
 
         # documentation
-        doc_list_of_MatND(self.function, self.arg)
+        doc_list_of_Mat(self.function, self.arg)
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -1249,7 +1249,7 @@ class input_as_list_of_MatND_t(transformer_t):
 
 
         # documentation
-        doc_list_of_Mat(self.function, self.arg)
+        doc_list_of_MatND(self.function, self.arg)
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
