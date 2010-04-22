@@ -2127,7 +2127,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("image"), bp::arg("threshold"), bp::arg("nonmax_supression")=(bool)(true) )
             , "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list."\
+    "\n    Python type: list of KeyPoint."\
     "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
     "\n    to_list_of_...()."\
     "\n    Output argument: omitted from the function's calling sequence, and is "\
@@ -2275,9 +2275,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    its value is derived from argument 'images'."\
     "\nArgument 'ranges':"\
     "\n    C/C++ type: float const * *."\
-    "\n    Python type: 2d list."\
-    "\n    Depending on its C++ argument type, it should be a list of Mats or a "\
-    "\n    list of lists." );
+    "\n    Python type: list of Mat." );
     
     }
 
@@ -2302,9 +2300,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    its value is derived from argument 'images'."\
     "\nArgument 'ranges':"\
     "\n    C/C++ type: float const * *."\
-    "\n    Python type: 2d list."\
-    "\n    Depending on its C++ argument type, it should be a list of Mats or a "\
-    "\n    list of lists." );
+    "\n    Python type: list of Mat." );
     
     }
 
@@ -2338,9 +2334,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), bp::arg("hist"), bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=(bool)(true), bp::arg("accumulate")=(bool)(false) )
             , "\nArgument 'ranges':"\
     "\n    C/C++ type: float const * *."\
-    "\n    Python type: 2d list."\
-    "\n    Depending on its C++ argument type, it should be a list of Mats or a "\
-    "\n    list of lists."\
+    "\n    Python type: list of Mat."\
     "\nArgument 'histSize':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: Mat."\
@@ -2373,9 +2367,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), bp::arg("hist"), bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=(bool)(true), bp::arg("accumulate")=(bool)(false) )
             , "\nArgument 'ranges':"\
     "\n    C/C++ type: float const * *."\
-    "\n    Python type: 2d list."\
-    "\n    Depending on its C++ argument type, it should be a list of Mats or a "\
-    "\n    list of lists."\
+    "\n    Python type: list of Mat."\
     "\nArgument 'histSize':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: Mat."\
@@ -3584,8 +3576,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    cvReleaseConDensation"
     "\nArgument 'condens':"\
     "\n    C/C++ type: ::CvConDensation * *."\
-    "\n    Python type: Python equivalence of the C/C++ type without double "\
-    "\n    pointer." );
+    "\n    Python type: CvConDensation." );
     
     }
 
@@ -3601,8 +3592,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    cvReleaseFileStorage"
     "\nArgument 'fs':"\
     "\n    C/C++ type: ::CvFileStorage * *."\
-    "\n    Python type: Python equivalence of the C/C++ type without double "\
-    "\n    pointer." );
+    "\n    Python type: CvFileStorage." );
     
     }
 
@@ -3618,8 +3608,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    cvReleaseMemStorage"
     "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvMemStorage * *."\
-    "\n    Python type: Python equivalence of the C/C++ type without double "\
-    "\n    pointer." );
+    "\n    Python type: CvMemStorage." );
     
     }
 
@@ -3635,8 +3624,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    cvReleasePOSITObject"
     "\nArgument 'posit_object':"\
     "\n    C/C++ type: ::CvPOSITObject * *."\
-    "\n    Python type: Python equivalence of the C/C++ type without double "\
-    "\n    pointer." );
+    "\n    Python type: CvPOSITObject." );
     
     }
 
@@ -3652,8 +3640,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    cvReleaseStereoGCState"
     "\nArgument 'state':"\
     "\n    C/C++ type: ::CvStereoGCState * *."\
-    "\n    Python type: Python equivalence of the C/C++ type without double "\
-    "\n    pointer." );
+    "\n    Python type: CvStereoGCState." );
     
     }
 
@@ -4205,9 +4192,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    its value is derived from argument 'pts'."\
     "\nArgument 'pts':"\
     "\n    C/C++ type: ::cv::Point const * *."\
-    "\n    Python type: 2d list."\
-    "\n    Depending on its C++ argument type, it should be a list of Mats or a "\
-    "\n    list of lists." );
+    "\n    Python type: list of Mat." );
     
     }
 
@@ -4782,9 +4767,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    its value is derived from argument 'pts'."\
     "\nArgument 'pts':"\
     "\n    C/C++ type: ::cv::Point const * *."\
-    "\n    Python type: 2d list."\
-    "\n    Depending on its C++ argument type, it should be a list of Mats or a "\
-    "\n    list of lists." );
+    "\n    Python type: list of Mat." );
     
     }
 
@@ -4838,7 +4821,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    read"
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list."\
+    "\n    Python type: list of KeyPoint."\
     "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
     "\n    to_list_of_...()."\
     "\n    Output argument: omitted from the function's calling sequence, and is "\
@@ -5154,7 +5137,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    write"
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > const &."\
-    "\n    Python type: list."\
+    "\n    Python type: list of KeyPoint."\
     "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
     "\n    to_list_of_...()." );
     

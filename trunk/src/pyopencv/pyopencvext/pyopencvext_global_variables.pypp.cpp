@@ -8,6 +8,16 @@ namespace bp = boost::python;
 
 void register_global_variables(){
 
+    bp::scope().attr("BORDER_REPLICATE") = (int)cv::BORDER_REPLICATE;
+    bp::scope().attr("BORDER_CONSTANT") = (int)cv::BORDER_CONSTANT;
+    bp::scope().attr("BORDER_REFLECT") = (int)cv::BORDER_REFLECT;
+    bp::scope().attr("BORDER_REFLECT_101") = (int)cv::BORDER_REFLECT_101;
+    bp::scope().attr("BORDER_REFLECT101") = (int)cv::BORDER_REFLECT101;
+    bp::scope().attr("BORDER_WRAP") = (int)cv::BORDER_WRAP;
+    bp::scope().attr("BORDER_TRANSPARENT") = (int)cv::BORDER_TRANSPARENT;
+    bp::scope().attr("BORDER_DEFAULT") = (int)cv::BORDER_DEFAULT;
+    bp::scope().attr("BORDER_ISOLATED") = (int)cv::BORDER_ISOLATED;
+
     bp::scope().attr("MORPH_ERODE") = (int)cv::MORPH_ERODE;
     bp::scope().attr("MORPH_DILATE") = (int)cv::MORPH_DILATE;
     bp::scope().attr("MORPH_OPEN") = (int)cv::MORPH_OPEN;
@@ -16,15 +26,24 @@ void register_global_variables(){
     bp::scope().attr("MORPH_TOPHAT") = (int)cv::MORPH_TOPHAT;
     bp::scope().attr("MORPH_BLACKHAT") = (int)cv::MORPH_BLACKHAT;
 
-    bp::scope().attr("MORPH_RECT") = (int)cv::MORPH_RECT;
-    bp::scope().attr("MORPH_CROSS") = (int)cv::MORPH_CROSS;
-    bp::scope().attr("MORPH_ELLIPSE") = (int)cv::MORPH_ELLIPSE;
+    bp::scope().attr("THRESH_BINARY") = (int)cv::THRESH_BINARY;
+    bp::scope().attr("THRESH_BINARY_INV") = (int)cv::THRESH_BINARY_INV;
+    bp::scope().attr("THRESH_TRUNC") = (int)cv::THRESH_TRUNC;
+    bp::scope().attr("THRESH_TOZERO") = (int)cv::THRESH_TOZERO;
+    bp::scope().attr("THRESH_TOZERO_INV") = (int)cv::THRESH_TOZERO_INV;
+    bp::scope().attr("THRESH_MASK") = (int)cv::THRESH_MASK;
+    bp::scope().attr("THRESH_OTSU") = (int)cv::THRESH_OTSU;
 
     bp::scope().attr("LMEDS") = (int)cv::LMEDS;
     bp::scope().attr("RANSAC") = (int)cv::RANSAC;
 
     bp::scope().attr("OPTFLOW_USE_INITIAL_FLOW") = (int)cv::OPTFLOW_USE_INITIAL_FLOW;
     bp::scope().attr("OPTFLOW_FARNEBACK_GAUSSIAN") = (int)cv::OPTFLOW_FARNEBACK_GAUSSIAN;
+
+    bp::scope().attr("GC_BGD") = (int)cv::GC_BGD;
+    bp::scope().attr("GC_FGD") = (int)cv::GC_FGD;
+    bp::scope().attr("GC_PR_BGD") = (int)cv::GC_PR_BGD;
+    bp::scope().attr("GC_PR_FGD") = (int)cv::GC_PR_FGD;
 
     bp::scope().attr("MAGIC_MASK") = (int)cv::MAGIC_MASK;
     bp::scope().attr("TYPE_MASK") = (int)cv::TYPE_MASK;
@@ -83,14 +102,6 @@ void register_global_variables(){
     bp::scope().attr("KERNEL_SMOOTH") = (int)cv::KERNEL_SMOOTH;
     bp::scope().attr("KERNEL_INTEGER") = (int)cv::KERNEL_INTEGER;
 
-    bp::scope().attr("THRESH_BINARY") = (int)cv::THRESH_BINARY;
-    bp::scope().attr("THRESH_BINARY_INV") = (int)cv::THRESH_BINARY_INV;
-    bp::scope().attr("THRESH_TRUNC") = (int)cv::THRESH_TRUNC;
-    bp::scope().attr("THRESH_TOZERO") = (int)cv::THRESH_TOZERO;
-    bp::scope().attr("THRESH_TOZERO_INV") = (int)cv::THRESH_TOZERO_INV;
-    bp::scope().attr("THRESH_MASK") = (int)cv::THRESH_MASK;
-    bp::scope().attr("THRESH_OTSU") = (int)cv::THRESH_OTSU;
-
     bp::scope().attr("INPAINT_NS") = (int)cv::INPAINT_NS;
     bp::scope().attr("INPAINT_TELEA") = (int)cv::INPAINT_TELEA;
 
@@ -99,15 +110,9 @@ void register_global_variables(){
     bp::scope().attr("RETR_CCOMP") = (int)cv::RETR_CCOMP;
     bp::scope().attr("RETR_TREE") = (int)cv::RETR_TREE;
 
-    bp::scope().attr("BORDER_REPLICATE") = (int)cv::BORDER_REPLICATE;
-    bp::scope().attr("BORDER_CONSTANT") = (int)cv::BORDER_CONSTANT;
-    bp::scope().attr("BORDER_REFLECT") = (int)cv::BORDER_REFLECT;
-    bp::scope().attr("BORDER_REFLECT_101") = (int)cv::BORDER_REFLECT_101;
-    bp::scope().attr("BORDER_REFLECT101") = (int)cv::BORDER_REFLECT101;
-    bp::scope().attr("BORDER_WRAP") = (int)cv::BORDER_WRAP;
-    bp::scope().attr("BORDER_TRANSPARENT") = (int)cv::BORDER_TRANSPARENT;
-    bp::scope().attr("BORDER_DEFAULT") = (int)cv::BORDER_DEFAULT;
-    bp::scope().attr("BORDER_ISOLATED") = (int)cv::BORDER_ISOLATED;
+    bp::scope().attr("MORPH_RECT") = (int)cv::MORPH_RECT;
+    bp::scope().attr("MORPH_CROSS") = (int)cv::MORPH_CROSS;
+    bp::scope().attr("MORPH_ELLIPSE") = (int)cv::MORPH_ELLIPSE;
 
     bp::scope().attr("INTER_NEAREST") = (int)cv::INTER_NEAREST;
     bp::scope().attr("INTER_LINEAR") = (int)cv::INTER_LINEAR;
@@ -131,11 +136,6 @@ void register_global_variables(){
 
     bp::scope().attr("ADAPTIVE_THRESH_MEAN_C") = (int)cv::ADAPTIVE_THRESH_MEAN_C;
     bp::scope().attr("ADAPTIVE_THRESH_GAUSSIAN_C") = (int)cv::ADAPTIVE_THRESH_GAUSSIAN_C;
-
-    bp::scope().attr("GC_BGD") = (int)cv::GC_BGD;
-    bp::scope().attr("GC_FGD") = (int)cv::GC_FGD;
-    bp::scope().attr("GC_PR_BGD") = (int)cv::GC_PR_BGD;
-    bp::scope().attr("GC_PR_FGD") = (int)cv::GC_PR_FGD;
 
     bp::scope().attr("GC_INIT_WITH_RECT") = (int)cv::GC_INIT_WITH_RECT;
     bp::scope().attr("GC_INIT_WITH_MASK") = (int)cv::GC_INIT_WITH_MASK;

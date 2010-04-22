@@ -45,7 +45,7 @@ void register_LDetector_class(){
             , ( bp::arg("inst"), bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") )
             , "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list."\
+    "\n    Python type: list of KeyPoint."\
     "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
     "\n    to_list_of_...()." )    
         .def( 
@@ -56,7 +56,7 @@ void register_LDetector_class(){
     "\n    operator()"
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list."\
+    "\n    Python type: list of KeyPoint."\
     "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
     "\n    to_list_of_...()."\
     "\n    Output argument: omitted from the function's calling sequence, and is "\
@@ -72,7 +72,7 @@ void register_LDetector_class(){
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list."\
+    "\n    Python type: list of KeyPoint."\
     "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
     "\n    to_list_of_...()."\
     "\n    Output argument: omitted from the function's calling sequence, and is "\

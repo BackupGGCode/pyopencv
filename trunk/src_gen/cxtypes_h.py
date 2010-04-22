@@ -15,6 +15,7 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
+import common
 
 def expose_CvSeq_members(z, FT):
     z.include()
@@ -50,24 +51,24 @@ def generate_code(mb, cc, D, FT, CP):
     # CvArr
     # mb.class_('CvArr').include()
     
-    mb.register_decl('int8', 'char')
-    mb.register_decl('int8', 'signed char')
-    mb.register_decl('int8', 'schar')
-    mb.register_decl('uint8', 'unsigned char')
-    mb.register_decl('uint8', 'uchar')
-    mb.register_decl('int16', 'short')
-    mb.register_decl('uint16', 'unsigned short')
-    mb.register_decl('uint16', 'short unsigned int')
-    mb.register_decl('uint16', 'ushort')
-    mb.register_decl('int', 'int')
-    mb.register_decl('uint', 'unsigned int')
-    mb.register_decl('long', 'long')
-    mb.register_decl('ulong', 'unsigned long')
-    mb.register_decl('int64', 'long long')
-    mb.register_decl('uint64', 'unsigned long long')
-    mb.register_decl('float32', 'float')
-    mb.register_decl('float64', 'double')
-
+    common.register_decl('int8', 'char')
+    common.register_decl('int8', 'signed char')
+    common.register_decl('int8', 'schar')
+    common.register_decl('uint8', 'unsigned char')
+    common.register_decl('uint8', 'uchar')
+    common.register_decl('int16', 'short')
+    common.register_decl('uint16', 'unsigned short')
+    common.register_decl('uint16', 'short unsigned int')
+    common.register_decl('uint16', 'ushort')
+    common.register_decl('int', 'int')
+    common.register_decl('uint', 'unsigned int')
+    common.register_decl('long', 'long')
+    common.register_decl('ulong', 'unsigned long')
+    common.register_decl('int64', 'long long')
+    common.register_decl('uint64', 'unsigned long long')
+    common.register_decl('float32', 'float')
+    common.register_decl('float64', 'double')
+    
     cc.write('''
 #-----------------------------------------------------------------------------
 # Common macros and inline functions
@@ -380,9 +381,10 @@ CV_TYPE_NAME_GRAPH = "opencv-graph"
 
     # CvMemStorage
     z = mb.class_('CvMemStorage')
-    z.include()
+    mb.init_class(z)
     for t in ('bottom', 'top', 'parent'):
         FT.expose_member_as_pointee(z, t)
+    mb.finalize_class(z)
     mb.insert_del_interface('CvMemStorage', '_PE._cvReleaseMemStorage')
 
     # CvMemStoragePos
@@ -618,6 +620,7 @@ def CV_NODE_SEQ_IS_SIMPLE(seq):
     ''')
 
     # CvFileStorage
+    common.register_ti('CvFileStorage')
     # z = mb.class_('CvFileStorage')
     # z.include()
     # mb.insert_del_interface('CvFileStorage', '_PE._cvReleaseFileStorage')

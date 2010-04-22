@@ -15,6 +15,7 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
+import common
 
 def generate_code(mb, cc, D, FT, CP):
     cc.write('''
@@ -46,33 +47,33 @@ def generate_code(mb, cc, D, FT, CP):
     
     Point_dict = 'ifd'
     
-    mb.register_ti('cv::Mat')
-    mb.register_vec('std::vector', 'char', 'vector_int8', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'unsigned char', 'vector_uint8', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'short', 'vector_int16', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'unsigned short', 'vector_uint16', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'int', 'vector_int', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'unsigned int', 'vector_uint', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'long', 'vector_long', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'unsigned long', 'vector_ulong', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'long long', 'vector_int64', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'unsigned long long', 'vector_uint64', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'float', 'vector_float32', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'double', 'vector_float64', pyEquivName='Mat')
-    mb.register_vec('std::vector', 'unsigned char *', 'vector_string')
-    mb.register_vec('std::vector', 'std::vector< int >', 'vector_vector_int')
-    mb.register_vec('std::vector', 'std::vector< float >', 'vector_vector_float32')
+    common.register_ti('cv::Mat')
+    common.register_vec('std::vector', 'char', 'vector_int8', pyEquivName='Mat')
+    common.register_vec('std::vector', 'unsigned char', 'vector_uint8', pyEquivName='Mat')
+    common.register_vec('std::vector', 'short', 'vector_int16', pyEquivName='Mat')
+    common.register_vec('std::vector', 'unsigned short', 'vector_uint16', pyEquivName='Mat')
+    common.register_vec('std::vector', 'int', 'vector_int', pyEquivName='Mat')
+    common.register_vec('std::vector', 'unsigned int', 'vector_uint', pyEquivName='Mat')
+    common.register_vec('std::vector', 'long', 'vector_long', pyEquivName='Mat')
+    common.register_vec('std::vector', 'unsigned long', 'vector_ulong', pyEquivName='Mat')
+    common.register_vec('std::vector', 'long long', 'vector_int64', pyEquivName='Mat')
+    common.register_vec('std::vector', 'unsigned long long', 'vector_uint64', pyEquivName='Mat')
+    common.register_vec('std::vector', 'float', 'vector_float32', pyEquivName='Mat')
+    common.register_vec('std::vector', 'double', 'vector_float64', pyEquivName='Mat')
+    common.register_vec('std::vector', 'unsigned char *', 'vector_string')
+    common.register_vec('std::vector', 'std::vector< int >', 'vector_vector_int')
+    common.register_vec('std::vector', 'std::vector< float >', 'vector_vector_float32')
     
 
     # Vec et al
     for i in Vec_dict.keys():
         for suffix in Vec_dict[i]:
-            mb.register_ti('cv::Vec', [dtype_dict[suffix], i], 'Vec%d%s' % (i, suffix))
+            common.register_ti('cv::Vec', [dtype_dict[suffix], i], 'Vec%d%s' % (i, suffix))
     zz = mb.classes(lambda z: z.name.startswith('Vec<'))
     for z in zz:
         mb.init_class(z)
-        mb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-        mb.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
+        common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+        common.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
         mb.asClass(z, mb.class_('CvScalar'))
         z.decl('val').exclude() # use operator[] instead
         mb.add_ndarray_interface(z)
@@ -87,7 +88,7 @@ KLASS.__repr__ = _KLASS__repr__
         
     # Complex et al
     for suffix in Vec_dict[6]:
-        mb.register_ti('cv::Complex', [dtype_dict[suffix]], 'Complex%s' % suffix)
+        common.register_ti('cv::Complex', [dtype_dict[suffix]], 'Complex%s' % suffix)
     for z in mb.classes(lambda z: z.name.startswith('Complex<')):
         mb.init_class(z)
         z.decls(lambda t: 'std::complex' in t.decl_string).exclude() # no std::complex please
@@ -102,11 +103,11 @@ KLASS.__repr__ = _KLASS__repr__
     # Point et al
     for suffix in Point_dict:
         alias = 'Point2%s' % suffix
-        mb.register_ti('cv::Point_', [dtype_dict[suffix]], alias)
+        common.register_ti('cv::Point_', [dtype_dict[suffix]], alias)
         z = mb.class_(lambda x: x.alias==alias)
         mb.init_class(z)
-        mb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-        mb.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
+        common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+        common.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
         mb.asClass(z, mb.class_('CvPoint'))
         mb.asClass(z, mb.class_('CvPoint2D32f'))
         mb.asClass(z, mb.class_('Vec<%s, 2>' % dtype_dict[suffix])) 
@@ -128,11 +129,11 @@ asPoint = asPoint2i
     # Point3 et al
     for suffix in Point_dict:
         alias = 'Point3%s' % suffix
-        mb.register_ti('cv::Point3_', [dtype_dict[suffix]], alias)
+        common.register_ti('cv::Point3_', [dtype_dict[suffix]], alias)
         z = mb.class_(lambda x: x.alias==alias)
         mb.init_class(z)
-        mb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-        mb.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
+        common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+        common.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
         mb.asClass(z, mb.class_('CvPoint3D32f'))
         mb.asClass(z, mb.class_('Vec<%s, 3>' % dtype_dict[suffix]))
         mb.add_ndarray_interface(z)
@@ -149,7 +150,7 @@ KLASS.__repr__ = _KLASS__repr__
     Size_dict = 'if'
     for suffix in Size_dict:
         alias = 'Size2%s' % suffix
-        mb.register_ti('cv::Size_', [dtype_dict[suffix]], alias)
+        common.register_ti('cv::Size_', [dtype_dict[suffix]], alias)
         z = mb.class_(lambda x: x.alias==alias)
         mb.init_class(z)
         mb.asClass(z, mb.class_('CvSize'))
@@ -169,10 +170,10 @@ Size = Size2i
     ''')
     
     # Rect
-    mb.register_ti('cv::Rect_', ['int'], 'Rect')
+    common.register_ti('cv::Rect_', ['int'], 'Rect')
     z = mb.class_(lambda x: x.alias=='Rect')
     mb.init_class(z)
-    mb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+    common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
     mb.asClass(z, mb.class_('CvRect'))
     mb.add_ndarray_interface(z)
     cc.write('''
@@ -200,7 +201,7 @@ KLASS.__repr__ = _KLASS__repr__
     mb.finalize_class(z)
     
     # Scalar et al
-    mb.register_ti('cv::Scalar_', ['double'], 'Scalar')
+    common.register_ti('cv::Scalar_', ['double'], 'Scalar')
     z = mb.class_('::cv::Scalar_<double>')
     mb.init_class(z)
     mb.asClass(z, mb.class_('CvScalar'))
@@ -226,16 +227,16 @@ KLASS.__repr__ = _KLASS__repr__
     mb.finalize_class(z)
     
     # Ptr -- already exposed by mb.expose_class_Ptr
-    mb.register_ti('cv::FilterEngine')
-    mb.register_ti('cv::Ptr', ['cv::FilterEngine'])
-    mb.register_ti('cv::Ptr', ['cv::Mat'])
-    mb.register_vec('std::vector', 'cv::Ptr< cv::Mat >')    
+    common.register_ti('cv::FilterEngine')
+    common.register_ti('cv::Ptr', ['cv::FilterEngine'])
+    common.register_ti('cv::Ptr', ['cv::Mat'])
+    common.register_vec('std::vector', 'cv::Ptr< cv::Mat >')    
     
     # Mat
     z = mb.class_('Mat')
     z.include_files.append("opencv_converters.hpp")
     mb.init_class(z)
-    mb.register_vec('std::vector', 'cv::Mat')
+    common.register_vec('std::vector', 'cv::Mat')
     for t in z.constructors():
         if 'void *' in t.decl_string:
             t.exclude()
@@ -511,7 +512,7 @@ KLASS.__repr__ = _KLASS__repr__
     z.include_files.append("opencv_converters.hpp")
     z.include_files.append("boost/python/str.hpp")
     mb.init_class(z)
-    mb.register_vec('std::vector', 'cv::MatND')
+    common.register_vec('std::vector', 'cv::MatND')
     
     z.constructors(lambda x: 'const *' in x.decl_string).exclude()
     z.operator('()').exclude() # list of ranges, use ndarray instead
@@ -647,7 +648,7 @@ static bp::object my_size(cv::SparseMat const &inst, int i = -1)
     # TODO: fix the rest of the member declarations
     z = mb.class_('KDTree')
     mb.init_class(z)
-    mb.register_vec('std::vector', 'cv::KDTree::Node', 'vector_KDTree_Node')
+    common.register_vec('std::vector', 'cv::KDTree::Node', 'vector_KDTree_Node')
     z.decls().exclude()
     mb.finalize_class(z)
     
