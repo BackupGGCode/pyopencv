@@ -303,29 +303,20 @@ CV_HARDWARE_MAX_FEATURE = 255
     for z in (
         'cvAttrValue', 'cvStartWriteStruct', 'cvEndWriteStruct',
         'cvWriteComment', 'cvStartNextStream',
-        'cvStartReadRawData', 'cvWriteFileNode', 'cvGetFileNodeName',
+        'cvWriteFileNode', 
         'cvRegisterType', 'cvUnregisterType',
         'cvGetTickCount', 'cvGetTickFrequency',
         'cvGetNumThreads', 'cvSetNumThreads', 'cvGetThreadNum',
         ):
         mb.free_fun(z).include()
         
-    # TODO: fix these functions:
-    # cvWriteRawData, cvRead, cvReadByName, cvReadRawDataSlice, cvReadRawData,
-    # cvSave, cvLoad
-
-    # cvOpenFileStorage
-    FT.expose_func(mb.free_fun('cvOpenFileStorage'), ward_indices=(2,), ownershiplevel=1) 
-
     # cvWrite
     z = mb.free_fun('cvWrite')
     z.include()
     z._transformer_creators.append(FT.input_string('ptr'))
-
-    for z in (
-        'cvGetHashedKey', 'cvGetRootFileNode', 'cvGetFileNode', 'cvGetFileNodeByName',
-        ):
-        FT.expose_func(mb.free_fun(z), ward_indices=(1,)) 
+    
+    # cvGetHashedKey
+    FT.expose_func(mb.free_fun('cvGetHashedKey'), ward_indices=(1,)) 
 
     for z in (
         'cvFirstType', 'cvFindType', 
