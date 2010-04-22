@@ -623,14 +623,16 @@ static bp::object my_size(cv::SparseMat const &inst, int i = -1)
     mb.finalize_class(z)
    
     # FileNode
-    # TODO: wrap readRaw and readObj, and fix the problem with operator float and double at the same time
     z = mb.class_('FileNode')
-    z.include()
-    z.constructors(lambda x: len(x.arguments)==2).exclude()
-    z.operators(lambda x: 'char' in x.decl_string).exclude()
-    z.operators('*').exclude()
-    z.mem_fun('rawDataSize').exclude() # missing function    
-    for t in ('readRaw', 'readObj', 'fs', 'node', 'begin', 'end'):
+    z.include_files.append("opencv_converters.hpp")
+    mb.init_class(z)
+    z.decls(lambda x: 'CvFileStorage' in x.decl_string).exclude()
+    z.operators(lambda x: '*' in x.name or 'char' in x.decl_string).exclude()
+    z.operator(lambda x: x.name.endswith('operator int')).rename('as_int')
+    z.operator(lambda x: x.name.endswith('float')).rename('as_float32')
+    z.operator(lambda x: x.name.endswith('double')).rename('as_float64')
+    z.operator(lambda x: x.name.endswith('string')).rename('as_str')
+    for t in ('readObj', 'readRaw', 'begin', 'end', 'fs', 'node'):
         z.decl(t).exclude()
     z.add_declaration_code('''
 static bp::tuple children(cv::FileNode const &inst)
@@ -640,8 +642,22 @@ static bp::tuple children(cv::FileNode const &inst)
         l.append(bp::object(*i));
     return bp::tuple(l);
 }
+
+static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt)
+{
+    std::vector<uchar> data;
+    int size = inst.rawDataSize(fmt);
+    data.resize(size);
+    inst.readRaw(fmt, &data[0], size);
+    return convert_from_vector_of_T_to_Mat<uchar>(data);
+}
+
     ''')
-    z.add_registration_code('def("children", &::children)')
+    z.add_registration_code('add_property("children", &::children)')
+    z.add_registration_code('def("__iter__", &::children)')
+    z.mem_fun('readRaw').exclude()
+    z.add_registration_code('def("readRaw", &::readRaw, "Reads raw data. Argument \'len\' is determined using member \\nfunction \'rawDataSize()\'. Argument \'vec\' is returned as a Mat.")')
+    mb.finalize_class(z)
     
     
     #=============================================================================
