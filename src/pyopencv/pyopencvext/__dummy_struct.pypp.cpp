@@ -170,14 +170,8 @@ void register___dummy_struct_class(){
         bp::def("asCvSize2D32f", &::normal_cast< ::cv::Size_< int >, ::CvSize2D32f >, (bp::arg("inst_Size2i")));
         bp::def("asCvSize", &::normal_cast< ::cv::Size_< float >, ::CvSize >, (bp::arg("inst_Size2f")));
         bp::def("asCvSize2D32f", &::normal_cast< ::cv::Size_< float >, ::CvSize2D32f >, (bp::arg("inst_Size2f")));
-        bp::def("asCvSize", &::normal_cast< ::cv::Size_< double >, ::CvSize >, (bp::arg("inst_Size2d")));
-        bp::def("asCvSize2D32f", &::normal_cast< ::cv::Size_< double >, ::CvSize2D32f >, (bp::arg("inst_Size2d")));
         bp::def("asSize2f", &::normal_cast< ::cv::Size_<int>, ::cv::Size_<float> >, (bp::arg("inst_Size2i")));
-        bp::def("asSize2d", &::normal_cast< ::cv::Size_<int>, ::cv::Size_<double> >, (bp::arg("inst_Size2i")));
         bp::def("asSize2i", &::normal_cast< ::cv::Size_<float>, ::cv::Size_<int> >, (bp::arg("inst_Size2f")));
-        bp::def("asSize2d", &::normal_cast< ::cv::Size_<float>, ::cv::Size_<double> >, (bp::arg("inst_Size2f")));
-        bp::def("asSize2i", &::normal_cast< ::cv::Size_<double>, ::cv::Size_<int> >, (bp::arg("inst_Size2d")));
-        bp::def("asSize2f", &::normal_cast< ::cv::Size_<double>, ::cv::Size_<float> >, (bp::arg("inst_Size2d")));
         bp::def("asCvRect", &::normal_cast< ::cv::Rect_< int >, ::CvRect >, (bp::arg("inst_Rect")));
         bp::def("asCvBox2D", &::normal_cast< ::cv::RotatedRect, ::CvBox2D >, (bp::arg("inst_RotatedRect")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Scalar_< double >, ::CvScalar >, (bp::arg("inst_Scalar")));

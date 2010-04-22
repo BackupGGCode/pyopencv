@@ -122,7 +122,8 @@ KLASS.__repr__ = _KLASS__repr__
     mb.dtypecast(['::cv::Point3_<%s>' % dtype_dict[suffix] for suffix in Point_dict])
     
     # Size et al
-    for suffix in Point_dict:
+    Size_dict = 'if'
+    for suffix in Size_dict:
         alias = 'Size2%s' % suffix
         mb.register_ti('cv::Size_', [dtype_dict[suffix]], alias)
         z = mb.class_(lambda x: x.alias==alias)
@@ -137,7 +138,7 @@ KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
         mb.finalize_class(z)
-    mb.dtypecast(['::cv::Size_<%s>' % dtype_dict[suffix] for suffix in Point_dict])
+    mb.dtypecast(['::cv::Size_<%s>' % dtype_dict[suffix] for suffix in Size_dict])
         
     cc.write('''
 Size = Size2i
