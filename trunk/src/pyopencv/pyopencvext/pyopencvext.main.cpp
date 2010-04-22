@@ -108,8 +108,6 @@
 
 #include "pyopencvext/CvFeatureTree.pypp.hpp"
 
-#include "pyopencvext/CvFileNode.pypp.hpp"
-
 #include "pyopencvext/CvForestERTree.pypp.hpp"
 
 #include "pyopencvext/CvForestTree.pypp.hpp"
@@ -1693,8 +1691,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvERTrees_class();
 
     register_CvFeatureTree_class();
-
-    register_CvFileNode_class();
 
     register_CvForestTree_class();
 
