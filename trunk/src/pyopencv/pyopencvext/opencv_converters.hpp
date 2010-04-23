@@ -89,76 +89,78 @@ DEFINE_FIXED_SIZE(cv::Range);
 
 
 // ------------------------------------------------------------------------------------------------
-// elem_type_of : type of an element of T
+// elem_type : type of T's elements
 template<typename T>
-inline int elem_type_of()
+struct elem_type
 {
-    char s[300];
-    sprintf( s, "Instantiation of function elem_type_of() for class '%s' is not yet implemented.", typeid(T).name() );
-    PyErr_SetString(PyExc_NotImplementedError, s);
-    throw bp::error_already_set(); 
-}
+    typedef T type;
+};
+
+template<typename T> inline int elem_type_of() { return cvtypeof<typename elem_type<T>::type>(); }
+
+#define ELEM_TYPE(Type, ElemType) template<> struct elem_type<Type> { typedef ElemType type; }
 
 // basic
-template<> inline int elem_type_of<char>() { return cvtypeof<char>(); }
-template<> inline int elem_type_of<unsigned char>() { return cvtypeof<unsigned char>(); }
-template<> inline int elem_type_of<short>() { return cvtypeof<short>(); }
-template<> inline int elem_type_of<unsigned short>() { return cvtypeof<unsigned short>(); }
-template<> inline int elem_type_of<int>() { return cvtypeof<int>(); }
-// template<> inline int elem_type_of<unsigned int>() { return cvtypeof<unsigned ing>(); }
-template<> inline int elem_type_of<long>() { return cvtypeof<long>(); }
-// template<> inline int elem_type_of<unsigned long>() { return cvtypeof<unsigned long>(); }
-template<> inline int elem_type_of<long long>() { return cvtypeof<long long>(); }
-// template<> inline int elem_type_of<unsigned long long>() { return cvtypeof<unsigned long long>(); }
-template<> inline int elem_type_of<float>() { return cvtypeof<float>(); }
-template<> inline int elem_type_of<double>() { return cvtypeof<double>(); }
+ELEM_TYPE(bool, bool);
+ELEM_TYPE(char, char);
+ELEM_TYPE(unsigned char, unsigned char);
+ELEM_TYPE(short, short);
+ELEM_TYPE(unsigned short, unsigned short);
+ELEM_TYPE(int, int);
+ELEM_TYPE(unsigned int, unsigned int);
+ELEM_TYPE(long, long);
+ELEM_TYPE(unsigned long, unsigned long);
+ELEM_TYPE(long long, long long);
+ELEM_TYPE(unsigned long long, unsigned long long);
+ELEM_TYPE(float, float);
+ELEM_TYPE(double, double);
 
 // Vec-like
-template<> inline int elem_type_of<cv::Vec2b>() { return CV_8U; }
-template<> inline int elem_type_of<cv::Vec3b>() { return CV_8U; }
-template<> inline int elem_type_of<cv::Vec4b>() { return CV_8U; }
-template<> inline int elem_type_of<cv::Vec2s>() { return CV_16S; }
-template<> inline int elem_type_of<cv::Vec3s>() { return CV_16S; }
-template<> inline int elem_type_of<cv::Vec4s>() { return CV_16S; }
-template<> inline int elem_type_of<cv::Vec2w>() { return CV_16U; }
-template<> inline int elem_type_of<cv::Vec3w>() { return CV_16U; }
-template<> inline int elem_type_of<cv::Vec4w>() { return CV_16U; }
-template<> inline int elem_type_of<cv::Vec2i>() { return CV_32S; }
-template<> inline int elem_type_of<cv::Vec3i>() { return CV_32S; }
-template<> inline int elem_type_of<cv::Vec4i>() { return CV_32S; }
-template<> inline int elem_type_of<cv::Vec2f>() { return CV_32F; }
-template<> inline int elem_type_of<cv::Vec3f>() { return CV_32F; }
-template<> inline int elem_type_of<cv::Vec4f>() { return CV_32F; }
-template<> inline int elem_type_of<cv::Vec6f>() { return CV_32F; }
-template<> inline int elem_type_of<cv::Vec2d>() { return CV_64F; }
-template<> inline int elem_type_of<cv::Vec3d>() { return CV_64F; }
-template<> inline int elem_type_of<cv::Vec4d>() { return CV_64F; }
-template<> inline int elem_type_of<cv::Vec6d>() { return CV_64F; }
+ELEM_TYPE(cv::Vec2b, unsigned char);
+ELEM_TYPE(cv::Vec3b, unsigned char);
+ELEM_TYPE(cv::Vec4b, unsigned char);
+ELEM_TYPE(cv::Vec2s, short);
+ELEM_TYPE(cv::Vec3s, short);
+ELEM_TYPE(cv::Vec4s, short);
+ELEM_TYPE(cv::Vec2w, unsigned short);
+ELEM_TYPE(cv::Vec3w, unsigned short);
+ELEM_TYPE(cv::Vec4w, unsigned short);
+ELEM_TYPE(cv::Vec2i, int);
+ELEM_TYPE(cv::Vec3i, int);
+ELEM_TYPE(cv::Vec4i, int);
+ELEM_TYPE(cv::Vec2f, float);
+ELEM_TYPE(cv::Vec3f, float);
+ELEM_TYPE(cv::Vec4f, float);
+ELEM_TYPE(cv::Vec6f, float);
+ELEM_TYPE(cv::Vec2d, double);
+ELEM_TYPE(cv::Vec3d, double);
+ELEM_TYPE(cv::Vec4d, double);
+ELEM_TYPE(cv::Vec6d, double);
 
 // Point-like
-template<> inline int elem_type_of<cv::Point2i>() { return CV_32S; }
-template<> inline int elem_type_of<cv::Point2f>() { return CV_32F; }
-template<> inline int elem_type_of<cv::Point2d>() { return CV_64F; }
-template<> inline int elem_type_of<cv::Point3i>() { return CV_32S; }
-template<> inline int elem_type_of<cv::Point3f>() { return CV_32F; }
-template<> inline int elem_type_of<cv::Point3d>() { return CV_64F; }
+ELEM_TYPE(cv::Point2i, int);
+ELEM_TYPE(cv::Point2f, float);
+ELEM_TYPE(cv::Point2d, double);
+ELEM_TYPE(cv::Point3i, int);
+ELEM_TYPE(cv::Point3f, float);
+ELEM_TYPE(cv::Point3d, double);
 
 // Rect-like
-template<> inline int elem_type_of<cv::Rect>() { return CV_32S; }
-template<> inline int elem_type_of<cv::Rectf>() { return CV_32F; }
-template<> inline int elem_type_of<cv::Rectd>() { return CV_64F; }
-template<> inline int elem_type_of<cv::RotatedRect>() { return CV_32F; }
+ELEM_TYPE(cv::Rect, int);
+ELEM_TYPE(cv::Rectf, float);
+ELEM_TYPE(cv::Rectd, double);
+ELEM_TYPE(cv::RotatedRect, float);
 
 // Size-like
-template<> inline int elem_type_of<cv::Size2i>() { return CV_32S; }
-template<> inline int elem_type_of<cv::Size2f>() { return CV_32F; }
-template<> inline int elem_type_of<cv::Size2d>() { return CV_64F; }
+ELEM_TYPE(cv::Size2i, int);
+ELEM_TYPE(cv::Size2f, float);
+ELEM_TYPE(cv::Size2d, double);
 
 // Scalar
-template<> inline int elem_type_of<cv::Scalar>() { return CV_64F; }
+ELEM_TYPE(cv::Scalar, double);
 
 // Range
-template<> inline int elem_type_of<cv::Range>() { return CV_32S; }
+ELEM_TYPE(cv::Range, int);
 
 
 // ------------------------------------------------------------------------------------------------

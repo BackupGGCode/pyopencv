@@ -8,6 +8,8 @@
 #include "ndarray.hpp"
 #include "__dummy_struct.pypp.hpp"
 
+#include <iostream>
+
 namespace bp = boost::python;
 
 void register___dummy_struct_class(){
@@ -181,6 +183,28 @@ void register___dummy_struct_class(){
         bp::def("asMat", &::normal_cast< ::cv::SdVector< cv::Vec< float, 2 > >, ::cv::Mat >, (bp::arg("inst_Vector_Vec2f")));
         bp::def("asMat", &::normal_cast< ::cv::SdVector< cv::SdVector< int > >, ::cv::Mat >, (bp::arg("inst_Vector_Vector_int")));
         bp::def("asMat", &::normal_cast< ::cv::SdVector< cv::SdVector< cv::Vec< float, 2 > > >, ::cv::Mat >, (bp::arg("inst_Vector_Vector_Vec2f")));;
+        
+        // my test
+        PyTypeObject const *v = bp::converter::registered_pytype<cv::Vec2i>::get_pytype();
+        
+        // std::cout << "PyTypeObject's name=" << v->tp_name << std::endl;
+
+        // PyArray_Descr *PyMyArray_Descr;
+
+        // PyMyArray_Descr = PyObject_New(PyArray_Descr, &PyArrayDescr_Type);
+        // PyMyArray_Descr->typeobj = PyMyArrType_Type;
+        // PyMyArray_Descr->kind = PyArray_DOUBLELTR;
+        // PyMyArray_Descr->type = PyArray_DOUBLELTR;
+        // PyMyArray_Descr->byteorder = '<';
+        // PyMyArray_Descr->hasobject = 0;
+        // PyMyArray_Descr->type_num = PyArray_USERDEF;
+        // PyMyArray_Descr->elsize = sizeof(double);
+        // PyMyArray_Descr->alignment = sizeof(double);
+        // PyMyArray_Descr->subarray = NULL;
+        // PyMyArray_Descr->fields = NULL;
+        // PyMyArray_Descr->names = NULL;
+        // PyMyArray_Descr->f = &_PyMyArr_ArrFuncs;
+
     }
 
 }

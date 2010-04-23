@@ -70,16 +70,19 @@ int dtypeof()
     throw error_already_set(); 
 }
 
-template<> int dtypeof<char>();
-template<> int dtypeof<unsigned char>();
-template<> int dtypeof<short>();
-template<> int dtypeof<unsigned short>();
-template<> int dtypeof<long>();
-template<> int dtypeof<unsigned long>();
-template<> int dtypeof<int>();
-template<> int dtypeof<unsigned int>();
-template<> int dtypeof<float>();
-template<> int dtypeof<double>();
+#define DTYPEOF(Type) template<> int dtypeof<Type>()
+
+// basic
+DTYPEOF(char);
+DTYPEOF(unsigned char);
+DTYPEOF(short);
+DTYPEOF(unsigned short);
+DTYPEOF(long);
+DTYPEOF(unsigned long);
+DTYPEOF(int);
+DTYPEOF(unsigned int);
+DTYPEOF(float);
+DTYPEOF(double);
 
 // ================================================================================================
 
