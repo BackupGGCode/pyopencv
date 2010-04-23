@@ -27,6 +27,8 @@ namespace cv // missing classes in OpenCV 2.1
     typedef Size_<double> Size2d;
     typedef Rect_<float> Rectf;
     typedef Rect_<double> Rectd;
+    
+    struct CV_EXPORTS VectorBase {};
 
     
     //////////////////////////////// SdVector ////////////////////////////////
@@ -36,7 +38,7 @@ namespace cv // missing classes in OpenCV 2.1
     //   1) it can be created on top of user-allocated data w/o copying it
     //   2) vector b = a means copying the header,
     //      not the underlying data (use clone() to make a deep copy)
-    template <typename _Tp> class CV_EXPORTS SdVector
+    template <typename _Tp> class CV_EXPORTS SdVector : public VectorBase
     {
     public:
         typedef _Tp value_type;
@@ -222,7 +224,7 @@ namespace cv // missing classes in OpenCV 2.1
         int type() const { return DataType<_Tp>::type; }
         
         // Minh-Tri
-        void setitem(int i, _Tp &value) { operator[](i) = value; }
+        void setitem(size_t i, _Tp const &value) { CV_Assert( i < size() ); hdr.data[i] = value; }
         operator cv::Mat() const { return cv::Mat(1, (int)size(), type(), (void*)hdr.data); }
         
         

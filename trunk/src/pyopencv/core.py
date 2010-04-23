@@ -910,6 +910,42 @@ def _Vec4b__repr__(self):
     return "Vec4b(" + self.ndarray.__str__() + ")"
 Vec4b.__repr__ = _Vec4b__repr__
         
+_str = "\n    Creates a Vec2f view on an ndarray instance."
+if Vec2f.from_ndarray.__doc__ is None:
+    Vec2f.from_ndarray.__doc__ = _str
+else:
+    Vec2f.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2f that shares the same data with an ndarray instance, use:\n        'Vec2f.from_ndarray(a)' or 'asVec2f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Vec2f.__doc__ is None:
+    Vec2f.__doc__ = _str
+else:
+    Vec2f.__doc__ += _str
+    
+def _Vec2f__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Vec2f.__getitem__ = _Vec2f__getitem__
+            
+def _Vec2f__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Vec2f.__setitem__ = _Vec2f__setitem__
+            
+def _Vec2f__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Vec2f.__getslice__ = _Vec2f__getslice__
+            
+def _Vec2f__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Vec2f.__setslice__ = _Vec2f__setslice__
+            
+def _Vec2f__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec2f.__iter__ = _Vec2f__iter__
+        
+def _Vec2f__repr__(self):
+    return "Vec2f(" + self.ndarray.__str__() + ")"
+Vec2f.__repr__ = _Vec2f__repr__
+        
 _str = "\n    Creates a Vec3b view on an ndarray instance."
 if Vec3b.from_ndarray.__doc__ is None:
     Vec3b.from_ndarray.__doc__ = _str
@@ -945,42 +981,6 @@ Vec3b.__iter__ = _Vec3b__iter__
 def _Vec3b__repr__(self):
     return "Vec3b(" + self.ndarray.__str__() + ")"
 Vec3b.__repr__ = _Vec3b__repr__
-        
-_str = "\n    Creates a Vec2b view on an ndarray instance."
-if Vec2b.from_ndarray.__doc__ is None:
-    Vec2b.from_ndarray.__doc__ = _str
-else:
-    Vec2b.from_ndarray.__doc__ += _str
-
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2b that shares the same data with an ndarray instance, use:\n        'Vec2b.from_ndarray(a)' or 'asVec2b(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Vec2b.__doc__ is None:
-    Vec2b.__doc__ = _str
-else:
-    Vec2b.__doc__ += _str
-    
-def _Vec2b__getitem__(self, *args, **kwds):
-    return self.ndarray.__getitem__(*args, **kwds)
-Vec2b.__getitem__ = _Vec2b__getitem__
-            
-def _Vec2b__setitem__(self, *args, **kwds):
-    return self.ndarray.__setitem__(*args, **kwds)
-Vec2b.__setitem__ = _Vec2b__setitem__
-            
-def _Vec2b__getslice__(self, *args, **kwds):
-    return self.ndarray.__getslice__(*args, **kwds)
-Vec2b.__getslice__ = _Vec2b__getslice__
-            
-def _Vec2b__setslice__(self, *args, **kwds):
-    return self.ndarray.__setslice__(*args, **kwds)
-Vec2b.__setslice__ = _Vec2b__setslice__
-            
-def _Vec2b__iter__(self, *args, **kwds):
-    return self.ndarray.__iter__(*args, **kwds)
-Vec2b.__iter__ = _Vec2b__iter__
-        
-def _Vec2b__repr__(self):
-    return "Vec2b(" + self.ndarray.__str__() + ")"
-Vec2b.__repr__ = _Vec2b__repr__
         
 _str = "\n    Creates a Vec3i view on an ndarray instance."
 if Vec3i.from_ndarray.__doc__ is None:
@@ -1054,41 +1054,41 @@ def _Vec4s__repr__(self):
     return "Vec4s(" + self.ndarray.__str__() + ")"
 Vec4s.__repr__ = _Vec4s__repr__
         
-_str = "\n    Creates a Vec2f view on an ndarray instance."
-if Vec2f.from_ndarray.__doc__ is None:
-    Vec2f.from_ndarray.__doc__ = _str
+_str = "\n    Creates a Vec2b view on an ndarray instance."
+if Vec2b.from_ndarray.__doc__ is None:
+    Vec2b.from_ndarray.__doc__ = _str
 else:
-    Vec2f.from_ndarray.__doc__ += _str
+    Vec2b.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2f that shares the same data with an ndarray instance, use:\n        'Vec2f.from_ndarray(a)' or 'asVec2f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Vec2f.__doc__ is None:
-    Vec2f.__doc__ = _str
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2b that shares the same data with an ndarray instance, use:\n        'Vec2b.from_ndarray(a)' or 'asVec2b(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Vec2b.__doc__ is None:
+    Vec2b.__doc__ = _str
 else:
-    Vec2f.__doc__ += _str
+    Vec2b.__doc__ += _str
     
-def _Vec2f__getitem__(self, *args, **kwds):
+def _Vec2b__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
-Vec2f.__getitem__ = _Vec2f__getitem__
+Vec2b.__getitem__ = _Vec2b__getitem__
             
-def _Vec2f__setitem__(self, *args, **kwds):
+def _Vec2b__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
-Vec2f.__setitem__ = _Vec2f__setitem__
+Vec2b.__setitem__ = _Vec2b__setitem__
             
-def _Vec2f__getslice__(self, *args, **kwds):
+def _Vec2b__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
-Vec2f.__getslice__ = _Vec2f__getslice__
+Vec2b.__getslice__ = _Vec2b__getslice__
             
-def _Vec2f__setslice__(self, *args, **kwds):
+def _Vec2b__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
-Vec2f.__setslice__ = _Vec2f__setslice__
+Vec2b.__setslice__ = _Vec2b__setslice__
             
-def _Vec2f__iter__(self, *args, **kwds):
+def _Vec2b__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
-Vec2f.__iter__ = _Vec2f__iter__
+Vec2b.__iter__ = _Vec2b__iter__
         
-def _Vec2f__repr__(self):
-    return "Vec2f(" + self.ndarray.__str__() + ")"
-Vec2f.__repr__ = _Vec2f__repr__
+def _Vec2b__repr__(self):
+    return "Vec2b(" + self.ndarray.__str__() + ")"
+Vec2b.__repr__ = _Vec2b__repr__
         
 _str = "\n    Creates a Vec2d view on an ndarray instance."
 if Vec2d.from_ndarray.__doc__ is None:
@@ -1882,22 +1882,26 @@ def reshapeSingleChannel(mat):
     rows=mat.cols and cols=mat.channels(). Otherwise, the returning object
     has rows=mat.rows and cols=mat.cols*mat.channels().    
     """
-    if mat.channels() != 1:    
-        return out_mat.reshape(1, out_mat.cols if out_mat.rows==1 else out_mat.rows)
+    if mat.channels() != 1:
+        new_mat = mat.reshape(1, mat.cols if mat.rows==1 else mat.rows)
+        if '_depends' in mat.__dict__:
+            new_mat._depends = mat._depends
+        return new_mat
     return mat
     
 def asMat(obj, force_single_channel=False):
     """Converts a Python object into a Mat object.
     
     This general-purpose meta-function uses a simple heuristic method to
-    identify the type of the given Python object in order to convert it into
-    a Mat object. If the Python object is an ndarray, it invokes function 
-    Mat.from_ndarray(). Otherwise, it assumes the object is a Python sequence,
-    and invokes one of the Mat.from_list_of_...() methods. The function to be
-    invoked is decided by checking the first element of the Python sequence.
-    For example, if the first element is an integer, it invokes 
-    Mat.from_list_of_int(). If the first element is a floating-point number,
-    it invokes Mat.from_list_of_float64(), etc. 
+    identify the type of the given Python object in order to convert the
+    object into a Mat object. If the Python object is an ndarray, it invokes 
+    function Mat.from_ndarray(). If the object is a Vector<...>, it invokes 
+    one of the internal functions asMat(). Otherwise, it assumes the object 
+    is a Python sequence, and invokes one of the Mat.from_list_of_...() 
+    methods. The function to be invoked is decided by checking the first 
+    element of the Python sequence. For example, if the first element is an 
+    integer, it invokes Mat.from_list_of_int(). If the first element is a 
+    floating-point number, it invokes Mat.from_list_of_float64(), etc. 
     
     In the case that the above heuristic method does not convert into a Mat
     object with your intended type and depth, use one of the 
@@ -1913,6 +1917,9 @@ def asMat(obj, force_single_channel=False):
     
     if isinstance(obj, _NP.ndarray):
         out_mat = Mat.from_ndarray(obj)
+    elif isinstance(obj, VectorBase):
+        out_mat = eval("_PE.asMat(inst_%s=obj)" % obj.__class__.__name__)
+        out_mat._depends = (obj,)
     else:
         z = obj[0]
         if isinstance(z, int):
@@ -1922,9 +1929,8 @@ def asMat(obj, force_single_channel=False):
         else:
             out_mat = eval("Mat.from_list_of_%s(obj)" % z.__class__.__name__)
     
-    if force_single_channel and out_mat.channels() != 1:
-        return out_mat.reshape(1, out_mat.cols if out_mat.rows==1 else out_mat.rows)
-        
+    if force_single_channel:
+        return reshapeSingleChannel(out_mat)
     return out_mat
     
 def _RNG__repr__(self):

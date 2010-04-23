@@ -32,11 +32,11 @@ void register___dummy_struct_class(){
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< int, 4 >, ::CvScalar >, (bp::arg("inst_Vec4i")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< int, 2 >, ::CvScalar >, (bp::arg("inst_Vec2i")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned char, 4 >, ::CvScalar >, (bp::arg("inst_Vec4b")));
+        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 2 >, ::CvScalar >, (bp::arg("inst_Vec2f")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned char, 3 >, ::CvScalar >, (bp::arg("inst_Vec3b")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned char, 2 >, ::CvScalar >, (bp::arg("inst_Vec2b")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< int, 3 >, ::CvScalar >, (bp::arg("inst_Vec3i")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< short, 4 >, ::CvScalar >, (bp::arg("inst_Vec4s")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 2 >, ::CvScalar >, (bp::arg("inst_Vec2f")));
+        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned char, 2 >, ::CvScalar >, (bp::arg("inst_Vec2b")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 2 >, ::CvScalar >, (bp::arg("inst_Vec2d")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned short, 2 >, ::CvScalar >, (bp::arg("inst_Vec2w")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 3 >, ::CvScalar >, (bp::arg("inst_Vec3f")));
@@ -178,7 +178,9 @@ void register___dummy_struct_class(){
         bp::def("asCvSlice", &::normal_cast< ::cv::Range, ::CvSlice >, (bp::arg("inst_Range")));
         bp::def("asCvTermCriteria", &::normal_cast< ::cv::TermCriteria, ::CvTermCriteria >, (bp::arg("inst_TermCriteria")));
         bp::def("asMat", &::normal_cast< ::cv::SdVector< int >, ::cv::Mat >, (bp::arg("inst_Vector_int")));
-        bp::def("asMat", &::normal_cast< ::cv::SdVector< cv::SdVector< int > >, ::cv::Mat >, (bp::arg("inst_Vector_Vector_int")));;
+        bp::def("asMat", &::normal_cast< ::cv::SdVector< cv::Vec< float, 2 > >, ::cv::Mat >, (bp::arg("inst_Vector_Vec2f")));
+        bp::def("asMat", &::normal_cast< ::cv::SdVector< cv::SdVector< int > >, ::cv::Mat >, (bp::arg("inst_Vector_Vector_int")));
+        bp::def("asMat", &::normal_cast< ::cv::SdVector< cv::SdVector< cv::Vec< float, 2 > > >, ::cv::Mat >, (bp::arg("inst_Vector_Vector_Vec2f")));;
     }
 
 }
