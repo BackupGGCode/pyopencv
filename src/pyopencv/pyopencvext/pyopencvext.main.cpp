@@ -430,6 +430,12 @@
 
 #include "pyopencvext/Vec6f.pypp.hpp"
 
+#include "pyopencvext/VectorBase.pypp.hpp"
+
+#include "pyopencvext/Vector_Vec2f.pypp.hpp"
+
+#include "pyopencvext/Vector_Vector_Vec2f.pypp.hpp"
+
 #include "pyopencvext/Vector_Vector_int.pypp.hpp"
 
 #include "pyopencvext/Vector_int.pypp.hpp"
@@ -1983,9 +1989,19 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_SVD_class();
 
+    register_VectorBase_class();
+
+    register_Vector_Vector_Vec2f_class();
+
+    bp::implicitly_convertible< cv::SdVector< cv::SdVector< cv::Vec< float, 2 > > >, cv::Mat >();
+
     register_Vector_Vector_int_class();
 
     bp::implicitly_convertible< cv::SdVector< cv::SdVector< int > >, cv::Mat >();
+
+    register_Vector_Vec2f_class();
+
+    bp::implicitly_convertible< cv::SdVector< cv::Vec< float, 2 > >, cv::Mat >();
 
     register_Vector_int_class();
 
@@ -5171,15 +5187,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asVec4b", &sdcpp::from_ndarray< cv::Vec4b >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec2f >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2b", &sdcpp::from_ndarray< cv::Vec2b >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec3i", &sdcpp::from_ndarray< cv::Vec3i >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec4s >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec2f >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec2b", &sdcpp::from_ndarray< cv::Vec2b >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec2d >, (bp::arg("inst_ndarray")) );
 

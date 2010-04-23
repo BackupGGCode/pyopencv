@@ -7,17 +7,17 @@
 
 namespace bp = boost::python;
 
-static bp::list iter(::cv::SdVector< int > const &inst)
+static bp::object iter(::cv::SdVector< int > const &inst)
 {
     bp::list l;
     for(int i = 0; i < inst.size(); ++i) l.append(bp::object(inst[i]));
-    return l;
+    return l.attr("__iter__")();
 }
 
 void register_Vector_int_class(){
 
     { //::cv::SdVector< int >
-        typedef bp::class_< cv::SdVector< int > > Vector_int_exposer_t;
+        typedef bp::class_< cv::SdVector< int >, bp::bases< cv::VectorBase > > Vector_int_exposer_t;
         Vector_int_exposer_t Vector_int_exposer = Vector_int_exposer_t( "Vector_int", bp::init< >() );
         bp::scope Vector_int_scope( Vector_int_exposer );
         Vector_int_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::SdVector< int > >() );
@@ -130,18 +130,27 @@ void register_Vector_int_class(){
     "\n    operator[]" );
         
         }
-        { //::cv::SdVector< int >::operator[]
+        { //::cv::SdVector< int >::pop_back
         
             typedef cv::SdVector< int > exported_class_t;
-            typedef int const & ( exported_class_t::*__getitem___function_type )( ::size_t ) const;
+            typedef ::cv::SdVector< int > & ( exported_class_t::*pop_back_function_type )(  ) ;
             
             Vector_int_exposer.def( 
-                "__getitem__"
-                , __getitem___function_type( &::cv::SdVector< int >::operator[] )
-                , ( bp::arg("i") )
-                , bp::return_value_policy< bp::copy_const_reference >()
-                , "\nWrapped function:"
-    "\n    operator[]" );
+                "pop_back"
+                , pop_back_function_type( &::cv::SdVector< int >::pop_back )
+                , bp::return_self< >() );
+        
+        }
+        { //::cv::SdVector< int >::push_back
+        
+            typedef cv::SdVector< int > exported_class_t;
+            typedef ::cv::SdVector< int > & ( exported_class_t::*push_back_function_type )( int const & ) ;
+            
+            Vector_int_exposer.def( 
+                "push_back"
+                , push_back_function_type( &::cv::SdVector< int >::push_back )
+                , ( bp::arg("elem") )
+                , bp::return_self< >() );
         
         }
         { //::cv::SdVector< int >::release
@@ -174,17 +183,6 @@ void register_Vector_int_class(){
                 "resize"
                 , resize_function_type( &::cv::SdVector< int >::resize )
                 , ( bp::arg("newSize") ) );
-        
-        }
-        { //::cv::SdVector< int >::setitem
-        
-            typedef cv::SdVector< int > exported_class_t;
-            typedef void ( exported_class_t::*setitem_function_type )( int,int & ) ;
-            
-            Vector_int_exposer.def( 
-                "setitem"
-                , setitem_function_type( &::cv::SdVector< int >::setitem )
-                , ( bp::arg("i"), bp::arg("value") ) );
         
         }
         { //::cv::SdVector< int >::size
