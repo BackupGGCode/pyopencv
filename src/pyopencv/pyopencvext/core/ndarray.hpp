@@ -33,6 +33,7 @@ public:
     void check_obj(object const &obj) const;
     
     int ndim() const;
+    Py_intptr_t size() const;
     const Py_intptr_t *shape() const;
     const Py_intptr_t *strides() const;
     int itemsize() const;
@@ -60,6 +61,30 @@ ndarray new_ndarray(int len, const int *shape, int dtype, const int *strides, vo
 
 // ================================================================================================
 
+#define DECVEC(VEC_NAME) \
+class VEC_NAME : public ndarray { public: VEC_NAME(object const &obj) : ndarray(obj) {} };
+
+#define DECVECS(VEC_NAME) \
+DECVEC(VEC_NAME##_1) \
+DECVEC(VEC_NAME##_2) \
+DECVEC(VEC_NAME##_3) \
+DECVEC(VEC_NAME##_4) \
+DECVEC(VEC_NAME##_5) \
+DECVEC(VEC_NAME##_6)
+
+DECVECS(vec_int8);
+DECVECS(vec_uint8);
+DECVECS(vec_int16);
+DECVECS(vec_uint16);
+DECVECS(vec_int);
+DECVECS(vec_uint);
+DECVECS(vec_float32);
+DECVECS(vec_float64);
+
+// ================================================================================================
+
+bool dtype_equiv(int dtypenum1, int dtypenum2);
+
 // dtypeof
 template<typename T>
 int dtypeof()
@@ -81,6 +106,8 @@ DTYPEOF(long);
 DTYPEOF(unsigned long);
 DTYPEOF(int);
 DTYPEOF(unsigned int);
+DTYPEOF(long long);
+DTYPEOF(unsigned long long);
 DTYPEOF(float);
 DTYPEOF(double);
 
@@ -385,6 +412,22 @@ FROM_NDARRAY(cv::Mat);
 
 // MatND
 FROM_NDARRAY(cv::MatND);
+
+// ================================================================================================
+
+// register dtype
+template<typename T> object register_dtype()
+{
+    char s[300];
+    sprintf( s, "Instantiation of function from_ndarray< cv::%s >() is not yet implemented.", typeid(T).name() );
+    PyErr_SetString(PyExc_NotImplementedError, s);
+    throw error_already_set();
+    return object();
+}
+
+#define REGISTER_DTYPE(T) template<> object register_dtype< T >()
+
+REGISTER_DTYPE(cv::Vec2i);
 
 // ================================================================================================
 
