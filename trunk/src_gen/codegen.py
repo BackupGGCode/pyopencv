@@ -485,7 +485,6 @@ mb.enums().include()
 z = mb.class_("dummy_struct")
 z.include_files.append("opencv_converters.hpp")
 z.include_files.append("sequence.hpp")
-z.include_files.append("ndarray.hpp")
 mb.dummy_struct = z
 z.include()
 z.decls().exclude()
@@ -497,7 +496,6 @@ def add_dummy_reg_code(s):
 z.add_reg_code = add_dummy_reg_code
 
 z.add_reg_code("sdcpp::register_sdobject<sdcpp::sequence>();")
-z.add_reg_code("sdcpp::register_sdobject<sdcpp::ndarray>();")
 
 # get the list of OpenCV functions
 opencv_funs = mb.free_funs() # mb.free_funs(lambda decl: decl.name.startswith('cv'))

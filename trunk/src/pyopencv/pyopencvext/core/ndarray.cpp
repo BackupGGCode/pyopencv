@@ -18,25 +18,9 @@
 #include "ndarray.hpp"
 #include "opencv_converters.hpp"
 
+#include <iostream>
+
 namespace bp = boost::python;
-
-// ================================================================================================
-// Initialization
-// ================================================================================================
-
-void npy_init1()
-{
-    import_array();
-}
-
-bool npy_init2()
-{
-    npy_init1();
-    return true;
-}
-
-bool npy_inited = npy_init2();
-
 
 // ================================================================================================
 // Stuff related to new numpy's ndarray
@@ -59,6 +43,7 @@ template<> bool check<ndarray>(object const &obj){ return PyArray_Check(obj.ptr(
 template<> PyTypeObject const *get_pytype<ndarray>() { return &PyArray_Type; }
 
 int ndarray::ndim() const { return PyArray_NDIM(obj.ptr()); }
+Py_intptr_t ndarray::size() const { return PyArray_SIZE(obj.ptr()); }
 const Py_intptr_t* ndarray::shape() const { return PyArray_DIMS(obj.ptr()); }
 const Py_intptr_t* ndarray::strides() const { return PyArray_STRIDES(obj.ptr()); }
 int ndarray::itemsize() const { return PyArray_ITEMSIZE(obj.ptr()); }
@@ -102,6 +87,58 @@ ndarray new_ndarray(int len, const int *shape, int dtype, const int *strides, vo
 
 // ================================================================================================
 
+#define DEFVEC(VEC_NAME, ELEM_TYPE, N_ELEM) \
+template<> bool check<VEC_NAME>(object const &obj) \
+{ \
+    if(!check<ndarray>(obj)) return false; \
+    ndarray arr(obj); \
+    return arr.iscontiguous() && \
+        dtype_equiv(arr.dtype(), dtypeof<ELEM_TYPE>()) && \
+        (arr.size() % N_ELEM == 0); \
+} \
+\
+template<> PyTypeObject const *get_pytype<VEC_NAME>() { return get_pytype<ndarray>();}
+
+#define DEFVECS(VEC_NAME, ELEM_TYPE) \
+DEFVEC(VEC_NAME##_1, ELEM_TYPE, 1) \
+DEFVEC(VEC_NAME##_2, ELEM_TYPE, 2) \
+DEFVEC(VEC_NAME##_3, ELEM_TYPE, 3) \
+DEFVEC(VEC_NAME##_4, ELEM_TYPE, 4) \
+DEFVEC(VEC_NAME##_5, ELEM_TYPE, 5) \
+DEFVEC(VEC_NAME##_6, ELEM_TYPE, 6)
+
+DEFVECS(vec_int8, char);
+DEFVECS(vec_uint8, unsigned char);
+DEFVECS(vec_int16, short);
+DEFVECS(vec_uint16, unsigned short);
+DEFVECS(vec_int, int);
+DEFVECS(vec_uint, unsigned int);
+DEFVECS(vec_float32, float);
+DEFVECS(vec_float64, double);
+
+#define REGVECS(VEC_NAME) \
+sdcpp::register_sdobject<sdcpp::VEC_NAME##_1>(); \
+sdcpp::register_sdobject<sdcpp::VEC_NAME##_2>(); \
+sdcpp::register_sdobject<sdcpp::VEC_NAME##_3>(); \
+sdcpp::register_sdobject<sdcpp::VEC_NAME##_4>(); \
+sdcpp::register_sdobject<sdcpp::VEC_NAME##_5>(); \
+sdcpp::register_sdobject<sdcpp::VEC_NAME##_6>();
+
+#define REGVECSS \
+REGVECS(vec_int8); \
+REGVECS(vec_uint8); \
+REGVECS(vec_int16); \
+REGVECS(vec_uint16); \
+REGVECS(vec_int); \
+REGVECS(vec_uint); \
+REGVECS(vec_float32); \
+REGVECS(vec_float64);
+
+// ================================================================================================
+
+bool dtype_equiv(int dtypenum1, int dtypenum2)
+    { return PyArray_EquivTypenums(dtypenum1, dtypenum2); }
+
 // dtypeof
 
 // basic
@@ -113,6 +150,8 @@ DTYPEOF(long) { return NPY_LONG; }
 DTYPEOF(unsigned long) { return NPY_ULONG; }
 DTYPEOF(int) { return NPY_INT; }
 DTYPEOF(unsigned int) { return NPY_UINT; }
+DTYPEOF(long long) { return NPY_LONGLONG; }
+DTYPEOF(unsigned long long) { return NPY_ULONGLONG; }
 DTYPEOF(float) { return NPY_FLOAT; }
 DTYPEOF(double) { return NPY_DOUBLE; }
 
@@ -691,4 +730,25 @@ FROM_NDARRAY(cv::MatND)
 // ================================================================================================
 
 } // namespace sdcpp
+
+
+// ================================================================================================
+// Initialization
+// ================================================================================================
+
+void npy_init1()
+{
+    import_array();
+    sdcpp::register_sdobject<sdcpp::ndarray>();
+    REGVECSS;
+}
+
+bool npy_init2()
+{
+    npy_init1();
+    return true;
+}
+
+bool npy_inited = npy_init2();
+
 
