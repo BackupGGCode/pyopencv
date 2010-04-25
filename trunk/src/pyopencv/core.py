@@ -910,42 +910,6 @@ def _Vec4b__repr__(self):
     return "Vec4b(" + self.ndarray.__str__() + ")"
 Vec4b.__repr__ = _Vec4b__repr__
         
-_str = "\n    Creates a Vec2f view on an ndarray instance."
-if Vec2f.from_ndarray.__doc__ is None:
-    Vec2f.from_ndarray.__doc__ = _str
-else:
-    Vec2f.from_ndarray.__doc__ += _str
-
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2f that shares the same data with an ndarray instance, use:\n        'Vec2f.from_ndarray(a)' or 'asVec2f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Vec2f.__doc__ is None:
-    Vec2f.__doc__ = _str
-else:
-    Vec2f.__doc__ += _str
-
-def _Vec2f__getitem__(self, *args, **kwds):
-    return self.ndarray.__getitem__(*args, **kwds)
-Vec2f.__getitem__ = _Vec2f__getitem__
-        
-def _Vec2f__setitem__(self, *args, **kwds):
-    return self.ndarray.__setitem__(*args, **kwds)
-Vec2f.__setitem__ = _Vec2f__setitem__
-        
-def _Vec2f__getslice__(self, *args, **kwds):
-    return self.ndarray.__getslice__(*args, **kwds)
-Vec2f.__getslice__ = _Vec2f__getslice__
-        
-def _Vec2f__setslice__(self, *args, **kwds):
-    return self.ndarray.__setslice__(*args, **kwds)
-Vec2f.__setslice__ = _Vec2f__setslice__
-        
-def _Vec2f__iter__(self, *args, **kwds):
-    return self.ndarray.__iter__(*args, **kwds)
-Vec2f.__iter__ = _Vec2f__iter__
-        
-def _Vec2f__repr__(self):
-    return "Vec2f(" + self.ndarray.__str__() + ")"
-Vec2f.__repr__ = _Vec2f__repr__
-        
 _str = "\n    Creates a Vec3b view on an ndarray instance."
 if Vec3b.from_ndarray.__doc__ is None:
     Vec3b.from_ndarray.__doc__ = _str
@@ -1089,6 +1053,42 @@ Vec2b.__iter__ = _Vec2b__iter__
 def _Vec2b__repr__(self):
     return "Vec2b(" + self.ndarray.__str__() + ")"
 Vec2b.__repr__ = _Vec2b__repr__
+        
+_str = "\n    Creates a Vec2f view on an ndarray instance."
+if Vec2f.from_ndarray.__doc__ is None:
+    Vec2f.from_ndarray.__doc__ = _str
+else:
+    Vec2f.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2f that shares the same data with an ndarray instance, use:\n        'Vec2f.from_ndarray(a)' or 'asVec2f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Vec2f.__doc__ is None:
+    Vec2f.__doc__ = _str
+else:
+    Vec2f.__doc__ += _str
+
+def _Vec2f__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Vec2f.__getitem__ = _Vec2f__getitem__
+        
+def _Vec2f__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Vec2f.__setitem__ = _Vec2f__setitem__
+        
+def _Vec2f__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Vec2f.__getslice__ = _Vec2f__getslice__
+        
+def _Vec2f__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Vec2f.__setslice__ = _Vec2f__setslice__
+        
+def _Vec2f__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec2f.__iter__ = _Vec2f__iter__
+        
+def _Vec2f__repr__(self):
+    return "Vec2f(" + self.ndarray.__str__() + ")"
+Vec2f.__repr__ = _Vec2f__repr__
         
 _str = "\n    Creates a Vec2d view on an ndarray instance."
 if Vec2d.from_ndarray.__doc__ is None:
@@ -2654,3 +2654,19 @@ else:
 
 
     
+def __vector__repr__(self):
+    n = len(self)
+    s = "%s(len=%d, [" % (self.__class__.__name__, n)
+    if n==1:
+        s += repr(self[0])
+    elif n==2:
+        s += repr(self[0])+", "+repr(self[1])
+    elif n==3:
+        s += repr(self[0])+", "+repr(self[1])+", "+repr(self[2])
+    elif n==4:
+        s += repr(self[0])+", "+repr(self[1])+", "+repr(self[2])+", "+repr(self[3])
+    elif n > 4:
+        s += repr(self[0])+", "+repr(self[1])+", ..., "+repr(self[n-2])+", "+repr(self[n-1])
+    s += "])"
+    return s
+vector_Vec2i.__repr__ = __vector__repr__

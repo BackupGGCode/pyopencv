@@ -107,14 +107,14 @@ DEFVEC(VEC_NAME##_4, ELEM_TYPE, 4) \
 DEFVEC(VEC_NAME##_5, ELEM_TYPE, 5) \
 DEFVEC(VEC_NAME##_6, ELEM_TYPE, 6)
 
-DEFVECS(vec_int8, char);
-DEFVECS(vec_uint8, unsigned char);
-DEFVECS(vec_int16, short);
-DEFVECS(vec_uint16, unsigned short);
-DEFVECS(vec_int, int);
-DEFVECS(vec_uint, unsigned int);
-DEFVECS(vec_float32, float);
-DEFVECS(vec_float64, double);
+// DEFVECS(vec_int8, char);
+// DEFVECS(vec_uint8, unsigned char);
+// DEFVECS(vec_int16, short);
+// DEFVECS(vec_uint16, unsigned short);
+// DEFVECS(vec_int, int);
+// DEFVECS(vec_uint, unsigned int);
+// DEFVECS(vec_float32, float);
+// DEFVECS(vec_float64, double);
 
 #define REGVECS(VEC_NAME) \
 sdcpp::register_sdobject<sdcpp::VEC_NAME##_1>(); \

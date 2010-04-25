@@ -5273,8 +5273,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asVec4b", &sdcpp::from_ndarray< cv::Vec4b >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec2f >, (bp::arg("inst_ndarray")) );
-
     bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec3i", &sdcpp::from_ndarray< cv::Vec3i >, (bp::arg("inst_ndarray")) );
@@ -5282,6 +5280,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec4s >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec2b", &sdcpp::from_ndarray< cv::Vec2b >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec2f >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec2d >, (bp::arg("inst_ndarray")) );
 
