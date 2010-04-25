@@ -16,7 +16,6 @@ What about Seq template class?
 
 - introduce debugging mode so that people know which argument has been converted, which has been not
 
-- add vector_... functions to pyopencv
 - to_list_of_... returns vector_....
 - added to_vector_... (idea is to make to_list_of_... obsolete in the future)
 - propose to group a major change of representation from 1D array and 2D array back to std::vector
