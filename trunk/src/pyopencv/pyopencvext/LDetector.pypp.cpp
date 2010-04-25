@@ -24,12 +24,10 @@ static boost::python::object __call___14ec982e59fdc13237968e34b82d6fe2( ::cv::LD
     return bp::object( keypoints3 );
 }
 
-static boost::python::object __call___015c5cd98f14b41d0eaab62238a1a6fe( ::cv::LDetector const & inst, bp::list const & pyr, int maxCount=0, bool scaleCoords=true ){
+static boost::python::object __call___015c5cd98f14b41d0eaab62238a1a6fe( ::cv::LDetector const & inst, ::std::vector< cv::Mat > const & pyr, int maxCount=0, bool scaleCoords=true ){
     ::std::vector< cv::KeyPoint > keypoints2;
     bp::list keypoints3;
-    ::std::vector< cv::Mat > pyr2;
-    convert_from_object_to_T(pyr, pyr2);
-    inst.operator()(pyr2, keypoints2, maxCount, scaleCoords);
+    inst.operator()(pyr, keypoints2, maxCount, scaleCoords);
     convert_from_T_to_object(keypoints2, keypoints3);
     return bp::object( keypoints3 );
 }
@@ -63,13 +61,10 @@ void register_LDetector_class(){
     "\n    returned along with the function's return value (if any)." )    
         .def( 
             "__call__"
-            , (boost::python::object (*)( ::cv::LDetector const &,bp::list const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
+            , (boost::python::object (*)( ::cv::LDetector const &,::std::vector<cv::Mat, std::allocator<cv::Mat> > const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
             , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
             , "\nWrapped function:"
     "\n    operator()"
-    "\nArgument 'pyr':"\
-    "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
     "\n    Python type: list of KeyPoint."\

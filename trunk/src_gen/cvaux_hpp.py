@@ -83,43 +83,19 @@ def generate_code(mb, cc, D, FT, CP):
     
     # Octree
     z = mb.class_('Octree')
-    z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
-    common.register_vec('std::vector', 'cv::Octree::Node', 'vector_Octree_Node')
     z.mem_fun('getPointsWithinSphere')._transformer_creators.append(FT.arg_std_vector('points', 2))
-    z.constructor(lambda x: len(x.arguments) > 1).exclude()
-    z.mem_fun('getNodes').exclude()
-    z.add_declaration_code('''
-static boost::shared_ptr<cv::Octree> Octree_init1( bp::list const &points, int maxLevels=10, int minPoints=20 )
-{
-    std::vector<cv::Point3f> points2;
-    convert_from_object_to_T(points, points2);
-    return boost::shared_ptr<cv::Octree>(new cv::Octree(points2, maxLevels, minPoints ));
-}
-
-static bp::object sd_getNodes(cv::Octree const &inst) { return convert_from_T_to_object(inst.getNodes()); }
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&Octree_init1, bp::default_call_policies(), ( bp::arg("points"), bp::arg("maxLevels")=10, bp::arg("maxPoints")=20 )))')
-    z.add_registration_code('add_property( "nodes", &sd_getNodes)')
     mb.finalize_class(z)
-    
+
+    # Octree::Node
+    z = z.class_('Node')
+    mb.init_class(z)
+    mb.finalize_class(z)
+    common.register_vec('std::vector', 'cv::Octree::Node', 'vector_Octree_Node')
+        
     # Mesh3D
     z = mb.class_('Mesh3D')
     mb.init_class(z)
-    z.constructor(lambda x: 'vector' in x.decl_string).exclude()
-    for t in ('vtx', 'normals'):
-        z.var(t).exclude()
-    z.add_declaration_code('''
-static boost::shared_ptr<cv::Mesh3D> Mesh3D_init1( bp::list const &vtx)
-{
-    std::vector<cv::Point3f> vtx2;
-    convert_from_object_to_T(vtx, vtx2);
-    return boost::shared_ptr<cv::Mesh3D>(new cv::Mesh3D(vtx2));
-}
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&Mesh3D_init1, bp::default_call_policies(), ( bp::arg("vtx") ))  )')
-    for z1 in z.mem_funs('computeNormals'):
-        z1._transformer_kwds['alias'] = 'computeNormals'
     mb.finalize_class(z)
     
     # SpinImageModel
@@ -177,46 +153,32 @@ YAPE = LDetector
     
     # FernClassifier
     z = mb.class_('FernClassifier')
-    z.include_files.append('opencv_converters.hpp')
+    # z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
-    common.register_vec('std::vector', 'cv::FernClassifier::Feature', 'vector_FernClassifier_Feature')
     for t in z.operators('()'):
         t._transformer_creators.append(FT.arg_std_vector('signature', 2))
-    z.constructor(lambda x: len(x.arguments) > 5).exclude()
-    z.add_declaration_code('''
-static boost::shared_ptr<cv::FernClassifier> FernClassifier_init1( cv::Mat const & points, bp::list const & refimgs, cv::Mat const & labels=convert_from_vector_of_T_to_Mat(std::vector<int>()), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
-    cv::FernClassifier *obj = new cv::FernClassifier();
-    FernClassifier_wrapper::default_train(*obj, points, refimgs, labels, _nclasses, _patchSize,
-        _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, patchGenerator);
-    return boost::shared_ptr<cv::FernClassifier>(obj);
-}
-
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&FernClassifier_init1, bp::default_call_policies(), ( bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=cv::Mat(), bp::arg("_nclasses")=0, bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() ))  )')
     mb.finalize_class(z)
+    
+    # FernClassifier::Feature
+    z = z.class_('Feature')
+    mb.init_class(z)
+    mb.finalize_class(z)
+    common.register_vec('std::vector', 'cv::FernClassifier::Feature', 'vector_FernClassifier_Feature')
     
     # PlanarObjectDetector
     z = mb.class_('PlanarObjectDetector')
-    z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
-    for t in z.mem_funs():
+    z2 = [x for x in z.constructors()]+[x for x in z.mem_funs()]
+    for t in z2:
         for arg in t.arguments:
             if arg.default_value is not None and ('DEFAULT' in arg.default_value or 'PATCH' in arg.default_value):
                 arg.default_value = 'cv::FernClassifier::'+arg.default_value
     for t in ('getModelROI', 'getClassifier', 'getDetector'):
         z.mem_fun(t).exclude() # definition not yet available
-    z.operator(lambda x: x.name=='operator()' and len(x.arguments)==5).exclude() # TODO: fix this operator
-    z.constructor(lambda x: len(x.arguments) > 3).exclude()
-    z.add_declaration_code('''
-static boost::shared_ptr<cv::PlanarObjectDetector> PlanarObjectDetector_init1(bp::list const & pyr, int _npoints=300, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
-    std::vector<cv::Mat, std::allocator<cv::Mat> > pyr2;
-    convert_from_object_to_T(pyr, pyr2);
-    return boost::shared_ptr<cv::PlanarObjectDetector>(
-        new cv::PlanarObjectDetector(pyr2, _npoints, _patchSize, _nstructs, _structSize, _nviews, detector, patchGenerator));
-}
-
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&PlanarObjectDetector_init1, bp::default_call_policies(), ( bp::arg("pyr"), bp::arg("_npoints")=(int)(300), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )) )')
+    for z2 in z.operators('()'):
+        z2._transformer_creators.append(FT.arg_std_vector('corners', 2))
+        if len(z2.arguments)==5:
+            z2._transformer_creators.append(FT.output_type1('pairs'))
     mb.finalize_class(z)
     
     # LevMarqSparse
@@ -256,7 +218,7 @@ static boost::shared_ptr<cv::PlanarObjectDetector> PlanarObjectDetector_init1(bp
     
     # OneWayDescriptorObject
     # TODO: fix the rest of the member declarations
-    # OpenCV 2.1 bug: somehow this class has not been exposed
+    # OpenCV 2.1 bug: this class has not been exposed (lack of CV_EXPORTS)
     # z = mb.class_('OneWayDescriptorObject')
     # z.include()
     # z.decls().exclude()

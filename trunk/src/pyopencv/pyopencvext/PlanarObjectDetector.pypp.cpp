@@ -3,10 +3,10 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
+#include "ndarray.hpp"
 #include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "opencv_converters.hpp"
 #include "PlanarObjectDetector.pypp.hpp"
 
 namespace bp = boost::python;
@@ -34,33 +34,42 @@ struct PlanarObjectDetector_wrapper : cv::PlanarObjectDetector, bp::wrapper< cv:
     
     }
 
-    static boost::python::object __call___4ace94e257458a02821c3e23f229be80( ::cv::PlanarObjectDetector const & inst, ::cv::Mat const & image, ::cv::Mat & H, cv::Mat & corners ){
+    PlanarObjectDetector_wrapper(::std::vector< cv::Mat > const & pyr, int _npoints=300, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() )
+    : cv::PlanarObjectDetector( boost::ref(pyr), _npoints, _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) )
+      , bp::wrapper< cv::PlanarObjectDetector >(){
+        // constructor
+    
+    }
+
+    static boost::python::tuple __call___4ace94e257458a02821c3e23f229be80( ::cv::PlanarObjectDetector const & inst, ::cv::Mat const & image, ::cv::Mat & H ){
         ::std::vector< cv::Point_<float> > corners2;
-        convert_from_Mat_to_vector_of_T(corners, corners2);
+        cv::Mat corners3;
         bool result = inst.operator()(image, H, corners2);
-        convert_from_vector_of_T_to_Mat(corners2, corners);
-        return bp::object( result );
+        convert_from_vector_of_T_to_Mat(corners2, corners3);
+        return bp::make_tuple( result, corners3 );
+    }
+
+    static boost::python::tuple __call___353477db407d578b28250d295a56ae36( ::cv::PlanarObjectDetector const & inst, ::std::vector< cv::Mat > const & pyr, bp::list const & keypoints, ::cv::Mat & H ){
+        ::std::vector< cv::Point_<float> > corners2;
+        cv::Mat corners3;
+        std::vector<int, std::allocator<int> > pairs2;
+        ::std::vector< cv::KeyPoint > keypoints2;
+        convert_from_object_to_T(keypoints, keypoints2);
+        bool result = inst.operator()(pyr, keypoints2, H, corners2, &pairs2);
+        convert_from_vector_of_T_to_Mat(corners2, corners3);
+        return bp::make_tuple( result, corners3, pairs2 );
     }
 
     virtual void train( ::std::vector< cv::Mat > const & pyr, int _npoints=300, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_train = this->get_override( "train" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_train.ptr(), pyr, _npoints, _patchSize, _nstructs, _structSize, _nviews, detector, patchGenerator );
-        }
+        if( bp::override func_train = this->get_override( "train" ) )
+            func_train( boost::ref(pyr), _npoints, _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) );
         else{
-            cv::PlanarObjectDetector::train( boost::ref(pyr), _npoints, _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) );
+            this->cv::PlanarObjectDetector::train( boost::ref(pyr), _npoints, _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) );
         }
     }
     
-    static void default_train_54eace8da687689cec07018f6937568f( ::cv::PlanarObjectDetector & inst, bp::list const & pyr, int _npoints=300, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
-        ::std::vector< cv::Mat > pyr2;
-        convert_from_object_to_T(pyr, pyr2);
-        if( dynamic_cast< PlanarObjectDetector_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::cv::PlanarObjectDetector::train(pyr2, _npoints, _patchSize, _nstructs, _structSize, _nviews, detector, patchGenerator);
-        }
-        else{
-            inst.train(pyr2, _npoints, _patchSize, _nstructs, _structSize, _nviews, detector, patchGenerator);
-        }
+    void default_train( ::std::vector< cv::Mat > const & pyr, int _npoints=300, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
+        cv::PlanarObjectDetector::train( boost::ref(pyr), _npoints, _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) );
     }
 
     virtual void train( ::std::vector< cv::Mat > const & pyr, ::std::vector< cv::KeyPoint > const & keypoints, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
@@ -73,27 +82,18 @@ struct PlanarObjectDetector_wrapper : cv::PlanarObjectDetector, bp::wrapper< cv:
         }
     }
     
-    static void default_train_397cef68f28ef0598cf4d0402f508184( ::cv::PlanarObjectDetector & inst, bp::list const & pyr, bp::list const & keypoints, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
-        ::std::vector< cv::Mat > pyr2;
+    static void default_train_397cef68f28ef0598cf4d0402f508184( ::cv::PlanarObjectDetector & inst, ::std::vector< cv::Mat > const & pyr, bp::list const & keypoints, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
         ::std::vector< cv::KeyPoint > keypoints2;
-        convert_from_object_to_T(pyr, pyr2);
         convert_from_object_to_T(keypoints, keypoints2);
         if( dynamic_cast< PlanarObjectDetector_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::cv::PlanarObjectDetector::train(pyr2, keypoints2, _patchSize, _nstructs, _structSize, _nviews, detector, patchGenerator);
+            inst.::cv::PlanarObjectDetector::train(pyr, keypoints2, _patchSize, _nstructs, _structSize, _nviews, detector, patchGenerator);
         }
         else{
-            inst.train(pyr2, keypoints2, _patchSize, _nstructs, _structSize, _nviews, detector, patchGenerator);
+            inst.train(pyr, keypoints2, _patchSize, _nstructs, _structSize, _nviews, detector, patchGenerator);
         }
     }
 
 };
-
-static boost::shared_ptr<cv::PlanarObjectDetector> PlanarObjectDetector_init1(bp::list const & pyr, int _npoints=300, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
-    std::vector<cv::Mat, std::allocator<cv::Mat> > pyr2;
-    convert_from_object_to_T(pyr, pyr2);
-    return boost::shared_ptr<cv::PlanarObjectDetector>(
-        new cv::PlanarObjectDetector(pyr2, _npoints, _patchSize, _nstructs, _structSize, _nviews, detector, patchGenerator));
-}
 
 void register_PlanarObjectDetector_class(){
 
@@ -104,6 +104,8 @@ void register_PlanarObjectDetector_class(){
         PlanarObjectDetector_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::PlanarObjectDetector >() );
         PlanarObjectDetector_exposer.def( bp::init< cv::FileNode const & >(( bp::arg("node") )) );
         bp::implicitly_convertible< cv::FileNode const &, cv::PlanarObjectDetector >();
+        PlanarObjectDetector_exposer.def( bp::init< std::vector< cv::Mat > const &, bp::optional< int, int, int, int, int, cv::LDetector const &, cv::PatchGenerator const & > >(( bp::arg("pyr"), bp::arg("_npoints")=(int)(300), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )) );
+        bp::implicitly_convertible< std::vector< cv::Mat > const &, cv::PlanarObjectDetector >();
         { //::cv::PlanarObjectDetector::getModelPoints
         
             typedef ::std::vector< cv::KeyPoint > ( ::cv::PlanarObjectDetector::*getModelPoints_function_type )(  ) const;
@@ -115,19 +117,50 @@ void register_PlanarObjectDetector_class(){
         }
         { //::cv::PlanarObjectDetector::operator()
         
-            typedef boost::python::object ( *__call___function_type )( ::cv::PlanarObjectDetector const &,::cv::Mat const &,::cv::Mat &,cv::Mat & );
+            typedef boost::python::tuple ( *__call___function_type )( ::cv::PlanarObjectDetector const &,::cv::Mat const &,::cv::Mat & );
             
             PlanarObjectDetector_exposer.def( 
                 "__call__"
                 , __call___function_type( &PlanarObjectDetector_wrapper::__call___4ace94e257458a02821c3e23f229be80 )
-                , ( bp::arg("inst"), bp::arg("image"), bp::arg("H"), bp::arg("corners") )
+                , ( bp::arg("inst"), bp::arg("image"), bp::arg("H") )
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'corners':"\
     "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)." );
+        
+        }
+        { //::cv::PlanarObjectDetector::operator()
+        
+            typedef boost::python::tuple ( *__call___function_type )( ::cv::PlanarObjectDetector const &,::std::vector<cv::Mat, std::allocator<cv::Mat> > const &,bp::list const &,::cv::Mat & );
+            
+            PlanarObjectDetector_exposer.def( 
+                "__call__"
+                , __call___function_type( &PlanarObjectDetector_wrapper::__call___353477db407d578b28250d295a56ae36 )
+                , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("keypoints"), bp::arg("H") )
+                , "\nWrapped function:"
+    "\n    operator()"
+    "\nArgument 'corners':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)."\
+    "\nArgument 'pairs':"\
+    "\n    C/C++ type: ::std::vector< int > *."\
+    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)."\
+    "\nArgument 'keypoints':"\
+    "\n    C/C++ type: ::std::vector< cv::KeyPoint > const &."\
+    "\n    Python type: list of KeyPoint."\
+    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
+    "\n    to_list_of_...()." );
         
         }
         { //::cv::PlanarObjectDetector::read
@@ -152,22 +185,19 @@ void register_PlanarObjectDetector_class(){
         }
         { //::cv::PlanarObjectDetector::train
         
-            typedef void ( *default_train_54eace8da687689cec07018f6937568f_function_type )( ::cv::PlanarObjectDetector &,bp::list const &,int,int,int,int,int,::cv::LDetector const &,::cv::PatchGenerator const & );
+            typedef void ( ::cv::PlanarObjectDetector::*train_function_type )( ::std::vector< cv::Mat > const &,int,int,int,int,int,::cv::LDetector const &,::cv::PatchGenerator const & ) ;
+            typedef void ( PlanarObjectDetector_wrapper::*default_train_function_type )( ::std::vector< cv::Mat > const &,int,int,int,int,int,::cv::LDetector const &,::cv::PatchGenerator const & ) ;
             
             PlanarObjectDetector_exposer.def( 
-                "train_54eace8da687689cec07018f6937568f"
-                , default_train_54eace8da687689cec07018f6937568f_function_type( &PlanarObjectDetector_wrapper::default_train_54eace8da687689cec07018f6937568f )
-                , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("_npoints")=(int)(300), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )
-                , "\nWrapped function:"
-    "\n    train"
-    "\nArgument 'pyr':"\
-    "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
+                "train"
+                , train_function_type(&::cv::PlanarObjectDetector::train)
+                , default_train_function_type(&PlanarObjectDetector_wrapper::default_train)
+                , ( bp::arg("pyr"), bp::arg("_npoints")=(int)(300), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() ) );
         
         }
         { //::cv::PlanarObjectDetector::train
         
-            typedef void ( *default_train_397cef68f28ef0598cf4d0402f508184_function_type )( ::cv::PlanarObjectDetector &,bp::list const &,bp::list const &,int,int,int,int,::cv::LDetector const &,::cv::PatchGenerator const & );
+            typedef void ( *default_train_397cef68f28ef0598cf4d0402f508184_function_type )( ::cv::PlanarObjectDetector &,::std::vector<cv::Mat, std::allocator<cv::Mat> > const &,bp::list const &,int,int,int,int,::cv::LDetector const &,::cv::PatchGenerator const & );
             
             PlanarObjectDetector_exposer.def( 
                 "train_397cef68f28ef0598cf4d0402f508184"
@@ -175,9 +205,6 @@ void register_PlanarObjectDetector_class(){
                 , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("keypoints"), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )
                 , "\nWrapped function:"
     "\n    train"
-    "\nArgument 'pyr':"\
-    "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > const &."\
     "\n    Python type: list of KeyPoint."\
@@ -195,7 +222,6 @@ void register_PlanarObjectDetector_class(){
                 , ( bp::arg("fs"), bp::arg("name")=std::string() ) );
         
         }
-        PlanarObjectDetector_exposer.def("__init__", bp::make_constructor(&PlanarObjectDetector_init1, bp::default_call_policies(), ( bp::arg("pyr"), bp::arg("_npoints")=(int)(300), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )) );
     }
 
 }

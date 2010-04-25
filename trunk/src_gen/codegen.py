@@ -326,18 +326,12 @@ def beautify_func_list(self, func_list):
             if isinstance(arg.default_value, str):
                 repl_list = {
                     'std::basic_string<char, std::char_traits<char>, std::allocator<char> >': 'std::string',
-                    'std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >': 'std::vector<cv::Point>',
                     'cvPoint': 'cv::Point',
                     'cvTermCriteria': 'cv::TermCriteria',
                     'CV_WHOLE_SEQ': 'cv::Range(0, 0x3fffffff)',
-                    'std::vector<cv::Scalar_<double>, std::allocator<cv::Scalar_<double> > >': 'std::vector<cv::Scalar>',
-                    'std::vector<int, std::allocator<int> >': 'std::vector<int>',
-                    'std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > >': 'std::vector<cv::Vec4i>',
                 }
                 for z in repl_list:
                     arg.default_value = arg.default_value.replace(z, repl_list[z])
-                if ", std::allocator<" in arg.default_value: # std::allocator
-                    print("func=%s arg.name=%s arg.default_value=%s" % (f.alias, arg.name, arg.default_value))
 
     # function argument int *sizes and int dims
     for f in func_list:
@@ -368,10 +362,10 @@ def beautify_func_list(self, func_list):
         for arg in f.arguments:
             if is_arg_touched(f, arg.name):
                 continue
-            if "std::vector<" in arg.type.decl_string:
+            if "std::vector<" in arg.type.decl_string and 'cv::Mat' not in arg.type.decl_string:
                 f._transformer_creators.append(FT.arg_std_vector(arg.name))
 
-    # function argument IplImage *, CvMat *, CvArr *, and std::vector<> into cv::Mat
+    # function argument IplImage *, CvMat *, and CvArr * into cv::Mat
     for f in func_list:
         for arg in f.arguments:
             if is_arg_touched(f, arg.name):
@@ -487,18 +481,18 @@ def finalize_class(self, z):
             pass
 
     # convert a std::vector<> into something useful
-    try:
-        zz = z.vars()
-    except RuntimeError:
-        zz = []
-    for t in zz:
-        if not t.ignore and 'std::vector' in t.type.decl_string:
-            z.include_files.append("opencv_converters.hpp")
-            t.exclude()
-            z.add_declaration_code('''
-static bp::object get_MEMBER(KLASS const &inst) { return convert_from_T_to_object(inst.MEMBER); }
-            '''.replace('MEMBER', t.name).replace('KLASS', z.decl_string))
-            z.add_registration_code('add_property("MEMBER", &get_MEMBER)'.replace('MEMBER', t.name))
+    # try:
+        # zz = z.vars()
+    # except RuntimeError:
+        # zz = []
+    # for t in zz:
+        # if not t.ignore and 'std::vector' in t.type.decl_string:
+            # z.include_files.append("opencv_converters.hpp")
+            # t.exclude()
+            # z.add_declaration_code('''
+# static bp::object get_MEMBER(KLASS const &inst) { return convert_from_T_to_object(inst.MEMBER); }
+            # '''.replace('MEMBER', t.name).replace('KLASS', z.decl_string))
+            # z.add_registration_code('add_property("MEMBER", &get_MEMBER)'.replace('MEMBER', t.name))
 
     # if a function returns a pointer and does not have a call policy, create a default one for it
     for f in z._funs:

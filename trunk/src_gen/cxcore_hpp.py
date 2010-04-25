@@ -597,8 +597,8 @@ MatND.__repr__ = _MatND__repr__
     z = mb.class_('NAryMatNDIterator')
     mb.init_class(z)
     z.constructors(lambda x: "MatND const *" in x.partial_decl_string).exclude() # TODO: fix these constructors
-    for t in ('arrays', 'planes'): # TODO: expose these variables of type std::vector<Mat..>
-        z.var(t).exclude()
+    # for t in ('arrays', 'planes'): # TODO: expose these variables of type std::vector<Mat..>
+        # z.var(t).exclude()
     z.mem_fun('init')._transformer_creators.append(FT.input_as_list_of_MatND('arrays', 'count'))
     mb.finalize_class(z)
     
@@ -753,15 +753,15 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
         for z in mb.free_funs(t):
             if 'vector' in z.partial_decl_string:
                 z.include()
-                z._transformer_creators.append(FT.arg_std_vector('mv'))
-                z._transformer_kwds['alias'] = t
+                # z._transformer_creators.append(FT.arg_std_vector('mv'))
+                # z._transformer_kwds['alias'] = t
             
     # mixChannels
     for z in mb.free_funs('mixChannels'):
         if 'vector' in z.partial_decl_string:
             z.include()
-            z._transformer_creators.append(FT.arg_std_vector('src'))
-            z._transformer_creators.append(FT.arg_std_vector('dst'))
+            # z._transformer_creators.append(FT.arg_std_vector('src'))
+            # z._transformer_creators.append(FT.arg_std_vector('dst'))
             z._transformer_kwds['alias'] = 'mixChannels'
             z._transformer_creators.append(FT.input_array1d('fromTo'))
     

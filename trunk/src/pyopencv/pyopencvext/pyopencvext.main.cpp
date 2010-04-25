@@ -540,6 +540,8 @@
 
 #include "pyopencvext/pyopencvext_free_functions_so.pypp.hpp"
 
+#include "pyopencvext/pyopencvext_free_functions_sp.pypp.hpp"
+
 #include "pyopencvext/pyopencvext_free_functions_sq.pypp.hpp"
 
 #include "pyopencvext/pyopencvext_free_functions_st.pypp.hpp"
@@ -558,11 +560,15 @@
 
 #include "pyopencvext/vector_CvFuzzyCurve.pypp.hpp"
 
+#include "pyopencvext/vector_FernClassifier_Feature.pypp.hpp"
+
 #include "pyopencvext/vector_KeyPoint.pypp.hpp"
 
 #include "pyopencvext/vector_Mat.pypp.hpp"
 
 #include "pyopencvext/vector_MatND.pypp.hpp"
+
+#include "pyopencvext/vector_Octree_Node.pypp.hpp"
 
 #include "pyopencvext/vector_Point2d.pypp.hpp"
 
@@ -728,13 +734,6 @@ static boost::python::object approxPolyDP_d6c85380d14cce99fc92c414781ada55( ::cv
     ::cv::approxPolyDP(curve, approxCurve2, epsilon, closed);
     convert_from_vector_of_T_to_Mat(approxCurve2, approxCurve3);
     return bp::object( approxCurve3 );
-}
-
-static void buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac( ::cv::Mat const & src, bp::list & dst, int maxlevel ){
-    ::std::vector< cv::Mat > dst2;
-    convert_from_object_to_T(dst, dst2);
-    ::cv::buildPyramid(src, dst2, maxlevel);
-    convert_from_T_to_object(dst2, dst);
 }
 
 static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( sdcpp::sequence images, cv::Mat const & channels, ::cv::SparseMat const & hist, ::cv::Mat & backProject, bp::object const & ranges, double scale=1, bool uniform=true ){
@@ -1343,7 +1342,7 @@ static void cvWriteFileNode_4df1ea107367e738fdd6f88f15146fb9( ::cv::FileStorage 
     ::cvWriteFileNode(fs.fs, new_node_name, *(node), embed);
 }
 
-static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::list const & contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, cv::Mat const & hierarchy=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
+static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::list const & contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, cv::Mat const & hierarchy=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > >()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
     ::std::vector< std::vector< cv::Point_<int> > > contours2;
     ::std::vector< cv::Vec<int, 4> > hierarchy2;
     convert_from_object_to_T(contours, contours2);
@@ -1517,7 +1516,7 @@ static void groupRectangles_daddb1eb144574c44042d3cef39f8656( cv::Mat & rectList
     convert_from_vector_of_T_to_Mat(rectList2, rectList);
 }
 
-static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::string const & ext, ::cv::Mat const & img, cv::Mat const & params=convert_from_vector_of_T_to_Mat(std::vector<int>()) ){
+static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::string const & ext, ::cv::Mat const & img, cv::Mat const & params=convert_from_vector_of_T_to_Mat(std::vector<int, std::allocator<int> >()) ){
     ::std::vector< unsigned char > buf2;
     cv::Mat buf3;
     ::std::vector< int > params2;
@@ -1527,7 +1526,7 @@ static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::st
     return bp::make_tuple( result, buf3 );
 }
 
-static boost::python::object imwrite_08123c4d4c07e7af51577328378c9683( ::std::string const & filename, ::cv::Mat const & img, cv::Mat const & params=convert_from_vector_of_T_to_Mat(std::vector<int>()) ){
+static boost::python::object imwrite_08123c4d4c07e7af51577328378c9683( ::std::string const & filename, ::cv::Mat const & img, cv::Mat const & params=convert_from_vector_of_T_to_Mat(std::vector<int, std::allocator<int> >()) ){
     ::std::vector< int > params2;
     convert_from_Mat_to_vector_of_T(params, params2);
     bool result = ::cv::imwrite(filename, img, params2);
@@ -1547,18 +1546,6 @@ static boost::python::tuple kmeans_7acc1faebc4e430dbd210d93113e85c9( ::cv::Mat c
     cv::Mat centers2;
     double result = ::cv::kmeans(data, K, best_labels, criteria, attempts, flags, &centers2);
     return bp::make_tuple( result, centers2 );
-}
-
-static void merge_181a45f787822fd2b5f0d1797cf24cb9( bp::list const & mv, ::cv::MatND & dst ){
-    ::std::vector< cv::MatND > mv2;
-    convert_from_object_to_T(mv, mv2);
-    ::cv::merge(mv2, dst);
-}
-
-static void merge_d67e402c11e8166727b306edf7cce556( bp::list const & mv, ::cv::Mat & dst ){
-    ::std::vector< cv::Mat > mv2;
-    convert_from_object_to_T(mv, mv2);
-    ::cv::merge(mv2, dst);
 }
 
 static boost::python::tuple minMaxLoc_5898fb91ebb58d1df6569148b5c62cce( ::cv::SparseMat const & a ){
@@ -1588,28 +1575,18 @@ static boost::python::tuple minMaxLoc_35f2a2e80fcf305e891ee746d58be725( ::cv::Ma
     return bp::make_tuple( minVal2, maxVal2, minLoc2, maxLoc2 );
 }
 
-static void mixChannels_c8fa9614f4fb5a79f84423883d102a9e( bp::list const & src, bp::list & dst, cv::Mat const & fromTo, int npairs ){
-    ::std::vector< cv::MatND > src2;
-    ::std::vector< cv::MatND > dst2;
+static void mixChannels_c8fa9614f4fb5a79f84423883d102a9e( ::std::vector< cv::MatND > const & src, ::std::vector< cv::MatND > & dst, cv::Mat const & fromTo, int npairs ){
     int fromTo2;
     int * fromTo3;
-    convert_from_object_to_T(src, src2);
-    convert_from_object_to_T(dst, dst2);
     convert_from_Mat_to_array_of_T(fromTo, fromTo3, fromTo2);
-    ::cv::mixChannels(src2, dst2, fromTo3, npairs);
-    convert_from_T_to_object(dst2, dst);
+    ::cv::mixChannels(src, dst, fromTo3, npairs);
 }
 
-static void mixChannels_269d2fa250748779c49641b632451e5f( bp::list const & src, bp::list & dst, cv::Mat const & fromTo, int npairs ){
-    ::std::vector< cv::Mat > src2;
-    ::std::vector< cv::Mat > dst2;
+static void mixChannels_269d2fa250748779c49641b632451e5f( ::std::vector< cv::Mat > const & src, ::std::vector< cv::Mat > & dst, cv::Mat const & fromTo, int npairs ){
     int fromTo2;
     int * fromTo3;
-    convert_from_object_to_T(src, src2);
-    convert_from_object_to_T(dst, dst2);
     convert_from_Mat_to_array_of_T(fromTo, fromTo3, fromTo2);
-    ::cv::mixChannels(src2, dst2, fromTo3, npairs);
-    convert_from_T_to_object(dst2, dst);
+    ::cv::mixChannels(src, dst, fromTo3, npairs);
 }
 
 static void polylines_4b2b9aca4a0ee1864678eae6b982fcc0( ::cv::Mat & img, bp::object const & pts, bool isClosed, ::cv::Scalar const & color, int thickness=1, int lineType=8, int shift=0 ){
@@ -1728,20 +1705,6 @@ static boost::python::object read_2ba57a356ec17a70685f21fbad5a9438( ::cv::FileNo
     bool value2;
     ::cv::read(node, value2, default_value);
     return bp::object( value2 );
-}
-
-static void split_12da852b2108a4c5223916b7b3caf48f( ::cv::MatND const & m, bp::list & mv ){
-    ::std::vector< cv::MatND > mv2;
-    convert_from_object_to_T(mv, mv2);
-    ::cv::split(m, mv2);
-    convert_from_T_to_object(mv2, mv);
-}
-
-static void split_5e87cb7b08d019948a672b023e58e480( ::cv::Mat const & m, bp::list & mv ){
-    ::std::vector< cv::Mat > mv2;
-    convert_from_object_to_T(mv, mv2);
-    ::cv::split(m, mv2);
-    convert_from_T_to_object(mv2, mv);
 }
 
 static boost::python::object stereoCalibrate_14726b7172922289400130b4861f4a12( bp::list const & objectPoints, bp::list const & imagePoints1, bp::list const & imagePoints2, ::cv::Mat & cameraMatrix1, ::cv::Mat & distCoeffs1, ::cv::Mat & cameraMatrix2, ::cv::Mat & distCoeffs2, ::cv::Size imageSize, ::cv::Mat & R, ::cv::Mat & T, ::cv::Mat & E, ::cv::Mat & F, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), int flags=int(::cv::CALIB_FIX_INTRINSIC) ){
@@ -1923,11 +1886,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_vector_Point3d_class();
 
+    register_vector_Octree_Node_class();
+
     register_vector_MatND_class();
 
     register_vector_Mat_class();
 
     register_vector_KeyPoint_class();
+
+    register_vector_FernClassifier_Feature_class();
 
     register_vector_int8_class();
 
@@ -2579,20 +2546,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the function's calling sequence, and is "\
     "\n    returned along with the function's return value (if any)." );
-    
-    }
-
-    { //::cv::buildPyramid
-    
-        typedef void ( *buildPyramid_function_type )( ::cv::Mat const &,bp::list &,int );
-        
-        bp::def( 
-            "buildPyramid"
-            , buildPyramid_function_type( &buildPyramid_84cd4ffd24fbd4dbaeccf86ceb1007ac )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("maxlevel") )
-            , "\nArgument 'dst':"\
-    "\n    C/C++ type: ::std::vector< cv::Mat > &."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
     
     }
 
@@ -4444,7 +4397,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "drawContours"
             , drawContours_function_type( &drawContours_03a5aed7ca57b253d8b3346ee2f05f74 )
-            , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() )
+            , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > >()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() )
             , "\nArgument 'hierarchy':"\
     "\n    C/C++ type: ::std::vector< cv::Vec<int, 4> > const &."\
     "\n    Python type: Mat."\
@@ -4826,7 +4779,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "imencode"
             , imencode_function_type( &imencode_7058867f40db2ceceebdc74b4943c841 )
-            , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
+            , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int, std::allocator<int> >()) )
             , "\nEncode an image into a memory buffer."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imencode"
@@ -4852,7 +4805,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "imwrite"
             , imwrite_function_type( &imwrite_08123c4d4c07e7af51577328378c9683 )
-            , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
+            , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int, std::allocator<int> >()) )
             , "\nSaves an image to a specified file."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imwrite"
@@ -4899,40 +4852,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from the function's calling sequence, and is "\
     "\n    returned along with the function's return value (if any)." );
-    
-    }
-
-    { //::cv::merge
-    
-        typedef void ( *merge_function_type )( bp::list const &,::cv::MatND & );
-        
-        bp::def( 
-            "merge"
-            , merge_function_type( &merge_181a45f787822fd2b5f0d1797cf24cb9 )
-            , ( bp::arg("mv"), bp::arg("dst") )
-            , "\nComposes a multi-channel array from several single-channel arrays."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge"
-    "\nArgument 'mv':"\
-    "\n    C/C++ type: ::std::vector< cv::MatND > const &."\
-    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]." );
-    
-    }
-
-    { //::cv::merge
-    
-        typedef void ( *merge_function_type )( bp::list const &,::cv::Mat & );
-        
-        bp::def( 
-            "merge"
-            , merge_function_type( &merge_d67e402c11e8166727b306edf7cce556 )
-            , ( bp::arg("mv"), bp::arg("dst") )
-            , "\nComposes a multi-channel array from several single-channel arrays."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge"
-    "\nArgument 'mv':"\
-    "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
     
     }
 
@@ -5040,7 +4959,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::mixChannels
     
-        typedef void ( *mixChannels_function_type )( bp::list const &,bp::list &,cv::Mat const &,int );
+        typedef void ( *mixChannels_function_type )( ::std::vector<cv::MatND, std::allocator<cv::MatND> > const &,::std::vector<cv::MatND, std::allocator<cv::MatND> > &,cv::Mat const &,int );
         
         bp::def( 
             "mixChannels"
@@ -5050,12 +4969,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nof output arrays."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
-    "\nArgument 'src':"\
-    "\n    C/C++ type: ::std::vector< cv::MatND > const &."\
-    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
-    "\nArgument 'dst':"\
-    "\n    C/C++ type: ::std::vector< cv::MatND > &."\
-    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]."\
     "\nArgument 'fromTo':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: Mat."\
@@ -5066,7 +4979,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::mixChannels
     
-        typedef void ( *mixChannels_function_type )( bp::list const &,bp::list &,cv::Mat const &,int );
+        typedef void ( *mixChannels_function_type )( ::std::vector<cv::Mat, std::allocator<cv::Mat> > const &,::std::vector<cv::Mat, std::allocator<cv::Mat> > &,cv::Mat const &,int );
         
         bp::def( 
             "mixChannels"
@@ -5076,12 +4989,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nof output arrays."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
-    "\nArgument 'src':"\
-    "\n    C/C++ type: ::std::vector< cv::Mat > const &."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
-    "\nArgument 'dst':"\
-    "\n    C/C++ type: ::std::vector< cv::Mat > &."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'fromTo':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: Mat."\
@@ -5363,40 +5270,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
-    { //::cv::split
-    
-        typedef void ( *split_function_type )( ::cv::MatND const &,bp::list & );
-        
-        bp::def( 
-            "split"
-            , split_function_type( &split_12da852b2108a4c5223916b7b3caf48f )
-            , ( bp::arg("m"), bp::arg("mv") )
-            , "\nDivides multi-channel array into several single-channel arrays."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split"
-    "\nArgument 'mv':"\
-    "\n    C/C++ type: ::std::vector< cv::MatND > &."\
-    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]." );
-    
-    }
-
-    { //::cv::split
-    
-        typedef void ( *split_function_type )( ::cv::Mat const &,bp::list & );
-        
-        bp::def( 
-            "split"
-            , split_function_type( &split_5e87cb7b08d019948a672b023e58e480 )
-            , ( bp::arg("m"), bp::arg("mv") )
-            , "\nDivides multi-channel array into several single-channel arrays."
-    "\nReference:"
-    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-split"
-    "\nArgument 'mv':"\
-    "\n    C/C++ type: ::std::vector< cv::Mat > &."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
-    
-    }
-
     { //::cv::stereoCalibrate
     
         typedef boost::python::object ( *stereoCalibrate_function_type )( bp::list const &,bp::list const &,bp::list const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Size,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::TermCriteria,int );
@@ -5655,6 +5528,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_free_functions_so();
 
     register_free_functions_sq();
+
+    register_free_functions_sp();
 
     register_free_functions_su();
 
