@@ -24,8 +24,11 @@ import function_transformers as FT
 from pyplusplus.module_builder import call_policies as CP
 from shutil import copyfile
 
+# -----------------------------------------------------------------------------------------------
 # modify pyplusplus.file_writers.multiple_files_t.split_creators to allow splitting into multiple files
-def my_split_creators( self, creators, pattern, function_name, registrator_pos, n_creators=30 ):
+# -----------------------------------------------------------------------------------------------
+def my_split_creators( self, creators, pattern, function_name, registrator_pos, 
+    prefix_level=0, n_creators=30 ):
     """Write non-class creators into multiple particular .h/.cpp files -- modified by Minh-Tri Pham.
 
     :param creators: The code creators that should be written
@@ -42,13 +45,44 @@ def my_split_creators( self, creators, pattern, function_name, registrator_pos, 
 
     :param n_creators: The number of code creators per file. -- Minh-Tri
     :type n_creators: int
+
+    :param prefix_level: The current prefix level -- for internal use only. -- Minh-Tri
+    :type prefix_level: int
     """
-    cnt = 0
-    while len(creators) > n_creators:
-        cnt += 1
-        self.split_creators_old(creators[:n_creators], "%s_%d" % (pattern, cnt), 
-            "%s_%d" % (function_name, cnt), registrator_pos)
-        creators = creators[n_creators:]
+    
+    def get_alias(creator):
+        try:
+            return creator.alias.lower()
+        except AttributeError:
+            return ''
+    
+    if len(creators) > n_creators:
+        # get prefix characters
+        charset = set()
+        for creator in creators:
+            creator_name = get_alias(creator)
+            if len(creator_name) > prefix_level:
+                charset.add(creator_name[prefix_level])
+                
+        # for each prefix character
+        for char in charset:
+            c1 = []
+            c2 = []
+            # split creators
+            for creator in creators:
+                creator_name = get_alias(creator)
+                if len(creator_name) > prefix_level and creator_name[prefix_level]==char:
+                    c1.append(creator)
+                else:
+                    c2.append(creator)
+            creators = c2
+            
+            if prefix_level==0:
+                self.split_creators(c1, pattern+'_'+char, function_name+'_'+char, 
+                    registrator_pos, prefix_level+1, n_creators)
+            else:
+                self.split_creators(c1, pattern+char, function_name+char, 
+                    registrator_pos, prefix_level+1, n_creators)
     self.split_creators_old(creators, pattern, function_name, registrator_pos)
     
 import pyplusplus.file_writers as pf
@@ -81,7 +115,9 @@ chdir(OP.join(OP.split(OP.abspath(__file__))[0], '..', 'src', 'pyopencv'))
 _work_dir = getcwd()
 print("Working directory changed to: %s" % _work_dir)
 
-#Creating an instance of class that will help you to expose your declarations
+# -----------------------------------------------------------------------------------------------
+# Creating an instance of class that will help you to expose your declarations
+# -----------------------------------------------------------------------------------------------
 mb = module_builder.module_builder_t(
     ["opencv_headers.hpp"],
     gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe",
