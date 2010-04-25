@@ -365,24 +365,45 @@ def update_file(file_path, content):
         
 _decls_reg = {}
 
+# get a unique pds
+def unique_pds(pds):
+    if pds is None:
+        return None
+    if pds.startswith('::'):
+        pds = pds[2:]
+    pds = pds.replace('< ', '<').replace(', ', ',')
+    while True:
+        i = pds.find(' >')
+        if i<0:
+            break
+        if i>0 and pds[i-1]=='>':
+            pds = pds[:i-1]+'>SDSD>'+pds[i+2:]
+        else:
+            pds = pds[:i]+'>'+pds[i+2:]
+    return pds.replace('SDSD', ' ')
+
 # get information of a registered class
-def get_registered_decl(alias):
-    for key in _decls_reg:
-        if _decls_reg[key][0]==alias:
-            return _decls_reg[key]
-    else:
-        raise ValueError("Class of pds '%s' has not been registered." % pds)
+def get_registered_decl(pds):
+    upds = unique_pds(pds)
+    try:
+        return _decls_reg[upds]
+    except KeyError:
+        raise ValueError("Class of alias '%s' has not been registered." % alias)
         
 # pds = partial_decl_string without the preceeding '::'
 def register_decl(pyName, pds, cChildName_pds=None, pyEquivName=None):
+    upds = unique_pds(pds)
+    if upds in _decls_reg:
+        print "Declaration %s already registered." % pds
+        return
     if '::' in pds: # assume it is a class
-        print "Registering class %s as %s..." % (pds, pyName)
+        print "Registering class %s as %s..." % (upds, pyName)
         try:
-            mb.class_(lambda x: x.partial_decl_string=='::'+pds).rename(pyName)
+            mb.class_(lambda x: unique_pds(x.partial_decl_string)==upds).rename(pyName)
         except RuntimeError:
             # print "Class %s does not exist." % pds
             pass
-    _decls_reg[pds] = (pyName, cChildName_pds, pyEquivName)
+    _decls_reg[upds] = (pyName, unique_pds(cChildName_pds), pyEquivName)
 
 # vector template instantiation
 # cName_pds : C name of the class without template element(s)
@@ -391,11 +412,12 @@ def register_decl(pyName, pds, cChildName_pds=None, pyEquivName=None):
 #    cName_pds='std::vector'
 #    cChildName_pds='int'
 def register_vec(cName_pds, cChildName_pds, pyName=None, pds=None, pyEquivName=None):
+    cupds = unique_pds(cChildName_pds)
     if pyName is None:
-        pyName = cName_pds[cName_pds.rfind(':')+1:] + '_' + _decls_reg[cChildName_pds][0]
+        pyName = cName_pds[cName_pds.rfind(':')+1:] + '_' + _decls_reg[cupds][0]
     if pds is None:
         pds = cName_pds + '< ' + cChildName_pds + ' >'
-    register_decl(pyName, pds, cChildName_pds, pyEquivName)
+    register_decl(pyName, unique_pds(pds), cupds, pyEquivName)
 
 # non-vector template instantiation
 # cName_pds : C name of the class without template element(s)
@@ -408,7 +430,7 @@ def register_ti(cName_pds, cElemNames_pds=[], pyName=None, pds=None):
     if pyName is None:
         pyName = cName_pds[cName_pds.rfind(':')+1:]
         for elem in cElemNames_pds:
-            pyName += '_' + (str(elem) if isinstance(elem, int) else _decls_reg[elem][0])
+            pyName += '_' + (str(elem) if isinstance(elem, int) else _decls_reg[unique_pds(elem)][0])
     if pds is None:
         pds = cName_pds
         if len(cElemNames_pds)>0:
@@ -416,10 +438,10 @@ def register_ti(cName_pds, cElemNames_pds=[], pyName=None, pds=None):
             for elem in cElemNames_pds:
                 pds += (str(elem) if isinstance(elem, int) else elem) + ', '
             pds = pds[:-2] + ' >'
-    register_decl(pyName, pds)
+    register_decl(pyName, unique_pds(pds))
 
 def get_decl_equivname(pds):
-    z = _decls_reg[pds]
+    z = _decls_reg[unique_pds(pds)]
     if z[2] is not None:
         return z[2]
     if z[1] is not None:

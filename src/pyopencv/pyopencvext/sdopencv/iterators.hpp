@@ -268,59 +268,15 @@ inline bool operator>(T const &inst1, T const &inst2) { return _cmp<T>(inst1, in
 #define DEFINE_EQUAL_OPERATOR(T) \
 inline bool operator==(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)==0; }
 
-// Vec-like
-DEFINE_EQUAL_OPERATOR(cv::Vec2b);
-DEFINE_EQUAL_OPERATOR(cv::Vec3b);
-DEFINE_EQUAL_OPERATOR(cv::Vec4b);
-DEFINE_EQUAL_OPERATOR(cv::Vec2s);
-DEFINE_EQUAL_OPERATOR(cv::Vec3s);
-DEFINE_EQUAL_OPERATOR(cv::Vec4s);
-DEFINE_EQUAL_OPERATOR(cv::Vec2w);
-DEFINE_EQUAL_OPERATOR(cv::Vec3w);
-DEFINE_EQUAL_OPERATOR(cv::Vec4w);
-DEFINE_EQUAL_OPERATOR(cv::Vec2i);
-DEFINE_EQUAL_OPERATOR(cv::Vec3i);
-DEFINE_EQUAL_OPERATOR(cv::Vec4i);
-DEFINE_EQUAL_OPERATOR(cv::Vec2f);
-DEFINE_EQUAL_OPERATOR(cv::Vec3f);
-DEFINE_EQUAL_OPERATOR(cv::Vec4f);
-DEFINE_EQUAL_OPERATOR(cv::Vec6f);
-DEFINE_EQUAL_OPERATOR(cv::Vec2d);
-DEFINE_EQUAL_OPERATOR(cv::Vec3d);
-DEFINE_EQUAL_OPERATOR(cv::Vec4d);
-DEFINE_EQUAL_OPERATOR(cv::Vec6d);
+namespace cv {
 
-// Point-like
-DEFINE_EQUAL_OPERATOR(cv::Point2i);
-DEFINE_EQUAL_OPERATOR(cv::Point2f);
-DEFINE_EQUAL_OPERATOR(cv::Point2d);
-DEFINE_EQUAL_OPERATOR(cv::Point3i);
-DEFINE_EQUAL_OPERATOR(cv::Point3f);
-DEFINE_EQUAL_OPERATOR(cv::Point3d);
+template<typename T>
+inline bool operator==(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)==0; }
 
-// Rect-like
-DEFINE_EQUAL_OPERATOR(cv::Rect);
-DEFINE_EQUAL_OPERATOR(cv::Rectf);
-DEFINE_EQUAL_OPERATOR(cv::Rectd);
-DEFINE_EQUAL_OPERATOR(cv::RotatedRect);
+}
 
-// Size-like
-DEFINE_EQUAL_OPERATOR(cv::Size2i);
-DEFINE_EQUAL_OPERATOR(cv::Size2f);
-DEFINE_EQUAL_OPERATOR(cv::Size2d);
-
-// Scalar
-DEFINE_EQUAL_OPERATOR(cv::Scalar);
-
-// Range
-DEFINE_EQUAL_OPERATOR(cv::Range);
-
-// Mat
-DEFINE_EQUAL_OPERATOR(cv::Mat);
-
-// MatND
-DEFINE_EQUAL_OPERATOR(cv::MatND);
-
+template<typename T>
+inline bool operator==(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)==0; }
 
 
 #endif // SDOPENCV_ITERATORS_HPP

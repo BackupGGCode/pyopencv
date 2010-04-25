@@ -73,7 +73,8 @@ def generate_code(mb, cc, D, FT, CP):
     for z in zz:
         mb.init_class(z)
         common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-        common.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
+        if z.alias=='Vec2i':
+            common.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
         mb.asClass(z, mb.class_('CvScalar'))
         z.decl('val').exclude() # use operator[] instead
         mb.add_ndarray_interface(z)
@@ -154,7 +155,6 @@ KLASS.__repr__ = _KLASS__repr__
         z = mb.class_(lambda x: x.alias==alias)
         mb.init_class(z)
         common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-        common.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
         mb.asClass(z, mb.class_('CvSize'))
         mb.asClass(z, mb.class_('CvSize2D32f'))
         mb.add_ndarray_interface(z)
@@ -176,7 +176,6 @@ Size = Size2i
     z = mb.class_(lambda x: x.alias=='Rect')
     mb.init_class(z)
     common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-    common.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
     mb.asClass(z, mb.class_('CvRect'))
     mb.add_ndarray_interface(z)
     cc.write('''
@@ -193,7 +192,6 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('RotatedRect')
     mb.init_class(z)
     common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-    common.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
     mb.asClass(z, mb.class_('CvBox2D'))
     mb.add_ndarray_interface(z)
     cc.write('''
@@ -210,7 +208,6 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('::cv::Scalar_<double>')
     mb.init_class(z)
     common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-    common.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
     mb.asClass(z, mb.class_('CvScalar'))
     mb.finalize_class(z)
     mb.add_ndarray_interface(z)
@@ -224,7 +221,6 @@ Scalar.__repr__ = _Scalar__repr__
     z = mb.class_('Range')
     mb.init_class(z)
     common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-    common.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
     mb.asClass(z, mb.class_('CvSlice'))
     mb.add_ndarray_interface(z)
     cc.write('''

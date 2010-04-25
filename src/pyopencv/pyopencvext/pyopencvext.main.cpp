@@ -556,7 +556,121 @@
 
 #include "pyopencvext/pyopencvext_global_variables.pypp.hpp"
 
+#include "pyopencvext/vector_CvFuzzyCurve.pypp.hpp"
+
+#include "pyopencvext/vector_KeyPoint.pypp.hpp"
+
+#include "pyopencvext/vector_Mat.pypp.hpp"
+
+#include "pyopencvext/vector_MatND.pypp.hpp"
+
+#include "pyopencvext/vector_Point2d.pypp.hpp"
+
+#include "pyopencvext/vector_Point2f.pypp.hpp"
+
+#include "pyopencvext/vector_Point2i.pypp.hpp"
+
+#include "pyopencvext/vector_Point3d.pypp.hpp"
+
+#include "pyopencvext/vector_Point3f.pypp.hpp"
+
+#include "pyopencvext/vector_Point3i.pypp.hpp"
+
+#include "pyopencvext/vector_Ptr_Mat.pypp.hpp"
+
+#include "pyopencvext/vector_Range.pypp.hpp"
+
+#include "pyopencvext/vector_Rect.pypp.hpp"
+
+#include "pyopencvext/vector_RotatedRect.pypp.hpp"
+
+#include "pyopencvext/vector_Scalar.pypp.hpp"
+
+#include "pyopencvext/vector_Size2f.pypp.hpp"
+
+#include "pyopencvext/vector_Size2i.pypp.hpp"
+
+#include "pyopencvext/vector_Vec2b.pypp.hpp"
+
+#include "pyopencvext/vector_Vec2d.pypp.hpp"
+
+#include "pyopencvext/vector_Vec2f.pypp.hpp"
+
 #include "pyopencvext/vector_Vec2i.pypp.hpp"
+
+#include "pyopencvext/vector_Vec2s.pypp.hpp"
+
+#include "pyopencvext/vector_Vec2w.pypp.hpp"
+
+#include "pyopencvext/vector_Vec3b.pypp.hpp"
+
+#include "pyopencvext/vector_Vec3d.pypp.hpp"
+
+#include "pyopencvext/vector_Vec3f.pypp.hpp"
+
+#include "pyopencvext/vector_Vec3i.pypp.hpp"
+
+#include "pyopencvext/vector_Vec3s.pypp.hpp"
+
+#include "pyopencvext/vector_Vec3w.pypp.hpp"
+
+#include "pyopencvext/vector_Vec4b.pypp.hpp"
+
+#include "pyopencvext/vector_Vec4d.pypp.hpp"
+
+#include "pyopencvext/vector_Vec4f.pypp.hpp"
+
+#include "pyopencvext/vector_Vec4i.pypp.hpp"
+
+#include "pyopencvext/vector_Vec4s.pypp.hpp"
+
+#include "pyopencvext/vector_Vec4w.pypp.hpp"
+
+#include "pyopencvext/vector_Vec6d.pypp.hpp"
+
+#include "pyopencvext/vector_Vec6f.pypp.hpp"
+
+#include "pyopencvext/vector_float32.pypp.hpp"
+
+#include "pyopencvext/vector_float64.pypp.hpp"
+
+#include "pyopencvext/vector_int.pypp.hpp"
+
+#include "pyopencvext/vector_int16.pypp.hpp"
+
+#include "pyopencvext/vector_int64.pypp.hpp"
+
+#include "pyopencvext/vector_int8.pypp.hpp"
+
+#include "pyopencvext/vector_long.pypp.hpp"
+
+#include "pyopencvext/vector_uint.pypp.hpp"
+
+#include "pyopencvext/vector_uint16.pypp.hpp"
+
+#include "pyopencvext/vector_uint64.pypp.hpp"
+
+#include "pyopencvext/vector_uint8.pypp.hpp"
+
+#include "pyopencvext/vector_ulong.pypp.hpp"
+
+#include "pyopencvext/vector_vector_Point2d.pypp.hpp"
+
+#include "pyopencvext/vector_vector_Point2f.pypp.hpp"
+
+#include "pyopencvext/vector_vector_Point2i.pypp.hpp"
+
+#include "pyopencvext/vector_vector_Point3d.pypp.hpp"
+
+#include "pyopencvext/vector_vector_Point3f.pypp.hpp"
+
+#include "pyopencvext/vector_vector_Point3i.pypp.hpp"
+
+#include "pyopencvext/vector_vector_Vec2i.pypp.hpp"
+
+#include "pyopencvext/vector_vector_float32.pypp.hpp"
+
+#include "pyopencvext/vector_vector_int.pypp.hpp"
 
 namespace bp = boost::python;
 
@@ -1703,7 +1817,121 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
 BOOST_PYTHON_MODULE(pyopencvext){
     register_enumerations();
 
+    register_vector_uint16_class();
+
+    register_vector_ulong_class();
+
+    register_vector_uint64_class();
+
+    register_vector_uint_class();
+
+    register_vector_uint8_class();
+
+    register_vector_vector_int_class();
+
+    register_vector_vector_float32_class();
+
+    register_vector_vector_Vec2i_class();
+
+    register_vector_vector_Point2i_class();
+
+    register_vector_vector_Point2f_class();
+
+    register_vector_vector_Point2d_class();
+
+    register_vector_vector_Point3i_class();
+
+    register_vector_vector_Point3f_class();
+
+    register_vector_vector_Point3d_class();
+
+    register_vector_int16_class();
+
+    register_vector_long_class();
+
+    register_vector_int64_class();
+
+    register_vector_int_class();
+
+    register_vector_float32_class();
+
+    register_vector_float64_class();
+
+    register_vector_Vec4w_class();
+
+    register_vector_Vec3w_class();
+
+    register_vector_Vec2w_class();
+
+    register_vector_Vec4b_class();
+
+    register_vector_Vec3b_class();
+
+    register_vector_Vec2b_class();
+
+    register_vector_Vec4s_class();
+
+    register_vector_Vec3s_class();
+
+    register_vector_Vec2s_class();
+
+    register_vector_Vec4i_class();
+
+    register_vector_Vec3i_class();
+
     register_vector_Vec2i_class();
+
+    register_vector_Vec6f_class();
+
+    register_vector_Vec4f_class();
+
+    register_vector_Vec3f_class();
+
+    register_vector_Vec2f_class();
+
+    register_vector_Vec6d_class();
+
+    register_vector_Vec4d_class();
+
+    register_vector_Vec3d_class();
+
+    register_vector_Vec2d_class();
+
+    register_vector_Size2i_class();
+
+    register_vector_Size2f_class();
+
+    register_vector_Scalar_class();
+
+    register_vector_RotatedRect_class();
+
+    register_vector_Rect_class();
+
+    register_vector_Range_class();
+
+    register_vector_Ptr_Mat_class();
+
+    register_vector_Point2i_class();
+
+    register_vector_Point2f_class();
+
+    register_vector_Point2d_class();
+
+    register_vector_Point3i_class();
+
+    register_vector_Point3f_class();
+
+    register_vector_Point3d_class();
+
+    register_vector_MatND_class();
+
+    register_vector_Mat_class();
+
+    register_vector_KeyPoint_class();
+
+    register_vector_int8_class();
+
+    register_vector_CvFuzzyCurve_class();
 
     register_CvANN_MLP_TrainParams_class();
 
@@ -5259,45 +5487,45 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::to_python_converter<CvRNG, CvRNG_to_python, false>();
 
-    bp::def("asVec3w", &sdcpp::from_ndarray< cv::Vec3w >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec4f", &sdcpp::from_ndarray< cv::Vec4f >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec4d", &sdcpp::from_ndarray< cv::Vec4d >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec3d", &sdcpp::from_ndarray< cv::Vec3d >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec4i", &sdcpp::from_ndarray< cv::Vec4i >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec2i", &sdcpp::from_ndarray< cv::Vec2i >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec4b", &sdcpp::from_ndarray< cv::Vec4b >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec3i", &sdcpp::from_ndarray< cv::Vec3i >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec4s >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec2b", &sdcpp::from_ndarray< cv::Vec2b >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec2f >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec2d >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec2w", &sdcpp::from_ndarray< cv::Vec2w >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec3f", &sdcpp::from_ndarray< cv::Vec3f >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec6d >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec4w", &sdcpp::from_ndarray< cv::Vec4w >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec6f", &sdcpp::from_ndarray< cv::Vec6f >, (bp::arg("inst_ndarray")) );
 
+    bp::def("asVec3f", &sdcpp::from_ndarray< cv::Vec3f >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
+
     bp::def("asVec2s", &sdcpp::from_ndarray< cv::Vec2s >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec4s >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec6d >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec4i", &sdcpp::from_ndarray< cv::Vec4i >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec4d", &sdcpp::from_ndarray< cv::Vec4d >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec4f", &sdcpp::from_ndarray< cv::Vec4f >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec2w", &sdcpp::from_ndarray< cv::Vec2w >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec2i", &sdcpp::from_ndarray< cv::Vec2i >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec3i", &sdcpp::from_ndarray< cv::Vec3i >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec4b", &sdcpp::from_ndarray< cv::Vec4b >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec2f >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec2b", &sdcpp::from_ndarray< cv::Vec2b >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec3d", &sdcpp::from_ndarray< cv::Vec3d >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec3s", &sdcpp::from_ndarray< cv::Vec3s >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4w", &sdcpp::from_ndarray< cv::Vec4w >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec2d >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec3w", &sdcpp::from_ndarray< cv::Vec3w >, (bp::arg("inst_ndarray")) );
 
     bp::def("asPoint2i", &sdcpp::from_ndarray< cv::Point2i >, (bp::arg("inst_ndarray")) );
 
