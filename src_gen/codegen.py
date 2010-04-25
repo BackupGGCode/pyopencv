@@ -577,18 +577,6 @@ for z in ('IPL_', 'CV_'):
     except RuntimeError:
         pass
 
-# rename some classes
-_class_rename = {
-    'Point_<float>': 'Point2f',
-    'Point3_<int>': 'Point3i',
-    'Rect_<int>': 'Rect',
-    'Vec<int, 2>': 'Vec2i',
-    'Vec<float, 2>': 'Vec2f',
-    'Vec<float, 3>': 'Vec3f',
-}
-for t in _class_rename:
-    mb.class_(t).rename(_class_rename[t])
-
 
 
 #=============================================================================
