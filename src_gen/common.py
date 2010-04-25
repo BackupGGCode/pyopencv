@@ -349,6 +349,20 @@ def add_decl_desc(decl):
 
 
         
+def update_file(file_path, content):
+    """Writes the content to a file. Returns true if some changes have been made."""
+    str2 = ""
+    if OP.exists(file_path):
+        f = open(file_path, 'rt')
+        str2 = f.read(-1)
+    if str2!=content:
+        f = open(file_path, 'wt')
+        f.write(content)
+        return True
+    return False
+
+        
+        
 _decls_reg = {}
     
 # pds = partial_decl_string without the preceeding '::'
@@ -422,13 +436,6 @@ public:
 
 #endif
 '''
-    str2 = ""
-    file_path = OP.join('pyopencvext', 'core', 'template_instantiations.hpp')
-    if OP.exists(file_path):
-        f = open(file_path, 'rt')
-        str2 = f.read(-1)
-    if str2!=str:
-        f = open(file_path, 'wt')
-        f.write(str)
+    if update_file(OP.join('pyopencvext', 'core', 'template_instantiations.hpp'), str):
         print "Warning: File 'template_instantiations.hpp' has been modified. Run 'codegen.py' again."
 

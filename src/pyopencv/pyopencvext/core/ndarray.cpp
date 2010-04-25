@@ -729,6 +729,111 @@ FROM_NDARRAY(cv::MatND)
 
 // ================================================================================================
 
+static PyArray_ArrFuncs f;
+
+static void
+twoint_copyswap(void *dst, void *src, int swap, void *arr)
+{
+    if (src != NULL) 
+	memcpy(dst, src, sizeof(double));
+    
+    if (swap) {
+	register char *a, *b, c;
+	a = (char *)dst;
+	b = a + 7;
+	c = *a; *a++ = *b; *b-- = c;
+	c = *a; *a++ = *b; *b-- = c;
+	c = *a; *a++ = *b; *b-- = c;
+	c = *a; *a++ = *b; *b   = c;	
+    }
+}
+
+static PyObject *
+twoint_getitem(char *ip, PyArrayObject *ap) {
+    std::cout << "getitem" << std::endl;
+    int *ip2 = (int *)ip;
+    cv::Vec2i v(3, 4);
+    
+    return incref(object(v).ptr());
+
+    npy_int32 a[2];
+    
+    if ((ap==NULL) || PyArray_ISBEHAVED_RO(ap)) {
+	a[0] = *((npy_int32 *)ip);
+	a[1] = *((npy_int32 *)ip + 1);
+    }
+    else {
+	ap->descr->f->copyswap(a, ip, !PyArray_ISNOTSWAPPED(ap),
+			       ap);
+    }
+    return Py_None; // Py_BuildValue("(ii)", a[0], a[1]);
+}
+
+static int
+twoint_setitem(PyObject *op, char *ov, PyArrayObject *ap) {
+    npy_int32 a[2];
+    
+    return 0;
+    
+    if (!PyTuple_Check(op)) {
+	PyErr_SetString(PyExc_TypeError, "must be a tuple");
+	return -1;
+    }
+    if (!PyArg_ParseTuple(op, "ii", a, a+1)) return -1;
+
+    if (ap == NULL || PyArray_ISBEHAVED(ap)) {
+	memcpy(ov, a, sizeof(double));
+    }
+    else {
+	ap->descr->f->copyswap(ov, a, !PyArray_ISNOTSWAPPED(ap),
+			       ap);
+    }
+    return 0;
+}
+
+#define _ALIGN(type) offsetof(struct {char c; type v;},v)
+
+
+
+REGISTER_DTYPE(cv::Vec2i)
+{
+    PyTypeObject *v = (PyTypeObject *)converter::registered_pytype<cv::Vec2i>::get_pytype();
+    std::cout << "v=" << v->tp_name << std::endl;
+    
+    PyArray_Descr *d = PyArray_DescrNewFromType(NPY_INTP);
+    // memcpy(&f, d->f, sizeof(f));
+    PyArray_InitArrFuncs(&f);
+    
+    f.copyswap = twoint_copyswap;
+    f.getitem = (PyArray_GetItemFunc *)twoint_getitem;
+    f.setitem = (PyArray_SetItemFunc *)twoint_setitem;
+
+    std::cout << "d->kind=" << d->kind << std::endl;
+    std::cout << "d->type=" << d->type << std::endl;
+    
+    d->typeobj = v;
+    d->f = &f;
+    d->hasobject = 0;
+    d->type_num = 0;
+    d->subarray = 0;
+    d->fields = 0;
+    // d->hasobject |= NPY_USE_GETITEM;
+    // d->hasobject = NPY_USE_GETITEM|NPY_USE_SETITEM;
+    // d->hasobject = NPY_ITEM_HASOBJECT | NPY_USE_GETITEM | NPY_USE_SETITEM;
+    d->elsize = sizeof(cv::Vec2i);
+    d->alignment = _ALIGN(cv::Vec2i);
+    int userval = PyArray_RegisterDataType(d);
+    std::cout << "userval=" << userval << std::endl;
+    
+    if(userval == -1)
+        throw error_already_set();
+    
+    d = PyArray_DescrFromType(userval);
+    return get_borrowed_object((PyObject *)d);
+}
+
+// ================================================================================================
+
 } // namespace sdcpp
 
 

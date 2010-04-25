@@ -24,6 +24,8 @@
 
 #include "boost/python/extract.hpp"
 
+#include "boost/python/suite/indexing/vector_indexing_suite.hpp"
+
 #include "__ctypes_integration.pypp.hpp"
 
 #include "opencv_headers.hpp"
@@ -454,7 +456,33 @@
 
 #include "pyopencvext/pyopencvext_free_functions.pypp.hpp"
 
+#include "pyopencvext/pyopencvext_free_functions_1.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_10.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_11.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_12.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_2.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_3.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_4.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_5.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_6.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_7.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_8.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_9.pypp.hpp"
+
 #include "pyopencvext/pyopencvext_global_variables.pypp.hpp"
+
+#include "pyopencvext/vector_Vec2i.pypp.hpp"
 
 namespace bp = boost::python;
 
@@ -1600,6 +1628,8 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
 
 BOOST_PYTHON_MODULE(pyopencvext){
     register_enumerations();
+
+    register_vector_Vec2i_class();
 
     register_CvANN_MLP_TrainParams_class();
 
@@ -5247,6 +5277,30 @@ BOOST_PYTHON_MODULE(pyopencvext){
         , ( bp::arg("image"), bp::arg("points"), bp::arg("alpha"), bp::arg("beta"), bp::arg("gamma"), bp::arg("coeff_usage"), bp::arg("win"), bp::arg("criteria"), bp::arg("calc_gradient")=(int)(1) ) );
 
     register_global_variables();
+
+    register_free_functions_1();
+
+    register_free_functions_2();
+
+    register_free_functions_3();
+
+    register_free_functions_4();
+
+    register_free_functions_5();
+
+    register_free_functions_6();
+
+    register_free_functions_7();
+
+    register_free_functions_8();
+
+    register_free_functions_9();
+
+    register_free_functions_10();
+
+    register_free_functions_11();
+
+    register_free_functions_12();
 
     register_free_functions();
 }

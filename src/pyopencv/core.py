@@ -35,11 +35,11 @@ try:
     import numpy as _NP
 except ImportError:
     raise ImportError("NumPy is not found in your system. Please install NumPy of version at least 1.2.0.")
-    
+
 if _NP.version.version < '1.2.0':
     raise ImportError("NumPy is installed but its version is too old (%s detected). Please install NumPy of version at least 1.2.0." % _NP.version.version)
-    
-    
+
+
 # Try to import pyopencvext
 import config as _C
 if _C.path_ext:
@@ -58,7 +58,7 @@ if _C.path_ext:
 else:
     from pyopencvext import *
     import pyopencvext as _PE
-    
+
 
 import math as _Math
 import ctypes as _CT
@@ -669,23 +669,23 @@ if Vec3w.__doc__ is None:
     Vec3w.__doc__ = _str
 else:
     Vec3w.__doc__ += _str
-    
+
 def _Vec3w__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec3w.__getitem__ = _Vec3w__getitem__
-            
+        
 def _Vec3w__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec3w.__setitem__ = _Vec3w__setitem__
-            
+        
 def _Vec3w__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec3w.__getslice__ = _Vec3w__getslice__
-            
+        
 def _Vec3w__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3w.__setslice__ = _Vec3w__setslice__
-            
+        
 def _Vec3w__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec3w.__iter__ = _Vec3w__iter__
@@ -705,23 +705,23 @@ if Vec4f.__doc__ is None:
     Vec4f.__doc__ = _str
 else:
     Vec4f.__doc__ += _str
-    
+
 def _Vec4f__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec4f.__getitem__ = _Vec4f__getitem__
-            
+        
 def _Vec4f__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec4f.__setitem__ = _Vec4f__setitem__
-            
+        
 def _Vec4f__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec4f.__getslice__ = _Vec4f__getslice__
-            
+        
 def _Vec4f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4f.__setslice__ = _Vec4f__setslice__
-            
+        
 def _Vec4f__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec4f.__iter__ = _Vec4f__iter__
@@ -741,23 +741,23 @@ if Vec4d.__doc__ is None:
     Vec4d.__doc__ = _str
 else:
     Vec4d.__doc__ += _str
-    
+
 def _Vec4d__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec4d.__getitem__ = _Vec4d__getitem__
-            
+        
 def _Vec4d__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec4d.__setitem__ = _Vec4d__setitem__
-            
+        
 def _Vec4d__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec4d.__getslice__ = _Vec4d__getslice__
-            
+        
 def _Vec4d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4d.__setslice__ = _Vec4d__setslice__
-            
+        
 def _Vec4d__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec4d.__iter__ = _Vec4d__iter__
@@ -777,23 +777,23 @@ if Vec3d.__doc__ is None:
     Vec3d.__doc__ = _str
 else:
     Vec3d.__doc__ += _str
-    
+
 def _Vec3d__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec3d.__getitem__ = _Vec3d__getitem__
-            
+        
 def _Vec3d__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec3d.__setitem__ = _Vec3d__setitem__
-            
+        
 def _Vec3d__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec3d.__getslice__ = _Vec3d__getslice__
-            
+        
 def _Vec3d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3d.__setslice__ = _Vec3d__setslice__
-            
+        
 def _Vec3d__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec3d.__iter__ = _Vec3d__iter__
@@ -813,23 +813,23 @@ if Vec4i.__doc__ is None:
     Vec4i.__doc__ = _str
 else:
     Vec4i.__doc__ += _str
-    
+
 def _Vec4i__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec4i.__getitem__ = _Vec4i__getitem__
-            
+        
 def _Vec4i__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec4i.__setitem__ = _Vec4i__setitem__
-            
+        
 def _Vec4i__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec4i.__getslice__ = _Vec4i__getslice__
-            
+        
 def _Vec4i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4i.__setslice__ = _Vec4i__setslice__
-            
+        
 def _Vec4i__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec4i.__iter__ = _Vec4i__iter__
@@ -849,23 +849,23 @@ if Vec2i.__doc__ is None:
     Vec2i.__doc__ = _str
 else:
     Vec2i.__doc__ += _str
-    
+
 def _Vec2i__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec2i.__getitem__ = _Vec2i__getitem__
-            
+        
 def _Vec2i__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec2i.__setitem__ = _Vec2i__setitem__
-            
+        
 def _Vec2i__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec2i.__getslice__ = _Vec2i__getslice__
-            
+        
 def _Vec2i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2i.__setslice__ = _Vec2i__setslice__
-            
+        
 def _Vec2i__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec2i.__iter__ = _Vec2i__iter__
@@ -885,23 +885,23 @@ if Vec4b.__doc__ is None:
     Vec4b.__doc__ = _str
 else:
     Vec4b.__doc__ += _str
-    
+
 def _Vec4b__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec4b.__getitem__ = _Vec4b__getitem__
-            
+        
 def _Vec4b__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec4b.__setitem__ = _Vec4b__setitem__
-            
+        
 def _Vec4b__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec4b.__getslice__ = _Vec4b__getslice__
-            
+        
 def _Vec4b__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4b.__setslice__ = _Vec4b__setslice__
-            
+        
 def _Vec4b__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec4b.__iter__ = _Vec4b__iter__
@@ -921,23 +921,23 @@ if Vec2f.__doc__ is None:
     Vec2f.__doc__ = _str
 else:
     Vec2f.__doc__ += _str
-    
+
 def _Vec2f__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec2f.__getitem__ = _Vec2f__getitem__
-            
+        
 def _Vec2f__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec2f.__setitem__ = _Vec2f__setitem__
-            
+        
 def _Vec2f__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec2f.__getslice__ = _Vec2f__getslice__
-            
+        
 def _Vec2f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2f.__setslice__ = _Vec2f__setslice__
-            
+        
 def _Vec2f__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec2f.__iter__ = _Vec2f__iter__
@@ -957,23 +957,23 @@ if Vec3b.__doc__ is None:
     Vec3b.__doc__ = _str
 else:
     Vec3b.__doc__ += _str
-    
+
 def _Vec3b__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec3b.__getitem__ = _Vec3b__getitem__
-            
+        
 def _Vec3b__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec3b.__setitem__ = _Vec3b__setitem__
-            
+        
 def _Vec3b__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec3b.__getslice__ = _Vec3b__getslice__
-            
+        
 def _Vec3b__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3b.__setslice__ = _Vec3b__setslice__
-            
+        
 def _Vec3b__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec3b.__iter__ = _Vec3b__iter__
@@ -993,23 +993,23 @@ if Vec3i.__doc__ is None:
     Vec3i.__doc__ = _str
 else:
     Vec3i.__doc__ += _str
-    
+
 def _Vec3i__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec3i.__getitem__ = _Vec3i__getitem__
-            
+        
 def _Vec3i__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec3i.__setitem__ = _Vec3i__setitem__
-            
+        
 def _Vec3i__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec3i.__getslice__ = _Vec3i__getslice__
-            
+        
 def _Vec3i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3i.__setslice__ = _Vec3i__setslice__
-            
+        
 def _Vec3i__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec3i.__iter__ = _Vec3i__iter__
@@ -1029,23 +1029,23 @@ if Vec4s.__doc__ is None:
     Vec4s.__doc__ = _str
 else:
     Vec4s.__doc__ += _str
-    
+
 def _Vec4s__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec4s.__getitem__ = _Vec4s__getitem__
-            
+        
 def _Vec4s__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec4s.__setitem__ = _Vec4s__setitem__
-            
+        
 def _Vec4s__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec4s.__getslice__ = _Vec4s__getslice__
-            
+        
 def _Vec4s__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4s.__setslice__ = _Vec4s__setslice__
-            
+        
 def _Vec4s__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec4s.__iter__ = _Vec4s__iter__
@@ -1065,23 +1065,23 @@ if Vec2b.__doc__ is None:
     Vec2b.__doc__ = _str
 else:
     Vec2b.__doc__ += _str
-    
+
 def _Vec2b__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec2b.__getitem__ = _Vec2b__getitem__
-            
+        
 def _Vec2b__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec2b.__setitem__ = _Vec2b__setitem__
-            
+        
 def _Vec2b__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec2b.__getslice__ = _Vec2b__getslice__
-            
+        
 def _Vec2b__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2b.__setslice__ = _Vec2b__setslice__
-            
+        
 def _Vec2b__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec2b.__iter__ = _Vec2b__iter__
@@ -1101,23 +1101,23 @@ if Vec2d.__doc__ is None:
     Vec2d.__doc__ = _str
 else:
     Vec2d.__doc__ += _str
-    
+
 def _Vec2d__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec2d.__getitem__ = _Vec2d__getitem__
-            
+        
 def _Vec2d__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec2d.__setitem__ = _Vec2d__setitem__
-            
+        
 def _Vec2d__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec2d.__getslice__ = _Vec2d__getslice__
-            
+        
 def _Vec2d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2d.__setslice__ = _Vec2d__setslice__
-            
+        
 def _Vec2d__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec2d.__iter__ = _Vec2d__iter__
@@ -1137,23 +1137,23 @@ if Vec2w.__doc__ is None:
     Vec2w.__doc__ = _str
 else:
     Vec2w.__doc__ += _str
-    
+
 def _Vec2w__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec2w.__getitem__ = _Vec2w__getitem__
-            
+        
 def _Vec2w__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec2w.__setitem__ = _Vec2w__setitem__
-            
+        
 def _Vec2w__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec2w.__getslice__ = _Vec2w__getslice__
-            
+        
 def _Vec2w__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2w.__setslice__ = _Vec2w__setslice__
-            
+        
 def _Vec2w__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec2w.__iter__ = _Vec2w__iter__
@@ -1173,23 +1173,23 @@ if Vec3f.__doc__ is None:
     Vec3f.__doc__ = _str
 else:
     Vec3f.__doc__ += _str
-    
+
 def _Vec3f__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec3f.__getitem__ = _Vec3f__getitem__
-            
+        
 def _Vec3f__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec3f.__setitem__ = _Vec3f__setitem__
-            
+        
 def _Vec3f__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec3f.__getslice__ = _Vec3f__getslice__
-            
+        
 def _Vec3f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3f.__setslice__ = _Vec3f__setslice__
-            
+        
 def _Vec3f__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec3f.__iter__ = _Vec3f__iter__
@@ -1209,23 +1209,23 @@ if Vec6d.__doc__ is None:
     Vec6d.__doc__ = _str
 else:
     Vec6d.__doc__ += _str
-    
+
 def _Vec6d__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec6d.__getitem__ = _Vec6d__getitem__
-            
+        
 def _Vec6d__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec6d.__setitem__ = _Vec6d__setitem__
-            
+        
 def _Vec6d__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec6d.__getslice__ = _Vec6d__getslice__
-            
+        
 def _Vec6d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec6d.__setslice__ = _Vec6d__setslice__
-            
+        
 def _Vec6d__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec6d.__iter__ = _Vec6d__iter__
@@ -1245,23 +1245,23 @@ if Vec6f.__doc__ is None:
     Vec6f.__doc__ = _str
 else:
     Vec6f.__doc__ += _str
-    
+
 def _Vec6f__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec6f.__getitem__ = _Vec6f__getitem__
-            
+        
 def _Vec6f__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec6f.__setitem__ = _Vec6f__setitem__
-            
+        
 def _Vec6f__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec6f.__getslice__ = _Vec6f__getslice__
-            
+        
 def _Vec6f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec6f.__setslice__ = _Vec6f__setslice__
-            
+        
 def _Vec6f__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec6f.__iter__ = _Vec6f__iter__
@@ -1281,23 +1281,23 @@ if Vec2s.__doc__ is None:
     Vec2s.__doc__ = _str
 else:
     Vec2s.__doc__ += _str
-    
+
 def _Vec2s__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec2s.__getitem__ = _Vec2s__getitem__
-            
+        
 def _Vec2s__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec2s.__setitem__ = _Vec2s__setitem__
-            
+        
 def _Vec2s__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec2s.__getslice__ = _Vec2s__getslice__
-            
+        
 def _Vec2s__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec2s.__setslice__ = _Vec2s__setslice__
-            
+        
 def _Vec2s__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec2s.__iter__ = _Vec2s__iter__
@@ -1317,23 +1317,23 @@ if Vec3s.__doc__ is None:
     Vec3s.__doc__ = _str
 else:
     Vec3s.__doc__ += _str
-    
+
 def _Vec3s__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec3s.__getitem__ = _Vec3s__getitem__
-            
+        
 def _Vec3s__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec3s.__setitem__ = _Vec3s__setitem__
-            
+        
 def _Vec3s__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec3s.__getslice__ = _Vec3s__getslice__
-            
+        
 def _Vec3s__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec3s.__setslice__ = _Vec3s__setslice__
-            
+        
 def _Vec3s__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec3s.__iter__ = _Vec3s__iter__
@@ -1353,23 +1353,23 @@ if Vec4w.__doc__ is None:
     Vec4w.__doc__ = _str
 else:
     Vec4w.__doc__ += _str
-    
+
 def _Vec4w__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Vec4w.__getitem__ = _Vec4w__getitem__
-            
+        
 def _Vec4w__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Vec4w.__setitem__ = _Vec4w__setitem__
-            
+        
 def _Vec4w__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Vec4w.__getslice__ = _Vec4w__getslice__
-            
+        
 def _Vec4w__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Vec4w.__setslice__ = _Vec4w__setslice__
-            
+        
 def _Vec4w__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Vec4w.__iter__ = _Vec4w__iter__
@@ -1402,23 +1402,23 @@ if Point2i.__doc__ is None:
     Point2i.__doc__ = _str
 else:
     Point2i.__doc__ += _str
-    
+
 def _Point2i__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Point2i.__getitem__ = _Point2i__getitem__
-            
+        
 def _Point2i__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Point2i.__setitem__ = _Point2i__setitem__
-            
+        
 def _Point2i__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Point2i.__getslice__ = _Point2i__getslice__
-            
+        
 def _Point2i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point2i.__setslice__ = _Point2i__setslice__
-            
+        
 def _Point2i__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Point2i.__iter__ = _Point2i__iter__
@@ -1439,23 +1439,23 @@ if Point2f.__doc__ is None:
     Point2f.__doc__ = _str
 else:
     Point2f.__doc__ += _str
-    
+
 def _Point2f__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Point2f.__getitem__ = _Point2f__getitem__
-            
+        
 def _Point2f__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Point2f.__setitem__ = _Point2f__setitem__
-            
+        
 def _Point2f__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Point2f.__getslice__ = _Point2f__getslice__
-            
+        
 def _Point2f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point2f.__setslice__ = _Point2f__setslice__
-            
+        
 def _Point2f__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Point2f.__iter__ = _Point2f__iter__
@@ -1476,23 +1476,23 @@ if Point2d.__doc__ is None:
     Point2d.__doc__ = _str
 else:
     Point2d.__doc__ += _str
-    
+
 def _Point2d__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Point2d.__getitem__ = _Point2d__getitem__
-            
+        
 def _Point2d__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Point2d.__setitem__ = _Point2d__setitem__
-            
+        
 def _Point2d__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Point2d.__getslice__ = _Point2d__getslice__
-            
+        
 def _Point2d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point2d.__setslice__ = _Point2d__setslice__
-            
+        
 def _Point2d__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Point2d.__iter__ = _Point2d__iter__
@@ -1511,23 +1511,23 @@ if Point3i.__doc__ is None:
     Point3i.__doc__ = _str
 else:
     Point3i.__doc__ += _str
-    
+
 def _Point3i__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Point3i.__getitem__ = _Point3i__getitem__
-            
+        
 def _Point3i__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Point3i.__setitem__ = _Point3i__setitem__
-            
+        
 def _Point3i__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Point3i.__getslice__ = _Point3i__getslice__
-            
+        
 def _Point3i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point3i.__setslice__ = _Point3i__setslice__
-            
+        
 def _Point3i__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Point3i.__iter__ = _Point3i__iter__
@@ -1548,23 +1548,23 @@ if Point3f.__doc__ is None:
     Point3f.__doc__ = _str
 else:
     Point3f.__doc__ += _str
-    
+
 def _Point3f__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Point3f.__getitem__ = _Point3f__getitem__
-            
+        
 def _Point3f__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Point3f.__setitem__ = _Point3f__setitem__
-            
+        
 def _Point3f__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Point3f.__getslice__ = _Point3f__getslice__
-            
+        
 def _Point3f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point3f.__setslice__ = _Point3f__setslice__
-            
+        
 def _Point3f__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Point3f.__iter__ = _Point3f__iter__
@@ -1585,23 +1585,23 @@ if Point3d.__doc__ is None:
     Point3d.__doc__ = _str
 else:
     Point3d.__doc__ += _str
-    
+
 def _Point3d__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Point3d.__getitem__ = _Point3d__getitem__
-            
+        
 def _Point3d__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Point3d.__setitem__ = _Point3d__setitem__
-            
+        
 def _Point3d__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Point3d.__getslice__ = _Point3d__getslice__
-            
+        
 def _Point3d__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Point3d.__setslice__ = _Point3d__setslice__
-            
+        
 def _Point3d__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Point3d.__iter__ = _Point3d__iter__
@@ -1622,23 +1622,23 @@ if Size2i.__doc__ is None:
     Size2i.__doc__ = _str
 else:
     Size2i.__doc__ += _str
-    
+
 def _Size2i__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Size2i.__getitem__ = _Size2i__getitem__
-            
+        
 def _Size2i__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Size2i.__setitem__ = _Size2i__setitem__
-            
+        
 def _Size2i__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Size2i.__getslice__ = _Size2i__getslice__
-            
+        
 def _Size2i__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Size2i.__setslice__ = _Size2i__setslice__
-            
+        
 def _Size2i__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Size2i.__iter__ = _Size2i__iter__
@@ -1659,23 +1659,23 @@ if Size2f.__doc__ is None:
     Size2f.__doc__ = _str
 else:
     Size2f.__doc__ += _str
-    
+
 def _Size2f__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Size2f.__getitem__ = _Size2f__getitem__
-            
+        
 def _Size2f__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Size2f.__setitem__ = _Size2f__setitem__
-            
+        
 def _Size2f__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Size2f.__getslice__ = _Size2f__getslice__
-            
+        
 def _Size2f__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Size2f.__setslice__ = _Size2f__setslice__
-            
+        
 def _Size2f__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Size2f.__iter__ = _Size2f__iter__
@@ -1698,23 +1698,23 @@ if Rect.__doc__ is None:
     Rect.__doc__ = _str
 else:
     Rect.__doc__ += _str
-    
+
 def _Rect__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Rect.__getitem__ = _Rect__getitem__
-            
+        
 def _Rect__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Rect.__setitem__ = _Rect__setitem__
-            
+        
 def _Rect__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Rect.__getslice__ = _Rect__getslice__
-            
+        
 def _Rect__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Rect.__setslice__ = _Rect__setslice__
-            
+        
 def _Rect__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Rect.__iter__ = _Rect__iter__
@@ -1736,23 +1736,23 @@ if RotatedRect.__doc__ is None:
     RotatedRect.__doc__ = _str
 else:
     RotatedRect.__doc__ += _str
-    
+
 def _RotatedRect__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 RotatedRect.__getitem__ = _RotatedRect__getitem__
-            
+        
 def _RotatedRect__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 RotatedRect.__setitem__ = _RotatedRect__setitem__
-            
+        
 def _RotatedRect__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 RotatedRect.__getslice__ = _RotatedRect__getslice__
-            
+        
 def _RotatedRect__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 RotatedRect.__setslice__ = _RotatedRect__setslice__
-            
+        
 def _RotatedRect__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 RotatedRect.__iter__ = _RotatedRect__iter__
@@ -1774,23 +1774,23 @@ if Scalar.__doc__ is None:
     Scalar.__doc__ = _str
 else:
     Scalar.__doc__ += _str
-    
+
 def _Scalar__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Scalar.__getitem__ = _Scalar__getitem__
-            
+        
 def _Scalar__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Scalar.__setitem__ = _Scalar__setitem__
-            
+        
 def _Scalar__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Scalar.__getslice__ = _Scalar__getslice__
-            
+        
 def _Scalar__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Scalar.__setslice__ = _Scalar__setslice__
-            
+        
 def _Scalar__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Scalar.__iter__ = _Scalar__iter__
@@ -1810,23 +1810,23 @@ if Range.__doc__ is None:
     Range.__doc__ = _str
 else:
     Range.__doc__ += _str
-    
+
 def _Range__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Range.__getitem__ = _Range__getitem__
-            
+        
 def _Range__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Range.__setitem__ = _Range__setitem__
-            
+        
 def _Range__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Range.__getslice__ = _Range__getslice__
-            
+        
 def _Range__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Range.__setslice__ = _Range__setslice__
-            
+        
 def _Range__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Range.__iter__ = _Range__iter__
@@ -1847,23 +1847,23 @@ if Mat.__doc__ is None:
     Mat.__doc__ = _str
 else:
     Mat.__doc__ += _str
-    
+
 def _Mat__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 Mat.__getitem__ = _Mat__getitem__
-            
+        
 def _Mat__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 Mat.__setitem__ = _Mat__setitem__
-            
+        
 def _Mat__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 Mat.__getslice__ = _Mat__getslice__
-            
+        
 def _Mat__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 Mat.__setslice__ = _Mat__setslice__
-            
+        
 def _Mat__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Mat.__iter__ = _Mat__iter__
@@ -1955,23 +1955,23 @@ if MatND.__doc__ is None:
     MatND.__doc__ = _str
 else:
     MatND.__doc__ += _str
-    
+
 def _MatND__getitem__(self, *args, **kwds):
     return self.ndarray.__getitem__(*args, **kwds)
 MatND.__getitem__ = _MatND__getitem__
-            
+        
 def _MatND__setitem__(self, *args, **kwds):
     return self.ndarray.__setitem__(*args, **kwds)
 MatND.__setitem__ = _MatND__setitem__
-            
+        
 def _MatND__getslice__(self, *args, **kwds):
     return self.ndarray.__getslice__(*args, **kwds)
 MatND.__getslice__ = _MatND__getslice__
-            
+        
 def _MatND__setslice__(self, *args, **kwds):
     return self.ndarray.__setslice__(*args, **kwds)
 MatND.__setslice__ = _MatND__setslice__
-            
+        
 def _MatND__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 MatND.__iter__ = _MatND__iter__
