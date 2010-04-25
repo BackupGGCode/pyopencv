@@ -72,14 +72,14 @@ DECVEC(VEC_NAME##_4) \
 DECVEC(VEC_NAME##_5) \
 DECVEC(VEC_NAME##_6)
 
-DECVECS(vec_int8);
-DECVECS(vec_uint8);
-DECVECS(vec_int16);
-DECVECS(vec_uint16);
-DECVECS(vec_int);
-DECVECS(vec_uint);
-DECVECS(vec_float32);
-DECVECS(vec_float64);
+// DECVECS(vec_int8);
+// DECVECS(vec_uint8);
+// DECVECS(vec_int16);
+// DECVECS(vec_uint16);
+// DECVECS(vec_int);
+// DECVECS(vec_uint);
+// DECVECS(vec_float32);
+// DECVECS(vec_float64);
 
 // ================================================================================================
 

@@ -432,16 +432,6 @@
 
 #include "pyopencvext/Vec6f.pypp.hpp"
 
-#include "pyopencvext/VectorBase.pypp.hpp"
-
-#include "pyopencvext/Vector_Vec2f.pypp.hpp"
-
-#include "pyopencvext/Vector_Vector_Vec2f.pypp.hpp"
-
-#include "pyopencvext/Vector_Vector_int.pypp.hpp"
-
-#include "pyopencvext/Vector_int.pypp.hpp"
-
 #include "pyopencvext/VideoCapture.pypp.hpp"
 
 #include "pyopencvext/VideoWriter.pypp.hpp"
@@ -2102,24 +2092,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_SURF_class();
 
     register_SVD_class();
-
-    register_VectorBase_class();
-
-    register_Vector_Vector_Vec2f_class();
-
-    bp::implicitly_convertible< cv::SdVector< cv::SdVector< cv::Vec< float, 2 > > >, cv::Mat >();
-
-    register_Vector_Vector_int_class();
-
-    bp::implicitly_convertible< cv::SdVector< cv::SdVector< int > >, cv::Mat >();
-
-    register_Vector_Vec2f_class();
-
-    bp::implicitly_convertible< cv::SdVector< cv::Vec< float, 2 > >, cv::Mat >();
-
-    register_Vector_int_class();
-
-    bp::implicitly_convertible< cv::SdVector< int >, cv::Mat >();
 
     register_SelfSimDescriptor_class();
 
