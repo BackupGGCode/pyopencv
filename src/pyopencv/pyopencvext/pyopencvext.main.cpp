@@ -454,31 +454,115 @@
 
 #include "pyopencvext/pyopencvext_enumerations.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions__.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_1.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_a.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_10.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_b.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_11.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_ca.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_12.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_ce.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_2.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_ch.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_3.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_ci.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_4.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_cl.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_5.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_co.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_6.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_cr.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_7.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_cu.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_8.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_cv.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_9.pypp.hpp"
+#include "pyopencvext/pyopencvext_free_functions_d.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_e.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_f.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_ga.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_gem.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_getc.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_getd.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_gete.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_getg.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_getk.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_getl.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_getm.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_getn.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_geto.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_getr.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_gets.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_gett.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_getv.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_getw.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_gr.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_h.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_i.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_l.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_ma.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_me.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_mi.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_mo.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_mu.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_n.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_p.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_r.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_sa.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_sc.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_se.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_sl.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_so.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_sq.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_st.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_su.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_t.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_u.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_v.pypp.hpp"
+
+#include "pyopencvext/pyopencvext_free_functions_w.pypp.hpp"
 
 #include "pyopencvext/pyopencvext_global_variables.pypp.hpp"
 
@@ -5278,30 +5362,114 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_global_variables();
 
-    register_free_functions_1();
+    register_free_functions_a();
 
-    register_free_functions_2();
+    register_free_functions_ca();
 
-    register_free_functions_3();
+    register_free_functions_ce();
 
-    register_free_functions_4();
+    register_free_functions_ci();
 
-    register_free_functions_5();
+    register_free_functions_ch();
 
-    register_free_functions_6();
+    register_free_functions_cl();
 
-    register_free_functions_7();
+    register_free_functions_co();
 
-    register_free_functions_8();
+    register_free_functions_cr();
 
-    register_free_functions_9();
+    register_free_functions_cu();
 
-    register_free_functions_10();
+    register_free_functions_cv();
 
-    register_free_functions_11();
+    register_free_functions_b();
 
-    register_free_functions_12();
+    register_free_functions_e();
 
-    register_free_functions();
+    register_free_functions_d();
+
+    register_free_functions_ga();
+
+    register_free_functions_gr();
+
+    register_free_functions_gem();
+
+    register_free_functions_getc();
+
+    register_free_functions_gete();
+
+    register_free_functions_getd();
+
+    register_free_functions_getg();
+
+    register_free_functions_getk();
+
+    register_free_functions_getm();
+
+    register_free_functions_getl();
+
+    register_free_functions_geto();
+
+    register_free_functions_getn();
+
+    register_free_functions_gets();
+
+    register_free_functions_getr();
+
+    register_free_functions_gett();
+
+    register_free_functions_getw();
+
+    register_free_functions_getv();
+
+    register_free_functions_f();
+
+    register_free_functions_i();
+
+    register_free_functions_h();
+
+    register_free_functions_ma();
+
+    register_free_functions_mi();
+
+    register_free_functions_me();
+
+    register_free_functions_mu();
+
+    register_free_functions_mo();
+
+    register_free_functions_l();
+
+    register_free_functions_n();
+
+    register_free_functions_p();
+
+    register_free_functions_sa();
+
+    register_free_functions_sc();
+
+    register_free_functions_se();
+
+    register_free_functions_sl();
+
+    register_free_functions_so();
+
+    register_free_functions_sq();
+
+    register_free_functions_su();
+
+    register_free_functions_st();
+
+    register_free_functions_r();
+
+    register_free_functions_u();
+
+    register_free_functions_t();
+
+    register_free_functions_w();
+
+    register_free_functions_v();
+
+    register_free_functions__();
 }
 
