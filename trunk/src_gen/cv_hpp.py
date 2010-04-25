@@ -64,11 +64,7 @@ def generate_code(mb, cc, D, FT, CP):
     # CascadeClassifier
     z = mb.class_('CascadeClassifier')
     mb.init_class(z)
-    common.register_vec('std::vector', 'cv::CascadeClassifier::DTreeNode', 'vector_CascadeClassifier_DTreeNode')
-    common.register_vec('std::vector', 'cv::CascadeClassifier::DTree', 'vector_CascadeClassifier_DTree')
-    common.register_vec('std::vector', 'cv::CascadeClassifier::Stage', 'vector_CascadeClassifier_Stage')
     z.mem_fun('detectMultiScale')._transformer_creators.append(FT.arg_std_vector('objects', 2))
-    mb.finalize_class(z)
     mb.expose_class_Ptr('CvHaarClassifierCascade')    
     # modify runAt() and setImage() -- I need them able to support old cascade
     z.mem_fun('runAt').exclude()
@@ -106,6 +102,15 @@ def generate_code(mb, cc, D, FT, CP):
     ''')
     z.add_registration_code('def("runAt", &::CascadeClassifier_wrapper::my_runAt, ( bp::arg("_feval"), bp::arg("pt") ) )')
     z.add_registration_code('def("setImage", &::CascadeClassifier_wrapper::my_setImage, ( bp::arg("_feval"), bp::arg("image") ) )')
+    mb.finalize_class(z)
+    
+    # CascadeClassifier's sub-classes
+    for t in ('DTreeNode', 'DTree', 'Stage'):
+        z2 = z.class_(t)
+        mb.init_class(z2)
+        mb.finalize_class(z2)
+        common.register_vec('std::vector', 'cv::CascadeClassifier::'+t, 'vector_CascadeClassifier_'+t)
+
     
     # StereoBM
     z = mb.class_('StereoBM')

@@ -2678,184 +2678,256 @@ def __vector_fromlist(cls, obj):
     for x in obj:
         z.append(x)
     return z
+
 vector_vector_Point3f.__repr__ = __vector__repr__
 vector_vector_Point3f.tolist = __vector_tolist
 vector_vector_Point3f.fromlist = classmethod(__vector_fromlist)
-    vector_Point3f.__repr__ = __vector__repr__
+    
+vector_Point3f.__repr__ = __vector__repr__
 vector_Point3f.tolist = __vector_tolist
 vector_Point3f.fromlist = classmethod(__vector_fromlist)
-    vector_vector_Point2i.__repr__ = __vector__repr__
+    
+vector_vector_Point2i.__repr__ = __vector__repr__
 vector_vector_Point2i.tolist = __vector_tolist
 vector_vector_Point2i.fromlist = classmethod(__vector_fromlist)
-    vector_Point2i.__repr__ = __vector__repr__
+    
+vector_Point2i.__repr__ = __vector__repr__
 vector_Point2i.tolist = __vector_tolist
 vector_Point2i.fromlist = classmethod(__vector_fromlist)
-    vector_KeyPoint.__repr__ = __vector__repr__
+    
+vector_KeyPoint.__repr__ = __vector__repr__
 vector_KeyPoint.tolist = __vector_tolist
 vector_KeyPoint.fromlist = classmethod(__vector_fromlist)
-    vector_Point2d.__repr__ = __vector__repr__
+    
+vector_CascadeClassifier_DTree.__repr__ = __vector__repr__
+vector_CascadeClassifier_DTree.tolist = __vector_tolist
+vector_CascadeClassifier_DTree.fromlist = classmethod(__vector_fromlist)
+    
+vector_Point2d.__repr__ = __vector__repr__
 vector_Point2d.tolist = __vector_tolist
 vector_Point2d.fromlist = classmethod(__vector_fromlist)
-    vector_Range.__repr__ = __vector__repr__
+    
+vector_Range.__repr__ = __vector__repr__
 vector_Range.tolist = __vector_tolist
 vector_Range.fromlist = classmethod(__vector_fromlist)
-    vector_Vec3b.__repr__ = __vector__repr__
+    
+vector_Vec3b.__repr__ = __vector__repr__
 vector_Vec3b.tolist = __vector_tolist
 vector_Vec3b.fromlist = classmethod(__vector_fromlist)
-    vector_int64.__repr__ = __vector__repr__
+    
+vector_int64.__repr__ = __vector__repr__
 vector_int64.tolist = __vector_tolist
 vector_int64.fromlist = classmethod(__vector_fromlist)
-    vector_MatND.__repr__ = __vector__repr__
+    
+vector_MatND.__repr__ = __vector__repr__
 vector_MatND.tolist = __vector_tolist
 vector_MatND.fromlist = classmethod(__vector_fromlist)
-    vector_Scalar.__repr__ = __vector__repr__
+    
+vector_Scalar.__repr__ = __vector__repr__
 vector_Scalar.tolist = __vector_tolist
 vector_Scalar.fromlist = classmethod(__vector_fromlist)
-    vector_Vec2s.__repr__ = __vector__repr__
+    
+vector_Vec2s.__repr__ = __vector__repr__
 vector_Vec2s.tolist = __vector_tolist
 vector_Vec2s.fromlist = classmethod(__vector_fromlist)
-    vector_Mat.__repr__ = __vector__repr__
+    
+vector_Mat.__repr__ = __vector__repr__
 vector_Mat.tolist = __vector_tolist
 vector_Mat.fromlist = classmethod(__vector_fromlist)
-    vector_Vec4s.__repr__ = __vector__repr__
+    
+vector_Vec4s.__repr__ = __vector__repr__
 vector_Vec4s.tolist = __vector_tolist
 vector_Vec4s.fromlist = classmethod(__vector_fromlist)
-    vector_Vec6d.__repr__ = __vector__repr__
+    
+vector_Vec6d.__repr__ = __vector__repr__
 vector_Vec6d.tolist = __vector_tolist
 vector_Vec6d.fromlist = classmethod(__vector_fromlist)
-    vector_Vec4i.__repr__ = __vector__repr__
+    
+vector_Vec4i.__repr__ = __vector__repr__
 vector_Vec4i.tolist = __vector_tolist
 vector_Vec4i.fromlist = classmethod(__vector_fromlist)
-    vector_Vec4d.__repr__ = __vector__repr__
+    
+vector_Vec4d.__repr__ = __vector__repr__
 vector_Vec4d.tolist = __vector_tolist
 vector_Vec4d.fromlist = classmethod(__vector_fromlist)
-    vector_Ptr_Mat.__repr__ = __vector__repr__
+    
+vector_Ptr_Mat.__repr__ = __vector__repr__
 vector_Ptr_Mat.tolist = __vector_tolist
 vector_Ptr_Mat.fromlist = classmethod(__vector_fromlist)
-    vector_Vec3f.__repr__ = __vector__repr__
+    
+vector_Vec3f.__repr__ = __vector__repr__
 vector_Vec3f.tolist = __vector_tolist
 vector_Vec3f.fromlist = classmethod(__vector_fromlist)
-    vector_int16.__repr__ = __vector__repr__
+    
+vector_int16.__repr__ = __vector__repr__
 vector_int16.tolist = __vector_tolist
 vector_int16.fromlist = classmethod(__vector_fromlist)
-    vector_vector_Point3d.__repr__ = __vector__repr__
+    
+vector_vector_Point3d.__repr__ = __vector__repr__
 vector_vector_Point3d.tolist = __vector_tolist
 vector_vector_Point3d.fromlist = classmethod(__vector_fromlist)
-    vector_Point3d.__repr__ = __vector__repr__
+    
+vector_Point3d.__repr__ = __vector__repr__
 vector_Point3d.tolist = __vector_tolist
 vector_Point3d.fromlist = classmethod(__vector_fromlist)
-    vector_Vec2w.__repr__ = __vector__repr__
+    
+vector_Vec2w.__repr__ = __vector__repr__
 vector_Vec2w.tolist = __vector_tolist
 vector_Vec2w.fromlist = classmethod(__vector_fromlist)
-    vector_Vec2i.__repr__ = __vector__repr__
+    
+vector_Vec2i.__repr__ = __vector__repr__
 vector_Vec2i.tolist = __vector_tolist
 vector_Vec2i.fromlist = classmethod(__vector_fromlist)
-    vector_Rect.__repr__ = __vector__repr__
+    
+vector_Rect.__repr__ = __vector__repr__
 vector_Rect.tolist = __vector_tolist
 vector_Rect.fromlist = classmethod(__vector_fromlist)
-    vector_int8.__repr__ = __vector__repr__
+    
+vector_int8.__repr__ = __vector__repr__
 vector_int8.tolist = __vector_tolist
 vector_int8.fromlist = classmethod(__vector_fromlist)
-    vector_vector_Point2d.__repr__ = __vector__repr__
+    
+vector_vector_Point2d.__repr__ = __vector__repr__
 vector_vector_Point2d.tolist = __vector_tolist
 vector_vector_Point2d.fromlist = classmethod(__vector_fromlist)
-    vector_vector_float32.__repr__ = __vector__repr__
+    
+vector_CascadeClassifier_DTreeNode.__repr__ = __vector__repr__
+vector_CascadeClassifier_DTreeNode.tolist = __vector_tolist
+vector_CascadeClassifier_DTreeNode.fromlist = classmethod(__vector_fromlist)
+    
+vector_vector_float32.__repr__ = __vector__repr__
 vector_vector_float32.tolist = __vector_tolist
 vector_vector_float32.fromlist = classmethod(__vector_fromlist)
-    vector_float32.__repr__ = __vector__repr__
+    
+vector_float32.__repr__ = __vector__repr__
 vector_float32.tolist = __vector_tolist
 vector_float32.fromlist = classmethod(__vector_fromlist)
-    vector_Size2i.__repr__ = __vector__repr__
+    
+vector_Size2i.__repr__ = __vector__repr__
 vector_Size2i.tolist = __vector_tolist
 vector_Size2i.fromlist = classmethod(__vector_fromlist)
-    vector_vector_Point3i.__repr__ = __vector__repr__
+    
+vector_vector_Point3i.__repr__ = __vector__repr__
 vector_vector_Point3i.tolist = __vector_tolist
 vector_vector_Point3i.fromlist = classmethod(__vector_fromlist)
-    vector_Point3i.__repr__ = __vector__repr__
+    
+vector_Point3i.__repr__ = __vector__repr__
 vector_Point3i.tolist = __vector_tolist
 vector_Point3i.fromlist = classmethod(__vector_fromlist)
-    vector_vector_Vec2i.__repr__ = __vector__repr__
+    
+vector_vector_Vec2i.__repr__ = __vector__repr__
 vector_vector_Vec2i.tolist = __vector_tolist
 vector_vector_Vec2i.fromlist = classmethod(__vector_fromlist)
-    vector_Vec6f.__repr__ = __vector__repr__
+    
+vector_Vec6f.__repr__ = __vector__repr__
 vector_Vec6f.tolist = __vector_tolist
 vector_Vec6f.fromlist = classmethod(__vector_fromlist)
-    vector_Vec2b.__repr__ = __vector__repr__
+    
+vector_Vec2b.__repr__ = __vector__repr__
 vector_Vec2b.tolist = __vector_tolist
 vector_Vec2b.fromlist = classmethod(__vector_fromlist)
-    vector_ulong.__repr__ = __vector__repr__
+    
+vector_ulong.__repr__ = __vector__repr__
 vector_ulong.tolist = __vector_tolist
 vector_ulong.fromlist = classmethod(__vector_fromlist)
-    vector_Vec3s.__repr__ = __vector__repr__
+    
+vector_Vec3s.__repr__ = __vector__repr__
 vector_Vec3s.tolist = __vector_tolist
 vector_Vec3s.fromlist = classmethod(__vector_fromlist)
-    vector_vector_Point2f.__repr__ = __vector__repr__
+    
+vector_vector_Point2f.__repr__ = __vector__repr__
 vector_vector_Point2f.tolist = __vector_tolist
 vector_vector_Point2f.fromlist = classmethod(__vector_fromlist)
-    vector_Point2f.__repr__ = __vector__repr__
+    
+vector_Point2f.__repr__ = __vector__repr__
 vector_Point2f.tolist = __vector_tolist
 vector_Point2f.fromlist = classmethod(__vector_fromlist)
-    vector_RotatedRect.__repr__ = __vector__repr__
+    
+vector_RotatedRect.__repr__ = __vector__repr__
 vector_RotatedRect.tolist = __vector_tolist
 vector_RotatedRect.fromlist = classmethod(__vector_fromlist)
-    vector_uint8.__repr__ = __vector__repr__
+    
+vector_uint8.__repr__ = __vector__repr__
 vector_uint8.tolist = __vector_tolist
 vector_uint8.fromlist = classmethod(__vector_fromlist)
-    vector_vector_int.__repr__ = __vector__repr__
+    
+vector_vector_int.__repr__ = __vector__repr__
 vector_vector_int.tolist = __vector_tolist
 vector_vector_int.fromlist = classmethod(__vector_fromlist)
-    vector_int.__repr__ = __vector__repr__
+    
+vector_int.__repr__ = __vector__repr__
 vector_int.tolist = __vector_tolist
 vector_int.fromlist = classmethod(__vector_fromlist)
-    vector_CvFuzzyCurve.__repr__ = __vector__repr__
+    
+vector_CvFuzzyCurve.__repr__ = __vector__repr__
 vector_CvFuzzyCurve.tolist = __vector_tolist
 vector_CvFuzzyCurve.fromlist = classmethod(__vector_fromlist)
-    vector_uint.__repr__ = __vector__repr__
+    
+vector_uint.__repr__ = __vector__repr__
 vector_uint.tolist = __vector_tolist
 vector_uint.fromlist = classmethod(__vector_fromlist)
-    vector_Vec3d.__repr__ = __vector__repr__
+    
+vector_Vec3d.__repr__ = __vector__repr__
 vector_Vec3d.tolist = __vector_tolist
 vector_Vec3d.fromlist = classmethod(__vector_fromlist)
-    vector_uint64.__repr__ = __vector__repr__
+    
+vector_uint64.__repr__ = __vector__repr__
 vector_uint64.tolist = __vector_tolist
 vector_uint64.fromlist = classmethod(__vector_fromlist)
-    vector_FernClassifier_Feature.__repr__ = __vector__repr__
+    
+vector_FernClassifier_Feature.__repr__ = __vector__repr__
 vector_FernClassifier_Feature.tolist = __vector_tolist
 vector_FernClassifier_Feature.fromlist = classmethod(__vector_fromlist)
-    vector_Vec4w.__repr__ = __vector__repr__
+    
+vector_Vec4w.__repr__ = __vector__repr__
 vector_Vec4w.tolist = __vector_tolist
 vector_Vec4w.fromlist = classmethod(__vector_fromlist)
-    vector_Vec4f.__repr__ = __vector__repr__
+    
+vector_Vec4f.__repr__ = __vector__repr__
 vector_Vec4f.tolist = __vector_tolist
 vector_Vec4f.fromlist = classmethod(__vector_fromlist)
-    vector_uint16.__repr__ = __vector__repr__
+    
+vector_uint16.__repr__ = __vector__repr__
 vector_uint16.tolist = __vector_tolist
 vector_uint16.fromlist = classmethod(__vector_fromlist)
-    vector_Vec2d.__repr__ = __vector__repr__
+    
+vector_Vec2d.__repr__ = __vector__repr__
 vector_Vec2d.tolist = __vector_tolist
 vector_Vec2d.fromlist = classmethod(__vector_fromlist)
-    vector_Size2f.__repr__ = __vector__repr__
+    
+vector_CascadeClassifier_Stage.__repr__ = __vector__repr__
+vector_CascadeClassifier_Stage.tolist = __vector_tolist
+vector_CascadeClassifier_Stage.fromlist = classmethod(__vector_fromlist)
+    
+vector_Size2f.__repr__ = __vector__repr__
 vector_Size2f.tolist = __vector_tolist
 vector_Size2f.fromlist = classmethod(__vector_fromlist)
-    vector_float64.__repr__ = __vector__repr__
+    
+vector_float64.__repr__ = __vector__repr__
 vector_float64.tolist = __vector_tolist
 vector_float64.fromlist = classmethod(__vector_fromlist)
-    vector_Vec3w.__repr__ = __vector__repr__
+    
+vector_Vec3w.__repr__ = __vector__repr__
 vector_Vec3w.tolist = __vector_tolist
 vector_Vec3w.fromlist = classmethod(__vector_fromlist)
-    vector_Vec4b.__repr__ = __vector__repr__
+    
+vector_Vec4b.__repr__ = __vector__repr__
 vector_Vec4b.tolist = __vector_tolist
 vector_Vec4b.fromlist = classmethod(__vector_fromlist)
-    vector_Vec2f.__repr__ = __vector__repr__
+    
+vector_Vec2f.__repr__ = __vector__repr__
 vector_Vec2f.tolist = __vector_tolist
 vector_Vec2f.fromlist = classmethod(__vector_fromlist)
-    vector_Vec3i.__repr__ = __vector__repr__
+    
+vector_Vec3i.__repr__ = __vector__repr__
 vector_Vec3i.tolist = __vector_tolist
 vector_Vec3i.fromlist = classmethod(__vector_fromlist)
-    vector_Octree_Node.__repr__ = __vector__repr__
+    
+vector_Octree_Node.__repr__ = __vector__repr__
 vector_Octree_Node.tolist = __vector_tolist
 vector_Octree_Node.fromlist = classmethod(__vector_fromlist)
-    vector_long.__repr__ = __vector__repr__
+    
+vector_long.__repr__ = __vector__repr__
 vector_long.tolist = __vector_tolist
 vector_long.fromlist = classmethod(__vector_fromlist)
     

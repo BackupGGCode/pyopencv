@@ -558,6 +558,12 @@
 
 #include "pyopencvext/pyopencvext_global_variables.pypp.hpp"
 
+#include "pyopencvext/vector_CascadeClassifier_DTree.pypp.hpp"
+
+#include "pyopencvext/vector_CascadeClassifier_DTreeNode.pypp.hpp"
+
+#include "pyopencvext/vector_CascadeClassifier_Stage.pypp.hpp"
+
 #include "pyopencvext/vector_CvFuzzyCurve.pypp.hpp"
 
 #include "pyopencvext/vector_FernClassifier_Feature.pypp.hpp"
@@ -1895,6 +1901,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_vector_KeyPoint_class();
 
     register_vector_FernClassifier_Feature_class();
+
+    register_vector_CascadeClassifier_Stage_class();
+
+    register_vector_CascadeClassifier_DTreeNode_class();
+
+    register_vector_CascadeClassifier_DTree_class();
 
     register_vector_int8_class();
 

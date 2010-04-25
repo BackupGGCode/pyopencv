@@ -741,7 +741,8 @@ for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
     z.add_declaration_code('static inline void resize(%s &inst, size_t num) { inst.resize(num); }' \
         % z.partial_decl_string)
     z.add_registration_code('def("resize", &::resize, ( bp::arg("num") ))')
-    cc.write('''CLASS_NAME.__repr__ = __vector__repr__
+    cc.write('''
+CLASS_NAME.__repr__ = __vector__repr__
 CLASS_NAME.tolist = __vector_tolist
 CLASS_NAME.fromlist = classmethod(__vector_fromlist)
     '''.replace('CLASS_NAME', z.alias))
