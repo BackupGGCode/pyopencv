@@ -713,6 +713,15 @@ def __vector__repr__(self):
         s += repr(self[0])+", "+repr(self[1])+", ..., "+repr(self[n-2])+", "+repr(self[n-1])
     s += "])"
     return s
+    
+def __vector_tolist(self):
+    return [self[i] for i in xrange(len(self))]
+    
+def __vector_fromlist(cls, obj):
+    z = cls()
+    for x in obj:
+        z.append(x)
+    return z
 ''')    
 
 
@@ -732,7 +741,10 @@ for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
     z.add_declaration_code('static inline void resize(%s &inst, size_t num) { inst.resize(num); }' \
         % z.partial_decl_string)
     z.add_registration_code('def("resize", &::resize, ( bp::arg("num") ))')
-    cc.write('%s.__repr__ = __vector__repr__\n' % z.alias)
+    cc.write('''CLASS_NAME.__repr__ = __vector__repr__
+CLASS_NAME.tolist = __vector_tolist
+CLASS_NAME.fromlist = classmethod(__vector_fromlist)
+    '''.replace('CLASS_NAME', z.alias))
 
 
 
