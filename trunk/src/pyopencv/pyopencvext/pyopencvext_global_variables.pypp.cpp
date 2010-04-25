@@ -30,11 +30,6 @@ void register_global_variables(){
     bp::scope().attr("OPTFLOW_USE_INITIAL_FLOW") = (int)cv::OPTFLOW_USE_INITIAL_FLOW;
     bp::scope().attr("OPTFLOW_FARNEBACK_GAUSSIAN") = (int)cv::OPTFLOW_FARNEBACK_GAUSSIAN;
 
-    bp::scope().attr("GC_BGD") = (int)cv::GC_BGD;
-    bp::scope().attr("GC_FGD") = (int)cv::GC_FGD;
-    bp::scope().attr("GC_PR_BGD") = (int)cv::GC_PR_BGD;
-    bp::scope().attr("GC_PR_FGD") = (int)cv::GC_PR_FGD;
-
     bp::scope().attr("MAGIC_MASK") = (int)cv::MAGIC_MASK;
     bp::scope().attr("TYPE_MASK") = (int)cv::TYPE_MASK;
     bp::scope().attr("DEPTH_MASK") = (int)cv::DEPTH_MASK;
@@ -86,14 +81,14 @@ void register_global_variables(){
     bp::scope().attr("NORM_RELATIVE") = (int)cv::NORM_RELATIVE;
     bp::scope().attr("NORM_MINMAX") = (int)cv::NORM_MINMAX;
 
+    bp::scope().attr("INPAINT_NS") = (int)cv::INPAINT_NS;
+    bp::scope().attr("INPAINT_TELEA") = (int)cv::INPAINT_TELEA;
+
     bp::scope().attr("KERNEL_GENERAL") = (int)cv::KERNEL_GENERAL;
     bp::scope().attr("KERNEL_SYMMETRICAL") = (int)cv::KERNEL_SYMMETRICAL;
     bp::scope().attr("KERNEL_ASYMMETRICAL") = (int)cv::KERNEL_ASYMMETRICAL;
     bp::scope().attr("KERNEL_SMOOTH") = (int)cv::KERNEL_SMOOTH;
     bp::scope().attr("KERNEL_INTEGER") = (int)cv::KERNEL_INTEGER;
-
-    bp::scope().attr("INPAINT_NS") = (int)cv::INPAINT_NS;
-    bp::scope().attr("INPAINT_TELEA") = (int)cv::INPAINT_TELEA;
 
     bp::scope().attr("RETR_EXTERNAL") = (int)cv::RETR_EXTERNAL;
     bp::scope().attr("RETR_LIST") = (int)cv::RETR_LIST;
@@ -136,6 +131,11 @@ void register_global_variables(){
 
     bp::scope().attr("ADAPTIVE_THRESH_MEAN_C") = (int)cv::ADAPTIVE_THRESH_MEAN_C;
     bp::scope().attr("ADAPTIVE_THRESH_GAUSSIAN_C") = (int)cv::ADAPTIVE_THRESH_GAUSSIAN_C;
+
+    bp::scope().attr("GC_BGD") = (int)cv::GC_BGD;
+    bp::scope().attr("GC_FGD") = (int)cv::GC_FGD;
+    bp::scope().attr("GC_PR_BGD") = (int)cv::GC_PR_BGD;
+    bp::scope().attr("GC_PR_FGD") = (int)cv::GC_PR_FGD;
 
     bp::scope().attr("GC_INIT_WITH_RECT") = (int)cv::GC_INIT_WITH_RECT;
     bp::scope().attr("GC_INIT_WITH_MASK") = (int)cv::GC_INIT_WITH_MASK;

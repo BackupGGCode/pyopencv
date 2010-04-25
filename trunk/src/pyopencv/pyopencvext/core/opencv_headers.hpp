@@ -1,11 +1,10 @@
 #ifndef SDOPENCV_HEADERS_H
 #define SDOPENCV_HEADERS_H
 
-#include "cxtypes.h"
+#define __OPENCV_MATRIX_OPERATIONS_H__ // to turn off cxmat.hpp and turn on sdcxmat.hpp -- there's a bug
 #include "cxcore.h"
-#include "cxoperations.hpp"
-#include "cxmat.hpp"
-#include "cxcore.hpp"
+#undef __OPENCV_MATRIX_OPERATIONS_H__
+#include "sdcxmat.hpp"
 
 #include "cvtypes.h"
 #include "cv.h"

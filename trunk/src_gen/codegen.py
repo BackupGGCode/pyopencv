@@ -722,21 +722,23 @@ def __vector__repr__(self):
 ''')    
 
 
-# expose std::vector
+# expose std::vector, only those with alias starting with 'vector_'
 # remember to create operator==() for each element type
 for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
-    if not z.name.startswith('vector<cv::Vec<int, 2>'):
+    # check if the class has been registered
+    try:
+        t = common.get_registered_decl(z.partial_decl_string)
+        elem_type = t[1]
+        t = common.get_registered_decl(elem_type) # to make sure element type is also registered
+    except:
         z.exclude()
         z.set_already_exposed(True)
-    else:
-        z.include()
-        z.rename('vector_Vec2i')
-        t = common.get_registered_decl(z.alias)
-        z.add_declaration_code('''
-static inline void resize(CLASS_TYPE &inst, int num) { inst.resize(num); }
-        '''.replace("CLASS_TYPE", z.partial_decl_string))
-        z.add_registration_code('def("resize", &::resize, ( bp::arg("num") ))')
-        cc.write('%s.__repr__ = __vector__repr__\n' % z.alias)
+        continue
+    z.include()
+    z.add_declaration_code('static inline void resize(%s &inst, size_t num) { inst.resize(num); }' \
+        % z.partial_decl_string)
+    z.add_registration_code('def("resize", &::resize, ( bp::arg("num") ))')
+    cc.write('%s.__repr__ = __vector__repr__\n' % z.alias)
 
 
 

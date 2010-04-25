@@ -7,7 +7,7 @@
 
 namespace bp = boost::python;
 
-static inline void resize(::std::vector< cv::Vec<int, 2> > &inst, int num) { inst.resize(num); }
+static inline void resize(::std::vector< cv::Vec<int, 2> > &inst, size_t num) { inst.resize(num); }
 
 void register_vector_Vec2i_class(){
 

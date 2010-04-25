@@ -45,7 +45,8 @@ def generate_code(mb, cc, D, FT, CP):
     # CvFuzzyPoint
     z = mb.class_('CvFuzzyPoint')
     mb.init_class(z)
-    common.register_vec('std::vector', 'CvFuzzyPoint', 'vector_CvFuzzyPoint')    
+    # common.register_vec('std::vector', 'CvFuzzyPoint', 'vector_CvFuzzyPoint')    
+    # don't register this class because it's used privately only
     mb.finalize_class(z)
     
     # CvFuzzyCurve
