@@ -364,7 +364,15 @@ def update_file(file_path, content):
         
         
 _decls_reg = {}
-    
+
+# get information of a registered class
+def get_registered_decl(alias):
+    for key in _decls_reg:
+        if _decls_reg[key][0]==alias:
+            return _decls_reg[key]
+    else:
+        raise ValueError("Class of pds '%s' has not been registered." % pds)
+        
 # pds = partial_decl_string without the preceeding '::'
 def register_decl(pyName, pds, cChildName_pds=None, pyEquivName=None):
     if '::' in pds: # assume it is a class

@@ -30,6 +30,11 @@ void register_global_variables(){
     bp::scope().attr("OPTFLOW_USE_INITIAL_FLOW") = (int)cv::OPTFLOW_USE_INITIAL_FLOW;
     bp::scope().attr("OPTFLOW_FARNEBACK_GAUSSIAN") = (int)cv::OPTFLOW_FARNEBACK_GAUSSIAN;
 
+    bp::scope().attr("GC_BGD") = (int)cv::GC_BGD;
+    bp::scope().attr("GC_FGD") = (int)cv::GC_FGD;
+    bp::scope().attr("GC_PR_BGD") = (int)cv::GC_PR_BGD;
+    bp::scope().attr("GC_PR_FGD") = (int)cv::GC_PR_FGD;
+
     bp::scope().attr("MAGIC_MASK") = (int)cv::MAGIC_MASK;
     bp::scope().attr("TYPE_MASK") = (int)cv::TYPE_MASK;
     bp::scope().attr("DEPTH_MASK") = (int)cv::DEPTH_MASK;
@@ -131,11 +136,6 @@ void register_global_variables(){
 
     bp::scope().attr("ADAPTIVE_THRESH_MEAN_C") = (int)cv::ADAPTIVE_THRESH_MEAN_C;
     bp::scope().attr("ADAPTIVE_THRESH_GAUSSIAN_C") = (int)cv::ADAPTIVE_THRESH_GAUSSIAN_C;
-
-    bp::scope().attr("GC_BGD") = (int)cv::GC_BGD;
-    bp::scope().attr("GC_FGD") = (int)cv::GC_FGD;
-    bp::scope().attr("GC_PR_BGD") = (int)cv::GC_PR_BGD;
-    bp::scope().attr("GC_PR_FGD") = (int)cv::GC_PR_FGD;
 
     bp::scope().attr("GC_INIT_WITH_RECT") = (int)cv::GC_INIT_WITH_RECT;
     bp::scope().attr("GC_INIT_WITH_MASK") = (int)cv::GC_INIT_WITH_MASK;

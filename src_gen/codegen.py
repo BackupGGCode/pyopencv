@@ -703,9 +703,27 @@ for z in mb.free_funs():
 
 mb.beautify_func_list(opencv_funs)
 
+cc.write('''
+def __vector__repr__(self):
+    n = len(self)
+    s = "%s(len=%d, [" % (self.__class__.__name__, n)
+    if n==1:
+        s += repr(self[0])
+    elif n==2:
+        s += repr(self[0])+", "+repr(self[1])
+    elif n==3:
+        s += repr(self[0])+", "+repr(self[1])+", "+repr(self[2])
+    elif n==4:
+        s += repr(self[0])+", "+repr(self[1])+", "+repr(self[2])+", "+repr(self[3])
+    elif n > 4:
+        s += repr(self[0])+", "+repr(self[1])+", ..., "+repr(self[n-2])+", "+repr(self[n-1])
+    s += "])"
+    return s
+''')    
 
-# too many issues when exposing a std::vector as a member variable
-# to name a few: missing operators like ==
+
+# expose std::vector
+# remember to create operator==() for each element type
 for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
     if not z.name.startswith('vector<cv::Vec<int, 2>'):
         z.exclude()
@@ -713,6 +731,12 @@ for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
     else:
         z.include()
         z.rename('vector_Vec2i')
+        t = common.get_registered_decl(z.alias)
+        z.add_declaration_code('''
+static inline void resize(CLASS_TYPE &inst, int num) { inst.resize(num); }
+        '''.replace("CLASS_TYPE", z.partial_decl_string))
+        z.add_registration_code('def("resize", &::resize, ( bp::arg("num") ))')
+        cc.write('%s.__repr__ = __vector__repr__\n' % z.alias)
 
 
 

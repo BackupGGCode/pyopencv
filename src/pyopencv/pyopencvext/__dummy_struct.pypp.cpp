@@ -30,11 +30,11 @@ void register___dummy_struct_class(){
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< int, 4 >, ::CvScalar >, (bp::arg("inst_Vec4i")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< int, 2 >, ::CvScalar >, (bp::arg("inst_Vec2i")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned char, 4 >, ::CvScalar >, (bp::arg("inst_Vec4b")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 2 >, ::CvScalar >, (bp::arg("inst_Vec2f")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned char, 3 >, ::CvScalar >, (bp::arg("inst_Vec3b")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< int, 3 >, ::CvScalar >, (bp::arg("inst_Vec3i")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< short, 4 >, ::CvScalar >, (bp::arg("inst_Vec4s")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned char, 2 >, ::CvScalar >, (bp::arg("inst_Vec2b")));
+        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 2 >, ::CvScalar >, (bp::arg("inst_Vec2f")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 2 >, ::CvScalar >, (bp::arg("inst_Vec2d")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned short, 2 >, ::CvScalar >, (bp::arg("inst_Vec2w")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 3 >, ::CvScalar >, (bp::arg("inst_Vec3f")));
