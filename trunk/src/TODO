@@ -16,10 +16,9 @@ What about Seq template class?
 
 - introduce debugging mode so that people know which argument has been converted, which has been not
 
-- propose to group a major change of representation from 1D array and 2D array to ndarray
-  of specific dtypes. In other words, each cv dense data type like Vec2f is a dtype itself.
-  Use PyArray_RegisterDataType().
-
+- propose to group a major change of representation from 1D array and 2D array back to std::vector
+  arrays. 
+  
 ------------------------------------------
 Making a snapshot release using setuptools:
 

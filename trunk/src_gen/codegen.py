@@ -17,11 +17,43 @@
 
 from os import chdir, getcwd
 import os.path as OP
+import sys
 from pygccxml import declarations as D
 from pyplusplus import module_builder, messages
 import function_transformers as FT
 from pyplusplus.module_builder import call_policies as CP
 from shutil import copyfile
+
+# modify pyplusplus.file_writers.multiple_files_t.split_creators to allow splitting into multiple files
+def my_split_creators( self, creators, pattern, function_name, registrator_pos, n_creators=30 ):
+    """Write non-class creators into multiple particular .h/.cpp files -- modified by Minh-Tri Pham.
+
+    :param creators: The code creators that should be written
+    :type creators: list of :class:`code_creators.code_creator_t`
+
+    :param pattern: Name pattern that is used for constructing the final output file name
+    :type pattern: str
+
+    :param function_name: "register" function name
+    :type function_name: str
+
+    :param registrator_pos: The position of the code creator that creates the code to invoke the "register" function.
+    :type registrator_pos: int
+
+    :param n_creators: The number of code creators per file. -- Minh-Tri
+    :type n_creators: int
+    """
+    cnt = 0
+    while len(creators) > n_creators:
+        cnt += 1
+        self.split_creators_old(creators[:n_creators], "%s_%d" % (pattern, cnt), 
+            "%s_%d" % (function_name, cnt), registrator_pos)
+        creators = creators[n_creators:]
+    self.split_creators_old(creators, pattern, function_name, registrator_pos)
+    
+import pyplusplus.file_writers as pf
+pf.multiple_files_t.split_creators_old = pf.multiple_files_t.split_creators
+pf.multiple_files_t.split_creators = my_split_creators
 
 import cxerror_h
 import cxtypes_h
@@ -63,6 +95,11 @@ mb = module_builder.module_builder_t(
     )
 common.mb = mb # register mb
 
+
+# ===============================================================================================
+# Start working
+# ===============================================================================================
+
 cc = open('core.py', 'w')
 cc.write('''#!/usr/bin/env python
 # PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
@@ -101,11 +138,11 @@ try:
     import numpy as _NP
 except ImportError:
     raise ImportError("NumPy is not found in your system. Please install NumPy of version at least 1.2.0.")
-    
+
 if _NP.version.version < '1.2.0':
     raise ImportError("NumPy is installed but its version is too old (%s detected). Please install NumPy of version at least 1.2.0." % _NP.version.version)
-    
-    
+
+
 # Try to import pyopencvext
 import config as _C
 if _C.path_ext:
@@ -124,7 +161,7 @@ if _C.path_ext:
 else:
     from pyopencvext import *
     import pyopencvext as _PE
-    
+
 
 import math as _Math
 import ctypes as _CT
@@ -157,16 +194,16 @@ def add_ndarray_interface(self, klass):
     self.add_doc(klass.alias+".from_ndarray", "Creates a %s view on an ndarray instance." % klass.alias)
     klass.add_registration_code('add_property("ndarray", &sdcpp::as_ndarray< cv::%s >)' % klass.alias)
     # self.add_registration_code('bp::def("asndarray", &sdcpp::as_ndarray< cv::%s >, (bp::arg("inst_ndarray")) );' % klass.alias)
-    self.add_doc(klass.alias, 
+    self.add_doc(klass.alias,
         "Property 'ndarray' provides a numpy.ndarray view on the object.",
         "If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!",
         # "Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.",
         "",
         "To create an instance of %s that shares the same data with an ndarray instance, use:" % klass.alias,
         "    '%s.from_ndarray(a)' or 'as%s(a)" % (klass.alias, klass.alias),
-        "where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted.")        
+        "where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted.")
     for t in ('getitem', 'setitem', 'getslice', 'setslice', 'iter'):
-        cc.write('''    
+        cc.write('''
 def _KLASS__FUNC__(self, *args, **kwds):
     return self.ndarray.__FUNC__(*args, **kwds)
 KLASS.__FUNC__ = _KLASS__FUNC__
@@ -265,7 +302,7 @@ def beautify_func_list(self, func_list):
                     arg.default_value = arg.default_value.replace(z, repl_list[z])
                 if ", std::allocator<" in arg.default_value: # std::allocator
                     print("func=%s arg.name=%s arg.default_value=%s" % (f.alias, arg.name, arg.default_value))
-            
+
     # function argument int *sizes and int dims
     for f in func_list:
         for arg in f.arguments:
@@ -303,9 +340,9 @@ def beautify_func_list(self, func_list):
         for arg in f.arguments:
             if is_arg_touched(f, arg.name):
                 continue
-            for typename in ("::IplImage *", "::IplImage const *", 
-                "::CvArr *", "::CvArr const *", 
-                "::CvMat *", "::CvMat const *", 
+            for typename in ("::IplImage *", "::IplImage const *",
+                "::CvArr *", "::CvArr const *",
+                "::CvMat *", "::CvMat const *",
                 "::cv::Range const *",):
                 if typename in arg.type.decl_string:
                     break
@@ -378,7 +415,7 @@ def beautify_func_list(self, func_list):
             if arg.name == 'data' and D.is_void_pointer(arg.type):
                 f._transformer_creators.append(FT.input_string(arg.name))
                 mb.add_doc(f.name, "'data' is represented by a string")
-                    
+
     # final step: apply all the function transformations
     for f in func_list:
         if len(f._transformer_creators) > 0:
@@ -396,9 +433,9 @@ def beautify_func_list(self, func_list):
                         f.transformations[0].unique_name = s
                         f.transformations[0].alias = repl_dict[t]
                         break
-            
+
         common.add_decl_desc(f)
-        
+
 module_builder.module_builder_t.beautify_func_list = beautify_func_list
 
 def finalize_class(self, z):
@@ -412,7 +449,7 @@ def finalize_class(self, z):
                 t.exclude()
         except:
             pass
-            
+
     # convert a std::vector<> into something useful
     try:
         zz = z.vars()
@@ -509,7 +546,7 @@ for z in ('IPL_', 'CV_'):
         mb.decls(lambda decl: decl.name.startswith(z)).include()
     except RuntimeError:
         pass
-        
+
 # rename some classes
 _class_rename = {
     'Point_<float>': 'Point2f',
@@ -604,7 +641,7 @@ sdopencv.generate_code(mb, cc, D, FT, CP)
 #=============================================================================
 
 
-for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION', 
+for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
     'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
     'STUB_PHASE',
     ):
@@ -627,15 +664,19 @@ for z in mb.free_funs():
             zz = zz[0].lower()+zz[1:]
         # print "Old name=", z.alias, " new name=", zz
         z.rename(zz)
-        
+
 mb.beautify_func_list(opencv_funs)
 
 
 # too many issues when exposing a std::vector as a member variable
 # to name a few: missing operators like ==
 for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
-    z.exclude() 
-    z.set_already_exposed(True)
+    if not z.name.startswith('vector<cv::Vec<int, 2>'):
+        z.exclude()
+        z.set_already_exposed(True)
+    else:
+        z.include()
+        z.rename('vector_Vec2i')
 
 
 
