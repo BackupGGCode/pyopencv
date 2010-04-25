@@ -128,4 +128,32 @@ void register_free_functions_me(){
     
     }
 
+    { //::cv::merge
+    
+        typedef void ( *merge_function_type )( ::std::vector< cv::MatND > const &,::cv::MatND & );
+        
+        bp::def( 
+            "merge"
+            , merge_function_type( &::cv::merge )
+            , ( bp::arg("mv"), bp::arg("dst") )
+            , "\nComposes a multi-channel array from several single-channel arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge" );
+    
+    }
+
+    { //::cv::merge
+    
+        typedef void ( *merge_function_type )( ::std::vector< cv::Mat > const &,::cv::Mat & );
+        
+        bp::def( 
+            "merge"
+            , merge_function_type( &::cv::merge )
+            , ( bp::arg("mv"), bp::arg("dst") )
+            , "\nComposes a multi-channel array from several single-channel arrays."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-merge" );
+    
+    }
+
 }

@@ -28,24 +28,8 @@ def generate_code(mb, cc, D, FT, CP):
     sdopencv = mb.namespace('sdopencv')
     sdopencv.include()
     
-    for t in ('DifferentialImage', 'IntegralImage'):
+    for t in ('DifferentialImage', 'IntegralImage', 'IntegralHistogram'):
         z = sdopencv.class_(t)
         mb.init_class(z)
         mb.finalize_class(z)
 
-    # IntegralHistogram
-    z = sdopencv.class_('IntegralHistogram')
-    z.include_files.append("opencv_converters.hpp")
-    mb.init_class(z)
-    z.constructor(lambda x: len(x.arguments) > 1).exclude()
-    z.add_declaration_code('''
-static boost::shared_ptr<sdopencv::IntegralHistogram> IntegralHistogram__init1__(int histSize, cv::Mat const &ranges, bool uniform)
-{
-    std::vector<float> ranges2; convert_from_Mat_to_vector_of_T(ranges, ranges2);
-    return boost::shared_ptr<sdopencv::IntegralHistogram>(new sdopencv::IntegralHistogram(histSize, ranges2, uniform));
-}
-
-    ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&IntegralHistogram__init1__, bp::default_call_policies(), ( bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=bp::object(true) )))')
-
-    mb.finalize_class(z)

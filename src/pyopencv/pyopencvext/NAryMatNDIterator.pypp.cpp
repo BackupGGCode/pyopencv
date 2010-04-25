@@ -45,7 +45,9 @@ void register_NAryMatNDIterator_class(){
     "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]." );
         
         }
+        NAryMatNDIterator_exposer.def_readwrite( "arrays", &cv::NAryMatNDIterator::arrays );
         NAryMatNDIterator_exposer.def_readwrite( "nplanes", &cv::NAryMatNDIterator::nplanes );
+        NAryMatNDIterator_exposer.def_readwrite( "planes", &cv::NAryMatNDIterator::planes );
     }
 
 }

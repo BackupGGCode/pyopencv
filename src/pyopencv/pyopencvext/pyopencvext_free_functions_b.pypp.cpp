@@ -271,6 +271,17 @@ void register_free_functions_b(){
     
     }
 
+    { //::cv::buildPyramid
+    
+        typedef void ( *buildPyramid_function_type )( ::cv::Mat const &,::std::vector< cv::Mat > &,int );
+        
+        bp::def( 
+            "buildPyramid"
+            , buildPyramid_function_type( &::cv::buildPyramid )
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("maxlevel") ) );
+    
+    }
+
     { //::cvBlob
     
         typedef ::CvBlob ( *blob_function_type )( float,float,float,float );

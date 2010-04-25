@@ -5,7 +5,6 @@
 #include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "opencv_converters.hpp"
 #include "CascadeClassifier.pypp.hpp"
 
 namespace bp = boost::python;
@@ -70,16 +69,6 @@ struct CascadeClassifier_wrapper : cv::CascadeClassifier, bp::wrapper< cv::Casca
     }
 
 };
-
-static bp::object get_stages(::cv::CascadeClassifier const &inst) { return convert_from_T_to_object(inst.stages); }
-
-static bp::object get_classifiers(::cv::CascadeClassifier const &inst) { return convert_from_T_to_object(inst.classifiers); }
-
-static bp::object get_nodes(::cv::CascadeClassifier const &inst) { return convert_from_T_to_object(inst.nodes); }
-
-static bp::object get_leaves(::cv::CascadeClassifier const &inst) { return convert_from_T_to_object(inst.leaves); }
-
-static bp::object get_subsets(::cv::CascadeClassifier const &inst) { return convert_from_T_to_object(inst.subsets); }
 
 void register_CascadeClassifier_class(){
 
@@ -155,18 +144,18 @@ void register_CascadeClassifier_class(){
                 , ( bp::arg("node") ) );
         
         }
+        CascadeClassifier_exposer.def_readwrite( "classifiers", &cv::CascadeClassifier::classifiers );
         CascadeClassifier_exposer.def_readwrite( "featureType", &cv::CascadeClassifier::featureType );
         CascadeClassifier_exposer.def_readwrite( "feval", &cv::CascadeClassifier::feval );
         CascadeClassifier_exposer.def_readwrite( "is_stump_based", &cv::CascadeClassifier::is_stump_based );
+        CascadeClassifier_exposer.def_readwrite( "leaves", &cv::CascadeClassifier::leaves );
         CascadeClassifier_exposer.def_readwrite( "ncategories", &cv::CascadeClassifier::ncategories );
+        CascadeClassifier_exposer.def_readwrite( "nodes", &cv::CascadeClassifier::nodes );
         CascadeClassifier_exposer.def_readwrite( "oldCascade", &cv::CascadeClassifier::oldCascade );
         CascadeClassifier_exposer.def_readwrite( "origWinSize", &cv::CascadeClassifier::origWinSize );
         CascadeClassifier_exposer.def_readwrite( "stageType", &cv::CascadeClassifier::stageType );
-        CascadeClassifier_exposer.add_property("stages", &get_stages);
-        CascadeClassifier_exposer.add_property("classifiers", &get_classifiers);
-        CascadeClassifier_exposer.add_property("nodes", &get_nodes);
-        CascadeClassifier_exposer.add_property("leaves", &get_leaves);
-        CascadeClassifier_exposer.add_property("subsets", &get_subsets);
+        CascadeClassifier_exposer.def_readwrite( "stages", &cv::CascadeClassifier::stages );
+        CascadeClassifier_exposer.def_readwrite( "subsets", &cv::CascadeClassifier::subsets );
         CascadeClassifier_exposer.def("runAt", &::CascadeClassifier_wrapper::my_runAt, ( bp::arg("_feval"), bp::arg("pt") ) );
         CascadeClassifier_exposer.def("setImage", &::CascadeClassifier_wrapper::my_setImage, ( bp::arg("_feval"), bp::arg("image") ) );
     }

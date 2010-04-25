@@ -5,7 +5,6 @@
 #include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "opencv_converters.hpp"
 #include "IntegralHistogram.pypp.hpp"
 
 namespace bp = boost::python;
@@ -17,15 +16,15 @@ static void calcHist_7e977de6e27427b53a27b192cb2b370c( ::sdopencv::IntegralHisto
     convert_from_vector_of_T_to_Mat(out_hist2, out_hist);
 }
 
-static boost::shared_ptr<sdopencv::IntegralHistogram> IntegralHistogram__init1__(int histSize, cv::Mat const &ranges, bool uniform)
-{
-    std::vector<float> ranges2; convert_from_Mat_to_vector_of_T(ranges, ranges2);
-    return boost::shared_ptr<sdopencv::IntegralHistogram>(new sdopencv::IntegralHistogram(histSize, ranges2, uniform));
-}
-
 void register_IntegralHistogram_class(){
 
-    bp::class_< sdopencv::IntegralHistogram >( "IntegralHistogram", bp::no_init )    
+    bp::class_< sdopencv::IntegralHistogram >( "IntegralHistogram", bp::init< int, std::vector< float > const &, bp::optional< bool > >(( bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=(bool)(true) ), "\nWrapped function:"
+    "\n    IntegralHistogram"
+    "\nArgument 'ranges':"\
+    "\n    C/C++ type: ::std::vector< float > const &."\
+    "\n    Python type: Mat."\
+    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
+    "\n    asMat([0,1,2]) or asMat((0,1,2)).") )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< sdopencv::IntegralHistogram >() )    
         .def( 
             "calcHist"
@@ -45,7 +44,6 @@ void register_IntegralHistogram_class(){
             , (void ( ::sdopencv::IntegralHistogram::* )( ::cv::Mat const & ) )( &::sdopencv::IntegralHistogram::operator() )
             , ( bp::arg("image") )
             , "\nWrapped function:"
-    "\n    operator()" )    
-        .def("__init__", bp::make_constructor(&IntegralHistogram__init1__, bp::default_call_policies(), ( bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=bp::object(true) )));
+    "\n    operator()" );
 
 }
