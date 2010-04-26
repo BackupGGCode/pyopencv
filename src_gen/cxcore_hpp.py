@@ -232,10 +232,6 @@ KLASS.__repr__ = _KLASS__repr__
     mb.finalize_class(z)
     
     # Ptr -- already exposed by mb.expose_class_Ptr
-    common.register_ti('cv::FilterEngine')
-    common.register_ti('cv::Ptr', ['cv::FilterEngine'])
-    common.register_ti('cv::Ptr', ['cv::Mat'])
-    common.register_vec('std::vector', 'cv::Ptr< cv::Mat >')    
     
     # Mat
     z = mb.class_('Mat')
@@ -447,6 +443,11 @@ def asMat(obj, force_single_channel=False):
         return reshapeSingleChannel(out_mat)
     return out_mat
     ''')
+    
+    # Ptr<Mat>
+    mb.expose_class_Ptr('Mat', 'cv')
+    common.register_vec('std::vector', 'cv::Ptr< cv::Mat >')    
+
     
     # Mat_
     # Minh-Tri: really bad idea to enable these classes, longer compilation 

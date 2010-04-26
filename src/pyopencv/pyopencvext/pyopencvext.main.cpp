@@ -350,6 +350,8 @@
 
 #include "pyopencvext/Ptr_FilterEngine.pypp.hpp"
 
+#include "pyopencvext/Ptr_Mat.pypp.hpp"
+
 #include "pyopencvext/RNG.pypp.hpp"
 
 #include "pyopencvext/Range.pypp.hpp"
@@ -2269,6 +2271,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_Ptr_FeatureEvaluator_class();
 
     register_Ptr_FilterEngine_class();
+
+    register_Ptr_Mat_class();
 
     register_RNG_class();
 

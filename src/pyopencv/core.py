@@ -2670,264 +2670,526 @@ def __vector__repr__(self):
     s += "])"
     return s
     
+def is_vector(cls):
+    """Returns whether class 'cls' is a std::vector class."""
+    return cls.__name__.startswith('vector_')
+    
 def __vector_tolist(self):
+    if is_vector(self.elem_type):
+        return [self[i].tolist() for i in xrange(len(self))]
     return [self[i] for i in xrange(len(self))]
     
 def __vector_fromlist(cls, obj):
     z = cls()
-    for x in obj:
-        z.append(x)
+    if is_vector(cls.elem_type):
+        for x in obj:
+            z.append(cls.elem_type.fromlist(x))
+    else:
+        for x in obj:
+            z.append(x)
     return z
 
 vector_vector_Point3f.__repr__ = __vector__repr__
 vector_vector_Point3f.tolist = __vector_tolist
 vector_vector_Point3f.fromlist = classmethod(__vector_fromlist)
+_z = vector_vector_Point3f()
+_z.resize(1)
+vector_vector_Point3f.elem_type = _z[0].__class__
+del(_z)
     
 vector_Point3f.__repr__ = __vector__repr__
 vector_Point3f.tolist = __vector_tolist
 vector_Point3f.fromlist = classmethod(__vector_fromlist)
+_z = vector_Point3f()
+_z.resize(1)
+vector_Point3f.elem_type = _z[0].__class__
+del(_z)
     
 vector_vector_Point2i.__repr__ = __vector__repr__
 vector_vector_Point2i.tolist = __vector_tolist
 vector_vector_Point2i.fromlist = classmethod(__vector_fromlist)
+_z = vector_vector_Point2i()
+_z.resize(1)
+vector_vector_Point2i.elem_type = _z[0].__class__
+del(_z)
     
 vector_Point2i.__repr__ = __vector__repr__
 vector_Point2i.tolist = __vector_tolist
 vector_Point2i.fromlist = classmethod(__vector_fromlist)
-    
-vector_KeyPoint.__repr__ = __vector__repr__
-vector_KeyPoint.tolist = __vector_tolist
-vector_KeyPoint.fromlist = classmethod(__vector_fromlist)
+_z = vector_Point2i()
+_z.resize(1)
+vector_Point2i.elem_type = _z[0].__class__
+del(_z)
     
 vector_CascadeClassifier_DTree.__repr__ = __vector__repr__
 vector_CascadeClassifier_DTree.tolist = __vector_tolist
 vector_CascadeClassifier_DTree.fromlist = classmethod(__vector_fromlist)
+_z = vector_CascadeClassifier_DTree()
+_z.resize(1)
+vector_CascadeClassifier_DTree.elem_type = _z[0].__class__
+del(_z)
     
 vector_Point2d.__repr__ = __vector__repr__
 vector_Point2d.tolist = __vector_tolist
 vector_Point2d.fromlist = classmethod(__vector_fromlist)
+_z = vector_Point2d()
+_z.resize(1)
+vector_Point2d.elem_type = _z[0].__class__
+del(_z)
     
 vector_Range.__repr__ = __vector__repr__
 vector_Range.tolist = __vector_tolist
 vector_Range.fromlist = classmethod(__vector_fromlist)
+_z = vector_Range()
+_z.resize(1)
+vector_Range.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec3b.__repr__ = __vector__repr__
 vector_Vec3b.tolist = __vector_tolist
 vector_Vec3b.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec3b()
+_z.resize(1)
+vector_Vec3b.elem_type = _z[0].__class__
+del(_z)
     
 vector_int64.__repr__ = __vector__repr__
 vector_int64.tolist = __vector_tolist
 vector_int64.fromlist = classmethod(__vector_fromlist)
+_z = vector_int64()
+_z.resize(1)
+vector_int64.elem_type = _z[0].__class__
+del(_z)
     
 vector_MatND.__repr__ = __vector__repr__
 vector_MatND.tolist = __vector_tolist
 vector_MatND.fromlist = classmethod(__vector_fromlist)
+_z = vector_MatND()
+_z.resize(1)
+vector_MatND.elem_type = _z[0].__class__
+del(_z)
     
 vector_Scalar.__repr__ = __vector__repr__
 vector_Scalar.tolist = __vector_tolist
 vector_Scalar.fromlist = classmethod(__vector_fromlist)
+_z = vector_Scalar()
+_z.resize(1)
+vector_Scalar.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec2s.__repr__ = __vector__repr__
 vector_Vec2s.tolist = __vector_tolist
 vector_Vec2s.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec2s()
+_z.resize(1)
+vector_Vec2s.elem_type = _z[0].__class__
+del(_z)
     
 vector_Mat.__repr__ = __vector__repr__
 vector_Mat.tolist = __vector_tolist
 vector_Mat.fromlist = classmethod(__vector_fromlist)
+_z = vector_Mat()
+_z.resize(1)
+vector_Mat.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec4s.__repr__ = __vector__repr__
 vector_Vec4s.tolist = __vector_tolist
 vector_Vec4s.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec4s()
+_z.resize(1)
+vector_Vec4s.elem_type = _z[0].__class__
+del(_z)
+    
+vector_KeyPoint.__repr__ = __vector__repr__
+vector_KeyPoint.tolist = __vector_tolist
+vector_KeyPoint.fromlist = classmethod(__vector_fromlist)
+_z = vector_KeyPoint()
+_z.resize(1)
+vector_KeyPoint.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec6d.__repr__ = __vector__repr__
 vector_Vec6d.tolist = __vector_tolist
 vector_Vec6d.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec6d()
+_z.resize(1)
+vector_Vec6d.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec4i.__repr__ = __vector__repr__
 vector_Vec4i.tolist = __vector_tolist
 vector_Vec4i.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec4i()
+_z.resize(1)
+vector_Vec4i.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec4d.__repr__ = __vector__repr__
 vector_Vec4d.tolist = __vector_tolist
 vector_Vec4d.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec4d()
+_z.resize(1)
+vector_Vec4d.elem_type = _z[0].__class__
+del(_z)
     
 vector_Ptr_Mat.__repr__ = __vector__repr__
 vector_Ptr_Mat.tolist = __vector_tolist
 vector_Ptr_Mat.fromlist = classmethod(__vector_fromlist)
+_z = vector_Ptr_Mat()
+_z.resize(1)
+vector_Ptr_Mat.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec3f.__repr__ = __vector__repr__
 vector_Vec3f.tolist = __vector_tolist
 vector_Vec3f.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec3f()
+_z.resize(1)
+vector_Vec3f.elem_type = _z[0].__class__
+del(_z)
     
 vector_int16.__repr__ = __vector__repr__
 vector_int16.tolist = __vector_tolist
 vector_int16.fromlist = classmethod(__vector_fromlist)
+_z = vector_int16()
+_z.resize(1)
+vector_int16.elem_type = _z[0].__class__
+del(_z)
     
 vector_vector_Point3d.__repr__ = __vector__repr__
 vector_vector_Point3d.tolist = __vector_tolist
 vector_vector_Point3d.fromlist = classmethod(__vector_fromlist)
+_z = vector_vector_Point3d()
+_z.resize(1)
+vector_vector_Point3d.elem_type = _z[0].__class__
+del(_z)
     
 vector_Point3d.__repr__ = __vector__repr__
 vector_Point3d.tolist = __vector_tolist
 vector_Point3d.fromlist = classmethod(__vector_fromlist)
+_z = vector_Point3d()
+_z.resize(1)
+vector_Point3d.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec2w.__repr__ = __vector__repr__
 vector_Vec2w.tolist = __vector_tolist
 vector_Vec2w.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec2w()
+_z.resize(1)
+vector_Vec2w.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec2i.__repr__ = __vector__repr__
 vector_Vec2i.tolist = __vector_tolist
 vector_Vec2i.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec2i()
+_z.resize(1)
+vector_Vec2i.elem_type = _z[0].__class__
+del(_z)
     
 vector_Rect.__repr__ = __vector__repr__
 vector_Rect.tolist = __vector_tolist
 vector_Rect.fromlist = classmethod(__vector_fromlist)
+_z = vector_Rect()
+_z.resize(1)
+vector_Rect.elem_type = _z[0].__class__
+del(_z)
     
 vector_int8.__repr__ = __vector__repr__
 vector_int8.tolist = __vector_tolist
 vector_int8.fromlist = classmethod(__vector_fromlist)
+_z = vector_int8()
+_z.resize(1)
+vector_int8.elem_type = _z[0].__class__
+del(_z)
     
 vector_vector_Point2d.__repr__ = __vector__repr__
 vector_vector_Point2d.tolist = __vector_tolist
 vector_vector_Point2d.fromlist = classmethod(__vector_fromlist)
+_z = vector_vector_Point2d()
+_z.resize(1)
+vector_vector_Point2d.elem_type = _z[0].__class__
+del(_z)
     
 vector_CascadeClassifier_DTreeNode.__repr__ = __vector__repr__
 vector_CascadeClassifier_DTreeNode.tolist = __vector_tolist
 vector_CascadeClassifier_DTreeNode.fromlist = classmethod(__vector_fromlist)
+_z = vector_CascadeClassifier_DTreeNode()
+_z.resize(1)
+vector_CascadeClassifier_DTreeNode.elem_type = _z[0].__class__
+del(_z)
     
 vector_vector_float32.__repr__ = __vector__repr__
 vector_vector_float32.tolist = __vector_tolist
 vector_vector_float32.fromlist = classmethod(__vector_fromlist)
+_z = vector_vector_float32()
+_z.resize(1)
+vector_vector_float32.elem_type = _z[0].__class__
+del(_z)
     
 vector_float32.__repr__ = __vector__repr__
 vector_float32.tolist = __vector_tolist
 vector_float32.fromlist = classmethod(__vector_fromlist)
+_z = vector_float32()
+_z.resize(1)
+vector_float32.elem_type = _z[0].__class__
+del(_z)
     
 vector_Size2i.__repr__ = __vector__repr__
 vector_Size2i.tolist = __vector_tolist
 vector_Size2i.fromlist = classmethod(__vector_fromlist)
+_z = vector_Size2i()
+_z.resize(1)
+vector_Size2i.elem_type = _z[0].__class__
+del(_z)
     
 vector_vector_Point3i.__repr__ = __vector__repr__
 vector_vector_Point3i.tolist = __vector_tolist
 vector_vector_Point3i.fromlist = classmethod(__vector_fromlist)
+_z = vector_vector_Point3i()
+_z.resize(1)
+vector_vector_Point3i.elem_type = _z[0].__class__
+del(_z)
     
 vector_Point3i.__repr__ = __vector__repr__
 vector_Point3i.tolist = __vector_tolist
 vector_Point3i.fromlist = classmethod(__vector_fromlist)
+_z = vector_Point3i()
+_z.resize(1)
+vector_Point3i.elem_type = _z[0].__class__
+del(_z)
     
 vector_vector_Vec2i.__repr__ = __vector__repr__
 vector_vector_Vec2i.tolist = __vector_tolist
 vector_vector_Vec2i.fromlist = classmethod(__vector_fromlist)
+_z = vector_vector_Vec2i()
+_z.resize(1)
+vector_vector_Vec2i.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec6f.__repr__ = __vector__repr__
 vector_Vec6f.tolist = __vector_tolist
 vector_Vec6f.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec6f()
+_z.resize(1)
+vector_Vec6f.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec2b.__repr__ = __vector__repr__
 vector_Vec2b.tolist = __vector_tolist
 vector_Vec2b.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec2b()
+_z.resize(1)
+vector_Vec2b.elem_type = _z[0].__class__
+del(_z)
     
 vector_ulong.__repr__ = __vector__repr__
 vector_ulong.tolist = __vector_tolist
 vector_ulong.fromlist = classmethod(__vector_fromlist)
+_z = vector_ulong()
+_z.resize(1)
+vector_ulong.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec3s.__repr__ = __vector__repr__
 vector_Vec3s.tolist = __vector_tolist
 vector_Vec3s.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec3s()
+_z.resize(1)
+vector_Vec3s.elem_type = _z[0].__class__
+del(_z)
     
 vector_vector_Point2f.__repr__ = __vector__repr__
 vector_vector_Point2f.tolist = __vector_tolist
 vector_vector_Point2f.fromlist = classmethod(__vector_fromlist)
+_z = vector_vector_Point2f()
+_z.resize(1)
+vector_vector_Point2f.elem_type = _z[0].__class__
+del(_z)
     
 vector_Point2f.__repr__ = __vector__repr__
 vector_Point2f.tolist = __vector_tolist
 vector_Point2f.fromlist = classmethod(__vector_fromlist)
+_z = vector_Point2f()
+_z.resize(1)
+vector_Point2f.elem_type = _z[0].__class__
+del(_z)
     
 vector_RotatedRect.__repr__ = __vector__repr__
 vector_RotatedRect.tolist = __vector_tolist
 vector_RotatedRect.fromlist = classmethod(__vector_fromlist)
+_z = vector_RotatedRect()
+_z.resize(1)
+vector_RotatedRect.elem_type = _z[0].__class__
+del(_z)
     
 vector_uint8.__repr__ = __vector__repr__
 vector_uint8.tolist = __vector_tolist
 vector_uint8.fromlist = classmethod(__vector_fromlist)
+_z = vector_uint8()
+_z.resize(1)
+vector_uint8.elem_type = _z[0].__class__
+del(_z)
     
 vector_vector_int.__repr__ = __vector__repr__
 vector_vector_int.tolist = __vector_tolist
 vector_vector_int.fromlist = classmethod(__vector_fromlist)
+_z = vector_vector_int()
+_z.resize(1)
+vector_vector_int.elem_type = _z[0].__class__
+del(_z)
     
 vector_int.__repr__ = __vector__repr__
 vector_int.tolist = __vector_tolist
 vector_int.fromlist = classmethod(__vector_fromlist)
+_z = vector_int()
+_z.resize(1)
+vector_int.elem_type = _z[0].__class__
+del(_z)
     
 vector_CvFuzzyCurve.__repr__ = __vector__repr__
 vector_CvFuzzyCurve.tolist = __vector_tolist
 vector_CvFuzzyCurve.fromlist = classmethod(__vector_fromlist)
+_z = vector_CvFuzzyCurve()
+_z.resize(1)
+vector_CvFuzzyCurve.elem_type = _z[0].__class__
+del(_z)
     
 vector_uint.__repr__ = __vector__repr__
 vector_uint.tolist = __vector_tolist
 vector_uint.fromlist = classmethod(__vector_fromlist)
+_z = vector_uint()
+_z.resize(1)
+vector_uint.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec3d.__repr__ = __vector__repr__
 vector_Vec3d.tolist = __vector_tolist
 vector_Vec3d.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec3d()
+_z.resize(1)
+vector_Vec3d.elem_type = _z[0].__class__
+del(_z)
     
 vector_uint64.__repr__ = __vector__repr__
 vector_uint64.tolist = __vector_tolist
 vector_uint64.fromlist = classmethod(__vector_fromlist)
+_z = vector_uint64()
+_z.resize(1)
+vector_uint64.elem_type = _z[0].__class__
+del(_z)
     
 vector_FernClassifier_Feature.__repr__ = __vector__repr__
 vector_FernClassifier_Feature.tolist = __vector_tolist
 vector_FernClassifier_Feature.fromlist = classmethod(__vector_fromlist)
+_z = vector_FernClassifier_Feature()
+_z.resize(1)
+vector_FernClassifier_Feature.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec4w.__repr__ = __vector__repr__
 vector_Vec4w.tolist = __vector_tolist
 vector_Vec4w.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec4w()
+_z.resize(1)
+vector_Vec4w.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec4f.__repr__ = __vector__repr__
 vector_Vec4f.tolist = __vector_tolist
 vector_Vec4f.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec4f()
+_z.resize(1)
+vector_Vec4f.elem_type = _z[0].__class__
+del(_z)
     
 vector_uint16.__repr__ = __vector__repr__
 vector_uint16.tolist = __vector_tolist
 vector_uint16.fromlist = classmethod(__vector_fromlist)
+_z = vector_uint16()
+_z.resize(1)
+vector_uint16.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec2d.__repr__ = __vector__repr__
 vector_Vec2d.tolist = __vector_tolist
 vector_Vec2d.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec2d()
+_z.resize(1)
+vector_Vec2d.elem_type = _z[0].__class__
+del(_z)
     
 vector_CascadeClassifier_Stage.__repr__ = __vector__repr__
 vector_CascadeClassifier_Stage.tolist = __vector_tolist
 vector_CascadeClassifier_Stage.fromlist = classmethod(__vector_fromlist)
+_z = vector_CascadeClassifier_Stage()
+_z.resize(1)
+vector_CascadeClassifier_Stage.elem_type = _z[0].__class__
+del(_z)
     
 vector_Size2f.__repr__ = __vector__repr__
 vector_Size2f.tolist = __vector_tolist
 vector_Size2f.fromlist = classmethod(__vector_fromlist)
+_z = vector_Size2f()
+_z.resize(1)
+vector_Size2f.elem_type = _z[0].__class__
+del(_z)
     
 vector_float64.__repr__ = __vector__repr__
 vector_float64.tolist = __vector_tolist
 vector_float64.fromlist = classmethod(__vector_fromlist)
+_z = vector_float64()
+_z.resize(1)
+vector_float64.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec3w.__repr__ = __vector__repr__
 vector_Vec3w.tolist = __vector_tolist
 vector_Vec3w.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec3w()
+_z.resize(1)
+vector_Vec3w.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec4b.__repr__ = __vector__repr__
 vector_Vec4b.tolist = __vector_tolist
 vector_Vec4b.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec4b()
+_z.resize(1)
+vector_Vec4b.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec2f.__repr__ = __vector__repr__
 vector_Vec2f.tolist = __vector_tolist
 vector_Vec2f.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec2f()
+_z.resize(1)
+vector_Vec2f.elem_type = _z[0].__class__
+del(_z)
     
 vector_Vec3i.__repr__ = __vector__repr__
 vector_Vec3i.tolist = __vector_tolist
 vector_Vec3i.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec3i()
+_z.resize(1)
+vector_Vec3i.elem_type = _z[0].__class__
+del(_z)
     
 vector_Octree_Node.__repr__ = __vector__repr__
 vector_Octree_Node.tolist = __vector_tolist
 vector_Octree_Node.fromlist = classmethod(__vector_fromlist)
+_z = vector_Octree_Node()
+_z.resize(1)
+vector_Octree_Node.elem_type = _z[0].__class__
+del(_z)
     
 vector_long.__repr__ = __vector__repr__
 vector_long.tolist = __vector_tolist
 vector_long.fromlist = classmethod(__vector_fromlist)
+_z = vector_long()
+_z.resize(1)
+vector_long.elem_type = _z[0].__class__
+del(_z)
     

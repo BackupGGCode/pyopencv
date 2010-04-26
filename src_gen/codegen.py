@@ -252,6 +252,7 @@ def expose_class_Ptr(self, klass_name, ns=None):
     else:
         full_klass_name = '%s::%s' % (ns, klass_name)
     z = self.class_('Ptr<%s>' % full_klass_name)
+    common.register_ti('cv::Ptr', [full_klass_name])
     z.rename('Ptr_%s' % klass_name)
     z.include()
     z.operators().exclude()
@@ -688,13 +689,23 @@ def __vector__repr__(self):
     s += "])"
     return s
     
+def is_vector(cls):
+    """Returns whether class 'cls' is a std::vector class."""
+    return cls.__name__.startswith('vector_')
+    
 def __vector_tolist(self):
+    if is_vector(self.elem_type):
+        return [self[i].tolist() for i in xrange(len(self))]
     return [self[i] for i in xrange(len(self))]
     
 def __vector_fromlist(cls, obj):
     z = cls()
-    for x in obj:
-        z.append(x)
+    if is_vector(cls.elem_type):
+        for x in obj:
+            z.append(cls.elem_type.fromlist(x))
+    else:
+        for x in obj:
+            z.append(x)
     return z
 ''')    
 
@@ -719,6 +730,10 @@ for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
 CLASS_NAME.__repr__ = __vector__repr__
 CLASS_NAME.tolist = __vector_tolist
 CLASS_NAME.fromlist = classmethod(__vector_fromlist)
+_z = CLASS_NAME()
+_z.resize(1)
+CLASS_NAME.elem_type = _z[0].__class__
+del(_z)
     '''.replace('CLASS_NAME', z.alias))
 
 

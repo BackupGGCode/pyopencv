@@ -33,17 +33,21 @@ def generate_code(mb, cc, D, FT, CP):
     # BaseRowFilter, BaseColumnFilter, BaseFilter
     for t in ('BaseRowFilter', 'BaseColumnFilter', 'BaseFilter'):
         z = mb.class_(t)
+        mb.init_class(z)
+        z.exclude()
         # wait until requested: expose the members of the class
         # z.include()
         # z.constructors().exclude()
         # z.operators().exclude()
+        mb.finalize_class(z)
         mb.expose_class_Ptr(t, 'cv')
     
     # FilterEngine
     # wait until requested: fix the rest of the member declarations
     z = mb.class_('FilterEngine')
-    z.include()
+    mb.init_class(z)
     z.decls().exclude()
+    mb.finalize_class(z)
     mb.expose_class_Ptr('FilterEngine', 'cv')
     
     # Moments
@@ -58,14 +62,17 @@ def generate_code(mb, cc, D, FT, CP):
         z.mem_fun(t).call_policies = CP.return_self()
     
     # FeatureEvaluator
-    mb.class_('FeatureEvaluator').include()
+    z = mb.class_('FeatureEvaluator')
+    mb.init_class(z)
+    mb.finalize_class(z)
     mb.expose_class_Ptr('FeatureEvaluator', 'cv')
     
     # CascadeClassifier
     z = mb.class_('CascadeClassifier')
     mb.init_class(z)
     z.mem_fun('detectMultiScale')._transformer_creators.append(FT.arg_std_vector('objects', 2))
-    mb.expose_class_Ptr('CvHaarClassifierCascade')    
+    common.register_ti('CvHaarClassifierCascade')
+    mb.expose_class_Ptr('CvHaarClassifierCascade')
     # modify runAt() and setImage() -- I need them able to support old cascade
     z.mem_fun('runAt').exclude()
     z.mem_fun('setImage').exclude()
@@ -115,6 +122,7 @@ def generate_code(mb, cc, D, FT, CP):
     # StereoBM
     z = mb.class_('StereoBM')
     mb.init_class(z)
+    common.register_ti('CvStereoBMState')
     mb.expose_class_Ptr('CvStereoBMState')
     mb.finalize_class(z)
     
