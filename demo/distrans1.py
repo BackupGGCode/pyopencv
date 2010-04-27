@@ -34,7 +34,7 @@ def on_trackbar( edge_thresh, param ):
     dist32s.convertTo( dist32s, dist32s.type(), -1, 0 )
     bitwise_and( dist32s, Scalar.all(255), dist32s )
     dist32s.convertTo( dist8u2, dist8u2.type(), 1, 0 )
-    merge( [dist8u1, dist8u2, dist8u2], dist8u )
+    merge( vector_Mat.fromlist([dist8u1, dist8u2, dist8u2]), dist8u )
     imshow( wndname, dist8u )
 
 
