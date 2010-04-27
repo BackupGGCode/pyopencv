@@ -375,9 +375,21 @@ static boost::shared_ptr<cv::Mat> Mat__init3__(bp::object const &arg1, bp::objec
         'Range': 'cv::Range',
     }
     for key in list_dict:
-        z.add_registration_code('def("to_list_of_%s", &convert_from_Mat_to_seq<%s> )' % (key, list_dict[key]))
-        z.add_registration_code('def("from_list_of_%s", &convert_from_seq_to_Mat_object<%s> )' % (key, list_dict[key]))
+        elem_type = list_dict[key]
+        z.add_registration_code('def("to_list_of_%s", &convert_from_Mat_to_seq<%s> )' % (key, elem_type))
+        z.add_registration_code('def("from_list_of_%s", &convert_from_seq_to_Mat_object<%s> )' % (key, elem_type))
         z.add_registration_code('staticmethod("from_list_of_%s")' % key)
+        try:
+            z2 = mb.class_(lambda x: x.alias=='vector_'+key)
+            mb.asClass(z, z2, 'return convert_from_Mat_to_vector_of_T<%s>(inst)' % elem_type)
+            mb.asClass(z2, z, 'return convert_from_vector_of_T_to_Mat<%s>(inst)' % elem_type)
+        except RuntimeError:
+            pass
+        try:
+            z2 = mb.class_(lambda x: x.alias=='vector_vector_'+key)
+            mb.asClass(z, z2, 'return convert_from_Mat_to_vector_of_vector_of_T<%s>(inst)' % elem_type)
+        except RuntimeError:
+            pass
     mb.finalize_class(z)
 
     # rewrite the asMat function
@@ -403,19 +415,17 @@ def asMat(obj, force_single_channel=False):
     """Converts a Python object into a Mat object.
     
     This general-purpose meta-function uses a simple heuristic method to
-    identify the type of the given Python object in order to convert the
-    object into a Mat object. If the Python object is an ndarray, it invokes 
-    function Mat.from_ndarray(). If the object is a Vector<...>, it invokes 
-    one of the internal functions asMat(). Otherwise, it assumes the object 
-    is a Python sequence, and invokes one of the Mat.from_list_of_...() 
-    methods. The function to be invoked is decided by checking the first 
-    element of the Python sequence. For example, if the first element is an 
-    integer, it invokes Mat.from_list_of_int(). If the first element is a 
-    floating-point number, it invokes Mat.from_list_of_float64(), etc. 
+    identify the type of the given Python object in order to convert it into
+    a Mat object. First, it tries to invoke the internal asMat() function of 
+    the Python extension to convert. If not successful, it assumes the 
+    object is a Python sequence, and converts the object into a std::vector 
+    object whose element type is the type of the first element of the Python 
+    sequence. After that, it converts the std::vector object into a Mat 
+    object by invoking the internal asMat() function again.
     
     In the case that the above heuristic method does not convert into a Mat
-    object with your intended type and depth, use one of the 
-    Mat.from_list_of_...() functions instead.
+    object with your intended type and depth, use one of the asvector_...()
+    functions to convert your object into a vector before invoking asMat().
     
     If 'force_single_channel' is True, the returing Mat is single-channel (by
     invoking reshapeSingleChannel()). Otherwise, PyOpenCV tries to return a 
@@ -424,20 +434,18 @@ def asMat(obj, force_single_channel=False):
     
     if obj is None:
         return Mat()
-    
-    if isinstance(obj, _NP.ndarray):
-        out_mat = Mat.from_ndarray(obj)
-    elif isinstance(obj, VectorBase):
+        
+    try:
         out_mat = eval("_PE.asMat(inst_%s=obj)" % obj.__class__.__name__)
-        out_mat._depends = (obj,)
-    else:
+    except ArgumentError:
         z = obj[0]
         if isinstance(z, int):
-            out_mat = Mat.from_list_of_int(obj)
+            out_mat = _PE.asMat(inst_vector_int=vector_int.fromlist(obj))
         elif isinstance(z, float):
-            out_mat = Mat.from_list_of_float64(obj)
+            out_mat = _PE.asMat(inst_vector_float64=vector_float64.fromlist(obj))
         else:
-            out_mat = eval("Mat.from_list_of_%s(obj)" % z.__class__.__name__)
+            out_mat = eval("_PE.asMat(inst_vector_Type=vector_Type.fromlist(obj))"\
+                .replace("Type", z.__class__.__name__))
     
     if force_single_channel:
         return reshapeSingleChannel(out_mat)

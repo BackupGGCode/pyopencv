@@ -507,10 +507,18 @@ def dtypecast(self, casting_list):
 
 module_builder.module_builder_t.dtypecast = dtypecast
 
-def asClass(self, src_class, dst_class):
-    asClass2(self, src_class.alias, src_class.partial_decl_string, dst_class.alias, dst_class.partial_decl_string)
-    for z in src_class.operators(lambda x: dst_class.name in x.name):
-        z.rename('__temp_func')
+def asClass(self, src_class, dst_class, normal_cast_code=None):
+    src_type = src_class.partial_decl_string
+    dst_type = dst_class.partial_decl_string
+    if normal_cast_code is None:
+        for z in src_class.operators(lambda x: dst_class.name in x.name):
+            z.rename('__temp_func')
+    else:
+        self.dummy_struct.add_declaration_code(\
+            'template<> inline DstType normal_cast( SrcType const &inst ) { normal_cast_code; }'\
+            .replace('normal_cast_code', normal_cast_code)\
+            .replace('SrcType', src_type).replace('DstType', dst_type))
+    asClass2(self, src_class.alias, src_type, dst_class.alias, dst_type)
 module_builder.module_builder_t.asClass = asClass
 
 
