@@ -7,15 +7,18 @@
 
 namespace bp = boost::python;
 
-cv::BaseFilter const &pointee_BaseFilter(cv::Ptr<cv::BaseFilter> const &inst) { return *((cv::BaseFilter const *)inst); }
+static cv::BaseFilter const &pointee(::cv::Ptr< cv::BaseFilter > const &inst) { return *((cv::BaseFilter const *)inst); }
 
 void register_Ptr_BaseFilter_class(){
 
     { //::cv::Ptr< cv::BaseFilter >
         typedef bp::class_< cv::Ptr< cv::BaseFilter > > Ptr_BaseFilter_exposer_t;
-        Ptr_BaseFilter_exposer_t Ptr_BaseFilter_exposer = Ptr_BaseFilter_exposer_t( "Ptr_BaseFilter" );
+        Ptr_BaseFilter_exposer_t Ptr_BaseFilter_exposer = Ptr_BaseFilter_exposer_t( "Ptr_BaseFilter", bp::init< >() );
         bp::scope Ptr_BaseFilter_scope( Ptr_BaseFilter_exposer );
         Ptr_BaseFilter_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::BaseFilter > >() );
+        Ptr_BaseFilter_exposer.def( bp::init< cv::BaseFilter * >(( bp::arg("_obj") )) );
+        bp::implicitly_convertible< cv::BaseFilter *, cv::Ptr< cv::BaseFilter > >();
+        Ptr_BaseFilter_exposer.def( bp::init< cv::Ptr< cv::BaseFilter > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::BaseFilter >::addref
         
             typedef cv::Ptr< cv::BaseFilter > exported_class_t;
@@ -56,7 +59,7 @@ void register_Ptr_BaseFilter_class(){
                 , release_function_type( &::cv::Ptr< cv::BaseFilter >::release ) );
         
         }
-        Ptr_BaseFilter_exposer.add_property("pointee", bp::make_function(&pointee_BaseFilter, bp::return_internal_reference<>()));
+        Ptr_BaseFilter_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 
 }

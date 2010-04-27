@@ -7,15 +7,18 @@
 
 namespace bp = boost::python;
 
-cv::BaseColumnFilter const &pointee_BaseColumnFilter(cv::Ptr<cv::BaseColumnFilter> const &inst) { return *((cv::BaseColumnFilter const *)inst); }
+static cv::BaseColumnFilter const &pointee(::cv::Ptr< cv::BaseColumnFilter > const &inst) { return *((cv::BaseColumnFilter const *)inst); }
 
 void register_Ptr_BaseColumnFilter_class(){
 
     { //::cv::Ptr< cv::BaseColumnFilter >
         typedef bp::class_< cv::Ptr< cv::BaseColumnFilter > > Ptr_BaseColumnFilter_exposer_t;
-        Ptr_BaseColumnFilter_exposer_t Ptr_BaseColumnFilter_exposer = Ptr_BaseColumnFilter_exposer_t( "Ptr_BaseColumnFilter" );
+        Ptr_BaseColumnFilter_exposer_t Ptr_BaseColumnFilter_exposer = Ptr_BaseColumnFilter_exposer_t( "Ptr_BaseColumnFilter", bp::init< >() );
         bp::scope Ptr_BaseColumnFilter_scope( Ptr_BaseColumnFilter_exposer );
         Ptr_BaseColumnFilter_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::BaseColumnFilter > >() );
+        Ptr_BaseColumnFilter_exposer.def( bp::init< cv::BaseColumnFilter * >(( bp::arg("_obj") )) );
+        bp::implicitly_convertible< cv::BaseColumnFilter *, cv::Ptr< cv::BaseColumnFilter > >();
+        Ptr_BaseColumnFilter_exposer.def( bp::init< cv::Ptr< cv::BaseColumnFilter > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::BaseColumnFilter >::addref
         
             typedef cv::Ptr< cv::BaseColumnFilter > exported_class_t;
@@ -56,7 +59,7 @@ void register_Ptr_BaseColumnFilter_class(){
                 , release_function_type( &::cv::Ptr< cv::BaseColumnFilter >::release ) );
         
         }
-        Ptr_BaseColumnFilter_exposer.add_property("pointee", bp::make_function(&pointee_BaseColumnFilter, bp::return_internal_reference<>()));
+        Ptr_BaseColumnFilter_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 
 }

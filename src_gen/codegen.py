@@ -254,11 +254,13 @@ def expose_class_Ptr(self, klass_name, ns=None):
     z = self.class_('Ptr<%s>' % full_klass_name)
     common.register_ti('cv::Ptr', [full_klass_name])
     z.rename('Ptr_%s' % klass_name)
-    z.include()
+    mb.init_class(z)
     z.operators().exclude()
-    z.constructors(lambda x: '*' in x.decl_string).exclude()
-    z.add_declaration_code('%s const &pointee_%s(%s const &inst) { return *((%s const *)inst); }' % (full_klass_name, klass_name, z.decl_string[2:], full_klass_name))
-    z.add_registration_code('add_property("pointee", bp::make_function(&pointee_%s, bp::return_internal_reference<>()))' % klass_name)
+    z.add_declaration_code('static ELEM_TYPE const &pointee(CLASS_TYPE const &inst) { return *((ELEM_TYPE const *)inst); }'\
+        .replace('ELEM_TYPE', full_klass_name).replace('CLASS_TYPE', z.partial_decl_string))
+    z.add_registration_code('add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()))')
+    mb.finalize_class(z)
+    z2 = mb.class_(lambda x: x.alias==klass_name)
 module_builder.module_builder_t.expose_class_Ptr = expose_class_Ptr
 
 def add_doc(self, decl_name, *strings):

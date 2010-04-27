@@ -34,19 +34,15 @@ def generate_code(mb, cc, D, FT, CP):
     for t in ('BaseRowFilter', 'BaseColumnFilter', 'BaseFilter'):
         z = mb.class_(t)
         mb.init_class(z)
-        z.exclude()
-        # wait until requested: expose the members of the class
-        # z.include()
-        # z.constructors().exclude()
-        # z.operators().exclude()
+        z.operators().exclude() # TODO: expose operators
         mb.finalize_class(z)
         mb.expose_class_Ptr(t, 'cv')
     
     # FilterEngine
-    # wait until requested: fix the rest of the member declarations
     z = mb.class_('FilterEngine')
     mb.init_class(z)
-    z.decls().exclude()
+    z.mem_fun('proceed').exclude() # TODO: expose this function
+    z.var('rows').exclude() # TODO: expose this variable
     mb.finalize_class(z)
     mb.expose_class_Ptr('FilterEngine', 'cv')
     

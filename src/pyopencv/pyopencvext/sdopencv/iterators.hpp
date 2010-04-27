@@ -2,6 +2,7 @@
 #define SDOPENCV_ITERATORS_HPP
 
 #include <cxcore.h>
+#include <cv.h>
 #include <cstring>
 
 namespace sdopencv
