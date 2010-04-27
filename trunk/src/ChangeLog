@@ -5,6 +5,61 @@ PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 Change Log
 ==========
 
+pyopencv-2.1.0.wr1.0.2 bug-fix release
+--------------------------------------
+
+This bug-fix release mainly introduces 63 std::vector-like classes so
+that in the future we can use them with ease. It also divides the very large
+pyopencv_free_functions.pypp.cpp file into small files, making it less
+painful to compile PyOpenCV. Other than that are usual bug-fixes, 
+documentation, and addition of missing features.
+
+- improved the docstrings of a large number of classes and functions
+- fixed a small bug in kmeans.py
+- added CvSize2D32f for backward compatibility
+- improved and fixed a small bug in minMaxLoc()
+- improved PyOpenCV to support 64-bit platforms better
+- renamed Mat.to_list_of_int32() to Mat.to_list_of_int()
+- renamed Mat.from_list_of_int32() to Mat.from_list_of_int()
+- changed member variable 'value' of function createTrackbar() from c_int 
+  to c_long
+- added missing operators for C++ dense data types
+- re-written wrapper classes for ndarray and sequence, hoping they would 
+  fix a long-standing bug  
+- converted class LineIterator into a Python iterator
+- converted the wrapped functions of [set/get]TrackbarPos from C-style to 
+  C++-style
+- introduced function reshapeSingleChannel()
+- fixed a problem with FileStorage's read/write functions: these functions 
+  are split into read_...() and write_...() functions; obsolete cvRead...() 
+  and cvWrite...() functions are removed
+- fixed a bug at find_obj.py
+- improved class FileStorage and removed deprecated class CvFileStorage
+- improved class FileNode and removed deprecated class CvFileNode
+- removed deprecated C-style functions cvStartReadRawData(), 
+  cvGetFileNodeName(), cvOpenFileStorage(), cvGetRootFileNode(), 
+  cvGetFileNode(), cvGetFileNodeByName(); use C++-style classes FileStorage 
+  and FileNode instead
+- removed Size2d, Rectf, and Rectd; they are not available in OpenCV 2.1
+- improved ndarray's interface to suppport 64-bit platforms beteter
+- split pyopencvext_free_functions.cpp into multiple files
+- added new 63 of std::vector classes; for example, C++ class 
+  std::vector< std::vector< cv::Point2i > > is exposed in PyOpenCV as class
+  vector_vector_Vec2i
+- added a representation string for each std::vector class
+- function arguments std::vector<cv::Mat> are now exposed "as is"; function 
+  arguments std::vector<cv::MatND> are now exposed "as is"; affected free
+  functions are split(), merge(), and mixChannels()
+- improved a lot of CvAux.hpp classes thanks to the availability of 
+  std::vector classes
+- added tolist() and fromlist() to std::vector classes
+- added class Ptr<Mat>
+- added functions that convert between cv::Mat and std::vector classes
+- fixed demo bugs
+- added 3 Filter classes: BaseColumnFilter, BaseRowFilter, and BaseFilter
+- added demo morphology.py
+
+
 pyopencv-2.1.0.wr1.0.1 bug-fix release
 --------------------------------------
 
