@@ -29,15 +29,13 @@ if __name__ == "__main__":
     namedWindow( "Laplacian", CV_WINDOW_AUTOSIZE )
     createTrackbar( "Sigma", "Laplacian", sigma, 15 )
     frame = Mat()
+    planes = vector_Mat()
 
     while True:
         capture >> frame
         if frame.empty():
             break
             
-        if not planes:
-            planes = [Mat(frame.size(), CV_8UC1) for i in range(3)]
-
         if not laplace:
             laplace = Mat(frame.size(), CV_16SC1)
             colorlaplace = Mat(frame.size(), CV_8UC3)
