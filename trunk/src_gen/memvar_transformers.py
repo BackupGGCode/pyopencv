@@ -28,6 +28,15 @@ import common
 # Some functions
 # -----------------------------------------------------------------------------------------------
 
+class size_t_t( _D.fundamental_t ):
+    """represents size_t type"""
+    CPPNAME = 'size_t'
+    def __init__( self ):
+        _D.fundamental_t.__init__( self, size_t_t.CPPNAME )
+
+
+def set_array_item_type_as_size_t(klass, member_name):
+    _D.remove_cv(_D.remove_alias(klass.var(member_name).type)).base = size_t_t()
 
 def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True):
     klass.var(member_name).exclude()

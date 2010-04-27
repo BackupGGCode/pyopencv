@@ -21,19 +21,19 @@ static void create_4e9dc46b2911de920c7af1dfbb19412a( ::cv::SparseMat & inst, cv:
 }
 
 static boost::python::object erase_ce64effe5fbeb3e9588310d12240ddce( ::cv::SparseMat & inst, int i0, int i1 ){
-    unsigned int hashval2;
+    size_t hashval2;
     inst.erase(i0, i1, &hashval2);
     return bp::object( hashval2 );
 }
 
 static boost::python::object erase_ca8730dab3cfc35be7d8c7cfc84bf06f( ::cv::SparseMat & inst, int i0, int i1, int i2 ){
-    unsigned int hashval2;
+    size_t hashval2;
     inst.erase(i0, i1, i2, &hashval2);
     return bp::object( hashval2 );
 }
 
 static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::SparseMat & inst, cv::Mat const & idx ){
-    unsigned int hashval2;
+    size_t hashval2;
     int idx2;
     int * idx3;
     convert_from_Mat_to_array_of_T(idx, idx3, idx2);

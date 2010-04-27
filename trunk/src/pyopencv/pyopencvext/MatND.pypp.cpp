@@ -57,9 +57,9 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
         return pyplusplus::containers::static_sized::array_1_t< int, 32>( inst.size );
     }
 
-    static pyplusplus::containers::static_sized::array_1_t< unsigned int, 32>
+    static pyplusplus::containers::static_sized::array_1_t< size_t, 32>
     pyplusplus_step_wrapper( ::cv::MatND & inst ){
-        return pyplusplus::containers::static_sized::array_1_t< unsigned int, 32>( inst.step );
+        return pyplusplus::containers::static_sized::array_1_t< size_t, 32>( inst.step );
     }
 
 };
@@ -324,10 +324,10 @@ void register_MatND_class(){
                 , bp::make_function( array_wrapper_creator(&MatND_wrapper::pyplusplus_size_wrapper)
                                     , bp::with_custodian_and_ward_postcall< 0, 1 >() ) );
         }
-        pyplusplus::containers::static_sized::register_array_1< unsigned int, 32 >( "__array_1_unsigned_int_32" );
+        pyplusplus::containers::static_sized::register_array_1< size_t, 32 >( "__array_1_size_t_32" );
         { //cv::MatND::step [variable], type=size_t[32]
         
-            typedef pyplusplus::containers::static_sized::array_1_t< unsigned int, 32> ( *array_wrapper_creator )( ::cv::MatND & );
+            typedef pyplusplus::containers::static_sized::array_1_t< size_t, 32> ( *array_wrapper_creator )( ::cv::MatND & );
             
             MatND_exposer.add_property( "step"
                 , bp::make_function( array_wrapper_creator(&MatND_wrapper::pyplusplus_step_wrapper)

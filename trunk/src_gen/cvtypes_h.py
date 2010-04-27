@@ -76,6 +76,7 @@ CV_HAAR_FEATURE_MAX  = 3
 
     def expose_QuadEdge2D_members(z):
         FT.expose_member_as_array_of_pointees(z, 'pt', 4)
+        FT.set_array_item_type_as_size_t(z, 'next')
         
     z = mb.class_('CvQuadEdge2D')
     z.include()
