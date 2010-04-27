@@ -532,6 +532,7 @@ KLASS.__repr__ = _KLASS__repr__
     z.include_files.append("opencv_converters.hpp")
     z.include_files.append("boost/python/str.hpp")
     mb.init_class(z)
+    FT.set_array_item_type_as_size_t(z, 'step')
     common.register_vec('std::vector', 'cv::MatND')
     
     z.constructors(lambda x: 'const *' in x.decl_string).exclude()

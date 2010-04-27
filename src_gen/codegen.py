@@ -136,6 +136,10 @@ common.mb = mb # register mb
 # Start working
 # ===============================================================================================
 
+# make sure size_t is still size_t -- for 64-bit support
+z = mb.decl('size_t')
+z.type = FT.size_t_t()
+
 cc = open('core.py', 'w')
 cc.write('''#!/usr/bin/env python
 # PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy

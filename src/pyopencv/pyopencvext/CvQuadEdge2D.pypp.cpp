@@ -27,9 +27,9 @@ struct CvQuadEdge2D_wrapper : CvQuadEdge2D, bp::wrapper< CvQuadEdge2D > {
         
     }
 
-    static pyplusplus::containers::static_sized::array_1_t< unsigned int, 4>
+    static pyplusplus::containers::static_sized::array_1_t< size_t, 4>
     pyplusplus_next_wrapper( ::CvQuadEdge2D & inst ){
-        return pyplusplus::containers::static_sized::array_1_t< unsigned int, 4>( inst.next );
+        return pyplusplus::containers::static_sized::array_1_t< size_t, 4>( inst.next );
     }
 
 };
@@ -49,10 +49,10 @@ void register_CvQuadEdge2D_class(){
         bp::scope CvQuadEdge2D_scope( CvQuadEdge2D_exposer );
         CvQuadEdge2D_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< CvQuadEdge2D >() );
         CvQuadEdge2D_exposer.def_readwrite( "flags", &CvQuadEdge2D::flags );
-        pyplusplus::containers::static_sized::register_array_1< unsigned int, 4 >( "__array_1_unsigned_int_4" );
+        pyplusplus::containers::static_sized::register_array_1< size_t, 4 >( "__array_1_size_t_4" );
         { //CvQuadEdge2D::next [variable], type=CvSubdiv2DEdge[4]
         
-            typedef pyplusplus::containers::static_sized::array_1_t< unsigned int, 4> ( *array_wrapper_creator )( ::CvQuadEdge2D & );
+            typedef pyplusplus::containers::static_sized::array_1_t< size_t, 4> ( *array_wrapper_creator )( ::CvQuadEdge2D & );
             
             CvQuadEdge2D_exposer.add_property( "next"
                 , bp::make_function( array_wrapper_creator(&CvQuadEdge2D_wrapper::pyplusplus_next_wrapper)

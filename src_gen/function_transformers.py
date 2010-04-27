@@ -558,7 +558,10 @@ class output_type1_t( transformer.transformer_t ):
         doc_common(self.function, self.arg, "Python equivalence of the C/C++ type without pointer")
         doc_output(self.function, self.arg)
         #the element type
-        etype = _D.remove_pointer( self.arg.type )
+        if self.arg.type.partial_decl_string=='::size_t *':
+            etype = _D.dummy_type_t('::size_t') 
+        else:
+            etype = _D.remove_pointer( self.arg.type ) 
         #declaring new variable, which will keep result
         if _D.is_pointer(etype):
             var_name = controller.declare_variable( etype, self.arg.name, "=(%s)0" % etype.decl_string )
