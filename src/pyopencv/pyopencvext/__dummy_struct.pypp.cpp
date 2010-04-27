@@ -9,6 +9,180 @@
 
 namespace bp = boost::python;
 
+template<> inline ::std::vector< cv::Vec<float, 4> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec4f>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<float, 4> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec4f>(inst); }
+
+template<> inline ::std::vector< short > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<short>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< short > const &inst ) { return convert_from_vector_of_T_to_Mat<short>(inst); }
+
+template<> inline ::std::vector< cv::Vec<unsigned char, 4> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec4b>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<unsigned char, 4> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec4b>(inst); }
+
+template<> inline ::std::vector< int > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<int>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< int > const &inst ) { return convert_from_vector_of_T_to_Mat<int>(inst); }
+
+template<> inline ::std::vector< std::vector< int > > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_vector_of_T<int>(inst); }
+
+template<> inline ::std::vector< unsigned char > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<unsigned char>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< unsigned char > const &inst ) { return convert_from_vector_of_T_to_Mat<unsigned char>(inst); }
+
+template<> inline ::std::vector< cv::Vec<int, 4> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec4i>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<int, 4> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec4i>(inst); }
+
+template<> inline ::std::vector< cv::Vec<unsigned short, 4> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec4w>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<unsigned short, 4> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec4w>(inst); }
+
+template<> inline ::std::vector< cv::Point3_<int> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Point3i>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Point3_<int> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Point3i>(inst); }
+
+template<> inline ::std::vector< std::vector< cv::Point3_<int> > > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_vector_of_T<cv::Point3i>(inst); }
+
+template<> inline ::std::vector< cv::Point_<int> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Point2i>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Point_<int> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Point2i>(inst); }
+
+template<> inline ::std::vector< std::vector< cv::Point_<int> > > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_vector_of_T<cv::Point2i>(inst); }
+
+template<> inline ::std::vector< cv::Vec<double, 4> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec4d>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<double, 4> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec4d>(inst); }
+
+template<> inline ::std::vector< cv::Vec<short, 4> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec4s>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<short, 4> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec4s>(inst); }
+
+template<> inline ::std::vector< cv::Vec<float, 2> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec2f>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<float, 2> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec2f>(inst); }
+
+template<> inline ::std::vector< cv::Range > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Range>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Range > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Range>(inst); }
+
+template<> inline ::std::vector< cv::RotatedRect > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::RotatedRect>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::RotatedRect > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::RotatedRect>(inst); }
+
+template<> inline ::std::vector< cv::Size_<int> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Size2i>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Size_<int> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Size2i>(inst); }
+
+template<> inline ::std::vector< cv::Point3_<double> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Point3d>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Point3_<double> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Point3d>(inst); }
+
+template<> inline ::std::vector< std::vector< cv::Point3_<double> > > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_vector_of_T<cv::Point3d>(inst); }
+
+template<> inline ::std::vector< char > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<char>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< char > const &inst ) { return convert_from_vector_of_T_to_Mat<char>(inst); }
+
+template<> inline ::std::vector< cv::Point3_<float> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Point3f>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Point3_<float> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Point3f>(inst); }
+
+template<> inline ::std::vector< std::vector< cv::Point3_<float> > > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_vector_of_T<cv::Point3f>(inst); }
+
+template<> inline ::std::vector< cv::Point_<double> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Point2d>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Point_<double> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Point2d>(inst); }
+
+template<> inline ::std::vector< std::vector< cv::Point_<double> > > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_vector_of_T<cv::Point2d>(inst); }
+
+template<> inline ::std::vector< cv::Vec<unsigned short, 3> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec3w>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<unsigned short, 3> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec3w>(inst); }
+
+template<> inline ::std::vector< cv::Vec<unsigned short, 2> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec2w>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<unsigned short, 2> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec2w>(inst); }
+
+template<> inline ::std::vector< cv::Vec<short, 3> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec3s>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<short, 3> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec3s>(inst); }
+
+template<> inline ::std::vector< cv::Vec<short, 2> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec2s>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<short, 2> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec2s>(inst); }
+
+template<> inline ::std::vector< double > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<double>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< double > const &inst ) { return convert_from_vector_of_T_to_Mat<double>(inst); }
+
+template<> inline ::std::vector< cv::Size_<float> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Size2f>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Size_<float> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Size2f>(inst); }
+
+template<> inline ::std::vector< cv::Scalar_<double> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Scalar>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Scalar_<double> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Scalar>(inst); }
+
+template<> inline ::std::vector< cv::Point_<float> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Point2f>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Point_<float> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Point2f>(inst); }
+
+template<> inline ::std::vector< std::vector< cv::Point_<float> > > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_vector_of_T<cv::Point2f>(inst); }
+
+template<> inline ::std::vector< cv::Vec<float, 3> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec3f>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<float, 3> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec3f>(inst); }
+
+template<> inline ::std::vector< cv::Vec<double, 2> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec2d>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<double, 2> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec2d>(inst); }
+
+template<> inline ::std::vector< cv::Vec<double, 3> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec3d>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<double, 3> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec3d>(inst); }
+
+template<> inline ::std::vector< unsigned short > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<unsigned short>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< unsigned short > const &inst ) { return convert_from_vector_of_T_to_Mat<unsigned short>(inst); }
+
+template<> inline ::std::vector< cv::Vec<unsigned char, 3> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec3b>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<unsigned char, 3> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec3b>(inst); }
+
+template<> inline ::std::vector< cv::Rect_<int> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Rect>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Rect_<int> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Rect>(inst); }
+
+template<> inline ::std::vector< cv::Vec<unsigned char, 2> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec2b>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<unsigned char, 2> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec2b>(inst); }
+
+template<> inline ::std::vector< cv::Vec<float, 6> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec6f>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<float, 6> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec6f>(inst); }
+
+template<> inline ::std::vector< cv::Vec<int, 2> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec2i>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<int, 2> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec2i>(inst); }
+
+template<> inline ::std::vector< std::vector< cv::Vec<int, 2> > > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_vector_of_T<cv::Vec2i>(inst); }
+
+template<> inline ::std::vector< cv::Vec<double, 6> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec6d>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<double, 6> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec6d>(inst); }
+
+template<> inline ::std::vector< float > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<float>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< float > const &inst ) { return convert_from_vector_of_T_to_Mat<float>(inst); }
+
+template<> inline ::std::vector< std::vector< float > > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_vector_of_T<float>(inst); }
+
+template<> inline ::std::vector< cv::Vec<int, 3> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec3i>(inst); }
+
+template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<int, 3> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec3i>(inst); }
+
 void register___dummy_struct_class(){
 
     { //::dummy_struct
@@ -174,6 +348,93 @@ void register___dummy_struct_class(){
         bp::def("asCvBox2D", &::normal_cast< ::cv::RotatedRect, ::CvBox2D >, (bp::arg("inst_RotatedRect")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Scalar_< double >, ::CvScalar >, (bp::arg("inst_Scalar")));
         bp::def("asCvSlice", &::normal_cast< ::cv::Range, ::CvSlice >, (bp::arg("inst_Range")));
+        bp::def("asvector_Vec4f", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<float, 4> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<float, 4> >, ::cv::Mat >, (bp::arg("inst_vector_Vec4f")));
+        bp::def("asvector_int16", &::normal_cast< ::cv::Mat, ::std::vector< short > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< short >, ::cv::Mat >, (bp::arg("inst_vector_int16")));
+        bp::def("asvector_Vec4b", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<unsigned char, 4> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<unsigned char, 4> >, ::cv::Mat >, (bp::arg("inst_vector_Vec4b")));
+        bp::def("asvector_int", &::normal_cast< ::cv::Mat, ::std::vector< int > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< int >, ::cv::Mat >, (bp::arg("inst_vector_int")));
+        bp::def("asvector_vector_int", &::normal_cast< ::cv::Mat, ::std::vector< std::vector< int > > >, (bp::arg("inst_Mat")));
+        bp::def("asvector_uint8", &::normal_cast< ::cv::Mat, ::std::vector< unsigned char > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< unsigned char >, ::cv::Mat >, (bp::arg("inst_vector_uint8")));
+        bp::def("asvector_Vec4i", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<int, 4> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<int, 4> >, ::cv::Mat >, (bp::arg("inst_vector_Vec4i")));
+        bp::def("asvector_Vec4w", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<unsigned short, 4> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<unsigned short, 4> >, ::cv::Mat >, (bp::arg("inst_vector_Vec4w")));
+        bp::def("asvector_Point3i", &::normal_cast< ::cv::Mat, ::std::vector< cv::Point3_<int> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Point3_<int> >, ::cv::Mat >, (bp::arg("inst_vector_Point3i")));
+        bp::def("asvector_vector_Point3i", &::normal_cast< ::cv::Mat, ::std::vector< std::vector< cv::Point3_<int> > > >, (bp::arg("inst_Mat")));
+        bp::def("asvector_Point2i", &::normal_cast< ::cv::Mat, ::std::vector< cv::Point_<int> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Point_<int> >, ::cv::Mat >, (bp::arg("inst_vector_Point2i")));
+        bp::def("asvector_vector_Point2i", &::normal_cast< ::cv::Mat, ::std::vector< std::vector< cv::Point_<int> > > >, (bp::arg("inst_Mat")));
+        bp::def("asvector_Vec4d", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<double, 4> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<double, 4> >, ::cv::Mat >, (bp::arg("inst_vector_Vec4d")));
+        bp::def("asvector_Vec4s", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<short, 4> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<short, 4> >, ::cv::Mat >, (bp::arg("inst_vector_Vec4s")));
+        bp::def("asvector_Vec2f", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<float, 2> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<float, 2> >, ::cv::Mat >, (bp::arg("inst_vector_Vec2f")));
+        bp::def("asvector_Range", &::normal_cast< ::cv::Mat, ::std::vector< cv::Range > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Range >, ::cv::Mat >, (bp::arg("inst_vector_Range")));
+        bp::def("asvector_RotatedRect", &::normal_cast< ::cv::Mat, ::std::vector< cv::RotatedRect > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::RotatedRect >, ::cv::Mat >, (bp::arg("inst_vector_RotatedRect")));
+        bp::def("asvector_Size2i", &::normal_cast< ::cv::Mat, ::std::vector< cv::Size_<int> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Size_<int> >, ::cv::Mat >, (bp::arg("inst_vector_Size2i")));
+        bp::def("asvector_Point3d", &::normal_cast< ::cv::Mat, ::std::vector< cv::Point3_<double> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Point3_<double> >, ::cv::Mat >, (bp::arg("inst_vector_Point3d")));
+        bp::def("asvector_vector_Point3d", &::normal_cast< ::cv::Mat, ::std::vector< std::vector< cv::Point3_<double> > > >, (bp::arg("inst_Mat")));
+        bp::def("asvector_int8", &::normal_cast< ::cv::Mat, ::std::vector< char > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< char >, ::cv::Mat >, (bp::arg("inst_vector_int8")));
+        bp::def("asvector_Point3f", &::normal_cast< ::cv::Mat, ::std::vector< cv::Point3_<float> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Point3_<float> >, ::cv::Mat >, (bp::arg("inst_vector_Point3f")));
+        bp::def("asvector_vector_Point3f", &::normal_cast< ::cv::Mat, ::std::vector< std::vector< cv::Point3_<float> > > >, (bp::arg("inst_Mat")));
+        bp::def("asvector_Point2d", &::normal_cast< ::cv::Mat, ::std::vector< cv::Point_<double> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Point_<double> >, ::cv::Mat >, (bp::arg("inst_vector_Point2d")));
+        bp::def("asvector_vector_Point2d", &::normal_cast< ::cv::Mat, ::std::vector< std::vector< cv::Point_<double> > > >, (bp::arg("inst_Mat")));
+        bp::def("asvector_Vec3w", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<unsigned short, 3> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<unsigned short, 3> >, ::cv::Mat >, (bp::arg("inst_vector_Vec3w")));
+        bp::def("asvector_Vec2w", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<unsigned short, 2> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<unsigned short, 2> >, ::cv::Mat >, (bp::arg("inst_vector_Vec2w")));
+        bp::def("asvector_Vec3s", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<short, 3> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<short, 3> >, ::cv::Mat >, (bp::arg("inst_vector_Vec3s")));
+        bp::def("asvector_Vec2s", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<short, 2> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<short, 2> >, ::cv::Mat >, (bp::arg("inst_vector_Vec2s")));
+        bp::def("asvector_float64", &::normal_cast< ::cv::Mat, ::std::vector< double > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< double >, ::cv::Mat >, (bp::arg("inst_vector_float64")));
+        bp::def("asvector_Size2f", &::normal_cast< ::cv::Mat, ::std::vector< cv::Size_<float> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Size_<float> >, ::cv::Mat >, (bp::arg("inst_vector_Size2f")));
+        bp::def("asvector_Scalar", &::normal_cast< ::cv::Mat, ::std::vector< cv::Scalar_<double> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Scalar_<double> >, ::cv::Mat >, (bp::arg("inst_vector_Scalar")));
+        bp::def("asvector_Point2f", &::normal_cast< ::cv::Mat, ::std::vector< cv::Point_<float> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Point_<float> >, ::cv::Mat >, (bp::arg("inst_vector_Point2f")));
+        bp::def("asvector_vector_Point2f", &::normal_cast< ::cv::Mat, ::std::vector< std::vector< cv::Point_<float> > > >, (bp::arg("inst_Mat")));
+        bp::def("asvector_Vec3f", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<float, 3> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<float, 3> >, ::cv::Mat >, (bp::arg("inst_vector_Vec3f")));
+        bp::def("asvector_Vec2d", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<double, 2> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<double, 2> >, ::cv::Mat >, (bp::arg("inst_vector_Vec2d")));
+        bp::def("asvector_Vec3d", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<double, 3> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<double, 3> >, ::cv::Mat >, (bp::arg("inst_vector_Vec3d")));
+        bp::def("asvector_uint16", &::normal_cast< ::cv::Mat, ::std::vector< unsigned short > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< unsigned short >, ::cv::Mat >, (bp::arg("inst_vector_uint16")));
+        bp::def("asvector_Vec3b", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<unsigned char, 3> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<unsigned char, 3> >, ::cv::Mat >, (bp::arg("inst_vector_Vec3b")));
+        bp::def("asvector_Rect", &::normal_cast< ::cv::Mat, ::std::vector< cv::Rect_<int> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Rect_<int> >, ::cv::Mat >, (bp::arg("inst_vector_Rect")));
+        bp::def("asvector_Vec2b", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<unsigned char, 2> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<unsigned char, 2> >, ::cv::Mat >, (bp::arg("inst_vector_Vec2b")));
+        bp::def("asvector_Vec6f", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<float, 6> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<float, 6> >, ::cv::Mat >, (bp::arg("inst_vector_Vec6f")));
+        bp::def("asvector_Vec2i", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<int, 2> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<int, 2> >, ::cv::Mat >, (bp::arg("inst_vector_Vec2i")));
+        bp::def("asvector_vector_Vec2i", &::normal_cast< ::cv::Mat, ::std::vector< std::vector< cv::Vec<int, 2> > > >, (bp::arg("inst_Mat")));
+        bp::def("asvector_Vec6d", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<double, 6> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<double, 6> >, ::cv::Mat >, (bp::arg("inst_vector_Vec6d")));
+        bp::def("asvector_float32", &::normal_cast< ::cv::Mat, ::std::vector< float > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< float >, ::cv::Mat >, (bp::arg("inst_vector_float32")));
+        bp::def("asvector_vector_float32", &::normal_cast< ::cv::Mat, ::std::vector< std::vector< float > > >, (bp::arg("inst_Mat")));
+        bp::def("asvector_Vec3i", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<int, 3> > >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<int, 3> >, ::cv::Mat >, (bp::arg("inst_vector_Vec3i")));
         bp::def("asCvTermCriteria", &::normal_cast< ::cv::TermCriteria, ::CvTermCriteria >, (bp::arg("inst_TermCriteria")));;
     }
 

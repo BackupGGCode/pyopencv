@@ -383,6 +383,33 @@ inline std::vector<T> convert_from_Mat_to_vector_of_T( const cv::Mat &in_arr )
 }
 
 // ------------------------------------------------------------------------------------------------
+// convert_from_Mat_to_vector_of_vector_of_T
+template<typename T>
+inline void convert_from_Mat_to_vector_of_vector_of_T( const cv::Mat &in_arr, std::vector<std::vector<T> > &out_arr )
+{
+    out_arr.resize(in_arr.rows);
+    int out_len = n_elems_per_row<T>(in_arr) / n_elems_of<T>();
+    for(int r = 0; r < in_arr.rows; ++r)
+    {
+        out_arr[r].resize(out_len);
+        if(out_len)
+        {
+            T *out_arr3 = &out_arr[r][0];
+            T *out_arr2 = (T *)in_arr.ptr(r);
+            for(int i = 0; i < out_len; ++i) out_arr3[i] = out_arr2[i];
+        }
+    }
+}
+
+template<typename T>
+inline std::vector<std::vector<T> > convert_from_Mat_to_vector_of_vector_of_T( const cv::Mat &in_arr )
+{
+    std::vector<std::vector<T> > result;
+    convert_from_Mat_to_vector_of_vector_of_T<T>(in_arr, result);
+    return result;
+}
+
+// ------------------------------------------------------------------------------------------------
 // convert_from_vector_of_T_to_Mat
 template<typename T>
 inline void convert_from_vector_of_T_to_Mat( const std::vector<T> &in_arr, cv::Mat &out_arr )
