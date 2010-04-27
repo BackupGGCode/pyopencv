@@ -7,15 +7,18 @@
 
 namespace bp = boost::python;
 
-CvHaarClassifierCascade const &pointee_CvHaarClassifierCascade(cv::Ptr<CvHaarClassifierCascade> const &inst) { return *((CvHaarClassifierCascade const *)inst); }
+static CvHaarClassifierCascade const &pointee(::cv::Ptr< CvHaarClassifierCascade > const &inst) { return *((CvHaarClassifierCascade const *)inst); }
 
 void register_Ptr_CvHaarClassifierCascade_class(){
 
     { //::cv::Ptr< CvHaarClassifierCascade >
         typedef bp::class_< cv::Ptr< CvHaarClassifierCascade > > Ptr_CvHaarClassifierCascade_exposer_t;
-        Ptr_CvHaarClassifierCascade_exposer_t Ptr_CvHaarClassifierCascade_exposer = Ptr_CvHaarClassifierCascade_exposer_t( "Ptr_CvHaarClassifierCascade" );
+        Ptr_CvHaarClassifierCascade_exposer_t Ptr_CvHaarClassifierCascade_exposer = Ptr_CvHaarClassifierCascade_exposer_t( "Ptr_CvHaarClassifierCascade", bp::init< >() );
         bp::scope Ptr_CvHaarClassifierCascade_scope( Ptr_CvHaarClassifierCascade_exposer );
         Ptr_CvHaarClassifierCascade_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< CvHaarClassifierCascade > >() );
+        Ptr_CvHaarClassifierCascade_exposer.def( bp::init< CvHaarClassifierCascade * >(( bp::arg("_obj") )) );
+        bp::implicitly_convertible< CvHaarClassifierCascade *, cv::Ptr< CvHaarClassifierCascade > >();
+        Ptr_CvHaarClassifierCascade_exposer.def( bp::init< cv::Ptr< CvHaarClassifierCascade > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< CvHaarClassifierCascade >::addref
         
             typedef cv::Ptr< CvHaarClassifierCascade > exported_class_t;
@@ -56,7 +59,7 @@ void register_Ptr_CvHaarClassifierCascade_class(){
                 , release_function_type( &::cv::Ptr< CvHaarClassifierCascade >::release ) );
         
         }
-        Ptr_CvHaarClassifierCascade_exposer.add_property("pointee", bp::make_function(&pointee_CvHaarClassifierCascade, bp::return_internal_reference<>()));
+        Ptr_CvHaarClassifierCascade_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 
 }

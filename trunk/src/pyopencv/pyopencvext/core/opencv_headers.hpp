@@ -6,10 +6,10 @@
 #undef __OPENCV_MATRIX_OPERATIONS_H__
 #include "sdcxmat.hpp"
 
-#include "cvtypes.h"
+#define __OPENCV_CV_HPP__ // to turn off cv.hpp and turn on sdcv.hpp -- there's a bug
 #include "cv.h"
-#include "cvcompat.h"
-#include "cv.hpp"
+#undef __OPENCV_CV_HPP__
+#include "sdcv.hpp"
 
 #include "highgui.h"
 #include "highgui.hpp"

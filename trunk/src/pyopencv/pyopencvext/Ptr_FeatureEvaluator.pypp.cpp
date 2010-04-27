@@ -7,15 +7,18 @@
 
 namespace bp = boost::python;
 
-cv::FeatureEvaluator const &pointee_FeatureEvaluator(cv::Ptr<cv::FeatureEvaluator> const &inst) { return *((cv::FeatureEvaluator const *)inst); }
+static cv::FeatureEvaluator const &pointee(::cv::Ptr< cv::FeatureEvaluator > const &inst) { return *((cv::FeatureEvaluator const *)inst); }
 
 void register_Ptr_FeatureEvaluator_class(){
 
     { //::cv::Ptr< cv::FeatureEvaluator >
         typedef bp::class_< cv::Ptr< cv::FeatureEvaluator > > Ptr_FeatureEvaluator_exposer_t;
-        Ptr_FeatureEvaluator_exposer_t Ptr_FeatureEvaluator_exposer = Ptr_FeatureEvaluator_exposer_t( "Ptr_FeatureEvaluator" );
+        Ptr_FeatureEvaluator_exposer_t Ptr_FeatureEvaluator_exposer = Ptr_FeatureEvaluator_exposer_t( "Ptr_FeatureEvaluator", bp::init< >() );
         bp::scope Ptr_FeatureEvaluator_scope( Ptr_FeatureEvaluator_exposer );
         Ptr_FeatureEvaluator_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::FeatureEvaluator > >() );
+        Ptr_FeatureEvaluator_exposer.def( bp::init< cv::FeatureEvaluator * >(( bp::arg("_obj") )) );
+        bp::implicitly_convertible< cv::FeatureEvaluator *, cv::Ptr< cv::FeatureEvaluator > >();
+        Ptr_FeatureEvaluator_exposer.def( bp::init< cv::Ptr< cv::FeatureEvaluator > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::FeatureEvaluator >::addref
         
             typedef cv::Ptr< cv::FeatureEvaluator > exported_class_t;
@@ -56,7 +59,7 @@ void register_Ptr_FeatureEvaluator_class(){
                 , release_function_type( &::cv::Ptr< cv::FeatureEvaluator >::release ) );
         
         }
-        Ptr_FeatureEvaluator_exposer.add_property("pointee", bp::make_function(&pointee_FeatureEvaluator, bp::return_internal_reference<>()));
+        Ptr_FeatureEvaluator_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 
 }

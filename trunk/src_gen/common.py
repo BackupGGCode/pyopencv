@@ -394,7 +394,7 @@ def get_registered_decl(pds):
 def register_decl(pyName, pds, cChildName_pds=None, pyEquivName=None):
     upds = unique_pds(pds)
     if upds in _decls_reg:
-        print "Declaration %s already registered." % pds
+        # print "Declaration %s already registered." % pds
         return
     if '::' in pds: # assume it is a class
         print "Registering class %s as %s..." % (upds, pyName)

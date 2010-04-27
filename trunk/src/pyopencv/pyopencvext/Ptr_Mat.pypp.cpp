@@ -7,15 +7,18 @@
 
 namespace bp = boost::python;
 
-cv::Mat const &pointee_Mat(cv::Ptr<cv::Mat> const &inst) { return *((cv::Mat const *)inst); }
+static cv::Mat const &pointee(::cv::Ptr< cv::Mat > const &inst) { return *((cv::Mat const *)inst); }
 
 void register_Ptr_Mat_class(){
 
     { //::cv::Ptr< cv::Mat >
         typedef bp::class_< cv::Ptr< cv::Mat > > Ptr_Mat_exposer_t;
-        Ptr_Mat_exposer_t Ptr_Mat_exposer = Ptr_Mat_exposer_t( "Ptr_Mat" );
+        Ptr_Mat_exposer_t Ptr_Mat_exposer = Ptr_Mat_exposer_t( "Ptr_Mat", bp::init< >() );
         bp::scope Ptr_Mat_scope( Ptr_Mat_exposer );
         Ptr_Mat_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::Mat > >() );
+        Ptr_Mat_exposer.def( bp::init< cv::Mat * >(( bp::arg("_obj") )) );
+        bp::implicitly_convertible< cv::Mat *, cv::Ptr< cv::Mat > >();
+        Ptr_Mat_exposer.def( bp::init< cv::Ptr< cv::Mat > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::Mat >::addref
         
             typedef cv::Ptr< cv::Mat > exported_class_t;
@@ -56,7 +59,7 @@ void register_Ptr_Mat_class(){
                 , release_function_type( &::cv::Ptr< cv::Mat >::release ) );
         
         }
-        Ptr_Mat_exposer.add_property("pointee", bp::make_function(&pointee_Mat, bp::return_internal_reference<>()));
+        Ptr_Mat_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 
 }

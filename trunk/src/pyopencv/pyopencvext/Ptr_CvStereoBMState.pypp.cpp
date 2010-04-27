@@ -7,15 +7,18 @@
 
 namespace bp = boost::python;
 
-CvStereoBMState const &pointee_CvStereoBMState(cv::Ptr<CvStereoBMState> const &inst) { return *((CvStereoBMState const *)inst); }
+static CvStereoBMState const &pointee(::cv::Ptr< CvStereoBMState > const &inst) { return *((CvStereoBMState const *)inst); }
 
 void register_Ptr_CvStereoBMState_class(){
 
     { //::cv::Ptr< CvStereoBMState >
         typedef bp::class_< cv::Ptr< CvStereoBMState > > Ptr_CvStereoBMState_exposer_t;
-        Ptr_CvStereoBMState_exposer_t Ptr_CvStereoBMState_exposer = Ptr_CvStereoBMState_exposer_t( "Ptr_CvStereoBMState" );
+        Ptr_CvStereoBMState_exposer_t Ptr_CvStereoBMState_exposer = Ptr_CvStereoBMState_exposer_t( "Ptr_CvStereoBMState", bp::init< >() );
         bp::scope Ptr_CvStereoBMState_scope( Ptr_CvStereoBMState_exposer );
         Ptr_CvStereoBMState_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< CvStereoBMState > >() );
+        Ptr_CvStereoBMState_exposer.def( bp::init< CvStereoBMState * >(( bp::arg("_obj") )) );
+        bp::implicitly_convertible< CvStereoBMState *, cv::Ptr< CvStereoBMState > >();
+        Ptr_CvStereoBMState_exposer.def( bp::init< cv::Ptr< CvStereoBMState > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< CvStereoBMState >::addref
         
             typedef cv::Ptr< CvStereoBMState > exported_class_t;
@@ -56,7 +59,7 @@ void register_Ptr_CvStereoBMState_class(){
                 , release_function_type( &::cv::Ptr< CvStereoBMState >::release ) );
         
         }
-        Ptr_CvStereoBMState_exposer.add_property("pointee", bp::make_function(&pointee_CvStereoBMState, bp::return_internal_reference<>()));
+        Ptr_CvStereoBMState_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 
 }

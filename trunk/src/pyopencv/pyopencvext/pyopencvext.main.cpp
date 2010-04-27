@@ -36,6 +36,12 @@
 
 #include "pyopencvext/BackgroundSubtractorMOG.pypp.hpp"
 
+#include "pyopencvext/BaseColumnFilter.pypp.hpp"
+
+#include "pyopencvext/BaseFilter.pypp.hpp"
+
+#include "pyopencvext/BaseRowFilter.pypp.hpp"
+
 #include "pyopencvext/CascadeClassifier.pypp.hpp"
 
 #include "pyopencvext/Complexd.pypp.hpp"
@@ -2129,6 +2135,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_BackgroundSubtractor_class();
 
     register_BackgroundSubtractorMOG_class();
+
+    register_BaseColumnFilter_class();
+
+    register_BaseFilter_class();
+
+    register_BaseRowFilter_class();
 
     register_Size2i_class();
 
