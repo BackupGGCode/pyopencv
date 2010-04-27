@@ -437,7 +437,7 @@ def asMat(obj, force_single_channel=False):
         
     try:
         out_mat = eval("_PE.asMat(inst_%s=obj)" % obj.__class__.__name__)
-    except ArgumentError:
+    except TypeError: # Boost.Python.ArgumentError is an unexposed subclass
         z = obj[0]
         if isinstance(z, int):
             out_mat = _PE.asMat(inst_vector_int=vector_int.fromlist(obj))

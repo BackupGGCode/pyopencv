@@ -41,8 +41,8 @@ def findSquares4( img, thresh ):
     pyrDown( timg, pyr, pyr.size() )
     pyrUp( pyr, subimage, subimage.size() )
     # extract the color planes
-    tgrays = [Mat(sz, CV_8UC1) for i in range(3)]
-    channels = [Mat(sz, CV_8UC1) for i in range(3)]
+    tgrays = vector_Mat()
+    channels = vector_Mat()
     split( timg, tgrays )
     split( subimage, channels ) 
     # find squares in every color plane of the image
