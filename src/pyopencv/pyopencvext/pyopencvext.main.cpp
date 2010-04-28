@@ -1157,11 +1157,11 @@ static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc5
     return bp::object( result );
 }
 
-static boost::python::object cvInitSystem_f0aa383f9ae0b2f0bf89bbcb5e73da23( cv::Mat const & argv ){
-    int argv2;
-    char * * argv3;
-    convert_from_Mat_to_array_of_T(argv, argv3, argv2);
-    int result = ::cvInitSystem(argv2, argv3);
+static boost::python::object cvInitSystem_f0aa383f9ae0b2f0bf89bbcb5e73da23( bp::list const & argv ){
+    int argv2=bp::len(argv);
+    std::vector< char * > argv3(argv2);
+    convert_from_object_to_T(argv, argv3);
+    int result = ::cvInitSystem(argv2, &argv3[0]);
     return bp::object( result );
 }
 
@@ -3641,7 +3641,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvInitSystem
     
-        typedef boost::python::object ( *initSystem_function_type )( cv::Mat const & );
+        typedef boost::python::object ( *initSystem_function_type )( bp::list const & );
         
         bp::def( 
             "initSystem"
@@ -3657,9 +3657,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    its value is derived from argument 'argv'."\
     "\nArgument 'argv':"\
     "\n    C/C++ type: char * *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+    "\n    Python type: Python sequence with elements of C++ type 'char *'." );
     
     }
 
