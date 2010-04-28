@@ -6,7 +6,7 @@ from pyopencv import *
 from ctypes import c_int
 import sys
 
-sigma = c_int(3)
+sigma = c_int(1)
 smoothType = CV_GAUSSIAN
 
 if __name__ == "__main__":
