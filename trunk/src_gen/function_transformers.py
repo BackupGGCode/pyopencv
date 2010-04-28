@@ -133,6 +133,8 @@ def get_vector_elem_type(vector_type):
     
 def is_elem_type_fixed_size(elem_type):
     """Checks if an element type is a fixed-size array-like data type."""
+    if '*' in elem_type.partial_decl_string:
+        return False
     for t in ('char', 'unsigned char', 'short', 'unsigned short', 'int',
         'unsigned int', 'long', 'unsigned long', 'float', 'double',
         'cv::Vec', 'cv::Point', 'cv::Rect', 'cv::RotatedRect', 
