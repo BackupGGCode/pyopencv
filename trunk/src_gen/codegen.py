@@ -326,8 +326,9 @@ def is_arg_touched(f, arg_name):
 
 
 def beautify_func_list(self, func_list):
-    # fix default values
     func_list = [f for f in func_list if not f.ignore]
+
+    # fix default values
     for f in func_list:
         for arg in f.arguments:
             if isinstance(arg.default_value, str):

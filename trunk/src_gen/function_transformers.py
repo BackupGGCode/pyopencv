@@ -120,6 +120,27 @@ def remove_ptr( type_ ):
     else:
         raise TypeError( 'Type should be a pointer, got %s.' % type_ )
 
+def get_vector_elem_type(vector_type):
+    """Returns the element type of a std::vector type."""
+    s = vector_type.decl_string
+    if 'std::allocator' not in s:
+        s = s[s.find('<')+1:-2]
+    else:
+        s = s[14:s.find(', std::allocator')] # cut all the std::allocators
+        if s.startswith('std::vector'): # assume vector2d
+            s = '::' + s + ', std::allocator<' + s[12:] + ' >  >'
+    return _D.dummy_type_t(s)
+    
+def is_elem_type_fixed_size(elem_type):
+    """Checks if an element type is a fixed-size array-like data type."""
+    for t in ('char', 'unsigned char', 'short', 'unsigned short', 'int',
+        'unsigned int', 'long', 'unsigned long', 'float', 'double',
+        'cv::Vec', 'cv::Point', 'cv::Rect', 'cv::RotatedRect', 
+        'cv::Scalar', 'cv::Range'):
+        if elem_type.decl_string.startswith(t):
+            return True
+    return False
+    
 
 # -----------------------------------------------------------------------------------------------
 # Doc functions
@@ -319,13 +340,17 @@ class input_array1d_t(transformer.transformer_t):
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         
-        if 'cv::Mat' in self.array_item_type.decl_string: # an array of cv::Mat
+        if not is_elem_type_fixed_size(self.array_item_type): 
             if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
                 w_arg.type = _D.dummy_type_t( "bp::list" )
                 w_arg.default_value = 'bp::list()'
             else:
                 w_arg.type = _D.dummy_type_t( "bp::list const &" )
-            doc_list_of_Mat(self.function, self.arg)
+            if 'cv::Mat' in self.array_item_type.decl_string: # an array of cv::Mat
+                doc_list_of_Mat(self.function, self.arg)
+            else:
+                doc_common(self.function, self.arg, "Python sequence with elements of C++ type '%s'" \
+                    % self.array_item_type.partial_decl_string)
         
             # input array
             l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=bp::len(%s)" % self.arg.name )
@@ -1274,28 +1299,6 @@ def input_as_list_of_MatND( *args, **keywd ):
     def creator( function ):
         return input_as_list_of_MatND_t( function, *args, **keywd )
     return creator
-    
-
-def get_vector_elem_type(vector_type):
-    """Returns the element type of a std::vector type."""
-    s = vector_type.decl_string
-    if 'std::allocator' not in s:
-        s = s[s.find('<')+1:-2]
-    else:
-        s = s[14:s.find(', std::allocator')] # cut all the std::allocators
-        if s.startswith('std::vector'): # assume vector2d
-            s = '::' + s + ', std::allocator<' + s[12:] + ' >  >'
-    return _D.dummy_type_t(s)
-    
-def is_elem_type_fixed_size(elem_type):
-    """Checks if an element type is a fixed-size array-like data type."""
-    for t in ('char', 'unsigned char', 'short', 'unsigned short', 'int',
-        'unsigned int', 'long', 'unsigned long', 'float', 'double',
-        'cv::Vec', 'cv::Point', 'cv::Rect', 'cv::RotatedRect', 
-        'cv::Scalar', 'cv::Range'):
-        if elem_type.decl_string.startswith(t):
-            return True
-    return False
     
     
 # arg_std_vector_t
