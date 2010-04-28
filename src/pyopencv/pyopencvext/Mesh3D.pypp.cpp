@@ -15,7 +15,7 @@ static void computeNormals_0372659dbb67ca1f98a084bb3e33c861( ::cv::Mesh3D & inst
     inst.computeNormals(subset2, normalRadius, minNeighbors);
 }
 
-static void writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a( ::cv::Mesh3D const & inst, ::cv::String const & file, cv::Mat const & colors=convert_from_vector_of_T_to_Mat(std::vector<cv::Scalar_<double>, std::allocator<cv::Scalar_<double> > >()) ){
+static void writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a( ::cv::Mesh3D const & inst, ::cv::String const & file, cv::Mat const & colors=convert_from_vector_of_T_to_Mat(std::vector<cv::Scalar>()) ){
     ::std::vector< cv::Scalar_<double> > colors2;
     convert_from_Mat_to_vector_of_T(colors, colors2);
     inst.writeAsVrml(file, colors2);
@@ -100,7 +100,7 @@ void register_Mesh3D_class(){
             Mesh3D_exposer.def( 
                 "writeAsVrml"
                 , writeAsVrml_function_type( &writeAsVrml_8e53a52859ed45ddf6fdddd9bce7a16a )
-                , ( bp::arg("inst"), bp::arg("file"), bp::arg("colors")=convert_from_vector_of_T_to_Mat(std::vector<cv::Scalar_<double>, std::allocator<cv::Scalar_<double> > >()) )
+                , ( bp::arg("inst"), bp::arg("file"), bp::arg("colors")=convert_from_vector_of_T_to_Mat(std::vector<cv::Scalar>()) )
                 , "\nArgument 'colors':"\
     "\n    C/C++ type: ::std::vector< cv::Scalar_<double> > const &."\
     "\n    Python type: Mat."\

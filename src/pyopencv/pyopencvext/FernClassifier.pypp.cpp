@@ -33,7 +33,7 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
     
     }
 
-    FernClassifier_wrapper(::std::vector< cv::Point_<float> > const & points, ::std::vector< cv::Ptr<cv::Mat> > const & refimgs, ::std::vector< int > const & labels=std::vector<int, std::allocator<int> >(), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() )
+    FernClassifier_wrapper(::std::vector< cv::Point_<float> > const & points, ::std::vector< cv::Ptr<cv::Mat> > const & refimgs, ::std::vector< int > const & labels=std::vector<int>(), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() )
     : cv::FernClassifier( boost::ref(points), boost::ref(refimgs), boost::ref(labels), _nclasses, _patchSize, _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, boost::ref(patchGenerator) )
       , bp::wrapper< cv::FernClassifier >(){
         // constructor
@@ -114,7 +114,7 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
         cv::FernClassifier::read( boost::ref(n) );
     }
 
-    virtual void train( ::std::vector< cv::Point_<float> > const & points, ::std::vector< cv::Ptr<cv::Mat> > const & refimgs, ::std::vector< int > const & labels=std::vector<int, std::allocator<int> >(), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
+    virtual void train( ::std::vector< cv::Point_<float> > const & points, ::std::vector< cv::Ptr<cv::Mat> > const & refimgs, ::std::vector< int > const & labels=std::vector<int>(), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
         namespace bpl = boost::python;
         if( bpl::override func_train = this->get_override( "train" ) ){
             bpl::object py_result = bpl::call<bpl::object>( func_train.ptr(), points, refimgs, labels, _nclasses, _patchSize, _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, patchGenerator );
@@ -124,7 +124,7 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
         }
     }
     
-    static void default_train( ::cv::FernClassifier & inst, cv::Mat const & points, ::std::vector< cv::Ptr<cv::Mat> > const & refimgs, cv::Mat const & labels=convert_from_vector_of_T_to_Mat(std::vector<int, std::allocator<int> >()), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
+    static void default_train( ::cv::FernClassifier & inst, cv::Mat const & points, ::std::vector< cv::Ptr<cv::Mat> > const & refimgs, cv::Mat const & labels=convert_from_vector_of_T_to_Mat(std::vector<int>()), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ){
         ::std::vector< cv::Point_<float> > points2;
         ::std::vector< int > labels2;
         convert_from_Mat_to_vector_of_T(points, points2);
@@ -197,7 +197,7 @@ void register_FernClassifier_class(){
             .def_readwrite( "y2", &cv::FernClassifier::Feature::y2 );
         FernClassifier_exposer.def( bp::init< cv::FileNode const & >(( bp::arg("node") )) );
         bp::implicitly_convertible< cv::FileNode const &, cv::FernClassifier >();
-        FernClassifier_exposer.def( bp::init< std::vector< cv::Point_<float> > const &, std::vector< cv::Ptr<cv::Mat> > const &, bp::optional< std::vector< int > const &, int, int, int, int, int, int, int, cv::PatchGenerator const & > >(( bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=std::vector<int, std::allocator<int> >(), bp::arg("_nclasses")=(int)(0), bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() ), "\nWrapped function:"
+        FernClassifier_exposer.def( bp::init< std::vector< cv::Point_<float> > const &, std::vector< cv::Ptr<cv::Mat> > const &, bp::optional< std::vector< int > const &, int, int, int, int, int, int, int, cv::PatchGenerator const & > >(( bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=std::vector<int>(), bp::arg("_nclasses")=(int)(0), bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() ), "\nWrapped function:"
     "\n    FernClassifier"
     "\nArgument 'labels':"\
     "\n    C/C++ type: ::std::vector< int > const &."\
@@ -341,7 +341,7 @@ void register_FernClassifier_class(){
             FernClassifier_exposer.def( 
                 "train"
                 , default_train_function_type( &FernClassifier_wrapper::default_train )
-                , ( bp::arg("inst"), bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=convert_from_vector_of_T_to_Mat(std::vector<int, std::allocator<int> >()), bp::arg("_nclasses")=(int)(0), bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() )
+                , ( bp::arg("inst"), bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=convert_from_vector_of_T_to_Mat(std::vector<int>()), bp::arg("_nclasses")=(int)(0), bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() )
                 , "\nArgument 'labels':"\
     "\n    C/C++ type: ::std::vector< int > const &."\
     "\n    Python type: Mat."\

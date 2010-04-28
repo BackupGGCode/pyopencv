@@ -1356,7 +1356,7 @@ static void cvWriteFileNode_4df1ea107367e738fdd6f88f15146fb9( ::cv::FileStorage 
     ::cvWriteFileNode(fs.fs, new_node_name, *(node), embed);
 }
 
-static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::list const & contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, cv::Mat const & hierarchy=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > >()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
+static void drawContours_03a5aed7ca57b253d8b3346ee2f05f74( ::cv::Mat & image, bp::list const & contours, int contourIdx, ::cv::Scalar const & color, int thickness=1, int lineType=8, cv::Mat const & hierarchy=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), int maxLevel=2147483647, ::cv::Point offset=cv::Point_<int>() ){
     ::std::vector< std::vector< cv::Point_<int> > > contours2;
     ::std::vector< cv::Vec<int, 4> > hierarchy2;
     convert_from_object_to_T(contours, contours2);
@@ -1530,7 +1530,7 @@ static void groupRectangles_daddb1eb144574c44042d3cef39f8656( cv::Mat & rectList
     convert_from_vector_of_T_to_Mat(rectList2, rectList);
 }
 
-static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::string const & ext, ::cv::Mat const & img, cv::Mat const & params=convert_from_vector_of_T_to_Mat(std::vector<int, std::allocator<int> >()) ){
+static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::string const & ext, ::cv::Mat const & img, cv::Mat const & params=convert_from_vector_of_T_to_Mat(std::vector<int>()) ){
     ::std::vector< unsigned char > buf2;
     cv::Mat buf3;
     ::std::vector< int > params2;
@@ -1540,7 +1540,7 @@ static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::st
     return bp::make_tuple( result, buf3 );
 }
 
-static boost::python::object imwrite_08123c4d4c07e7af51577328378c9683( ::std::string const & filename, ::cv::Mat const & img, cv::Mat const & params=convert_from_vector_of_T_to_Mat(std::vector<int, std::allocator<int> >()) ){
+static boost::python::object imwrite_08123c4d4c07e7af51577328378c9683( ::std::string const & filename, ::cv::Mat const & img, cv::Mat const & params=convert_from_vector_of_T_to_Mat(std::vector<int>()) ){
     ::std::vector< int > params2;
     convert_from_Mat_to_vector_of_T(params, params2);
     bool result = ::cv::imwrite(filename, img, params2);
@@ -4419,7 +4419,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "drawContours"
             , drawContours_function_type( &drawContours_03a5aed7ca57b253d8b3346ee2f05f74 )
-            , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > >()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() )
+            , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=convert_from_vector_of_T_to_Mat(std::vector<cv::Vec4i>()), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() )
             , "\nArgument 'hierarchy':"\
     "\n    C/C++ type: ::std::vector< cv::Vec<int, 4> > const &."\
     "\n    Python type: Mat."\
@@ -4796,7 +4796,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "imencode"
             , imencode_function_type( &imencode_7058867f40db2ceceebdc74b4943c841 )
-            , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int, std::allocator<int> >()) )
+            , ( bp::arg("ext"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
             , "\nEncode an image into a memory buffer."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imencode"
@@ -4822,7 +4822,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "imwrite"
             , imwrite_function_type( &imwrite_08123c4d4c07e7af51577328378c9683 )
-            , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int, std::allocator<int> >()) )
+            , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=convert_from_vector_of_T_to_Mat(std::vector<int>()) )
             , "\nSaves an image to a specified file."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imwrite"

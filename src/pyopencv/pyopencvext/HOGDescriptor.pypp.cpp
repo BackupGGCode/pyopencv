@@ -41,7 +41,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     
     }
 
-    virtual void compute( ::cv::Mat const & img, ::std::vector< float > & descriptors, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >() ) const  {
+    virtual void compute( ::cv::Mat const & img, ::std::vector< float > & descriptors, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point>() ) const  {
         namespace bpl = boost::python;
         if( bpl::override func_compute = this->get_override( "compute" ) ){
             bpl::object py_result = bpl::call<bpl::object>( func_compute.ptr(), img, descriptors, winStride, padding, locations );
@@ -51,7 +51,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), cv::Mat const & locations=convert_from_vector_of_T_to_Mat(std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >()) ){
+    static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), cv::Mat const & locations=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ){
         ::std::vector< float > descriptors2;
         cv::Mat descriptors3;
         ::std::vector< cv::Point_<int> > locations2;
@@ -78,7 +78,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         cv::HOGDescriptor::computeGradient( boost::ref(img), boost::ref(grad), boost::ref(angleOfs), paddingTL, paddingBR );
     }
 
-    virtual void detect( ::cv::Mat const & img, ::std::vector< cv::Point_<int> > & foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & searchLocations=std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >() ) const  {
+    virtual void detect( ::cv::Mat const & img, ::std::vector< cv::Point_<int> > & foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & searchLocations=std::vector<cv::Point>() ) const  {
         namespace bpl = boost::python;
         if( bpl::override func_detect = this->get_override( "detect" ) ){
             bpl::object py_result = bpl::call<bpl::object>( func_detect.ptr(), img, foundLocations, hitThreshold, winStride, padding, searchLocations );
@@ -88,7 +88,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
         }
     }
     
-    static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), cv::Mat const & searchLocations=convert_from_vector_of_T_to_Mat(std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >()) ){
+    static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), cv::Mat const & searchLocations=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) ){
         ::std::vector< cv::Point_<int> > foundLocations2;
         cv::Mat foundLocations3;
         ::std::vector< cv::Point_<int> > searchLocations2;
@@ -206,7 +206,7 @@ void register_HOGDescriptor_class(){
             HOGDescriptor_exposer.def( 
                 "compute"
                 , default_compute_function_type( &HOGDescriptor_wrapper::default_compute )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >()) )
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) )
                 , "\nArgument 'descriptors':"\
     "\n    C/C++ type: ::std::vector< float > &."\
     "\n    Python type: Mat."\
@@ -240,7 +240,7 @@ void register_HOGDescriptor_class(){
             HOGDescriptor_exposer.def( 
                 "detect"
                 , default_detect_function_type( &HOGDescriptor_wrapper::default_detect )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >()) )
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=convert_from_vector_of_T_to_Mat(std::vector<cv::Point>()) )
                 , "\nArgument 'foundLocations':"\
     "\n    C/C++ type: ::std::vector< cv::Point_<int> > &."\
     "\n    Python type: Mat."\

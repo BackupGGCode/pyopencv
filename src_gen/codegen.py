@@ -329,14 +329,19 @@ def beautify_func_list(self, func_list):
     func_list = [f for f in func_list if not f.ignore]
 
     # fix default values
+    # don't remove std::vector default values, old compilers _need_ std::allocator removed
     for f in func_list:
         for arg in f.arguments:
             if isinstance(arg.default_value, str):
                 repl_list = {
                     'std::basic_string<char, std::char_traits<char>, std::allocator<char> >': 'std::string',
+                    'std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >': 'std::vector<cv::Point>',
                     'cvPoint': 'cv::Point',
                     'cvTermCriteria': 'cv::TermCriteria',
                     'CV_WHOLE_SEQ': 'cv::Range(0, 0x3fffffff)',
+                    'std::vector<cv::Scalar_<double>, std::allocator<cv::Scalar_<double> > >': 'std::vector<cv::Scalar>',
+                    'std::vector<int, std::allocator<int> >': 'std::vector<int>',
+                    'std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > >': 'std::vector<cv::Vec4i>',
                 }
                 for z in repl_list:
                     arg.default_value = arg.default_value.replace(z, repl_list[z])
