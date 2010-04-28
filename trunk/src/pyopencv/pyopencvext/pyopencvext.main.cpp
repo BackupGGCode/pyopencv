@@ -808,7 +808,7 @@ static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( bp::list const & s
     int samples2=bp::len(samples);
     std::vector< ::cv::Mat > samples3(samples2);
     convert_from_object_to_T(samples, samples3);
-    ::cv::calcCovarMatrix(&samples3[0], samples2, covar, mean, flags, ctype);
+    ::cv::calcCovarMatrix((::cv::Mat const *)(&samples3[0]), samples2, covar, mean, flags, ctype);
 }
 
 static void calcHist_8e436c4da97e1e09468541e1bed60274( sdcpp::sequence images, cv::Mat const & channels, ::cv::Mat const & mask, ::cv::SparseMat & hist, cv::Mat const & histSize, bp::object const & ranges, bool uniform=true, bool accumulate=false ){
@@ -990,7 +990,7 @@ static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4
     track_error2.resize(prev_features2 * 1);
     curr_features2.resize(prev_features2 * 1);
     matrices2.resize(prev_features2 * 1);
-    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), &prev_features3[0], &(curr_features2[0]), &(matrices2[0]), prev_features2, win_size, level, &(status2[0]), &(track_error2[0]), criteria, flags);
+    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), &(matrices2[0]), prev_features2, win_size, level, &(status2[0]), &(track_error2[0]), criteria, flags);
     return bp::make_tuple( convert_from_T_to_object(status2)
                             , convert_from_T_to_object(track_error2)
                             , convert_from_T_to_object(curr_features2)
@@ -1054,7 +1054,7 @@ static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b1283
     status2.resize(prev_features2 * 1);
     track_error2.resize(prev_features2 * 1);
     curr_features2.resize(prev_features2 * 1);
-    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), &prev_features3[0], &(curr_features2[0]), prev_features2, win_size, level, &(status2[0]), &(track_error2[0]), criteria, flags);
+    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), prev_features2, win_size, level, &(status2[0]), &(track_error2[0]), criteria, flags);
     return bp::make_tuple( convert_from_T_to_object(status2)
                             , convert_from_T_to_object(track_error2)
                             , convert_from_T_to_object(curr_features2) );
@@ -1153,15 +1153,15 @@ static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc5
     int arrs2=bp::len(arrs);
     std::vector< void * > arrs3(arrs2);
     convert_from_object_to_T(arrs, arrs3);
-    int result = ::cvInitNArrayIterator(arrs2, &arrs3[0], get_CvMat_ptr(mask), stubs, array_iterator, flags);
+    int result = ::cvInitNArrayIterator(arrs2, (::CvArr * *)(&arrs3[0]), get_CvMat_ptr(mask), stubs, array_iterator, flags);
     return bp::object( result );
 }
 
 static boost::python::object cvInitSystem_f0aa383f9ae0b2f0bf89bbcb5e73da23( bp::list const & argv ){
     int argv2=bp::len(argv);
-    std::vector< char * > argv3(argv2);
+    std::vector< char const * > argv3(argv2);
     convert_from_object_to_T(argv, argv3);
-    int result = ::cvInitSystem(argv2, &argv3[0]);
+    int result = ::cvInitSystem(argv2, (char * *)(&argv3[0]));
     return bp::object( result );
 }
 
@@ -1383,7 +1383,7 @@ static void fillConvexPoly_1312287b0cded13c02c57cc3d8ebf4b4( ::cv::Mat & img, bp
     int pts2=bp::len(pts);
     std::vector< ::cv::Point_<int> > pts3(pts2);
     convert_from_object_to_T(pts, pts3);
-    ::cv::fillConvexPoly(img, &pts3[0], pts2, color, lineType, shift);
+    ::cv::fillConvexPoly(img, (::cv::Point const *)(&pts3[0]), pts2, color, lineType, shift);
 }
 
 static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, bp::object const & pts, ::cv::Scalar const & color, int lineType=8, int shift=0, ::cv::Point offset=cv::Point_<int>() ){
@@ -1478,7 +1478,7 @@ static boost::python::object getAffineTransform_aa493630c3e4efe1ff49141fe5060922
     std::vector< ::cv::Point_<float> > dst3(dst2);
     convert_from_object_to_T(src, src3);
     convert_from_object_to_T(dst, dst3);
-    ::cv::Mat result = ::cv::getAffineTransform(&src3[0], &dst3[0]);
+    ::cv::Mat result = ::cv::getAffineTransform((::cv::Point2f const *)(&src3[0]), (::cv::Point2f const *)(&dst3[0]));
     return bp::object( result );
 }
 
@@ -1495,7 +1495,7 @@ static boost::python::object getPerspectiveTransform_c06a0392152cb20f6b57ae1ff2a
     std::vector< ::cv::Point_<float> > dst3(dst2);
     convert_from_object_to_T(src, src3);
     convert_from_object_to_T(dst, dst3);
-    ::cv::Mat result = ::cv::getPerspectiveTransform(&src3[0], &dst3[0]);
+    ::cv::Mat result = ::cv::getPerspectiveTransform((::cv::Point2f const *)(&src3[0]), (::cv::Point2f const *)(&dst3[0]));
     return bp::object( result );
 }
 
@@ -3657,7 +3657,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    its value is derived from argument 'argv'."\
     "\nArgument 'argv':"\
     "\n    C/C++ type: char * *."\
-    "\n    Python type: Python sequence with elements of C++ type 'char *'." );
+    "\n    Python type: Python sequence with elements of C++ type 'char const *'." );
     
     }
 

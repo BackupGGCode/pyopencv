@@ -326,6 +326,8 @@ class input_array1d_t(transformer.transformer_t):
             self.arg_size = None
 
         self.array_item_type = _D.remove_const( _D.array_item_type( self.arg.type ) )
+        if self.array_item_type.partial_decl_string=='char *':
+            self.array_item_type = _D.dummy_type_t('char const *')
         self.remove_arg_size = remove_arg_size
 
         self.output_arrays = output_arrays
@@ -358,7 +360,8 @@ class input_array1d_t(transformer.transformer_t):
             l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=bp::len(%s)" % self.arg.name )
             a_arr = controller.declare_variable( _D.dummy_type_t("std::vector< %s >" % self.array_item_type.decl_string), self.arg.name, "(%s)" % l_arr )
             controller.add_pre_call_code("convert_from_object_to_T(%s, %s);" % (self.arg.name, a_arr))
-            controller.modify_arg_expression( self.arg_index, "&%s[0]" %a_arr )
+            controller.modify_arg_expression( self.arg_index, "(%s)(&%s[0])" \
+                % (self.arg.type.partial_decl_string, a_arr) )
         else:
             if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
                 w_arg.type = _D.dummy_type_t( "cv::Mat" )
