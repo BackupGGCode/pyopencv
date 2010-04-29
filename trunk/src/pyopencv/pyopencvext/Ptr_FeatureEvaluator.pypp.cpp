@@ -3,9 +3,26 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "boost/python/object/life_support.hpp"
 #include "Ptr_FeatureEvaluator.pypp.hpp"
 
 namespace bp = boost::python;
+
+static bp::object from_FeatureEvaluator(bp::object const &inst_FeatureEvaluator)
+{
+    bp::extract<cv::FeatureEvaluator *> elem(inst_FeatureEvaluator);
+    if(!elem.check())
+    {
+        char s[300];
+        sprintf( s, "Argument 'inst_FeatureEvaluator' must contain an object of type FeatureEvaluator." );
+        PyErr_SetString(PyExc_TypeError, s);        
+        throw bp::error_already_set();
+    }
+    
+    bp::object result = bp::object(::cv::Ptr< cv::FeatureEvaluator >(elem()));
+    bp::objects::make_nurse_and_patient(result.ptr(), inst_FeatureEvaluator.ptr());
+    return result;
+}
 
 static cv::FeatureEvaluator const &pointee(::cv::Ptr< cv::FeatureEvaluator > const &inst) { return *((cv::FeatureEvaluator const *)inst); }
 
@@ -16,8 +33,6 @@ void register_Ptr_FeatureEvaluator_class(){
         Ptr_FeatureEvaluator_exposer_t Ptr_FeatureEvaluator_exposer = Ptr_FeatureEvaluator_exposer_t( "Ptr_FeatureEvaluator", bp::init< >() );
         bp::scope Ptr_FeatureEvaluator_scope( Ptr_FeatureEvaluator_exposer );
         Ptr_FeatureEvaluator_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::FeatureEvaluator > >() );
-        Ptr_FeatureEvaluator_exposer.def( bp::init< cv::FeatureEvaluator * >(( bp::arg("_obj") )) );
-        bp::implicitly_convertible< cv::FeatureEvaluator *, cv::Ptr< cv::FeatureEvaluator > >();
         Ptr_FeatureEvaluator_exposer.def( bp::init< cv::Ptr< cv::FeatureEvaluator > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::FeatureEvaluator >::addref
         
@@ -59,6 +74,8 @@ void register_Ptr_FeatureEvaluator_class(){
                 , release_function_type( &::cv::Ptr< cv::FeatureEvaluator >::release ) );
         
         }
+        Ptr_FeatureEvaluator_exposer.def("fromFeatureEvaluator", &::from_FeatureEvaluator, (bp::arg("inst_FeatureEvaluator")));
+        Ptr_FeatureEvaluator_exposer.staticmethod("fromFeatureEvaluator");
         Ptr_FeatureEvaluator_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 

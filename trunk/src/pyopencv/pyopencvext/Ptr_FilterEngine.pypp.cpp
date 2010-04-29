@@ -3,9 +3,26 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "boost/python/object/life_support.hpp"
 #include "Ptr_FilterEngine.pypp.hpp"
 
 namespace bp = boost::python;
+
+static bp::object from_FilterEngine(bp::object const &inst_FilterEngine)
+{
+    bp::extract<cv::FilterEngine *> elem(inst_FilterEngine);
+    if(!elem.check())
+    {
+        char s[300];
+        sprintf( s, "Argument 'inst_FilterEngine' must contain an object of type FilterEngine." );
+        PyErr_SetString(PyExc_TypeError, s);        
+        throw bp::error_already_set();
+    }
+    
+    bp::object result = bp::object(::cv::Ptr< cv::FilterEngine >(elem()));
+    bp::objects::make_nurse_and_patient(result.ptr(), inst_FilterEngine.ptr());
+    return result;
+}
 
 static cv::FilterEngine const &pointee(::cv::Ptr< cv::FilterEngine > const &inst) { return *((cv::FilterEngine const *)inst); }
 
@@ -16,8 +33,6 @@ void register_Ptr_FilterEngine_class(){
         Ptr_FilterEngine_exposer_t Ptr_FilterEngine_exposer = Ptr_FilterEngine_exposer_t( "Ptr_FilterEngine", bp::init< >() );
         bp::scope Ptr_FilterEngine_scope( Ptr_FilterEngine_exposer );
         Ptr_FilterEngine_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::FilterEngine > >() );
-        Ptr_FilterEngine_exposer.def( bp::init< cv::FilterEngine * >(( bp::arg("_obj") )) );
-        bp::implicitly_convertible< cv::FilterEngine *, cv::Ptr< cv::FilterEngine > >();
         Ptr_FilterEngine_exposer.def( bp::init< cv::Ptr< cv::FilterEngine > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::FilterEngine >::addref
         
@@ -59,6 +74,8 @@ void register_Ptr_FilterEngine_class(){
                 , release_function_type( &::cv::Ptr< cv::FilterEngine >::release ) );
         
         }
+        Ptr_FilterEngine_exposer.def("fromFilterEngine", &::from_FilterEngine, (bp::arg("inst_FilterEngine")));
+        Ptr_FilterEngine_exposer.staticmethod("fromFilterEngine");
         Ptr_FilterEngine_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 

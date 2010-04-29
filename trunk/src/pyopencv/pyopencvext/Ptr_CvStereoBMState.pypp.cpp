@@ -3,9 +3,26 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "boost/python/object/life_support.hpp"
 #include "Ptr_CvStereoBMState.pypp.hpp"
 
 namespace bp = boost::python;
+
+static bp::object from_CvStereoBMState(bp::object const &inst_CvStereoBMState)
+{
+    bp::extract<CvStereoBMState *> elem(inst_CvStereoBMState);
+    if(!elem.check())
+    {
+        char s[300];
+        sprintf( s, "Argument 'inst_CvStereoBMState' must contain an object of type CvStereoBMState." );
+        PyErr_SetString(PyExc_TypeError, s);        
+        throw bp::error_already_set();
+    }
+    
+    bp::object result = bp::object(::cv::Ptr< CvStereoBMState >(elem()));
+    bp::objects::make_nurse_and_patient(result.ptr(), inst_CvStereoBMState.ptr());
+    return result;
+}
 
 static CvStereoBMState const &pointee(::cv::Ptr< CvStereoBMState > const &inst) { return *((CvStereoBMState const *)inst); }
 
@@ -16,8 +33,6 @@ void register_Ptr_CvStereoBMState_class(){
         Ptr_CvStereoBMState_exposer_t Ptr_CvStereoBMState_exposer = Ptr_CvStereoBMState_exposer_t( "Ptr_CvStereoBMState", bp::init< >() );
         bp::scope Ptr_CvStereoBMState_scope( Ptr_CvStereoBMState_exposer );
         Ptr_CvStereoBMState_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< CvStereoBMState > >() );
-        Ptr_CvStereoBMState_exposer.def( bp::init< CvStereoBMState * >(( bp::arg("_obj") )) );
-        bp::implicitly_convertible< CvStereoBMState *, cv::Ptr< CvStereoBMState > >();
         Ptr_CvStereoBMState_exposer.def( bp::init< cv::Ptr< CvStereoBMState > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< CvStereoBMState >::addref
         
@@ -59,6 +74,8 @@ void register_Ptr_CvStereoBMState_class(){
                 , release_function_type( &::cv::Ptr< CvStereoBMState >::release ) );
         
         }
+        Ptr_CvStereoBMState_exposer.def("fromCvStereoBMState", &::from_CvStereoBMState, (bp::arg("inst_CvStereoBMState")));
+        Ptr_CvStereoBMState_exposer.staticmethod("fromCvStereoBMState");
         Ptr_CvStereoBMState_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 
