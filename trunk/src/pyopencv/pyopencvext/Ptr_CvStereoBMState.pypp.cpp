@@ -33,7 +33,6 @@ void register_Ptr_CvStereoBMState_class(){
         Ptr_CvStereoBMState_exposer_t Ptr_CvStereoBMState_exposer = Ptr_CvStereoBMState_exposer_t( "Ptr_CvStereoBMState", bp::init< >() );
         bp::scope Ptr_CvStereoBMState_scope( Ptr_CvStereoBMState_exposer );
         Ptr_CvStereoBMState_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< CvStereoBMState > >() );
-        Ptr_CvStereoBMState_exposer.def( bp::init< cv::Ptr< CvStereoBMState > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< CvStereoBMState >::addref
         
             typedef cv::Ptr< CvStereoBMState > exported_class_t;

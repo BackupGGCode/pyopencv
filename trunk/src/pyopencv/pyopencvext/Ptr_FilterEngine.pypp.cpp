@@ -33,7 +33,6 @@ void register_Ptr_FilterEngine_class(){
         Ptr_FilterEngine_exposer_t Ptr_FilterEngine_exposer = Ptr_FilterEngine_exposer_t( "Ptr_FilterEngine", bp::init< >() );
         bp::scope Ptr_FilterEngine_scope( Ptr_FilterEngine_exposer );
         Ptr_FilterEngine_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::FilterEngine > >() );
-        Ptr_FilterEngine_exposer.def( bp::init< cv::Ptr< cv::FilterEngine > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::FilterEngine >::addref
         
             typedef cv::Ptr< cv::FilterEngine > exported_class_t;

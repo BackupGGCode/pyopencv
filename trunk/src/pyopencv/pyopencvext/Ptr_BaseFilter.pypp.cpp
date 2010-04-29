@@ -33,7 +33,6 @@ void register_Ptr_BaseFilter_class(){
         Ptr_BaseFilter_exposer_t Ptr_BaseFilter_exposer = Ptr_BaseFilter_exposer_t( "Ptr_BaseFilter", bp::init< >() );
         bp::scope Ptr_BaseFilter_scope( Ptr_BaseFilter_exposer );
         Ptr_BaseFilter_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::BaseFilter > >() );
-        Ptr_BaseFilter_exposer.def( bp::init< cv::Ptr< cv::BaseFilter > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::BaseFilter >::addref
         
             typedef cv::Ptr< cv::BaseFilter > exported_class_t;

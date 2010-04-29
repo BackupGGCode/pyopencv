@@ -259,7 +259,7 @@ def expose_class_Ptr(self, klass_name, ns=None):
     common.register_ti('cv::Ptr', [full_klass_name])
     mb.init_class(z)
     # constructor Ptr(_obj) needs to keep a reference of '_obj'
-    z.constructor(lambda x: len(x.arguments) > 0 and x.arguments[0].name=='_obj').exclude()
+    z.constructors(lambda x: len(x.arguments) > 0).exclude()
     z.operators().exclude()
     z.include_files.append('boost/python/object/life_support.hpp')
     z.add_declaration_code('''
