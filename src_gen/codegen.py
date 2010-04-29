@@ -136,10 +136,6 @@ common.mb = mb # register mb
 # Start working
 # ===============================================================================================
 
-# make sure size_t is still size_t -- for 64-bit support
-z = mb.decl('size_t')
-z.type = FT.size_t_t()
-
 cc = open('core.py', 'w')
 cc.write('''#!/usr/bin/env python
 # PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
@@ -300,13 +296,13 @@ static ELEM_TYPE const &pointee(CLASS_TYPE const &inst) { return *((ELEM_TYPE co
     mb.finalize_class(z)    
 module_builder.module_builder_t.expose_class_Ptr = expose_class_Ptr
 
-def expose_class_Seq(self, klass_name, ns=None):
-    if ns is None:
-        full_klass_name = klass_name
-    else:
-        full_klass_name = '%s::%s' % (ns, klass_name)
-    z = self.class_('Seq<%s>' % full_klass_name)
-    common.register_ti('cv::Seq', [full_klass_name])
+def expose_class_Seq(self, elem_type_pds, pyName=None):
+    seq_pds = common.register_ti('cv::Seq', [elem_type_pds], pyName)
+    try:
+        z = common.find_class(seq_pds)
+    except RuntimeError, e:
+        print "Cannot determine class with pds='%s'." % seq_pds
+        return
     mb.init_class(z)
     z.decls(lambda x: 'CvSeq' in x.partial_decl_string).exclude() # no CvSeq things
     z.constructors(lambda x: len(x.arguments) > 0).exclude()
@@ -329,7 +325,7 @@ static bp::object from_MemStorage(bp::object const &inst_MemStorage, int headerS
 }
 
 static size_t len(CLASS_TYPE const &inst) { return inst.size(); }
-    '''.replace('CLASS_TYPE', z.partial_decl_string))
+    '''.replace('CLASS_TYPE', z.pds))
     z.add_registration_code('def("fromMemStorage", &::from_MemStorage, (bp::arg("inst_MemStorage"), bp::arg("headerSize")=bp::object(sizeof(CvSeq))))')
     z.add_registration_code('staticmethod("fromMemStorage")')
     z.add_registration_code('def("__len__", &::len)')
@@ -371,8 +367,8 @@ module_builder.module_builder_t.insert_del_interface = insert_del_interface
 
 def init_class(self, z):
     """Initializes a class z"""
-    if not z.partial_decl_string[2:] in common._decls_reg:
-        common.register_ti(z.partial_decl_string[2:]) # register the class if not done so
+    if not z.pds in common._decls_reg:
+        common.register_ti(z.pds) # register the class if not done so
     z.include()
     funs = []
     try:
@@ -630,6 +626,14 @@ mb.classes().expose_this = True
 
 # expose all enumerations
 mb.enums().include()
+
+# make sure size_t is still size_t -- for 64-bit support
+z = mb.decl('size_t')
+z.type = FT.size_t_t()
+
+# add 'pds' attribute to every class
+for z in mb.classes():
+    z.pds = common.unique_pds(z.partial_decl_string)
 
 # dummy struct
 z = mb.class_("dummy_struct")

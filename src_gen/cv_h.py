@@ -485,8 +485,20 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     z = mb.class_('CvSURFPoint')
     mb.init_class(z)
     mb.finalize_class(z)
-    common.register_ti('cv::Seq', ['CvSURFPoint'])
     mb.expose_class_Seq('CvSURFPoint')
+
+    # CvSURFParams
+    z = mb.class_('CvSURFParams')
+    mb.init_class(z)
+    mb.finalize_class(z)
+    mb.free_fun('cvSURFParams').include()
+    
+    t = common.register_ti('sdopencv::unbounded_array', ['float'])
+    mb.expose_class_Seq(t)
+
+    # cvExtractSURF
+    FT.expose_func(mb.free_fun('cvExtractSURF'), return_pointee=False, transformer_creators=[
+        FT.input_as_Seq('CvSURFPoint', 'keypoints', 'storage'), FT.input_as_Seq(t, 'descriptors')])
 
     # POSIT (POSe from ITeration)
     cc.write('''

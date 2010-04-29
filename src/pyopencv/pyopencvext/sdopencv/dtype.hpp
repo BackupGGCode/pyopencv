@@ -341,13 +341,16 @@ typedef float float32;
 typedef double float64;
 #endif
 
-#if !defined(address_t)
 #if TARGET_CPU_BITS==32
-typedef int32 address_t;
+typedef uint32 addr_t;
 #else
-typedef int64 address_t;
+typedef uint64 addr_t;
 #endif
-#endif
+
+struct address_t
+{
+    addr_t val;
+};
 
 
 }
