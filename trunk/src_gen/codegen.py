@@ -250,6 +250,17 @@ KLASS.__FUNC__ = _KLASS__FUNC__
         '''.replace('KLASS', klass.alias).replace('FUNC', t))
 module_builder.module_builder_t.add_ndarray_interface = add_ndarray_interface
 
+cc.write('''
+def __sd_iter__(self):
+    for i in xrange(len(self)):
+        yield self[i]
+        
+''')
+
+def add_iterator_interface(self, klass_name):
+    cc.write('%s.__iter__ = __sd_iter__; ' % klass_name)
+module_builder.module_builder_t.add_iterator_interface = add_iterator_interface
+
 def expose_class_Ptr(self, klass_name, ns=None):
     if ns is None:
         full_klass_name = klass_name
@@ -286,9 +297,51 @@ static ELEM_TYPE const &pointee(CLASS_TYPE const &inst) { return *((ELEM_TYPE co
         .replace('ELEM_NAME', klass_name))
     z.add_registration_code('staticmethod("fromELEM_NAME")'.replace('ELEM_NAME', klass_name))
     z.add_registration_code('add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()))')
-    mb.finalize_class(z)
-    
+    mb.finalize_class(z)    
 module_builder.module_builder_t.expose_class_Ptr = expose_class_Ptr
+
+def expose_class_Seq(self, klass_name, ns=None):
+    if ns is None:
+        full_klass_name = klass_name
+    else:
+        full_klass_name = '%s::%s' % (ns, klass_name)
+    z = self.class_('Seq<%s>' % full_klass_name)
+    common.register_ti('cv::Seq', [full_klass_name])
+    mb.init_class(z)
+    z.decls(lambda x: 'CvSeq' in x.partial_decl_string).exclude() # no CvSeq things
+    z.constructors(lambda x: len(x.arguments) > 0).exclude()
+    z.include_files.append('boost/python/object/life_support.hpp')
+    z.add_declaration_code('''
+static bp::object from_MemStorage(bp::object const &inst_MemStorage, int headerSize)
+{
+    bp::extract<cv::MemStorage &> elem(inst_MemStorage);
+    if(!elem.check())
+    {
+        char s[300];
+        sprintf( s, "Argument 'inst_MemStorage' must contain an object of type MemStorage." );
+        PyErr_SetString(PyExc_TypeError, s);        
+        throw bp::error_already_set();
+    }
+    
+    bp::object result = bp::object(CLASS_TYPE(elem(), headerSize));
+    bp::objects::make_nurse_and_patient(result.ptr(), inst_MemStorage.ptr());
+    return result;
+}
+
+static size_t len(CLASS_TYPE const &inst) { return inst.size(); }
+    '''.replace('CLASS_TYPE', z.partial_decl_string))
+    z.add_registration_code('def("fromMemStorage", &::from_MemStorage, (bp::arg("inst_MemStorage"), bp::arg("headerSize")=bp::object(sizeof(CvSeq))))')
+    z.add_registration_code('staticmethod("fromMemStorage")')
+    z.add_registration_code('def("__len__", &::len)')
+    for t in ('begin', 'end', 'front', 'back', 'copyTo', 'seq'): # TODO
+        z.decls(t).exclude()
+    z.mem_funs(lambda x: len(x.arguments)>0 and x.arguments[-1].name=='count').exclude() # TODO
+    z.operators(lambda x: 'std::vector' in x.name).exclude() # TODO
+    mb.finalize_class(z)
+    mb.add_iterator_interface(z.alias)
+module_builder.module_builder_t.expose_class_Seq = expose_class_Seq
+
+
 
 def add_doc(self, decl_name, *strings):
     """Adds a few strings to the docstring of declaration f"""
