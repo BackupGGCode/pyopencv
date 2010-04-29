@@ -33,7 +33,6 @@ void register_Ptr_FeatureEvaluator_class(){
         Ptr_FeatureEvaluator_exposer_t Ptr_FeatureEvaluator_exposer = Ptr_FeatureEvaluator_exposer_t( "Ptr_FeatureEvaluator", bp::init< >() );
         bp::scope Ptr_FeatureEvaluator_scope( Ptr_FeatureEvaluator_exposer );
         Ptr_FeatureEvaluator_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::FeatureEvaluator > >() );
-        Ptr_FeatureEvaluator_exposer.def( bp::init< cv::Ptr< cv::FeatureEvaluator > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::FeatureEvaluator >::addref
         
             typedef cv::Ptr< cv::FeatureEvaluator > exported_class_t;

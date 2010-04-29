@@ -33,7 +33,6 @@ void register_Ptr_Mat_class(){
         Ptr_Mat_exposer_t Ptr_Mat_exposer = Ptr_Mat_exposer_t( "Ptr_Mat", bp::init< >() );
         bp::scope Ptr_Mat_scope( Ptr_Mat_exposer );
         Ptr_Mat_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::Mat > >() );
-        Ptr_Mat_exposer.def( bp::init< cv::Ptr< cv::Mat > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::Mat >::addref
         
             typedef cv::Ptr< cv::Mat > exported_class_t;

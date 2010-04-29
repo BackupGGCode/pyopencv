@@ -33,7 +33,6 @@ void register_Ptr_CvHaarClassifierCascade_class(){
         Ptr_CvHaarClassifierCascade_exposer_t Ptr_CvHaarClassifierCascade_exposer = Ptr_CvHaarClassifierCascade_exposer_t( "Ptr_CvHaarClassifierCascade", bp::init< >() );
         bp::scope Ptr_CvHaarClassifierCascade_scope( Ptr_CvHaarClassifierCascade_exposer );
         Ptr_CvHaarClassifierCascade_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< CvHaarClassifierCascade > >() );
-        Ptr_CvHaarClassifierCascade_exposer.def( bp::init< cv::Ptr< CvHaarClassifierCascade > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< CvHaarClassifierCascade >::addref
         
             typedef cv::Ptr< CvHaarClassifierCascade > exported_class_t;
