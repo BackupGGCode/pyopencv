@@ -27,7 +27,7 @@ from shutil import copyfile
 # -----------------------------------------------------------------------------------------------
 # modify pyplusplus.file_writers.multiple_files_t.split_creators to allow splitting into multiple files
 # -----------------------------------------------------------------------------------------------
-def my_split_creators( self, creators, pattern, function_name, registrator_pos, 
+def my_split_creators( self, creators, pattern, function_name, registrator_pos,
     prefix_level=0, n_creators=30 ):
     """Write non-class creators into multiple particular .h/.cpp files -- modified by Minh-Tri Pham.
 
@@ -49,13 +49,13 @@ def my_split_creators( self, creators, pattern, function_name, registrator_pos,
     :param prefix_level: The current prefix level -- for internal use only. -- Minh-Tri
     :type prefix_level: int
     """
-    
+
     def get_alias(creator):
         try:
             return creator.alias.lower()
         except AttributeError:
             return ''
-    
+
     if len(creators) > n_creators:
         # get prefix characters
         charset = set()
@@ -63,7 +63,7 @@ def my_split_creators( self, creators, pattern, function_name, registrator_pos,
             creator_name = get_alias(creator)
             if len(creator_name) > prefix_level:
                 charset.add(creator_name[prefix_level])
-                
+
         # for each prefix character
         for char in charset:
             c1 = []
@@ -76,15 +76,15 @@ def my_split_creators( self, creators, pattern, function_name, registrator_pos,
                 else:
                     c2.append(creator)
             creators = c2
-            
+
             if prefix_level==0:
-                self.split_creators(c1, pattern+'_'+char, function_name+'_'+char, 
+                self.split_creators(c1, pattern+'_'+char, function_name+'_'+char,
                     registrator_pos, prefix_level+1, n_creators)
             else:
-                self.split_creators(c1, pattern+char, function_name+char, 
+                self.split_creators(c1, pattern+char, function_name+char,
                     registrator_pos, prefix_level+1, n_creators)
     self.split_creators_old(creators, pattern, function_name, registrator_pos)
-    
+
 import pyplusplus.file_writers as pf
 pf.multiple_files_t.split_creators_old = pf.multiple_files_t.split_creators
 pf.multiple_files_t.split_creators = my_split_creators
@@ -257,7 +257,6 @@ def expose_class_Ptr(self, klass_name, ns=None):
         full_klass_name = '%s::%s' % (ns, klass_name)
     z = self.class_('Ptr<%s>' % full_klass_name)
     common.register_ti('cv::Ptr', [full_klass_name])
-    z.rename('Ptr_%s' % klass_name)
     mb.init_class(z)
     z.operators().exclude()
     z.add_declaration_code('static ELEM_TYPE const &pointee(CLASS_TYPE const &inst) { return *((ELEM_TYPE const *)inst); }'\
@@ -708,16 +707,16 @@ def __vector__repr__(self):
         s += repr(self[0])+", "+repr(self[1])+", ..., "+repr(self[n-2])+", "+repr(self[n-1])
     s += "])"
     return s
-    
+
 def is_vector(cls):
     """Returns whether class 'cls' is a std::vector class."""
     return cls.__name__.startswith('vector_')
-    
+
 def __vector_tolist(self):
     if is_vector(self.elem_type):
         return [self[i].tolist() for i in xrange(len(self))]
     return [self[i] for i in xrange(len(self))]
-    
+
 def __vector_fromlist(cls, obj):
     z = cls()
     if is_vector(cls.elem_type):
@@ -727,7 +726,7 @@ def __vector_fromlist(cls, obj):
         for x in obj:
             z.append(x)
     return z
-''')    
+''')
 
 
 # expose std::vector, only those with alias starting with 'vector_'

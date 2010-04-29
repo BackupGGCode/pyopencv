@@ -2664,16 +2664,16 @@ def __vector__repr__(self):
         s += repr(self[0])+", "+repr(self[1])+", ..., "+repr(self[n-2])+", "+repr(self[n-1])
     s += "])"
     return s
-    
+
 def is_vector(cls):
     """Returns whether class 'cls' is a std::vector class."""
     return cls.__name__.startswith('vector_')
-    
+
 def __vector_tolist(self):
     if is_vector(self.elem_type):
         return [self[i].tolist() for i in xrange(len(self))]
     return [self[i] for i in xrange(len(self))]
-    
+
 def __vector_fromlist(cls, obj):
     z = cls()
     if is_vector(cls.elem_type):

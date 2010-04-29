@@ -312,6 +312,8 @@
 
 #include "pyopencvext/MatND.pypp.hpp"
 
+#include "pyopencvext/MemStorage.pypp.hpp"
+
 #include "pyopencvext/Mesh3D.pypp.hpp"
 
 #include "pyopencvext/Moments.pypp.hpp"
@@ -2271,6 +2273,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::implicitly_convertible< cv::Point_< float >, cv::Vec< float, 2 > >();
 
     register_Ptr_CvHaarClassifierCascade_class();
+
+    register_MemStorage_class();
 
     register_Ptr_CvStereoBMState_class();
 
