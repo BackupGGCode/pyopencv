@@ -3,9 +3,26 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "boost/python/object/life_support.hpp"
 #include "Ptr_BaseRowFilter.pypp.hpp"
 
 namespace bp = boost::python;
+
+static bp::object from_BaseRowFilter(bp::object const &inst_BaseRowFilter)
+{
+    bp::extract<cv::BaseRowFilter *> elem(inst_BaseRowFilter);
+    if(!elem.check())
+    {
+        char s[300];
+        sprintf( s, "Argument 'inst_BaseRowFilter' must contain an object of type BaseRowFilter." );
+        PyErr_SetString(PyExc_TypeError, s);        
+        throw bp::error_already_set();
+    }
+    
+    bp::object result = bp::object(::cv::Ptr< cv::BaseRowFilter >(elem()));
+    bp::objects::make_nurse_and_patient(result.ptr(), inst_BaseRowFilter.ptr());
+    return result;
+}
 
 static cv::BaseRowFilter const &pointee(::cv::Ptr< cv::BaseRowFilter > const &inst) { return *((cv::BaseRowFilter const *)inst); }
 
@@ -16,8 +33,6 @@ void register_Ptr_BaseRowFilter_class(){
         Ptr_BaseRowFilter_exposer_t Ptr_BaseRowFilter_exposer = Ptr_BaseRowFilter_exposer_t( "Ptr_BaseRowFilter", bp::init< >() );
         bp::scope Ptr_BaseRowFilter_scope( Ptr_BaseRowFilter_exposer );
         Ptr_BaseRowFilter_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::BaseRowFilter > >() );
-        Ptr_BaseRowFilter_exposer.def( bp::init< cv::BaseRowFilter * >(( bp::arg("_obj") )) );
-        bp::implicitly_convertible< cv::BaseRowFilter *, cv::Ptr< cv::BaseRowFilter > >();
         Ptr_BaseRowFilter_exposer.def( bp::init< cv::Ptr< cv::BaseRowFilter > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::BaseRowFilter >::addref
         
@@ -59,6 +74,8 @@ void register_Ptr_BaseRowFilter_class(){
                 , release_function_type( &::cv::Ptr< cv::BaseRowFilter >::release ) );
         
         }
+        Ptr_BaseRowFilter_exposer.def("fromBaseRowFilter", &::from_BaseRowFilter, (bp::arg("inst_BaseRowFilter")));
+        Ptr_BaseRowFilter_exposer.staticmethod("fromBaseRowFilter");
         Ptr_BaseRowFilter_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 

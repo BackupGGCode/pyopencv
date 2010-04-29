@@ -3,9 +3,26 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "boost/python/object/life_support.hpp"
 #include "Ptr_BaseColumnFilter.pypp.hpp"
 
 namespace bp = boost::python;
+
+static bp::object from_BaseColumnFilter(bp::object const &inst_BaseColumnFilter)
+{
+    bp::extract<cv::BaseColumnFilter *> elem(inst_BaseColumnFilter);
+    if(!elem.check())
+    {
+        char s[300];
+        sprintf( s, "Argument 'inst_BaseColumnFilter' must contain an object of type BaseColumnFilter." );
+        PyErr_SetString(PyExc_TypeError, s);        
+        throw bp::error_already_set();
+    }
+    
+    bp::object result = bp::object(::cv::Ptr< cv::BaseColumnFilter >(elem()));
+    bp::objects::make_nurse_and_patient(result.ptr(), inst_BaseColumnFilter.ptr());
+    return result;
+}
 
 static cv::BaseColumnFilter const &pointee(::cv::Ptr< cv::BaseColumnFilter > const &inst) { return *((cv::BaseColumnFilter const *)inst); }
 
@@ -16,8 +33,6 @@ void register_Ptr_BaseColumnFilter_class(){
         Ptr_BaseColumnFilter_exposer_t Ptr_BaseColumnFilter_exposer = Ptr_BaseColumnFilter_exposer_t( "Ptr_BaseColumnFilter", bp::init< >() );
         bp::scope Ptr_BaseColumnFilter_scope( Ptr_BaseColumnFilter_exposer );
         Ptr_BaseColumnFilter_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::BaseColumnFilter > >() );
-        Ptr_BaseColumnFilter_exposer.def( bp::init< cv::BaseColumnFilter * >(( bp::arg("_obj") )) );
-        bp::implicitly_convertible< cv::BaseColumnFilter *, cv::Ptr< cv::BaseColumnFilter > >();
         Ptr_BaseColumnFilter_exposer.def( bp::init< cv::Ptr< cv::BaseColumnFilter > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::BaseColumnFilter >::addref
         
@@ -59,6 +74,8 @@ void register_Ptr_BaseColumnFilter_class(){
                 , release_function_type( &::cv::Ptr< cv::BaseColumnFilter >::release ) );
         
         }
+        Ptr_BaseColumnFilter_exposer.def("fromBaseColumnFilter", &::from_BaseColumnFilter, (bp::arg("inst_BaseColumnFilter")));
+        Ptr_BaseColumnFilter_exposer.staticmethod("fromBaseColumnFilter");
         Ptr_BaseColumnFilter_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 

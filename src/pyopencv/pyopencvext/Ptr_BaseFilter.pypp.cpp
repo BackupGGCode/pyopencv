@@ -3,9 +3,26 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "boost/python/object/life_support.hpp"
 #include "Ptr_BaseFilter.pypp.hpp"
 
 namespace bp = boost::python;
+
+static bp::object from_BaseFilter(bp::object const &inst_BaseFilter)
+{
+    bp::extract<cv::BaseFilter *> elem(inst_BaseFilter);
+    if(!elem.check())
+    {
+        char s[300];
+        sprintf( s, "Argument 'inst_BaseFilter' must contain an object of type BaseFilter." );
+        PyErr_SetString(PyExc_TypeError, s);        
+        throw bp::error_already_set();
+    }
+    
+    bp::object result = bp::object(::cv::Ptr< cv::BaseFilter >(elem()));
+    bp::objects::make_nurse_and_patient(result.ptr(), inst_BaseFilter.ptr());
+    return result;
+}
 
 static cv::BaseFilter const &pointee(::cv::Ptr< cv::BaseFilter > const &inst) { return *((cv::BaseFilter const *)inst); }
 
@@ -16,8 +33,6 @@ void register_Ptr_BaseFilter_class(){
         Ptr_BaseFilter_exposer_t Ptr_BaseFilter_exposer = Ptr_BaseFilter_exposer_t( "Ptr_BaseFilter", bp::init< >() );
         bp::scope Ptr_BaseFilter_scope( Ptr_BaseFilter_exposer );
         Ptr_BaseFilter_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::BaseFilter > >() );
-        Ptr_BaseFilter_exposer.def( bp::init< cv::BaseFilter * >(( bp::arg("_obj") )) );
-        bp::implicitly_convertible< cv::BaseFilter *, cv::Ptr< cv::BaseFilter > >();
         Ptr_BaseFilter_exposer.def( bp::init< cv::Ptr< cv::BaseFilter > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::BaseFilter >::addref
         
@@ -59,6 +74,8 @@ void register_Ptr_BaseFilter_class(){
                 , release_function_type( &::cv::Ptr< cv::BaseFilter >::release ) );
         
         }
+        Ptr_BaseFilter_exposer.def("fromBaseFilter", &::from_BaseFilter, (bp::arg("inst_BaseFilter")));
+        Ptr_BaseFilter_exposer.staticmethod("fromBaseFilter");
         Ptr_BaseFilter_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 

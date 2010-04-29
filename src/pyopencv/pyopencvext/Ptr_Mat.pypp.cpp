@@ -3,9 +3,26 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
+#include "boost/python/object/life_support.hpp"
 #include "Ptr_Mat.pypp.hpp"
 
 namespace bp = boost::python;
+
+static bp::object from_Mat(bp::object const &inst_Mat)
+{
+    bp::extract<cv::Mat *> elem(inst_Mat);
+    if(!elem.check())
+    {
+        char s[300];
+        sprintf( s, "Argument 'inst_Mat' must contain an object of type Mat." );
+        PyErr_SetString(PyExc_TypeError, s);        
+        throw bp::error_already_set();
+    }
+    
+    bp::object result = bp::object(::cv::Ptr< cv::Mat >(elem()));
+    bp::objects::make_nurse_and_patient(result.ptr(), inst_Mat.ptr());
+    return result;
+}
 
 static cv::Mat const &pointee(::cv::Ptr< cv::Mat > const &inst) { return *((cv::Mat const *)inst); }
 
@@ -16,8 +33,6 @@ void register_Ptr_Mat_class(){
         Ptr_Mat_exposer_t Ptr_Mat_exposer = Ptr_Mat_exposer_t( "Ptr_Mat", bp::init< >() );
         bp::scope Ptr_Mat_scope( Ptr_Mat_exposer );
         Ptr_Mat_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Ptr< cv::Mat > >() );
-        Ptr_Mat_exposer.def( bp::init< cv::Mat * >(( bp::arg("_obj") )) );
-        bp::implicitly_convertible< cv::Mat *, cv::Ptr< cv::Mat > >();
         Ptr_Mat_exposer.def( bp::init< cv::Ptr< cv::Mat > const & >(( bp::arg("ptr") )) );
         { //::cv::Ptr< cv::Mat >::addref
         
@@ -59,6 +74,8 @@ void register_Ptr_Mat_class(){
                 , release_function_type( &::cv::Ptr< cv::Mat >::release ) );
         
         }
+        Ptr_Mat_exposer.def("fromMat", &::from_Mat, (bp::arg("inst_Mat")));
+        Ptr_Mat_exposer.staticmethod("fromMat");
         Ptr_Mat_exposer.add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()));
     }
 

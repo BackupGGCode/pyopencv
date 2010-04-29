@@ -258,12 +258,36 @@ def expose_class_Ptr(self, klass_name, ns=None):
     z = self.class_('Ptr<%s>' % full_klass_name)
     common.register_ti('cv::Ptr', [full_klass_name])
     mb.init_class(z)
+    # constructor Ptr(_obj) needs to keep a reference of '_obj'
+    z.constructor(lambda x: len(x.arguments) > 0 and x.arguments[0].name=='_obj').exclude()
     z.operators().exclude()
-    z.add_declaration_code('static ELEM_TYPE const &pointee(CLASS_TYPE const &inst) { return *((ELEM_TYPE const *)inst); }'\
-        .replace('ELEM_TYPE', full_klass_name).replace('CLASS_TYPE', z.partial_decl_string))
+    z.include_files.append('boost/python/object/life_support.hpp')
+    z.add_declaration_code('''
+static bp::object from_ELEM_NAME(bp::object const &inst_ELEM_NAME)
+{
+    bp::extract<ELEM_TYPE *> elem(inst_ELEM_NAME);
+    if(!elem.check())
+    {
+        char s[300];
+        sprintf( s, "Argument 'inst_ELEM_NAME' must contain an object of type ELEM_NAME." );
+        PyErr_SetString(PyExc_TypeError, s);        
+        throw bp::error_already_set();
+    }
+    
+    bp::object result = bp::object(CLASS_TYPE(elem()));
+    bp::objects::make_nurse_and_patient(result.ptr(), inst_ELEM_NAME.ptr());
+    return result;
+}
+
+static ELEM_TYPE const &pointee(CLASS_TYPE const &inst) { return *((ELEM_TYPE const *)inst); }
+    '''.replace('ELEM_TYPE', full_klass_name).replace('CLASS_TYPE', z.partial_decl_string)\
+    .replace('ELEM_NAME', klass_name))
+    z.add_registration_code('def("fromELEM_NAME", &::from_ELEM_NAME, (bp::arg("inst_ELEM_NAME")))'\
+        .replace('ELEM_NAME', klass_name))
+    z.add_registration_code('staticmethod("fromELEM_NAME")'.replace('ELEM_NAME', klass_name))
     z.add_registration_code('add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()))')
     mb.finalize_class(z)
-    z2 = mb.class_(lambda x: x.alias==klass_name)
+    
 module_builder.module_builder_t.expose_class_Ptr = expose_class_Ptr
 
 def add_doc(self, decl_name, *strings):
