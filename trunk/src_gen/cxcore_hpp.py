@@ -819,6 +819,10 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
     z = mb.free_fun('getTextSize')
     z.include()
     z._transformer_creators.append(FT.output_type1('baseLine'))
+
+    # MemStorage
+    common.register_ti('cv::Ptr', ['CvMemStorage'], 'MemStorage')
+    mb.expose_class_Ptr('CvMemStorage')
     
     # TODO: do something with Seq<>
 
