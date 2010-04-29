@@ -293,6 +293,7 @@ def input_string( *args, **keywd ):
     return creator
 
     
+# input_array1d_t
 class input_array1d_t(transformer.transformer_t):
     """Handles an input array with a dynamic size.
 
@@ -829,6 +830,86 @@ class distance_function_t(transformer.transformer_t):
 def distance_function( *args, **keywd ):
     def creator( function ):
         return distance_function_t( function, *args, **keywd )
+    return creator
+
+
+# input_as_Seq_t
+class input_as_Seq_t(transformer.transformer_t):
+    """Handles an input of type CvSeq as input of type Seq<T>.
+
+    void do_something(CvSeq* v[, CvMemStorage *ms]) ->  do_something(Seq<T> v2)
+    void do_something(CvSeq** v[, CvMemStorage *ms]) ->  do_something(Seq<T> v2)
+
+    where v2 is a Seq of type T.
+    """
+
+    def __init__(self, function, elem_type_pds, arg_ref, arg_size_ref=None, remove_arg_size=True):
+        transformer.transformer_t.__init__( self, function )
+        
+        self.elem_type_pds = elem_type_pds
+
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+        if not _D.is_pointer( self.arg.type ):
+            raise ValueError( '%s\nin order to use "input_as_Seq" transformation, argument %s type must be a pointer (got %s).' ) \
+                  % ( function, self.arg.name, self.arg.type)
+
+        if arg_size_ref is not None:
+            self.arg_size = self.get_argument( arg_size_ref )
+            self.arg_size_index = self.function.arguments.index( self.arg_size )
+            
+            if not 'CvMemStorage' in self.arg_size.type.partial_decl_string:
+                raise ValueError( '%s\nin order to use "input_as_Seq" transformation, argument %s type must be a CvMemStorage (got %s).' ) \
+                      % ( function, self.arg_size.name, self.arg_size.type)
+
+        else:
+            self.arg_size = None
+
+        self.remove_arg_size = remove_arg_size
+
+    def __str__(self):
+        if self.arg_size is not None:
+            return "input_as_Seq(%s, %s,%s)"%( self.elem_type_pds, self.arg.name, self.arg_size.name)
+        return "input_as_Seq(%s, %s)"% (self.elem_type_pds, self.arg.name)
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_converters.hpp"]
+
+    def __configure_sealed(self, controller):
+        w_arg = controller.find_wrapper_arg( self.arg.name )
+        seq_pds = common.unique_pds("cv::Seq< %s > &" % self.elem_type_pds)
+        w_arg.type = _D.dummy_type_t(seq_pds)
+        doc_common(self.function, self.arg, common.get_decl_equivname(seq_pds[:-2]))
+        
+        if '* *' in self.arg.type.partial_decl_string:
+            controller.modify_arg_expression(self.arg_index, "&%s.seq" % w_arg.name)
+        else:
+            controller.modify_arg_expression(self.arg_index, "%s.seq" % w_arg.name)
+        
+        # memory storage
+        if self.remove_arg_size and self.arg_size is not None:
+            # remove arg_size from the function wrapper definition and automatically fill in the missing argument
+            controller.remove_wrapper_arg( self.arg_size.name )
+            controller.modify_arg_expression( self.arg_size_index, "%s.seq->storage" % w_arg.name)
+            doc_dependent(self.function, self.arg_size, self.arg)
+            
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def input_as_Seq( *args, **keywd ):
+    def creator( function ):
+        return input_as_Seq_t( function, *args, **keywd )
     return creator
 
 

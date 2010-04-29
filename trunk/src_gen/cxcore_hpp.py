@@ -64,7 +64,6 @@ def generate_code(mb, cc, D, FT, CP):
     common.register_vec('std::vector', 'std::vector< int >', 'vector_vector_int')
     common.register_vec('std::vector', 'std::vector< float >', 'vector_vector_float32')
     
-
     # Vec et al
     for i in Vec_dict.keys():
         for suffix in Vec_dict[i]:
@@ -824,6 +823,7 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
     common.register_ti('cv::Ptr', ['CvMemStorage'], 'MemStorage')
     mb.expose_class_Ptr('CvMemStorage')
     
+    # Seq
     # TODO: do something with Seq<>
 
     # MatExpr

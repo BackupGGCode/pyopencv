@@ -8,6 +8,19 @@ namespace bp = boost::python;
 
 void register_free_functions_su(){
 
+    { //::cvSURFParams
+    
+        typedef ::CvSURFParams ( *SURFParams_function_type )( double,int );
+        
+        bp::def( 
+            "SURFParams"
+            , SURFParams_function_type( &::cvSURFParams )
+            , ( bp::arg("hessianThreshold"), bp::arg("extended")=(int)(0) )
+            , "\nWrapped function:"
+    "\n    cvSURFParams" );
+    
+    }
+
     { //::cvSubdiv2DEdgeDst
     
         typedef ::CvSubdiv2DPoint * ( *subdiv2DEdgeDst_function_type )( ::CvSubdiv2DEdge );

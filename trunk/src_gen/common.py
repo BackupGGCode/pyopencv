@@ -390,20 +390,29 @@ def get_registered_decl(pds):
     except KeyError:
         raise ValueError("Class of alias '%s' has not been registered." % alias)
         
+def find_classes(pds):
+    pds = unique_pds(pds)
+    return mb.classes(lambda x: x.pds==pds)
+        
+def find_class(pds):
+    pds = unique_pds(pds)
+    return mb.class_(lambda x: x.pds==pds)
+        
 # pds = partial_decl_string without the preceeding '::'
 def register_decl(pyName, pds, cChildName_pds=None, pyEquivName=None):
     upds = unique_pds(pds)
     if upds in _decls_reg:
         # print "Declaration %s already registered." % pds
-        return
+        return upds
     if '::' in pds: # assume it is a class
         print "Registering class %s as %s..." % (upds, pyName)
         try:
-            mb.class_(lambda x: unique_pds(x.partial_decl_string)==upds).rename(pyName)
+            find_class(upds).rename(pyName)
         except RuntimeError:
             # print "Class %s does not exist." % pds
             pass
     _decls_reg[upds] = (pyName, unique_pds(cChildName_pds), pyEquivName)
+    return upds
 
 # vector template instantiation
 # cName_pds : C name of the class without template element(s)
@@ -417,7 +426,7 @@ def register_vec(cName_pds, cChildName_pds, pyName=None, pds=None, pyEquivName=N
         pyName = cName_pds[cName_pds.rfind(':')+1:] + '_' + _decls_reg[cupds][0]
     if pds is None:
         pds = cName_pds + '< ' + cChildName_pds + ' >'
-    register_decl(pyName, unique_pds(pds), cupds, pyEquivName)
+    return register_decl(pyName, pds, cupds, pyEquivName)
 
 # non-vector template instantiation
 # cName_pds : C name of the class without template element(s)
@@ -438,7 +447,7 @@ def register_ti(cName_pds, cElemNames_pds=[], pyName=None, pds=None):
             for elem in cElemNames_pds:
                 pds += (str(elem) if isinstance(elem, int) else elem) + ', '
             pds = pds[:-2] + ' >'
-    register_decl(pyName, unique_pds(pds))
+    return register_decl(pyName, pds)
 
 def get_decl_equivname(pds):
     z = _decls_reg[unique_pds(pds)]

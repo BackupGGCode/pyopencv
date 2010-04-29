@@ -23,6 +23,12 @@ private:
     uchar *ptr0;
 };
 
+template<typename T>
+struct unbounded_array
+{
+    T &operator[](unsigned int i) { return ((T *)(this))[i]; }
+};
+
 }
 
 namespace cv // missing classes in OpenCV 2.1

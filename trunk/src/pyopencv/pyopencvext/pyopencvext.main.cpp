@@ -382,6 +382,10 @@
 
 #include "pyopencvext/Seq_CvSURFPoint.pypp.hpp"
 
+#include "pyopencvext/Seq_address_t.pypp.hpp"
+
+#include "pyopencvext/Seq_unbounded_array_float32.pypp.hpp"
+
 #include "pyopencvext/Size2f.pypp.hpp"
 
 #include "pyopencvext/Size2i.pypp.hpp"
@@ -449,6 +453,8 @@
 #include "pyopencvext/VideoWriter.pypp.hpp"
 
 #include "pyopencvext/__dummy_struct.pypp.hpp"
+
+#include "pyopencvext/address_t.pypp.hpp"
 
 #include "pyopencvext/flann_Index.pypp.hpp"
 
@@ -569,6 +575,8 @@
 #include "pyopencvext/pyopencvext_free_functions_w.pypp.hpp"
 
 #include "pyopencvext/pyopencvext_global_variables.pypp.hpp"
+
+#include "pyopencvext/unbounded_array_float32.pypp.hpp"
 
 #include "pyopencvext/vector_CascadeClassifier_DTree.pypp.hpp"
 
@@ -1113,6 +1121,10 @@ static void cvEndWriteStruct_49df8f8a99539026dfbd302575d7a485( ::cv::FileStorage
 static boost::python::object cvEstimateRigidTransform_2f885814bd847b94c8621a570a36abad( ::cv::Mat & A, ::cv::Mat & B, ::cv::Mat & M, int full_affine ){
     int result = ::cvEstimateRigidTransform(get_CvMat_ptr(A), get_CvMat_ptr(B), get_CvMat_ptr(M), full_affine);
     return bp::object( result );
+}
+
+static void cvExtractSURF_7b3c589cd61921d6c8f246dded72b86f( ::cv::Mat & img, ::cv::Mat & mask, cv::Seq<CvSURFPoint> & keypoints, cv::Seq<sdopencv::unbounded_array<float> > & descriptors, ::CvSURFParams params, int useProvidedKeyPts=0 ){
+    ::cvExtractSURF(get_CvMat_ptr(img), get_CvMat_ptr(mask), &keypoints.seq, &descriptors.seq, keypoints.seq->storage, params, useProvidedKeyPts);
 }
 
 static void cvFindFeatures_3cdcd7c246944a80a295b6f20e448cfc( ::CvFeatureTree * tr, ::cv::Mat & query_points, ::cv::Mat & indices, ::cv::Mat & dist, int k, int emax=20 ){
@@ -2321,6 +2333,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Seq_CvSURFPoint_class();
 
+    register_Seq_address_t_class();
+
+    register_Seq_unbounded_array_float32_class();
+
     register_Size2f_class();
 
     bp::implicitly_convertible< cv::Size_< float >, CvSize >();
@@ -2456,6 +2472,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_IntegralImage_class();
 
     register_LineIterator_class();
+
+    register_address_t_class();
+
+    register_unbounded_array_float32_class();
 
     { //::cv::FAST
     
@@ -3455,6 +3475,34 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\nArgument 'M':"\
     "\n    C/C++ type: ::CvMat *."\
+    "\n    Python type: Mat." );
+    
+    }
+
+    { //::cvExtractSURF
+    
+        typedef void ( *extractSURF_function_type )( ::cv::Mat &,::cv::Mat &,cv::Seq<CvSURFPoint> &,cv::Seq<sdopencv::unbounded_array<float> > &,::CvSURFParams,int );
+        
+        bp::def( 
+            "extractSURF"
+            , extractSURF_function_type( &cvExtractSURF_7b3c589cd61921d6c8f246dded72b86f )
+            , ( bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("descriptors"), bp::arg("params"), bp::arg("useProvidedKeyPts")=(int)(0) )
+            , "\nWrapped function:"
+    "\n    cvExtractSURF"
+    "\nArgument 'descriptors':"\
+    "\n    C/C++ type: ::CvSeq * *."\
+    "\n    Python type: Seq_unbounded_array_float32."\
+    "\nArgument 'mask':"\
+    "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'storage':"\
+    "\n    Dependent argument: omitted from the function's calling sequence, as "\
+    "\n    its value is derived from argument 'keypoints'."\
+    "\nArgument 'keypoints':"\
+    "\n    C/C++ type: ::CvSeq * *."\
+    "\n    Python type: Seq_CvSURFPoint."\
+    "\nArgument 'img':"\
+    "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat." );
     
     }

@@ -37,7 +37,8 @@ float CV_CDECL sdDistanceFunction( const float* a, const float*b, void* user_par
 {
     bp::object items(bp::handle<>(bp::borrowed((PyObject *)user_param)));
     // pass 'a' and 'b' by address instead of by pointer
-    return bp::extract < float >((items[0])((sdopencv::address_t)a, (sdopencv::address_t)b, bp::object(items[1]))); // need a copy of items[1] to make it safe with threading
+    return bp::extract < float >((items[0])((sdopencv::addr_t)a, (sdopencv::addr_t)b, 
+        bp::object(items[1]))); // need a copy of items[1] to make it safe with threading
 }
 
 // ================================================================================================
