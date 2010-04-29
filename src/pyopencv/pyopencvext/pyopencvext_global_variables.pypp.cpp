@@ -18,9 +18,11 @@ void register_global_variables(){
     bp::scope().attr("BORDER_DEFAULT") = (int)cv::BORDER_DEFAULT;
     bp::scope().attr("BORDER_ISOLATED") = (int)cv::BORDER_ISOLATED;
 
-    bp::scope().attr("MORPH_RECT") = (int)cv::MORPH_RECT;
-    bp::scope().attr("MORPH_CROSS") = (int)cv::MORPH_CROSS;
-    bp::scope().attr("MORPH_ELLIPSE") = (int)cv::MORPH_ELLIPSE;
+    bp::scope().attr("KERNEL_GENERAL") = (int)cv::KERNEL_GENERAL;
+    bp::scope().attr("KERNEL_SYMMETRICAL") = (int)cv::KERNEL_SYMMETRICAL;
+    bp::scope().attr("KERNEL_ASYMMETRICAL") = (int)cv::KERNEL_ASYMMETRICAL;
+    bp::scope().attr("KERNEL_SMOOTH") = (int)cv::KERNEL_SMOOTH;
+    bp::scope().attr("KERNEL_INTEGER") = (int)cv::KERNEL_INTEGER;
 
     bp::scope().attr("THRESH_BINARY") = (int)cv::THRESH_BINARY;
     bp::scope().attr("THRESH_BINARY_INV") = (int)cv::THRESH_BINARY_INV;
@@ -29,9 +31,6 @@ void register_global_variables(){
     bp::scope().attr("THRESH_TOZERO_INV") = (int)cv::THRESH_TOZERO_INV;
     bp::scope().attr("THRESH_MASK") = (int)cv::THRESH_MASK;
     bp::scope().attr("THRESH_OTSU") = (int)cv::THRESH_OTSU;
-
-    bp::scope().attr("ADAPTIVE_THRESH_MEAN_C") = (int)cv::ADAPTIVE_THRESH_MEAN_C;
-    bp::scope().attr("ADAPTIVE_THRESH_GAUSSIAN_C") = (int)cv::ADAPTIVE_THRESH_GAUSSIAN_C;
 
     bp::scope().attr("MAGIC_MASK") = (int)cv::MAGIC_MASK;
     bp::scope().attr("TYPE_MASK") = (int)cv::TYPE_MASK;
@@ -94,14 +93,12 @@ void register_global_variables(){
     bp::scope().attr("GC_PR_BGD") = (int)cv::GC_PR_BGD;
     bp::scope().attr("GC_PR_FGD") = (int)cv::GC_PR_FGD;
 
+    bp::scope().attr("MORPH_RECT") = (int)cv::MORPH_RECT;
+    bp::scope().attr("MORPH_CROSS") = (int)cv::MORPH_CROSS;
+    bp::scope().attr("MORPH_ELLIPSE") = (int)cv::MORPH_ELLIPSE;
+
     bp::scope().attr("FLOODFILL_FIXED_RANGE") = (int)cv::FLOODFILL_FIXED_RANGE;
     bp::scope().attr("FLOODFILL_MASK_ONLY") = (int)cv::FLOODFILL_MASK_ONLY;
-
-    bp::scope().attr("KERNEL_GENERAL") = (int)cv::KERNEL_GENERAL;
-    bp::scope().attr("KERNEL_SYMMETRICAL") = (int)cv::KERNEL_SYMMETRICAL;
-    bp::scope().attr("KERNEL_ASYMMETRICAL") = (int)cv::KERNEL_ASYMMETRICAL;
-    bp::scope().attr("KERNEL_SMOOTH") = (int)cv::KERNEL_SMOOTH;
-    bp::scope().attr("KERNEL_INTEGER") = (int)cv::KERNEL_INTEGER;
 
     bp::scope().attr("MORPH_ERODE") = (int)cv::MORPH_ERODE;
     bp::scope().attr("MORPH_DILATE") = (int)cv::MORPH_DILATE;
@@ -137,6 +134,9 @@ void register_global_variables(){
     bp::scope().attr("INTER_LANCZOS4") = (int)cv::INTER_LANCZOS4;
     bp::scope().attr("INTER_MAX") = (int)cv::INTER_MAX;
     bp::scope().attr("WARP_INVERSE_MAP") = (int)cv::WARP_INVERSE_MAP;
+
+    bp::scope().attr("ADAPTIVE_THRESH_MEAN_C") = (int)cv::ADAPTIVE_THRESH_MEAN_C;
+    bp::scope().attr("ADAPTIVE_THRESH_GAUSSIAN_C") = (int)cv::ADAPTIVE_THRESH_GAUSSIAN_C;
 
     bp::scope().attr("OPTFLOW_USE_INITIAL_FLOW") = (int)cv::OPTFLOW_USE_INITIAL_FLOW;
     bp::scope().attr("OPTFLOW_FARNEBACK_GAUSSIAN") = (int)cv::OPTFLOW_FARNEBACK_GAUSSIAN;

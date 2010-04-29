@@ -380,6 +380,8 @@
 
 #include "pyopencvext/SelfSimDescriptor.pypp.hpp"
 
+#include "pyopencvext/Seq_CvSURFPoint.pypp.hpp"
+
 #include "pyopencvext/Size2f.pypp.hpp"
 
 #include "pyopencvext/Size2i.pypp.hpp"
@@ -1249,11 +1251,6 @@ static void cvReprojectImageTo3D_4ca87cd67ba33150d51d345f21a24447( ::cv::Mat & d
 
 static void cvRunningAvg_16515bd00db4472140aa21554e25bbc7( ::cv::Mat & image, ::cv::Mat & acc, double alpha, ::cv::Mat mask=cv::Mat() ){
     ::cvRunningAvg(get_CvMat_ptr(image), get_CvMat_ptr(acc), alpha, get_CvMat_ptr(mask));
-}
-
-static boost::python::object cvSURFPoint_c0d89cc1fa2a754074aaa768acb95f48( const ::cv::Point2f & pt, int laplacian, int size, float dir=0, float hessian=0 ){
-    ::CvSURFPoint result = ::cvSURFPoint((CvPoint2D32f)(pt), laplacian, size, dir, hessian);
-    return bp::object( result );
 }
 
 static boost::python::object cvSampleLine_9eb7a74db955c3538aef5be3e7392fc5( ::cv::Mat & image, ::CvPoint pt1, ::CvPoint pt2, void * buffer, int connectivity=8 ){
@@ -2321,6 +2318,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_SVD_class();
 
     register_SelfSimDescriptor_class();
+
+    register_Seq_CvSURFPoint_class();
 
     register_Size2f_class();
 
@@ -4006,22 +4005,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'mask':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat." );
-    
-    }
-
-    { //::cvSURFPoint
-    
-        typedef boost::python::object ( *SURFPoint_function_type )( const ::cv::Point2f &,int,int,float,float );
-        
-        bp::def( 
-            "SURFPoint"
-            , SURFPoint_function_type( &cvSURFPoint_c0d89cc1fa2a754074aaa768acb95f48 )
-            , ( bp::arg("pt"), bp::arg("laplacian"), bp::arg("size"), bp::arg("dir")=0, bp::arg("hessian")=0 )
-            , "\nWrapped function:"
-    "\n    cvSURFPoint"
-    "\nArgument 'pt':"\
-    "\n    C/C++ type: ::CvPoint2D32f."\
-    "\n    Python type: Point2f." );
     
     }
 

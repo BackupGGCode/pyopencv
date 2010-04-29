@@ -15,6 +15,8 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
+import common
+
 def generate_code(mb, cc, D, FT, CP):
     cc.write('''
 #=============================================================================
@@ -27,7 +29,6 @@ def generate_code(mb, cc, D, FT, CP):
     # Data Structures in cv.h
     # pointers which are not Cv... * are excluded until further requested
     for t in (
-        'CvSURFPoint', 
         'CvMSERParams', 
         'CvStarKeypoint',
         'CvPOSITObject',
@@ -451,7 +452,8 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     for z in (
         'cvFindFeatures', 'cvFindFeaturesBoxed',
         'LSHSize', 'cvLSHAdd', 'cvLSHRemove', 'cvLSHQuery',
-        'cvSURFPoint', 'cvStarKeypoint', 
+        # 'cvSURFPoint', 
+        'cvStarKeypoint', 
         'cvCheckChessboard', # TODO: convert CvSize of cvCheckChessboard into cv::Size
         ):
         mb.free_fun(z).include()
@@ -477,6 +479,14 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
 
     # cvReleaseLSH
     FT.add_underscore(mb.free_fun('cvReleaseLSH'))
+    
+    
+    # CvSURFPoint
+    z = mb.class_('CvSURFPoint')
+    mb.init_class(z)
+    mb.finalize_class(z)
+    common.register_ti('cv::Seq', ['CvSURFPoint'])
+    mb.expose_class_Seq('CvSURFPoint')
 
     # POSIT (POSe from ITeration)
     cc.write('''
