@@ -39,7 +39,7 @@ CV_MAT3x3_64D  = CV_64FC1
 CV_MAT4x4_64D  = CV_64FC1
 
 IPL_GAUSSIAN_5x5   = 7
-CvBox2D32f     = CvBox2D
+# CvBox2D32f     = CvBox2D
 
 # TODO: fix these functions
 # cvIntegralImage     = cvIntegral

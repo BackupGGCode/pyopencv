@@ -32,6 +32,9 @@ void register_global_variables(){
     bp::scope().attr("THRESH_MASK") = (int)cv::THRESH_MASK;
     bp::scope().attr("THRESH_OTSU") = (int)cv::THRESH_OTSU;
 
+    bp::scope().attr("ADAPTIVE_THRESH_MEAN_C") = (int)cv::ADAPTIVE_THRESH_MEAN_C;
+    bp::scope().attr("ADAPTIVE_THRESH_GAUSSIAN_C") = (int)cv::ADAPTIVE_THRESH_GAUSSIAN_C;
+
     bp::scope().attr("MAGIC_MASK") = (int)cv::MAGIC_MASK;
     bp::scope().attr("TYPE_MASK") = (int)cv::TYPE_MASK;
     bp::scope().attr("DEPTH_MASK") = (int)cv::DEPTH_MASK;
@@ -134,9 +137,6 @@ void register_global_variables(){
     bp::scope().attr("INTER_LANCZOS4") = (int)cv::INTER_LANCZOS4;
     bp::scope().attr("INTER_MAX") = (int)cv::INTER_MAX;
     bp::scope().attr("WARP_INVERSE_MAP") = (int)cv::WARP_INVERSE_MAP;
-
-    bp::scope().attr("ADAPTIVE_THRESH_MEAN_C") = (int)cv::ADAPTIVE_THRESH_MEAN_C;
-    bp::scope().attr("ADAPTIVE_THRESH_GAUSSIAN_C") = (int)cv::ADAPTIVE_THRESH_GAUSSIAN_C;
 
     bp::scope().attr("OPTFLOW_USE_INITIAL_FLOW") = (int)cv::OPTFLOW_USE_INITIAL_FLOW;
     bp::scope().attr("OPTFLOW_FARNEBACK_GAUSSIAN") = (int)cv::OPTFLOW_FARNEBACK_GAUSSIAN;

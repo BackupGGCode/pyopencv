@@ -192,7 +192,8 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('RotatedRect')
     mb.init_class(z)
     common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-    mb.asClass(z, mb.class_('CvBox2D'))
+    mb.constructors(lambda x: 'CvBox2D' in x.partial_decl_string).exclude()
+    # mb.asClass(z, mb.class_('CvBox2D'))
     mb.add_ndarray_interface(z)
     cc.write('''
 def _KLASS__repr__(self):

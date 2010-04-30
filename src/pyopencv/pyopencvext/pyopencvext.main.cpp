@@ -76,8 +76,6 @@
 
 #include "pyopencvext/CvBoostTree.pypp.hpp"
 
-#include "pyopencvext/CvBox2D.pypp.hpp"
-
 #include "pyopencvext/CvCamShiftTracker.pypp.hpp"
 
 #include "pyopencvext/CvChain.pypp.hpp"
@@ -982,6 +980,10 @@ static boost::python::object cvApproxChains_b8771ffee686c2a91ab4b9fdc5919291( ::
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
+static void cvBoxPoints_a61b9e0e802e9997b4fd4c2315f450ae( cv::RotatedRect const & box, ::CvPoint2D32f * pt ){
+    ::cvBoxPoints(*(CvBox2D *)(&box), pt);
+}
+
 static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, cv::Size_<int> const & win_size, int level, ::CvTermCriteria criteria, int flags ){
     int prev_features2=bp::len(prev_features);
     std::vector< ::CvPoint2D32f > prev_features3(prev_features2);
@@ -1182,8 +1184,8 @@ static boost::python::object cvFindFeaturesBoxed_6d675cd8257b64f665600bd276900d3
     return bp::object( result );
 }
 
-static boost::python::object cvFindNearestPoint2D_4658231361f43a6fc66c2e150f75dca8( ::CvSubdiv2D * subdiv, const ::cv::Point2f & pt ){
-    ::CvSubdiv2DPoint * result = ::cvFindNearestPoint2D(subdiv, (CvPoint2D32f)(pt));
+static boost::python::object cvFindNearestPoint2D_4658231361f43a6fc66c2e150f75dca8( ::CvSubdiv2D * subdiv, cv::Point_<float> const & pt ){
+    ::CvSubdiv2DPoint * result = ::cvFindNearestPoint2D(subdiv, *(CvPoint2D32f *)(&pt));
     typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSubdiv2DPoint * >( result ) );
 }
@@ -1239,12 +1241,12 @@ static void cvLSHRemove_5f32fb503216c52038c4ae3bf17b62db( ::CvLSH * lsh, ::cv::M
     ::cvLSHRemove(lsh, get_CvMat_ptr(indices));
 }
 
-static void cvLinearPolar_b75d44697de3c90f0462366e93d77425( ::cv::Mat & src, ::cv::Mat & dst, const ::cv::Point2f & center, double maxRadius, int flags=9 ){
-    ::cvLinearPolar(get_CvMat_ptr(src), get_CvMat_ptr(dst), (CvPoint2D32f)(center), maxRadius, flags);
+static void cvLinearPolar_b75d44697de3c90f0462366e93d77425( ::cv::Mat & src, ::cv::Mat & dst, cv::Point_<float> const & center, double maxRadius, int flags=9 ){
+    ::cvLinearPolar(get_CvMat_ptr(src), get_CvMat_ptr(dst), *(CvPoint2D32f *)(&center), maxRadius, flags);
 }
 
-static void cvLogPolar_27c4d18226a6e750886777db97773f4d( ::cv::Mat & src, ::cv::Mat & dst, const ::cv::Point2f & center, double M, int flags=9 ){
-    ::cvLogPolar(get_CvMat_ptr(src), get_CvMat_ptr(dst), (CvPoint2D32f)(center), M, flags);
+static void cvLogPolar_27c4d18226a6e750886777db97773f4d( ::cv::Mat & src, ::cv::Mat & dst, cv::Point_<float> const & center, double M, int flags=9 ){
+    ::cvLogPolar(get_CvMat_ptr(src), get_CvMat_ptr(dst), *(CvPoint2D32f *)(&center), M, flags);
 }
 
 static boost::python::object cvMemStorageAllocString_9839ce871d1503bdcc9755acafa55ace( ::cv::MemStorage & storage, char const * ptr, int len=-0x000000001 ){
@@ -1389,20 +1391,20 @@ static void cvStartWriteStruct_e7e2128639c3a858bdb332c89468a8e0( ::cv::FileStora
     ::cvStartWriteStruct(fs.fs, name, struct_flags, type_name, attributes);
 }
 
-static boost::python::tuple cvSubdiv2DLocate_1df86dbc29fc9de6df2bbdb2196d6db3( ::CvSubdiv2D * subdiv, const ::cv::Point2f & pt, ::CvSubdiv2DEdge * edge ){
+static boost::python::tuple cvSubdiv2DLocate_1df86dbc29fc9de6df2bbdb2196d6db3( ::CvSubdiv2D * subdiv, cv::Point_<float> const & pt, ::CvSubdiv2DEdge * edge ){
     CvSubdiv2DPoint * vertex2=(::CvSubdiv2DPoint *)0;
-    ::CvSubdiv2DPointLocation result = ::cvSubdiv2DLocate(subdiv, (CvPoint2D32f)(pt), edge, &vertex2);
+    ::CvSubdiv2DPointLocation result = ::cvSubdiv2DLocate(subdiv, *(CvPoint2D32f *)(&pt), edge, &vertex2);
     return bp::make_tuple( result, vertex2 );
 }
 
-static boost::python::object cvSubdivDelaunay2DInsert_0d66ff0b2bc8918d0793f968404f1cb2( ::CvSubdiv2D * subdiv, const ::cv::Point2f & pt ){
-    ::CvSubdiv2DPoint * result = ::cvSubdivDelaunay2DInsert(subdiv, (CvPoint2D32f)(pt));
+static boost::python::object cvSubdivDelaunay2DInsert_0d66ff0b2bc8918d0793f968404f1cb2( ::CvSubdiv2D * subdiv, cv::Point_<float> const & pt ){
+    ::CvSubdiv2DPoint * result = ::cvSubdivDelaunay2DInsert(subdiv, *(CvPoint2D32f *)(&pt));
     typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSubdiv2DPoint * >( result ) );
 }
 
-static boost::python::object cvTriangleArea_727599fdabcae9fb78274a766e9dac94( const ::cv::Point2f & a, const ::cv::Point2f & b, const ::cv::Point2f & c ){
-    double result = ::cvTriangleArea((CvPoint2D32f)(a), (CvPoint2D32f)(b), (CvPoint2D32f)(c));
+static boost::python::object cvTriangleArea_727599fdabcae9fb78274a766e9dac94( cv::Point_<float> const & a, cv::Point_<float> const & b, cv::Point_<float> const & c ){
+    double result = ::cvTriangleArea(*(CvPoint2D32f *)(&a), *(CvPoint2D32f *)(&b), *(CvPoint2D32f *)(&c));
     return bp::object( result );
 }
 
@@ -2031,8 +2033,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvDTree_class();
 
     register_CvBoostTree_class();
-
-    register_CvBox2D_class();
 
     register_CvCamShiftTracker_class();
 
@@ -3083,6 +3083,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvBoxPoints
+    
+        typedef void ( *boxPoints_function_type )( cv::RotatedRect const &,::CvPoint2D32f * );
+        
+        bp::def( 
+            "boxPoints"
+            , boxPoints_function_type( &cvBoxPoints_a61b9e0e802e9997b4fd4c2315f450ae )
+            , ( bp::arg("box"), bp::arg("pt") )
+            , "\nWrapped function:"
+    "\n    cvBoxPoints"
+    "\nArgument 'box':"\
+    "\n    C/C++ type: ::CvBox2D."\
+    "\n    Python type: RotatedRect." );
+    
+    }
+
     { //::cvCalcAffineFlowPyrLK
     
         typedef boost::python::tuple ( *calcAffineFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,cv::Size_<int> const &,int,::CvTermCriteria,int );
@@ -3792,7 +3808,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvFindNearestPoint2D
     
-        typedef boost::python::object ( *findNearestPoint2D_function_type )( ::CvSubdiv2D *,const ::cv::Point2f & );
+        typedef boost::python::object ( *findNearestPoint2D_function_type )( ::CvSubdiv2D *,cv::Point_<float> const & );
         
         bp::def( 
             "findNearestPoint2D"
@@ -4010,7 +4026,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvLinearPolar
     
-        typedef void ( *linearPolar_function_type )( ::cv::Mat &,::cv::Mat &,const ::cv::Point2f &,double,int );
+        typedef void ( *linearPolar_function_type )( ::cv::Mat &,::cv::Mat &,cv::Point_<float> const &,double,int );
         
         bp::def( 
             "linearPolar"
@@ -4032,7 +4048,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvLogPolar
     
-        typedef void ( *logPolar_function_type )( ::cv::Mat &,::cv::Mat &,const ::cv::Point2f &,double,int );
+        typedef void ( *logPolar_function_type )( ::cv::Mat &,::cv::Mat &,cv::Point_<float> const &,double,int );
         
         bp::def( 
             "logPolar"
@@ -4591,7 +4607,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvSubdiv2DLocate
     
-        typedef boost::python::tuple ( *subdiv2DLocate_function_type )( ::CvSubdiv2D *,const ::cv::Point2f &,::CvSubdiv2DEdge * );
+        typedef boost::python::tuple ( *subdiv2DLocate_function_type )( ::CvSubdiv2D *,cv::Point_<float> const &,::CvSubdiv2DEdge * );
         
         bp::def( 
             "subdiv2DLocate"
@@ -4612,7 +4628,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvSubdivDelaunay2DInsert
     
-        typedef boost::python::object ( *subdivDelaunay2DInsert_function_type )( ::CvSubdiv2D *,const ::cv::Point2f & );
+        typedef boost::python::object ( *subdivDelaunay2DInsert_function_type )( ::CvSubdiv2D *,cv::Point_<float> const & );
         
         bp::def( 
             "subdivDelaunay2DInsert"
@@ -4628,7 +4644,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvTriangleArea
     
-        typedef boost::python::object ( *triangleArea_function_type )( const ::cv::Point2f &,const ::cv::Point2f &,const ::cv::Point2f & );
+        typedef boost::python::object ( *triangleArea_function_type )( cv::Point_<float> const &,cv::Point_<float> const &,cv::Point_<float> const & );
         
         bp::def( 
             "triangleArea"

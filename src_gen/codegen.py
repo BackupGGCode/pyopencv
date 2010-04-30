@@ -418,18 +418,20 @@ def beautify_func_list(self, func_list):
                 for z in repl_list:
                     arg.default_value = arg.default_value.replace(z, repl_list[z])
 
-    # one-to-one function argument CvPoint2D32f
+    # one-to-one function argument
     for f in func_list:
         for arg in f.arguments:
             if is_arg_touched(f, arg.name):
                 continue
             pds = common.unique_pds(arg.type.partial_decl_string)
             if pds=='CvPoint2D32f':
-                f._transformer_creators.append(FT.input_as_Point2f(arg.name))
+                f._transformer_creators.append(FT.input_as_FixType('CvPoint2D32f', 'cv::Point_<float>', arg.name))
             elif pds=='CvSize':
                 f._transformer_creators.append(FT.input_as_FixType('CvSize', 'cv::Size_<int>', arg.name))
             elif pds=='CvSize2D32f':
                 f._transformer_creators.append(FT.input_as_FixType('CvSize2D32f', 'cv::Size_<float>', arg.name))
+            elif pds=='CvBox2D':
+                f._transformer_creators.append(FT.input_as_FixType('CvBox2D', 'cv::RotatedRect', arg.name))
             elif pds in ['CvRNG *', 'CvRNG &', 'CvRNG cosnt *', 'CvRNG const &']:
                 f._transformer_creators.append(FT.input_asRNG(arg.name))
             elif pds in ['CvFileStorage *', 'CvFileStorage const *']:

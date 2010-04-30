@@ -295,17 +295,4 @@ void register_free_functions_b(){
     
     }
 
-    { //::cvBoxPoints
-    
-        typedef void ( *boxPoints_function_type )( ::CvBox2D,::CvPoint2D32f * );
-        
-        bp::def( 
-            "boxPoints"
-            , boxPoints_function_type( &::cvBoxPoints )
-            , ( bp::arg("box"), bp::arg("pt") )
-            , "\nWrapped function:"
-    "\n    cvBoxPoints" );
-    
-    }
-
 }

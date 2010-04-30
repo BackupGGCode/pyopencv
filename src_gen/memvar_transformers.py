@@ -172,3 +172,5 @@ def beautify_memvars(klass):
             expose_member_as_FixType('cv::Size_<int>', klass, z.name)
         elif pds=='CvSize2D32f':
             expose_member_as_FixType('cv::Size_<float>', klass, z.name)
+        elif pds=='CvBox2D':
+            expose_member_as_FixType('cv::RotatedRect', klass, z.name)
