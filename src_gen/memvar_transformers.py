@@ -156,7 +156,7 @@ def beautify_memvars(klass):
         pds = common.unique_pds(z.type.partial_decl_string)
         if pds=='CvMemStorage *':
             expose_member_as_MemStorage(klass, z.name)
-        elif pds=='CvMat *' or pds=='CvArr *':
+        elif pds=='CvMat *' or pds=='CvArr *' or pds=='CvMat const *':
             expose_member_as_Mat(klass, z.name, True)
         elif pds=='IplImage *':
             expose_member_as_Mat(klass, z.name, False)

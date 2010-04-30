@@ -23,6 +23,9 @@ struct CvEMParams_wrapper : CvEMParams, bp::wrapper< CvEMParams > {
     
     }
 
+    CvEMParams_wrapper(int _nclusters, int _cov_mat_type, int _start_step)
+        : CvEMParams(_nclusters, _cov_mat_type, _start_step), bp::wrapper< CvEMParams >() { }
+
     cv::Mat probs_as_Mat;
     CvMat probs_as_CvMat;
     void set_probs(cv::Mat const &new_probs)
@@ -65,9 +68,6 @@ struct CvEMParams_wrapper : CvEMParams, bp::wrapper< CvEMParams > {
         return means_as_Mat;
     }
 
-    CvEMParams_wrapper(int _nclusters, int _cov_mat_type, int _start_step)
-        : CvEMParams(_nclusters, _cov_mat_type, _start_step), bp::wrapper< CvEMParams >() { }
-
 };
 
 static cv::TermCriteria get_term_crit(::CvEMParams const &inst)
@@ -87,13 +87,13 @@ void register_CvEMParams_class(){
         .def_readwrite( "cov_mat_type", &CvEMParams::cov_mat_type )    
         .def_readwrite( "nclusters", &CvEMParams::nclusters )    
         .def_readwrite( "start_step", &CvEMParams::start_step )    
+        .add_property( "term_crit", &::get_term_crit, &::set_term_crit)    
+        .def( bp::init< int, int, int >(( bp::arg("_nclusters"), bp::arg("_cov_mat_type")=1, bp::arg("_start_step")=0 )) )    
         .add_property( "probs", bp::make_function(&::CvEMParams_wrapper::get_probs, bp::return_internal_reference<>()),
         &::CvEMParams_wrapper::set_probs)    
         .add_property( "weights", bp::make_function(&::CvEMParams_wrapper::get_weights, bp::return_internal_reference<>()),
         &::CvEMParams_wrapper::set_weights)    
         .add_property( "means", bp::make_function(&::CvEMParams_wrapper::get_means, bp::return_internal_reference<>()),
-        &::CvEMParams_wrapper::set_means)    
-        .add_property( "term_crit", &::get_term_crit, &::set_term_crit)    
-        .def( bp::init< int, int, int >(( bp::arg("_nclusters"), bp::arg("_cov_mat_type")=1, bp::arg("_start_step")=0 )) );
+        &::CvEMParams_wrapper::set_means);
 
 }

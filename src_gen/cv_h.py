@@ -540,10 +540,6 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     # CvStereoBMState
     z = mb.class_('CvStereoBMState')
     mb.init_class(z)
-    for t in (
-        'preFilteredImg0', 'preFilteredImg1', 'slidingSumBuf', 'cost', 'disp',
-        ):
-        FT.expose_member_as_Mat(z, t)
     mb.finalize_class(z)
     
     # Kolmogorov-Zabin stereo-correspondence algorithm (a.k.a. KZ1)
@@ -558,10 +554,6 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     # CvStereoGCState
     z = mb.class_('CvStereoGCState')
     mb.init_class(z)
-    for t in (
-        'left', 'right', 'dispLeft', 'dispRight', 'ptrLeft', 'ptrRight', 'vtxBuf', 'edgeBuf',
-        ):
-        FT.expose_member_as_Mat(z, t)
     mb.finalize_class(z)
     mb.insert_del_interface('CvStereoGCState', '_PE._cvReleaseStereoGCState')
     
