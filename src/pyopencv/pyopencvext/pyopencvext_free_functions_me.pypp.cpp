@@ -8,20 +8,6 @@ namespace bp = boost::python;
 
 void register_free_functions_me(){
 
-    { //::cvMemStorageAllocString
-    
-        typedef ::CvString ( *memStorageAllocString_function_type )( ::CvMemStorage *,char const *,int );
-        
-        bp::def( 
-            "memStorageAllocString"
-            , memStorageAllocString_function_type( &::cvMemStorageAllocString )
-            , ( bp::arg("storage"), bp::arg("ptr"), bp::arg("len")=(int)(-0x000000001) )
-            , bp::with_custodian_and_ward_postcall< 0, 1 >()
-            , "\nWrapped function:"
-    "\n    cvMemStorageAllocString" );
-    
-    }
-
     { //::cv::mean
     
         typedef ::cv::Scalar ( *mean_function_type )( ::cv::MatND const &,::cv::MatND const & );

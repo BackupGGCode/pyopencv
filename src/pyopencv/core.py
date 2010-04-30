@@ -364,13 +364,6 @@ CV_TYPE_NAME_GRAPH = "opencv-graph"
 
 
     
-CvMemStorage._ownershiplevel = 0
-
-def _CvMemStorage__del__(self):
-    if self._ownershiplevel==1:
-        _PE._cvReleaseMemStorage(self)
-CvMemStorage.__del__ = _CvMemStorage__del__
-
 #-----------------------------------------------------------------------------
 # Sequence types
 #-----------------------------------------------------------------------------

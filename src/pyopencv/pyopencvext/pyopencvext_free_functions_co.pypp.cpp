@@ -247,18 +247,4 @@ void register_free_functions_co(){
     
     }
 
-    { //::cvContourFromContourTree
-    
-        typedef ::CvSeq * ( *contourFromContourTree_function_type )( ::CvContourTree const *,::CvMemStorage *,::CvTermCriteria );
-        
-        bp::def( 
-            "contourFromContourTree"
-            , contourFromContourTree_function_type( &::cvContourFromContourTree )
-            , ( bp::arg("tree"), bp::arg("storage"), bp::arg("criteria") )
-            , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvContourFromContourTree" );
-    
-    }
-
 }

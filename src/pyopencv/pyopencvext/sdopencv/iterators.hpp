@@ -8,6 +8,16 @@
 namespace sdopencv
 {
 
+inline cv::MemStorage createMemStorage(int block_size CV_DEFAULT(0))
+{
+    return cv::MemStorage(cvCreateMemStorage(block_size));
+}
+
+inline cv::MemStorage createChildMemStorage(cv::MemStorage &parent)
+{
+    return cv::MemStorage(cvCreateChildMemStorage((CvMemStorage *)parent));
+}
+
 class CV_EXPORTS LineIterator : public cv::LineIterator
 {
 public:

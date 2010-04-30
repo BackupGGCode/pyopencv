@@ -20,6 +20,18 @@ void register_free_functions_cr(){
     
     }
 
+    { //::sdopencv::createChildMemStorage
+    
+        typedef ::cv::MemStorage ( *createChildMemStorage_function_type )( ::cv::MemStorage & );
+        
+        bp::def( 
+            "createChildMemStorage"
+            , createChildMemStorage_function_type( &::sdopencv::createChildMemStorage )
+            , ( bp::arg("parent") )
+            , bp::with_custodian_and_ward_postcall< 0, 1 >() );
+    
+    }
+
     { //::cv::createDerivFilter
     
         typedef ::cv::Ptr< cv::FilterEngine > ( *createDerivFilter_function_type )( int,int,int,int,int,int );
@@ -53,6 +65,17 @@ void register_free_functions_cr(){
     
     }
 
+    { //::sdopencv::createMemStorage
+    
+        typedef ::cv::MemStorage ( *createMemStorage_function_type )( int );
+        
+        bp::def( 
+            "createMemStorage"
+            , createMemStorage_function_type( &::sdopencv::createMemStorage )
+            , ( bp::arg("block_size")=(int)(0) ) );
+    
+    }
+
     { //::cv::createMorphologyFilter
     
         typedef ::cv::Ptr< cv::FilterEngine > ( *createMorphologyFilter_function_type )( int,int,::cv::Mat const &,::cv::Point,int,int,::cv::Scalar const & );
@@ -75,20 +98,6 @@ void register_free_functions_cr(){
     
     }
 
-    { //::cvCreateChildMemStorage
-    
-        typedef ::CvMemStorage * ( *createChildMemStorage_function_type )( ::CvMemStorage * );
-        
-        bp::def( 
-            "createChildMemStorage"
-            , createChildMemStorage_function_type( &::cvCreateChildMemStorage )
-            , ( bp::arg("parent") )
-            , bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateChildMemStorage" );
-    
-    }
-
     { //::cvCreateConDensation
     
         typedef ::CvConDensation * ( *createConDensation_function_type )( int,int,int );
@@ -103,20 +112,6 @@ void register_free_functions_cr(){
     
     }
 
-    { //::cvCreateContourTree
-    
-        typedef ::CvContourTree * ( *createContourTree_function_type )( ::CvSeq const *,::CvMemStorage *,double );
-        
-        bp::def( 
-            "createContourTree"
-            , createContourTree_function_type( &::cvCreateContourTree )
-            , ( bp::arg("contour"), bp::arg("storage"), bp::arg("threshold") )
-            , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateContourTree" );
-    
-    }
-
     { //::cvCreateLSH
     
         typedef ::CvLSH * ( *createLSH_function_type )( ::CvLSHOperations *,int,int,int,int,double,::int64 );
@@ -128,20 +123,6 @@ void register_free_functions_cr(){
             , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
             , "\nWrapped function:"
     "\n    cvCreateLSH" );
-    
-    }
-
-    { //::cvCreateMemStorage
-    
-        typedef ::CvMemStorage * ( *createMemStorage_function_type )( int );
-        
-        bp::def( 
-            "createMemStorage"
-            , createMemStorage_function_type( &::cvCreateMemStorage )
-            , ( bp::arg("block_size")=(int)(0) )
-            , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateMemStorage" );
     
     }
 
@@ -173,20 +154,6 @@ void register_free_functions_cr(){
     
     }
 
-    { //::cvCreateSeq
-    
-        typedef ::CvSeq * ( *createSeq_function_type )( int,int,int,::CvMemStorage * );
-        
-        bp::def( 
-            "createSeq"
-            , createSeq_function_type( &::cvCreateSeq )
-            , ( bp::arg("seq_flags"), bp::arg("header_size"), bp::arg("elem_size"), bp::arg("storage") )
-            , bp::with_custodian_and_ward_postcall< 0, 4, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateSeq" );
-    
-    }
-
     { //::cvCreateSeqBlock
     
         typedef void ( *createSeqBlock_function_type )( ::CvSeqWriter * );
@@ -197,20 +164,6 @@ void register_free_functions_cr(){
             , ( bp::arg("writer") )
             , "\nWrapped function:"
     "\n    cvCreateSeqBlock" );
-    
-    }
-
-    { //::cvCreateSet
-    
-        typedef ::CvSet * ( *createSet_function_type )( int,int,int,::CvMemStorage * );
-        
-        bp::def( 
-            "createSet"
-            , createSet_function_type( &::cvCreateSet )
-            , ( bp::arg("set_flags"), bp::arg("header_size"), bp::arg("elem_size"), bp::arg("storage") )
-            , bp::with_custodian_and_ward_postcall< 0, 4, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateSet" );
     
     }
 
@@ -225,34 +178,6 @@ void register_free_functions_cr(){
             , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
             , "\nWrapped function:"
     "\n    cvCreateStereoGCState" );
-    
-    }
-
-    { //::cvCreateSubdiv2D
-    
-        typedef ::CvSubdiv2D * ( *createSubdiv2D_function_type )( int,int,int,int,::CvMemStorage * );
-        
-        bp::def( 
-            "createSubdiv2D"
-            , createSubdiv2D_function_type( &::cvCreateSubdiv2D )
-            , ( bp::arg("subdiv_type"), bp::arg("header_size"), bp::arg("vtx_size"), bp::arg("quadedge_size"), bp::arg("storage") )
-            , bp::with_custodian_and_ward_postcall< 0, 5, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateSubdiv2D" );
-    
-    }
-
-    { //::cvCreateSubdivDelaunay2D
-    
-        typedef ::CvSubdiv2D * ( *createSubdivDelaunay2D_function_type )( ::CvRect,::CvMemStorage * );
-        
-        bp::def( 
-            "createSubdivDelaunay2D"
-            , createSubdivDelaunay2D_function_type( &::cvCreateSubdivDelaunay2D )
-            , ( bp::arg("rect"), bp::arg("storage") )
-            , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCreateSubdivDelaunay2D" );
     
     }
 

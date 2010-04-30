@@ -47,20 +47,6 @@ void register_free_functions_se(){
     
     }
 
-    { //::cvSeqSlice
-    
-        typedef ::CvSeq * ( *seqSlice_function_type )( ::CvSeq const *,::CvSlice,::CvMemStorage *,int );
-        
-        bp::def( 
-            "seqSlice"
-            , seqSlice_function_type( &::cvSeqSlice )
-            , ( bp::arg("seq"), bp::arg("slice"), bp::arg("storage")=bp::object(), bp::arg("copy_data")=(int)(0) )
-            , bp::with_custodian_and_ward_postcall< 0, 3, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvSeqSlice" );
-    
-    }
-
     { //::cvSetErrMode
     
         typedef int ( *setErrMode_function_type )( int );

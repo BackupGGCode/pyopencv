@@ -120,19 +120,6 @@ void register_free_functions_r(){
     
     }
 
-    { //::cvRestoreMemStoragePos
-    
-        typedef void ( *restoreMemStoragePos_function_type )( ::CvMemStorage *,::CvMemStoragePos * );
-        
-        bp::def( 
-            "restoreMemStoragePos"
-            , restoreMemStoragePos_function_type( &::cvRestoreMemStoragePos )
-            , ( bp::arg("storage"), bp::arg("pos") )
-            , "\nWrapped function:"
-    "\n    cvRestoreMemStoragePos" );
-    
-    }
-
     { //::cvRound
     
         typedef int ( *round_function_type )( double );

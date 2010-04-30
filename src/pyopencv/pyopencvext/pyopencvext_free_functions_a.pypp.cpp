@@ -246,20 +246,6 @@ void register_free_functions_a(){
     
     }
 
-    { //::cvApproxChains
-    
-        typedef ::CvSeq * ( *approxChains_function_type )( ::CvSeq *,::CvMemStorage *,int,double,int,int );
-        
-        bp::def( 
-            "approxChains"
-            , approxChains_function_type( &::cvApproxChains )
-            , ( bp::arg("src_seq"), bp::arg("storage"), bp::arg("method")=(int)(2), bp::arg("parameter")=0, bp::arg("minimal_perimeter")=(int)(0), bp::arg("recursive")=(int)(0) )
-            , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvApproxChains" );
-    
-    }
-
     { //::cvAttrValue
     
         typedef char const * ( *attrValue_function_type )( ::CvAttrList const *,char const * );
