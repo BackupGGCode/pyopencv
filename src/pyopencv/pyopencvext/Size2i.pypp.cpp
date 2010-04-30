@@ -30,10 +30,6 @@ void register_Size2i_class(){
                 , area_function_type( &::cv::Size_< int >::area ) );
         
         }
-        Size2i_exposer.def( "as__scope_CvSize", &cv::Size_< int >::operator ::CvSize , "\nWrapped function:"
-    "\n    operator ::CvSize" );
-        Size2i_exposer.def( "as__scope_CvSize2D32f", &cv::Size_< int >::operator ::CvSize2D32f , "\nWrapped function:"
-    "\n    operator ::CvSize2D32f" );
         { //::cv::Size_< int >::operator=
         
             typedef cv::Size_< int > exported_class_t;

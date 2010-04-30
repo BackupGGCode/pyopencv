@@ -18,8 +18,6 @@ void register_TermCriteria_class(){
         bp::scope().attr("MAX_ITER") = (int)cv::TermCriteria::MAX_ITER;
         bp::scope().attr("EPS") = (int)cv::TermCriteria::EPS;
         TermCriteria_exposer.def( bp::init< int, int, double >(( bp::arg("_type"), bp::arg("_maxCount"), bp::arg("_epsilon") )) );
-        TermCriteria_exposer.def( "as__scope_CvTermCriteria", &cv::TermCriteria::operator ::CvTermCriteria , "\nWrapped function:"
-    "\n    operator ::CvTermCriteria" );
         TermCriteria_exposer.def_readwrite( "epsilon", &cv::TermCriteria::epsilon );
         TermCriteria_exposer.def_readwrite( "maxCount", &cv::TermCriteria::maxCount );
         TermCriteria_exposer.def_readwrite( "type", &cv::TermCriteria::type );

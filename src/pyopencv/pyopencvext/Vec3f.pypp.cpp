@@ -75,8 +75,6 @@ void register_Vec3f_class(){
                 , ( bp::arg("v") ) );
         
         }
-        Vec3f_exposer.def( "__temp_func", &cv::Vec< float, 3 >::operator ::CvScalar , "\nWrapped function:"
-    "\n    operator ::CvScalar" );
         { //::cv::Vec< float, 3 >::operator[]
         
             typedef cv::Vec< float, 3 > exported_class_t;

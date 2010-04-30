@@ -278,17 +278,17 @@ KLASS.__repr__ = _KLASS__repr__
         
         # '''.replace("KLASS", z.alias))
 
-    # CvScalar -- for backward compatibility
-    z = mb.class_('CvScalar')
-    mb.init_class(z)
-    mb.finalize_class(z)
-    mb.finalize_class(z)
-    cc.write('''
-def _KLASS__repr__(self):
-    return "KLASS(" + self.ndarray.__str__() + ")"
-KLASS.__repr__ = _KLASS__repr__
+    # CvScalar -- use cv::Scalar instead
+    # z = mb.class_('CvScalar')
+    # mb.init_class(z)
+    # mb.finalize_class(z)
+    # mb.finalize_class(z)
+    # cc.write('''
+# def _KLASS__repr__(self):
+    # return "KLASS(" + self.ndarray.__str__() + ")"
+# KLASS.__repr__ = _KLASS__repr__
         
-    '''.replace("KLASS", z.alias))
+    # '''.replace("KLASS", z.alias))
 
     # CvPoint, CvPoint2D32f, CvPoint2D64f  -- for backward compatibility
     for t in ('CvPoint', 'CvPoint2D32f', 'CvPoint2D64f'):

@@ -197,26 +197,6 @@ void register___dummy_struct_class(){
     {
         
         sdcpp::register_sdobject<sdcpp::sequence>();
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned short, 4 >, ::CvScalar >, (bp::arg("inst_Vec4w")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 6 >, ::CvScalar >, (bp::arg("inst_Vec6f")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 3 >, ::CvScalar >, (bp::arg("inst_Vec3f")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 6 >, ::CvScalar >, (bp::arg("inst_Vec6d")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned char, 3 >, ::CvScalar >, (bp::arg("inst_Vec3b")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< short, 2 >, ::CvScalar >, (bp::arg("inst_Vec2s")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< short, 4 >, ::CvScalar >, (bp::arg("inst_Vec4s")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< int, 4 >, ::CvScalar >, (bp::arg("inst_Vec4i")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 4 >, ::CvScalar >, (bp::arg("inst_Vec4d")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 4 >, ::CvScalar >, (bp::arg("inst_Vec4f")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned short, 2 >, ::CvScalar >, (bp::arg("inst_Vec2w")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< int, 2 >, ::CvScalar >, (bp::arg("inst_Vec2i")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< int, 3 >, ::CvScalar >, (bp::arg("inst_Vec3i")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned char, 4 >, ::CvScalar >, (bp::arg("inst_Vec4b")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 2 >, ::CvScalar >, (bp::arg("inst_Vec2f")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned char, 2 >, ::CvScalar >, (bp::arg("inst_Vec2b")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 3 >, ::CvScalar >, (bp::arg("inst_Vec3d")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< short, 3 >, ::CvScalar >, (bp::arg("inst_Vec3s")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 2 >, ::CvScalar >, (bp::arg("inst_Vec2d")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned short, 3 >, ::CvScalar >, (bp::arg("inst_Vec3w")));
         bp::def("asVec2s", &::normal_cast< ::cv::Vec<unsigned char, 2>, ::cv::Vec<short, 2> >, (bp::arg("inst_Vec2b")));
         bp::def("asVec2w", &::normal_cast< ::cv::Vec<unsigned char, 2>, ::cv::Vec<unsigned short, 2> >, (bp::arg("inst_Vec2b")));
         bp::def("asVec2i", &::normal_cast< ::cv::Vec<unsigned char, 2>, ::cv::Vec<int, 2> >, (bp::arg("inst_Vec2b")));
@@ -341,7 +321,6 @@ void register___dummy_struct_class(){
         bp::def("asSize2f", &::normal_cast< ::cv::Size_<int>, ::cv::Size_<float> >, (bp::arg("inst_Size2i")));
         bp::def("asSize2i", &::normal_cast< ::cv::Size_<float>, ::cv::Size_<int> >, (bp::arg("inst_Size2f")));
         bp::def("asCvRect", &::normal_cast< ::cv::Rect_< int >, ::CvRect >, (bp::arg("inst_Rect")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Scalar_< double >, ::CvScalar >, (bp::arg("inst_Scalar")));
         bp::def("asCvSlice", &::normal_cast< ::cv::Range, ::CvSlice >, (bp::arg("inst_Range")));
         bp::def("asvector_Vec4f", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<float, 4> > >, (bp::arg("inst_Mat")));
         bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<float, 4> >, ::cv::Mat >, (bp::arg("inst_vector_Vec4f")));

@@ -75,8 +75,6 @@ void register_Vec2d_class(){
                 , ( bp::arg("v") ) );
         
         }
-        Vec2d_exposer.def( "__temp_func", &cv::Vec< double, 2 >::operator ::CvScalar , "\nWrapped function:"
-    "\n    operator ::CvScalar" );
         { //::cv::Vec< double, 2 >::operator[]
         
             typedef cv::Vec< double, 2 > exported_class_t;

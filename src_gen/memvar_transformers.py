@@ -159,3 +159,5 @@ def beautify_memvars(klass):
             expose_member_as_FixType('cv::RotatedRect', klass, z.name)
         elif pds=='CvTermCriteria':
             expose_member_as_FixType('cv::TermCriteria', klass, z.name)
+        elif pds=='CvScalar':
+            expose_member_as_FixType('cv::Scalar_<double>', klass, z.name)

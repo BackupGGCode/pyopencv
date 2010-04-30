@@ -28,8 +28,6 @@ void register_RotatedRect_class(){
     "\nrectangle."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect" )    
-        .def( "as__scope_CvBox2D", &cv::RotatedRect::operator ::CvBox2D , "\nWrapped function:"
-    "\n    operator ::CvBox2D" )    
         .def( 
             "points"
             , (void ( ::cv::RotatedRect::* )( ::cv::Point2f * ) const)( &::cv::RotatedRect::points )
