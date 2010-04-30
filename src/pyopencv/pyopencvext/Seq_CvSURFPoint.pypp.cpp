@@ -15,10 +15,10 @@ static bp::object from_MemStorage(bp::object const &inst_MemStorage, int headerS
     {
         char s[300];
         sprintf( s, "Argument 'inst_MemStorage' must contain an object of type MemStorage." );
-        PyErr_SetString(PyExc_TypeError, s);        
+        PyErr_SetString(PyExc_TypeError, s);
         throw bp::error_already_set();
     }
-    
+
     bp::object result = bp::object(cv::Seq<CvSURFPoint>(elem(), headerSize));
     bp::objects::make_nurse_and_patient(result.ptr(), inst_MemStorage.ptr());
     return result;

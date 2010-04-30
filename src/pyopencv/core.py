@@ -80,7 +80,7 @@ CV_VERSION          = "2.1.0"
 def __sd_iter__(self):
     for i in xrange(len(self)):
         yield self[i]
-        
+
 
 #=============================================================================
 # cxerror.h

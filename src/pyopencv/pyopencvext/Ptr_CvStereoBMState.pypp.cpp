@@ -15,10 +15,10 @@ static bp::object from_CvStereoBMState(bp::object const &inst_CvStereoBMState)
     {
         char s[300];
         sprintf( s, "Argument 'inst_CvStereoBMState' must contain an object of type CvStereoBMState." );
-        PyErr_SetString(PyExc_TypeError, s);        
+        PyErr_SetString(PyExc_TypeError, s);
         throw bp::error_already_set();
     }
-    
+
     bp::object result = bp::object(::cv::Ptr< CvStereoBMState >(elem()));
     bp::objects::make_nurse_and_patient(result.ptr(), inst_CvStereoBMState.ptr());
     return result;

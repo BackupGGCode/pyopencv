@@ -53,20 +53,6 @@ static DST_TYPE *get_MEMBER_NAME(CLASS_TYPE const &inst) { return (DST_TYPE *)(&
     klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&::get_MEMBER_NAME, bp::return_internal_reference<>()) )'''\
         .replace("MEMBER_NAME", member_name))
         
-def expose_member_as_Size2i(klass, member_name):
-    klass.var(member_name).exclude()
-    klass.add_declaration_code('''
-static cv::Size *get_MEMBER_NAME(CLASS_TYPE const &inst) { return (cv::Size *)(&inst.MEMBER_NAME); }
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.pds))
-    klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&::get_MEMBER_NAME, bp::return_internal_reference<>()) )'''.replace("MEMBER_NAME", member_name))
-        
-def expose_member_as_Size2f(klass, member_name):
-    klass.var(member_name).exclude()
-    klass.add_declaration_code('''
-static cv::Size2f *get_MEMBER_NAME(CLASS_TYPE const &inst) { return (cv::Size2f *)(&inst.MEMBER_NAME); }
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.pds))
-    klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&::get_MEMBER_NAME, bp::return_internal_reference<>()) )'''.replace("MEMBER_NAME", member_name))
-        
 def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True):
     klass.var(member_name).exclude()
     CvMat = 'CvMat' if is_CvMat_ptr else 'IplImage'
