@@ -1176,7 +1176,12 @@ class input_as_FixType_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg(self.arg.name)
-        w_arg.type = _D.dummy_type_t(self.dst_type_pds+" const &")
+        if self.arg.default_value is None:
+            w_arg.type = _D.dummy_type_t(self.dst_type_pds+" const &")
+        else:
+            w_arg.type = _D.dummy_type_t(self.dst_type_pds)
+            w_arg.default_value = "%s(%s)" % (self.dst_type_dst, self.arg.default_value)
+            
         if self.by_ref:
             controller.modify_arg_expression( self.arg_index, "*(%s *)(&%s)" % (self.src_type_pds, w_arg.name) )
         else:
@@ -1206,50 +1211,6 @@ def input_as_FixType( *args, **keywd ):
         return input_as_FixType_t( function, *args, **keywd )
     return creator
     
-    
-    
-    
-# input_as_Point2f_t
-class input_as_Point2f_t(transformer_t):
-    """Converts an input argument type CvPoint2D2f  into a cv::Point2f."""
-
-    def __init__(self, function, arg_ref):
-        transformer.transformer_t.__init__( self, function )
-        self.arg = self.get_argument( arg_ref )
-        self.arg_index = self.function.arguments.index( self.arg )
-
-    def __str__(self):
-        return "input_as_Point2f(%s)" % self.arg.name
-
-    def __configure_sealed( self, controller ):
-        w_arg = controller.find_wrapper_arg(self.arg.name)
-        w_arg.type = _D.dummy_type_t( "const ::cv::Point2f &" )
-        controller.modify_arg_expression( self.arg_index, "(CvPoint2D32f)(%s)" % w_arg.name )
-
-        # documentation
-        doc_common(self.function, self.arg, "Point2f")
-            
-
-    def __configure_v_mem_fun_default( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_mem_fun( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_free_fun(self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_default( controller.default_controller )
-
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return []
-
-def input_as_Point2f( *args, **keywd ):
-    def creator( function ):
-        return input_as_Point2f_t( function, *args, **keywd )
-    return creator
     
     
     

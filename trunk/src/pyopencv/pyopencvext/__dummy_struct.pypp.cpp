@@ -341,7 +341,6 @@ void register___dummy_struct_class(){
         bp::def("asSize2f", &::normal_cast< ::cv::Size_<int>, ::cv::Size_<float> >, (bp::arg("inst_Size2i")));
         bp::def("asSize2i", &::normal_cast< ::cv::Size_<float>, ::cv::Size_<int> >, (bp::arg("inst_Size2f")));
         bp::def("asCvRect", &::normal_cast< ::cv::Rect_< int >, ::CvRect >, (bp::arg("inst_Rect")));
-        bp::def("asCvBox2D", &::normal_cast< ::cv::RotatedRect, ::CvBox2D >, (bp::arg("inst_RotatedRect")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Scalar_< double >, ::CvScalar >, (bp::arg("inst_Scalar")));
         bp::def("asCvSlice", &::normal_cast< ::cv::Range, ::CvSlice >, (bp::arg("inst_Range")));
         bp::def("asvector_Vec4f", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<float, 4> > >, (bp::arg("inst_Mat")));

@@ -314,17 +314,17 @@ KLASS.__repr__ = _KLASS__repr__
         
         '''.replace("KLASS", z.alias))
 
-    # CvBox2D -- for backward compatibility
-    z = mb.class_('CvBox2D')
-    mb.init_class(z)
-    mb.finalize_class(z)
-    cc.write('''
-def _KLASS__repr__(self):
-    return "KLASS(center=" + repr(self.center) + ", size=" + repr(self.size) + \\
-        ", angle=" + repr(self.angle) + ")"
-KLASS.__repr__ = _KLASS__repr__
+    # CvBox2D -- now represented by cv::RotatedRect
+    # z = mb.class_('CvBox2D')
+    # mb.init_class(z)
+    # mb.finalize_class(z)
+    # cc.write('''
+# def _KLASS__repr__(self):
+    # return "KLASS(center=" + repr(self.center) + ", size=" + repr(self.size) + \\
+        # ", angle=" + repr(self.angle) + ")"
+# KLASS.__repr__ = _KLASS__repr__
         
-    '''.replace("KLASS", z.alias))
+    # '''.replace("KLASS", z.alias))
 
     # CvTermCriteria -- for backward compatibility
     z = mb.class_('CvTermCriteria')
