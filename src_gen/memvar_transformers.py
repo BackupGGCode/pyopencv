@@ -43,7 +43,7 @@ def expose_member_as_MemStorage(klass, member_name):
     klass.add_declaration_code('''
 static cv::MemStorage get_MEMBER_NAME(CLASS_TYPE const &inst) { return cv::MemStorage(inst.MEMBER_NAME); }
     '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.pds))
-    klass.add_registration_code('''add_property( "MEMBER_NAME", &::get_MEMBER_NAME )'''.replace("MEMBER_NAME", member_name))
+    klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&::get_MEMBER_NAME, bp::with_custodian_and_ward_postcall<0, 1>()) )'''.replace("MEMBER_NAME", member_name))
         
 def expose_member_as_FixType(dst_type_pds, klass, member_name):
     klass.var(member_name).exclude()
@@ -127,7 +127,7 @@ static bp::object get_MEMBER_NAME( CLASS_TYPE const & inst ){
 }
 
     '''.replace("MEMBER_NAME", member_name) \
-        .replace("CLASS_TYPE", klass.decl_string) \
+        .replace("CLASS_TYPE", klass.partial_decl_string) \
         .replace("ARRAY_SIZE", str(array_size)))
     klass.add_registration_code('add_property( "MEMBER_NAME", &::get_MEMBER_NAME )' \
         .replace("MEMBER_NAME", member_name))
@@ -165,3 +165,5 @@ def beautify_memvars(klass):
             expose_member_as_FixType('cv::Range', klass, z.name)
         elif pds=='CvRect':
             expose_member_as_FixType('cv::Rect_<int>', klass, z.name)
+        elif pds=='CvSeq *':
+            expose_member_as_pointee(klass, z.name)

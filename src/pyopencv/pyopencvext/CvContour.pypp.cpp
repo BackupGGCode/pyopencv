@@ -87,7 +87,7 @@ void register_CvContour_class(){
         CvContour_exposer.add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) );
         CvContour_exposer.add_property( "block_max", &::get_block_max );
         CvContour_exposer.add_property( "ptr", &::get_ptr );
-        CvContour_exposer.add_property( "storage", &::get_storage );
+        CvContour_exposer.add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) );
         CvContour_exposer.add_property( "rect", bp::make_function(&::get_rect, bp::return_internal_reference<>()) );
     }
 
