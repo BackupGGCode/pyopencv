@@ -913,6 +913,60 @@ def input_as_Seq( *args, **keywd ):
     return creator
 
 
+# input_CvSeq_ptr_as_vector_t
+class input_CvSeq_ptr_as_vector_t(transformer.transformer_t):
+    """Handles an input of type CvSeq* as input of type std::vector<T>.
+
+    void do_something(CvSeq* v) ->  do_something(std::vector<T> v2)
+    """
+
+    def __init__(self, function, elem_type_pds, arg_ref):
+        transformer.transformer_t.__init__( self, function )
+        
+        self.elem_type_pds = elem_type_pds
+
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+        if not _D.is_pointer( self.arg.type ):
+            raise ValueError( '%s\nin order to use "input_CvSeq_ptr_as_vector" transformation, argument %s type must be a pointer (got %s).' ) \
+                  % ( function, self.arg.name, self.arg.type)
+
+
+    def __str__(self):
+        return "input_CvSeq_ptr_as_vector(%s, %s)"% (self.elem_type_pds, self.arg.name)
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_converters.hpp"]
+
+    def __configure_sealed(self, controller):
+        controller.remove_wrapper_arg( self.arg.name )
+        vec_pds = common.unique_pds("std::vector< %s >" % self.elem_type_pds)
+        doc_common(self.function, self.arg, "vector_float32")
+        doc_output(self.function, self.arg)                    
+        seq = controller.declare_variable(_D.dummy_type_t("CvSeq *"), self.arg.name, "=0" )
+        controller.modify_arg_expression(self.arg_index, "&"+seq)
+        controller.return_variable("convert_CvSeq_ptr_to_vector<%s>(%s)" % (self.elem_type_pds, seq))
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def input_CvSeq_ptr_as_vector( *args, **keywd ):
+    def creator( function ):
+        return input_CvSeq_ptr_as_vector_t( function, *args, **keywd )
+    return creator
+
+
 
     
 # input_asSparseMat_t

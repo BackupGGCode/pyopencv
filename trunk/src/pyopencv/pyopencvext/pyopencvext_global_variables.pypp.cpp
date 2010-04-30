@@ -18,6 +18,12 @@ void register_global_variables(){
     bp::scope().attr("BORDER_DEFAULT") = (int)cv::BORDER_DEFAULT;
     bp::scope().attr("BORDER_ISOLATED") = (int)cv::BORDER_ISOLATED;
 
+    bp::scope().attr("KERNEL_GENERAL") = (int)cv::KERNEL_GENERAL;
+    bp::scope().attr("KERNEL_SYMMETRICAL") = (int)cv::KERNEL_SYMMETRICAL;
+    bp::scope().attr("KERNEL_ASYMMETRICAL") = (int)cv::KERNEL_ASYMMETRICAL;
+    bp::scope().attr("KERNEL_SMOOTH") = (int)cv::KERNEL_SMOOTH;
+    bp::scope().attr("KERNEL_INTEGER") = (int)cv::KERNEL_INTEGER;
+
     bp::scope().attr("THRESH_BINARY") = (int)cv::THRESH_BINARY;
     bp::scope().attr("THRESH_BINARY_INV") = (int)cv::THRESH_BINARY_INV;
     bp::scope().attr("THRESH_TRUNC") = (int)cv::THRESH_TRUNC;
@@ -94,11 +100,13 @@ void register_global_variables(){
     bp::scope().attr("FLOODFILL_FIXED_RANGE") = (int)cv::FLOODFILL_FIXED_RANGE;
     bp::scope().attr("FLOODFILL_MASK_ONLY") = (int)cv::FLOODFILL_MASK_ONLY;
 
-    bp::scope().attr("KERNEL_GENERAL") = (int)cv::KERNEL_GENERAL;
-    bp::scope().attr("KERNEL_SYMMETRICAL") = (int)cv::KERNEL_SYMMETRICAL;
-    bp::scope().attr("KERNEL_ASYMMETRICAL") = (int)cv::KERNEL_ASYMMETRICAL;
-    bp::scope().attr("KERNEL_SMOOTH") = (int)cv::KERNEL_SMOOTH;
-    bp::scope().attr("KERNEL_INTEGER") = (int)cv::KERNEL_INTEGER;
+    bp::scope().attr("MORPH_ERODE") = (int)cv::MORPH_ERODE;
+    bp::scope().attr("MORPH_DILATE") = (int)cv::MORPH_DILATE;
+    bp::scope().attr("MORPH_OPEN") = (int)cv::MORPH_OPEN;
+    bp::scope().attr("MORPH_CLOSE") = (int)cv::MORPH_CLOSE;
+    bp::scope().attr("MORPH_GRADIENT") = (int)cv::MORPH_GRADIENT;
+    bp::scope().attr("MORPH_TOPHAT") = (int)cv::MORPH_TOPHAT;
+    bp::scope().attr("MORPH_BLACKHAT") = (int)cv::MORPH_BLACKHAT;
 
     bp::scope().attr("INPAINT_NS") = (int)cv::INPAINT_NS;
     bp::scope().attr("INPAINT_TELEA") = (int)cv::INPAINT_TELEA;
@@ -118,14 +126,6 @@ void register_global_variables(){
     bp::scope().attr("CALIB_CB_ADAPTIVE_THRESH") = (int)cv::CALIB_CB_ADAPTIVE_THRESH;
     bp::scope().attr("CALIB_CB_NORMALIZE_IMAGE") = (int)cv::CALIB_CB_NORMALIZE_IMAGE;
     bp::scope().attr("CALIB_CB_FILTER_QUADS") = (int)cv::CALIB_CB_FILTER_QUADS;
-
-    bp::scope().attr("MORPH_ERODE") = (int)cv::MORPH_ERODE;
-    bp::scope().attr("MORPH_DILATE") = (int)cv::MORPH_DILATE;
-    bp::scope().attr("MORPH_OPEN") = (int)cv::MORPH_OPEN;
-    bp::scope().attr("MORPH_CLOSE") = (int)cv::MORPH_CLOSE;
-    bp::scope().attr("MORPH_GRADIENT") = (int)cv::MORPH_GRADIENT;
-    bp::scope().attr("MORPH_TOPHAT") = (int)cv::MORPH_TOPHAT;
-    bp::scope().attr("MORPH_BLACKHAT") = (int)cv::MORPH_BLACKHAT;
 
     bp::scope().attr("INTER_NEAREST") = (int)cv::INTER_NEAREST;
     bp::scope().attr("INTER_LINEAR") = (int)cv::INTER_LINEAR;
