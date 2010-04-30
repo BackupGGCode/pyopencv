@@ -347,11 +347,6 @@ typedef uint32 addr_t;
 typedef uint64 addr_t;
 #endif
 
-struct address_t
-{
-    addr_t val;
-};
-
 
 }
 

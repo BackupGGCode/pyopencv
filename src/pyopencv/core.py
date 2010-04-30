@@ -2248,7 +2248,7 @@ def _CvLSH__del__(self):
     if self._ownershiplevel==1:
         _PE._cvReleaseLSH(self)
 CvLSH.__del__ = _CvLSH__del__
-Seq_CvSURFPoint.__iter__ = __sd_iter__; Seq_unbounded_array_float32.__iter__ = __sd_iter__; 
+Seq_CvSURFPoint.__iter__ = __sd_iter__; 
 #-----------------------------------------------------------------------------
 # POSIT (POSe from ITeration)
 #-----------------------------------------------------------------------------
@@ -2653,7 +2653,7 @@ else:
 #=============================================================================
 
 
-    Seq_address_t.__iter__ = __sd_iter__; 
+    
 def __vector__repr__(self):
     n = len(self)
     s = "%s(len=%d, [" % (self.__class__.__name__, n)

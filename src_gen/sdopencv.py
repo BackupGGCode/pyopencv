@@ -30,14 +30,6 @@ def generate_code(mb, cc, D, FT, CP):
     sdopencv = mb.namespace('sdopencv')
     sdopencv.include()
     
-    # address_t
-    z = mb.class_('address_t')
-    mb.init_class(z)
-    mb.finalize_class(z)
-    
-    # Seq<sdopencv::address_t>
-    mb.expose_class_Seq('sdopencv::address_t')
-
     for t in ('DifferentialImage', 'IntegralImage', 'IntegralHistogram'):
         z = sdopencv.class_(t)
         mb.init_class(z)

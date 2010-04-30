@@ -753,6 +753,20 @@ bp::list convert_from_Mat_to_seq(cv::Mat const &in_arr)
 }
 
 
+// ================================================================================================
+
+template<typename T>
+inline std::vector<T> convert_CvSeq_ptr_to_vector(CvSeq *d)
+{
+    std::vector<T> descriptors;
+    if(d)
+    {
+        descriptors.resize(d->total*d->elem_size/sizeof(T));
+        cvCvtSeqToArray(d, &descriptors[0]);
+    }
+    return descriptors;
+}
+
 
 
 // ================================================================================================
