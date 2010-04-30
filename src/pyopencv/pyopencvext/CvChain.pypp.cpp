@@ -21,8 +21,6 @@ static ::CvSeqBlock * get_free_blocks( ::CvChain const & inst ) { return inst.fr
 
 static ::CvSeqBlock * get_first( ::CvChain const & inst ) { return inst.first; }
 
-static cv::MemStorage get_storage(CvChain const &inst) { return cv::MemStorage(inst.storage); }
-
 static bp::object get_block_max( ::CvChain const & inst ){        
     return inst.block_max? bp::str(inst.block_max): bp::object();
 }
@@ -30,6 +28,8 @@ static bp::object get_block_max( ::CvChain const & inst ){
 static bp::object get_ptr( ::CvChain const & inst ){        
     return inst.ptr? bp::str(inst.ptr): bp::object();
 }
+
+static cv::MemStorage get_storage(CvChain const &inst) { return cv::MemStorage(inst.storage); }
 
 void register_CvChain_class(){
 
@@ -47,8 +47,8 @@ void register_CvChain_class(){
         .add_property( "v_next", bp::make_function(&::get_v_next, bp::return_internal_reference<>()) )    
         .add_property( "free_blocks", bp::make_function(&::get_free_blocks, bp::return_internal_reference<>()) )    
         .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
-        .add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) )    
         .add_property( "block_max", &::get_block_max )    
-        .add_property( "ptr", &::get_ptr );
+        .add_property( "ptr", &::get_ptr )    
+        .add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) );
 
 }
