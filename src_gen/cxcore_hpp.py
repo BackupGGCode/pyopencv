@@ -154,7 +154,7 @@ KLASS.__repr__ = _KLASS__repr__
         z = mb.class_(lambda x: x.alias==alias)
         mb.init_class(z)
         common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-        z.constructors(lambda x: 'CvSize' in x.partial_decl_string).exclude()
+        z.decls(lambda x: 'CvSize' in x.partial_decl_string).exclude()
         # mb.asClass(z, mb.class_('CvSize'))
         # mb.asClass(z, mb.class_('CvSize2D32f'))
         mb.add_ndarray_interface(z)
@@ -192,7 +192,7 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('RotatedRect')
     mb.init_class(z)
     common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-    mb.constructors(lambda x: 'CvBox2D' in x.partial_decl_string).exclude()
+    mb.decls(lambda x: 'CvBox2D' in x.partial_decl_string).exclude()
     # mb.asClass(z, mb.class_('CvBox2D'))
     mb.add_ndarray_interface(z)
     cc.write('''
@@ -504,7 +504,7 @@ KLASS.__repr__ = _KLASS__repr__
     # TermCriteria
     z = mb.class_('TermCriteria')
     mb.init_class(z)
-    mb.constructors(lambda x: 'CvTermCriteria' in x.partial_decl_string).exclude()
+    mb.decls(lambda x: 'CvTermCriteria' in x.partial_decl_string).exclude()
     # mb.asClass(z, mb.class_('CvTermCriteria'))
     cc.write('''
 def _KLASS__repr__(self):
