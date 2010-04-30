@@ -1180,7 +1180,15 @@ class input_as_FixType_t(transformer_t):
             w_arg.type = _D.dummy_type_t(self.dst_type_pds+" const &")
         else:
             w_arg.type = _D.dummy_type_t(self.dst_type_pds)
-            w_arg.default_value = "%s(%s)" % (self.dst_type_pds, self.arg.default_value)
+            s = self.arg.default_value
+            repl_dict = {
+                'cvPoint': 'cv::Point',
+                'cvTermCriteria': 'cv::TermCriteria',
+                'cvSlice(0, 1073741823)': 'cv::Range::all()',
+            }
+            for z in repl_dict:
+                s = s.replace(z, repl_dict[z])
+            w_arg.default_value = s
             
         if self.by_ref:
             controller.modify_arg_expression( self.arg_index, "*(%s *)(&%s)" % (self.src_type_pds, w_arg.name) )
