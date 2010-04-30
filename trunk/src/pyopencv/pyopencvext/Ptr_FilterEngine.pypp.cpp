@@ -15,10 +15,10 @@ static bp::object from_FilterEngine(bp::object const &inst_FilterEngine)
     {
         char s[300];
         sprintf( s, "Argument 'inst_FilterEngine' must contain an object of type FilterEngine." );
-        PyErr_SetString(PyExc_TypeError, s);        
+        PyErr_SetString(PyExc_TypeError, s);
         throw bp::error_already_set();
     }
-    
+
     bp::object result = bp::object(::cv::Ptr< cv::FilterEngine >(elem()));
     bp::objects::make_nurse_and_patient(result.ptr(), inst_FilterEngine.ptr());
     return result;

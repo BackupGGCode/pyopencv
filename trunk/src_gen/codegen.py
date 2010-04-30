@@ -250,7 +250,7 @@ cc.write('''
 def __sd_iter__(self):
     for i in xrange(len(self)):
         yield self[i]
-        
+
 ''')
 
 def add_iterator_interface(self, klass_name):
@@ -277,10 +277,10 @@ static bp::object from_ELEM_NAME(bp::object const &inst_ELEM_NAME)
     {
         char s[300];
         sprintf( s, "Argument 'inst_ELEM_NAME' must contain an object of type ELEM_NAME." );
-        PyErr_SetString(PyExc_TypeError, s);        
+        PyErr_SetString(PyExc_TypeError, s);
         throw bp::error_already_set();
     }
-    
+
     bp::object result = bp::object(CLASS_TYPE(elem()));
     bp::objects::make_nurse_and_patient(result.ptr(), inst_ELEM_NAME.ptr());
     return result;
@@ -293,7 +293,7 @@ static ELEM_TYPE const &pointee(CLASS_TYPE const &inst) { return *((ELEM_TYPE co
         .replace('ELEM_NAME', klass_name))
     z.add_registration_code('staticmethod("fromELEM_NAME")'.replace('ELEM_NAME', klass_name))
     z.add_registration_code('add_property("pointee", bp::make_function(&::pointee, bp::return_internal_reference<>()))')
-    mb.finalize_class(z)    
+    mb.finalize_class(z)
 module_builder.module_builder_t.expose_class_Ptr = expose_class_Ptr
 
 def expose_class_Seq(self, elem_type_pds, pyName=None):
@@ -315,10 +315,10 @@ static bp::object from_MemStorage(bp::object const &inst_MemStorage, int headerS
     {
         char s[300];
         sprintf( s, "Argument 'inst_MemStorage' must contain an object of type MemStorage." );
-        PyErr_SetString(PyExc_TypeError, s);        
+        PyErr_SetString(PyExc_TypeError, s);
         throw bp::error_already_set();
     }
-    
+
     bp::object result = bp::object(CLASS_TYPE(elem(), headerSize));
     bp::objects::make_nurse_and_patient(result.ptr(), inst_MemStorage.ptr());
     return result;
@@ -430,15 +430,15 @@ def beautify_func_list(self, func_list):
                 f._transformer_creators.append(FT.input_as_FixType('CvSize', 'cv::Size_<int>', arg.name))
             elif pds=='CvSize2D32f':
                 f._transformer_creators.append(FT.input_as_FixType('CvSize2D32f', 'cv::Size_<float>', arg.name))
-            elif pds=='CvRNG *' or pds=='CvRNG &':
+            elif pds in ['CvRNG *', 'CvRNG &', 'CvRNG cosnt *', 'CvRNG const &']:
                 f._transformer_creators.append(FT.input_asRNG(arg.name))
-            elif pds=='CvFileStorage *':
+            elif pds in ['CvFileStorage *', 'CvFileStorage const *']:
                 f._transformer_creators.append(FT.input_as_FileStorage(arg.name))
-            elif pds=='CvFileNode *' or pds=='CvFileNode const *':
+            elif pds in ['CvFileNode *', 'CvFileNode const *']:
                 f._transformer_creators.append(FT.input_as_FileNode(arg.name))
-            elif pds=='CvMemStorage *':
+            elif pds in ['CvMemStorage *', 'CvMemStorage const *']:
                 f._transformer_creators.append(FT.input_as_MemStorage(arg.name))
-            elif pds=='CvSparseMat *' or pds=='CvSparseMat &':
+            elif pds in ['CvSparseMat *', 'CvSparseMat &', 'CvSparseMat const *', 'CvSparseMat const &']:
                 f._transformer_creators.append(FT.input_asSparseMat(arg.name))
             elif pds in ["IplImage *", "IplImage const *", "CvArr *", "CvArr const *",
                 "CvMat *", "CvMat const *", "cv::Range const *"]:

@@ -15,10 +15,10 @@ static bp::object from_BaseFilter(bp::object const &inst_BaseFilter)
     {
         char s[300];
         sprintf( s, "Argument 'inst_BaseFilter' must contain an object of type BaseFilter." );
-        PyErr_SetString(PyExc_TypeError, s);        
+        PyErr_SetString(PyExc_TypeError, s);
         throw bp::error_already_set();
     }
-    
+
     bp::object result = bp::object(::cv::Ptr< cv::BaseFilter >(elem()));
     bp::objects::make_nurse_and_patient(result.ptr(), inst_BaseFilter.ptr());
     return result;

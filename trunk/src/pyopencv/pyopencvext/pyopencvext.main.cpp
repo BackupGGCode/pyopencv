@@ -538,8 +538,6 @@
 
 #include "pyopencvext/pyopencvext_free_functions_r.pypp.hpp"
 
-#include "pyopencvext/pyopencvext_free_functions_sa.pypp.hpp"
-
 #include "pyopencvext/pyopencvext_free_functions_sc.pypp.hpp"
 
 #include "pyopencvext/pyopencvext_free_functions_se.pypp.hpp"
@@ -1321,6 +1319,10 @@ static void cvRunningAvg_16515bd00db4472140aa21554e25bbc7( ::cv::Mat & image, ::
 static boost::python::object cvSampleLine_9eb7a74db955c3538aef5be3e7392fc5( ::cv::Mat & image, ::CvPoint pt1, ::CvPoint pt2, void * buffer, int connectivity=8 ){
     int result = ::cvSampleLine(get_CvMat_ptr(image), pt1, pt2, buffer, connectivity);
     return bp::object( result );
+}
+
+static void cvSaveMemStoragePos_7a8c57c29bc3108b8813e96f38fa74ea( ::cv::MemStorage & storage, ::CvMemStoragePos * pos ){
+    ::cvSaveMemStoragePos((CvMemStorage *)storage, pos);
 }
 
 static boost::python::object cvSegmentImage_7b95313fd97ffe28d678124b5aa0a301( ::cv::Mat & srcarr, ::cv::Mat & dstarr, double canny_threshold, double ffill_threshold, ::cv::MemStorage & storage ){
@@ -4328,6 +4330,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvSaveMemStoragePos
+    
+        typedef void ( *saveMemStoragePos_function_type )( ::cv::MemStorage &,::CvMemStoragePos * );
+        
+        bp::def( 
+            "saveMemStoragePos"
+            , saveMemStoragePos_function_type( &cvSaveMemStoragePos_7a8c57c29bc3108b8813e96f38fa74ea )
+            , ( bp::arg("storage"), bp::arg("pos") )
+            , "\nWrapped function:"
+    "\n    cvSaveMemStoragePos"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage const *."\
+    "\n    Python type: MemStorage." );
+    
+    }
+
     { //::cvSegmentImage
     
         typedef boost::python::object ( *segmentImage_function_type )( ::cv::Mat &,::cv::Mat &,double,double,::cv::MemStorage & );
@@ -5865,8 +5883,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_free_functions_n();
 
     register_free_functions_p();
-
-    register_free_functions_sa();
 
     register_free_functions_sc();
 

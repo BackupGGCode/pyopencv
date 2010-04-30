@@ -15,10 +15,10 @@ static bp::object from_CvMemStorage(bp::object const &inst_CvMemStorage)
     {
         char s[300];
         sprintf( s, "Argument 'inst_CvMemStorage' must contain an object of type CvMemStorage." );
-        PyErr_SetString(PyExc_TypeError, s);        
+        PyErr_SetString(PyExc_TypeError, s);
         throw bp::error_already_set();
     }
-    
+
     bp::object result = bp::object(::cv::Ptr< CvMemStorage >(elem()));
     bp::objects::make_nurse_and_patient(result.ptr(), inst_CvMemStorage.ptr());
     return result;
