@@ -12,7 +12,7 @@ static ::CvMemBlock * get_bottom( ::CvMemStorage const & inst ) { return inst.bo
 
 static ::CvMemBlock * get_top( ::CvMemStorage const & inst ) { return inst.top; }
 
-static ::CvMemStorage * get_parent( ::CvMemStorage const & inst ) { return inst.parent; }
+static cv::MemStorage get_parent(CvMemStorage const &inst) { return cv::MemStorage(inst.parent); }
 
 void register_CvMemStorage_class(){
 
@@ -23,6 +23,6 @@ void register_CvMemStorage_class(){
         .def_readwrite( "signature", &CvMemStorage::signature )    
         .add_property( "bottom", bp::make_function(&::get_bottom, bp::return_internal_reference<>()) )    
         .add_property( "top", bp::make_function(&::get_top, bp::return_internal_reference<>()) )    
-        .add_property( "parent", bp::make_function(&::get_parent, bp::return_internal_reference<>()) );
+        .add_property( "parent", bp::make_function(&::get_parent, bp::with_custodian_and_ward_postcall<0, 1>()) );
 
 }

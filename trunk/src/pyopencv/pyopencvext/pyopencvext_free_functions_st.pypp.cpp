@@ -72,19 +72,6 @@ void register_free_functions_st(){
     
     }
 
-    { //::cvStartWriteSeq
-    
-        typedef void ( *startWriteSeq_function_type )( int,int,int,::CvMemStorage *,::CvSeqWriter * );
-        
-        bp::def( 
-            "startWriteSeq"
-            , startWriteSeq_function_type( &::cvStartWriteSeq )
-            , ( bp::arg("seq_flags"), bp::arg("header_size"), bp::arg("elem_size"), bp::arg("storage"), bp::arg("writer") )
-            , "\nWrapped function:"
-    "\n    cvStartWriteSeq" );
-    
-    }
-
     { //::cv::stereoRectify
     
         typedef void ( *stereoRectify_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Size,::cv::Mat const &,::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,int );

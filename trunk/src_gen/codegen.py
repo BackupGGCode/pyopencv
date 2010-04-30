@@ -491,6 +491,12 @@ def beautify_func_list(self, func_list):
             if not is_arg_touched(f, arg.name) and arg.type == D.dummy_type_t("::CvFileStorage *"):
                 f._transformer_creators.append(FT.input_as_FileStorage(arg.name))
 
+    # function argument CvMemStorage *
+    for f in func_list:
+        for arg in f.arguments:
+            if not is_arg_touched(f, arg.name) and arg.type == D.dummy_type_t("::CvMemStorage *"):
+                f._transformer_creators.append(FT.input_as_MemStorage(arg.name))
+
     # function argument CvFileNode *
     for f in func_list:
         for arg in f.arguments:

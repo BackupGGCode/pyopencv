@@ -8,20 +8,6 @@ namespace bp = boost::python;
 
 void register_free_functions_f(){
 
-    { //::cvFindDominantPoints
-    
-        typedef ::CvSeq * ( *findDominantPoints_function_type )( ::CvSeq *,::CvMemStorage *,int,double,double,double,double );
-        
-        bp::def( 
-            "findDominantPoints"
-            , findDominantPoints_function_type( &::cvFindDominantPoints )
-            , ( bp::arg("contour"), bp::arg("storage"), bp::arg("method")=(int)(1), bp::arg("parameter1")=0, bp::arg("parameter2")=0, bp::arg("parameter3")=0, bp::arg("parameter4")=0 )
-            , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvFindDominantPoints" );
-    
-    }
-
     { //::cvFindNextContour
     
         typedef ::CvSeq * ( *findNextContour_function_type )( ::CvContourScanner );

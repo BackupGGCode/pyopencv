@@ -38,6 +38,13 @@ class size_t_t( _D.fundamental_t ):
 def set_array_item_type_as_size_t(klass, member_name):
     _D.remove_cv(_D.remove_alias(klass.var(member_name).type)).base = size_t_t()
 
+def expose_member_as_MemStorage(klass, member_name):
+    klass.var(member_name).exclude()
+    klass.add_declaration_code('''
+static cv::MemStorage get_MEMBER_NAME(CLASS_TYPE const &inst) { return cv::MemStorage(inst.MEMBER_NAME); }
+    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.pds))
+    klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&::get_MEMBER_NAME, bp::with_custodian_and_ward_postcall<0, 1>()) )'''.replace("MEMBER_NAME", member_name))
+        
 def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True):
     klass.var(member_name).exclude()
     CvMat = 'CvMat' if is_CvMat_ptr else 'IplImage'

@@ -19,8 +19,9 @@ import common
 
 def expose_CvSeq_members(z, FT):
     z.include()
-    for t in ('h_prev', 'h_next', 'v_prev', 'v_next', 'storage', 'free_blocks', 'first'):
+    for t in ('h_prev', 'h_next', 'v_prev', 'v_next', 'free_blocks', 'first'):
         FT.expose_member_as_pointee(z, t)
+    FT.expose_member_as_MemStorage(z, 'storage')
     for t in ('block_max', 'ptr'):
         FT.expose_member_as_str(z, t)
 
@@ -379,13 +380,14 @@ CV_TYPE_NAME_GRAPH = "opencv-graph"
     for t in ('prev', 'next'):
         FT.expose_member_as_pointee(z, t)
 
-    # CvMemStorage
+    # CvMemStorage -- now managed by cv::MemStorage
+    # this class is enabled only to let cv::MemStorage function properly
     z = mb.class_('CvMemStorage')
     mb.init_class(z)
-    for t in ('bottom', 'top', 'parent'):
+    for t in ('bottom', 'top'):
         FT.expose_member_as_pointee(z, t)
+    FT.expose_member_as_MemStorage(z, 'parent')
     mb.finalize_class(z)
-    mb.insert_del_interface('CvMemStorage', '_PE._cvReleaseMemStorage')
 
     # CvMemStoragePos
     z = mb.class_('CvMemStoragePos')

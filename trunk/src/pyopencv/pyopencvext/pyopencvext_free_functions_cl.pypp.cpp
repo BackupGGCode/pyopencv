@@ -36,19 +36,6 @@ void register_free_functions_cl(){
     
     }
 
-    { //::cvClearMemStorage
-    
-        typedef void ( *clearMemStorage_function_type )( ::CvMemStorage * );
-        
-        bp::def( 
-            "clearMemStorage"
-            , clearMemStorage_function_type( &::cvClearMemStorage )
-            , ( bp::arg("storage") )
-            , "\nWrapped function:"
-    "\n    cvClearMemStorage" );
-    
-    }
-
     { //::cvClearSeq
     
         typedef void ( *clearSeq_function_type )( ::CvSeq * );
@@ -85,20 +72,6 @@ void register_free_functions_cl(){
             , ( bp::arg("subdiv") )
             , "\nWrapped function:"
     "\n    cvClearSubdivVoronoi2D" );
-    
-    }
-
-    { //::cvCloneSeq
-    
-        typedef ::CvSeq * ( *cloneSeq_function_type )( ::CvSeq const *,::CvMemStorage * );
-        
-        bp::def( 
-            "cloneSeq"
-            , cloneSeq_function_type( &::cvCloneSeq )
-            , ( bp::arg("seq"), bp::arg("storage")=bp::object() )
-            , bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvCloneSeq" );
     
     }
 

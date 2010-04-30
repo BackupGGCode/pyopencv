@@ -984,6 +984,12 @@ static void cvAcc_ef7ed9735ac6fce4129e5e89f645482d( ::cv::Mat & image, ::cv::Mat
     ::cvAcc(get_CvMat_ptr(image), get_CvMat_ptr(sum), get_CvMat_ptr(mask));
 }
 
+static boost::python::object cvApproxChains_b8771ffee686c2a91ab4b9fdc5919291( ::CvSeq * src_seq, ::cv::MemStorage & storage, int method=2, double parameter=0, int minimal_perimeter=0, int recursive=0 ){
+    ::CvSeq * result = ::cvApproxChains(src_seq, (CvMemStorage *)storage, method, parameter, minimal_perimeter, recursive);
+    typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
+}
+
 static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, ::CvSize win_size, int level, ::CvTermCriteria criteria, int flags ){
     int prev_features2=bp::len(prev_features);
     std::vector< ::CvPoint2D32f > prev_features3(prev_features2);
@@ -1071,16 +1077,32 @@ static boost::python::object cvCheckChessboard_59f8753d978791ecd1fc97cea5e10f04(
     return bp::object( result );
 }
 
+static void cvClearMemStorage_12bef253d2fbe591c64ea340c887838d( ::cv::MemStorage & storage ){
+    ::cvClearMemStorage((CvMemStorage *)storage);
+}
+
+static boost::python::object cvCloneSeq_e969b36551290223fbe88a9b08f2f188( ::CvSeq const * seq, ::cv::MemStorage storage=cv::MemStorage(0) ){
+    ::CvSeq * result = ::cvCloneSeq(seq, (CvMemStorage *)storage);
+    typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
+}
+
 static void cvConDensInitSampleSet_2b2c9d04e9f57fb36a248c795590341d( ::CvConDensation * condens, ::cv::Mat & lower_bound, ::cv::Mat & upper_bound ){
     ::cvConDensInitSampleSet(condens, get_CvMat_ptr(lower_bound), get_CvMat_ptr(upper_bound));
+}
+
+static boost::python::object cvContourFromContourTree_47f5c065694c470d5919cd861fe8d325( ::CvContourTree const * tree, ::cv::MemStorage & storage, ::CvTermCriteria criteria ){
+    ::CvSeq * result = ::cvContourFromContourTree(tree, (CvMemStorage *)storage, criteria);
+    typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
 static void cvConvertImage_9d5028440635df77832885475bf0ea00( ::cv::Mat & src, ::cv::Mat & dst, int flags=0 ){
     ::cvConvertImage(get_CvMat_ptr(src), get_CvMat_ptr(dst), flags);
 }
 
-static boost::python::object cvConvexityDefects_cc97bf52cc42e365950605a23b42e95a( ::cv::Mat & contour, ::cv::Mat & convexhull, ::CvMemStorage * storage=0 ){
-    ::CvSeq * result = ::cvConvexityDefects(get_CvMat_ptr(contour), get_CvMat_ptr(convexhull), storage);
+static boost::python::object cvConvexityDefects_cc97bf52cc42e365950605a23b42e95a( ::cv::Mat & contour, ::cv::Mat & convexhull, ::cv::MemStorage storage=cv::MemStorage(0) ){
+    ::CvSeq * result = ::cvConvexityDefects(get_CvMat_ptr(contour), get_CvMat_ptr(convexhull), (CvMemStorage *)storage);
     typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::with_custodian_and_ward_postcall< 0, 1, bp::with_custodian_and_ward_postcall< 0, 3, bp::return_value_policy< bp::reference_existing_object > > > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
@@ -1089,16 +1111,46 @@ static void cvCorrectMatches_055faac2f695cea7fa86e829ba6bdc99( ::cv::Mat & F, ::
     ::cvCorrectMatches(get_CvMat_ptr(F), get_CvMat_ptr(points1), get_CvMat_ptr(points2), get_CvMat_ptr(new_points1), get_CvMat_ptr(new_points2));
 }
 
+static boost::python::object cvCreateContourTree_d634bc0ea26451db7832bf763df380f3( ::CvSeq const * contour, ::cv::MemStorage & storage, double threshold ){
+    ::CvContourTree * result = ::cvCreateContourTree(contour, (CvMemStorage *)storage, threshold);
+    typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvContourTree * >( result ) );
+}
+
 static boost::python::object cvCreateKDTree_bedd697814f42b0adb235e1d1bda9bdd( ::cv::Mat & desc ){
     ::CvFeatureTree * result = ::cvCreateKDTree(get_CvMat_ptr(desc));
     typedef bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvFeatureTree * >( result ) );
 }
 
+static boost::python::object cvCreateSeq_2f3129dfcaf52efd3761ddb7b9d8096d( int seq_flags, int header_size, int elem_size, ::cv::MemStorage & storage ){
+    ::CvSeq * result = ::cvCreateSeq(seq_flags, header_size, elem_size, (CvMemStorage *)storage);
+    typedef bp::with_custodian_and_ward_postcall< 0, 4, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
+}
+
+static boost::python::object cvCreateSet_450935d8525d718f561edada26de1f0c( int set_flags, int header_size, int elem_size, ::cv::MemStorage & storage ){
+    ::CvSet * result = ::cvCreateSet(set_flags, header_size, elem_size, (CvMemStorage *)storage);
+    typedef bp::with_custodian_and_ward_postcall< 0, 4, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSet * >( result ) );
+}
+
 static boost::python::object cvCreateSpillTree_22146c3478f3d8c8ff22213a86f1b244( ::cv::Mat & raw_data, int const naive=50, double const rho=6.99999999999999955591079014993738383054733276367e-1, double const tau=1.00000000000000005551115123125782702118158340454e-1 ){
     ::CvFeatureTree * result = ::cvCreateSpillTree(get_CvMat_ptr(raw_data), naive, rho, tau);
     typedef bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvFeatureTree * >( result ) );
+}
+
+static boost::python::object cvCreateSubdiv2D_56b293d10aa190d3e2dee490cf17ff0c( int subdiv_type, int header_size, int vtx_size, int quadedge_size, ::cv::MemStorage & storage ){
+    ::CvSubdiv2D * result = ::cvCreateSubdiv2D(subdiv_type, header_size, vtx_size, quadedge_size, (CvMemStorage *)storage);
+    typedef bp::with_custodian_and_ward_postcall< 0, 5, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSubdiv2D * >( result ) );
+}
+
+static boost::python::object cvCreateSubdivDelaunay2D_8eda8e15f20a4d068defcf9afd8ee589( ::CvRect rect, ::cv::MemStorage & storage ){
+    ::CvSubdiv2D * result = ::cvCreateSubdivDelaunay2D(rect, (CvMemStorage *)storage);
+    typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSubdiv2D * >( result ) );
 }
 
 static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, ::cv::Mat & dst, int distance_type=2, int mask_size=3, cv::Mat mask=cv::Mat(), ::cv::Mat labels=cv::Mat() ){
@@ -1121,6 +1173,12 @@ static boost::python::object cvExtractSURF_7b3c589cd61921d6c8f246dded72b86f( ::c
     CvSeq * descriptors2=0;
     ::cvExtractSURF(get_CvMat_ptr(img), get_CvMat_ptr(mask), &keypoints.seq, &descriptors2, keypoints.seq->storage, params, useProvidedKeyPts);
     return bp::object( convert_CvSeq_ptr_to_vector<float>(descriptors2) );
+}
+
+static boost::python::object cvFindDominantPoints_919f8d7f6be0d997aa8fe46c4a3bc34b( ::CvSeq * contour, ::cv::MemStorage & storage, int method=1, double parameter1=0, double parameter2=0, double parameter3=0, double parameter4=0 ){
+    ::CvSeq * result = ::cvFindDominantPoints(contour, (CvMemStorage *)storage, method, parameter1, parameter2, parameter3, parameter4);
+    typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
 static void cvFindFeatures_3cdcd7c246944a80a295b6f20e448cfc( ::CvFeatureTree * tr, ::cv::Mat & query_points, ::cv::Mat & indices, ::cv::Mat & dist, int k, int emax=20 ){
@@ -1197,6 +1255,12 @@ static void cvLogPolar_27c4d18226a6e750886777db97773f4d( ::cv::Mat & src, ::cv::
     ::cvLogPolar(get_CvMat_ptr(src), get_CvMat_ptr(dst), (CvPoint2D32f)(center), M, flags);
 }
 
+static boost::python::object cvMemStorageAllocString_9839ce871d1503bdcc9755acafa55ace( ::cv::MemStorage & storage, char const * ptr, int len=-0x000000001 ){
+    ::CvString result = ::cvMemStorageAllocString((CvMemStorage *)storage, ptr, len);
+    typedef bp::with_custodian_and_ward_postcall< 0, 1 > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvString >( result ) );
+}
+
 static void cvMultiplyAcc_c64c83fc39cb1265f3d1a69d9e600a47( ::cv::Mat & image1, ::cv::Mat & image2, ::cv::Mat & acc, ::cv::Mat mask=cv::Mat() ){
     ::cvMultiplyAcc(get_CvMat_ptr(image1), get_CvMat_ptr(image2), get_CvMat_ptr(acc), get_CvMat_ptr(mask));
 }
@@ -1211,9 +1275,9 @@ static void cvPyrMeanShiftFiltering_21ec6b7149a6e00a31f1d76aebb9a22b( ::cv::Mat 
     ::cvPyrMeanShiftFiltering(get_CvMat_ptr(src), get_CvMat_ptr(dst), sp, sr, max_level, termcrit);
 }
 
-static boost::python::object cvPyrSegmentation_0a5e58f4641f1c9757bb83d3f16f4191( ::cv::Mat & src, ::cv::Mat & dst, ::CvMemStorage * storage, int level, double threshold1, double threshold2 ){
+static boost::python::object cvPyrSegmentation_0a5e58f4641f1c9757bb83d3f16f4191( ::cv::Mat & src, ::cv::Mat & dst, ::cv::MemStorage & storage, int level, double threshold1, double threshold2 ){
     CvSeq * comp2=(::CvSeq *)0;
-    ::cvPyrSegmentation(get_IplImage_ptr(src), get_IplImage_ptr(dst), storage, &comp2, level, threshold1, threshold2);
+    ::cvPyrSegmentation(get_IplImage_ptr(src), get_IplImage_ptr(dst), (CvMemStorage *)storage, &comp2, level, threshold1, threshold2);
     typedef bp::with_custodian_and_ward_postcall< 0, 3, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( comp2 ) );
 }
@@ -1238,11 +1302,6 @@ static void cvReleaseFileStorage_d53aa99c3241294fee03f3f038aa2bba( ::CvFileStora
     ::cvReleaseFileStorage(reinterpret_cast< CvFileStorage * * >( & tmp_fs ));
 }
 
-static void cvReleaseMemStorage_6ff4687a489093fb83fd38fb1d920837( ::CvMemStorage storage ){
-    CvMemStorage * tmp_storage = reinterpret_cast< CvMemStorage * >(& storage);
-    ::cvReleaseMemStorage(reinterpret_cast< CvMemStorage * * >( & tmp_storage ));
-}
-
 static void cvReleasePOSITObject_679a5da1d4e28b86fdc9a28aa691c6ef( ::CvPOSITObject posit_object ){
     CvPOSITObject * tmp_posit_object = reinterpret_cast< CvPOSITObject * >(& posit_object);
     ::cvReleasePOSITObject(reinterpret_cast< CvPOSITObject * * >( & tmp_posit_object ));
@@ -1257,6 +1316,10 @@ static void cvReprojectImageTo3D_4ca87cd67ba33150d51d345f21a24447( ::cv::Mat & d
     ::cvReprojectImageTo3D(get_CvMat_ptr(disparityImage), get_CvMat_ptr(_3dImage), get_CvMat_ptr(Q), handleMissingValues);
 }
 
+static void cvRestoreMemStoragePos_3e71d651091766556a8f53d4fa0c5b14( ::cv::MemStorage & storage, ::CvMemStoragePos * pos ){
+    ::cvRestoreMemStoragePos((CvMemStorage *)storage, pos);
+}
+
 static void cvRunningAvg_16515bd00db4472140aa21554e25bbc7( ::cv::Mat & image, ::cv::Mat & acc, double alpha, ::cv::Mat mask=cv::Mat() ){
     ::cvRunningAvg(get_CvMat_ptr(image), get_CvMat_ptr(acc), alpha, get_CvMat_ptr(mask));
 }
@@ -1266,20 +1329,26 @@ static boost::python::object cvSampleLine_9eb7a74db955c3538aef5be3e7392fc5( ::cv
     return bp::object( result );
 }
 
-static boost::python::object cvSegmentImage_7b95313fd97ffe28d678124b5aa0a301( ::cv::Mat & srcarr, ::cv::Mat & dstarr, double canny_threshold, double ffill_threshold, ::CvMemStorage * storage ){
-    ::CvSeq * result = ::cvSegmentImage(get_CvMat_ptr(srcarr), get_CvMat_ptr(dstarr), canny_threshold, ffill_threshold, storage);
+static boost::python::object cvSegmentImage_7b95313fd97ffe28d678124b5aa0a301( ::cv::Mat & srcarr, ::cv::Mat & dstarr, double canny_threshold, double ffill_threshold, ::cv::MemStorage & storage ){
+    ::CvSeq * result = ::cvSegmentImage(get_CvMat_ptr(srcarr), get_CvMat_ptr(dstarr), canny_threshold, ffill_threshold, (CvMemStorage *)storage);
     typedef bp::with_custodian_and_ward_postcall< 0, 5, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
-static boost::python::object cvSegmentMotion_ed831c1d8f816ea759222aec4d41f1f0( ::cv::Mat & mhi, ::cv::Mat & seg_mask, ::CvMemStorage * storage, double timestamp, double seg_thresh ){
-    ::CvSeq * result = ::cvSegmentMotion(get_CvMat_ptr(mhi), get_CvMat_ptr(seg_mask), storage, timestamp, seg_thresh);
+static boost::python::object cvSegmentMotion_ed831c1d8f816ea759222aec4d41f1f0( ::cv::Mat & mhi, ::cv::Mat & seg_mask, ::cv::MemStorage & storage, double timestamp, double seg_thresh ){
+    ::CvSeq * result = ::cvSegmentMotion(get_CvMat_ptr(mhi), get_CvMat_ptr(seg_mask), (CvMemStorage *)storage, timestamp, seg_thresh);
     typedef bp::with_custodian_and_ward_postcall< 0, 3, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
 static void cvSeqInsertSlice_870f54253b0103a244c6ac596f2820c4( ::CvSeq * seq, int before_index, ::cv::Mat & from_arr ){
     ::cvSeqInsertSlice(seq, before_index, get_CvMat_ptr(from_arr));
+}
+
+static boost::python::object cvSeqSlice_7a04ec0010f22f6368ef4cb782404be2( ::CvSeq const * seq, ::CvSlice slice, ::cv::MemStorage storage=cv::MemStorage(0), int copy_data=0 ){
+    ::CvSeq * result = ::cvSeqSlice(seq, slice, (CvMemStorage *)storage, copy_data);
+    typedef bp::with_custodian_and_ward_postcall< 0, 3, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
 static boost::python::object cvSetMouseCallback_c212defec0903d7de57c5c0b0ee9b03d( char const * window_name, boost::python::object on_mouse, boost::python::object param=bp::object() ){
@@ -1306,14 +1375,18 @@ static void cvSquareAcc_df8ad076f822a2856ccecbbdf6a2b2b0( ::cv::Mat & image, ::c
     ::cvSquareAcc(get_CvMat_ptr(image), get_CvMat_ptr(sqsum), get_CvMat_ptr(mask));
 }
 
-static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc( ::cv::Mat & image, ::CvMemStorage * storage, int header_size=88u, int mode=1, int method=2, ::CvPoint offset=cv::Point(0, 0) ){
-    ::CvContourScanner result = ::cvStartFindContours(get_CvMat_ptr(image), storage, header_size, mode, method, offset);
+static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc( ::cv::Mat & image, ::cv::MemStorage & storage, int header_size=88u, int mode=1, int method=2, ::CvPoint offset=cv::Point(0, 0) ){
+    ::CvContourScanner result = ::cvStartFindContours(get_CvMat_ptr(image), (CvMemStorage *)storage, header_size, mode, method, offset);
     typedef bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvContourScanner >( result ) );
 }
 
 static void cvStartNextStream_db71e53dfa9475145f4487a80d5d8bf2( ::cv::FileStorage & fs ){
     ::cvStartNextStream(fs.fs);
+}
+
+static void cvStartWriteSeq_9516f4ce75a8b6e8632a987cff2e2d94( int seq_flags, int header_size, int elem_size, ::cv::MemStorage & storage, ::CvSeqWriter * writer ){
+    ::cvStartWriteSeq(seq_flags, header_size, elem_size, (CvMemStorage *)storage, writer);
 }
 
 static void cvStartWriteStruct_e7e2128639c3a858bdb332c89468a8e0( ::cv::FileStorage & fs, char const * name, int struct_flags, char const * type_name=0, ::CvAttrList attributes=cvAttrList(0u, 0u) ){
@@ -3004,6 +3077,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvApproxChains
+    
+        typedef boost::python::object ( *approxChains_function_type )( ::CvSeq *,::cv::MemStorage &,int,double,int,int );
+        
+        bp::def( 
+            "approxChains"
+            , approxChains_function_type( &cvApproxChains_b8771ffee686c2a91ab4b9fdc5919291 )
+            , ( bp::arg("src_seq"), bp::arg("storage"), bp::arg("method")=(int)(2), bp::arg("parameter")=0, bp::arg("minimal_perimeter")=(int)(0), bp::arg("recursive")=(int)(0) )
+            , "\nWrapped function:"
+    "\n    cvApproxChains"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
+    
+    }
+
     { //::cvCalcAffineFlowPyrLK
     
         typedef boost::python::tuple ( *calcAffineFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,::CvSize,int,::CvTermCriteria,int );
@@ -3284,6 +3373,38 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvClearMemStorage
+    
+        typedef void ( *clearMemStorage_function_type )( ::cv::MemStorage & );
+        
+        bp::def( 
+            "clearMemStorage"
+            , clearMemStorage_function_type( &cvClearMemStorage_12bef253d2fbe591c64ea340c887838d )
+            , ( bp::arg("storage") )
+            , "\nWrapped function:"
+    "\n    cvClearMemStorage"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
+    
+    }
+
+    { //::cvCloneSeq
+    
+        typedef boost::python::object ( *cloneSeq_function_type )( ::CvSeq const *,::cv::MemStorage );
+        
+        bp::def( 
+            "cloneSeq"
+            , cloneSeq_function_type( &cvCloneSeq_e969b36551290223fbe88a9b08f2f188 )
+            , ( bp::arg("seq"), bp::arg("storage")=cv::MemStorage(0) )
+            , "\nWrapped function:"
+    "\n    cvCloneSeq"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
+    
+    }
+
     { //::cvConDensInitSampleSet
     
         typedef void ( *conDensInitSampleSet_function_type )( ::CvConDensation *,::cv::Mat &,::cv::Mat & );
@@ -3300,6 +3421,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'upper_bound':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat." );
+    
+    }
+
+    { //::cvContourFromContourTree
+    
+        typedef boost::python::object ( *contourFromContourTree_function_type )( ::CvContourTree const *,::cv::MemStorage &,::CvTermCriteria );
+        
+        bp::def( 
+            "contourFromContourTree"
+            , contourFromContourTree_function_type( &cvContourFromContourTree_47f5c065694c470d5919cd861fe8d325 )
+            , ( bp::arg("tree"), bp::arg("storage"), bp::arg("criteria") )
+            , "\nWrapped function:"
+    "\n    cvContourFromContourTree"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
     
     }
 
@@ -3327,14 +3464,17 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvConvexityDefects
     
-        typedef boost::python::object ( *convexityDefects_function_type )( ::cv::Mat &,::cv::Mat &,::CvMemStorage * );
+        typedef boost::python::object ( *convexityDefects_function_type )( ::cv::Mat &,::cv::Mat &,::cv::MemStorage );
         
         bp::def( 
             "convexityDefects"
             , convexityDefects_function_type( &cvConvexityDefects_cc97bf52cc42e365950605a23b42e95a )
-            , ( bp::arg("contour"), bp::arg("convexhull"), bp::arg("storage")=bp::object() )
+            , ( bp::arg("contour"), bp::arg("convexhull"), bp::arg("storage")=cv::MemStorage(0) )
             , "\nWrapped function:"
     "\n    cvConvexityDefects"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage."\
     "\nArgument 'contour':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
@@ -3372,6 +3512,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvCreateContourTree
+    
+        typedef boost::python::object ( *createContourTree_function_type )( ::CvSeq const *,::cv::MemStorage &,double );
+        
+        bp::def( 
+            "createContourTree"
+            , createContourTree_function_type( &cvCreateContourTree_d634bc0ea26451db7832bf763df380f3 )
+            , ( bp::arg("contour"), bp::arg("storage"), bp::arg("threshold") )
+            , "\nWrapped function:"
+    "\n    cvCreateContourTree"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
+    
+    }
+
     { //::cvCreateKDTree
     
         typedef boost::python::object ( *createKDTree_function_type )( ::cv::Mat & );
@@ -3388,6 +3544,38 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvCreateSeq
+    
+        typedef boost::python::object ( *createSeq_function_type )( int,int,int,::cv::MemStorage & );
+        
+        bp::def( 
+            "createSeq"
+            , createSeq_function_type( &cvCreateSeq_2f3129dfcaf52efd3761ddb7b9d8096d )
+            , ( bp::arg("seq_flags"), bp::arg("header_size"), bp::arg("elem_size"), bp::arg("storage") )
+            , "\nWrapped function:"
+    "\n    cvCreateSeq"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
+    
+    }
+
+    { //::cvCreateSet
+    
+        typedef boost::python::object ( *createSet_function_type )( int,int,int,::cv::MemStorage & );
+        
+        bp::def( 
+            "createSet"
+            , createSet_function_type( &cvCreateSet_450935d8525d718f561edada26de1f0c )
+            , ( bp::arg("set_flags"), bp::arg("header_size"), bp::arg("elem_size"), bp::arg("storage") )
+            , "\nWrapped function:"
+    "\n    cvCreateSet"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
+    
+    }
+
     { //::cvCreateSpillTree
     
         typedef boost::python::object ( *createSpillTree_function_type )( ::cv::Mat &,int const,double const,double const );
@@ -3401,6 +3589,38 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'raw_data':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
+    
+    }
+
+    { //::cvCreateSubdiv2D
+    
+        typedef boost::python::object ( *createSubdiv2D_function_type )( int,int,int,int,::cv::MemStorage & );
+        
+        bp::def( 
+            "createSubdiv2D"
+            , createSubdiv2D_function_type( &cvCreateSubdiv2D_56b293d10aa190d3e2dee490cf17ff0c )
+            , ( bp::arg("subdiv_type"), bp::arg("header_size"), bp::arg("vtx_size"), bp::arg("quadedge_size"), bp::arg("storage") )
+            , "\nWrapped function:"
+    "\n    cvCreateSubdiv2D"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
+    
+    }
+
+    { //::cvCreateSubdivDelaunay2D
+    
+        typedef boost::python::object ( *createSubdivDelaunay2D_function_type )( ::CvRect,::cv::MemStorage & );
+        
+        bp::def( 
+            "createSubdivDelaunay2D"
+            , createSubdivDelaunay2D_function_type( &cvCreateSubdivDelaunay2D_8eda8e15f20a4d068defcf9afd8ee589 )
+            , ( bp::arg("rect"), bp::arg("storage") )
+            , "\nWrapped function:"
+    "\n    cvCreateSubdivDelaunay2D"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
     
     }
 
@@ -3496,6 +3716,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'img':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat." );
+    
+    }
+
+    { //::cvFindDominantPoints
+    
+        typedef boost::python::object ( *findDominantPoints_function_type )( ::CvSeq *,::cv::MemStorage &,int,double,double,double,double );
+        
+        bp::def( 
+            "findDominantPoints"
+            , findDominantPoints_function_type( &cvFindDominantPoints_919f8d7f6be0d997aa8fe46c4a3bc34b )
+            , ( bp::arg("contour"), bp::arg("storage"), bp::arg("method")=(int)(1), bp::arg("parameter1")=0, bp::arg("parameter2")=0, bp::arg("parameter3")=0, bp::arg("parameter4")=0 )
+            , "\nWrapped function:"
+    "\n    cvFindDominantPoints"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
     
     }
 
@@ -3805,6 +4041,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvMemStorageAllocString
+    
+        typedef boost::python::object ( *memStorageAllocString_function_type )( ::cv::MemStorage &,char const *,int );
+        
+        bp::def( 
+            "memStorageAllocString"
+            , memStorageAllocString_function_type( &cvMemStorageAllocString_9839ce871d1503bdcc9755acafa55ace )
+            , ( bp::arg("storage"), bp::arg("ptr"), bp::arg("len")=(int)(-0x000000001) )
+            , "\nWrapped function:"
+    "\n    cvMemStorageAllocString"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
+    
+    }
+
     { //::cvMultiplyAcc
     
         typedef void ( *multiplyAcc_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat );
@@ -3867,7 +4119,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvPyrSegmentation
     
-        typedef boost::python::object ( *pyrSegmentation_function_type )( ::cv::Mat &,::cv::Mat &,::CvMemStorage *,int,double,double );
+        typedef boost::python::object ( *pyrSegmentation_function_type )( ::cv::Mat &,::cv::Mat &,::cv::MemStorage &,int,double,double );
         
         bp::def( 
             "pyrSegmentation"
@@ -3883,6 +4135,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'dst':"\
     "\n    C/C++ type: ::IplImage *."\
     "\n    Python type: Mat."\
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage."\
     "\nArgument 'src':"\
     "\n    C/C++ type: ::IplImage *."\
     "\n    Python type: Mat." );
@@ -3956,22 +4211,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
-    { //::cvReleaseMemStorage
-    
-        typedef void ( *_cvReleaseMemStorage_function_type )( ::CvMemStorage );
-        
-        bp::def( 
-            "_cvReleaseMemStorage"
-            , _cvReleaseMemStorage_function_type( &cvReleaseMemStorage_6ff4687a489093fb83fd38fb1d920837 )
-            , ( bp::arg("storage") )
-            , "\nWrapped function:"
-    "\n    cvReleaseMemStorage"
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvMemStorage * *."\
-    "\n    Python type: CvMemStorage." );
-    
-    }
-
     { //::cvReleasePOSITObject
     
         typedef void ( *_cvReleasePOSITObject_function_type )( ::CvPOSITObject );
@@ -4026,6 +4265,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvRestoreMemStoragePos
+    
+        typedef void ( *restoreMemStoragePos_function_type )( ::cv::MemStorage &,::CvMemStoragePos * );
+        
+        bp::def( 
+            "restoreMemStoragePos"
+            , restoreMemStoragePos_function_type( &cvRestoreMemStoragePos_3e71d651091766556a8f53d4fa0c5b14 )
+            , ( bp::arg("storage"), bp::arg("pos") )
+            , "\nWrapped function:"
+    "\n    cvRestoreMemStoragePos"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
+    
+    }
+
     { //::cvRunningAvg
     
         typedef void ( *runningAvg_function_type )( ::cv::Mat &,::cv::Mat &,double,::cv::Mat );
@@ -4066,7 +4321,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvSegmentImage
     
-        typedef boost::python::object ( *segmentImage_function_type )( ::cv::Mat &,::cv::Mat &,double,double,::CvMemStorage * );
+        typedef boost::python::object ( *segmentImage_function_type )( ::cv::Mat &,::cv::Mat &,double,double,::cv::MemStorage & );
         
         bp::def( 
             "segmentImage"
@@ -4079,13 +4334,16 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\nArgument 'srcarr':"\
     "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat." );
+    "\n    Python type: Mat."\
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
     
     }
 
     { //::cvSegmentMotion
     
-        typedef boost::python::object ( *segmentMotion_function_type )( ::cv::Mat &,::cv::Mat &,::CvMemStorage *,double,double );
+        typedef boost::python::object ( *segmentMotion_function_type )( ::cv::Mat &,::cv::Mat &,::cv::MemStorage &,double,double );
         
         bp::def( 
             "segmentMotion"
@@ -4093,6 +4351,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("mhi"), bp::arg("seg_mask"), bp::arg("storage"), bp::arg("timestamp"), bp::arg("seg_thresh") )
             , "\nWrapped function:"
     "\n    cvSegmentMotion"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage."\
     "\nArgument 'seg_mask':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
@@ -4115,6 +4376,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'from_arr':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat." );
+    
+    }
+
+    { //::cvSeqSlice
+    
+        typedef boost::python::object ( *seqSlice_function_type )( ::CvSeq const *,::CvSlice,::cv::MemStorage,int );
+        
+        bp::def( 
+            "seqSlice"
+            , seqSlice_function_type( &cvSeqSlice_7a04ec0010f22f6368ef4cb782404be2 )
+            , ( bp::arg("seq"), bp::arg("slice"), bp::arg("storage")=cv::MemStorage(0), bp::arg("copy_data")=(int)(0) )
+            , "\nWrapped function:"
+    "\n    cvSeqSlice"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
     
     }
 
@@ -4220,7 +4497,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvStartFindContours
     
-        typedef boost::python::object ( *startFindContours_function_type )( ::cv::Mat &,::CvMemStorage *,int,int,int,::CvPoint );
+        typedef boost::python::object ( *startFindContours_function_type )( ::cv::Mat &,::cv::MemStorage &,int,int,int,::CvPoint );
         
         bp::def( 
             "startFindContours"
@@ -4230,7 +4507,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    cvStartFindContours"
     "\nArgument 'image':"\
     "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat." );
+    "\n    Python type: Mat."\
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
     
     }
 
@@ -4247,6 +4527,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'fs':"\
     "\n    C/C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
+    
+    }
+
+    { //::cvStartWriteSeq
+    
+        typedef void ( *startWriteSeq_function_type )( int,int,int,::cv::MemStorage &,::CvSeqWriter * );
+        
+        bp::def( 
+            "startWriteSeq"
+            , startWriteSeq_function_type( &cvStartWriteSeq_9516f4ce75a8b6e8632a987cff2e2d94 )
+            , ( bp::arg("seq_flags"), bp::arg("header_size"), bp::arg("elem_size"), bp::arg("storage"), bp::arg("writer") )
+            , "\nWrapped function:"
+    "\n    cvStartWriteSeq"
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
     
     }
 

@@ -35,7 +35,7 @@ def generate_code(mb, cc, D, FT, CP):
 
     # cvRelease... functions
     for z in (
-        'cvReleaseMemStorage', 'cvReleaseFileStorage',
+        'cvReleaseFileStorage',
         ):
         f = mb.free_fun(z)
         FT.add_underscore(f)
@@ -163,13 +163,13 @@ CV_BACK = 0
         ):
         mb.free_fun(z).include()
 
-    # cvCreateMemStorage
-    FT.expose_func(mb.free_fun('cvCreateMemStorage'), ownershiplevel=1) 
+    # cvCreateMemStorage -- use sdopencv::createMemStorage
+    mb.free_fun('createMemStorage').include()
 
-    # cvCreateChildMemStorage
-    FT.expose_func(mb.free_fun('cvCreateChildMemStorage'), ward_indices=(1,)) 
-        
-    # cvMemStorageAlloc -- too low-level, wait until requested
+    # cvCreateChildMemStorage -- use sdopencv::createChildMemStorage
+    FT.expose_func(mb.free_fun('createChildMemStorage'), return_pointee=False, ward_indices=(1,)) 
+            
+    # cvMemStorageAlloc -- too low-level, removed
 
     # cvMemStorageAllocString
     z = mb.free_fun('cvMemStorageAllocString')
