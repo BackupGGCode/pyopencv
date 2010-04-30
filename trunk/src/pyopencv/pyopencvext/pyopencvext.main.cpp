@@ -202,8 +202,6 @@
 
 #include "pyopencvext/CvRTrees.pypp.hpp"
 
-#include "pyopencvext/CvRect.pypp.hpp"
-
 #include "pyopencvext/CvSURFParams.pypp.hpp"
 
 #include "pyopencvext/CvSURFPoint.pypp.hpp"
@@ -1133,8 +1131,8 @@ static boost::python::object cvCreateSubdiv2D_56b293d10aa190d3e2dee490cf17ff0c( 
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSubdiv2D * >( result ) );
 }
 
-static boost::python::object cvCreateSubdivDelaunay2D_8eda8e15f20a4d068defcf9afd8ee589( ::CvRect rect, ::cv::MemStorage & storage ){
-    ::CvSubdiv2D * result = ::cvCreateSubdivDelaunay2D(rect, (CvMemStorage *)storage);
+static boost::python::object cvCreateSubdivDelaunay2D_8eda8e15f20a4d068defcf9afd8ee589( cv::Rect_<int> const & rect, ::cv::MemStorage & storage ){
+    ::CvSubdiv2D * result = ::cvCreateSubdivDelaunay2D(*(CvRect *)(&rect), (CvMemStorage *)storage);
     typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSubdiv2D * >( result ) );
 }
@@ -1211,6 +1209,10 @@ static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc5
     convert_from_object_to_T(arrs, arrs3);
     int result = ::cvInitNArrayIterator(arrs2, (::CvArr * *)(&arrs3[0]), get_CvMat_ptr(mask), stubs, array_iterator, flags);
     return bp::object( result );
+}
+
+static void cvInitSubdivDelaunay2D_9125b981b281211984978f2c9ce6eb8b( ::CvSubdiv2D * subdiv, cv::Rect_<int> const & rect ){
+    ::cvInitSubdivDelaunay2D(subdiv, *(CvRect *)(&rect));
 }
 
 static boost::python::object cvInitSystem_f0aa383f9ae0b2f0bf89bbcb5e73da23( bp::list const & argv ){
@@ -2155,8 +2157,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvQuadEdge2D_class();
 
-    register_CvRect_class();
-
     register_CvSURFParams_class();
 
     register_CvSURFPoint_class();
@@ -2252,8 +2252,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::implicitly_convertible< cv::Point_< int >, cv::Vec< int, 2 > >();
 
     register_Rect_class();
-
-    bp::implicitly_convertible< cv::Rect_< int >, CvRect >();
 
     register_Vec4d_class();
 
@@ -3592,7 +3590,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCreateSubdivDelaunay2D
     
-        typedef boost::python::object ( *createSubdivDelaunay2D_function_type )( ::CvRect,::cv::MemStorage & );
+        typedef boost::python::object ( *createSubdivDelaunay2D_function_type )( cv::Rect_<int> const &,::cv::MemStorage & );
         
         bp::def( 
             "createSubdivDelaunay2D"
@@ -3602,7 +3600,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    cvCreateSubdivDelaunay2D"
     "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
+    "\n    Python type: MemStorage."\
+    "\nArgument 'rect':"\
+    "\n    C/C++ type: ::CvRect."\
+    "\n    Python type: Rect." );
     
     }
 
@@ -3897,6 +3898,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'arrs':"\
     "\n    C/C++ type: ::CvArr * *."\
     "\n    Python type: Python sequence with elements of C++ type 'void *'." );
+    
+    }
+
+    { //::cvInitSubdivDelaunay2D
+    
+        typedef void ( *initSubdivDelaunay2D_function_type )( ::CvSubdiv2D *,cv::Rect_<int> const & );
+        
+        bp::def( 
+            "initSubdivDelaunay2D"
+            , initSubdivDelaunay2D_function_type( &cvInitSubdivDelaunay2D_9125b981b281211984978f2c9ce6eb8b )
+            , ( bp::arg("subdiv"), bp::arg("rect") )
+            , "\nWrapped function:"
+    "\n    cvInitSubdivDelaunay2D"
+    "\nArgument 'rect':"\
+    "\n    C/C++ type: ::CvRect."\
+    "\n    Python type: Rect." );
     
     }
 

@@ -163,3 +163,5 @@ def beautify_memvars(klass):
             expose_member_as_FixType('cv::Scalar_<double>', klass, z.name)
         elif pds=='CvSlice':
             expose_member_as_FixType('cv::Range', klass, z.name)
+        elif pds=='CvRect':
+            expose_member_as_FixType('cv::Rect_<int>', klass, z.name)

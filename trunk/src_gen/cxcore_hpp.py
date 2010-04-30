@@ -177,7 +177,8 @@ Size = Size2i
     z = mb.class_(lambda x: x.alias=='Rect')
     mb.init_class(z)
     common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-    mb.asClass(z, mb.class_('CvRect'))
+    z.decls(lambda x: 'CvRect' in x.partial_decl_string).exclude()
+    # mb.asClass(z, mb.class_('CvRect'))
     mb.add_ndarray_interface(z)
     cc.write('''
 def _KLASS__repr__(self):

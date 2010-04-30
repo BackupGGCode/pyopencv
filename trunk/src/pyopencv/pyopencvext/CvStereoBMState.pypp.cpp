@@ -95,6 +95,10 @@ struct CvStereoBMState_wrapper : CvStereoBMState, bp::wrapper< CvStereoBMState >
 
 };
 
+static cv::Rect_<int> *get_roi1(CvStereoBMState const &inst) { return (cv::Rect_<int> *)(&inst.roi1); }
+
+static cv::Rect_<int> *get_roi2(CvStereoBMState const &inst) { return (cv::Rect_<int> *)(&inst.roi2); }
+
 void register_CvStereoBMState_class(){
 
     bp::class_< CvStereoBMState_wrapper >( "CvStereoBMState" )    
@@ -106,13 +110,13 @@ void register_CvStereoBMState_class(){
         .def_readwrite( "preFilterCap", &CvStereoBMState::preFilterCap )    
         .def_readwrite( "preFilterSize", &CvStereoBMState::preFilterSize )    
         .def_readwrite( "preFilterType", &CvStereoBMState::preFilterType )    
-        .def_readwrite( "roi1", &CvStereoBMState::roi1 )    
-        .def_readwrite( "roi2", &CvStereoBMState::roi2 )    
         .def_readwrite( "speckleRange", &CvStereoBMState::speckleRange )    
         .def_readwrite( "speckleWindowSize", &CvStereoBMState::speckleWindowSize )    
         .def_readwrite( "textureThreshold", &CvStereoBMState::textureThreshold )    
         .def_readwrite( "trySmallerWindows", &CvStereoBMState::trySmallerWindows )    
         .def_readwrite( "uniquenessRatio", &CvStereoBMState::uniquenessRatio )    
+        .add_property( "roi1", bp::make_function(&::get_roi1, bp::return_internal_reference<>()) )    
+        .add_property( "roi2", bp::make_function(&::get_roi2, bp::return_internal_reference<>()) )    
         .add_property( "preFilteredImg0", bp::make_function(&::CvStereoBMState_wrapper::get_preFilteredImg0, bp::return_internal_reference<>()),
         &::CvStereoBMState_wrapper::set_preFilteredImg0)    
         .add_property( "preFilteredImg1", bp::make_function(&::CvStereoBMState_wrapper::get_preFilteredImg1, bp::return_internal_reference<>()),

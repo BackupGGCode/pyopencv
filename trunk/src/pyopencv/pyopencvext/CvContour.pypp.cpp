@@ -55,6 +55,8 @@ static bp::object get_ptr( ::CvContour const & inst ){
 
 static cv::MemStorage get_storage(CvContour const &inst) { return cv::MemStorage(inst.storage); }
 
+static cv::Rect_<int> *get_rect(CvContour const &inst) { return (cv::Rect_<int> *)(&inst.rect); }
+
 void register_CvContour_class(){
 
     { //::CvContour
@@ -67,7 +69,6 @@ void register_CvContour_class(){
         CvContour_exposer.def_readwrite( "elem_size", &CvContour::elem_size );
         CvContour_exposer.def_readwrite( "flags", &CvContour::flags );
         CvContour_exposer.def_readwrite( "header_size", &CvContour::header_size );
-        CvContour_exposer.def_readwrite( "rect", &CvContour::rect );
         pyplusplus::containers::static_sized::register_array_1< int, 3 >( "__array_1_int_3" );
         { //CvContour::reserved [variable], type=int[3]
         
@@ -87,6 +88,7 @@ void register_CvContour_class(){
         CvContour_exposer.add_property( "block_max", &::get_block_max );
         CvContour_exposer.add_property( "ptr", &::get_ptr );
         CvContour_exposer.add_property( "storage", &::get_storage );
+        CvContour_exposer.add_property( "rect", bp::make_function(&::get_rect, bp::return_internal_reference<>()) );
     }
 
 }
