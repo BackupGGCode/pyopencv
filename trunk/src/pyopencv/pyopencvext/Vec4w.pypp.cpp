@@ -75,8 +75,6 @@ void register_Vec4w_class(){
                 , ( bp::arg("v") ) );
         
         }
-        Vec4w_exposer.def( "__temp_func", &cv::Vec< unsigned short, 4 >::operator ::CvScalar , "\nWrapped function:"
-    "\n    operator ::CvScalar" );
         { //::cv::Vec< unsigned short, 4 >::operator[]
         
             typedef cv::Vec< unsigned short, 4 > exported_class_t;

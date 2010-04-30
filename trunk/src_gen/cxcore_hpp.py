@@ -74,7 +74,8 @@ def generate_code(mb, cc, D, FT, CP):
         common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
         if z.alias=='Vec2i':
             common.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
-        mb.asClass(z, mb.class_('CvScalar'))
+        z.decls(lambda x: 'CvScalar' in x.partial_decl_string).exclude()
+        # mb.asClass(z, mb.class_('CvScalar'))
         z.decl('val').exclude() # use operator[] instead
         mb.add_ndarray_interface(z)
         cc.write('''
@@ -209,7 +210,8 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('::cv::Scalar_<double>')
     mb.init_class(z)
     common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-    mb.asClass(z, mb.class_('CvScalar'))
+    z.decls(lambda x: 'CvScalar' in x.partial_decl_string).exclude()
+    # mb.asClass(z, mb.class_('CvScalar'))
     mb.finalize_class(z)
     mb.add_ndarray_interface(z)
     cc.write('''

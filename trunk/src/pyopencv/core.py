@@ -272,9 +272,9 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 # Other supplementary data type definitions
 #-----------------------------------------------------------------------------
 
-CV_TERMCRIT_ITER    = 1
-CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
-CV_TERMCRIT_EPS     = 2
+# CV_TERMCRIT_ITER    = 1
+# CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
+# CV_TERMCRIT_EPS     = 2
 
 CV_WHOLE_SEQ_END_INDEX = 0x3fffffff
 CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
@@ -285,11 +285,6 @@ def _CvRect__repr__(self):
     return "CvRect(x=" + repr(self.x) + ", y=" + repr(self.y) + \
         ", width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
 CvRect.__repr__ = _CvRect__repr__
-        
-    
-def _CvScalar__repr__(self):
-    return "CvScalar(" + self.ndarray.__str__() + ")"
-CvScalar.__repr__ = _CvScalar__repr__
         
     
 def _CvPoint__repr__(self):

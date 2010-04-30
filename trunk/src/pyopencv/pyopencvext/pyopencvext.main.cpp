@@ -212,8 +212,6 @@
 
 #include "pyopencvext/CvSVMParams.pypp.hpp"
 
-#include "pyopencvext/CvScalar.pypp.hpp"
-
 #include "pyopencvext/CvSeq.pypp.hpp"
 
 #include "pyopencvext/CvSeqBlock.pypp.hpp"
@@ -1278,8 +1276,8 @@ static boost::python::object cvPyrSegmentation_0a5e58f4641f1c9757bb83d3f16f4191(
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( comp2 ) );
 }
 
-static void cvRandArr_7e6e03c94e3a5f654b62b47647889d1d( ::cv::RNG & rng, ::cv::Mat & arr, int dist_type, ::CvScalar param1, ::CvScalar param2 ){
-    ::cvRandArr(&rng.state, get_CvMat_ptr(arr), dist_type, param1, param2);
+static void cvRandArr_7e6e03c94e3a5f654b62b47647889d1d( ::cv::RNG & rng, ::cv::Mat & arr, int dist_type, cv::Scalar_<double> const & param1, cv::Scalar_<double> const & param2 ){
+    ::cvRandArr(&rng.state, get_CvMat_ptr(arr), dist_type, *(CvScalar *)(&param1), *(CvScalar *)(&param2));
 }
 
 static boost::python::object cvRange_073a997114e2c96bbeff2aaa986e76a1( ::cv::Mat & mat, double start, double end ){
@@ -2164,8 +2162,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvSVM_class();
 
-    register_CvScalar_class();
-
     register_CvSeq_class();
 
     register_CvSeqBlock_class();
@@ -2216,10 +2212,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Size2i_class();
 
-    bp::implicitly_convertible< cv::Size_< int >, CvSize >();
-
-    bp::implicitly_convertible< cv::Size_< int >, CvSize2D32f >();
-
     register_CascadeClassifier_class();
 
     register_Complexd_class();
@@ -2262,11 +2254,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Vec4d_class();
 
-    bp::implicitly_convertible< cv::Vec< double, 4 >, CvScalar >();
-
     register_Scalar_class();
-
-    bp::implicitly_convertible< cv::Scalar_< double >, CvScalar >();
 
     register_FilterEngine_class();
 
@@ -2281,8 +2269,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_LDetector_class();
 
     register_TermCriteria_class();
-
-    bp::implicitly_convertible< cv::TermCriteria, CvTermCriteria >();
 
     register_LevMarqSparse_class();
 
@@ -2384,8 +2370,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_RotatedRect_class();
 
-    bp::implicitly_convertible< cv::RotatedRect, CvBox2D >();
-
     register_SURF_class();
 
     register_SVD_class();
@@ -2395,10 +2379,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_Seq_CvSURFPoint_class();
 
     register_Size2f_class();
-
-    bp::implicitly_convertible< cv::Size_< float >, CvSize >();
-
-    bp::implicitly_convertible< cv::Size_< float >, CvSize2D32f >();
 
     register_SparseMat_class();
 
@@ -2418,79 +2398,41 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Vec2d_class();
 
-    bp::implicitly_convertible< cv::Vec< double, 2 >, CvScalar >();
-
     register_Vec3d_class();
-
-    bp::implicitly_convertible< cv::Vec< double, 3 >, CvScalar >();
 
     register_Vec6d_class();
 
-    bp::implicitly_convertible< cv::Vec< double, 6 >, CvScalar >();
-
     register_Vec2f_class();
-
-    bp::implicitly_convertible< cv::Vec< float, 2 >, CvScalar >();
 
     register_Vec3f_class();
 
-    bp::implicitly_convertible< cv::Vec< float, 3 >, CvScalar >();
-
     register_Vec4f_class();
-
-    bp::implicitly_convertible< cv::Vec< float, 4 >, CvScalar >();
 
     register_Vec6f_class();
 
-    bp::implicitly_convertible< cv::Vec< float, 6 >, CvScalar >();
-
     register_Vec2i_class();
-
-    bp::implicitly_convertible< cv::Vec< int, 2 >, CvScalar >();
 
     register_Vec3i_class();
 
-    bp::implicitly_convertible< cv::Vec< int, 3 >, CvScalar >();
-
     register_Vec4i_class();
-
-    bp::implicitly_convertible< cv::Vec< int, 4 >, CvScalar >();
 
     register_Vec2s_class();
 
-    bp::implicitly_convertible< cv::Vec< short, 2 >, CvScalar >();
-
     register_Vec3s_class();
-
-    bp::implicitly_convertible< cv::Vec< short, 3 >, CvScalar >();
 
     register_Vec4s_class();
 
-    bp::implicitly_convertible< cv::Vec< short, 4 >, CvScalar >();
-
     register_Vec2b_class();
-
-    bp::implicitly_convertible< cv::Vec< unsigned char, 2 >, CvScalar >();
 
     register_Vec3b_class();
 
-    bp::implicitly_convertible< cv::Vec< unsigned char, 3 >, CvScalar >();
-
     register_Vec4b_class();
-
-    bp::implicitly_convertible< cv::Vec< unsigned char, 4 >, CvScalar >();
 
     register_Vec2w_class();
 
-    bp::implicitly_convertible< cv::Vec< unsigned short, 2 >, CvScalar >();
-
     register_Vec3w_class();
 
-    bp::implicitly_convertible< cv::Vec< unsigned short, 3 >, CvScalar >();
-
     register_Vec4w_class();
-
-    bp::implicitly_convertible< cv::Vec< unsigned short, 4 >, CvScalar >();
 
     register_VideoCapture_class();
 
@@ -4204,7 +4146,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvRandArr
     
-        typedef void ( *randArr_function_type )( ::cv::RNG &,::cv::Mat &,int,::CvScalar,::CvScalar );
+        typedef void ( *randArr_function_type )( ::cv::RNG &,::cv::Mat &,int,cv::Scalar_<double> const &,cv::Scalar_<double> const & );
         
         bp::def( 
             "randArr"
@@ -4217,7 +4159,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\nArgument 'rng':"\
     "\n    C/C++ type: ::CvRNG *."\
-    "\n    Python type: RNG." );
+    "\n    Python type: RNG."\
+    "\nArgument 'param2':"\
+    "\n    C/C++ type: ::CvScalar."\
+    "\n    Python type: Scalar."\
+    "\nArgument 'param1':"\
+    "\n    C/C++ type: ::CvScalar."\
+    "\n    Python type: Scalar." );
     
     }
 
