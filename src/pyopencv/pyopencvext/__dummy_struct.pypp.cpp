@@ -429,8 +429,7 @@ void register___dummy_struct_class(){
         bp::def("asMat", &::normal_cast< ::std::vector< float >, ::cv::Mat >, (bp::arg("inst_vector_float32")));
         bp::def("asvector_vector_float32", &::normal_cast< ::cv::Mat, ::std::vector< std::vector< float > > >, (bp::arg("inst_Mat")));
         bp::def("asvector_Vec3i", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<int, 3> > >, (bp::arg("inst_Mat")));
-        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<int, 3> >, ::cv::Mat >, (bp::arg("inst_vector_Vec3i")));
-        bp::def("asCvTermCriteria", &::normal_cast< ::cv::TermCriteria, ::CvTermCriteria >, (bp::arg("inst_TermCriteria")));;
+        bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<int, 3> >, ::cv::Mat >, (bp::arg("inst_vector_Vec3i")));;
     }
 
 }

@@ -8,19 +8,6 @@ namespace bp = boost::python;
 
 void register_free_functions_p(){
 
-    { //::cvPOSIT
-    
-        typedef void ( *POSIT_function_type )( ::CvPOSITObject *,::CvPoint2D32f *,double,::CvTermCriteria,::CvMatr32f,::CvVect32f );
-        
-        bp::def( 
-            "POSIT"
-            , POSIT_function_type( &::cvPOSIT )
-            , ( bp::arg("posit_object"), bp::arg("image_points"), bp::arg("focal_length"), bp::arg("criteria"), bp::arg("rotation_matrix"), bp::arg("translation_vector") )
-            , "\nWrapped function:"
-    "\n    cvPOSIT" );
-    
-    }
-
     { //::sdopencv::patchBasedStdDev
     
         typedef void ( *patchBasedStdDev_function_type )( ::cv::Mat const &,::cv::Size const &,::cv::Mat & );

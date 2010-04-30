@@ -326,17 +326,17 @@ KLASS.__repr__ = _KLASS__repr__
         
     # '''.replace("KLASS", z.alias))
 
-    # CvTermCriteria -- for backward compatibility
-    z = mb.class_('CvTermCriteria')
-    mb.init_class(z)
-    mb.finalize_class(z)
-    cc.write('''
-def _KLASS__repr__(self):
-    return "KLASS(type=" + repr(self.type) + ", max_iter=" + repr(self.max_iter) + \\
-        ", epsilon=" + repr(self.epsilon) + ")"
-KLASS.__repr__ = _KLASS__repr__
+    # CvTermCriteria -- now represented by cv::TermCriteria
+    # z = mb.class_('CvTermCriteria')
+    # mb.init_class(z)
+    # mb.finalize_class(z)
+    # cc.write('''
+# def _KLASS__repr__(self):
+    # return "KLASS(type=" + repr(self.type) + ", max_iter=" + repr(self.max_iter) + \\
+        # ", epsilon=" + repr(self.epsilon) + ")"
+# KLASS.__repr__ = _KLASS__repr__
         
-    '''.replace("KLASS", z.alias))
+    # '''.replace("KLASS", z.alias))
 
     # CvSlice -- for backward compatibility
     z = mb.class_('CvSlice')

@@ -246,8 +246,6 @@
 
 #include "pyopencvext/CvSubdiv2DPoint.pypp.hpp"
 
-#include "pyopencvext/CvTermCriteria.pypp.hpp"
-
 #include "pyopencvext/CvTreeNodeIterator.pypp.hpp"
 
 #include "pyopencvext/CvType.pypp.hpp"
@@ -984,7 +982,7 @@ static void cvBoxPoints_a61b9e0e802e9997b4fd4c2315f450ae( cv::RotatedRect const 
     ::cvBoxPoints(*(CvBox2D *)(&box), pt);
 }
 
-static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, cv::Size_<int> const & win_size, int level, ::CvTermCriteria criteria, int flags ){
+static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, cv::Size_<int> const & win_size, int level, cv::TermCriteria const & criteria, int flags ){
     int prev_features2=bp::len(prev_features);
     std::vector< ::CvPoint2D32f > prev_features3(prev_features2);
     std::vector < char > status2;
@@ -996,7 +994,7 @@ static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4
     track_error2.resize(prev_features2 * 1);
     curr_features2.resize(prev_features2 * 1);
     matrices2.resize(prev_features2 * 1);
-    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), &(matrices2[0]), prev_features2, *(CvSize *)(&win_size), level, &(status2[0]), &(track_error2[0]), criteria, flags);
+    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), &(matrices2[0]), prev_features2, *(CvSize *)(&win_size), level, &(status2[0]), &(track_error2[0]), *(CvTermCriteria *)(&criteria), flags);
     return bp::make_tuple( convert_from_T_to_object(status2)
                             , convert_from_T_to_object(track_error2)
                             , convert_from_T_to_object(curr_features2)
@@ -1042,15 +1040,15 @@ static void cvCalcOpticalFlowFarneback_409b7a55ce4ab8f251cb192176e9376c( ::cv::M
     ::cvCalcOpticalFlowFarneback(get_CvMat_ptr(prev), get_CvMat_ptr(next), get_CvMat_ptr(flow), pyr_scale, levels, winsize, iterations, poly_n, poly_sigma, flags);
 }
 
-static void cvCalcOpticalFlowHS_0757feb4eeb7fd8c38b710aec2f5f8e9( ::cv::Mat & prev, ::cv::Mat & curr, int use_previous, ::cv::Mat & velx, ::cv::Mat & vely, double lambda, ::CvTermCriteria criteria ){
-    ::cvCalcOpticalFlowHS(get_CvMat_ptr(prev), get_CvMat_ptr(curr), use_previous, get_CvMat_ptr(velx), get_CvMat_ptr(vely), lambda, criteria);
+static void cvCalcOpticalFlowHS_0757feb4eeb7fd8c38b710aec2f5f8e9( ::cv::Mat & prev, ::cv::Mat & curr, int use_previous, ::cv::Mat & velx, ::cv::Mat & vely, double lambda, cv::TermCriteria const & criteria ){
+    ::cvCalcOpticalFlowHS(get_CvMat_ptr(prev), get_CvMat_ptr(curr), use_previous, get_CvMat_ptr(velx), get_CvMat_ptr(vely), lambda, *(CvTermCriteria *)(&criteria));
 }
 
 static void cvCalcOpticalFlowLK_0539268816232dbc93df209c0dc87327( ::cv::Mat & prev, ::cv::Mat & curr, cv::Size_<int> const & win_size, ::cv::Mat & velx, ::cv::Mat & vely ){
     ::cvCalcOpticalFlowLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), *(CvSize *)(&win_size), get_CvMat_ptr(velx), get_CvMat_ptr(vely));
 }
 
-static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, cv::Size_<int> const & win_size, int level, ::CvTermCriteria criteria, int flags ){
+static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, cv::Size_<int> const & win_size, int level, cv::TermCriteria const & criteria, int flags ){
     int prev_features2=bp::len(prev_features);
     std::vector< ::CvPoint2D32f > prev_features3(prev_features2);
     std::vector < char > status2;
@@ -1060,7 +1058,7 @@ static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b1283
     status2.resize(prev_features2 * 1);
     track_error2.resize(prev_features2 * 1);
     curr_features2.resize(prev_features2 * 1);
-    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), prev_features2, *(CvSize *)(&win_size), level, &(status2[0]), &(track_error2[0]), criteria, flags);
+    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), prev_features2, *(CvSize *)(&win_size), level, &(status2[0]), &(track_error2[0]), *(CvTermCriteria *)(&criteria), flags);
     return bp::make_tuple( convert_from_T_to_object(status2)
                             , convert_from_T_to_object(track_error2)
                             , convert_from_T_to_object(curr_features2) );
@@ -1085,8 +1083,8 @@ static void cvConDensInitSampleSet_2b2c9d04e9f57fb36a248c795590341d( ::CvConDens
     ::cvConDensInitSampleSet(condens, get_CvMat_ptr(lower_bound), get_CvMat_ptr(upper_bound));
 }
 
-static boost::python::object cvContourFromContourTree_47f5c065694c470d5919cd861fe8d325( ::CvContourTree const * tree, ::cv::MemStorage & storage, ::CvTermCriteria criteria ){
-    ::CvSeq * result = ::cvContourFromContourTree(tree, (CvMemStorage *)storage, criteria);
+static boost::python::object cvContourFromContourTree_47f5c065694c470d5919cd861fe8d325( ::CvContourTree const * tree, ::cv::MemStorage & storage, cv::TermCriteria const & criteria ){
+    ::CvSeq * result = ::cvContourFromContourTree(tree, (CvMemStorage *)storage, *(CvTermCriteria *)(&criteria));
     typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
@@ -1259,14 +1257,18 @@ static void cvMultiplyAcc_c64c83fc39cb1265f3d1a69d9e600a47( ::cv::Mat & image1, 
     ::cvMultiplyAcc(get_CvMat_ptr(image1), get_CvMat_ptr(image2), get_CvMat_ptr(acc), get_CvMat_ptr(mask));
 }
 
+static void cvPOSIT_87713841f128738a6d8e29669752951a( ::CvPOSITObject * posit_object, ::CvPoint2D32f * image_points, double focal_length, cv::TermCriteria const & criteria, ::CvMatr32f rotation_matrix, ::CvVect32f translation_vector ){
+    ::cvPOSIT(posit_object, image_points, focal_length, *(CvTermCriteria *)(&criteria), rotation_matrix, translation_vector);
+}
+
 static boost::python::object cvPointSeqFromMat_ef8459cfef37d715411cf088e0da5576( int seq_kind, ::cv::Mat & mat, ::CvContour * contour_header, ::CvSeqBlock * block ){
     ::CvSeq * result = ::cvPointSeqFromMat(seq_kind, get_CvMat_ptr(mat), contour_header, block);
     typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::with_custodian_and_ward_postcall< 0, 3, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
-static void cvPyrMeanShiftFiltering_21ec6b7149a6e00a31f1d76aebb9a22b( ::cv::Mat & src, ::cv::Mat & dst, double sp, double sr, int max_level=1, ::CvTermCriteria termcrit=cv::TermCriteria(3, 5, 1.0e+0) ){
-    ::cvPyrMeanShiftFiltering(get_CvMat_ptr(src), get_CvMat_ptr(dst), sp, sr, max_level, termcrit);
+static void cvPyrMeanShiftFiltering_21ec6b7149a6e00a31f1d76aebb9a22b( ::cv::Mat & src, ::cv::Mat & dst, double sp, double sr, int max_level=1, cv::TermCriteria termcrit=cv::TermCriteria(cv::TermCriteria(3, 5, 1.0e+0)) ){
+    ::cvPyrMeanShiftFiltering(get_CvMat_ptr(src), get_CvMat_ptr(dst), sp, sr, max_level, *(CvTermCriteria *)(&termcrit));
 }
 
 static boost::python::object cvPyrSegmentation_0a5e58f4641f1c9757bb83d3f16f4191( ::cv::Mat & src, ::cv::Mat & dst, ::cv::MemStorage & storage, int level, double threshold1, double threshold2 ){
@@ -2055,8 +2057,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvDefParam_class();
 
     register_CvDetectedBlob_class();
-
-    register_CvTermCriteria_class();
 
     register_CvEMParams_class();
 
@@ -3101,7 +3101,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcAffineFlowPyrLK
     
-        typedef boost::python::tuple ( *calcAffineFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,cv::Size_<int> const &,int,::CvTermCriteria,int );
+        typedef boost::python::tuple ( *calcAffineFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,cv::Size_<int> const &,int,cv::TermCriteria const &,int );
         
         bp::def( 
             "calcAffineFlowPyrLK"
@@ -3134,6 +3134,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    C/C++ type: ::CvPoint2D32f const *."\
     "\n    Python type: Python sequence with elements of C++ type "\
     "\n    '::CvPoint2D32f'."\
+    "\nArgument 'criteria':"\
+    "\n    C/C++ type: ::CvTermCriteria."\
+    "\n    Python type: TermCriteria."\
     "\nArgument 'curr_features':"\
     "\n    Output argument: omitted from the function's calling sequence, and is "\
     "\n    returned along with the function's return value (if any)."\
@@ -3286,7 +3289,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcOpticalFlowHS
     
-        typedef void ( *calcOpticalFlowHS_function_type )( ::cv::Mat &,::cv::Mat &,int,::cv::Mat &,::cv::Mat &,double,::CvTermCriteria );
+        typedef void ( *calcOpticalFlowHS_function_type )( ::cv::Mat &,::cv::Mat &,int,::cv::Mat &,::cv::Mat &,double,cv::TermCriteria const & );
         
         bp::def( 
             "calcOpticalFlowHS"
@@ -3294,6 +3297,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("prev"), bp::arg("curr"), bp::arg("use_previous"), bp::arg("velx"), bp::arg("vely"), bp::arg("lambda"), bp::arg("criteria") )
             , "\nWrapped function:"
     "\n    cvCalcOpticalFlowHS"
+    "\nArgument 'criteria':"\
+    "\n    C/C++ type: ::CvTermCriteria."\
+    "\n    Python type: TermCriteria."\
     "\nArgument 'prev':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
@@ -3339,7 +3345,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcOpticalFlowPyrLK
     
-        typedef boost::python::tuple ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,cv::Size_<int> const &,int,::CvTermCriteria,int );
+        typedef boost::python::tuple ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,cv::Size_<int> const &,int,cv::TermCriteria const &,int );
         
         bp::def( 
             "calcOpticalFlowPyrLK"
@@ -3369,6 +3375,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    C/C++ type: ::CvPoint2D32f const *."\
     "\n    Python type: Python sequence with elements of C++ type "\
     "\n    '::CvPoint2D32f'."\
+    "\nArgument 'criteria':"\
+    "\n    C/C++ type: ::CvTermCriteria."\
+    "\n    Python type: TermCriteria."\
     "\nArgument 'curr_features':"\
     "\n    Output argument: omitted from the function's calling sequence, and is "\
     "\n    returned along with the function's return value (if any)."\
@@ -3453,7 +3462,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvContourFromContourTree
     
-        typedef boost::python::object ( *contourFromContourTree_function_type )( ::CvContourTree const *,::cv::MemStorage &,::CvTermCriteria );
+        typedef boost::python::object ( *contourFromContourTree_function_type )( ::CvContourTree const *,::cv::MemStorage &,cv::TermCriteria const & );
         
         bp::def( 
             "contourFromContourTree"
@@ -3463,7 +3472,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    cvContourFromContourTree"
     "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
+    "\n    Python type: MemStorage."\
+    "\nArgument 'criteria':"\
+    "\n    C/C++ type: ::CvTermCriteria."\
+    "\n    Python type: TermCriteria." );
     
     }
 
@@ -4109,6 +4121,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvPOSIT
+    
+        typedef void ( *POSIT_function_type )( ::CvPOSITObject *,::CvPoint2D32f *,double,cv::TermCriteria const &,::CvMatr32f,::CvVect32f );
+        
+        bp::def( 
+            "POSIT"
+            , POSIT_function_type( &cvPOSIT_87713841f128738a6d8e29669752951a )
+            , ( bp::arg("posit_object"), bp::arg("image_points"), bp::arg("focal_length"), bp::arg("criteria"), bp::arg("rotation_matrix"), bp::arg("translation_vector") )
+            , "\nWrapped function:"
+    "\n    cvPOSIT"
+    "\nArgument 'criteria':"\
+    "\n    C/C++ type: ::CvTermCriteria."\
+    "\n    Python type: TermCriteria." );
+    
+    }
+
     { //::cvPointSeqFromMat
     
         typedef boost::python::object ( *pointSeqFromMat_function_type )( int,::cv::Mat &,::CvContour *,::CvSeqBlock * );
@@ -4127,12 +4155,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvPyrMeanShiftFiltering
     
-        typedef void ( *pyrMeanShiftFiltering_function_type )( ::cv::Mat &,::cv::Mat &,double,double,int,::CvTermCriteria );
+        typedef void ( *pyrMeanShiftFiltering_function_type )( ::cv::Mat &,::cv::Mat &,double,double,int,cv::TermCriteria );
         
         bp::def( 
             "pyrMeanShiftFiltering"
             , pyrMeanShiftFiltering_function_type( &cvPyrMeanShiftFiltering_21ec6b7149a6e00a31f1d76aebb9a22b )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("sp"), bp::arg("sr"), bp::arg("max_level")=(int)(1), bp::arg("termcrit")=cv::TermCriteria(3, 5, 1.0e+0) )
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("sp"), bp::arg("sr"), bp::arg("max_level")=(int)(1), bp::arg("termcrit")=cv::TermCriteria(cv::TermCriteria(3, 5, 1.0e+0)) )
             , "\nWrapped function:"
     "\n    cvPyrMeanShiftFiltering"
     "\nArgument 'src':"\
@@ -4140,7 +4168,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\nArgument 'dst':"\
     "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat." );
+    "\n    Python type: Mat."\
+    "\nArgument 'termcrit':"\
+    "\n    C/C++ type: ::CvTermCriteria."\
+    "\n    Python type: TermCriteria." );
     
     }
 
