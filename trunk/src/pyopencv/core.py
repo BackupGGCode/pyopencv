@@ -312,11 +312,6 @@ def _CvPoint3D64f__repr__(self):
 CvPoint3D64f.__repr__ = _CvPoint3D64f__repr__
         
         
-def _CvSlice__repr__(self):
-    return "CvSlice(start=" + repr(self.start_index) + ", end=" + repr(self.end_index) + ")"
-CvSlice.__repr__ = _CvSlice__repr__
-        
-    
 #-----------------------------------------------------------------------------
 # Dynamic Data structures
 #-----------------------------------------------------------------------------
@@ -737,42 +732,6 @@ def _Vec3f__repr__(self):
     return "Vec3f(" + self.ndarray.__str__() + ")"
 Vec3f.__repr__ = _Vec3f__repr__
         
-_str = "\n    Creates a Vec6d view on an ndarray instance."
-if Vec6d.from_ndarray.__doc__ is None:
-    Vec6d.from_ndarray.__doc__ = _str
-else:
-    Vec6d.from_ndarray.__doc__ += _str
-
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec6d that shares the same data with an ndarray instance, use:\n        'Vec6d.from_ndarray(a)' or 'asVec6d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Vec6d.__doc__ is None:
-    Vec6d.__doc__ = _str
-else:
-    Vec6d.__doc__ += _str
-
-def _Vec6d__getitem__(self, *args, **kwds):
-    return self.ndarray.__getitem__(*args, **kwds)
-Vec6d.__getitem__ = _Vec6d__getitem__
-        
-def _Vec6d__setitem__(self, *args, **kwds):
-    return self.ndarray.__setitem__(*args, **kwds)
-Vec6d.__setitem__ = _Vec6d__setitem__
-        
-def _Vec6d__getslice__(self, *args, **kwds):
-    return self.ndarray.__getslice__(*args, **kwds)
-Vec6d.__getslice__ = _Vec6d__getslice__
-        
-def _Vec6d__setslice__(self, *args, **kwds):
-    return self.ndarray.__setslice__(*args, **kwds)
-Vec6d.__setslice__ = _Vec6d__setslice__
-        
-def _Vec6d__iter__(self, *args, **kwds):
-    return self.ndarray.__iter__(*args, **kwds)
-Vec6d.__iter__ = _Vec6d__iter__
-        
-def _Vec6d__repr__(self):
-    return "Vec6d(" + self.ndarray.__str__() + ")"
-Vec6d.__repr__ = _Vec6d__repr__
-        
 _str = "\n    Creates a Vec3b view on an ndarray instance."
 if Vec3b.from_ndarray.__doc__ is None:
     Vec3b.from_ndarray.__doc__ = _str
@@ -880,6 +839,42 @@ Vec4s.__iter__ = _Vec4s__iter__
 def _Vec4s__repr__(self):
     return "Vec4s(" + self.ndarray.__str__() + ")"
 Vec4s.__repr__ = _Vec4s__repr__
+        
+_str = "\n    Creates a Vec6d view on an ndarray instance."
+if Vec6d.from_ndarray.__doc__ is None:
+    Vec6d.from_ndarray.__doc__ = _str
+else:
+    Vec6d.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec6d that shares the same data with an ndarray instance, use:\n        'Vec6d.from_ndarray(a)' or 'asVec6d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Vec6d.__doc__ is None:
+    Vec6d.__doc__ = _str
+else:
+    Vec6d.__doc__ += _str
+
+def _Vec6d__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Vec6d.__getitem__ = _Vec6d__getitem__
+        
+def _Vec6d__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Vec6d.__setitem__ = _Vec6d__setitem__
+        
+def _Vec6d__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Vec6d.__getslice__ = _Vec6d__getslice__
+        
+def _Vec6d__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Vec6d.__setslice__ = _Vec6d__setslice__
+        
+def _Vec6d__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec6d.__iter__ = _Vec6d__iter__
+        
+def _Vec6d__repr__(self):
+    return "Vec6d(" + self.ndarray.__str__() + ")"
+Vec6d.__repr__ = _Vec6d__repr__
         
 _str = "\n    Creates a Vec4i view on an ndarray instance."
 if Vec4i.from_ndarray.__doc__ is None:
