@@ -384,7 +384,6 @@ KLASS.__repr__ = _KLASS__repr__
     z.constructors(lambda x: 'CvMat' in x.decl_string).exclude()
     z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
     z.mem_fun('calc_error').exclude() # TODO: fix this function
-    z.mem_funs(lambda x: 'CvSeq' in x.decl_string).exclude() # TODO: fix these functions
     for t in ('train', 'predict'):
         for t2 in z.mem_funs(t):
             t2._transformer_kwds['alias'] = t
