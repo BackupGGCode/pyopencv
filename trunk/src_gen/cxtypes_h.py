@@ -18,10 +18,8 @@
 import common
 
 def expose_CvSeq_members(z, FT):
-    z.include()
     for t in ('h_prev', 'h_next', 'v_prev', 'v_next', 'free_blocks', 'first'):
         FT.expose_member_as_pointee(z, t)
-    FT.expose_member_as_MemStorage(z, 'storage')
     for t in ('block_max', 'ptr'):
         FT.expose_member_as_str(z, t)
 
@@ -376,9 +374,10 @@ CV_TYPE_NAME_GRAPH = "opencv-graph"
 
     # CvMemBlock
     z = mb.class_('CvMemBlock')
-    z.include()
+    mb.init_class(z)
     for t in ('prev', 'next'):
         FT.expose_member_as_pointee(z, t)
+    mb.finalize_class(z)
 
     # CvMemStorage -- now managed by cv::MemStorage
     # this class is enabled only to let cv::MemStorage function properly
@@ -386,64 +385,79 @@ CV_TYPE_NAME_GRAPH = "opencv-graph"
     mb.init_class(z)
     for t in ('bottom', 'top'):
         FT.expose_member_as_pointee(z, t)
-    FT.expose_member_as_MemStorage(z, 'parent')
     mb.finalize_class(z)
 
     # CvMemStoragePos
     z = mb.class_('CvMemStoragePos')
-    z.include()
+    mb.init_class(z)
     FT.expose_member_as_pointee(z, 'top')
+    mb.finalize_class(z)
 
     # CvSeqBlock
     z = mb.class_('CvSeqBlock')
-    z.include()
+    mb.init_class(z)
     for t in ('prev', 'next'):
         FT.expose_member_as_pointee(z, t)
     FT.expose_member_as_str(z, 'data')
+    mb.finalize_class(z)
 
     # CvSeq
     z = mb.class_('CvSeq')
+    mb.init_class(z)
     expose_CvSeq_members(z, FT)
+    mb.finalize_class(z)
             
     # CvSetElem
     z = mb.class_('CvSetElem')
-    z.include()
+    mb.init_class(z)
     FT.expose_member_as_pointee(z, 'next_free')
+    mb.finalize_class(z)
 
     # CvSet
     z = mb.class_('CvSet')
+    mb.init_class(z)
     expose_CvSet_members(z, FT)
+    mb.finalize_class(z)
 
 
     # CvGraphEdge
     z = mb.class_('CvGraphEdge')
-    z.include()
+    mb.init_class(z)
     for t in ('next', 'vtx'):
         FT.expose_member_as_array_of_pointees(z, t, 2)
+    mb.finalize_class(z)
         
     # CvGraphVtx    
     z = mb.class_('CvGraphVtx')
-    z.include()
+    mb.init_class(z)
     FT.expose_member_as_pointee(z, 'first')
+    mb.finalize_class(z)
 
     # CvGraphVtx2D
     z = mb.class_('CvGraphVtx2D')
-    z.include()
+    mb.init_class(z)
     FT.expose_member_as_pointee(z, 'first')
     FT.expose_member_as_pointee(z, 'ptr')
+    mb.finalize_class(z)
 
     # CvGraph
     z = mb.class_('CvGraph')
+    mb.init_class(z)
     expose_CvGraph_members(z, FT)
+    mb.finalize_class(z)
 
     # CvChain
     z = mb.class_('CvChain')
+    mb.init_class(z)
     expose_CvSeq_members(z, FT)
+    mb.finalize_class(z)
 
     # CvContour
     z = mb.class_('CvContour')
+    mb.init_class(z)
     expose_CvSeq_members(z, FT)
     mb.decl('CvPoint2DSeq').include()
+    mb.finalize_class(z)
 
 
     # Sequence types
@@ -539,16 +553,18 @@ def CV_GET_SEQ_ELEM(TYPE, seq, index):
 
     # CvSeqWriter
     z = mb.class_('CvSeqWriter')
-    z.include()
+    mb.init_class(z)
     for t in ('seq', 'block'):
         FT.expose_member_as_pointee(z, t)
     for t in ('ptr', 'block_min', 'block_max'):
         FT.expose_member_as_str(z, t)
+    mb.finalize_class(z)
 
     # CvSeqReader
     z = mb.class_('CvSeqReader')
-    z.include()
+    mb.init_class(z)
     expose_CvSeqReader_members(z, FT)
+    mb.finalize_class(z)
 
 
     # Data structures for persistence (a.k.a serialization) functionality
@@ -629,7 +645,7 @@ def CV_NODE_SEQ_IS_SIMPLE(seq):
 
     # CvAttrList
     z = mb.class_('CvAttrList')
-    z.include()
+    mb.init_class(z)
     z.var('attr').exclude()
     # deal with 'attr'
     z.include_files.append( "boost/python/object.hpp" )
@@ -647,17 +663,19 @@ static bp::object get_attr( CvString const & inst ){
     z.add_registration_code('''
 add_property( "attr", bp::make_function(&CvAttrList_wrapper::get_attr) )
     ''')
+    mb.finalize_class(z)
 
     # CvTypeInfo
     z = mb.class_('CvTypeInfo')
-    z.include()
+    mb.init_class(z)
     for t in ('prev', 'next'):
         FT.expose_member_as_pointee(z, t)
     FT.expose_member_as_str(z, 'type_name')
+    mb.finalize_class(z)
 
     # CvString
     z = mb.class_('CvString')
-    z.include()
+    mb.init_class(z)
     for t in ('len', 'ptr'):
         z.var(t).exclude()
     # deal with 'data'
@@ -671,6 +689,7 @@ static bp::object get_data( CvString const & inst ){
     z.add_registration_code('''
 add_property( "data", bp::make_function(&CvString_wrapper::get_data) )
     ''')
+    mb.finalize_class(z)
 
 
     # CvStringHashNode
@@ -679,9 +698,11 @@ add_property( "data", bp::make_function(&CvString_wrapper::get_data) )
     FT.expose_member_as_pointee(z, 'next')
 
     # CvGenericHash
-    mb.class_('CvGenericHash').include()
+    z = mb.class_('CvGenericHash')
+    mb.init_class(z)
+    mb.finalize_class(z)
 
-    # CvFileNode
+    # CvFileNode -- now managed by cv::FileNode
     # z = mb.class_('CvFileNode')
     # z.include()
     # FT.expose_member_as_pointee(z, 'info')
@@ -692,17 +713,19 @@ add_property( "data", bp::make_function(&CvString_wrapper::get_data) )
         
     # CvPluginFuncInfo
     z = mb.class_('CvPluginFuncInfo')
-    z.include()
+    mb.init_class(z)
     for t in ('func_addr', 'default_func_addr'):
         z.var(t).expose_address = True
     FT.expose_member_as_str(z, 'func_names')    
+    mb.finalize_class(z)
         
     # CvModuleInfo    
     z = mb.class_('CvModuleInfo')
-    z.include()
+    mb.init_class(z)
     for t in ('next', 'func_tab'):
         FT.expose_member_as_pointee(z, t)
     for t in ('name', 'version'):
         FT.expose_member_as_str(z, t)
+    mb.finalize_class(z)
 
     

@@ -62,8 +62,9 @@ CV_HAAR_FEATURE_MAX  = 3
 
     # CvContourTree
     z = mb.class_('CvContourTree')
-    z.include()
+    mb.init_class(z)
     cxtypes_h.expose_CvSeq_members(z, FT)
+    mb.finalize_class(z)
 
     #CvConvexityDefect
     z = mb.class_('CvConvexityDefect')
@@ -82,13 +83,17 @@ CV_HAAR_FEATURE_MAX  = 3
     z.include()
     expose_QuadEdge2D_members(z)
 
-    mb.class_('CvSubdiv2DPoint').include()
+    # CvSubdiv2DPoint
+    z = mb.class_('CvSubdiv2DPoint')
+    mb.init_class(z)
     mb.decl('CvSubdiv2DEdge').include()
+    mb.finalize_class(z)
 
     # CvSubdiv2D
     z = mb.class_('CvSubdiv2D')
-    z.include()
+    mb.init_class(z)
     cxtypes_h.expose_CvGraph_members(z, FT)
+    mb.finalize_class(z)
     
     
     for z in (

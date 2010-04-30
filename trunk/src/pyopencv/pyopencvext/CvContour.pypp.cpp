@@ -45,8 +45,6 @@ static ::CvSeqBlock * get_free_blocks( ::CvContour const & inst ) { return inst.
 
 static ::CvSeqBlock * get_first( ::CvContour const & inst ) { return inst.first; }
 
-static cv::MemStorage get_storage(CvContour const &inst) { return cv::MemStorage(inst.storage); }
-
 static bp::object get_block_max( ::CvContour const & inst ){        
     return inst.block_max? bp::str(inst.block_max): bp::object();
 }
@@ -54,6 +52,8 @@ static bp::object get_block_max( ::CvContour const & inst ){
 static bp::object get_ptr( ::CvContour const & inst ){        
     return inst.ptr? bp::str(inst.ptr): bp::object();
 }
+
+static cv::MemStorage get_storage(CvContour const &inst) { return cv::MemStorage(inst.storage); }
 
 void register_CvContour_class(){
 
@@ -84,9 +84,9 @@ void register_CvContour_class(){
         CvContour_exposer.add_property( "v_next", bp::make_function(&::get_v_next, bp::return_internal_reference<>()) );
         CvContour_exposer.add_property( "free_blocks", bp::make_function(&::get_free_blocks, bp::return_internal_reference<>()) );
         CvContour_exposer.add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) );
-        CvContour_exposer.add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) );
         CvContour_exposer.add_property( "block_max", &::get_block_max );
         CvContour_exposer.add_property( "ptr", &::get_ptr );
+        CvContour_exposer.add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) );
     }
 
 }

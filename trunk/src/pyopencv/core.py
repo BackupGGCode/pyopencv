@@ -2840,14 +2840,6 @@ _z.resize(1)
 vector_Ptr_Mat.elem_type = _z[0].__class__
 del(_z)
     
-vector_Vec3f.__repr__ = __vector__repr__
-vector_Vec3f.tolist = __vector_tolist
-vector_Vec3f.fromlist = classmethod(__vector_fromlist)
-_z = vector_Vec3f()
-_z.resize(1)
-vector_Vec3f.elem_type = _z[0].__class__
-del(_z)
-    
 vector_int16.__repr__ = __vector__repr__
 vector_int16.tolist = __vector_tolist
 vector_int16.fromlist = classmethod(__vector_fromlist)
@@ -3142,6 +3134,14 @@ vector_float64.fromlist = classmethod(__vector_fromlist)
 _z = vector_float64()
 _z.resize(1)
 vector_float64.elem_type = _z[0].__class__
+del(_z)
+    
+vector_Vec3f.__repr__ = __vector__repr__
+vector_Vec3f.tolist = __vector_tolist
+vector_Vec3f.fromlist = classmethod(__vector_fromlist)
+_z = vector_Vec3f()
+_z.resize(1)
+vector_Vec3f.elem_type = _z[0].__class__
 del(_z)
     
 vector_Vec3w.__repr__ = __vector__repr__

@@ -562,6 +562,7 @@ module_builder.module_builder_t.beautify_func_list = beautify_func_list
 def finalize_class(self, z):
     """Finalizes a class z"""
     mb.beautify_func_list(z._funs)
+    FT.beautify_memvars(z)
 
     # ignore all non-public members
     for t in z.decls():

@@ -141,3 +141,22 @@ static bp::object get_MEMBER_NAME( CLASS_TYPE const & inst ){
     klass.add_registration_code('add_property( "MEMBER_NAME", &::get_MEMBER_NAME )' \
         .replace("MEMBER_NAME", member_name))
     
+
+    
+# -----------------------------------------------------------------------------------------------
+# Beautify all member variables of a class
+# -----------------------------------------------------------------------------------------------
+def beautify_memvars(klass):
+    try:
+        zz = klass.vars()
+    except RuntimeError:
+        zz = []
+    
+    for z in [z for z in zz if not z.ignore and z.access_type=='public']:
+        pds = common.unique_pds(z.type.partial_decl_string)
+        if pds=='CvMemStorage *':
+            expose_member_as_MemStorage(klass, z.name)
+        elif pds=='CvMat *' or pds=='CvArr *':
+            expose_member_as_Mat(klass, z.name, True)
+        elif pds=='IplImage *':
+            expose_member_as_Mat(klass, z.name, False)
