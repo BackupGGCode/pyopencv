@@ -1263,7 +1263,7 @@ static boost::python::object cvPointSeqFromMat_ef8459cfef37d715411cf088e0da5576(
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
-static void cvPyrMeanShiftFiltering_21ec6b7149a6e00a31f1d76aebb9a22b( ::cv::Mat & src, ::cv::Mat & dst, double sp, double sr, int max_level=1, cv::TermCriteria termcrit=cv::TermCriteria(cv::TermCriteria(3, 5, 1.0e+0)) ){
+static void cvPyrMeanShiftFiltering_21ec6b7149a6e00a31f1d76aebb9a22b( ::cv::Mat & src, ::cv::Mat & dst, double sp, double sr, int max_level=1, cv::TermCriteria termcrit=cv::TermCriteria(3, 5, 1.0e+0) ){
     ::cvPyrMeanShiftFiltering(get_CvMat_ptr(src), get_CvMat_ptr(dst), sp, sr, max_level, *(CvTermCriteria *)(&termcrit));
 }
 
@@ -1380,7 +1380,7 @@ static void cvSquareAcc_df8ad076f822a2856ccecbbdf6a2b2b0( ::cv::Mat & image, ::c
     ::cvSquareAcc(get_CvMat_ptr(image), get_CvMat_ptr(sqsum), get_CvMat_ptr(mask));
 }
 
-static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc( ::cv::Mat & image, ::cv::MemStorage & storage, int header_size=88u, int mode=1, int method=2, ::CvPoint offset=cv::Point(0, 0) ){
+static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc( ::cv::Mat & image, ::cv::MemStorage & storage, int header_size=88u, int mode=1, int method=2, ::CvPoint offset=cvPoint(0, 0) ){
     ::CvContourScanner result = ::cvStartFindContours(get_CvMat_ptr(image), (CvMemStorage *)storage, header_size, mode, method, offset);
     typedef bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvContourScanner >( result ) );
@@ -4120,7 +4120,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "pyrMeanShiftFiltering"
             , pyrMeanShiftFiltering_function_type( &cvPyrMeanShiftFiltering_21ec6b7149a6e00a31f1d76aebb9a22b )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("sp"), bp::arg("sr"), bp::arg("max_level")=(int)(1), bp::arg("termcrit")=cv::TermCriteria(cv::TermCriteria(3, 5, 1.0e+0)) )
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("sp"), bp::arg("sr"), bp::arg("max_level")=(int)(1), bp::arg("termcrit")=cv::TermCriteria(3, 5, 1.0e+0) )
             , "\nWrapped function:"
     "\n    cvPyrMeanShiftFiltering"
     "\nArgument 'src':"\
@@ -4577,7 +4577,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
         bp::def( 
             "startFindContours"
             , startFindContours_function_type( &cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc )
-            , ( bp::arg("image"), bp::arg("storage"), bp::arg("header_size")=(int)(88u), bp::arg("mode")=(int)(1), bp::arg("method")=(int)(2), bp::arg("offset")=cv::Point(0, 0) )
+            , ( bp::arg("image"), bp::arg("storage"), bp::arg("header_size")=(int)(88u), bp::arg("mode")=(int)(1), bp::arg("method")=(int)(2), bp::arg("offset")=cvPoint(0, 0) )
             , "\nWrapped function:"
     "\n    cvStartFindContours"
     "\nArgument 'image':"\
