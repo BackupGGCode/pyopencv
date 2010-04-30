@@ -988,7 +988,7 @@ static boost::python::object cvApproxChains_b8771ffee686c2a91ab4b9fdc5919291( ::
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
-static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, ::CvSize win_size, int level, ::CvTermCriteria criteria, int flags ){
+static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, cv::Size_<int> const & win_size, int level, ::CvTermCriteria criteria, int flags ){
     int prev_features2=bp::len(prev_features);
     std::vector< ::CvPoint2D32f > prev_features3(prev_features2);
     std::vector < char > status2;
@@ -1000,7 +1000,7 @@ static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4
     track_error2.resize(prev_features2 * 1);
     curr_features2.resize(prev_features2 * 1);
     matrices2.resize(prev_features2 * 1);
-    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), &(matrices2[0]), prev_features2, win_size, level, &(status2[0]), &(track_error2[0]), criteria, flags);
+    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), &(matrices2[0]), prev_features2, *(CvSize *)(&win_size), level, &(status2[0]), &(track_error2[0]), criteria, flags);
     return bp::make_tuple( convert_from_T_to_object(status2)
                             , convert_from_T_to_object(track_error2)
                             , convert_from_T_to_object(curr_features2)
@@ -1038,8 +1038,8 @@ static void cvCalcMotionGradient_7506fb6ca34b4a6cb9165f5aff081454( ::cv::Mat & m
     ::cvCalcMotionGradient(get_CvMat_ptr(mhi), get_CvMat_ptr(mask), get_CvMat_ptr(orientation), delta1, delta2, aperture_size);
 }
 
-static void cvCalcOpticalFlowBM_3537c5574d176e4f3dea85450be5ee9f( ::cv::Mat & prev, ::cv::Mat & curr, ::CvSize block_size, ::CvSize shift_size, ::CvSize max_range, int use_previous, ::cv::Mat & velx, ::cv::Mat & vely ){
-    ::cvCalcOpticalFlowBM(get_CvMat_ptr(prev), get_CvMat_ptr(curr), block_size, shift_size, max_range, use_previous, get_CvMat_ptr(velx), get_CvMat_ptr(vely));
+static void cvCalcOpticalFlowBM_3537c5574d176e4f3dea85450be5ee9f( ::cv::Mat & prev, ::cv::Mat & curr, cv::Size_<int> const & block_size, cv::Size_<int> const & shift_size, cv::Size_<int> const & max_range, int use_previous, ::cv::Mat & velx, ::cv::Mat & vely ){
+    ::cvCalcOpticalFlowBM(get_CvMat_ptr(prev), get_CvMat_ptr(curr), *(CvSize *)(&block_size), *(CvSize *)(&shift_size), *(CvSize *)(&max_range), use_previous, get_CvMat_ptr(velx), get_CvMat_ptr(vely));
 }
 
 static void cvCalcOpticalFlowFarneback_409b7a55ce4ab8f251cb192176e9376c( ::cv::Mat & prev, ::cv::Mat & next, ::cv::Mat & flow, double pyr_scale, int levels, int winsize, int iterations, int poly_n, double poly_sigma, int flags ){
@@ -1050,11 +1050,11 @@ static void cvCalcOpticalFlowHS_0757feb4eeb7fd8c38b710aec2f5f8e9( ::cv::Mat & pr
     ::cvCalcOpticalFlowHS(get_CvMat_ptr(prev), get_CvMat_ptr(curr), use_previous, get_CvMat_ptr(velx), get_CvMat_ptr(vely), lambda, criteria);
 }
 
-static void cvCalcOpticalFlowLK_0539268816232dbc93df209c0dc87327( ::cv::Mat & prev, ::cv::Mat & curr, ::CvSize win_size, ::cv::Mat & velx, ::cv::Mat & vely ){
-    ::cvCalcOpticalFlowLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), win_size, get_CvMat_ptr(velx), get_CvMat_ptr(vely));
+static void cvCalcOpticalFlowLK_0539268816232dbc93df209c0dc87327( ::cv::Mat & prev, ::cv::Mat & curr, cv::Size_<int> const & win_size, ::cv::Mat & velx, ::cv::Mat & vely ){
+    ::cvCalcOpticalFlowLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), *(CvSize *)(&win_size), get_CvMat_ptr(velx), get_CvMat_ptr(vely));
 }
 
-static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, ::CvSize win_size, int level, ::CvTermCriteria criteria, int flags ){
+static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, cv::Size_<int> const & win_size, int level, ::CvTermCriteria criteria, int flags ){
     int prev_features2=bp::len(prev_features);
     std::vector< ::CvPoint2D32f > prev_features3(prev_features2);
     std::vector < char > status2;
@@ -1064,14 +1064,14 @@ static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b1283
     status2.resize(prev_features2 * 1);
     track_error2.resize(prev_features2 * 1);
     curr_features2.resize(prev_features2 * 1);
-    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), prev_features2, win_size, level, &(status2[0]), &(track_error2[0]), criteria, flags);
+    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), prev_features2, *(CvSize *)(&win_size), level, &(status2[0]), &(track_error2[0]), criteria, flags);
     return bp::make_tuple( convert_from_T_to_object(status2)
                             , convert_from_T_to_object(track_error2)
                             , convert_from_T_to_object(curr_features2) );
 }
 
-static boost::python::object cvCheckChessboard_59f8753d978791ecd1fc97cea5e10f04( ::cv::Mat & src, ::CvSize size ){
-    int result = ::cvCheckChessboard(get_IplImage_ptr(src), size);
+static boost::python::object cvCheckChessboard_59f8753d978791ecd1fc97cea5e10f04( ::cv::Mat & src, cv::Size_<int> const & size ){
+    int result = ::cvCheckChessboard(get_IplImage_ptr(src), *(CvSize *)(&size));
     return bp::object( result );
 }
 
@@ -3091,7 +3091,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcAffineFlowPyrLK
     
-        typedef boost::python::tuple ( *calcAffineFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,::CvSize,int,::CvTermCriteria,int );
+        typedef boost::python::tuple ( *calcAffineFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,cv::Size_<int> const &,int,::CvTermCriteria,int );
         
         bp::def( 
             "calcAffineFlowPyrLK"
@@ -3129,7 +3129,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    returned along with the function's return value (if any)."\
     "\nArgument 'matrices':"\
     "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    returned along with the function's return value (if any)."\
+    "\nArgument 'win_size':"\
+    "\n    C/C++ type: ::CvSize."\
+    "\n    Python type: Size2i." );
     
     }
 
@@ -3217,7 +3220,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcOpticalFlowBM
     
-        typedef void ( *calcOpticalFlowBM_function_type )( ::cv::Mat &,::cv::Mat &,::CvSize,::CvSize,::CvSize,int,::cv::Mat &,::cv::Mat & );
+        typedef void ( *calcOpticalFlowBM_function_type )( ::cv::Mat &,::cv::Mat &,cv::Size_<int> const &,cv::Size_<int> const &,cv::Size_<int> const &,int,::cv::Mat &,::cv::Mat & );
         
         bp::def( 
             "calcOpticalFlowBM"
@@ -3225,18 +3228,27 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("prev"), bp::arg("curr"), bp::arg("block_size"), bp::arg("shift_size"), bp::arg("max_range"), bp::arg("use_previous"), bp::arg("velx"), bp::arg("vely") )
             , "\nWrapped function:"
     "\n    cvCalcOpticalFlowBM"
+    "\nArgument 'max_range':"\
+    "\n    C/C++ type: ::CvSize."\
+    "\n    Python type: Size2i."\
     "\nArgument 'prev':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'curr':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
+    "\nArgument 'shift_size':"\
+    "\n    C/C++ type: ::CvSize."\
+    "\n    Python type: Size2i."\
     "\nArgument 'vely':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
     "\nArgument 'velx':"\
     "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat." );
+    "\n    Python type: Mat."\
+    "\nArgument 'block_size':"\
+    "\n    C/C++ type: ::CvSize."\
+    "\n    Python type: Size2i." );
     
     }
 
@@ -3289,7 +3301,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcOpticalFlowLK
     
-        typedef void ( *calcOpticalFlowLK_function_type )( ::cv::Mat &,::cv::Mat &,::CvSize,::cv::Mat &,::cv::Mat & );
+        typedef void ( *calcOpticalFlowLK_function_type )( ::cv::Mat &,::cv::Mat &,cv::Size_<int> const &,::cv::Mat &,::cv::Mat & );
         
         bp::def( 
             "calcOpticalFlowLK"
@@ -3306,6 +3318,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'vely':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
+    "\nArgument 'win_size':"\
+    "\n    C/C++ type: ::CvSize."\
+    "\n    Python type: Size2i."\
     "\nArgument 'velx':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat." );
@@ -3314,7 +3329,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcOpticalFlowPyrLK
     
-        typedef boost::python::tuple ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,::CvSize,int,::CvTermCriteria,int );
+        typedef boost::python::tuple ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,cv::Size_<int> const &,int,::CvTermCriteria,int );
         
         bp::def( 
             "calcOpticalFlowPyrLK"
@@ -3349,13 +3364,16 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    returned along with the function's return value (if any)."\
     "\nArgument 'curr_pyr':"\
     "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat." );
+    "\n    Python type: Mat."\
+    "\nArgument 'win_size':"\
+    "\n    C/C++ type: ::CvSize."\
+    "\n    Python type: Size2i." );
     
     }
 
     { //::cvCheckChessboard
     
-        typedef boost::python::object ( *checkChessboard_function_type )( ::cv::Mat &,::CvSize );
+        typedef boost::python::object ( *checkChessboard_function_type )( ::cv::Mat &,cv::Size_<int> const & );
         
         bp::def( 
             "checkChessboard"
@@ -3365,7 +3383,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    cvCheckChessboard"
     "\nArgument 'src':"\
     "\n    C/C++ type: ::IplImage *."\
-    "\n    Python type: Mat." );
+    "\n    Python type: Mat."\
+    "\nArgument 'size':"\
+    "\n    C/C++ type: ::CvSize."\
+    "\n    Python type: Size2i." );
     
     }
 

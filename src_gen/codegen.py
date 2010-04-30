@@ -418,6 +418,32 @@ def beautify_func_list(self, func_list):
                 for z in repl_list:
                     arg.default_value = arg.default_value.replace(z, repl_list[z])
 
+    # one-to-one function argument CvPoint2D32f
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            pds = common.unique_pds(arg.type.partial_decl_string)
+            if pds=='CvPoint2D32f':
+                f._transformer_creators.append(FT.input_as_Point2f(arg.name))
+            elif pds=='CvSize':
+                f._transformer_creators.append(FT.input_as_FixType('CvSize', 'cv::Size_<int>', arg.name))
+            elif pds=='CvSize2D32f':
+                f._transformer_creators.append(FT.input_as_FixType('CvSize2D32f', 'cv::Size_<float>', arg.name))
+            elif pds=='CvRNG *' or pds=='CvRNG &':
+                f._transformer_creators.append(FT.input_asRNG(arg.name))
+            elif pds=='CvFileStorage *':
+                f._transformer_creators.append(FT.input_as_FileStorage(arg.name))
+            elif pds=='CvFileNode *' or pds=='CvFileNode const *':
+                f._transformer_creators.append(FT.input_as_FileNode(arg.name))
+            elif pds=='CvMemStorage *':
+                f._transformer_creators.append(FT.input_as_MemStorage(arg.name))
+            elif pds=='CvSparseMat *' or pds=='CvSparseMat &':
+                f._transformer_creators.append(FT.input_asSparseMat(arg.name))
+            elif pds in ["IplImage *", "IplImage const *", "CvArr *", "CvArr const *",
+                "CvMat *", "CvMat const *", "cv::Range const *"]:
+                f._transformer_creators.append(FT.input_as_Mat(arg.name))
+
     # function argument int *sizes and int dims
     for f in func_list:
         for arg in f.arguments:
@@ -449,72 +475,6 @@ def beautify_func_list(self, func_list):
                 continue
             if "std::vector<" in arg.type.decl_string and 'cv::Mat' not in arg.type.decl_string:
                 f._transformer_creators.append(FT.arg_std_vector(arg.name))
-
-    # function argument IplImage *, CvMat *, and CvArr * into cv::Mat
-    for f in func_list:
-        for arg in f.arguments:
-            if is_arg_touched(f, arg.name):
-                continue
-            for typename in ("::IplImage *", "::IplImage const *",
-                "::CvArr *", "::CvArr const *",
-                "::CvMat *", "::CvMat const *",
-                "::cv::Range const *",):
-                if typename in arg.type.decl_string:
-                    break
-            else:
-                continue
-            f._transformer_creators.append(FT.input_as_Mat(arg.name))
-
-    # function argument CvPoint2D32f
-    for f in func_list:
-        for arg in f.arguments:
-            if is_arg_touched(f, arg.name):
-                continue
-            if arg.type == D.dummy_type_t("::CvPoint2D32f"):
-                f._transformer_creators.append(FT.input_as_Point2f(arg.name))
-
-    # function argument CvRNG * or CvRNG &
-    for f in func_list:
-        for arg in f.arguments:
-            if is_arg_touched(f, arg.name):
-                continue
-            for typename in ("::CvRNG *", "::CvRNG &"):
-                if typename in arg.type.decl_string:
-                    break
-            else:
-                continue
-            f._transformer_creators.append(FT.input_asRNG(arg.name))
-
-    # function argument CvFileStorage *
-    for f in func_list:
-        for arg in f.arguments:
-            if not is_arg_touched(f, arg.name) and arg.type == D.dummy_type_t("::CvFileStorage *"):
-                f._transformer_creators.append(FT.input_as_FileStorage(arg.name))
-
-    # function argument CvMemStorage *
-    for f in func_list:
-        for arg in f.arguments:
-            if not is_arg_touched(f, arg.name) and arg.type == D.dummy_type_t("::CvMemStorage *"):
-                f._transformer_creators.append(FT.input_as_MemStorage(arg.name))
-
-    # function argument CvFileNode *
-    for f in func_list:
-        for arg in f.arguments:
-            if not is_arg_touched(f, arg.name) and \
-            (arg.type == D.dummy_type_t("::CvFileNode *") or arg.type == D.dummy_type_t("::CvFileNode const *")):
-                f._transformer_creators.append(FT.input_as_FileNode(arg.name))
-
-    # function argument CvSparseMat * or CvSparseMat &
-    for f in func_list:
-        for arg in f.arguments:
-            if is_arg_touched(f, arg.name):
-                continue
-            for typename in ("::CvSparseMat *", "::CvSparseMat &"):
-                if arg.type == D.dummy_type_t(typename):
-                    break
-            else:
-                continue
-            f._transformer_creators.append(FT.input_asSparseMat(arg.name))
 
     # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
     for f in func_list:

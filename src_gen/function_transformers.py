@@ -1158,6 +1158,57 @@ def input_as_FileNode( *args, **keywd ):
         return input_as_FileNode_t( function, *args, **keywd )
     return creator
     
+
+# input_as_FixType_t
+class input_as_FixType_t(transformer_t):
+    """Converts an input argument type SrcType into a DstType, both are fixed-size data types."""
+
+    def __init__(self, function, src_type_pds, dst_type_pds, arg_ref, by_ref=True):
+        transformer.transformer_t.__init__( self, function )
+        self.src_type_pds = src_type_pds
+        self.dst_type_pds = dst_type_pds
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+        self.by_ref = by_ref
+
+    def __str__(self):
+        return "input_as_FixType(%s,%s,%s)" % (self.src_type_pds, self.dst_type_pds, self.arg.name)
+
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg(self.arg.name)
+        w_arg.type = _D.dummy_type_t(self.dst_type_pds+" const &")
+        if self.by_ref:
+            controller.modify_arg_expression( self.arg_index, "*(%s *)(&%s)" % (self.src_type_pds, w_arg.name) )
+        else:
+            controller.modify_arg_expression( self.arg_index, "(%s)(%s)" % (self.src_type_pds, w_arg.name) )
+
+        # documentation
+        doc_common(self.function, self.arg, common.get_decl_equivname(self.dst_type_pds))            
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return []
+
+def input_as_FixType( *args, **keywd ):
+    def creator( function ):
+        return input_as_FixType_t( function, *args, **keywd )
+    return creator
+    
+    
+    
+    
 # input_as_Point2f_t
 class input_as_Point2f_t(transformer_t):
     """Converts an input argument type CvPoint2D2f  into a cv::Point2f."""

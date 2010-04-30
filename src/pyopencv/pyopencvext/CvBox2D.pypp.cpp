@@ -7,12 +7,14 @@
 
 namespace bp = boost::python;
 
+static cv::Size2f *get_size(CvBox2D const &inst) { return (cv::Size2f *)(&inst.size); }
+
 void register_CvBox2D_class(){
 
     bp::class_< CvBox2D >( "CvBox2D" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBox2D >() )    
         .def_readwrite( "angle", &CvBox2D::angle )    
         .def_readwrite( "center", &CvBox2D::center )    
-        .def_readwrite( "size", &CvBox2D::size );
+        .add_property( "size", bp::make_function(&::get_size, bp::return_internal_reference<>()) );
 
 }
