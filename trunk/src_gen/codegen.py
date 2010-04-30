@@ -304,8 +304,7 @@ def expose_class_Seq(self, elem_type_pds, pyName=None):
         print "Cannot determine class with pds='%s'." % seq_pds
         return
     mb.init_class(z)
-    z.decls(lambda x: 'CvSeq' in x.partial_decl_string).exclude() # no CvSeq things
-    z.constructors(lambda x: len(x.arguments) > 0).exclude()
+    z.constructors(lambda x: len(x.arguments) > 1).exclude() # turn off the MemStorage constructor because I need custodian_ward
     z.include_files.append('boost/python/object/life_support.hpp')
     z.add_declaration_code('''
 static bp::object from_MemStorage(bp::object const &inst_MemStorage, int headerSize)
@@ -329,7 +328,7 @@ static size_t len(CLASS_TYPE const &inst) { return inst.size(); }
     z.add_registration_code('def("fromMemStorage", &::from_MemStorage, (bp::arg("inst_MemStorage"), bp::arg("headerSize")=bp::object(sizeof(CvSeq))))')
     z.add_registration_code('staticmethod("fromMemStorage")')
     z.add_registration_code('def("__len__", &::len)')
-    for t in ('begin', 'end', 'front', 'back', 'copyTo', 'seq'): # TODO
+    for t in ('begin', 'end', 'front', 'back', 'copyTo'): # TODO
         z.decls(t).exclude()
     z.mem_funs(lambda x: len(x.arguments)>0 and x.arguments[-1].name=='count').exclude() # TODO
     z.operators(lambda x: 'std::vector' in x.name).exclude() # TODO

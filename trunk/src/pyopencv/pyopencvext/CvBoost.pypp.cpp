@@ -222,6 +222,16 @@ void register_CvBoost_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
+        { //::CvBoost::get_weak_predictors
+        
+            typedef ::CvSeq * ( ::CvBoost::*get_weak_predictors_function_type )(  ) ;
+            
+            CvBoost_exposer.def( 
+                "get_weak_predictors"
+                , get_weak_predictors_function_type( &::CvBoost::get_weak_predictors )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::CvBoost::predict
         
             typedef boost::python::tuple ( *default_predict_function_type )( ::CvBoost const &,::cv::Mat const &,::cv::Mat const &,cv::Range const &,bool,bool );
