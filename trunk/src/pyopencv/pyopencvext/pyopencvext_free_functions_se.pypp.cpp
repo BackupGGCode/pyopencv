@@ -8,32 +8,6 @@ namespace bp = boost::python;
 
 void register_free_functions_se(){
 
-    { //::cvSeqInvert
-    
-        typedef void ( *seqInvert_function_type )( ::CvSeq * );
-        
-        bp::def( 
-            "seqInvert"
-            , seqInvert_function_type( &::cvSeqInvert )
-            , ( bp::arg("seq") )
-            , "\nWrapped function:"
-    "\n    cvSeqInvert" );
-    
-    }
-
-    { //::cvSeqRemove
-    
-        typedef void ( *seqRemove_function_type )( ::CvSeq *,int );
-        
-        bp::def( 
-            "seqRemove"
-            , seqRemove_function_type( &::cvSeqRemove )
-            , ( bp::arg("seq"), bp::arg("index") )
-            , "\nWrapped function:"
-    "\n    cvSeqRemove" );
-    
-    }
-
     { //::cvSetErrMode
     
         typedef int ( *setErrMode_function_type )( int );
@@ -96,19 +70,6 @@ void register_free_functions_se(){
             , ( bp::arg("seq"), bp::arg("delta_elems") )
             , "\nWrapped function:"
     "\n    cvSetSeqBlockSize" );
-    
-    }
-
-    { //::cvSetSeqReaderPos
-    
-        typedef void ( *setSeqReaderPos_function_type )( ::CvSeqReader *,int,int );
-        
-        bp::def( 
-            "setSeqReaderPos"
-            , setSeqReaderPos_function_type( &::cvSetSeqReaderPos )
-            , ( bp::arg("reader"), bp::arg("index"), bp::arg("is_relative")=(int)(0) )
-            , "\nWrapped function:"
-    "\n    cvSetSeqReaderPos" );
     
     }
 

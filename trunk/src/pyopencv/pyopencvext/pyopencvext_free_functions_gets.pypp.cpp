@@ -8,19 +8,6 @@ namespace bp = boost::python;
 
 void register_free_functions_gets(){
 
-    { //::cvGetSeqReaderPos
-    
-        typedef int ( *getSeqReaderPos_function_type )( ::CvSeqReader * );
-        
-        bp::def( 
-            "getSeqReaderPos"
-            , getSeqReaderPos_function_type( &::cvGetSeqReaderPos )
-            , ( bp::arg("reader") )
-            , "\nWrapped function:"
-    "\n    cvGetSeqReaderPos" );
-    
-    }
-
     { //::cvGetSetElem
     
         typedef ::CvSetElem * ( *getSetElem_function_type )( ::CvSet const *,int );

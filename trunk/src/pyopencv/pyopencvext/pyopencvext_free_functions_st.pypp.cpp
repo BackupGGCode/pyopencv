@@ -21,19 +21,6 @@ void register_free_functions_st(){
     
     }
 
-    { //::cvStartAppendToSeq
-    
-        typedef void ( *startAppendToSeq_function_type )( ::CvSeq *,::CvSeqWriter * );
-        
-        bp::def( 
-            "startAppendToSeq"
-            , startAppendToSeq_function_type( &::cvStartAppendToSeq )
-            , ( bp::arg("seq"), bp::arg("writer") )
-            , "\nWrapped function:"
-    "\n    cvStartAppendToSeq" );
-    
-    }
-
     { //::cvStartReadChainPoints
     
         typedef void ( *startReadChainPoints_function_type )( ::CvChain *,::CvChainPtReader * );
@@ -44,19 +31,6 @@ void register_free_functions_st(){
             , ( bp::arg("chain"), bp::arg("reader") )
             , "\nWrapped function:"
     "\n    cvStartReadChainPoints" );
-    
-    }
-
-    { //::cvStartReadSeq
-    
-        typedef void ( *startReadSeq_function_type )( ::CvSeq const *,::CvSeqReader *,int );
-        
-        bp::def( 
-            "startReadSeq"
-            , startReadSeq_function_type( &::cvStartReadSeq )
-            , ( bp::arg("seq"), bp::arg("reader"), bp::arg("reverse")=(int)(0) )
-            , "\nWrapped function:"
-    "\n    cvStartReadSeq" );
     
     }
 

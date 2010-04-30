@@ -36,19 +36,6 @@ void register_free_functions_cl(){
     
     }
 
-    { //::cvClearSeq
-    
-        typedef void ( *clearSeq_function_type )( ::CvSeq * );
-        
-        bp::def( 
-            "clearSeq"
-            , clearSeq_function_type( &::cvClearSeq )
-            , ( bp::arg("seq") )
-            , "\nWrapped function:"
-    "\n    cvClearSeq" );
-    
-    }
-
     { //::cvClearSet
     
         typedef void ( *clearSet_function_type )( ::CvSet * );
