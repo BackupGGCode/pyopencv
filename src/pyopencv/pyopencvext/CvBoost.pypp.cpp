@@ -56,7 +56,7 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
         }
     }
     
-    static boost::python::tuple default_predict_457b8998388d215e0ce5b2a4e8c7c55f( ::CvBoost const & inst, ::cv::Mat const & _sample, ::cv::Mat const & _missing=cv::Mat(), cv::Range slice=cv::Range::all(), bool raw_mode=false, bool return_sum=false ){
+    static boost::python::tuple default_predict_457b8998388d215e0ce5b2a4e8c7c55f( ::CvBoost const & inst, ::cv::Mat const & _sample, ::cv::Mat const & _missing, cv::Range slice, bool raw_mode=false, bool return_sum=false ){
         cv::Mat weak_responses2;
         float result;
         if( dynamic_cast< CvBoost_wrapper const* >( boost::addressof( inst ) ) ){
@@ -229,7 +229,7 @@ void register_CvBoost_class(){
             CvBoost_exposer.def( 
                 "predict"
                 , default_predict_function_type( &CvBoost_wrapper::default_predict_457b8998388d215e0ce5b2a4e8c7c55f )
-                , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("_missing")=cv::Mat(), bp::arg("slice")=cv::Range::all(), bp::arg("raw_mode")=(bool)(false), bp::arg("return_sum")=(bool)(false) )
+                , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("_missing"), bp::arg("slice"), bp::arg("raw_mode")=(bool)(false), bp::arg("return_sum")=(bool)(false) )
                 , "\nArgument 'weak_responses':"\
     "\n    C/C++ type: ::cv::Mat *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
