@@ -262,8 +262,6 @@
 
 #include "pyopencvext/CvVSModule.pypp.hpp"
 
-#include "pyopencvext/CvVectors.pypp.hpp"
-
 #include "pyopencvext/DefaultRngAuto.pypp.hpp"
 
 #include "pyopencvext/DifferentialImage.pypp.hpp"
@@ -2209,8 +2207,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvTypeInfo_class();
 
     register_CvVSModule_class();
-
-    register_CvVectors_class();
 
     register_CvContourScanner_class();
 

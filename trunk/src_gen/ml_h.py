@@ -98,11 +98,11 @@ CV_PORTION   = 1
 
     ''')
 
-    z = mb.class_('CvVectors')
-    z.include()
-    FT.expose_member_as_pointee(z, 'next')
-    for t in ('ptr', 'fl', 'db', 'data'): # wait until requested
-        z.var(t).exclude()
+    # z = mb.class_('CvVectors')
+    # z.include()
+    # FT.expose_member_as_pointee(z, 'next')
+    # for t in ('ptr', 'fl', 'db', 'data'): # wait until requested
+        # z.var(t).exclude()
 
     # ParamLattice, may or may not be available
     try:
@@ -177,10 +177,8 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvSVMParams
     z = mb.class_('CvSVMParams')
-    z.include()
-    z.var('class_weights').exclude()
+    mb.init_class(z)
     z.constructors(lambda x: len(x.arguments) > 1).exclude()
-    FT.expose_member_as_Mat(z, 'class_weights')
     z.add_wrapper_code('''
     CvSVMParams_wrapper(int _svm_type, int _kernel_type, double _degree, double _gamma, double _coef0, double _C, double _nu, double _p, cv::Mat const & _class_weights, cv::TermCriteria const &_term_crit )
     : CvSVMParams( _svm_type, _kernel_type, _degree, _gamma, _coef0, _C, _nu, _p, 0, (CvTermCriteria)_term_crit )
@@ -190,6 +188,7 @@ KLASS.__repr__ = _KLASS__repr__
     }
     ''')
     z.add_registration_code('def( bp::init< int, int, double, double, double, double, double, double, cv::Mat const &, cv::TermCriteria const & >(( bp::arg("_svm_type"), bp::arg("_kernel_type"), bp::arg("_degree"), bp::arg("_gamma"), bp::arg("_coef0"), bp::arg("_C"), bp::arg("_nu"), bp::arg("_p"), bp::arg("_class_weights"), bp::arg("_term_crit") )) )')
+    mb.finalize_class(z)
 
     # CvSVMKernel -- too low-level, wait until requested
     # z = mb.class_('CvSVMKernel')
@@ -261,10 +260,8 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvEMParams 
     z = mb.class_('CvEMParams')
-    z.include()
+    mb.init_class(z)
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
-    for t in ('probs', 'weights', 'means'):
-        FT.expose_member_as_Mat(z, t)
     # wait until requested: 'covs' is turned off for now, the user should use CvEM's member functions instead
     z.var('covs').exclude()
     FT.expose_member_as_TermCriteria(z, 'term_crit')
@@ -274,6 +271,7 @@ KLASS.__repr__ = _KLASS__repr__
         : CvEMParams(_nclusters, _cov_mat_type, _start_step), bp::wrapper< CvEMParams >() { }
     ''')
     z.add_registration_code('def( bp::init< int, int, int >(( bp::arg("_nclusters"), bp::arg("_cov_mat_type")=1, bp::arg("_start_step")=0 )) )')
+    mb.finalize_class(z)
 
     # CvEM
     z = mb.class_('CvEM')
