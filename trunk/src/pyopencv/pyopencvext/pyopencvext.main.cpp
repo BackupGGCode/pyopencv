@@ -240,6 +240,8 @@
 
 #include "pyopencvext/CvStatModel.pypp.hpp"
 
+#include "pyopencvext/CvStereoBMState.pypp.hpp"
+
 #include "pyopencvext/CvStereoGCState.pypp.hpp"
 
 #include "pyopencvext/CvString.pypp.hpp"
@@ -2114,6 +2116,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvStarDetectorParams_class();
 
     register_CvStarKeypoint_class();
+
+    register_CvStereoBMState_class();
 
     register_CvStereoGCState_class();
 
