@@ -45,8 +45,8 @@ CV_HAAR_FEATURE_MAX  = 3
 
 
     z = mb.class_('CvConnectedComp')
-    z.include()
-    FT.expose_member_as_pointee(z, 'contour')
+    mb.init_class(z)
+    mb.finalize_class(z)
 
     # CvContourScanner
     z = mb.class_('_CvContourScanner')

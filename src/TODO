@@ -24,8 +24,8 @@ Add iterator for SparseMat
   
 - fix cvInitSystem, currently bp::str is not automatically converted into char const *.
 
-- convert function arguments of type 'CvSize' to 'cv::Size' automatically
-  
+- expose C functions for class CvSet, write a Set<T> that is a subclass of Seq<T>?
+
 ------------------------------------------
 Making a snapshot release using setuptools:
 
