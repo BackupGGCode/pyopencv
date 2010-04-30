@@ -89,22 +89,22 @@ static cv::Mat get_MEMBER_NAME(CLASS_TYPE const &inst)
     '''.replace("MEMBER_NAME", member_name).replace("MEMBER_SIZE_NAME", member_size_name).replace("CLASS_TYPE", klass.decl_string).replace("EXTRA", extra))
     klass.add_registration_code('''add_property( "MEMBER_NAME", &::get_MEMBER_NAME)'''.replace("MEMBER_NAME", member_name)) # TODO: make MEMBER dependent on KLASS
     
-def expose_member_as_TermCriteria(klass, member_name):
-    klass.var(member_name).exclude()
-    klass.add_declaration_code('''
-static cv::TermCriteria get_MEMBER_NAME(CLASS_TYPE const &inst)
-{
-    return cv::TermCriteria(inst.MEMBER_NAME);
-}
+# def expose_member_as_TermCriteria(klass, member_name):
+    # klass.var(member_name).exclude()
+    # klass.add_declaration_code('''
+# static cv::TermCriteria get_MEMBER_NAME(CLASS_TYPE const &inst)
+# {
+    # return cv::TermCriteria(inst.MEMBER_NAME);
+# }
 
-static void set_MEMBER_NAME(CLASS_TYPE &inst, cv::TermCriteria const &_MEMBER_NAME)
-{
-    inst.MEMBER_NAME = _MEMBER_NAME;
-}
+# static void set_MEMBER_NAME(CLASS_TYPE &inst, cv::TermCriteria const &_MEMBER_NAME)
+# {
+    # inst.MEMBER_NAME = _MEMBER_NAME;
+# }
 
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
-    klass.add_registration_code('add_property( "MEMBER_NAME", &::get_MEMBER_NAME, &::set_MEMBER_NAME)' \
-        .replace("MEMBER_NAME", member_name))
+    # '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
+    # klass.add_registration_code('add_property( "MEMBER_NAME", &::get_MEMBER_NAME, &::set_MEMBER_NAME)' \
+        # .replace("MEMBER_NAME", member_name))
     
 def expose_member_as_str(klass, member_name):
     klass.include_files.append( "boost/python/object.hpp" )
@@ -174,3 +174,5 @@ def beautify_memvars(klass):
             expose_member_as_FixType('cv::Size_<float>', klass, z.name)
         elif pds=='CvBox2D':
             expose_member_as_FixType('cv::RotatedRect', klass, z.name)
+        elif pds=='CvTermCriteria':
+            expose_member_as_FixType('cv::TermCriteria', klass, z.name)

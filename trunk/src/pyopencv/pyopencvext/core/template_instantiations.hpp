@@ -101,17 +101,17 @@ public:
     static int const var217 = sizeof(cv::Vec<double,6>);
     static int const var219 = sizeof(cv::Point3_<float>);
     static int const var221 = sizeof(cv::Scalar_<double>);
-    static int const var224 = sizeof(cv::Vec<float,6>);
-    static int const var227 = sizeof(std::vector<unsigned char *>);
-    static int const var228 = sizeof(std::vector<cv::Range>);
-    static int const var229 = sizeof(cv::Ptr<cv::FilterEngine>);
-    static int const var230 = sizeof(cv::Ptr<CvMemStorage>);
-    static int const var231 = sizeof(std::vector<cv::Point_<double> >);
-    static int const var233 = sizeof(std::vector<cv::CascadeClassifier::DTree>);
-    static int const var241 = sizeof(cv::Vec<unsigned short,4>);
-    static int const var244 = sizeof(cv::Ptr<cv::BaseRowFilter>);
-    static int const var246 = sizeof(std::vector<std::vector<cv::Point_<int> > >);
-    static int const var247 = sizeof(std::vector<std::vector<cv::Point3_<float> > >);
+    static int const var223 = sizeof(cv::Vec<float,6>);
+    static int const var226 = sizeof(std::vector<unsigned char *>);
+    static int const var227 = sizeof(std::vector<cv::Range>);
+    static int const var228 = sizeof(cv::Ptr<cv::FilterEngine>);
+    static int const var229 = sizeof(cv::Ptr<CvMemStorage>);
+    static int const var230 = sizeof(std::vector<cv::Point_<double> >);
+    static int const var232 = sizeof(std::vector<cv::CascadeClassifier::DTree>);
+    static int const var240 = sizeof(cv::Vec<unsigned short,4>);
+    static int const var243 = sizeof(cv::Ptr<cv::BaseRowFilter>);
+    static int const var245 = sizeof(std::vector<std::vector<cv::Point_<int> > >);
+    static int const var246 = sizeof(std::vector<std::vector<cv::Point3_<float> > >);
 };
 
 #endif

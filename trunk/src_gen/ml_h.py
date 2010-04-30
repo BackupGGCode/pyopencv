@@ -264,7 +264,7 @@ KLASS.__repr__ = _KLASS__repr__
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
     # wait until requested: 'covs' is turned off for now, the user should use CvEM's member functions instead
     z.var('covs').exclude()
-    FT.expose_member_as_TermCriteria(z, 'term_crit')
+    # FT.expose_member_as_TermCriteria(z, 'term_crit')
     # wait until requested, can't expose cv::TermCriteria with a default value
     z.add_wrapper_code('''
     CvEMParams_wrapper(int _nclusters, int _cov_mat_type, int _start_step)
@@ -399,7 +399,7 @@ KLASS.__repr__ = _KLASS__repr__
     # CvANN_MLP_TrainParams
     z = mb.class_('CvANN_MLP_TrainParams')
     mb.init_class(z)
-    z.decls(lambda x: 'CvTermCriteria' in x.decl_string).exclude() # TODO: fix these declarations
+    # z.decls(lambda x: 'CvTermCriteria' in x.decl_string).exclude() # TODO: fix these declarations
     mb.finalize_class(z)
 
     # CvANN_MLP

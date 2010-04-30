@@ -432,6 +432,8 @@ def beautify_func_list(self, func_list):
                 f._transformer_creators.append(FT.input_as_FixType('CvSize2D32f', 'cv::Size_<float>', arg.name))
             elif pds=='CvBox2D':
                 f._transformer_creators.append(FT.input_as_FixType('CvBox2D', 'cv::RotatedRect', arg.name))
+            elif pds=='CvTermCriteria':
+                f._transformer_creators.append(FT.input_as_FixType('CvTermCriteria', 'cv::TermCriteria', arg.name))
             elif pds in ['CvRNG *', 'CvRNG &', 'CvRNG cosnt *', 'CvRNG const &']:
                 f._transformer_creators.append(FT.input_asRNG(arg.name))
             elif pds in ['CvFileStorage *', 'CvFileStorage const *']:
