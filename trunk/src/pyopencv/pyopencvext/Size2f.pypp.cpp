@@ -18,10 +18,6 @@ void register_Size2f_class(){
         Size2f_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Size_< float > >() );
         Size2f_exposer.def( bp::init< float, float >(( bp::arg("_width"), bp::arg("_height") )) );
         Size2f_exposer.def( bp::init< cv::Size_< float > const & >(( bp::arg("sz") )) );
-        Size2f_exposer.def( bp::init< CvSize const & >(( bp::arg("sz") )) );
-        bp::implicitly_convertible< CvSize const &, cv::Size_< float > >();
-        Size2f_exposer.def( bp::init< CvSize2D32f const & >(( bp::arg("sz") )) );
-        bp::implicitly_convertible< CvSize2D32f const &, cv::Size_< float > >();
         Size2f_exposer.def( bp::init< cv::Point_< float > const & >(( bp::arg("pt") )) );
         bp::implicitly_convertible< cv::Point_< float > const &, cv::Size_< float > >();
         { //::cv::Size_< float >::area
@@ -34,9 +30,9 @@ void register_Size2f_class(){
                 , area_function_type( &::cv::Size_< float >::area ) );
         
         }
-        Size2f_exposer.def( "__temp_func", &cv::Size_< float >::operator ::CvSize , "\nWrapped function:"
+        Size2f_exposer.def( "as__scope_CvSize", &cv::Size_< float >::operator ::CvSize , "\nWrapped function:"
     "\n    operator ::CvSize" );
-        Size2f_exposer.def( "__temp_func", &cv::Size_< float >::operator ::CvSize2D32f , "\nWrapped function:"
+        Size2f_exposer.def( "as__scope_CvSize2D32f", &cv::Size_< float >::operator ::CvSize2D32f , "\nWrapped function:"
     "\n    operator ::CvSize2D32f" );
         { //::cv::Size_< float >::operator=
         

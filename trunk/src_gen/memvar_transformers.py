@@ -45,6 +45,14 @@ static cv::MemStorage get_MEMBER_NAME(CLASS_TYPE const &inst) { return cv::MemSt
     '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.pds))
     klass.add_registration_code('''add_property( "MEMBER_NAME", &::get_MEMBER_NAME )'''.replace("MEMBER_NAME", member_name))
         
+def expose_member_as_FixType(dst_type_pds, klass, member_name):
+    klass.var(member_name).exclude()
+    klass.add_declaration_code('''
+static DST_TYPE *get_MEMBER_NAME(CLASS_TYPE const &inst) { return (DST_TYPE *)(&inst.MEMBER_NAME); }
+    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.pds).replace("DST_TYPE", dst_type_pds))
+    klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&::get_MEMBER_NAME, bp::return_internal_reference<>()) )'''\
+        .replace("MEMBER_NAME", member_name))
+        
 def expose_member_as_Size2i(klass, member_name):
     klass.var(member_name).exclude()
     klass.add_declaration_code('''
@@ -175,6 +183,6 @@ def beautify_memvars(klass):
         elif pds=='IplImage *':
             expose_member_as_Mat(klass, z.name, False)
         elif pds=='CvSize':
-            expose_member_as_Size2i(klass, z.name)
+            expose_member_as_FixType('cv::Size_<int>', klass, z.name)
         elif pds=='CvSize2D32f':
-            expose_member_as_Size2f(klass, z.name)
+            expose_member_as_FixType('cv::Size_<float>', klass, z.name)

@@ -228,10 +228,6 @@
 
 #include "pyopencvext/CvSetElem.pypp.hpp"
 
-#include "pyopencvext/CvSize.pypp.hpp"
-
-#include "pyopencvext/CvSize2D32f.pypp.hpp"
-
 #include "pyopencvext/CvSlice.pypp.hpp"
 
 #include "pyopencvext/CvStarDetectorParams.pypp.hpp"
@@ -2179,10 +2175,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvSet_class();
 
     register_CvSetElem_class();
-
-    register_CvSize_class();
-
-    register_CvSize2D32f_class();
 
     register_CvStarDetectorParams_class();
 
@@ -5723,13 +5715,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asVec3f", &sdcpp::from_ndarray< cv::Vec3f >, (bp::arg("inst_ndarray")) );
 
+    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec6d >, (bp::arg("inst_ndarray")) );
+
     bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec2s", &sdcpp::from_ndarray< cv::Vec2s >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec4s >, (bp::arg("inst_ndarray")) );
-
-    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec6d >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec4i", &sdcpp::from_ndarray< cv::Vec4i >, (bp::arg("inst_ndarray")) );
 

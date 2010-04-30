@@ -454,7 +454,7 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
         'LSHSize', 'cvLSHAdd', 'cvLSHRemove', 'cvLSHQuery',
         # 'cvSURFPoint', 
         'cvStarKeypoint', 
-        'cvCheckChessboard', # TODO: convert CvSize of cvCheckChessboard into cv::Size
+        'cvCheckChessboard',
         ):
         mb.free_fun(z).include()
 

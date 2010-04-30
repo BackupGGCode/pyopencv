@@ -265,17 +265,18 @@ KLASS.__repr__ = _KLASS__repr__
         
     '''.replace("KLASS", z.alias))
 
-    # CvSize, CvSize2D32f -- for backward compatibility
-    for t in ('CvSize', 'CvSize2D32f'):
-        z = mb.class_(t)
-        mb.init_class(z)
-        mb.finalize_class(z)
-        cc.write('''
-def _KLASS__repr__(self):
-    return "KLASS(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
-KLASS.__repr__ = _KLASS__repr__
+    # CvSize -- now represented by cv::Size2i
+    # CvSize2D32f -- now represented by cv::Size2f
+    # for t in ('CvSize', 'CvSize2D32f'):
+        # z = mb.class_(t)
+        # mb.init_class(z)
+        # mb.finalize_class(z)
+        # cc.write('''
+# def _KLASS__repr__(self):
+    # return "KLASS(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
+# KLASS.__repr__ = _KLASS__repr__
         
-        '''.replace("KLASS", z.alias))
+        # '''.replace("KLASS", z.alias))
 
     # CvScalar -- for backward compatibility
     z = mb.class_('CvScalar')
