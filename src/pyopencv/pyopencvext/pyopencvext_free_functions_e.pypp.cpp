@@ -8,20 +8,6 @@ namespace bp = boost::python;
 
 void register_free_functions_e(){
 
-    { //::cvEndWriteSeq
-    
-        typedef ::CvSeq * ( *endWriteSeq_function_type )( ::CvSeqWriter * );
-        
-        bp::def( 
-            "endWriteSeq"
-            , endWriteSeq_function_type( &::cvEndWriteSeq )
-            , ( bp::arg("writer") )
-            , bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > >()
-            , "\nWrapped function:"
-    "\n    cvEndWriteSeq" );
-    
-    }
-
     { //::cvError
     
         typedef void ( *error_function_type )( int,char const *,char const *,char const *,int );

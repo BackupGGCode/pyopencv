@@ -552,20 +552,20 @@ def CV_GET_SEQ_ELEM(TYPE, seq, index):
 
     ''')
 
-    # CvSeqWriter
-    z = mb.class_('CvSeqWriter')
-    mb.init_class(z)
-    for t in ('seq', 'block'):
-        FT.expose_member_as_pointee(z, t)
-    for t in ('ptr', 'block_min', 'block_max'):
-        FT.expose_member_as_str(z, t)
-    mb.finalize_class(z)
+    # CvSeqWriter -- obsolete, use Seq<T> instead
+    # z = mb.class_('CvSeqWriter')
+    # mb.init_class(z)
+    # for t in ('seq', 'block'):
+        # FT.expose_member_as_pointee(z, t)
+    # for t in ('ptr', 'block_min', 'block_max'):
+        # FT.expose_member_as_str(z, t)
+    # mb.finalize_class(z)
 
-    # CvSeqReader
-    z = mb.class_('CvSeqReader')
-    mb.init_class(z)
-    expose_CvSeqReader_members(z, FT)
-    mb.finalize_class(z)
+    # CvSeqReader -- obsolete, use Seq<T> instead
+    # z = mb.class_('CvSeqReader')
+    # mb.init_class(z)
+    # expose_CvSeqReader_members(z, FT)
+    # mb.finalize_class(z)
 
 
     # Data structures for persistence (a.k.a serialization) functionality

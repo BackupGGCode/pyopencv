@@ -154,19 +154,6 @@ void register_free_functions_cr(){
     
     }
 
-    { //::cvCreateSeqBlock
-    
-        typedef void ( *createSeqBlock_function_type )( ::CvSeqWriter * );
-        
-        bp::def( 
-            "createSeqBlock"
-            , createSeqBlock_function_type( &::cvCreateSeqBlock )
-            , ( bp::arg("writer") )
-            , "\nWrapped function:"
-    "\n    cvCreateSeqBlock" );
-    
-    }
-
     { //::cvCreateStereoGCState
     
         typedef ::CvStereoGCState * ( *createStereoGCState_function_type )( int,int );

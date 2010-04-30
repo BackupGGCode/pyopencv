@@ -214,10 +214,6 @@
 
 #include "pyopencvext/CvSeqBlock.pypp.hpp"
 
-#include "pyopencvext/CvSeqReader.pypp.hpp"
-
-#include "pyopencvext/CvSeqWriter.pypp.hpp"
-
 #include "pyopencvext/CvSet.pypp.hpp"
 
 #include "pyopencvext/CvSetElem.pypp.hpp"
@@ -1337,20 +1333,6 @@ static boost::python::object cvSegmentMotion_ed831c1d8f816ea759222aec4d41f1f0( :
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
-static void cvSeqInsertSlice_870f54253b0103a244c6ac596f2820c4( ::CvSeq * seq, int before_index, ::cv::Mat & from_arr ){
-    ::cvSeqInsertSlice(seq, before_index, get_CvMat_ptr(from_arr));
-}
-
-static void cvSeqRemoveSlice_5d4b62903f56682e6905702d963e1046( ::CvSeq * seq, cv::Range const & slice ){
-    ::cvSeqRemoveSlice(seq, *(CvSlice *)(&slice));
-}
-
-static boost::python::object cvSeqSlice_7a04ec0010f22f6368ef4cb782404be2( ::CvSeq const * seq, cv::Range const & slice, ::cv::MemStorage storage=cv::MemStorage(0), int copy_data=0 ){
-    ::CvSeq * result = ::cvSeqSlice(seq, *(CvSlice *)(&slice), (CvMemStorage *)storage, copy_data);
-    typedef bp::with_custodian_and_ward_postcall< 0, 3, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
-    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
-}
-
 static boost::python::object cvSetMouseCallback_c212defec0903d7de57c5c0b0ee9b03d( char const * window_name, boost::python::object on_mouse, boost::python::object param=bp::object() ){
     boost::python::tuple z_on_mouse= bp::make_tuple(on_mouse, param);
     ::cvSetMouseCallback(window_name, sdMouseCallback, (void *)(z_on_mouse.ptr()));
@@ -1388,10 +1370,6 @@ static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96c
 
 static void cvStartNextStream_db71e53dfa9475145f4487a80d5d8bf2( ::cv::FileStorage & fs ){
     ::cvStartNextStream(fs.fs);
-}
-
-static void cvStartWriteSeq_9516f4ce75a8b6e8632a987cff2e2d94( int seq_flags, int header_size, int elem_size, ::cv::MemStorage & storage, ::CvSeqWriter * writer ){
-    ::cvStartWriteSeq(seq_flags, header_size, elem_size, (CvMemStorage *)storage, writer);
 }
 
 static void cvStartWriteStruct_e7e2128639c3a858bdb332c89468a8e0( ::cv::FileStorage & fs, char const * name, int struct_flags, char const * type_name=0, ::CvAttrList attributes=cvAttrList(0u, 0u) ){
@@ -2168,10 +2146,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvSeq_class();
 
     register_CvSeqBlock_class();
-
-    register_CvSeqReader_class();
-
-    register_CvSeqWriter_class();
 
     register_CvSet_class();
 
@@ -4403,57 +4377,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
-    { //::cvSeqInsertSlice
-    
-        typedef void ( *seqInsertSlice_function_type )( ::CvSeq *,int,::cv::Mat & );
-        
-        bp::def( 
-            "seqInsertSlice"
-            , seqInsertSlice_function_type( &cvSeqInsertSlice_870f54253b0103a244c6ac596f2820c4 )
-            , ( bp::arg("seq"), bp::arg("before_index"), bp::arg("from_arr") )
-            , "\nWrapped function:"
-    "\n    cvSeqInsertSlice"
-    "\nArgument 'from_arr':"\
-    "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat." );
-    
-    }
-
-    { //::cvSeqRemoveSlice
-    
-        typedef void ( *seqRemoveSlice_function_type )( ::CvSeq *,cv::Range const & );
-        
-        bp::def( 
-            "seqRemoveSlice"
-            , seqRemoveSlice_function_type( &cvSeqRemoveSlice_5d4b62903f56682e6905702d963e1046 )
-            , ( bp::arg("seq"), bp::arg("slice") )
-            , "\nWrapped function:"
-    "\n    cvSeqRemoveSlice"
-    "\nArgument 'slice':"\
-    "\n    C/C++ type: ::CvSlice."\
-    "\n    Python type: Range." );
-    
-    }
-
-    { //::cvSeqSlice
-    
-        typedef boost::python::object ( *seqSlice_function_type )( ::CvSeq const *,cv::Range const &,::cv::MemStorage,int );
-        
-        bp::def( 
-            "seqSlice"
-            , seqSlice_function_type( &cvSeqSlice_7a04ec0010f22f6368ef4cb782404be2 )
-            , ( bp::arg("seq"), bp::arg("slice"), bp::arg("storage")=cv::MemStorage(0), bp::arg("copy_data")=(int)(0) )
-            , "\nWrapped function:"
-    "\n    cvSeqSlice"
-    "\nArgument 'slice':"\
-    "\n    C/C++ type: ::CvSlice."\
-    "\n    Python type: Range."\
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
-    
-    }
-
     { //::cvSetMouseCallback
     
         typedef boost::python::object ( *_cvSetMouseCallback_function_type )( char const *,boost::python::object,boost::python::object );
@@ -4602,22 +4525,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'fs':"\
     "\n    C/C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
-    
-    }
-
-    { //::cvStartWriteSeq
-    
-        typedef void ( *startWriteSeq_function_type )( int,int,int,::cv::MemStorage &,::CvSeqWriter * );
-        
-        bp::def( 
-            "startWriteSeq"
-            , startWriteSeq_function_type( &cvStartWriteSeq_9516f4ce75a8b6e8632a987cff2e2d94 )
-            , ( bp::arg("seq_flags"), bp::arg("header_size"), bp::arg("elem_size"), bp::arg("storage"), bp::arg("writer") )
-            , "\nWrapped function:"
-    "\n    cvStartWriteSeq"
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
     
     }
 
@@ -5811,9 +5718,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asVec3s", &sdcpp::from_ndarray< cv::Vec3s >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec2d >, (bp::arg("inst_ndarray")) );
-
     bp::def("asVec3w", &sdcpp::from_ndarray< cv::Vec3w >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec2d >, (bp::arg("inst_ndarray")) );
 
     bp::def("asPoint2i", &sdcpp::from_ndarray< cv::Point2i >, (bp::arg("inst_ndarray")) );
 

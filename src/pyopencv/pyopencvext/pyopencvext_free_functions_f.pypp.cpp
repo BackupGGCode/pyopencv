@@ -62,19 +62,6 @@ void register_free_functions_f(){
     
     }
 
-    { //::cvFlushSeqWriter
-    
-        typedef void ( *flushSeqWriter_function_type )( ::CvSeqWriter * );
-        
-        bp::def( 
-            "flushSeqWriter"
-            , flushSeqWriter_function_type( &::cvFlushSeqWriter )
-            , ( bp::arg("writer") )
-            , "\nWrapped function:"
-    "\n    cvFlushSeqWriter" );
-    
-    }
-
     { //::cv::fastAtan2
     
         typedef float ( *fastAtan2_function_type )( float,float );

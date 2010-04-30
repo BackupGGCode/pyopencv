@@ -154,11 +154,11 @@ CV_BACK = 0
     for z in (
         'cvSliceLength', 'cvClearMemStorage', 'cvSaveMemStoragePos', 'cvRestoreMemStoragePos',
         'cvSetSeqBlockSize', 
-        'cvSeqRemove', 'cvClearSeq',
-        'cvStartAppendToSeq', 'cvStartWriteSeq', 'cvFlushSeqWriter',
-        'cvStartReadSeq', 'cvGetSeqReaderPos', 'cvSetSeqReaderPos',
-        'cvSeqRemoveSlice', 'cvSeqInsertSlice', 'cvSeqInvert',
-        'cvCreateSeqBlock',
+        # 'cvSeqRemove', 'cvClearSeq', # these functions are now obsolete, use Seq<T> instead
+        # 'cvStartAppendToSeq', 'cvStartWriteSeq', 'cvFlushSeqWriter', # these functions are now obsolete, use Seq<T> instead
+        # 'cvStartReadSeq', 'cvGetSeqReaderPos', 'cvSetSeqReaderPos', # these functions are now obsolete, use Seq<T> instead
+        # 'cvSeqRemoveSlice', 'cvSeqInsertSlice', 'cvSeqInvert', # these functions are now obsolete, use Seq<T> instead
+        # 'cvCreateSeqBlock', # these functions are now obsolete, use Seq<T> instead
         'cvSetRemove', 'cvClearSet',
         ):
         mb.free_fun(z).include()
@@ -178,24 +178,24 @@ CV_BACK = 0
     # cvCreateSeq
     FT.expose_func(mb.free_fun('cvCreateSeq'), ward_indices=(4,)) 
         
-    # cvSeq* # TODO: fix these whole functions
+    # cvSeq* # these functions are now obsolete, use Seq<T> instead
 
-    # cvGetSeqElem, cvSeqElemIdx # TODO: fix these functions
+    # cvGetSeqElem, cvSeqElemIdx # these functions are now obsolete, use Seq<T> instead
 
-    # cvEndWriteSeq
-    FT.expose_func(mb.free_fun('cvEndWriteSeq'), ward_indices=(1,)) 
+    # cvEndWriteSeq # these functions are now obsolete, use Seq<T> instead
+    # FT.expose_func(mb.free_fun('cvEndWriteSeq'), ward_indices=(1,)) 
 
-    # cvCvtSeqToArray, cvMakeSeqHeaderForArray # TODO: fix these funcs
+    # cvCvtSeqToArray, cvMakeSeqHeaderForArray # too low-level
 
-    # cvSeqSlice
-    FT.expose_func(mb.free_fun('cvSeqSlice'), ward_indices=(3,)) 
+    # cvSeqSlice # these functions are now obsolete, use Seq<T> instead
+    # FT.expose_func(mb.free_fun('cvSeqSlice'), ward_indices=(3,)) 
 
     # cvCloneSeq
     FT.expose_func(mb.free_fun('cvCloneSeq'), ward_indices=(2,)) 
 
-    # cvSeqSort, cvSeqSearch, cvSeqPartition # TODO: fix these funcs
+    # cvSeqSort, cvSeqSearch, cvSeqPartition # wait until requested: sorting requires CmpFunc
 
-    # cvChangeSeqBlock # TODO: fix this func
+    # cvChangeSeqBlock # these functions are now obsolete, use Seq<T> instead
 
     # cvCreateSet
     FT.expose_func(mb.free_fun('cvCreateSet'), ward_indices=(4,)) 
