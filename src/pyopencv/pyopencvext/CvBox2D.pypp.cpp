@@ -7,7 +7,7 @@
 
 namespace bp = boost::python;
 
-static cv::Size2f *get_size(CvBox2D const &inst) { return (cv::Size2f *)(&inst.size); }
+static cv::Size_<float> *get_size(CvBox2D const &inst) { return (cv::Size_<float> *)(&inst.size); }
 
 void register_CvBox2D_class(){
 

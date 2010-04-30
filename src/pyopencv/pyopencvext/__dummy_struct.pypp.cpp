@@ -200,10 +200,10 @@ void register___dummy_struct_class(){
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned short, 4 >, ::CvScalar >, (bp::arg("inst_Vec4w")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 6 >, ::CvScalar >, (bp::arg("inst_Vec6f")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 3 >, ::CvScalar >, (bp::arg("inst_Vec3f")));
+        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 6 >, ::CvScalar >, (bp::arg("inst_Vec6d")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< unsigned char, 3 >, ::CvScalar >, (bp::arg("inst_Vec3b")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< short, 2 >, ::CvScalar >, (bp::arg("inst_Vec2s")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< short, 4 >, ::CvScalar >, (bp::arg("inst_Vec4s")));
-        bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 6 >, ::CvScalar >, (bp::arg("inst_Vec6d")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< int, 4 >, ::CvScalar >, (bp::arg("inst_Vec4i")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< double, 4 >, ::CvScalar >, (bp::arg("inst_Vec4d")));
         bp::def("asCvScalar", &::normal_cast< ::cv::Vec< float, 4 >, ::CvScalar >, (bp::arg("inst_Vec4f")));
@@ -338,10 +338,6 @@ void register___dummy_struct_class(){
         bp::def("asPoint3d", &::normal_cast< ::cv::Point3_<float>, ::cv::Point3_<double> >, (bp::arg("inst_Point3f")));
         bp::def("asPoint3i", &::normal_cast< ::cv::Point3_<double>, ::cv::Point3_<int> >, (bp::arg("inst_Point3d")));
         bp::def("asPoint3f", &::normal_cast< ::cv::Point3_<double>, ::cv::Point3_<float> >, (bp::arg("inst_Point3d")));
-        bp::def("asCvSize", &::normal_cast< ::cv::Size_< int >, ::CvSize >, (bp::arg("inst_Size2i")));
-        bp::def("asCvSize2D32f", &::normal_cast< ::cv::Size_< int >, ::CvSize2D32f >, (bp::arg("inst_Size2i")));
-        bp::def("asCvSize", &::normal_cast< ::cv::Size_< float >, ::CvSize >, (bp::arg("inst_Size2f")));
-        bp::def("asCvSize2D32f", &::normal_cast< ::cv::Size_< float >, ::CvSize2D32f >, (bp::arg("inst_Size2f")));
         bp::def("asSize2f", &::normal_cast< ::cv::Size_<int>, ::cv::Size_<float> >, (bp::arg("inst_Size2i")));
         bp::def("asSize2i", &::normal_cast< ::cv::Size_<float>, ::cv::Size_<int> >, (bp::arg("inst_Size2f")));
         bp::def("asCvRect", &::normal_cast< ::cv::Rect_< int >, ::CvRect >, (bp::arg("inst_Rect")));
