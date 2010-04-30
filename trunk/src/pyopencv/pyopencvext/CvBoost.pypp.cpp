@@ -45,7 +45,7 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
         CvBoost::clear( );
     }
 
-    virtual float predict( ::cv::Mat const & _sample, ::cv::Mat const & _missing=cv::Mat(), ::cv::Mat * weak_responses=0, ::CvSlice slice=cvSlice(0, 1073741823), bool raw_mode=false, bool return_sum=false ) const  {
+    virtual float predict( ::cv::Mat const & _sample, ::cv::Mat const & _missing, ::cv::Mat * weak_responses, ::CvSlice slice, bool raw_mode=false, bool return_sum=false ) const  {
         namespace bpl = boost::python;
         if( bpl::override func_predict = this->get_override( "predict" ) ){
             bpl::object py_result = bpl::call<bpl::object>( func_predict.ptr(), _sample, _missing, weak_responses, slice, raw_mode, return_sum );
@@ -56,7 +56,7 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
         }
     }
     
-    static boost::python::tuple default_predict_457b8998388d215e0ce5b2a4e8c7c55f( ::CvBoost const & inst, ::cv::Mat const & _sample, ::cv::Mat const & _missing, cv::Range slice, bool raw_mode=false, bool return_sum=false ){
+    static boost::python::tuple default_predict_457b8998388d215e0ce5b2a4e8c7c55f( ::CvBoost const & inst, ::cv::Mat const & _sample, ::cv::Mat const & _missing, cv::Range const & slice, bool raw_mode=false, bool return_sum=false ){
         cv::Mat weak_responses2;
         float result;
         if( dynamic_cast< CvBoost_wrapper const* >( boost::addressof( inst ) ) ){
@@ -224,7 +224,7 @@ void register_CvBoost_class(){
         }
         { //::CvBoost::predict
         
-            typedef boost::python::tuple ( *default_predict_function_type )( ::CvBoost const &,::cv::Mat const &,::cv::Mat const &,cv::Range,bool,bool );
+            typedef boost::python::tuple ( *default_predict_function_type )( ::CvBoost const &,::cv::Mat const &,::cv::Mat const &,cv::Range const &,bool,bool );
             
             CvBoost_exposer.def( 
                 "predict"
