@@ -281,12 +281,6 @@ CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
 
 
     
-def _CvRect__repr__(self):
-    return "CvRect(x=" + repr(self.x) + ", y=" + repr(self.y) + \
-        ", width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
-CvRect.__repr__ = _CvRect__repr__
-        
-    
 def _CvPoint__repr__(self):
     return "CvPoint(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
 CvPoint.__repr__ = _CvPoint__repr__

@@ -8,19 +8,6 @@ namespace bp = boost::python;
 
 void register_free_functions_i(){
 
-    { //::cvInitSubdivDelaunay2D
-    
-        typedef void ( *initSubdivDelaunay2D_function_type )( ::CvSubdiv2D *,::CvRect );
-        
-        bp::def( 
-            "initSubdivDelaunay2D"
-            , initSubdivDelaunay2D_function_type( &::cvInitSubdivDelaunay2D )
-            , ( bp::arg("subdiv"), bp::arg("rect") )
-            , "\nWrapped function:"
-    "\n    cvInitSubdivDelaunay2D" );
-    
-    }
-
     { //::cvIsInf
     
         typedef int ( *isInf_function_type )( double );

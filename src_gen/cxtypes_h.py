@@ -253,17 +253,17 @@ CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
 
     ''')
     
-    # CvRect -- for backward compatibility
-    z = mb.class_('CvRect')
-    mb.init_class(z)
-    mb.finalize_class(z)
-    cc.write('''
-def _KLASS__repr__(self):
-    return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + \\
-        ", width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
-KLASS.__repr__ = _KLASS__repr__
+    # CvRect -- now represented by cv::Rect
+    # z = mb.class_('CvRect')
+    # mb.init_class(z)
+    # mb.finalize_class(z)
+    # cc.write('''
+# def _KLASS__repr__(self):
+    # return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + \\
+        # ", width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
+# KLASS.__repr__ = _KLASS__repr__
         
-    '''.replace("KLASS", z.alias))
+    # '''.replace("KLASS", z.alias))
 
     # CvSize -- now represented by cv::Size2i
     # CvSize2D32f -- now represented by cv::Size2f
