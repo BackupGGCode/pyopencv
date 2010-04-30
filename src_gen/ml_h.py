@@ -390,7 +390,10 @@ KLASS.__repr__ = _KLASS__repr__
     for t in ('train', 'predict'):
         for t2 in z.mem_funs(t):
             t2._transformer_kwds['alias'] = t
-            if t=='predict':
+            if t=='predict': # to fix a bug with CV_WHOLE_SEQ
+                t2.arguments[1].default_value = None
+                t2.arguments[2].default_value = None
+                t2.arguments[3].default_value = None
                 t2._transformer_creators.append(FT.output_type1('weak_responses'))
     mb.finalize_class(z)
 
