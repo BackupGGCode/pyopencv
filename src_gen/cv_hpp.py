@@ -118,7 +118,6 @@ def generate_code(mb, cc, D, FT, CP):
     # StereoBM
     z = mb.class_('StereoBM')
     mb.init_class(z)
-    common.register_ti('CvStereoBMState')
     mb.expose_class_Ptr('CvStereoBMState')
     mb.finalize_class(z)
     

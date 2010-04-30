@@ -10,8 +10,6 @@ Fix squares.py demo, something's wrong with the algorithm. It's running but too 
 
 Add iterator for SparseMat
 
-What about Seq template class?
-
 - 2d lists should have better documentation: i.e. when is list of Mat, when is list of lists
 
 - introduce debugging mode so that people know which argument has been converted, which has been not
@@ -25,6 +23,8 @@ What about Seq template class?
   of a video file stops working. Remove the ffmpeg dll file and it appears to work again.
   
 - fix cvInitSystem, currently bp::str is not automatically converted into char const *.
+
+- convert function arguments of type 'CvSize' to 'cv::Size' automatically
   
 ------------------------------------------
 Making a snapshot release using setuptools:

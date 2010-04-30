@@ -528,6 +528,24 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
         'cvTriangulatePoints', 'cvCorrectMatches'):
         mb.free_fun(t).include()
 
+    # Camera Calibration, Pose Estimation and Stereo
+    cc.write('''
+#-----------------------------------------------------------------------------
+# Camera Calibration, Pose Estimation and Stereo
+#-----------------------------------------------------------------------------
+
+
+    ''')
+    
+    # CvStereoBMState
+    z = mb.class_('CvStereoBMState')
+    mb.init_class(z)
+    for t in (
+        'preFilteredImg0', 'preFilteredImg1', 'slidingSumBuf', 'cost', 'disp',
+        ):
+        FT.expose_member_as_Mat(z, t)
+    mb.finalize_class(z)
+    
     # Kolmogorov-Zabin stereo-correspondence algorithm (a.k.a. KZ1)
     cc.write('''
 #-----------------------------------------------------------------------------
@@ -543,7 +561,7 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     for t in (
         'left', 'right', 'dispLeft', 'dispRight', 'ptrLeft', 'ptrRight', 'vtxBuf', 'edgeBuf',
         ):
-        z.var(t).exclude() # TODO: fix this
+        FT.expose_member_as_Mat(z, t)
     mb.finalize_class(z)
     mb.insert_del_interface('CvStereoGCState', '_PE._cvReleaseStereoGCState')
     
