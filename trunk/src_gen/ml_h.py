@@ -98,11 +98,7 @@ CV_PORTION   = 1
 
     ''')
 
-    # z = mb.class_('CvVectors')
-    # z.include()
-    # FT.expose_member_as_pointee(z, 'next')
-    # for t in ('ptr', 'fl', 'db', 'data'): # wait until requested
-        # z.var(t).exclude()
+    # z = mb.class_('CvVectors') -- obsolete, don't enable it
 
     # ParamLattice, may or may not be available
     try:
@@ -118,7 +114,8 @@ CV_PORTION   = 1
     mb.finalize_class(z)
 
     # CvParamGrid
-    mb.class_('CvParamGrid').include()
+    z = mb.class_('CvParamGrid')
+    mb.init_class(z)
     cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(min_val=" + repr(self.min_val) + ", max_val=" + repr(self.max_val) \
@@ -126,6 +123,7 @@ def _KLASS__repr__(self):
 KLASS.__repr__ = _KLASS__repr__
         
     '''.replace("KLASS", 'CvParamGrid'))
+    mb.finalize_class(z)
     
     # CvNormalBayesClassifier
     z = mb.class_('CvNormalBayesClassifier')

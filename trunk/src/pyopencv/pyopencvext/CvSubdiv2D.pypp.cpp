@@ -60,6 +60,6 @@ void register_CvSubdiv2D_class(){
         .add_property( "ptr", &::get_ptr )    
         .add_property( "free_elems", bp::make_function(&::get_free_elems, bp::return_internal_reference<>()) )    
         .add_property( "edges", bp::make_function(&::get_edges, bp::return_internal_reference<>()) )    
-        .add_property( "storage", &::get_storage );
+        .add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) );
 
 }
