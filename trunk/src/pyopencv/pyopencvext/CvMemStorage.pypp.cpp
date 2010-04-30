@@ -23,6 +23,6 @@ void register_CvMemStorage_class(){
         .def_readwrite( "signature", &CvMemStorage::signature )    
         .add_property( "bottom", bp::make_function(&::get_bottom, bp::return_internal_reference<>()) )    
         .add_property( "top", bp::make_function(&::get_top, bp::return_internal_reference<>()) )    
-        .add_property( "parent", bp::make_function(&::get_parent, bp::with_custodian_and_ward_postcall<0, 1>()) );
+        .add_property( "parent", &::get_parent );
 
 }

@@ -48,6 +48,6 @@ void register_CvSeq_class(){
         .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
         .add_property( "block_max", &::get_block_max )    
         .add_property( "ptr", &::get_ptr )    
-        .add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) );
+        .add_property( "storage", &::get_storage );
 
 }
