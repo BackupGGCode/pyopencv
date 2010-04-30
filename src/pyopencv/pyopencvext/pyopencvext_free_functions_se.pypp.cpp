@@ -34,19 +34,6 @@ void register_free_functions_se(){
     
     }
 
-    { //::cvSeqRemoveSlice
-    
-        typedef void ( *seqRemoveSlice_function_type )( ::CvSeq *,::CvSlice );
-        
-        bp::def( 
-            "seqRemoveSlice"
-            , seqRemoveSlice_function_type( &::cvSeqRemoveSlice )
-            , ( bp::arg("seq"), bp::arg("slice") )
-            , "\nWrapped function:"
-    "\n    cvSeqRemoveSlice" );
-    
-    }
-
     { //::cvSetErrMode
     
         typedef int ( *setErrMode_function_type )( int );

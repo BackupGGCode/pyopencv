@@ -436,6 +436,8 @@ def beautify_func_list(self, func_list):
                 f._transformer_creators.append(FT.input_as_FixType('CvTermCriteria', 'cv::TermCriteria', arg.name))
             elif pds=='CvScalar':
                 f._transformer_creators.append(FT.input_as_FixType('CvScalar', 'cv::Scalar_<double>', arg.name))
+            elif pds=='CvSlice':
+                f._transformer_creators.append(FT.input_as_FixType('CvSlice', 'cv::Range', arg.name))
             elif pds in ['CvRNG *', 'CvRNG &', 'CvRNG cosnt *', 'CvRNG const &']:
                 f._transformer_creators.append(FT.input_asRNG(arg.name))
             elif pds in ['CvFileStorage *', 'CvFileStorage const *']:

@@ -224,7 +224,8 @@ Scalar.__repr__ = _Scalar__repr__
     z = mb.class_('Range')
     mb.init_class(z)
     common.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
-    mb.asClass(z, mb.class_('CvSlice'))
+    z.decls(lambda x: 'CvSlice' in x.partial_decl_string).exclude()
+    # mb.asClass(z, mb.class_('CvSlice'))
     mb.add_ndarray_interface(z)
     cc.write('''
 def _KLASS__repr__(self):

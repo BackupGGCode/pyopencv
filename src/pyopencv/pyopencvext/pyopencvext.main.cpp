@@ -224,8 +224,6 @@
 
 #include "pyopencvext/CvSetElem.pypp.hpp"
 
-#include "pyopencvext/CvSlice.pypp.hpp"
-
 #include "pyopencvext/CvStarDetectorParams.pypp.hpp"
 
 #include "pyopencvext/CvStarKeypoint.pypp.hpp"
@@ -535,8 +533,6 @@
 #include "pyopencvext/pyopencvext_free_functions_sc.pypp.hpp"
 
 #include "pyopencvext/pyopencvext_free_functions_se.pypp.hpp"
-
-#include "pyopencvext/pyopencvext_free_functions_sl.pypp.hpp"
 
 #include "pyopencvext/pyopencvext_free_functions_so.pypp.hpp"
 
@@ -1343,8 +1339,12 @@ static void cvSeqInsertSlice_870f54253b0103a244c6ac596f2820c4( ::CvSeq * seq, in
     ::cvSeqInsertSlice(seq, before_index, get_CvMat_ptr(from_arr));
 }
 
-static boost::python::object cvSeqSlice_7a04ec0010f22f6368ef4cb782404be2( ::CvSeq const * seq, ::CvSlice slice, ::cv::MemStorage storage=cv::MemStorage(0), int copy_data=0 ){
-    ::CvSeq * result = ::cvSeqSlice(seq, slice, (CvMemStorage *)storage, copy_data);
+static void cvSeqRemoveSlice_5d4b62903f56682e6905702d963e1046( ::CvSeq * seq, cv::Range const & slice ){
+    ::cvSeqRemoveSlice(seq, *(CvSlice *)(&slice));
+}
+
+static boost::python::object cvSeqSlice_7a04ec0010f22f6368ef4cb782404be2( ::CvSeq const * seq, cv::Range const & slice, ::cv::MemStorage storage=cv::MemStorage(0), int copy_data=0 ){
+    ::CvSeq * result = ::cvSeqSlice(seq, *(CvSlice *)(&slice), (CvMemStorage *)storage, copy_data);
     typedef bp::with_custodian_and_ward_postcall< 0, 3, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
@@ -1354,6 +1354,11 @@ static boost::python::object cvSetMouseCallback_c212defec0903d7de57c5c0b0ee9b03d
     ::cvSetMouseCallback(window_name, sdMouseCallback, (void *)(z_on_mouse.ptr()));
     typedef bp::return_value_policy< bp::reference_existing_object > call_policies_t;
     return bp::object( z_on_mouse );
+}
+
+static boost::python::object cvSliceLength_e14285df18654820c66883f592fc67a6( cv::Range const & slice, ::CvSeq const * seq ){
+    int result = ::cvSliceLength(*(CvSlice *)(&slice), seq);
+    return bp::object( result );
 }
 
 static void cvSmooth_77e0c983f4273497b4a61c0a6dcda04f( ::cv::Mat & src, ::cv::Mat & dst, int smoothtype=2, int size1=3, int size2=0, double sigma1=0, double sigma2=0 ){
@@ -2024,8 +2029,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvBoostParams_class();
 
-    register_CvSlice_class();
-
     register_CvBoost_class();
 
     register_CvDTreeSplit_class();
@@ -2365,8 +2368,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     bp::implicitly_convertible< cv::RNG, unsigned int >();
 
     register_Range_class();
-
-    bp::implicitly_convertible< cv::Range, CvSlice >();
 
     register_RotatedRect_class();
 
@@ -4401,9 +4402,25 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvSeqRemoveSlice
+    
+        typedef void ( *seqRemoveSlice_function_type )( ::CvSeq *,cv::Range const & );
+        
+        bp::def( 
+            "seqRemoveSlice"
+            , seqRemoveSlice_function_type( &cvSeqRemoveSlice_5d4b62903f56682e6905702d963e1046 )
+            , ( bp::arg("seq"), bp::arg("slice") )
+            , "\nWrapped function:"
+    "\n    cvSeqRemoveSlice"
+    "\nArgument 'slice':"\
+    "\n    C/C++ type: ::CvSlice."\
+    "\n    Python type: Range." );
+    
+    }
+
     { //::cvSeqSlice
     
-        typedef boost::python::object ( *seqSlice_function_type )( ::CvSeq const *,::CvSlice,::cv::MemStorage,int );
+        typedef boost::python::object ( *seqSlice_function_type )( ::CvSeq const *,cv::Range const &,::cv::MemStorage,int );
         
         bp::def( 
             "seqSlice"
@@ -4411,6 +4428,9 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("seq"), bp::arg("slice"), bp::arg("storage")=cv::MemStorage(0), bp::arg("copy_data")=(int)(0) )
             , "\nWrapped function:"
     "\n    cvSeqSlice"
+    "\nArgument 'slice':"\
+    "\n    C/C++ type: ::CvSlice."\
+    "\n    Python type: Range."\
     "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvMemStorage *."\
     "\n    Python type: MemStorage." );
@@ -4435,6 +4455,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n        ..."\
     "\nArgument 'param' is a Python object that is passed to function "\
     "\non_mouse() as 'user_data'." );
+    
+    }
+
+    { //::cvSliceLength
+    
+        typedef boost::python::object ( *sliceLength_function_type )( cv::Range const &,::CvSeq const * );
+        
+        bp::def( 
+            "sliceLength"
+            , sliceLength_function_type( &cvSliceLength_e14285df18654820c66883f592fc67a6 )
+            , ( bp::arg("slice"), bp::arg("seq") )
+            , "\nWrapped function:"
+    "\n    cvSliceLength"
+    "\nArgument 'slice':"\
+    "\n    C/C++ type: ::CvSlice."\
+    "\n    Python type: Range." );
     
     }
 
@@ -5728,13 +5764,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::def("asVec3f", &sdcpp::from_ndarray< cv::Vec3f >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec6d >, (bp::arg("inst_ndarray")) );
-
     bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec2s", &sdcpp::from_ndarray< cv::Vec2s >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec4s >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec6d >, (bp::arg("inst_ndarray")) );
 
     bp::def("asVec4i", &sdcpp::from_ndarray< cv::Vec4i >, (bp::arg("inst_ndarray")) );
 
@@ -5882,8 +5918,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_free_functions_sc();
 
     register_free_functions_se();
-
-    register_free_functions_sl();
 
     register_free_functions_so();
 

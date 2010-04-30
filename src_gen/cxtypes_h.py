@@ -338,16 +338,16 @@ KLASS.__repr__ = _KLASS__repr__
         
     # '''.replace("KLASS", z.alias))
 
-    # CvSlice -- for backward compatibility
-    z = mb.class_('CvSlice')
-    mb.init_class(z)
-    mb.finalize_class(z)
-    cc.write('''
-def _KLASS__repr__(self):
-    return "KLASS(start=" + repr(self.start_index) + ", end=" + repr(self.end_index) + ")"
-KLASS.__repr__ = _KLASS__repr__
+    # CvSlice -- now represented by cv::Range
+    # z = mb.class_('CvSlice')
+    # mb.init_class(z)
+    # mb.finalize_class(z)
+    # cc.write('''
+# def _KLASS__repr__(self):
+    # return "KLASS(start=" + repr(self.start_index) + ", end=" + repr(self.end_index) + ")"
+# KLASS.__repr__ = _KLASS__repr__
         
-    '''.replace("KLASS", z.alias))
+    # '''.replace("KLASS", z.alias))
     
 
     # Dynamic Data structures
