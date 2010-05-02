@@ -231,7 +231,7 @@ KLASS.__repr__ = _KLASS__repr__
     z.include_files.append( "arrayobject.h" ) # to get NumPy's flags
     z.include_files.append( "ndarray.hpp" )
     mb.init_class(z)
-    # z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    z.constructors(lambda x: len(x.arguments) > 1).exclude()
     # z.mem_funs(lambda t: '::CvMat const *' in t.decl_string).exclude()
     for t in ('train', 'train_auto', 'predict'):
         for t2 in z.mem_funs(t):

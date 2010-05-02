@@ -29,20 +29,6 @@ struct CvSVM_wrapper : CvSVM, bp::wrapper< CvSVM > {
     
     }
 
-    CvSVM_wrapper(::CvMat const * _train_data, ::CvMat const * _responses, ::CvMat const * _var_idx=0, ::CvMat const * _sample_idx=0, ::CvSVMParams _params=::CvSVMParams( ) )
-    : CvSVM( boost::python::ptr(_train_data), boost::python::ptr(_responses), boost::python::ptr(_var_idx), boost::python::ptr(_sample_idx), _params )
-      , bp::wrapper< CvSVM >(){
-        // constructor
-    
-    }
-
-    CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::CvSVMParams _params=::CvSVMParams( ) )
-    : CvSVM( boost::ref(_train_data), boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), _params )
-      , bp::wrapper< CvSVM >(){
-        // constructor
-    
-    }
-
     virtual void clear(  ) {
         if( bp::override func_clear = this->get_override( "clear" ) )
             func_clear(  );
@@ -282,21 +268,6 @@ void register_CvSVM_class(){
         bp::scope().attr("NU") = (int)CvSVM::NU;
         bp::scope().attr("COEF") = (int)CvSVM::COEF;
         bp::scope().attr("DEGREE") = (int)CvSVM::DEGREE;
-        CvSVM_exposer.def( bp::init< CvMat const *, CvMat const *, bp::optional< CvMat const *, CvMat const *, CvSVMParams > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=bp::object(), bp::arg("_sample_idx")=bp::object(), bp::arg("_params")=::CvSVMParams( ) ), "\nWrapped function:"
-    "\n    CvSVM"
-    "\nArgument '_sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_train_data':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_responses':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat.") );
-        CvSVM_exposer.def( bp::init< cv::Mat const &, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const &, CvSVMParams > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) );
         { //::CvSVM::clear
         
             typedef void ( ::CvSVM::*clear_function_type )(  ) ;
