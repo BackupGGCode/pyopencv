@@ -155,7 +155,7 @@ bundled_files = find_libraries(C.opencv_runtime_library_dirs, C.opencv_runtime_l
 
 setup(
     name = "pyopencv",
-	version = '2.1.0.wr1.0.2',
+	version = '2.1.0.wr1.1.0',
 	description = DOCLINES[0],
 	author = 'Minh-Tri Pham',
 	author_email = 'pmtri80@gmail.com',
