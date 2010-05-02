@@ -164,6 +164,8 @@
 
 #include "pyopencvext/CvMSERParams.pypp.hpp"
 
+#include "pyopencvext/CvMat.pypp.hpp"
+
 #include "pyopencvext/CvMemBlock.pypp.hpp"
 
 #include "pyopencvext/CvMemStorage.pypp.hpp"
@@ -1984,6 +1986,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_vector_CvFuzzyCurve_class();
 
     register_CvANN_MLP_TrainParams_class();
+
+    register_CvMat_class();
 
     register_CvStatModel_class();
 

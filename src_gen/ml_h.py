@@ -260,7 +260,7 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('CvEMParams')
     mb.init_class(z)
     z.constructor(lambda x: len(x.arguments) > 1).exclude()
-    # wait until requested: 'covs' is turned off for now, the user should use CvEM's member functions instead
+    # TODO: wait until requested: 'covs' is turned off for now, the user should use CvEM's member functions instead
     z.var('covs').exclude()
     z.add_wrapper_code('''
     CvEMParams_wrapper(int _nclusters, int _cov_mat_type, int _start_step)

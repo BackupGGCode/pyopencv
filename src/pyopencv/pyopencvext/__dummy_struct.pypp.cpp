@@ -9,6 +9,8 @@
 
 namespace bp = boost::python;
 
+template<> inline ::cv::Mat normal_cast( ::CvMat const &inst ) { return cv::Mat((CvMat const *)&inst); }
+
 template<> inline ::std::vector< cv::Vec<float, 4> > normal_cast( ::cv::Mat const &inst ) { return convert_from_Mat_to_vector_of_T<cv::Vec4f>(inst); }
 
 template<> inline ::cv::Mat normal_cast( ::std::vector< cv::Vec<float, 4> > const &inst ) { return convert_from_vector_of_T_to_Mat<cv::Vec4f>(inst); }
@@ -320,6 +322,8 @@ void register___dummy_struct_class(){
         bp::def("asPoint3f", &::normal_cast< ::cv::Point3_<double>, ::cv::Point3_<float> >, (bp::arg("inst_Point3d")));
         bp::def("asSize2f", &::normal_cast< ::cv::Size_<int>, ::cv::Size_<float> >, (bp::arg("inst_Size2i")));
         bp::def("asSize2i", &::normal_cast< ::cv::Size_<float>, ::cv::Size_<int> >, (bp::arg("inst_Size2f")));
+        bp::def("asCvMat", &::normal_cast< ::cv::Mat, ::CvMat >, (bp::arg("inst_Mat")));
+        bp::def("asMat", &::normal_cast< ::CvMat, ::cv::Mat >, (bp::arg("inst_CvMat")));
         bp::def("asvector_Vec4f", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<float, 4> > >, (bp::arg("inst_Mat")));
         bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<float, 4> >, ::cv::Mat >, (bp::arg("inst_vector_Vec4f")));
         bp::def("asvector_int16", &::normal_cast< ::cv::Mat, ::std::vector< short > >, (bp::arg("inst_Mat")));

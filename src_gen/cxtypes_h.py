@@ -193,6 +193,33 @@ CV_MAT_MAGIC_VAL = 0x42420000
 CV_TYPE_NAME_MAT = "opencv-matrix"
 
 
+    ''')
+    
+    # CvMat -- for backward compatibility, mainly for ml.h
+    z = mb.class_('CvMat')
+    mb.init_class(z)
+    for t in z.classes(''):
+        try:
+            t2 = t.var('ptr')
+            t.exclude()
+        except:
+            pass
+    for t in ('refcount', 'hdr_refcount'):
+        z.var(t).exclude()
+    z.add_declaration_code('''
+static bp::object get_data(CvMat const &inst)
+{
+    return bp::object(bp::handle<>(bp::borrowed(PyBuffer_FromReadWriteMemory(
+        (void*)inst.data.ptr, inst.rows*inst.step))));
+}
+
+    ''')
+    z.add_registration_code('add_property("data", &::get_data)')
+    mb.finalize_class(z)
+    
+
+    # CvMatND
+    cc.write('''
 #-----------------------------------------------------------------------------
 # Multi-dimensional dense array (CvMatND)
 #-----------------------------------------------------------------------------
