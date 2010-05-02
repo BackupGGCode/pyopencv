@@ -37,18 +37,14 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
     
     }
 
-    static void create( ::cv::MatND & inst, cv::Mat const & _sizes, int _type ){
-        int _sizes2;
-        int * _sizes3;
-        convert_from_Mat_to_array_of_T(_sizes, _sizes3, _sizes2);
-        inst.create(_sizes2, _sizes3, _type);
+    static void create( ::cv::MatND & inst, std::vector<int> const & _sizes, int _type ){
+        int _sizes2=(int)(_sizes.size());
+        inst.create(_sizes2, (int const *)(&_sizes[0]), _type);
     }
 
-    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, cv::Mat _newsz=cv::Mat() ){
-        int _newsz2;
-        int * _newsz3;
-        convert_from_Mat_to_array_of_T(_newsz, _newsz3, _newsz2);
-        ::cv::MatND result = inst.reshape(_newcn, _newsz2, _newsz3);
+    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, std::vector<int> _newsz=std::vector<int>() ){
+        int _newsz2=(int)(_newsz.size());
+        ::cv::MatND result = inst.reshape(_newcn, _newsz2, (int const *)(&_newsz[0]));
         return bp::object( result );
     }
 
@@ -177,7 +173,7 @@ void register_MatND_class(){
         }
         { //::cv::MatND::create
         
-            typedef void ( *create_function_type )( ::cv::MatND &,cv::Mat const &,int );
+            typedef void ( *create_function_type )( ::cv::MatND &,std::vector<int> const &,int );
             
             MatND_exposer.def( 
                 "create"
@@ -188,9 +184,7 @@ void register_MatND_class(){
     "\n    its value is derived from argument '_sizes'."\
     "\nArgument '_sizes':"\
     "\n    C/C++ type: int const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+    "\n    Python type: vector_int." );
         
         }
         { //::cv::MatND::depth
@@ -268,17 +262,15 @@ void register_MatND_class(){
         }
         { //::cv::MatND::reshape
         
-            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,cv::Mat );
+            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,std::vector<int> );
             
             MatND_exposer.def( 
                 "reshape"
                 , reshape_function_type( &MatND_wrapper::reshape )
-                , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=cv::Mat() )
+                , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=std::vector<int>() )
                 , "\nArgument '_newsz':"\
     "\n    C/C++ type: int const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Python type: vector_int."\
     "\nArgument '_newndims':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument '_newsz'." );

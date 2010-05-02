@@ -458,20 +458,20 @@ def beautify_func_list(self, func_list):
             if arg.name == 'sizes' and D.is_pointer(arg.type):
                 for arg2 in f.arguments:
                     if arg2.name == 'dims' and D.is_integral(arg2.type):
-                        f._transformer_creators.append(FT.input_array1d('sizes', 'dims'))
+                        f._transformer_creators.append(FT.input_array1d_new('sizes', 'dims'))
                         break
             if arg.name == '_sizes' and D.is_pointer(arg.type):
                 for arg2 in f.arguments:
                     if arg2.name == '_ndims' and D.is_integral(arg2.type):
-                        f._transformer_creators.append(FT.input_array1d('_sizes', '_ndims'))
+                        f._transformer_creators.append(FT.input_array1d_new('_sizes', '_ndims'))
                         break
                     if arg2.name == 'dims' and D.is_integral(arg2.type):
-                        f._transformer_creators.append(FT.input_array1d('_sizes', 'dims'))
+                        f._transformer_creators.append(FT.input_array1d_new('_sizes', 'dims'))
                         break
             if arg.name == '_newsz' and D.is_pointer(arg.type):
                 for arg2 in f.arguments:
                     if arg2.name == '_newndims' and D.is_integral(arg2.type):
-                        f._transformer_creators.append(FT.input_array1d('_newsz', '_newndims'))
+                        f._transformer_creators.append(FT.input_array1d_new('_newsz', '_newndims'))
                         break
 
     # function argument std::vector<>

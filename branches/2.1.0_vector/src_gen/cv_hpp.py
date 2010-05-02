@@ -265,7 +265,7 @@ def generate_code(mb, cc, D, FT, CP):
     # getPerspectiveTransform, getAffineTransform
     for t in ('getPerspectiveTransform', 'getAffineTransform'):
         FT.expose_func(mb.free_fun(t), return_pointee=False, 
-            transformer_creators=[FT.input_array1d('src'), FT.input_array1d('dst')])
+            transformer_creators=[FT.input_array1d_new('src'), FT.input_array1d_new('dst')])
             
     # goodFeaturesToTrack
     FT.expose_func(mb.free_fun('goodFeaturesToTrack'), return_pointee=False, 
@@ -286,14 +286,14 @@ def generate_code(mb, cc, D, FT, CP):
     # calcHist
     for z in mb.free_funs('calcHist'):
         FT.expose_func(z, return_pointee=False, transformer_creators=[
-            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d('channels'),
-            FT.input_array1d('histSize', 'dims'), FT.input_array2d('ranges')])
+            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d_new('channels'),
+            FT.input_array1d_new('histSize', 'dims'), FT.input_array2d('ranges')])
         z._transformer_kwds['alias'] = 'calcHist'
             
     # calcBackProject
     for z in mb.free_funs('calcBackProject'):
         FT.expose_func(z, return_pointee=False, transformer_creators=[
-            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d('channels'),
+            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d_new('channels'),
             FT.input_array2d('ranges')])
         z._transformer_kwds['alias'] = 'calcBackProject'
             

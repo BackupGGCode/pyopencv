@@ -388,7 +388,7 @@ def get_registered_decl(pds):
     try:
         return _decls_reg[upds]
     except KeyError:
-        raise ValueError("Class of pds '%s' has not been registered." % alias)
+        raise ValueError("Class of pds '%s' has not been registered." % pds)
         
 def find_classes(pds):
     pds = unique_pds(pds)

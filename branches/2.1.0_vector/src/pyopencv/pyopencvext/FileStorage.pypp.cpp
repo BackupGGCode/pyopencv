@@ -68,11 +68,9 @@ struct FileStorage_wrapper : cv::FileStorage, bp::wrapper< cv::FileStorage > {
         cv::FileStorage::release( );
     }
 
-    static void writeRaw( ::cv::FileStorage & inst, ::std::string const & fmt, cv::Mat const & vec ){
-        int vec2;
-        unsigned char * vec3;
-        convert_from_Mat_to_array_of_T(vec, vec3, vec2);
-        inst.writeRaw(fmt, vec3, vec2);
+    static void writeRaw( ::cv::FileStorage & inst, ::std::string const & fmt, std::vector<unsigned char> const & vec ){
+        int vec2=(int)(vec.size());
+        inst.writeRaw(fmt, (::uchar const *)(&vec[0]), vec2);
     }
 
 };
@@ -193,7 +191,7 @@ void register_FileStorage_class(){
         }
         { //::cv::FileStorage::writeRaw
         
-            typedef void ( *writeRaw_function_type )( ::cv::FileStorage &,::std::string const &,cv::Mat const & );
+            typedef void ( *writeRaw_function_type )( ::cv::FileStorage &,::std::string const &,std::vector<unsigned char> const & );
             
             FileStorage_exposer.def( 
                 "writeRaw"
@@ -204,9 +202,7 @@ void register_FileStorage_class(){
     "\n    http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"
     "\nArgument 'vec':"\
     "\n    C/C++ type: ::uchar const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
+    "\n    Python type: vector_uint8."\
     "\nArgument 'len':"\
     "\n    Dependent argument: omitted from the function's calling sequence, as "\
     "\n    its value is derived from argument 'vec'." );
