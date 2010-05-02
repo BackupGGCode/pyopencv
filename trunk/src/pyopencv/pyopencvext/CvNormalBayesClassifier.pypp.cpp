@@ -26,20 +26,6 @@ struct CvNormalBayesClassifier_wrapper : CvNormalBayesClassifier, bp::wrapper< C
     
     }
 
-    CvNormalBayesClassifier_wrapper(::CvMat const * _train_data, ::CvMat const * _responses, ::CvMat const * _var_idx=0, ::CvMat const * _sample_idx=0 )
-    : CvNormalBayesClassifier( boost::python::ptr(_train_data), boost::python::ptr(_responses), boost::python::ptr(_var_idx), boost::python::ptr(_sample_idx) )
-      , bp::wrapper< CvNormalBayesClassifier >(){
-        // constructor
-    
-    }
-
-    CvNormalBayesClassifier_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat() )
-    : CvNormalBayesClassifier( boost::ref(_train_data), boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx) )
-      , bp::wrapper< CvNormalBayesClassifier >(){
-        // constructor
-    
-    }
-
     virtual void clear(  ) {
         if( bp::override func_clear = this->get_override( "clear" ) )
             func_clear(  );
@@ -182,27 +168,19 @@ struct CvNormalBayesClassifier_wrapper : CvNormalBayesClassifier, bp::wrapper< C
         CvStatModel::save( filename, name );
     }
 
+    CvNormalBayesClassifier_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat() )
+    : CvNormalBayesClassifier()
+      , bp::wrapper< CvNormalBayesClassifier >(){
+        // constructor
+        train( _train_data, _responses, _var_idx, _sample_idx );
+    }
+
 };
 
 void register_CvNormalBayesClassifier_class(){
 
     bp::class_< CvNormalBayesClassifier_wrapper, bp::bases< CvStatModel > >( "CvNormalBayesClassifier", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvNormalBayesClassifier >() )    
-        .def( bp::init< CvMat const *, CvMat const *, bp::optional< CvMat const *, CvMat const * > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=bp::object(), bp::arg("_sample_idx")=bp::object() ), "\nWrapped function:"
-    "\n    CvNormalBayesClassifier"
-    "\nArgument '_sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_train_data':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_responses':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat.") )    
-        .def( bp::init< cv::Mat const &, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const & > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat() )) )    
         .def( 
             "clear"
             , (void ( ::CvNormalBayesClassifier::* )(  ) )(&::CvNormalBayesClassifier::clear)
