@@ -1213,8 +1213,8 @@ static void cvInitSubdivDelaunay2D_9125b981b281211984978f2c9ce6eb8b( ::CvSubdiv2
 
 static boost::python::object cvInitSystem_f0aa383f9ae0b2f0bf89bbcb5e73da23( bp::list const & argv ){
     int argv2=bp::len(argv);
-    std::vector< char const * > argv3(argv2);
-    convert_from_object_to_T(argv, argv3);
+    std::vector<char const *> argv3;
+    argv3.resize(argv2); while(--argv2 >= 0) argv3[argv2]=bp::extract<char const *>(argv[argv2]);
     int result = ::cvInitSystem(argv2, (char * *)(&argv3[0]));
     return bp::object( result );
 }
@@ -3909,7 +3909,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    its value is derived from argument 'argv'."\
     "\nArgument 'argv':"\
     "\n    C/C++ type: char * *."\
-    "\n    Python type: Python sequence with elements of C++ type 'char const *'." );
+    "\n    Python type: list of strings." );
     
     }
 

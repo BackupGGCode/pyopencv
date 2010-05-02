@@ -141,11 +141,6 @@ CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
         ):
         mb.free_fun(z).include()
         
-    # for z in ('CvCapture', 'CvVideoWriter'):
-        # mb.class_(z).include()
-    # mb.insert_del_interface('CvCapture', '_PE._cvReleaseCapture')
-    # mb.insert_del_interface('CvVideoWriter', '_PE._cvReleaseVideoWriter')
-    
     # CV_FOURCC -- turn it off, we've got ctypes code for it
     try:
         mb.free_fun('CV_FOURCC').exclude()
@@ -153,7 +148,8 @@ CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
         pass
         
     # cvInitSystem
-    FT.expose_func(mb.free_fun('cvInitSystem'), return_pointee=False, transformer_creators=[FT.input_array1d('argv', 'argc')])
+    FT.expose_func(mb.free_fun('cvInitSystem'), return_pointee=False, transformer_creators=[
+        FT.input_list_of_string('argv', 'argc')])
 
     # cvGetWindowHandle, wait until requested
 

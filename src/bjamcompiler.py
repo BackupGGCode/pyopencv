@@ -14,6 +14,12 @@ def fPIC():
         return ' <compileflags>-fPIC' 
     else:
         return ''
+        
+def reloc_stdc():
+    if os.name=='nt' and platform.architecture()[0]=='32bit':
+        return '<linkflags>-Wl,--enable-runtime-pseudo-reloc-v2'
+    else:
+        return ''
 
 
 class BjamCompiler(ccompiler.CCompiler):
@@ -44,8 +50,8 @@ class BjamCompiler(ccompiler.CCompiler):
         f.write('''
 import python ;
 
-using gcc :  :  g++ : <compileflags>-O3%s <compileflags>-Wno-strict-aliasing
-''' % fPIC())
+using gcc :  :  g++ : <compileflags>-O3 %s <compileflags>-Wno-strict-aliasing %s
+''' % (fPIC(), reloc_stdc()))
         for include_dir in objects[1]['include_dirs']:
             f.write('    <compileflags>-I%s\n' % mypath(include_dir))
         for library in libraries:
