@@ -607,7 +607,7 @@ z.type = FT.size_t_t()
 # add 'pds' attribute to every class
 for z in mb.classes():
     z.pds = common.unique_pds(z.partial_decl_string)
-
+    
 # dummy struct
 z = mb.class_("dummy_struct")
 z.include_files.append("opencv_converters.hpp")

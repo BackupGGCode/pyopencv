@@ -68,6 +68,10 @@ def generate_code(mb, cc, D, FT, CP):
     common.register_decl('float32', 'float')
     common.register_decl('float64', 'double')
     
+    # register std::vector<std::string>
+    # common.register_decl('str', 'std::string')
+    # common.register_vec('std::vector', 'std::string')
+
     cc.write('''
 #-----------------------------------------------------------------------------
 # Common macros and inline functions

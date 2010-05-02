@@ -120,29 +120,6 @@ def remove_ptr( type_ ):
     else:
         raise TypeError( 'Type should be a pointer, got %s.' % type_ )
 
-def get_vector_elem_type(vector_type):
-    """Returns the element type of a std::vector type."""
-    s = vector_type.decl_string
-    if 'std::allocator' not in s:
-        s = s[s.find('<')+1:-2]
-    else:
-        s = s[14:s.find(', std::allocator')] # cut all the std::allocators
-        if s.startswith('std::vector'): # assume vector2d
-            s = '::' + s + ', std::allocator<' + s[12:] + ' >  >'
-    return _D.dummy_type_t(s)
-    
-def is_elem_type_fixed_size(elem_type):
-    """Checks if an element type is a fixed-size array-like data type."""
-    if '*' in elem_type.partial_decl_string:
-        return False
-    for t in ('char', 'unsigned char', 'short', 'unsigned short', 'int',
-        'unsigned int', 'long', 'unsigned long', 'float', 'double',
-        'cv::Vec', 'cv::Point', 'cv::Rect', 'cv::RotatedRect', 
-        'cv::Scalar', 'cv::Range'):
-        if elem_type.decl_string.startswith(t):
-            return True
-    return False
-    
 
 # -----------------------------------------------------------------------------------------------
 # Doc functions
@@ -179,6 +156,41 @@ def doc_output(func, func_arg):
 def doc_dependent(func, func_arg, func_parent_arg):
     common.add_func_arg_doc(func, func_arg, "Dependent argument: omitted from the function's calling sequence, as its value is derived from argument '%s'." % func_parent_arg.name)
 
+
+# -----------------------------------------------------------------------------------------------
+# Declarations
+# -----------------------------------------------------------------------------------------------
+
+
+def get_vector_pds(elem_type_pds):
+    elem_type_pds = common.unique_pds(elem_type_pds)
+    # if elem_type_pds in ['char *', 'char const *']:
+        # elem_type_pds = 'std::string'
+    return common.unique_pds('std::vector< %s >' % elem_type_pds)
+
+def get_vector_elem_type(vector_type):
+    """Returns the element type of a std::vector type."""
+    s = vector_type.decl_string
+    if 'std::allocator' not in s:
+        s = s[s.find('<')+1:-2]
+    else:
+        s = s[14:s.find(', std::allocator')] # cut all the std::allocators
+        if s.startswith('std::vector'): # assume vector2d
+            s = '::' + s + ', std::allocator<' + s[12:] + ' >  >'
+    return _D.dummy_type_t(s)
+    
+def is_elem_type_fixed_size(elem_type):
+    """Checks if an element type is a fixed-size array-like data type."""
+    if '*' in elem_type.partial_decl_string:
+        return False
+    for t in ('char', 'unsigned char', 'short', 'unsigned short', 'int',
+        'unsigned int', 'long', 'unsigned long', 'float', 'double',
+        'cv::Vec', 'cv::Point', 'cv::Rect', 'cv::RotatedRect', 
+        'cv::Scalar', 'cv::Range'):
+        if elem_type.decl_string.startswith(t):
+            return True
+    return False
+    
 
 # -----------------------------------------------------------------------------------------------
 # Function transfomers
@@ -413,6 +425,197 @@ class input_array1d_t(transformer.transformer_t):
 def input_array1d( *args, **keywd ):
     def creator( function ):
         return input_array1d_t( function, *args, **keywd )
+    return creator
+
+
+# input_array1d_new_t
+class input_array1d_new_t(transformer.transformer_t):
+    """Handles an input array with a dynamic size.
+
+    void do_something([int N, ]data_type* v) ->  do_something(object v2)
+
+    where v2 is a std::vector object of N elements, whose element type is 'data_type'.
+    output_arrays : set of arguments (which are arrays) to be returned as output std::vectors
+        output_arrays is a dictionary of (key,value) pairs. A key is an output argument's name. Its associated value is the number of times that the array's size is multiplied with.
+    """
+
+    def __init__(self, function, arg_ref, arg_size_ref=None, remove_arg_size=True, output_arrays={}):
+        transformer.transformer_t.__init__( self, function )
+
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+        if not _T.is_ptr_or_array( self.arg.type ):
+            raise ValueError( '%s\nin order to use "input_array1d_new" transformation, argument %s type must be a array or a pointer (got %s).' ) \
+                  % ( function, self.arg.name, self.arg.type)
+
+        if arg_size_ref is not None:
+            self.arg_size = self.get_argument( arg_size_ref )
+            self.arg_size_index = self.function.arguments.index( self.arg_size )
+            
+            if not _D.is_integral( self.arg_size.type ):
+                raise ValueError( '%s\nin order to use "input_array1d_new" transformation, argument %s type must be an integer (got %s).' ) \
+                      % ( function, self.arg_size.name, self.arg_size.type)
+
+        else:
+            self.arg_size = None
+
+        self.array_item_type = _D.remove_const( _D.array_item_type( self.arg.type ) )
+        self.remove_arg_size = remove_arg_size
+
+        self.output_arrays = output_arrays
+
+    def __str__(self):
+        if self.arg_size is not None:
+            return "input_array1d_new(%s,%s)"%( self.arg.name, self.arg_size.name)
+        return "input_array1d_new(%s)"% self.arg.name
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_converters.hpp"]
+
+    def __configure_sealed(self, controller):
+        w_arg = controller.find_wrapper_arg( self.arg.name )
+        
+        vec_pds = get_vector_pds(self.array_item_type.partial_decl_string)
+        
+        if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+            w_arg.type = _D.dummy_type_t( vec_pds )
+            w_arg.default_value = vec_pds+'()'
+        else:
+            w_arg.type = _D.dummy_type_t( vec_pds+" const &" )
+            # what about non-NULL default value?
+        
+        # input array
+        controller.modify_arg_expression( self.arg_index, "(%s)(&%s[0])" \
+            % (self.arg.type.partial_decl_string, w_arg.name) )
+        doc_common(self.function, self.arg, common.get_registered_decl(vec_pds)[0])
+
+        # number of elements
+        l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=(int)(%s.size())" % w_arg.name )
+        if self.remove_arg_size and self.arg_size is not None:
+            # remove arg_size from the function wrapper definition and automatically fill in the missing argument
+            controller.remove_wrapper_arg( self.arg_size.name )
+            controller.modify_arg_expression( self.arg_size_index, l_arr )
+            doc_dependent(self.function, self.arg_size, self.arg)
+
+        # dealing with output arrays
+        for key in self.output_arrays.keys():
+            oo_arg = self.get_argument(key)            
+            oo_idx = self.function.arguments.index(oo_arg)
+            oo_elem = _D.remove_const(_D.array_item_type(oo_arg.type))
+            oo_elem_pds = common.unique_pds(oo_elem.partial_decl_string)
+            oa_arg = controller.declare_variable(_D.dummy_type_t(get_vector_pds(oo_elem_pds)), key)
+            controller.add_pre_call_code("%s.resize(%s * %s);" % (oa_arg, l_arr, self.output_arrays[key]))
+            controller.modify_arg_expression(oo_idx, "(%s)&(%s[0])" % (oo_elem_pds, oa_arg))
+            controller.remove_wrapper_arg(key)
+
+            controller.return_variable(oa_arg)
+            doc_output(self.function, oo_arg)
+        
+            
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def input_array1d_new( *args, **keywd ):
+    def creator( function ):
+        return input_array1d_new_t( function, *args, **keywd )
+    return creator
+
+
+# input_list_of_string_t
+class input_list_of_string_t(transformer.transformer_t):
+    """Handles an input array of strings with a dynamic size.
+
+    void do_something([int N, ]char [const ]* v) ->  do_something(object v2)
+
+    where v2 is a bp::list of string.
+    """
+
+    def __init__(self, function, arg_ref, arg_size_ref=None, remove_arg_size=True):
+        transformer.transformer_t.__init__( self, function )
+
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+
+        if not _T.is_ptr_or_array( self.arg.type ):
+            raise ValueError( '%s\nin order to use "input_list_of_string" transformation, argument %s type must be a array or a pointer (got %s).' ) \
+                  % ( function, self.arg.name, self.arg.type)
+
+        if arg_size_ref is not None:
+            self.arg_size = self.get_argument( arg_size_ref )
+            self.arg_size_index = self.function.arguments.index( self.arg_size )
+            
+            if not _D.is_integral( self.arg_size.type ):
+                raise ValueError( '%s\nin order to use "input_list_of_string" transformation, argument %s type must be an integer (got %s).' ) \
+                      % ( function, self.arg_size.name, self.arg_size.type)
+
+        else:
+            self.arg_size = None
+
+        self.remove_arg_size = remove_arg_size
+
+    def __str__(self):
+        if self.arg_size is not None:
+            return "input_list_of_string(%s,%s)"%( self.arg.name, self.arg_size.name)
+        return "input_list_of_string(%s)"% self.arg.name
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_converters.hpp"]
+
+    def __configure_sealed(self, controller):
+        w_arg = controller.find_wrapper_arg( self.arg.name )
+        
+        if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+            w_arg.type = _D.dummy_type_t('bp::list')
+            w_arg.default_value = 'bp::list()'
+        else:
+            w_arg.type = _D.dummy_type_t('bp::list const &')
+            # what about non-NULL default value?
+            
+        # number of elements
+        l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=bp::len(%s)" % w_arg.name )
+        if self.remove_arg_size and self.arg_size is not None:
+            # remove arg_size from the function wrapper definition and automatically fill in the missing argument
+            controller.remove_wrapper_arg( self.arg_size.name )
+            controller.modify_arg_expression( self.arg_size_index, l_arr )
+            doc_dependent(self.function, self.arg_size, self.arg)
+
+        # intermediate array
+        a_arr = controller.declare_variable(_D.dummy_type_t('std::vector<char const *>'), self.arg.name)
+        controller.add_pre_call_code('A_ARR.resize(L_ARR); while(--L_ARR >= 0) A_ARR[L_ARR]=bp::extract<char const *>(ARRAY[L_ARR]);'\
+            .replace('L_ARR', l_arr).replace('A_ARR', a_arr).replace('ARRAY', w_arg.name))
+        
+        # input array
+        controller.modify_arg_expression( self.arg_index, "(%s)(&%s[0])" \
+            % (self.arg.type.partial_decl_string, a_arr) )
+        doc_common(self.function, self.arg, "list of strings")
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def input_list_of_string( *args, **keywd ):
+    def creator( function ):
+        return input_list_of_string_t( function, *args, **keywd )
     return creator
 
 
