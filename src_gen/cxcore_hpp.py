@@ -459,6 +459,10 @@ def asMat(obj, force_single_channel=False):
     if force_single_channel:
         return reshapeSingleChannel(out_mat)
     return out_mat
+asMat.__doc__ = asMat.__doc__ + """
+Docstring of the internal asMat function:
+
+""" + _PE.asMat.__doc__
     ''')
     
     # Ptr<Mat>
