@@ -58,7 +58,44 @@ documentation, and addition of missing features.
 - fixed demo bugs
 - added 3 Filter classes: BaseColumnFilter, BaseRowFilter, and BaseFilter
 - added demo morphology.py
-
+- fixed a bug in cvCalcAffineFlowPyrLK()
+- fixed a bug in cvInitSystem()
+- added C++ class MemStorage
+- improved a constructor of Ptr classes
+- added Seq_CvSURFPoint class
+- re-enabled cvExtractSURF()
+- improved class CvStereoBMState
+- converted every CvMemStorage variable into cv::MemStorage variables
+- removed very-old-style class CvVectors
+- converted every variable of type CvSize into type cv::Size2i
+- converted every variable of type CvSize2D32f into type cv::Size2f
+- removed classes CvSize and CvSize2D32f -- now they are redundant
+- converted every variable of type CvBox2D into type cv::RoatedRect
+- removed old class CvBox2D
+- converted every variable of type CvTermCriteria into that of type 
+  cv::TermCriteria
+- removed old class CvTermCriteria
+- converted every variable of type CvScalar into that of type cv::Scalar
+- removed old class CvScalar, use cv::Scalar instead
+- converted every variable of type CvSlice into that of type cv::Range
+- removed old class CvSlice, use cv::Range instead
+- converted every variable of type CvRect into that of type cv::Rect
+- removed old class CvRect, use cv::Rect instead
+- converted every variable of type CvMemStorage * into that of type 
+  Ptr<MemStorage>
+- removed class CvMemStorage, use cv::MemStorage instead
+- improved member variables of type CvSeq *
+- remove old C-style classes: CvSeqReader and CvSeqWriter; use 
+  cv::Seq<T> instead
+- improved class CvConnectedComp
+- added C-style class CvMat to support backward compatibility with the ML 
+  component
+- improved ML classes: CvKNearest, CvEM, CvSVMParams, 
+  CvNormalBayesClassifier, CvSVM
+- improved ML classes: CvNormalBayesClassifier and CvDTreeTrainData
+- improved a lot of other C++ classes of the ML component, thanks to the 
+  existence of class CvMat
+- improved asMat's docstring
 
 pyopencv-2.1.0.wr1.0.1 bug-fix release
 --------------------------------------
