@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
+#include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "CvForestERTree.pypp.hpp"
@@ -49,6 +50,18 @@ struct CvForestERTree_wrapper : CvForestERTree, bp::wrapper< CvForestERTree > {
         return CvForestTree::get_var_count( );
     }
 
+    virtual ::CvMat const * get_var_importance(  ) {
+        if( bp::override func_get_var_importance = this->get_override( "get_var_importance" ) )
+            return func_get_var_importance(  );
+        else{
+            return this->CvDTree::get_var_importance(  );
+        }
+    }
+    
+    ::CvMat const * default_get_var_importance(  ) {
+        return CvDTree::get_var_importance( );
+    }
+
     virtual void load( char const * filename, char const * name=0 ) {
         if( bp::override func_load = this->get_override( "load" ) )
             func_load( filename, name );
@@ -59,6 +72,29 @@ struct CvForestERTree_wrapper : CvForestERTree, bp::wrapper< CvForestERTree > {
     
     void default_load( char const * filename, char const * name=0 ) {
         CvStatModel::load( filename, name );
+    }
+
+    virtual ::CvDTreeNode * predict( ::CvMat const * _sample, ::CvMat const * _missing_data_mask=0, bool preprocessed_input=false ) const  {
+        namespace bpl = boost::python;
+        if( bpl::override func_predict = this->get_override( "predict" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_predict.ptr(), _sample, _missing_data_mask, preprocessed_input );
+            return bpl::extract< ::CvDTreeNode * >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvDTree::predict( boost::python::ptr(_sample), boost::python::ptr(_missing_data_mask), preprocessed_input );
+        }
+    }
+    
+    static boost::python::object default_predict_76f915d59fbfe6ec6c36b63903c7e6de( ::CvDTree const & inst, ::cv::Mat & _sample, ::cv::Mat _missing_data_mask=cv::Mat(), bool preprocessed_input=false ){
+        CvDTreeNode * result;
+        if( dynamic_cast< CvForestERTree_wrapper const* >( boost::addressof( inst ) ) ){
+            result = inst.::CvDTree::predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing_data_mask), preprocessed_input);
+        }
+        else{
+            result = inst.predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing_data_mask), preprocessed_input);
+        }
+        typedef bp::return_internal_reference< > call_policies_t4;
+        return bp::object( pyplusplus::call_policies::make_object< call_policies_t4, ::CvDTreeNode * >( result ) );
     }
 
     virtual ::CvDTreeNode * predict( ::cv::Mat const & _sample, ::cv::Mat const & _missing_data_mask=cv::Mat(), bool preprocessed_input=false ) const  {
@@ -166,6 +202,72 @@ struct CvForestERTree_wrapper : CvForestERTree, bp::wrapper< CvForestERTree > {
         return CvDTree::train( boost::ref(_train_data), _tflag, boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), boost::ref(_var_type), boost::ref(_missing_mask), params );
     }
 
+    virtual bool train( ::CvDTreeTrainData * _train_data, ::CvMat const * _subsample_idx, ::CvRTrees * forest ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_train = this->get_override( "train" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_train.ptr(), _train_data, _subsample_idx, forest );
+            return bpl::extract< bool >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvForestTree::train( boost::python::ptr(_train_data), boost::python::ptr(_subsample_idx), boost::python::ptr(forest) );
+        }
+    }
+    
+    static boost::python::object default_train_4bc7f79d4a1e6910af357373bfa4eddb( ::CvForestTree & inst, ::CvDTreeTrainData * _train_data, ::cv::Mat & _subsample_idx, ::CvRTrees * forest ){
+        bool result;
+        if( dynamic_cast< CvForestERTree_wrapper * >( boost::addressof( inst ) ) ){
+            result = inst.::CvForestTree::train(_train_data, get_CvMat_ptr(_subsample_idx), forest);
+        }
+        else{
+            result = inst.train(_train_data, get_CvMat_ptr(_subsample_idx), forest);
+        }
+        return bp::object( result );
+    }
+
+    virtual bool train( ::CvMat const * _train_data, int _tflag, ::CvMat const * _responses, ::CvMat const * _var_idx=0, ::CvMat const * _sample_idx=0, ::CvMat const * _var_type=0, ::CvMat const * _missing_mask=0, ::CvDTreeParams params=::CvDTreeParams( ) ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_train = this->get_override( "train" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_train.ptr(), _train_data, _tflag, _responses, _var_idx, _sample_idx, _var_type, _missing_mask, params );
+            return bpl::extract< bool >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvForestTree::train( boost::python::ptr(_train_data), _tflag, boost::python::ptr(_responses), boost::python::ptr(_var_idx), boost::python::ptr(_sample_idx), boost::python::ptr(_var_type), boost::python::ptr(_missing_mask), params );
+        }
+    }
+    
+    static boost::python::object default_train_96f2f7218741280e2a32a5f6ce32c0f0( ::CvForestTree & inst, ::cv::Mat & _train_data, int _tflag, ::cv::Mat & _responses, ::cv::Mat _var_idx=cv::Mat(), ::cv::Mat _sample_idx=cv::Mat(), ::cv::Mat _var_type=cv::Mat(), ::cv::Mat _missing_mask=cv::Mat(), ::CvDTreeParams params=::CvDTreeParams( ) ){
+        bool result;
+        if( dynamic_cast< CvForestERTree_wrapper * >( boost::addressof( inst ) ) ){
+            result = inst.::CvForestTree::train(get_CvMat_ptr(_train_data), _tflag, get_CvMat_ptr(_responses), get_CvMat_ptr(_var_idx), get_CvMat_ptr(_sample_idx), get_CvMat_ptr(_var_type), get_CvMat_ptr(_missing_mask), params);
+        }
+        else{
+            result = inst.train(get_CvMat_ptr(_train_data), _tflag, get_CvMat_ptr(_responses), get_CvMat_ptr(_var_idx), get_CvMat_ptr(_sample_idx), get_CvMat_ptr(_var_type), get_CvMat_ptr(_missing_mask), params);
+        }
+        return bp::object( result );
+    }
+
+    virtual bool train( ::CvDTreeTrainData * _train_data, ::CvMat const * _subsample_idx ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_train = this->get_override( "train" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_train.ptr(), _train_data, _subsample_idx );
+            return bpl::extract< bool >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvForestTree::train( boost::python::ptr(_train_data), boost::python::ptr(_subsample_idx) );
+        }
+    }
+    
+    static boost::python::object default_train_89d20e49296df69e16cdfc2afd830b46( ::CvForestTree & inst, ::CvDTreeTrainData * _train_data, ::cv::Mat & _subsample_idx ){
+        bool result;
+        if( dynamic_cast< CvForestERTree_wrapper * >( boost::addressof( inst ) ) ){
+            result = inst.::CvForestTree::train(_train_data, get_CvMat_ptr(_subsample_idx));
+        }
+        else{
+            result = inst.train(_train_data, get_CvMat_ptr(_subsample_idx));
+        }
+        return bp::object( result );
+    }
+
     virtual void write( ::CvFileStorage * fs, char const * name ) const  {
         namespace bpl = boost::python;
         if( bpl::override func_write = this->get_override( "write" ) ){
@@ -219,10 +321,25 @@ void register_CvForestERTree_class(){
             , (int ( ::CvForestTree::* )(  ) const)(&::CvForestTree::get_var_count)
             , (int ( CvForestERTree_wrapper::* )(  ) const)(&CvForestERTree_wrapper::default_get_var_count) )    
         .def( 
+            "get_var_importance"
+            , (::CvMat const * ( ::CvDTree::* )(  ) )(&::CvDTree::get_var_importance)
+            , (::CvMat const * ( CvForestERTree_wrapper::* )(  ) )(&CvForestERTree_wrapper::default_get_var_importance)
+            , bp::return_internal_reference< >() )    
+        .def( 
             "load"
             , (void ( ::CvStatModel::* )( char const *,char const * ) )(&::CvStatModel::load)
             , (void ( CvForestERTree_wrapper::* )( char const *,char const * ) )(&CvForestERTree_wrapper::default_load)
             , ( bp::arg("filename"), bp::arg("name")=bp::object() ) )    
+        .def( 
+            "predict"
+            , (boost::python::object (*)( ::CvDTree const &,::cv::Mat &,::cv::Mat,bool ))( &CvForestERTree_wrapper::default_predict_76f915d59fbfe6ec6c36b63903c7e6de )
+            , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("_missing_data_mask")=cv::Mat(), bp::arg("preprocessed_input")=(bool)(false) )
+            , "\nArgument '_missing_data_mask':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat." )    
         .def( 
             "predict"
             , (::CvDTreeNode * ( ::CvDTree::* )( ::cv::Mat const &,::cv::Mat const &,bool ) const)(&::CvDTree::predict)
@@ -280,6 +397,42 @@ void register_CvForestERTree_class(){
             , (bool ( ::CvDTree::* )( ::cv::Mat const &,int,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvDTreeParams ) )(&::CvDTree::train)
             , (bool ( CvForestERTree_wrapper::* )( ::cv::Mat const &,int,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvDTreeParams ) )(&CvForestERTree_wrapper::default_train)
             , ( bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvDTreeParams( ) ) )    
+        .def( 
+            "train"
+            , (boost::python::object (*)( ::CvForestTree &,::CvDTreeTrainData *,::cv::Mat &,::CvRTrees * ))( &CvForestERTree_wrapper::default_train_4bc7f79d4a1e6910af357373bfa4eddb )
+            , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_subsample_idx"), bp::arg("forest") )
+            , "\nArgument '_subsample_idx':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat." )    
+        .def( 
+            "train"
+            , (boost::python::object (*)( ::CvForestTree &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,::CvDTreeParams ))( &CvForestERTree_wrapper::default_train_96f2f7218741280e2a32a5f6ce32c0f0 )
+            , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvDTreeParams( ) )
+            , "\nArgument '_missing_mask':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_idx':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_type':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample_idx':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_responses':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_train_data':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat." )    
+        .def( 
+            "train"
+            , (boost::python::object (*)( ::CvForestTree &,::CvDTreeTrainData *,::cv::Mat & ))( &CvForestERTree_wrapper::default_train_89d20e49296df69e16cdfc2afd830b46 )
+            , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_subsample_idx") )
+            , "\nArgument '_subsample_idx':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat." )    
         .def( 
             "write_d5b05f94ebb65d268cbd4756fe0d6221"
             , (void (*)( ::CvDTree const &,::cv::FileStorage &,char const * ))( &CvForestERTree_wrapper::default_write_d5b05f94ebb65d268cbd4756fe0d6221 )

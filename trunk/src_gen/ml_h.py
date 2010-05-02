@@ -312,7 +312,6 @@ KLASS.__repr__ = _KLASS__repr__
     # CvDTree
     z = mb.class_('CvDTree')
     mb.init_class(z)
-    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
     z.mem_fun('calc_error').exclude() # TODO: fix this function
     for t in ('train', 'predict'):
         for t2 in z.mem_funs(t):
@@ -322,7 +321,6 @@ KLASS.__repr__ = _KLASS__repr__
     # CvForestTree
     z = mb.class_('CvForestTree')
     mb.init_class(z)
-    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
     for t in z.mem_funs('train'):
         t._transformer_kwds['alias'] = 'train'
     mb.finalize_class(z)
@@ -334,7 +332,6 @@ KLASS.__repr__ = _KLASS__repr__
     # CvRTrees
     z = mb.class_('CvRTrees')
     mb.init_class(z)
-    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
     z.mem_fun('calc_error').exclude() # TODO: fix this function
     z.mem_funs(lambda x: 'CvRNG' in x.decl_string).exclude() # TODO: fix these functions
     for t in ('train', 'predict', 'predict_prob'):
@@ -344,7 +341,14 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvERTreeTrainData
     z = mb.class_('CvERTreeTrainData')
-    z.decls().exclude() # TODO: fix this class
+    mb.init_class(z)
+    # TODO: fix these member functions
+    for t in (
+        'get_ord_var_data', 'get_sample_indices', 'get_cv_labels', 'get_cat_var_data',
+        'get_vectors',
+        ):
+        z.mem_funs(t).exclude()
+    mb.finalize_class(z)
 
     # CvForestERTree
     z = mb.class_('CvForestERTree')
@@ -354,7 +358,9 @@ KLASS.__repr__ = _KLASS__repr__
     # CvERTrees
     z = mb.class_('CvERTrees')
     mb.init_class(z)
-    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude()
+    for t in ('train',):
+        for t2 in z.mem_funs(t):
+            t2._transformer_kwds['alias'] = t
     mb.finalize_class(z)
 
     # CvBoostParams # TODO: expose 'priors', fix the longer constructor
@@ -364,14 +370,11 @@ KLASS.__repr__ = _KLASS__repr__
     # CvBoostTree
     z = mb.class_('CvBoostTree')
     mb.init_class(z)
-    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
     mb.finalize_class(z)
 
     # CvBoost
     z = mb.class_('CvBoost')
     mb.init_class(z)
-    z.constructors(lambda x: 'CvMat' in x.decl_string).exclude()
-    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
     z.mem_fun('calc_error').exclude() # TODO: fix this function
     for t in ('train', 'predict'):
         for t2 in z.mem_funs(t):
@@ -392,7 +395,6 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('CvANN_MLP')
     mb.init_class(z)
     z.constructors(lambda x: len(x.arguments) > 1).exclude()
-    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these functions
     for t in ('create', 'train', 'predict'):
         for t2 in z.mem_funs(t):
             t2._transformer_kwds['alias'] = t
@@ -428,6 +430,5 @@ KLASS.__repr__ = _KLASS__repr__
     # CvMLData
     z = mb.class_('CvMLData')
     mb.init_class(z)
-    z.decls(lambda x: 'CvMat' in x.decl_string).exclude() # TODO: fix these declarations
     mb.finalize_class(z)
 
