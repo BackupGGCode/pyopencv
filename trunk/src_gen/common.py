@@ -458,20 +458,21 @@ def get_decl_equivname(pds):
     return z[0]
 
 def prepare_decls_registration_code():
-    str = '''#ifndef SD_TEMPLATE_INSTANTIATIONS_H
-#define SD_TEMPLATE_INSTANTIATIONS_H
+    str = '''#ifndef SD_TEMPLATE_INSTANTIATIONS_HPP
+#define SD_TEMPLATE_INSTANTIATIONS_HPP
 
 class dummy_struct {
 public:
     struct dummy_struct2 {};
-'''
+    static const int total_size = 0'''
 
     pdss = _decls_reg.keys()
     for i in xrange(len(pdss)):
         if '<' in pdss[i]: # only instantiate those that need to
-            str += '    static int const var%d = sizeof(%s);\n' % (i, pdss[i])
+            str += '\n        + sizeof(%s)' % pdss[i]
 
-    str += '''};
+    str += ''';
+};
 
 #endif
 '''

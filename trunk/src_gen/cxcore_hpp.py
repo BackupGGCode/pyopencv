@@ -334,6 +334,10 @@ static boost::shared_ptr<cv::Mat> Mat__init3__(bp::object const &arg1, bp::objec
     z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("arg1") )))') 
     z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init2__, bp::default_call_policies(), ( bp::arg("arg1"), bp::arg("arg2") )))') 
     z.add_registration_code('def("__init__", bp::make_constructor(&Mat__init3__, bp::default_call_policies(), ( bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3") )))')
+    # to/from CvMat
+    z2 = mb.class_('CvMat')
+    mb.asClass(z, z2)
+    mb.asClass(z2, z, 'return cv::Mat((CvMat const *)&inst)')
     # to/from_list_of_Types
     list_dict = {
         'int8': 'char',

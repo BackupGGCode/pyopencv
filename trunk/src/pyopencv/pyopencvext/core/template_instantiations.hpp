@@ -1,117 +1,118 @@
-#ifndef SD_TEMPLATE_INSTANTIATIONS_H
-#define SD_TEMPLATE_INSTANTIATIONS_H
+#ifndef SD_TEMPLATE_INSTANTIATIONS_HPP
+#define SD_TEMPLATE_INSTANTIATIONS_HPP
 
 class dummy_struct {
 public:
     struct dummy_struct2 {};
-    static int const var1 = sizeof(std::vector<long>);
-    static int const var3 = sizeof(std::vector<cv::Octree::Node>);
-    static int const var4 = sizeof(std::vector<cv::Vec<int,3> >);
-    static int const var5 = sizeof(std::vector<cv::Vec<float,2> >);
-    static int const var6 = sizeof(std::vector<cv::Vec<unsigned char,4> >);
-    static int const var9 = sizeof(std::vector<cv::Vec<unsigned short,3> >);
-    static int const var12 = sizeof(std::vector<double>);
-    static int const var13 = sizeof(std::vector<cv::Size_<float> >);
-    static int const var15 = sizeof(std::vector<cv::CascadeClassifier::Stage>);
-    static int const var17 = sizeof(cv::Point3_<int>);
-    static int const var18 = sizeof(std::vector<cv::Vec<double,2> >);
-    static int const var19 = sizeof(std::vector<unsigned short>);
-    static int const var20 = sizeof(std::vector<cv::Vec<float,4> >);
-    static int const var23 = sizeof(std::vector<cv::Point3_<int> >);
-    static int const var24 = sizeof(std::vector<cv::Vec<unsigned short,4> >);
-    static int const var25 = sizeof(cv::Size_<int>);
-    static int const var26 = sizeof(cv::Vec<double,4>);
-    static int const var32 = sizeof(std::vector<cv::FernClassifier::Feature>);
-    static int const var34 = sizeof(cv::Vec<float,3>);
-    static int const var38 = sizeof(std::vector<cv::Point_<float> >);
-    static int const var39 = sizeof(std::vector<float>);
-    static int const var41 = sizeof(cv::Seq<CvSURFPoint>);
-    static int const var50 = sizeof(cv::Vec<unsigned short,2>);
-    static int const var52 = sizeof(std::vector<int>);
-    static int const var57 = sizeof(std::vector<unsigned long long>);
-    static int const var62 = sizeof(std::vector<cv::Point3_<double> >);
-    static int const var66 = sizeof(std::vector<cv::Vec<double,3> >);
-    static int const var67 = sizeof(std::vector<unsigned int>);
-    static int const var68 = sizeof(std::vector<CvFuzzyRule*>);
-    static int const var69 = sizeof(cv::Ptr<cv::FeatureEvaluator>);
-    static int const var70 = sizeof(cv::Point_<double>);
-    static int const var71 = sizeof(cv::Point3_<double>);
-    static int const var76 = sizeof(cv::Vec<double,2>);
-    static int const var77 = sizeof(cv::Vec<short,3>);
-    static int const var79 = sizeof(std::vector<CvFuzzyCurve>);
-    static int const var80 = sizeof(cv::Vec<unsigned short,3>);
-    static int const var83 = sizeof(std::vector<std::vector<int> >);
-    static int const var84 = sizeof(std::vector<unsigned char>);
-    static int const var87 = sizeof(std::vector<cv::RotatedRect>);
-    static int const var91 = sizeof(std::vector<std::vector<cv::Point_<float> > >);
-    static int const var93 = sizeof(std::vector<cv::Vec<short,3> >);
-    static int const var99 = sizeof(cv::Vec<unsigned char,2>);
-    static int const var101 = sizeof(cv::Vec<int,2>);
-    static int const var106 = sizeof(cv::Vec<double,3>);
-    static int const var108 = sizeof(cv::Vec<short,2>);
-    static int const var109 = sizeof(std::vector<cv::Point_<int> >);
-    static int const var110 = sizeof(std::vector<unsigned long>);
-    static int const var111 = sizeof(std::vector<cv::Vec<unsigned char,2> >);
-    static int const var112 = sizeof(cv::Vec<float,2>);
-    static int const var115 = sizeof(std::vector<cv::Vec<float,6> >);
-    static int const var119 = sizeof(std::vector<std::vector<cv::Vec<int,2> > >);
-    static int const var121 = sizeof(std::vector<std::vector<cv::Point3_<int> > >);
-    static int const var124 = sizeof(cv::Rect_<int>);
-    static int const var125 = sizeof(cv::Ptr<cv::BaseFilter>);
-    static int const var128 = sizeof(cv::Vec<unsigned char,4>);
-    static int const var129 = sizeof(cv::Ptr<CvStereoBMState>);
-    static int const var131 = sizeof(std::vector<cv::Size_<int> >);
-    static int const var133 = sizeof(std::vector<std::vector<float> >);
-    static int const var134 = sizeof(cv::Vec<unsigned char,3>);
-    static int const var138 = sizeof(cv::Vec<int,3>);
-    static int const var139 = sizeof(cv::Point_<float>);
-    static int const var140 = sizeof(cv::Size_<float>);
-    static int const var147 = sizeof(std::vector<cv::CascadeClassifier::DTreeNode>);
-    static int const var149 = sizeof(std::vector<std::vector<cv::Point_<double> > >);
-    static int const var154 = sizeof(cv::Complex<double>);
-    static int const var155 = sizeof(std::vector<char>);
-    static int const var156 = sizeof(std::vector<cv::Rect_<int> >);
-    static int const var157 = sizeof(std::vector<cv::Vec<int,2> >);
-    static int const var158 = sizeof(std::vector<cv::Vec<unsigned short,2> >);
-    static int const var159 = sizeof(std::vector<std::vector<cv::Point3_<double> > >);
-    static int const var161 = sizeof(std::vector<short>);
-    static int const var162 = sizeof(std::vector<cv::Vec<float,3> >);
-    static int const var163 = sizeof(cv::Complex<float>);
-    static int const var164 = sizeof(std::vector<cv::Ptr<cv::Mat> >);
-    static int const var166 = sizeof(cv::Vec<short,4>);
-    static int const var169 = sizeof(cv::Vec<int,4>);
-    static int const var171 = sizeof(cv::Ptr<cv::Mat>);
-    static int const var173 = sizeof(cv::Vec<float,4>);
-    static int const var174 = sizeof(cv::Point_<int>);
-    static int const var175 = sizeof(std::vector<cv::Vec<double,4> >);
-    static int const var176 = sizeof(std::vector<cv::Vec<int,4> >);
-    static int const var179 = sizeof(cv::Vec<double,6>);
-    static int const var180 = sizeof(std::vector<cv::Vec<double,6> >);
-    static int const var181 = sizeof(std::vector<cv::KDTree::Node>);
-    static int const var184 = sizeof(std::vector<cv::KeyPoint>);
-    static int const var186 = sizeof(std::vector<cv::Vec<short,4> >);
-    static int const var190 = sizeof(std::vector<cv::Mat>);
-    static int const var192 = sizeof(std::vector<cv::Vec<short,2> >);
-    static int const var193 = sizeof(std::vector<cv::Point3_<float> >);
-    static int const var199 = sizeof(std::vector<cv::Scalar_<double> >);
-    static int const var201 = sizeof(cv::Ptr<CvHaarClassifierCascade>);
-    static int const var203 = sizeof(cv::Ptr<cv::BaseColumnFilter>);
-    static int const var204 = sizeof(std::vector<cv::MatND>);
-    static int const var205 = sizeof(std::vector<long long>);
-    static int const var213 = sizeof(std::vector<cv::Vec<unsigned char,3> >);
-    static int const var217 = sizeof(cv::Point3_<float>);
-    static int const var219 = sizeof(cv::Scalar_<double>);
-    static int const var221 = sizeof(cv::Vec<float,6>);
-    static int const var223 = sizeof(std::vector<unsigned char *>);
-    static int const var224 = sizeof(std::vector<cv::Range>);
-    static int const var225 = sizeof(cv::Ptr<cv::FilterEngine>);
-    static int const var226 = sizeof(cv::Ptr<CvMemStorage>);
-    static int const var227 = sizeof(std::vector<cv::Point_<double> >);
-    static int const var229 = sizeof(std::vector<cv::CascadeClassifier::DTree>);
-    static int const var237 = sizeof(cv::Vec<unsigned short,4>);
-    static int const var240 = sizeof(cv::Ptr<cv::BaseRowFilter>);
-    static int const var242 = sizeof(std::vector<std::vector<cv::Point_<int> > >);
-    static int const var243 = sizeof(std::vector<std::vector<cv::Point3_<float> > >);
+    static const int total_size = 0
+        + sizeof(std::vector<long>)
+        + sizeof(std::vector<cv::Octree::Node>)
+        + sizeof(std::vector<cv::Vec<int,3> >)
+        + sizeof(std::vector<cv::Vec<float,2> >)
+        + sizeof(std::vector<cv::Vec<unsigned char,4> >)
+        + sizeof(std::vector<cv::Vec<unsigned short,3> >)
+        + sizeof(std::vector<double>)
+        + sizeof(std::vector<cv::Size_<float> >)
+        + sizeof(std::vector<cv::CascadeClassifier::Stage>)
+        + sizeof(cv::Point3_<int>)
+        + sizeof(std::vector<cv::Vec<double,2> >)
+        + sizeof(std::vector<unsigned short>)
+        + sizeof(std::vector<cv::Vec<float,4> >)
+        + sizeof(std::vector<cv::Point3_<int> >)
+        + sizeof(std::vector<cv::Vec<unsigned short,4> >)
+        + sizeof(cv::Size_<int>)
+        + sizeof(cv::Vec<double,4>)
+        + sizeof(std::vector<cv::FernClassifier::Feature>)
+        + sizeof(cv::Vec<float,3>)
+        + sizeof(std::vector<cv::Point_<float> >)
+        + sizeof(std::vector<float>)
+        + sizeof(cv::Seq<CvSURFPoint>)
+        + sizeof(cv::Vec<unsigned short,2>)
+        + sizeof(std::vector<int>)
+        + sizeof(std::vector<unsigned long long>)
+        + sizeof(std::vector<cv::Point3_<double> >)
+        + sizeof(std::vector<cv::Vec<double,3> >)
+        + sizeof(std::vector<unsigned int>)
+        + sizeof(std::vector<CvFuzzyRule*>)
+        + sizeof(cv::Ptr<cv::FeatureEvaluator>)
+        + sizeof(cv::Point_<double>)
+        + sizeof(cv::Point3_<double>)
+        + sizeof(cv::Vec<double,2>)
+        + sizeof(cv::Vec<short,3>)
+        + sizeof(std::vector<CvFuzzyCurve>)
+        + sizeof(cv::Vec<unsigned short,3>)
+        + sizeof(std::vector<std::vector<int> >)
+        + sizeof(std::vector<unsigned char>)
+        + sizeof(std::vector<cv::RotatedRect>)
+        + sizeof(std::vector<std::vector<cv::Point_<float> > >)
+        + sizeof(std::vector<cv::Vec<short,3> >)
+        + sizeof(cv::Vec<unsigned char,2>)
+        + sizeof(cv::Vec<int,2>)
+        + sizeof(cv::Vec<double,3>)
+        + sizeof(cv::Vec<short,2>)
+        + sizeof(std::vector<cv::Point_<int> >)
+        + sizeof(std::vector<unsigned long>)
+        + sizeof(std::vector<cv::Vec<unsigned char,2> >)
+        + sizeof(cv::Vec<float,2>)
+        + sizeof(std::vector<cv::Vec<float,6> >)
+        + sizeof(std::vector<std::vector<cv::Vec<int,2> > >)
+        + sizeof(std::vector<std::vector<cv::Point3_<int> > >)
+        + sizeof(cv::Rect_<int>)
+        + sizeof(cv::Ptr<cv::BaseFilter>)
+        + sizeof(cv::Vec<unsigned char,4>)
+        + sizeof(cv::Ptr<CvStereoBMState>)
+        + sizeof(std::vector<cv::Size_<int> >)
+        + sizeof(std::vector<std::vector<float> >)
+        + sizeof(cv::Vec<unsigned char,3>)
+        + sizeof(cv::Vec<int,3>)
+        + sizeof(cv::Point_<float>)
+        + sizeof(cv::Size_<float>)
+        + sizeof(std::vector<cv::CascadeClassifier::DTreeNode>)
+        + sizeof(std::vector<std::vector<cv::Point_<double> > >)
+        + sizeof(cv::Complex<double>)
+        + sizeof(std::vector<char>)
+        + sizeof(std::vector<cv::Rect_<int> >)
+        + sizeof(std::vector<cv::Vec<int,2> >)
+        + sizeof(std::vector<cv::Vec<unsigned short,2> >)
+        + sizeof(std::vector<std::vector<cv::Point3_<double> > >)
+        + sizeof(std::vector<short>)
+        + sizeof(std::vector<cv::Vec<float,3> >)
+        + sizeof(cv::Complex<float>)
+        + sizeof(std::vector<cv::Ptr<cv::Mat> >)
+        + sizeof(cv::Vec<short,4>)
+        + sizeof(cv::Vec<int,4>)
+        + sizeof(cv::Ptr<cv::Mat>)
+        + sizeof(cv::Vec<float,4>)
+        + sizeof(cv::Point_<int>)
+        + sizeof(std::vector<cv::Vec<double,4> >)
+        + sizeof(std::vector<cv::Vec<int,4> >)
+        + sizeof(cv::Vec<double,6>)
+        + sizeof(std::vector<cv::Vec<double,6> >)
+        + sizeof(std::vector<cv::KDTree::Node>)
+        + sizeof(std::vector<cv::KeyPoint>)
+        + sizeof(std::vector<cv::Vec<short,4> >)
+        + sizeof(std::vector<cv::Mat>)
+        + sizeof(std::vector<cv::Vec<short,2> >)
+        + sizeof(std::vector<cv::Point3_<float> >)
+        + sizeof(std::vector<cv::Scalar_<double> >)
+        + sizeof(cv::Ptr<CvHaarClassifierCascade>)
+        + sizeof(cv::Ptr<cv::BaseColumnFilter>)
+        + sizeof(std::vector<cv::MatND>)
+        + sizeof(std::vector<long long>)
+        + sizeof(std::vector<cv::Vec<unsigned char,3> >)
+        + sizeof(cv::Point3_<float>)
+        + sizeof(cv::Scalar_<double>)
+        + sizeof(cv::Vec<float,6>)
+        + sizeof(std::vector<unsigned char *>)
+        + sizeof(std::vector<cv::Range>)
+        + sizeof(cv::Ptr<cv::FilterEngine>)
+        + sizeof(cv::Ptr<CvMemStorage>)
+        + sizeof(std::vector<cv::Point_<double> >)
+        + sizeof(std::vector<cv::CascadeClassifier::DTree>)
+        + sizeof(cv::Vec<unsigned short,4>)
+        + sizeof(cv::Ptr<cv::BaseRowFilter>)
+        + sizeof(std::vector<std::vector<cv::Point_<int> > >)
+        + sizeof(std::vector<std::vector<cv::Point3_<float> > >);
 };
 
 #endif
