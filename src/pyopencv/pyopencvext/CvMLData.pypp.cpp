@@ -26,12 +26,40 @@ void register_CvMLData_class(){
             "get_miss_ch"
             , (char ( ::CvMLData::* )(  ) )( &::CvMLData::get_miss_ch ) )    
         .def( 
+            "get_missing"
+            , (::CvMat const * ( ::CvMLData::* )(  ) )( &::CvMLData::get_missing )
+            , bp::return_internal_reference< >() )    
+        .def( 
             "get_response_idx"
             , (int ( ::CvMLData::* )(  ) )( &::CvMLData::get_response_idx ) )    
+        .def( 
+            "get_responses"
+            , (::CvMat const * ( ::CvMLData::* )(  ) )( &::CvMLData::get_responses )
+            , bp::return_internal_reference< >() )    
+        .def( 
+            "get_test_sample_idx"
+            , (::CvMat const * ( ::CvMLData::* )(  ) )( &::CvMLData::get_test_sample_idx )
+            , bp::return_internal_reference< >() )    
+        .def( 
+            "get_train_sample_idx"
+            , (::CvMat const * ( ::CvMLData::* )(  ) )( &::CvMLData::get_train_sample_idx )
+            , bp::return_internal_reference< >() )    
+        .def( 
+            "get_values"
+            , (::CvMat const * ( ::CvMLData::* )(  ) )( &::CvMLData::get_values )
+            , bp::return_internal_reference< >() )    
+        .def( 
+            "get_var_idx"
+            , (::CvMat const * ( ::CvMLData::* )(  ) )( &::CvMLData::get_var_idx )
+            , bp::return_internal_reference< >() )    
         .def( 
             "get_var_type"
             , (int ( ::CvMLData::* )( int ) )( &::CvMLData::get_var_type )
             , ( bp::arg("var_idx") ) )    
+        .def( 
+            "get_var_types"
+            , (::CvMat const * ( ::CvMLData::* )(  ) )( &::CvMLData::get_var_types )
+            , bp::return_internal_reference< >() )    
         .def( 
             "mix_train_and_test_idx"
             , (void ( ::CvMLData::* )(  ) )( &::CvMLData::mix_train_and_test_idx ) )    

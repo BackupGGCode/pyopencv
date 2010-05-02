@@ -6,11 +6,11 @@
 
 #include "__convenience.pypp.hpp"
 
+#include "opencv_converters.hpp"
+
 #include "ndarray.hpp"
 
 #include "__array_1.pypp.hpp"
-
-#include "opencv_converters.hpp"
 
 #include "boost/python/object.hpp"
 
@@ -109,6 +109,8 @@
 #include "pyopencvext/CvEM.pypp.hpp"
 
 #include "pyopencvext/CvEMParams.pypp.hpp"
+
+#include "pyopencvext/CvERTreeTrainData.pypp.hpp"
 
 #include "pyopencvext/CvERTrees.pypp.hpp"
 
@@ -2046,6 +2048,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvEMParams_class();
 
     register_CvEM_class();
+
+    register_CvERTreeTrainData_class();
 
     register_CvRTParams_class();
 

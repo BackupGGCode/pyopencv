@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
+#include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "CvANN_MLP.pypp.hpp"
@@ -37,6 +38,25 @@ struct CvANN_MLP_wrapper : CvANN_MLP, bp::wrapper< CvANN_MLP > {
         CvANN_MLP::clear( );
     }
 
+    virtual void create( ::CvMat const * _layer_sizes, int _activ_func=int(::CvANN_MLP::SIGMOID_SYM), double _f_param1=0, double _f_param2=0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_create = this->get_override( "create" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_create.ptr(), _layer_sizes, _activ_func, _f_param1, _f_param2 );
+        }
+        else{
+            CvANN_MLP::create( boost::python::ptr(_layer_sizes), _activ_func, _f_param1, _f_param2 );
+        }
+    }
+    
+    static void default_create_2df16ffe056647bb3693b370c1654006( ::CvANN_MLP & inst, ::cv::Mat & _layer_sizes, int _activ_func=int(::CvANN_MLP::SIGMOID_SYM), double _f_param1=0, double _f_param2=0 ){
+        if( dynamic_cast< CvANN_MLP_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvANN_MLP::create(get_CvMat_ptr(_layer_sizes), _activ_func, _f_param1, _f_param2);
+        }
+        else{
+            inst.create(get_CvMat_ptr(_layer_sizes), _activ_func, _f_param1, _f_param2);
+        }
+    }
+
     virtual void create( ::cv::Mat const & _layer_sizes, int _activ_func=int(::CvANN_MLP::SIGMOID_SYM), double _f_param1=0, double _f_param2=0 ) {
         if( bp::override func_create = this->get_override( "create" ) )
             func_create( boost::ref(_layer_sizes), _activ_func, _f_param1, _f_param2 );
@@ -47,6 +67,28 @@ struct CvANN_MLP_wrapper : CvANN_MLP, bp::wrapper< CvANN_MLP > {
     
     void default_create( ::cv::Mat const & _layer_sizes, int _activ_func=int(::CvANN_MLP::SIGMOID_SYM), double _f_param1=0, double _f_param2=0 ) {
         CvANN_MLP::create( boost::ref(_layer_sizes), _activ_func, _f_param1, _f_param2 );
+    }
+
+    virtual float predict( ::CvMat const * _inputs, ::CvMat * _outputs ) const  {
+        namespace bpl = boost::python;
+        if( bpl::override func_predict = this->get_override( "predict" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_predict.ptr(), _inputs, _outputs );
+            return bpl::extract< float >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvANN_MLP::predict( boost::python::ptr(_inputs), boost::python::ptr(_outputs) );
+        }
+    }
+    
+    static boost::python::object default_predict_b2417e3fee351e89cc767f5cf2c03f3c( ::CvANN_MLP const & inst, ::cv::Mat & _inputs, ::cv::Mat & _outputs ){
+        float result;
+        if( dynamic_cast< CvANN_MLP_wrapper const* >( boost::addressof( inst ) ) ){
+            result = inst.::CvANN_MLP::predict(get_CvMat_ptr(_inputs), get_CvMat_ptr(_outputs));
+        }
+        else{
+            result = inst.predict(get_CvMat_ptr(_inputs), get_CvMat_ptr(_outputs));
+        }
+        return bp::object( result );
     }
 
     virtual float predict( ::cv::Mat const & _inputs, ::cv::Mat & _outputs ) const  {
@@ -78,6 +120,28 @@ struct CvANN_MLP_wrapper : CvANN_MLP, bp::wrapper< CvANN_MLP > {
         else{
             inst.read(fs.fs, *(node));
         }
+    }
+
+    virtual int train( ::CvMat const * _inputs, ::CvMat const * _outputs, ::CvMat const * _sample_weights, ::CvMat const * _sample_idx=0, ::CvANN_MLP_TrainParams _params=::CvANN_MLP_TrainParams( ), int flags=0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_train = this->get_override( "train" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_train.ptr(), _inputs, _outputs, _sample_weights, _sample_idx, _params, flags );
+            return bpl::extract< int >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvANN_MLP::train( boost::python::ptr(_inputs), boost::python::ptr(_outputs), boost::python::ptr(_sample_weights), boost::python::ptr(_sample_idx), _params, flags );
+        }
+    }
+    
+    static boost::python::object default_train_9aa430cd36f2c0c2d3639234b6e204fc( ::CvANN_MLP & inst, ::cv::Mat & _inputs, ::cv::Mat & _outputs, ::cv::Mat & _sample_weights, ::cv::Mat _sample_idx=cv::Mat(), ::CvANN_MLP_TrainParams _params=::CvANN_MLP_TrainParams( ), int flags=0 ){
+        int result;
+        if( dynamic_cast< CvANN_MLP_wrapper * >( boost::addressof( inst ) ) ){
+            result = inst.::CvANN_MLP::train(get_CvMat_ptr(_inputs), get_CvMat_ptr(_outputs), get_CvMat_ptr(_sample_weights), get_CvMat_ptr(_sample_idx), _params, flags);
+        }
+        else{
+            result = inst.train(get_CvMat_ptr(_inputs), get_CvMat_ptr(_outputs), get_CvMat_ptr(_sample_weights), get_CvMat_ptr(_sample_idx), _params, flags);
+        }
+        return bp::object( result );
     }
 
     virtual int train( ::cv::Mat const & _inputs, ::cv::Mat const & _outputs, ::cv::Mat const & _sample_weights, ::cv::Mat const & _sample_idx=cv::Mat(), ::CvANN_MLP_TrainParams _params=::CvANN_MLP_TrainParams( ), int flags=0 ) {
@@ -170,6 +234,19 @@ void register_CvANN_MLP_class(){
         }
         { //::CvANN_MLP::create
         
+            typedef void ( *default_create_function_type )( ::CvANN_MLP &,::cv::Mat &,int,double,double );
+            
+            CvANN_MLP_exposer.def( 
+                "create"
+                , default_create_function_type( &CvANN_MLP_wrapper::default_create_2df16ffe056647bb3693b370c1654006 )
+                , ( bp::arg("inst"), bp::arg("_layer_sizes"), bp::arg("_activ_func")=int(::CvANN_MLP::SIGMOID_SYM), bp::arg("_f_param1")=0, bp::arg("_f_param2")=0 )
+                , "\nArgument '_layer_sizes':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat." );
+        
+        }
+        { //::CvANN_MLP::create
+        
             typedef void ( ::CvANN_MLP::*create_function_type )( ::cv::Mat const &,int,double,double ) ;
             typedef void ( CvANN_MLP_wrapper::*default_create_function_type )( ::cv::Mat const &,int,double,double ) ;
             
@@ -187,6 +264,32 @@ void register_CvANN_MLP_class(){
             CvANN_MLP_exposer.def( 
                 "get_layer_count"
                 , get_layer_count_function_type( &::CvANN_MLP::get_layer_count ) );
+        
+        }
+        { //::CvANN_MLP::get_layer_sizes
+        
+            typedef ::CvMat const * ( ::CvANN_MLP::*get_layer_sizes_function_type )(  ) ;
+            
+            CvANN_MLP_exposer.def( 
+                "get_layer_sizes"
+                , get_layer_sizes_function_type( &::CvANN_MLP::get_layer_sizes )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::CvANN_MLP::predict
+        
+            typedef boost::python::object ( *default_predict_function_type )( ::CvANN_MLP const &,::cv::Mat &,::cv::Mat & );
+            
+            CvANN_MLP_exposer.def( 
+                "predict"
+                , default_predict_function_type( &CvANN_MLP_wrapper::default_predict_b2417e3fee351e89cc767f5cf2c03f3c )
+                , ( bp::arg("inst"), bp::arg("_inputs"), bp::arg("_outputs") )
+                , "\nArgument '_outputs':"\
+    "\n    C/C++ type: ::CvMat *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_inputs':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat." );
         
         }
         { //::CvANN_MLP::predict
@@ -215,6 +318,28 @@ void register_CvANN_MLP_class(){
     "\nArgument 'fs':"\
     "\n    C/C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
+        
+        }
+        { //::CvANN_MLP::train
+        
+            typedef boost::python::object ( *default_train_function_type )( ::CvANN_MLP &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat,::CvANN_MLP_TrainParams,int );
+            
+            CvANN_MLP_exposer.def( 
+                "train"
+                , default_train_function_type( &CvANN_MLP_wrapper::default_train_9aa430cd36f2c0c2d3639234b6e204fc )
+                , ( bp::arg("inst"), bp::arg("_inputs"), bp::arg("_outputs"), bp::arg("_sample_weights"), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvANN_MLP_TrainParams( ), bp::arg("flags")=(int)(0) )
+                , "\nArgument '_outputs':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample_weights':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample_idx':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_inputs':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat." );
         
         }
         { //::CvANN_MLP::train

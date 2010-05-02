@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
+#include "opencv_converters.hpp"
 #include "ndarray.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
@@ -26,6 +27,13 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
     
     }
 
+    CvBoost_wrapper(::CvMat const * _train_data, int _tflag, ::CvMat const * _responses, ::CvMat const * _var_idx=0, ::CvMat const * _sample_idx=0, ::CvMat const * _var_type=0, ::CvMat const * _missing_mask=0, ::CvBoostParams params=::CvBoostParams( ) )
+    : CvBoost( boost::python::ptr(_train_data), _tflag, boost::python::ptr(_responses), boost::python::ptr(_var_idx), boost::python::ptr(_sample_idx), boost::python::ptr(_var_type), boost::python::ptr(_missing_mask), params )
+      , bp::wrapper< CvBoost >(){
+        // constructor
+    
+    }
+
     CvBoost_wrapper(::cv::Mat const & _train_data, int _tflag, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::cv::Mat const & _var_type=cv::Mat(), ::cv::Mat const & _missing_mask=cv::Mat(), ::CvBoostParams params=::CvBoostParams( ) )
     : CvBoost( boost::ref(_train_data), _tflag, boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), boost::ref(_var_type), boost::ref(_missing_mask), params )
       , bp::wrapper< CvBoost >(){
@@ -43,6 +51,41 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
     
     void default_clear(  ) {
         CvBoost::clear( );
+    }
+
+    virtual ::CvMat const * get_active_vars( bool absolute_idx=true ) {
+        if( bp::override func_get_active_vars = this->get_override( "get_active_vars" ) )
+            return func_get_active_vars( absolute_idx );
+        else{
+            return this->CvBoost::get_active_vars( absolute_idx );
+        }
+    }
+    
+    ::CvMat const * default_get_active_vars( bool absolute_idx=true ) {
+        return CvBoost::get_active_vars( absolute_idx );
+    }
+
+    virtual float predict( ::CvMat const * _sample, ::CvMat const * _missing, ::CvMat * weak_responses, ::CvSlice slice, bool raw_mode=false, bool return_sum=false ) const  {
+        namespace bpl = boost::python;
+        if( bpl::override func_predict = this->get_override( "predict" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_predict.ptr(), _sample, _missing, weak_responses, slice, raw_mode, return_sum );
+            return bpl::extract< float >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvBoost::predict( boost::python::ptr(_sample), boost::python::ptr(_missing), boost::python::ptr(weak_responses), slice, raw_mode, return_sum );
+        }
+    }
+    
+    static boost::python::tuple default_predict_886066153d61aabdd5ea5947ce710be6( ::CvBoost const & inst, ::cv::Mat & _sample, ::cv::Mat & _missing, cv::Range const & slice, bool raw_mode=false, bool return_sum=false ){
+        CvMat weak_responses2;
+        float result;
+        if( dynamic_cast< CvBoost_wrapper const* >( boost::addressof( inst ) ) ){
+            result = inst.::CvBoost::predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing), &weak_responses2, *(CvSlice *)(&slice), raw_mode, return_sum);
+        }
+        else{
+            result = inst.predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing), &weak_responses2, *(CvSlice *)(&slice), raw_mode, return_sum);
+        }
+        return bp::make_tuple( result, weak_responses2 );
     }
 
     virtual float predict( ::cv::Mat const & _sample, ::cv::Mat const & _missing, ::cv::Mat * weak_responses, ::CvSlice slice, bool raw_mode=false, bool return_sum=false ) const  {
@@ -104,6 +147,28 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
         else{
             inst.read(storage.fs, *(node));
         }
+    }
+
+    virtual bool train( ::CvMat const * _train_data, int _tflag, ::CvMat const * _responses, ::CvMat const * _var_idx=0, ::CvMat const * _sample_idx=0, ::CvMat const * _var_type=0, ::CvMat const * _missing_mask=0, ::CvBoostParams params=::CvBoostParams( ), bool update=false ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_train = this->get_override( "train" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_train.ptr(), _train_data, _tflag, _responses, _var_idx, _sample_idx, _var_type, _missing_mask, params, update );
+            return bpl::extract< bool >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvBoost::train( boost::python::ptr(_train_data), _tflag, boost::python::ptr(_responses), boost::python::ptr(_var_idx), boost::python::ptr(_sample_idx), boost::python::ptr(_var_type), boost::python::ptr(_missing_mask), params, update );
+        }
+    }
+    
+    static boost::python::object default_train_3f66572c988fe182c19720cf6ee35a3e( ::CvBoost & inst, ::cv::Mat & _train_data, int _tflag, ::cv::Mat & _responses, ::cv::Mat _var_idx=cv::Mat(), ::cv::Mat _sample_idx=cv::Mat(), ::cv::Mat _var_type=cv::Mat(), ::cv::Mat _missing_mask=cv::Mat(), ::CvBoostParams params=::CvBoostParams( ), bool update=false ){
+        bool result;
+        if( dynamic_cast< CvBoost_wrapper * >( boost::addressof( inst ) ) ){
+            result = inst.::CvBoost::train(get_CvMat_ptr(_train_data), _tflag, get_CvMat_ptr(_responses), get_CvMat_ptr(_var_idx), get_CvMat_ptr(_sample_idx), get_CvMat_ptr(_var_type), get_CvMat_ptr(_missing_mask), params, update);
+        }
+        else{
+            result = inst.train(get_CvMat_ptr(_train_data), _tflag, get_CvMat_ptr(_responses), get_CvMat_ptr(_var_idx), get_CvMat_ptr(_sample_idx), get_CvMat_ptr(_var_type), get_CvMat_ptr(_missing_mask), params, update);
+        }
+        return bp::object( result );
     }
 
     virtual bool train( ::CvMLData * data, ::CvBoostParams params=::CvBoostParams( ), bool update=false ) {
@@ -190,6 +255,26 @@ void register_CvBoost_class(){
         bp::scope().attr("GINI") = (int)CvBoost::GINI;
         bp::scope().attr("MISCLASS") = (int)CvBoost::MISCLASS;
         bp::scope().attr("SQERR") = (int)CvBoost::SQERR;
+        CvBoost_exposer.def( bp::init< CvMat const *, int, CvMat const *, bp::optional< CvMat const *, CvMat const *, CvMat const *, CvMat const *, CvBoostParams > >(( bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=bp::object(), bp::arg("_sample_idx")=bp::object(), bp::arg("_var_type")=bp::object(), bp::arg("_missing_mask")=bp::object(), bp::arg("params")=::CvBoostParams( ) ), "\nWrapped function:"
+    "\n    CvBoost"
+    "\nArgument '_missing_mask':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_idx':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_type':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample_idx':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_responses':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_train_data':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat.") );
         CvBoost_exposer.def( bp::init< cv::Mat const &, int, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const &, CvBoostParams > >(( bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvBoostParams( ) )) );
         { //::CvBoost::clear
         
@@ -200,6 +285,19 @@ void register_CvBoost_class(){
                 "clear"
                 , clear_function_type(&::CvBoost::clear)
                 , default_clear_function_type(&CvBoost_wrapper::default_clear) );
+        
+        }
+        { //::CvBoost::get_active_vars
+        
+            typedef ::CvMat const * ( ::CvBoost::*get_active_vars_function_type )( bool ) ;
+            typedef ::CvMat const * ( CvBoost_wrapper::*default_get_active_vars_function_type )( bool ) ;
+            
+            CvBoost_exposer.def( 
+                "get_active_vars"
+                , get_active_vars_function_type(&::CvBoost::get_active_vars)
+                , default_get_active_vars_function_type(&CvBoost_wrapper::default_get_active_vars)
+                , ( bp::arg("absolute_idx")=(bool)(true) )
+                , bp::return_internal_reference< >() );
         
         }
         { //::CvBoost::get_data
@@ -222,6 +320,16 @@ void register_CvBoost_class(){
                 , bp::return_value_policy< bp::copy_const_reference >() );
         
         }
+        { //::CvBoost::get_subtree_weights
+        
+            typedef ::CvMat * ( ::CvBoost::*get_subtree_weights_function_type )(  ) ;
+            
+            CvBoost_exposer.def( 
+                "get_subtree_weights"
+                , get_subtree_weights_function_type( &::CvBoost::get_subtree_weights )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::CvBoost::get_weak_predictors
         
             typedef ::CvSeq * ( ::CvBoost::*get_weak_predictors_function_type )(  ) ;
@@ -230,6 +338,50 @@ void register_CvBoost_class(){
                 "get_weak_predictors"
                 , get_weak_predictors_function_type( &::CvBoost::get_weak_predictors )
                 , bp::return_internal_reference< >() );
+        
+        }
+        { //::CvBoost::get_weak_response
+        
+            typedef ::CvMat * ( ::CvBoost::*get_weak_response_function_type )(  ) ;
+            
+            CvBoost_exposer.def( 
+                "get_weak_response"
+                , get_weak_response_function_type( &::CvBoost::get_weak_response )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::CvBoost::get_weights
+        
+            typedef ::CvMat * ( ::CvBoost::*get_weights_function_type )(  ) ;
+            
+            CvBoost_exposer.def( 
+                "get_weights"
+                , get_weights_function_type( &::CvBoost::get_weights )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::CvBoost::predict
+        
+            typedef boost::python::tuple ( *default_predict_function_type )( ::CvBoost const &,::cv::Mat &,::cv::Mat &,cv::Range const &,bool,bool );
+            
+            CvBoost_exposer.def( 
+                "predict"
+                , default_predict_function_type( &CvBoost_wrapper::default_predict_886066153d61aabdd5ea5947ce710be6 )
+                , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("_missing"), bp::arg("slice"), bp::arg("raw_mode")=(bool)(false), bp::arg("return_sum")=(bool)(false) )
+                , "\nArgument 'slice':"\
+    "\n    C/C++ type: ::CvSlice."\
+    "\n    Python type: Range."\
+    "\nArgument '_sample':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'weak_responses':"\
+    "\n    C/C++ type: ::CvMat *."\
+    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    Output argument: omitted from the function's calling sequence, and is "\
+    "\n    returned along with the function's return value (if any)."\
+    "\nArgument '_missing':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat." );
         
         }
         { //::CvBoost::predict
@@ -277,6 +429,34 @@ void register_CvBoost_class(){
     "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
+        
+        }
+        { //::CvBoost::train
+        
+            typedef boost::python::object ( *default_train_function_type )( ::CvBoost &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,::CvBoostParams,bool );
+            
+            CvBoost_exposer.def( 
+                "train"
+                , default_train_function_type( &CvBoost_wrapper::default_train_3f66572c988fe182c19720cf6ee35a3e )
+                , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvBoostParams( ), bp::arg("update")=(bool)(false) )
+                , "\nArgument '_missing_mask':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_idx':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_type':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample_idx':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_responses':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_train_data':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat." );
         
         }
         { //::CvBoost::train
