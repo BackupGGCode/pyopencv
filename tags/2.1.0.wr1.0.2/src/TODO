@@ -1,0 +1,32 @@
+=======================================================================
+PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
+=======================================================================
+
+Image conversion to/from wxWidget
+
+Provide more demos -- may ask people to help :)
+
+Fix squares.py demo, something's wrong with the algorithm. It's running but too slow.
+
+Add iterator for SparseMat
+
+- 2d lists should have better documentation: i.e. when is list of Mat, when is list of lists
+
+- introduce debugging mode so that people know which argument has been converted, which has been not
+
+- to_list_of_... returns vector_....
+- make to_list_of_... obsolete in the future
+- propose to group a major change of representation from 1D array and 2D array back to std::vector
+  arrays. 
+  
+- On Windows, there seems to be a problem when libopencv_ffmpeg210.dll is used --> VideoCapture
+  of a video file stops working. Remove the ffmpeg dll file and it appears to work again.
+  
+- fix cvInitSystem, currently bp::str is not automatically converted into char const *.
+
+- expose C functions for class CvSet, write a Set<T> that is a subclass of Seq<T>?
+
+------------------------------------------
+Making a snapshot release using setuptools:
+
+http://peak.telecommunity.com/DevCenter/setuptools#id33
