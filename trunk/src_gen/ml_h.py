@@ -128,19 +128,19 @@ KLASS.__repr__ = _KLASS__repr__
     # CvNormalBayesClassifier
     z = mb.class_('CvNormalBayesClassifier')
     mb.init_class(z)
-    z.constructors(lambda x: len(x.arguments) > 1).exclude()
-    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude()
+    # z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    # z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude()
     for t in ('predict', 'train'):
         for t2 in z.mem_funs(t):
             t2._transformer_kwds['alias'] = t
-    z.add_wrapper_code('''    
-    CvNormalBayesClassifier_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat() )
-    : CvNormalBayesClassifier()
-      , bp::wrapper< CvNormalBayesClassifier >(){
-        // constructor
-        train( _train_data, _responses, _var_idx, _sample_idx );
-    }
-    ''')
+    # z.add_wrapper_code('''    
+    # CvNormalBayesClassifier_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat() )
+    # : CvNormalBayesClassifier()
+      # , bp::wrapper< CvNormalBayesClassifier >(){
+        # // constructor
+        # train( _train_data, _responses, _var_idx, _sample_idx );
+    # }
+    # ''')
     # workaround for the long constructor (their code not yet implemented)
     z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const & > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat() )) )')
     mb.finalize_class(z)
@@ -149,13 +149,16 @@ KLASS.__repr__ = _KLASS__repr__
     z = mb.class_('CvKNearest')
     z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
-    z.constructors(lambda x: 'CvMat' in x.decl_string).exclude()
+    # z.constructors(lambda x: 'CvMat' in x.decl_string).exclude()
     for t in ('find_nearest', 'train'):
-        z.mem_funs(t).exclude()
-    t = z.mem_fun(lambda x: x.name=='train' and not 'CvMat' in x.decl_string)
-    t.include()
-    t._transformer_kwds['alias'] = 'train'
+        for t2 in z.mem_funs(t):
+            t2._transformer_kwds['alias'] = t
+        # z.mem_funs(t).exclude()
+    # t = z.mem_fun(lambda x: x.name=='train' and not 'CvMat' in x.decl_string)
+    # t.include()
+    # t._transformer_kwds['alias'] = 'train'
     # TODO: check if find_nearest() works correctly
+    z.mem_funs('find_nearest').exclude()
     z.add_wrapper_code('''
     bp::object sd_find_nearest( cv::Mat const & _samples, int k, cv::Mat &results, 
         bool return_neighbors_by_addr, cv::Mat &neighbor_responses, cv::Mat &dist ) {
@@ -176,7 +179,7 @@ KLASS.__repr__ = _KLASS__repr__
     # CvSVMParams
     z = mb.class_('CvSVMParams')
     mb.init_class(z)
-    z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    # z.constructors(lambda x: len(x.arguments) > 1).exclude()
     z.add_wrapper_code('''
     CvSVMParams_wrapper(int _svm_type, int _kernel_type, double _degree, double _gamma, double _coef0, double _C, double _nu, double _p, cv::Mat const & _class_weights, cv::TermCriteria const &_term_crit )
     : CvSVMParams( _svm_type, _kernel_type, _degree, _gamma, _coef0, _C, _nu, _p, 0, (CvTermCriteria)_term_crit )
@@ -228,10 +231,10 @@ KLASS.__repr__ = _KLASS__repr__
     z.include_files.append( "arrayobject.h" ) # to get NumPy's flags
     z.include_files.append( "ndarray.hpp" )
     mb.init_class(z)
-    z.constructors(lambda x: len(x.arguments) > 1).exclude()
-    z.mem_funs(lambda t: '::CvMat const *' in t.decl_string).exclude()
+    # z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    # z.mem_funs(lambda t: '::CvMat const *' in t.decl_string).exclude()
     for t in ('train', 'train_auto', 'predict'):
-        for t2 in z.mem_funs(lambda x: x.name==t and not 'CvMat' in x.decl_string):
+        for t2 in z.mem_funs(t):
             t2._transformer_kwds['alias'] = t
     z.add_wrapper_code('''    
     CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::CvSVMParams _params=::CvSVMParams( ) )
@@ -272,13 +275,15 @@ KLASS.__repr__ = _KLASS__repr__
     # CvEM
     z = mb.class_('CvEM')
     mb.init_class(z)
-    z.constructors(lambda x: 'CvMat' in x.decl_string).exclude()
-    z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude()
+    # z.constructors(lambda x: 'CvMat' in x.decl_string).exclude()
+    # z.mem_funs(lambda x: 'CvMat' in x.decl_string).exclude()
     for t in ('train', 'predict'):
-        z.mem_fun(lambda x: x.name==t and not 'CvMat' in x.decl_string)._transformer_kwds['alias'] = t
+        for t2 in z.mem_funs(t):
+            t2._transformer_kwds['alias'] = t
     # wait until requested: enable these functions
-    for t in ('get_means', 'get_covs', 'get_weights', 'get_probs'):
-        z.mem_fun(t).exclude()
+    # for t in ('get_means', 'get_covs', 'get_weights', 'get_probs'):
+        # z.mem_fun(t).exclude()
+    z.mem_fun('get_covs').exclude() # TODO: expose this function
     mb.finalize_class(z)
 
     # CvPair16u32s # do not expose this old struct
