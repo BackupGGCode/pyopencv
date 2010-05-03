@@ -33,7 +33,7 @@ void register_MSER_class(){
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\n    Invoke asMat() to convert every 1D Python sequence into a Mat, e.g. "\
     "\n    [asMat([0,1,2]), asMat((0,1,2)]."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
 
 }

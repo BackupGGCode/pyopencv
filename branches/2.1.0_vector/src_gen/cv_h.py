@@ -435,7 +435,8 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     ''')
 
     # cvDistTransform
-    FT.expose_func(mb.free_fun('cvDistTransform'), return_pointee=False, transformer_creators=[FT.input_array1d('mask')])
+    FT.expose_func(mb.free_fun('cvDistTransform'), return_pointee=False, transformer_creators=[
+        FT.input_array1d('mask', 'mask_size')]) # TODO: worry about the output 'CvArr *labels'
 
 
 

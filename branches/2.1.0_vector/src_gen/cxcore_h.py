@@ -59,7 +59,7 @@ CV_NO_SIZE_CHECK      = 4
     # cvInitNArrayIterator
     z = mb.free_fun('cvInitNArrayIterator')
     z.include()
-    # z._transformer_creators.append(FT.input_array1d('arrs', 'count')) # TODO
+    z._transformer_creators.append(FT.input_as_list_of_Mat('arrs', 'count'))
    
 
     # functions

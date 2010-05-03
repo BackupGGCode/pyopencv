@@ -180,8 +180,8 @@ void register_MatND_class(){
                 , create_function_type( &MatND_wrapper::create )
                 , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") )
                 , "\nArgument '_ndims':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument '_sizes'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument '_sizes'."\
     "\nArgument '_sizes':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int." );
@@ -272,8 +272,8 @@ void register_MatND_class(){
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
     "\nArgument '_newndims':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument '_newsz'." );
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument '_newsz'." );
         
         }
         { //::cv::MatND::setTo

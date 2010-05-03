@@ -736,54 +736,36 @@ static boost::python::object approxPolyDP_d6c85380d14cce99fc92c414781ada55( ::cv
     return bp::object( approxCurve3 );
 }
 
-static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( sdcpp::sequence images, std::vector<int> const & channels, ::cv::SparseMat const & hist, ::cv::Mat & backProject, bp::object const & ranges, double scale=1, bool uniform=true ){
+static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( sdcpp::sequence images, std::vector<int> const & channels, ::cv::SparseMat const & hist, ::cv::Mat & backProject, std::vector<std::vector<float> > const & ranges, double scale=1, bool uniform=true ){
     std::vector< ::cv::Mat > images2;
     int channels2=(int)(channels.size());
     convert_from_seq_of_Mat_to_vector_of_T(images, images2);
-    bool b_ranges = (ranges.ptr() != Py_None);
-    std::vector<std::vector< float > > arr_ranges;
-    if(b_ranges) convert_from_object_to_T(ranges, arr_ranges);
-    int n0_ranges = b_ranges? arr_ranges.size(): 0;
-    
-    std::vector< float * > buf_ranges;
-    std::vector<int> n1_ranges;
-    if(b_ranges)
+    int n0_ranges = ranges.size();
+    std::vector< float * > buf_ranges(n0_ranges);
+    std::vector<int> n1_ranges(n0_ranges);
+    for(int i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
     {
-        buf_ranges.resize(n0_ranges);
-        n1_ranges.resize(n0_ranges);
-        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
-        {
-            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
-            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
-        }
+        buf_ranges[i_ranges] = (float *)(&ranges[i_ranges][0]);
+        n1_ranges[i_ranges] = ranges[i_ranges].size();
     }
         
-    ::cv::calcBackProject((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), hist, backProject, (float const * *) &buf_ranges[0], scale, uniform);
+    ::cv::calcBackProject((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), hist, backProject, (float const * *)(&buf_ranges[0]), scale, uniform);
 }
 
-static void calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8( sdcpp::sequence images, std::vector<int> const & channels, ::cv::MatND const & hist, ::cv::Mat & backProject, bp::object const & ranges, double scale=1, bool uniform=true ){
+static void calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8( sdcpp::sequence images, std::vector<int> const & channels, ::cv::MatND const & hist, ::cv::Mat & backProject, std::vector<std::vector<float> > const & ranges, double scale=1, bool uniform=true ){
     std::vector< ::cv::Mat > images2;
     int channels2=(int)(channels.size());
     convert_from_seq_of_Mat_to_vector_of_T(images, images2);
-    bool b_ranges = (ranges.ptr() != Py_None);
-    std::vector<std::vector< float > > arr_ranges;
-    if(b_ranges) convert_from_object_to_T(ranges, arr_ranges);
-    int n0_ranges = b_ranges? arr_ranges.size(): 0;
-    
-    std::vector< float * > buf_ranges;
-    std::vector<int> n1_ranges;
-    if(b_ranges)
+    int n0_ranges = ranges.size();
+    std::vector< float * > buf_ranges(n0_ranges);
+    std::vector<int> n1_ranges(n0_ranges);
+    for(int i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
     {
-        buf_ranges.resize(n0_ranges);
-        n1_ranges.resize(n0_ranges);
-        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
-        {
-            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
-            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
-        }
+        buf_ranges[i_ranges] = (float *)(&ranges[i_ranges][0]);
+        n1_ranges[i_ranges] = ranges[i_ranges].size();
     }
         
-    ::cv::calcBackProject((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), hist, backProject, (float const * *) &buf_ranges[0], scale, uniform);
+    ::cv::calcBackProject((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), hist, backProject, (float const * *)(&buf_ranges[0]), scale, uniform);
 }
 
 static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( std::vector<cv::Mat> const & samples, ::cv::Mat & covar, ::cv::Mat & mean, int flags, int ctype=6 ){
@@ -791,56 +773,38 @@ static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( std::vector<cv::Ma
     ::cv::calcCovarMatrix((::cv::Mat const *)(&samples[0]), samples2, covar, mean, flags, ctype);
 }
 
-static void calcHist_8e436c4da97e1e09468541e1bed60274( sdcpp::sequence images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::SparseMat & hist, std::vector<int> const & histSize, bp::object const & ranges, bool uniform=true, bool accumulate=false ){
+static void calcHist_8e436c4da97e1e09468541e1bed60274( sdcpp::sequence images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::SparseMat & hist, std::vector<int> const & histSize, std::vector<std::vector<float> > const & ranges, bool uniform=true, bool accumulate=false ){
     std::vector< ::cv::Mat > images2;
     int channels2=(int)(channels.size());
     int histSize2=(int)(histSize.size());
     convert_from_seq_of_Mat_to_vector_of_T(images, images2);
-    bool b_ranges = (ranges.ptr() != Py_None);
-    std::vector<std::vector< float > > arr_ranges;
-    if(b_ranges) convert_from_object_to_T(ranges, arr_ranges);
-    int n0_ranges = b_ranges? arr_ranges.size(): 0;
-    
-    std::vector< float * > buf_ranges;
-    std::vector<int> n1_ranges;
-    if(b_ranges)
+    int n0_ranges = ranges.size();
+    std::vector< float * > buf_ranges(n0_ranges);
+    std::vector<int> n1_ranges(n0_ranges);
+    for(int i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
     {
-        buf_ranges.resize(n0_ranges);
-        n1_ranges.resize(n0_ranges);
-        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
-        {
-            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
-            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
-        }
+        buf_ranges[i_ranges] = (float *)(&ranges[i_ranges][0]);
+        n1_ranges[i_ranges] = ranges[i_ranges].size();
     }
         
-    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), mask, hist, histSize2, (int const *)(&histSize[0]), (float const * *) &buf_ranges[0], uniform, accumulate);
+    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), mask, hist, histSize2, (int const *)(&histSize[0]), (float const * *)(&buf_ranges[0]), uniform, accumulate);
 }
 
-static void calcHist_a4cce9bdd9689d0fb0adf901f467bfa0( sdcpp::sequence images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::MatND & hist, std::vector<int> const & histSize, bp::object const & ranges, bool uniform=true, bool accumulate=false ){
+static void calcHist_a4cce9bdd9689d0fb0adf901f467bfa0( sdcpp::sequence images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::MatND & hist, std::vector<int> const & histSize, std::vector<std::vector<float> > const & ranges, bool uniform=true, bool accumulate=false ){
     std::vector< ::cv::Mat > images2;
     int channels2=(int)(channels.size());
     int histSize2=(int)(histSize.size());
     convert_from_seq_of_Mat_to_vector_of_T(images, images2);
-    bool b_ranges = (ranges.ptr() != Py_None);
-    std::vector<std::vector< float > > arr_ranges;
-    if(b_ranges) convert_from_object_to_T(ranges, arr_ranges);
-    int n0_ranges = b_ranges? arr_ranges.size(): 0;
-    
-    std::vector< float * > buf_ranges;
-    std::vector<int> n1_ranges;
-    if(b_ranges)
+    int n0_ranges = ranges.size();
+    std::vector< float * > buf_ranges(n0_ranges);
+    std::vector<int> n1_ranges(n0_ranges);
+    for(int i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
     {
-        buf_ranges.resize(n0_ranges);
-        n1_ranges.resize(n0_ranges);
-        for(int i_ranges = 0; i_ranges < n0_ranges; ++i_ranges)
-        {
-            buf_ranges[i_ranges] = &arr_ranges[i_ranges][0];
-            n1_ranges[i_ranges] = arr_ranges[i_ranges].size();
-        }
+        buf_ranges[i_ranges] = (float *)(&ranges[i_ranges][0]);
+        n1_ranges[i_ranges] = ranges[i_ranges].size();
     }
         
-    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), mask, hist, histSize2, (int const *)(&histSize[0]), (float const * *) &buf_ranges[0], uniform, accumulate);
+    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), mask, hist, histSize2, (int const *)(&histSize[0]), (float const * *)(&buf_ranges[0]), uniform, accumulate);
 }
 
 static void calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1( ::cv::Mat const & prevImg, ::cv::Mat const & nextImg, cv::Mat const & prevPts, cv::Mat & nextPts, cv::Mat & status, cv::Mat & err, ::cv::Size winSize=cv::Size_<int>(15, 15), int maxLevel=3, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), double derivLambda=5.0e-1, int flags=0 ){
@@ -1114,9 +1078,9 @@ static boost::python::object cvCreateSubdivDelaunay2D_8eda8e15f20a4d068defcf9afd
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSubdiv2D * >( result ) );
 }
 
-static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, ::cv::Mat & dst, int distance_type=2, int mask_size=3, std::vector<float> mask=std::vector<float>(), ::cv::Mat labels=cv::Mat() ){
+static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, ::cv::Mat & dst, int distance_type=2, std::vector<float> mask=std::vector<float>(), ::cv::Mat labels=cv::Mat() ){
     int mask2=(int)(mask.size());
-    ::cvDistTransform(get_CvMat_ptr(src), get_CvMat_ptr(dst), distance_type, mask_size, (float const *)(&mask[0]), get_CvMat_ptr(labels));
+    ::cvDistTransform(get_CvMat_ptr(src), get_CvMat_ptr(dst), distance_type, mask2, (float const *)(&mask[0]), get_CvMat_ptr(labels));
 }
 
 static void cvEndWriteStruct_49df8f8a99539026dfbd302575d7a485( ::cv::FileStorage & fs ){
@@ -1178,11 +1142,10 @@ static void cvGetQuadrangleSubPix_fe2b1a5028fa8b02301dc960cdfbc131( ::cv::Mat & 
     ::cvGetQuadrangleSubPix(get_CvMat_ptr(src), get_CvMat_ptr(dst), get_CvMat_ptr(map_matrix));
 }
 
-static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc53b( bp::list const & arrs, ::cv::Mat & mask, ::CvMatND * stubs, ::CvNArrayIterator * array_iterator, int flags=0 ){
-    int arrs2=bp::len(arrs);
-    std::vector< void * > arrs3(arrs2);
-    convert_from_object_to_T(arrs, arrs3);
-    int result = ::cvInitNArrayIterator(arrs2, (::CvArr * *)(&arrs3[0]), get_CvMat_ptr(mask), stubs, array_iterator, flags);
+static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc53b( sdcpp::sequence arrs, ::cv::Mat & mask, ::CvMatND * stubs, ::CvNArrayIterator * array_iterator, int flags=0 ){
+    std::vector< ::CvMat * > arrs2;
+    convert_from_seq_of_Mat_to_vector_of_T(arrs, arrs2);
+    int result = ::cvInitNArrayIterator(arrs2.size(), (::CvArr * *)&arrs2[0], get_CvMat_ptr(mask), stubs, array_iterator, flags);
     return bp::object( result );
 }
 
@@ -1431,26 +1394,17 @@ static void fillConvexPoly_1312287b0cded13c02c57cc3d8ebf4b4( ::cv::Mat & img, st
     ::cv::fillConvexPoly(img, (::cv::Point const *)(&pts[0]), pts2, color, lineType, shift);
 }
 
-static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, bp::object const & pts, ::cv::Scalar const & color, int lineType=8, int shift=0, ::cv::Point offset=cv::Point_<int>() ){
-    bool b_pts = (pts.ptr() != Py_None);
-    std::vector<std::vector< ::cv::Point_<int> > > arr_pts;
-    if(b_pts) convert_from_object_to_T(pts, arr_pts);
-    int n0_pts = b_pts? arr_pts.size(): 0;
-    
-    std::vector< ::cv::Point_<int> * > buf_pts;
-    std::vector<int> n1_pts;
-    if(b_pts)
+static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, std::vector<std::vector<cv::Point_<int> > > const & pts, ::cv::Scalar const & color, int lineType=8, int shift=0, ::cv::Point offset=cv::Point_<int>() ){
+    int n0_pts = pts.size();
+    std::vector< cv::Point_<int> * > buf_pts(n0_pts);
+    std::vector<int> n1_pts(n0_pts);
+    for(int i_pts = 0; i_pts<n0_pts; ++i_pts)
     {
-        buf_pts.resize(n0_pts);
-        n1_pts.resize(n0_pts);
-        for(int i_pts = 0; i_pts < n0_pts; ++i_pts)
-        {
-            buf_pts[i_pts] = &arr_pts[i_pts][0];
-            n1_pts[i_pts] = arr_pts[i_pts].size();
-        }
+        buf_pts[i_pts] = (cv::Point_<int> *)(&pts[i_pts][0]);
+        n1_pts[i_pts] = pts[i_pts].size();
     }
         
-    ::cv::fillPoly(img, (::cv::Point const * *) &buf_pts[0], &n1_pts[0], n0_pts, color, lineType, shift, offset);
+    ::cv::fillPoly(img, (::cv::Point const * *)(&buf_pts[0]), (int const *)(&n1_pts[0]), n0_pts, color, lineType, shift, offset);
 }
 
 static boost::python::object find4QuadCornerSubpix_ca00fc1537bfc5b612545bbb0796233b( ::cv::Mat const & img, cv::Mat & corners, ::cv::Size region_size ){
@@ -1636,26 +1590,17 @@ static void mixChannels_269d2fa250748779c49641b632451e5f( ::std::vector< cv::Mat
     ::cv::mixChannels(src, dst, (int const *)(&fromTo[0]), npairs);
 }
 
-static void polylines_4b2b9aca4a0ee1864678eae6b982fcc0( ::cv::Mat & img, bp::object const & pts, bool isClosed, ::cv::Scalar const & color, int thickness=1, int lineType=8, int shift=0 ){
-    bool b_pts = (pts.ptr() != Py_None);
-    std::vector<std::vector< ::cv::Point_<int> > > arr_pts;
-    if(b_pts) convert_from_object_to_T(pts, arr_pts);
-    int n0_pts = b_pts? arr_pts.size(): 0;
-    
-    std::vector< ::cv::Point_<int> * > buf_pts;
-    std::vector<int> n1_pts;
-    if(b_pts)
+static void polylines_4b2b9aca4a0ee1864678eae6b982fcc0( ::cv::Mat & img, std::vector<std::vector<cv::Point_<int> > > const & pts, bool isClosed, ::cv::Scalar const & color, int thickness=1, int lineType=8, int shift=0 ){
+    int n0_pts = pts.size();
+    std::vector< cv::Point_<int> * > buf_pts(n0_pts);
+    std::vector<int> n1_pts(n0_pts);
+    for(int i_pts = 0; i_pts<n0_pts; ++i_pts)
     {
-        buf_pts.resize(n0_pts);
-        n1_pts.resize(n0_pts);
-        for(int i_pts = 0; i_pts < n0_pts; ++i_pts)
-        {
-            buf_pts[i_pts] = &arr_pts[i_pts][0];
-            n1_pts[i_pts] = arr_pts[i_pts].size();
-        }
+        buf_pts[i_pts] = (cv::Point_<int> *)(&pts[i_pts][0]);
+        n1_pts[i_pts] = pts[i_pts].size();
     }
         
-    ::cv::polylines(img, (::cv::Point const * *) &buf_pts[0], &n1_pts[0], n0_pts, isClosed, color, thickness, lineType, shift);
+    ::cv::polylines(img, (::cv::Point const * *)(&buf_pts[0]), (int const *)(&n1_pts[0]), n0_pts, isClosed, color, thickness, lineType, shift);
 }
 
 static boost::python::object projectPoints_c3cbd5f3e0c4a976b617302062632da4( ::cv::Mat const & objectPoints, ::cv::Mat const & rvec, ::cv::Mat const & tvec, ::cv::Mat const & cameraMatrix, ::cv::Mat const & distCoeffs, ::cv::Mat & dpdrot, ::cv::Mat & dpdt, ::cv::Mat & dpdf, ::cv::Mat & dpdc, ::cv::Mat & dpddist, double aspectRatio=0 ){
@@ -2432,8 +2377,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: list of KeyPoint."\
     "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
     "\n    to_list_of_...()."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2450,8 +2395,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2468,8 +2413,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2486,8 +2431,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2517,8 +2462,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2537,14 +2482,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
     { //::cv::calcBackProject
     
-        typedef void ( *calcBackProject_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::SparseMat const &,::cv::Mat &,bp::object const &,double,bool );
+        typedef void ( *calcBackProject_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::SparseMat const &,::cv::Mat &,std::vector<std::vector<float> > const &,double,bool );
         
         bp::def( 
             "calcBackProject"
@@ -2557,17 +2502,17 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
     "\nArgument 'nimages':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'images'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'images'."\
     "\nArgument 'ranges':"\
     "\n    C/C++ type: float const * *."\
-    "\n    Python type: list of Mat." );
+    "\n    Python type: vector_vector_float32." );
     
     }
 
     { //::cv::calcBackProject
     
-        typedef void ( *calcBackProject_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::MatND const &,::cv::Mat &,bp::object const &,double,bool );
+        typedef void ( *calcBackProject_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::MatND const &,::cv::Mat &,std::vector<std::vector<float> > const &,double,bool );
         
         bp::def( 
             "calcBackProject"
@@ -2580,11 +2525,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
     "\nArgument 'nimages':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'images'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'images'."\
     "\nArgument 'ranges':"\
     "\n    C/C++ type: float const * *."\
-    "\n    Python type: list of Mat." );
+    "\n    Python type: vector_vector_float32." );
     
     }
 
@@ -2600,8 +2545,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#calccovarmatrix"
     "\nArgument 'nsamples':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'samples'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'samples'."\
     "\nArgument 'samples':"\
     "\n    C/C++ type: ::cv::Mat const *."\
     "\n    Python type: vector_Mat." );
@@ -2610,7 +2555,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcHist
     
-        typedef void ( *calcHist_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::Mat const &,::cv::SparseMat &,std::vector<int> const &,bp::object const &,bool,bool );
+        typedef void ( *calcHist_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::Mat const &,::cv::SparseMat &,std::vector<int> const &,std::vector<std::vector<float> > const &,bool,bool );
         
         bp::def( 
             "calcHist"
@@ -2618,7 +2563,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), bp::arg("hist"), bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=(bool)(true), bp::arg("accumulate")=(bool)(false) )
             , "\nArgument 'ranges':"\
     "\n    C/C++ type: float const * *."\
-    "\n    Python type: list of Mat."\
+    "\n    Python type: vector_vector_float32."\
     "\nArgument 'histSize':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
@@ -2626,20 +2571,20 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
     "\nArgument 'dims':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'histSize'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'histSize'."\
     "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'nimages':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'images'." );
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'images'." );
     
     }
 
     { //::cv::calcHist
     
-        typedef void ( *calcHist_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::Mat const &,::cv::MatND &,std::vector<int> const &,bp::object const &,bool,bool );
+        typedef void ( *calcHist_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::Mat const &,::cv::MatND &,std::vector<int> const &,std::vector<std::vector<float> > const &,bool,bool );
         
         bp::def( 
             "calcHist"
@@ -2647,7 +2592,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), bp::arg("hist"), bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=(bool)(true), bp::arg("accumulate")=(bool)(false) )
             , "\nArgument 'ranges':"\
     "\n    C/C++ type: float const * *."\
-    "\n    Python type: list of Mat."\
+    "\n    Python type: vector_vector_float32."\
     "\nArgument 'histSize':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
@@ -2655,14 +2600,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
     "\nArgument 'dims':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'histSize'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'histSize'."\
     "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\nArgument 'nimages':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'images'." );
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'images'." );
     
     }
 
@@ -2708,8 +2653,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nArgument 'tvecs':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'objectPoints':"\
     "\n    C/C++ type: ::std::vector< std::vector< cv::Point3_<float> > > const "\
     "\n    &."\
@@ -2719,8 +2664,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'rvecs':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'imagePoints':"\
     "\n    C/C++ type: ::std::vector< std::vector< cv::Point_<float> > > const &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
@@ -2743,8 +2688,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'idx':"\
     "\n    C/C++ type: int *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2762,8 +2707,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'pt':"\
     "\n    C/C++ type: ::cv::Point *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2780,8 +2725,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2800,8 +2745,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2820,8 +2765,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2840,8 +2785,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2860,8 +2805,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2880,8 +2825,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -2987,11 +2932,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    cvCalcAffineFlowPyrLK"
     "\nArgument 'count':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'prev_features'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'prev_features'."\
     "\nArgument 'status':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    C/C++ type: char *."\
+    "\n    Python type: vector_int8."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'prev':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
@@ -2999,8 +2946,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'track_error':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    C/C++ type: float *."\
+    "\n    Python type: vector_float32."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'prev_pyr':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
@@ -3014,11 +2963,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    C/C++ type: ::CvTermCriteria."\
     "\n    Python type: TermCriteria."\
     "\nArgument 'curr_features':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    C/C++ type: ::CvPoint2D32f *."\
+    "\n    Python type: vector_Point2f."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'matrices':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    C/C++ type: float *."\
+    "\n    Python type: vector_float32."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'win_size':"\
     "\n    C/C++ type: ::CvSize."\
     "\n    Python type: Size2i." );
@@ -3230,11 +3183,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    cvCalcOpticalFlowPyrLK"
     "\nArgument 'count':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'prev_features'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'prev_features'."\
     "\nArgument 'status':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    C/C++ type: char *."\
+    "\n    Python type: vector_int8."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'prev':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
@@ -3242,8 +3197,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'track_error':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    C/C++ type: float *."\
+    "\n    Python type: vector_float32."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'prev_pyr':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
@@ -3254,8 +3211,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    C/C++ type: ::CvTermCriteria."\
     "\n    Python type: TermCriteria."\
     "\nArgument 'curr_features':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    C/C++ type: ::CvPoint2D32f *."\
+    "\n    Python type: vector_Point2f."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'curr_pyr':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
@@ -3543,12 +3502,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvDistTransform
     
-        typedef void ( *distTransform_function_type )( ::cv::Mat &,::cv::Mat &,int,int,std::vector<float>,::cv::Mat );
+        typedef void ( *distTransform_function_type )( ::cv::Mat &,::cv::Mat &,int,std::vector<float>,::cv::Mat );
         
         bp::def( 
             "distTransform"
             , distTransform_function_type( &cvDistTransform_68addecae85b6b48cd46044102a6c028 )
-            , ( bp::arg("src"), bp::arg("dst"), bp::arg("distance_type")=(int)(2), bp::arg("mask_size")=(int)(3), bp::arg("mask")=std::vector<float>(), bp::arg("labels")=cv::Mat() )
+            , ( bp::arg("src"), bp::arg("dst"), bp::arg("distance_type")=(int)(2), bp::arg("mask")=std::vector<float>(), bp::arg("labels")=cv::Mat() )
             , "\nWrapped function:"
     "\n    cvDistTransform"
     "\nArgument 'src':"\
@@ -3562,7 +3521,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\nArgument 'mask':"\
     "\n    C/C++ type: float const *."\
-    "\n    Python type: vector_float32." );
+    "\n    Python type: vector_float32."\
+    "\nArgument 'mask_size':"\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'mask'." );
     
     }
 
@@ -3617,14 +3579,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'descriptors':"\
     "\n    C/C++ type: ::CvSeq * *."\
     "\n    Python type: vector_float32."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'mask':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'storage':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'keypoints'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'keypoints'."\
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::CvSeq * *."\
     "\n    Python type: Seq_CvSURFPoint."\
@@ -3813,7 +3775,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvInitNArrayIterator
     
-        typedef boost::python::object ( *initNArrayIterator_function_type )( bp::list const &,::cv::Mat &,::CvMatND *,::CvNArrayIterator *,int );
+        typedef boost::python::object ( *initNArrayIterator_function_type )( sdcpp::sequence,::cv::Mat &,::CvMatND *,::CvNArrayIterator *,int );
         
         bp::def( 
             "initNArrayIterator"
@@ -3822,14 +3784,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    cvInitNArrayIterator"
     "\nArgument 'count':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'arrs'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'arrs'."\
     "\nArgument 'mask':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'arrs':"\
     "\n    C/C++ type: ::CvArr * *."\
-    "\n    Python type: Python sequence with elements of C++ type 'void *'." );
+    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
     
     }
 
@@ -3863,8 +3825,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#initsystem"
     "\nArgument 'argc':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'argv'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'argv'."\
     "\nArgument 'argv':"\
     "\n    C/C++ type: char * *."\
     "\n    Python type: list of strings." );
@@ -4080,8 +4042,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'comp':"\
     "\n    C/C++ type: ::CvSeq * *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'dst':"\
     "\n    C/C++ type: ::IplImage *."\
     "\n    Python type: Mat."\
@@ -4540,8 +4502,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'vertex':"\
     "\n    C/C++ type: ::CvSubdiv2DPoint * *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'pt':"\
     "\n    C/C++ type: ::CvPoint2D32f."\
     "\n    Python type: Point2f." );
@@ -4768,8 +4730,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillconvexpoly"
     "\nArgument 'npts':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'pts'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'pts'."\
     "\nArgument 'pts':"\
     "\n    C/C++ type: ::cv::Point const *."\
     "\n    Python type: vector_Point2i." );
@@ -4778,7 +4740,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::fillPoly
     
-        typedef void ( *fillPoly_function_type )( ::cv::Mat &,bp::object const &,::cv::Scalar const &,int,int,::cv::Point );
+        typedef void ( *fillPoly_function_type )( ::cv::Mat &,std::vector<std::vector<cv::Point_<int> > > const &,::cv::Scalar const &,int,int,::cv::Point );
         
         bp::def( 
             "fillPoly"
@@ -4788,14 +4750,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillpoly"
     "\nArgument 'npts':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'pts'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'pts'."\
     "\nArgument 'ncontours':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'pts'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'pts'."\
     "\nArgument 'pts':"\
     "\n    C/C++ type: ::cv::Point const * *."\
-    "\n    Python type: list of Mat." );
+    "\n    Python type: vector_vector_Point2i." );
     
     }
 
@@ -4828,8 +4790,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -4846,8 +4808,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\n    Invoke asMat() to convert every 1D Python sequence into a Mat, e.g. "\
     "\n    [asMat([0,1,2]), asMat((0,1,2)]."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -4864,15 +4826,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'contours':"\
     "\n    C/C++ type: ::std::vector< std::vector< cv::Point_<int> > > &."\
     "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
     "\n    Invoke asMat() to convert every 1D Python sequence into a Mat, e.g. "\
     "\n    [asMat([0,1,2]), asMat((0,1,2)]."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -4891,8 +4853,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -4911,8 +4873,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -4927,8 +4889,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nArgument 'rect':"\
     "\n    C/C++ type: ::cv::Rect *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -4943,8 +4905,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nArgument 'rect':"\
     "\n    C/C++ type: ::cv::Rect *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -4976,8 +4938,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nArgument 'validPixROI':"\
     "\n    C/C++ type: ::cv::Rect *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5012,8 +4974,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'baseLine':"\
     "\n    C/C++ type: int *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5030,8 +4992,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5093,8 +5055,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5150,8 +5112,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nArgument 'centers':"\
     "\n    C/C++ type: ::cv::Mat *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5169,23 +5131,23 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'maxVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'minIdx':"\
     "\n    C/C++ type: int *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'maxIdx':"\
     "\n    C/C++ type: int *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'minVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5203,23 +5165,23 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'maxVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'minIdx':"\
     "\n    C/C++ type: int *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'maxIdx':"\
     "\n    C/C++ type: int *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'minVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5237,23 +5199,23 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'minLoc':"\
     "\n    C/C++ type: ::cv::Point *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'maxVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'maxLoc':"\
     "\n    C/C++ type: ::cv::Point *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'minVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5295,7 +5257,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::polylines
     
-        typedef void ( *polylines_function_type )( ::cv::Mat &,bp::object const &,bool,::cv::Scalar const &,int,int,int );
+        typedef void ( *polylines_function_type )( ::cv::Mat &,std::vector<std::vector<cv::Point_<int> > > const &,bool,::cv::Scalar const &,int,int,int );
         
         bp::def( 
             "polylines"
@@ -5305,14 +5267,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-polylines"
     "\nArgument 'npts':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'pts'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'pts'."\
     "\nArgument 'ncontours':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'pts'."\
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'pts'."\
     "\nArgument 'pts':"\
     "\n    C/C++ type: ::cv::Point const * *."\
-    "\n    Python type: list of Mat." );
+    "\n    Python type: vector_vector_Point2i." );
     
     }
 
@@ -5331,8 +5293,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5349,8 +5311,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5369,8 +5331,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: list of KeyPoint."\
     "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
     "\n    to_list_of_...()."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5385,8 +5347,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'mat':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5401,8 +5363,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'mat':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5417,8 +5379,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'mat':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5433,8 +5395,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'value':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5449,8 +5411,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'value':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5465,8 +5427,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'value':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5481,8 +5443,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'value':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5497,8 +5459,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'value':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5513,8 +5475,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'value':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5529,8 +5491,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'value':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5545,8 +5507,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'value':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5561,8 +5523,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'value':"\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5606,13 +5568,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'validPixROI2':"\
     "\n    C/C++ type: ::cv::Rect *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'validPixROI1':"\
     "\n    C/C++ type: ::cv::Rect *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 
@@ -5631,8 +5593,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
     
     }
 

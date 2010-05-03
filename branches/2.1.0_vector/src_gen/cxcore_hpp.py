@@ -839,7 +839,7 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
     mb.expose_class_Ptr('CvMemStorage')
     
     # Seq
-    # TODO: do something with Seq<>
+    # to expose a template class Seq<T>, use expose_class_Seq('T')
 
     # MatExpr
     mb.decls(lambda x: 'MatExpr' in x.decl_string).exclude()

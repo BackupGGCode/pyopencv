@@ -204,8 +204,8 @@ void register_FileStorage_class(){
     "\n    C/C++ type: ::uchar const *."\
     "\n    Python type: vector_uint8."\
     "\nArgument 'len':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument 'vec'." );
+    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
+    "\n    derived from argument 'vec'." );
         
         }
         FileStorage_exposer.def_readwrite( "elname", &cv::FileStorage::elname );

@@ -61,8 +61,8 @@ void register_SURF_class(){
     "\n    Python type: list of KeyPoint."\
     "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
     "\n    to_list_of_...()."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
         
         }
         { //::cv::SURF::operator()
@@ -80,8 +80,8 @@ void register_SURF_class(){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
     "\n    Python type: list of KeyPoint."\

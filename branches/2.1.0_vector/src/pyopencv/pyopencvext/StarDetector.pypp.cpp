@@ -33,7 +33,7 @@ void register_StarDetector_class(){
     "\n    Python type: list of KeyPoint."\
     "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
     "\n    to_list_of_...()."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
 
 }

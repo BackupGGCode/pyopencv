@@ -151,15 +151,19 @@ def doc_list(func, func_arg):
     common.add_func_arg_doc(func, func_arg, "To convert a Mat into a list, invoke one of Mat's member functions to_list_of_...().")
     
 def doc_output(func, func_arg):
-    common.add_func_arg_doc(func, func_arg, "Output argument: omitted from the function's calling sequence, and is returned along with the function's return value (if any).")
+    common.add_func_arg_doc(func, func_arg, "Output argument: omitted from the calling sequence. It is returned along with the function's return value (if any).")
 
 def doc_dependent(func, func_arg, func_parent_arg):
-    common.add_func_arg_doc(func, func_arg, "Dependent argument: omitted from the function's calling sequence, as its value is derived from argument '%s'." % func_parent_arg.name)
+    common.add_func_arg_doc(func, func_arg, "Dependent argument: omitted from the calling sequence. Its value is derived from argument '%s'." % func_parent_arg.name)
 
 
 # -----------------------------------------------------------------------------------------------
 # Declarations
 # -----------------------------------------------------------------------------------------------
+
+
+def get_array_item_type(array_type):
+    return _D.remove_const(_D.array_item_type(array_type))
 
 
 def get_vector_pds(elem_type_pds):
@@ -307,129 +311,6 @@ def input_string( *args, **keywd ):
     return creator
 
     
-# input_array1d_old_t
-class input_array1d_old_t(transformer.transformer_t):
-    """Handles an input array with a dynamic size.
-
-    void do_something([int N, ]data_type* v) ->  do_something(object v2)
-
-    where v2 is a Python sequence of N items, each of which is of type 'data_type'.
-    Note that if 'data_type' is replaced by 'CvSomething *', each element of v2 is still of type 'CvSomething' (i.e. the pointer is taken care of).
-    output_arrays : set of arguments (which are arrays) to be returned as output
-        output_arrays is a dictionary of (key,value) pairs. A key is an output argument's name. Its associated value is the number of times that the array's size is multiplied with.
-    """
-
-    def __init__(self, function, arg_ref, arg_size_ref=None, remove_arg_size=True, output_arrays={}):
-        transformer.transformer_t.__init__( self, function )
-
-        self.arg = self.get_argument( arg_ref )
-        self.arg_index = self.function.arguments.index( self.arg )
-
-        if not _T.is_ptr_or_array( self.arg.type ):
-            raise ValueError( '%s\nin order to use "input_array1d_old" transformation, argument %s type must be a array or a pointer (got %s).' ) \
-                  % ( function, self.arg.name, self.arg.type)
-
-        if arg_size_ref is not None:
-            self.arg_size = self.get_argument( arg_size_ref )
-            self.arg_size_index = self.function.arguments.index( self.arg_size )
-            
-            if not _D.is_integral( self.arg_size.type ):
-                raise ValueError( '%s\nin order to use "input_array1d_old" transformation, argument %s type must be an integer (got %s).' ) \
-                      % ( function, self.arg_size.name, self.arg_size.type)
-
-        else:
-            self.arg_size = None
-
-        self.array_item_type = _D.remove_const( _D.array_item_type( self.arg.type ) )
-        if self.array_item_type.partial_decl_string=='char *':
-            self.array_item_type = _D.dummy_type_t('char const *')
-        self.remove_arg_size = remove_arg_size
-
-        self.output_arrays = output_arrays
-
-    def __str__(self):
-        if self.arg_size is not None:
-            return "input_array1d_old(%s,%s)"%( self.arg.name, self.arg_size.name)
-        return "input_array1d_old(%s)"% self.arg.name
-
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_converters.hpp"]
-
-    def __configure_sealed(self, controller):
-        w_arg = controller.find_wrapper_arg( self.arg.name )
-        
-        if not is_elem_type_fixed_size(self.array_item_type): 
-            if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-                w_arg.type = _D.dummy_type_t( "bp::list" )
-                w_arg.default_value = 'bp::list()'
-            else:
-                w_arg.type = _D.dummy_type_t( "bp::list const &" )
-            if 'cv::Mat' in self.array_item_type.decl_string: # an array of cv::Mat
-                doc_list_of_Mat(self.function, self.arg)
-            else:
-                doc_common(self.function, self.arg, "Python sequence with elements of C++ type '%s'" \
-                    % self.array_item_type.partial_decl_string)
-        
-            # input array
-            l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=bp::len(%s)" % self.arg.name )
-            a_arr = controller.declare_variable( _D.dummy_type_t("std::vector< %s >" % self.array_item_type.decl_string), self.arg.name, "(%s)" % l_arr )
-            controller.add_pre_call_code("convert_from_object_to_T(%s, %s);" % (self.arg.name, a_arr))
-            controller.modify_arg_expression( self.arg_index, "(%s)(&%s[0])" \
-                % (self.arg.type.partial_decl_string, a_arr) )
-        else:
-            if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-                w_arg.type = _D.dummy_type_t( "cv::Mat" )
-                w_arg.default_value = 'cv::Mat()'
-            else:
-                w_arg.type = _D.dummy_type_t( "cv::Mat const &" )
-            doc_Mat(self.function, self.arg, True)
-        
-            # input array
-            l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name )
-            a_arr = controller.declare_variable( _D.dummy_type_t(self.array_item_type.decl_string+ " *"), self.arg.name )
-            controller.add_pre_call_code("convert_from_Mat_to_array_of_T(%s, %s, %s);" % (self.arg.name, a_arr, l_arr))
-            controller.modify_arg_expression( self.arg_index, a_arr )
-        
-        # number of elements
-        if self.remove_arg_size and self.arg_size is not None:
-            # remove arg_size from the function wrapper definition and automatically fill in the missing argument
-            controller.remove_wrapper_arg( self.arg_size.name )
-            controller.modify_arg_expression( self.arg_size_index, l_arr )
-            doc_dependent(self.function, self.arg_size, self.arg)
-
-        # dealing with output arrays
-        for key in self.output_arrays.keys():
-            oo_arg = self.get_argument(key)
-            ow_arg = controller.find_wrapper_arg(key)
-            oetype = _D.remove_const( _D.array_item_type( oo_arg.type ) )
-            oa_arg = controller.declare_variable( _D.dummy_type_t( "std::vector < %s >" % oetype.decl_string ), key )
-            controller.add_pre_call_code("%s.resize(%s * %s);" % (oa_arg, l_arr, self.output_arrays[key]))
-            controller.modify_arg_expression( self.function.arguments.index(oo_arg), "&(%s[0])" % oa_arg )
-            controller.remove_wrapper_arg(key)
-
-            controller.return_variable("convert_from_T_to_object(%s)" % oa_arg)
-            doc_output(self.function, oo_arg)
-        
-            
-    def __configure_v_mem_fun_default( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_mem_fun( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_free_fun(self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_default( controller.default_controller )
-
-def input_array1d_old( *args, **keywd ):
-    def creator( function ):
-        return input_array1d_old_t( function, *args, **keywd )
-    return creator
-
-
 # input_array1d_t
 class input_array1d_t(transformer.transformer_t):
     """Handles an input array with a dynamic size.
@@ -462,7 +343,7 @@ class input_array1d_t(transformer.transformer_t):
         else:
             self.arg_size = None
 
-        self.array_item_type = _D.remove_const( _D.array_item_type( self.arg.type ) )
+        self.array_item_type = get_array_item_type(self.arg.type)
         self.remove_arg_size = remove_arg_size
 
         self.output_arrays = output_arrays
@@ -505,9 +386,10 @@ class input_array1d_t(transformer.transformer_t):
         for key in self.output_arrays.keys():
             oo_arg = self.get_argument(key)            
             oo_idx = self.function.arguments.index(oo_arg)
-            oo_elem = _D.remove_const(_D.array_item_type(oo_arg.type))
-            oo_elem_pds = common.unique_pds(oo_elem.partial_decl_string)
-            oa_arg = controller.declare_variable(_D.dummy_type_t(get_vector_pds(oo_elem_pds)), key)
+            oo_elem_pds = common.unique_pds(get_array_item_type(oo_arg.type).partial_decl_string)
+            oo_vec_pds = get_vector_pds(oo_elem_pds)
+            oa_arg = controller.declare_variable(_D.dummy_type_t(oo_vec_pds), key)
+            doc_common(self.function, oo_arg, common.get_registered_decl(oo_vec_pds)[0])
             controller.add_pre_call_code("%s.resize(%s * %s);" % (oa_arg, l_arr, self.output_arrays[key]))
             controller.modify_arg_expression(oo_idx, "(%s)&(%s[0])" \
                 % (oo_arg.type.partial_decl_string, oa_arg))
@@ -666,7 +548,7 @@ class input_array2d_t(transformer.transformer_t):
             self.arg_size = None
         self.remove_arg_size = remove_arg_size
 
-        self.array_item_type = _D.remove_const( _D.array_item_type( _D.array_item_type( self.arg.type ) ) )
+        self.array_item_type = get_array_item_type(get_array_item_type(self.arg.type))
 
     def __str__(self):
         return "input_array2d(%s)"% (self.arg.name,
@@ -680,15 +562,15 @@ class input_array2d_t(transformer.transformer_t):
 
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
-        w_arg.type = _D.dummy_type_t( "bp::object const &" )
-        str = _D.remove_const(self.array_item_type).partial_decl_string
-        if str.startswith('::'):
-            str = str[2:]
-        str = "std::vector< std::vector< %s > >" % str
-        doc_common(self.function, self.arg, common.get_decl_equivname(str))
+        elem_pds = common.unique_pds(self.array_item_type.partial_decl_string)
+        vec_pds = get_vector_pds(get_vector_pds(elem_pds))
 
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.default_value = 'bp::object()'
+            w_arg.type = _D.dummy_type_t(vec_pds)
+            w_arg.default_value = vec_pds+"()"
+        else:
+            w_arg.type = _D.dummy_type_t(vec_pds+" const &")
+        doc_common(self.function, self.arg, common.get_registered_decl(vec_pds)[0])
         
         if self.remove_arg_size and self.arg_size is not None:
             #removing arg_size from the function wrapper definition
@@ -699,33 +581,25 @@ class input_array2d_t(transformer.transformer_t):
             #removing arg_ncnts from the function wrapper definition
             controller.remove_wrapper_arg( self.arg_ncnts.name )
             doc_dependent(self.function, self.arg_ncnts, self.arg)
-        
+
         # precall_code
-        precall_code = """bool b_ARRAY = (ARRAY.ptr() != Py_None);
-    std::vector<std::vector< ITEM_TYPE > > arr_ARRAY;
-    if(b_ARRAY) convert_from_object_to_T(ARRAY, arr_ARRAY);
-    int n0_ARRAY = b_ARRAY? arr_ARRAY.size(): 0;
-    
-    std::vector< ITEM_TYPE * > buf_ARRAY;
-    std::vector<int> n1_ARRAY;
-    if(b_ARRAY)
+        precall_code = """int n0_ARRAY = ARRAY.size();
+    std::vector< ITEM_TYPE * > buf_ARRAY(n0_ARRAY);
+    std::vector<int> n1_ARRAY(n0_ARRAY);
+    for(int i_ARRAY = 0; i_ARRAY<n0_ARRAY; ++i_ARRAY)
     {
-        buf_ARRAY.resize(n0_ARRAY);
-        n1_ARRAY.resize(n0_ARRAY);
-        for(int i_ARRAY = 0; i_ARRAY < n0_ARRAY; ++i_ARRAY)
-        {
-            buf_ARRAY[i_ARRAY] = &arr_ARRAY[i_ARRAY][0];
-            n1_ARRAY[i_ARRAY] = arr_ARRAY[i_ARRAY].size();
-        }
+        buf_ARRAY[i_ARRAY] = (ITEM_TYPE *)(&ARRAY[i_ARRAY][0]);
+        n1_ARRAY[i_ARRAY] = ARRAY[i_ARRAY].size();
     }
-        """.replace("ARRAY", self.arg.name) \
-            .replace("ITEM_TYPE", self.array_item_type.decl_string)
+        """.replace("ARRAY", self.arg.name).replace("ITEM_TYPE", elem_pds)
         controller.add_pre_call_code(precall_code)
         
-        controller.modify_arg_expression( self.arg_index, "(%s) &buf_%s[0]" % (self.arg.type.decl_string, self.arg.name) )
+        controller.modify_arg_expression( self.arg_index, "(%s)(&buf_%s[0])" \
+            % (self.arg.type.partial_decl_string, self.arg.name) )
         
         if self.remove_arg_ncnts and self.arg_ncnts is not None:
-            controller.modify_arg_expression( self.arg_ncnts_index, "&n1_%s[0]" % self.arg.name )
+            controller.modify_arg_expression( self.arg_ncnts_index, "(%s)(&n1_%s[0])" 
+                % (self.arg_ncnts.type.partial_decl_string, self.arg.name) )
 
         if self.remove_arg_size and self.arg_size is not None:
             controller.modify_arg_expression( self.arg_size_index, "n0_"+self.arg.name )

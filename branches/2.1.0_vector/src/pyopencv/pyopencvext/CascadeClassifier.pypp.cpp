@@ -111,8 +111,8 @@ void register_CascadeClassifier_class(){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." );
         
         }
         { //::cv::CascadeClassifier::empty

@@ -48,15 +48,15 @@ void register_Index_class(){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'dists':"\
     "\n    C/C++ type: ::std::vector< float > &."\
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'queries':"\
     "\n    C/C++ type: ::std::vector< float > const &."\
     "\n    Python type: Mat."\
@@ -75,8 +75,8 @@ void register_Index_class(){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)."\
     "\nArgument 'query':"\
     "\n    C/C++ type: ::std::vector< float > const &."\
     "\n    Python type: Mat."\
@@ -87,8 +87,8 @@ void register_Index_class(){
     "\n    Python type: Mat."\
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." )    
+    "\n    Output argument: omitted from the calling sequence. It is returned "\
+    "\n    along with the function's return value (if any)." )    
         .def( 
             "radiusSearch"
             , (int ( ::cv::flann::Index::* )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,float,::cv::flann::SearchParams const & ) )( &::cv::flann::Index::radiusSearch )
