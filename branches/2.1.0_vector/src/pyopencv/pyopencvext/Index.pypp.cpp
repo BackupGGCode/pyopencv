@@ -33,13 +33,13 @@ void register_Index_class(){
             , "\nArgument 'indices':"\
     "\n    C/C++ type: ::std::vector< int > &."\
     "\n    Python type: vector_int."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)."\
+    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'dists':"\
     "\n    C/C++ type: ::std::vector< float > &."\
     "\n    Python type: vector_float32."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." )    
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    (indices, dists)" )    
         .def( 
             "knnSearch"
             , (void ( cv::flann::Index::* )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,int,::cv::flann::SearchParams const & ) )( &::cv::flann::Index::knnSearch )
@@ -51,13 +51,13 @@ void register_Index_class(){
             , "\nArgument 'indices':"\
     "\n    C/C++ type: ::std::vector< int > &."\
     "\n    Python type: vector_int."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)."\
+    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'dists':"\
     "\n    C/C++ type: ::std::vector< float > &."\
     "\n    Python type: vector_float32."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." )    
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    ((int), indices, dists)" )    
         .def( 
             "radiusSearch"
             , (int ( cv::flann::Index::* )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,float,::cv::flann::SearchParams const & ) )( &::cv::flann::Index::radiusSearch )

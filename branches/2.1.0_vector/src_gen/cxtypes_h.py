@@ -49,13 +49,16 @@ def generate_code(mb, cc, D, FT, CP):
 
     # CvArr
     # mb.class_('CvArr').include()
-    
+
+    common.register_decl('None', 'void')
+    common.register_decl('bool', 'bool')
     common.register_decl('int8', 'char')
     common.register_decl('int8', 'signed char')
     common.register_decl('int8', 'schar')
     common.register_decl('uint8', 'unsigned char')
     common.register_decl('uint8', 'uchar')
     common.register_decl('int16', 'short')
+    common.register_decl('int16', 'short int')
     common.register_decl('uint16', 'unsigned short')
     common.register_decl('uint16', 'short unsigned int')
     common.register_decl('uint16', 'ushort')
@@ -63,8 +66,6 @@ def generate_code(mb, cc, D, FT, CP):
     common.register_decl('uint', 'unsigned int')
     common.register_decl('long', 'long')
     common.register_decl('ulong', 'unsigned long')
-    common.register_decl('int64', 'long long')
-    common.register_decl('uint64', 'unsigned long long')
     common.register_decl('float32', 'float')
     common.register_decl('float64', 'double')
     

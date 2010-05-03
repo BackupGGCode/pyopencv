@@ -979,6 +979,42 @@ def _Vec4f__repr__(self):
     return "Vec4f(" + self.ndarray.__str__() + ")"
 Vec4f.__repr__ = _Vec4f__repr__
         
+_str = "\n    Creates a Vec2b view on an ndarray instance."
+if Vec2b.from_ndarray.__doc__ is None:
+    Vec2b.from_ndarray.__doc__ = _str
+else:
+    Vec2b.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec2b that shares the same data with an ndarray instance, use:\n        'Vec2b.from_ndarray(a)' or 'asVec2b(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Vec2b.__doc__ is None:
+    Vec2b.__doc__ = _str
+else:
+    Vec2b.__doc__ += _str
+
+def _Vec2b__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Vec2b.__getitem__ = _Vec2b__getitem__
+        
+def _Vec2b__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Vec2b.__setitem__ = _Vec2b__setitem__
+        
+def _Vec2b__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Vec2b.__getslice__ = _Vec2b__getslice__
+        
+def _Vec2b__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Vec2b.__setslice__ = _Vec2b__setslice__
+        
+def _Vec2b__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec2b.__iter__ = _Vec2b__iter__
+        
+def _Vec2b__repr__(self):
+    return "Vec2b(" + self.ndarray.__str__() + ")"
+Vec2b.__repr__ = _Vec2b__repr__
+        
 _str = "\n    Creates a Vec2w view on an ndarray instance."
 if Vec2w.from_ndarray.__doc__ is None:
     Vec2w.from_ndarray.__doc__ = _str
@@ -1159,42 +1195,6 @@ def _Vec2f__repr__(self):
     return "Vec2f(" + self.ndarray.__str__() + ")"
 Vec2f.__repr__ = _Vec2f__repr__
         
-_str = "\n    Creates a Vec2b view on an ndarray instance."
-if Vec2b.from_ndarray.__doc__ is None:
-    Vec2b.from_ndarray.__doc__ = _str
-else:
-    Vec2b.from_ndarray.__doc__ += _str
-
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec2b that shares the same data with an ndarray instance, use:\n        'Vec2b.from_ndarray(a)' or 'asVec2b(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Vec2b.__doc__ is None:
-    Vec2b.__doc__ = _str
-else:
-    Vec2b.__doc__ += _str
-
-def _Vec2b__getitem__(self, *args, **kwds):
-    return self.ndarray.__getitem__(*args, **kwds)
-Vec2b.__getitem__ = _Vec2b__getitem__
-        
-def _Vec2b__setitem__(self, *args, **kwds):
-    return self.ndarray.__setitem__(*args, **kwds)
-Vec2b.__setitem__ = _Vec2b__setitem__
-        
-def _Vec2b__getslice__(self, *args, **kwds):
-    return self.ndarray.__getslice__(*args, **kwds)
-Vec2b.__getslice__ = _Vec2b__getslice__
-        
-def _Vec2b__setslice__(self, *args, **kwds):
-    return self.ndarray.__setslice__(*args, **kwds)
-Vec2b.__setslice__ = _Vec2b__setslice__
-        
-def _Vec2b__iter__(self, *args, **kwds):
-    return self.ndarray.__iter__(*args, **kwds)
-Vec2b.__iter__ = _Vec2b__iter__
-        
-def _Vec2b__repr__(self):
-    return "Vec2b(" + self.ndarray.__str__() + ")"
-Vec2b.__repr__ = _Vec2b__repr__
-        
 _str = "\n    Creates a Vec3d view on an ndarray instance."
 if Vec3d.from_ndarray.__doc__ is None:
     Vec3d.from_ndarray.__doc__ = _str
@@ -1267,42 +1267,6 @@ def _Vec3s__repr__(self):
     return "Vec3s(" + self.ndarray.__str__() + ")"
 Vec3s.__repr__ = _Vec3s__repr__
         
-_str = "\n    Creates a Vec3w view on an ndarray instance."
-if Vec3w.from_ndarray.__doc__ is None:
-    Vec3w.from_ndarray.__doc__ = _str
-else:
-    Vec3w.from_ndarray.__doc__ += _str
-
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec3w that shares the same data with an ndarray instance, use:\n        'Vec3w.from_ndarray(a)' or 'asVec3w(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Vec3w.__doc__ is None:
-    Vec3w.__doc__ = _str
-else:
-    Vec3w.__doc__ += _str
-
-def _Vec3w__getitem__(self, *args, **kwds):
-    return self.ndarray.__getitem__(*args, **kwds)
-Vec3w.__getitem__ = _Vec3w__getitem__
-        
-def _Vec3w__setitem__(self, *args, **kwds):
-    return self.ndarray.__setitem__(*args, **kwds)
-Vec3w.__setitem__ = _Vec3w__setitem__
-        
-def _Vec3w__getslice__(self, *args, **kwds):
-    return self.ndarray.__getslice__(*args, **kwds)
-Vec3w.__getslice__ = _Vec3w__getslice__
-        
-def _Vec3w__setslice__(self, *args, **kwds):
-    return self.ndarray.__setslice__(*args, **kwds)
-Vec3w.__setslice__ = _Vec3w__setslice__
-        
-def _Vec3w__iter__(self, *args, **kwds):
-    return self.ndarray.__iter__(*args, **kwds)
-Vec3w.__iter__ = _Vec3w__iter__
-        
-def _Vec3w__repr__(self):
-    return "Vec3w(" + self.ndarray.__str__() + ")"
-Vec3w.__repr__ = _Vec3w__repr__
-        
 _str = "\n    Creates a Vec2d view on an ndarray instance."
 if Vec2d.from_ndarray.__doc__ is None:
     Vec2d.from_ndarray.__doc__ = _str
@@ -1338,6 +1302,42 @@ Vec2d.__iter__ = _Vec2d__iter__
 def _Vec2d__repr__(self):
     return "Vec2d(" + self.ndarray.__str__() + ")"
 Vec2d.__repr__ = _Vec2d__repr__
+        
+_str = "\n    Creates a Vec3w view on an ndarray instance."
+if Vec3w.from_ndarray.__doc__ is None:
+    Vec3w.from_ndarray.__doc__ = _str
+else:
+    Vec3w.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec3w that shares the same data with an ndarray instance, use:\n        'Vec3w.from_ndarray(a)' or 'asVec3w(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Vec3w.__doc__ is None:
+    Vec3w.__doc__ = _str
+else:
+    Vec3w.__doc__ += _str
+
+def _Vec3w__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Vec3w.__getitem__ = _Vec3w__getitem__
+        
+def _Vec3w__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Vec3w.__setitem__ = _Vec3w__setitem__
+        
+def _Vec3w__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Vec3w.__getslice__ = _Vec3w__getslice__
+        
+def _Vec3w__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Vec3w.__setslice__ = _Vec3w__setslice__
+        
+def _Vec3w__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec3w.__iter__ = _Vec3w__iter__
+        
+def _Vec3w__repr__(self):
+    return "Vec3w(" + self.ndarray.__str__() + ")"
+Vec3w.__repr__ = _Vec3w__repr__
         
 def _Complexd__repr__(self):
     return "Complexd(re=" + repr(self.re) + ", im=" + repr(self.im) + ")"
@@ -2631,7 +2631,7 @@ def asndarray(obj):
     extension, and the type of the given Python object, 'obj', is determined
     by looking at 'obj.__class__'.
     """
-    return eval("_PE.asMat(inst_%s=obj)" % obj.__class__.__name__)
+    return eval("_PE.asndarray(inst_%s=obj)" % obj.__class__.__name__)
 asndarray.__doc__ = asndarray.__doc__ + """
 Docstring of the internal asndarray function:
 
@@ -2736,14 +2736,6 @@ _z.resize(1)
 vector_Vec3b.elem_type = _z[0].__class__
 del(_z)
     
-vector_int64.__repr__ = __vector__repr__
-vector_int64.tolist = __vector_tolist
-vector_int64.fromlist = classmethod(__vector_fromlist)
-_z = vector_int64()
-_z.resize(1)
-vector_int64.elem_type = _z[0].__class__
-del(_z)
-    
 vector_MatND.__repr__ = __vector__repr__
 vector_MatND.tolist = __vector_tolist
 vector_MatND.fromlist = classmethod(__vector_fromlist)
@@ -2830,14 +2822,6 @@ vector_Vec3f.fromlist = classmethod(__vector_fromlist)
 _z = vector_Vec3f()
 _z.resize(1)
 vector_Vec3f.elem_type = _z[0].__class__
-del(_z)
-    
-vector_int16.__repr__ = __vector__repr__
-vector_int16.tolist = __vector_tolist
-vector_int16.fromlist = classmethod(__vector_fromlist)
-_z = vector_int16()
-_z.resize(1)
-vector_int16.elem_type = _z[0].__class__
 del(_z)
     
 vector_vector_Point3d.__repr__ = __vector__repr__
@@ -2976,6 +2960,14 @@ _z.resize(1)
 vector_ulong.elem_type = _z[0].__class__
 del(_z)
     
+vector_int16.__repr__ = __vector__repr__
+vector_int16.tolist = __vector_tolist
+vector_int16.fromlist = classmethod(__vector_fromlist)
+_z = vector_int16()
+_z.resize(1)
+vector_int16.elem_type = _z[0].__class__
+del(_z)
+    
 vector_Vec3s.__repr__ = __vector__repr__
 vector_Vec3s.tolist = __vector_tolist
 vector_Vec3s.fromlist = classmethod(__vector_fromlist)
@@ -3054,14 +3046,6 @@ vector_Vec3d.fromlist = classmethod(__vector_fromlist)
 _z = vector_Vec3d()
 _z.resize(1)
 vector_Vec3d.elem_type = _z[0].__class__
-del(_z)
-    
-vector_uint64.__repr__ = __vector__repr__
-vector_uint64.tolist = __vector_tolist
-vector_uint64.fromlist = classmethod(__vector_fromlist)
-_z = vector_uint64()
-_z.resize(1)
-vector_uint64.elem_type = _z[0].__class__
 del(_z)
     
 vector_FernClassifier_Feature.__repr__ = __vector__repr__

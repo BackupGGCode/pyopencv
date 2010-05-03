@@ -151,10 +151,11 @@ def doc_list(func, func_arg):
     common.add_func_arg_doc(func, func_arg, "To convert a Mat into a list, invoke one of Mat's member functions to_list_of_...().")
     
 def doc_output(func, func_arg):
-    common.add_func_arg_doc(func, func_arg, "Output argument: omitted from the calling sequence. It is returned along with the function's return value (if any).")
+    common.add_func_arg_doc(func, func_arg, "Output argument: omitted from input and returned as output.")
+    func._output_args.append(func_arg)
 
 def doc_dependent(func, func_arg, func_parent_arg):
-    common.add_func_arg_doc(func, func_arg, "Dependent argument: omitted from the calling sequence. Its value is derived from argument '%s'." % func_parent_arg.name)
+    common.add_func_arg_doc(func, func_arg, "Dependent argument: omitted from input. Its value is derived from argument '%s'." % func_parent_arg.name)
 
 
 # -----------------------------------------------------------------------------------------------

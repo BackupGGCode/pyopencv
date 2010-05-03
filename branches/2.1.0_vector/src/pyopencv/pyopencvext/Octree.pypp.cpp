@@ -158,8 +158,9 @@ void register_Octree_class(){
                 , "\nArgument 'points':"\
     "\n    C/C++ type: ::std::vector< cv::Point3_<float> > &."\
     "\n    Python type: vector_Point3f."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    points" );
         
         }
     }

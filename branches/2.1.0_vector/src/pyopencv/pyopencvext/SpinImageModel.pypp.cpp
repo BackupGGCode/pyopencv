@@ -104,8 +104,9 @@ void register_SpinImageModel_class(){
                 , "\nArgument 'result':"\
     "\n    C/C++ type: ::std::vector< std::vector< cv::Vec<int, 2> > > &."\
     "\n    Python type: vector_vector_Vec2i."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    result" );
         
         }
         { //::cv::SpinImageModel::packRandomScaledSpins

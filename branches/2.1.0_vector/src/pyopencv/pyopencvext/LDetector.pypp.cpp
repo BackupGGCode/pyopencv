@@ -38,8 +38,9 @@ void register_LDetector_class(){
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
     "\n    Python type: vector_KeyPoint."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." )    
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    keypoints" )    
         .def( 
             "__call__"
             , (boost::python::object (*)( cv::LDetector const &,std::vector<cv::Mat> const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
@@ -49,8 +50,9 @@ void register_LDetector_class(){
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
     "\n    Python type: vector_KeyPoint."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." )    
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    keypoints" )    
         .def( 
             "read"
             , (void ( cv::LDetector::* )( ::cv::FileNode const & ) )( &::cv::LDetector::read )

@@ -710,7 +710,7 @@ def asndarray(obj):
     extension, and the type of the given Python object, 'obj', is determined
     by looking at 'obj.__class__'.
     """
-    return eval("_PE.asMat(inst_%s=obj)" % obj.__class__.__name__)
+    return eval("_PE.asndarray(inst_%s=obj)" % obj.__class__.__name__)
 asndarray.__doc__ = asndarray.__doc__ + """
 Docstring of the internal asndarray function:
 

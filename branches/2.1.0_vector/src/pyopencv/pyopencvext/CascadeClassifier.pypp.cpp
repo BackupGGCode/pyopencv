@@ -106,8 +106,9 @@ void register_CascadeClassifier_class(){
                 , "\nArgument 'objects':"\
     "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
     "\n    Python type: vector_Rect."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    objects" );
         
         }
         { //::cv::CascadeClassifier::empty

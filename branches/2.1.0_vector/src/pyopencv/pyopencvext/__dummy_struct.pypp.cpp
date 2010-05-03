@@ -422,8 +422,6 @@ void register___dummy_struct_class(){
         bp::def("asvector_Range", &sdcpp::ndarray_to_vector2< cv::Range >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Vec<unsigned char,3> >, (bp::arg("inst_vector_Vec3b")) );
         bp::def("asvector_Vec3b", &sdcpp::ndarray_to_vector2< cv::Vec<unsigned char,3> >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< long long >, (bp::arg("inst_vector_int64")) );
-        bp::def("asvector_int64", &sdcpp::ndarray_to_vector2< long long >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Scalar_<double> >, (bp::arg("inst_vector_Scalar")) );
         bp::def("asvector_Scalar", &sdcpp::ndarray_to_vector2< cv::Scalar_<double> >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Vec<short,2> >, (bp::arg("inst_vector_Vec2s")) );
@@ -438,8 +436,6 @@ void register___dummy_struct_class(){
         bp::def("asvector_Vec4d", &sdcpp::ndarray_to_vector2< cv::Vec<double,4> >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Vec<float,3> >, (bp::arg("inst_vector_Vec3f")) );
         bp::def("asvector_Vec3f", &sdcpp::ndarray_to_vector2< cv::Vec<float,3> >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< short >, (bp::arg("inst_vector_int16")) );
-        bp::def("asvector_int16", &sdcpp::ndarray_to_vector2< short >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Point3_<double> >, (bp::arg("inst_vector_Point3d")) );
         bp::def("asvector_Point3d", &sdcpp::ndarray_to_vector2< cv::Point3_<double> >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Vec<unsigned short,2> >, (bp::arg("inst_vector_Vec2w")) );
@@ -460,6 +456,8 @@ void register___dummy_struct_class(){
         bp::def("asvector_Vec2b", &sdcpp::ndarray_to_vector2< cv::Vec<unsigned char,2> >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< unsigned long >, (bp::arg("inst_vector_ulong")) );
         bp::def("asvector_ulong", &sdcpp::ndarray_to_vector2< unsigned long >, (bp::arg("inst_ndarray")) );
+        bp::def("asndarray", &sdcpp::vector_to_ndarray2< short >, (bp::arg("inst_vector_int16")) );
+        bp::def("asvector_int16", &sdcpp::ndarray_to_vector2< short >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Vec<short,3> >, (bp::arg("inst_vector_Vec3s")) );
         bp::def("asvector_Vec3s", &sdcpp::ndarray_to_vector2< cv::Vec<short,3> >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Point_<float> >, (bp::arg("inst_vector_Point2f")) );
@@ -474,8 +472,6 @@ void register___dummy_struct_class(){
         bp::def("asvector_uint", &sdcpp::ndarray_to_vector2< unsigned int >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Vec<double,3> >, (bp::arg("inst_vector_Vec3d")) );
         bp::def("asvector_Vec3d", &sdcpp::ndarray_to_vector2< cv::Vec<double,3> >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< unsigned long long >, (bp::arg("inst_vector_uint64")) );
-        bp::def("asvector_uint64", &sdcpp::ndarray_to_vector2< unsigned long long >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Vec<unsigned short,4> >, (bp::arg("inst_vector_Vec4w")) );
         bp::def("asvector_Vec4w", &sdcpp::ndarray_to_vector2< cv::Vec<unsigned short,4> >, (bp::arg("inst_ndarray")) );
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Vec<float,4> >, (bp::arg("inst_vector_Vec4f")) );

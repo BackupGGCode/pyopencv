@@ -51,8 +51,9 @@ void register_SURF_class(){
     "\nArgument 'keypoints':"\
     "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
     "\n    Python type: vector_KeyPoint."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    keypoints" );
         
         }
         { //::cv::SURF::operator()
@@ -68,8 +69,9 @@ void register_SURF_class(){
     "\nArgument 'descriptors':"\
     "\n    C/C++ type: ::std::vector< float > &."\
     "\n    Python type: vector_float32."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    descriptors" );
         
         }
     }

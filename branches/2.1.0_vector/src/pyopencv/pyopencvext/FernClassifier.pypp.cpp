@@ -251,8 +251,9 @@ void register_FernClassifier_class(){
     "\nArgument 'signature':"\
     "\n    C/C++ type: ::std::vector< float > &."\
     "\n    Python type: vector_float32."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    ((int), signature)" );
         
         }
         { //::cv::FernClassifier::operator()
@@ -268,8 +269,9 @@ void register_FernClassifier_class(){
     "\nArgument 'signature':"\
     "\n    C/C++ type: ::std::vector< float > &."\
     "\n    Python type: vector_float32."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    ((int), signature)" );
         
         }
         { //::cv::FernClassifier::read

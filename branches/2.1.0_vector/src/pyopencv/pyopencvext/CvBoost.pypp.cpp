@@ -377,11 +377,12 @@ void register_CvBoost_class(){
     "\nArgument 'weak_responses':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)."\
+    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument '_missing':"\
     "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." );
+    "\n    Python type: Mat."\
+    "\nReturns:"\
+    "\n    ((float32), weak_responses)" );
         
         }
         { //::CvBoost::predict
@@ -395,11 +396,12 @@ void register_CvBoost_class(){
                 , "\nArgument 'weak_responses':"\
     "\n    C/C++ type: ::cv::Mat *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)."\
+    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'slice':"\
     "\n    C/C++ type: ::CvSlice."\
-    "\n    Python type: Range." );
+    "\n    Python type: Range."\
+    "\nReturns:"\
+    "\n    ((float32), weak_responses)" );
         
         }
         { //::CvBoost::prune

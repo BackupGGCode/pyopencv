@@ -17,6 +17,7 @@
 
 import re as _re
 import os.path as OP
+from pygccxml import declarations as _D
 
 # -----------------------------------------------------------------------------------------------
 # Some useful common-ground sub-routines
@@ -29,6 +30,7 @@ def init_transformers(func_list):
         fun._transformer_creators = []
         fun._transformer_kwds = {}
         fun._args_docs = {}
+        fun._output_args = []
         
 def add_func_arg_doc(fun, arg, s=""):
     try:
@@ -328,7 +330,32 @@ def add_decl_desc(decl):
         for arg in decl._args_docs:
             add_decl_boost_doc(decl, "Argument '%s':" % arg)
             for z in decl._args_docs[arg]:
-                add_decl_boost_doc(decl, "    "+z)            
+                add_decl_boost_doc(decl, "    "+z)
+                
+        if decl._output_args:
+            # get the return value and output arguments
+            return_list = []
+            if decl.return_type.partial_decl_string!='void':
+                return_type = _D.remove_const(_D.remove_reference(decl.return_type))
+                pds = unique_pds(return_type.partial_decl_string)
+                try:
+                    pds = get_registered_decl(pds)[0]
+                except ValueError:
+                    pass
+                return_list.append("(%s)" % pds)
+            return_list.extend([x.name for x in decl._output_args])
+                
+            # document it
+            add_decl_boost_doc(decl, "Returns:")
+            s = ""
+            for r in return_list:
+                s += r+", "
+            s = s[:-2]
+            if len(return_list) > 1:
+                s = "    ("+s+")"
+            else:
+                s = "    "+s
+            add_decl_boost_doc(decl, s)
     except AttributeError:
         pass
         
@@ -422,7 +449,7 @@ def register_decl(pyName, pds, cChildName_pds=None, pyEquivName=None):
         # print "Declaration %s already registered." % pds
         return upds
     if '::' in pds: # assume it is a class
-        print "Registration: %s -> %s..." % (upds, pyName)
+        print "Registration: %s ==> %s..." % (upds, pyName)
         try:
             find_class(upds).rename(pyName)
         except RuntimeError:

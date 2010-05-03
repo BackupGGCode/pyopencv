@@ -190,8 +190,8 @@ void register_SparseMat_class(){
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
     "\nArgument 'dims':"\
-    "\n    Dependent argument: omitted from the calling sequence. Its value is "\
-    "\n    derived from argument '_sizes'." );
+    "\n    Dependent argument: omitted from input. Its value is derived from "\
+    "\n    argument '_sizes'." );
         
         }
         { //::cv::SparseMat::depth
@@ -243,8 +243,9 @@ void register_SparseMat_class(){
     "\nArgument 'hashval':"\
     "\n    C/C++ type: ::size_t *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    hashval" );
         
         }
         { //::cv::SparseMat::erase
@@ -260,8 +261,9 @@ void register_SparseMat_class(){
     "\nArgument 'hashval':"\
     "\n    C/C++ type: ::size_t *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    hashval" );
         
         }
         { //::cv::SparseMat::erase
@@ -277,11 +279,12 @@ void register_SparseMat_class(){
     "\nArgument 'hashval':"\
     "\n    C/C++ type: ::size_t *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)."\
+    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'idx':"\
     "\n    C/C++ type: int const *."\
-    "\n    Python type: vector_int." );
+    "\n    Python type: vector_int."\
+    "\nReturns:"\
+    "\n    hashval" );
         
         }
         { //::cv::SparseMat::hash

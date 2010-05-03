@@ -112,8 +112,9 @@ void register_PlanarObjectDetector_class(){
     "\nArgument 'corners':"\
     "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
     "\n    Python type: vector_Point2f."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    ((bool), corners)" );
         
         }
         { //::cv::PlanarObjectDetector::operator()
@@ -129,13 +130,13 @@ void register_PlanarObjectDetector_class(){
     "\nArgument 'corners':"\
     "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
     "\n    Python type: vector_Point2f."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)."\
+    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'pairs':"\
     "\n    C/C++ type: ::std::vector< int > *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    ((bool), corners, pairs)" );
         
         }
         { //::cv::PlanarObjectDetector::read

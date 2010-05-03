@@ -28,7 +28,8 @@ void register_MSER_class(){
     "\nArgument 'msers':"\
     "\n    C/C++ type: ::std::vector< std::vector< cv::Point_<int> > > &."\
     "\n    Python type: vector_vector_Point2i."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    msers" );
 
 }

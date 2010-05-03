@@ -184,8 +184,9 @@ void register_HOGDescriptor_class(){
                 , "\nArgument 'descriptors':"\
     "\n    C/C++ type: ::std::vector< float > &."\
     "\n    Python type: vector_float32."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    descriptors" );
         
         }
         { //::cv::HOGDescriptor::computeGradient
@@ -211,8 +212,9 @@ void register_HOGDescriptor_class(){
                 , "\nArgument 'foundLocations':"\
     "\n    C/C++ type: ::std::vector< cv::Point_<int> > &."\
     "\n    Python type: vector_Point2i."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    foundLocations" );
         
         }
         { //::cv::HOGDescriptor::detectMultiScale
@@ -226,8 +228,9 @@ void register_HOGDescriptor_class(){
                 , "\nArgument 'foundLocations':"\
     "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
     "\n    Python type: vector_Rect."\
-    "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)." );
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    foundLocations" );
         
         }
         { //::cv::HOGDescriptor::getDefaultPeopleDetector
