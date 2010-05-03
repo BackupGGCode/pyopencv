@@ -185,15 +185,15 @@ def get_vector_elem_type(vector_type):
             s = '::' + s + ', std::allocator<' + s[12:] + ' >  >'
     return _D.dummy_type_t(s)
     
-def is_elem_type_fixed_size(elem_type):
+def is_elem_type_fixed_size(elem_type_pds):
     """Checks if an element type is a fixed-size array-like data type."""
-    if '*' in elem_type.partial_decl_string:
+    if '*' in elem_type_pds:
         return False
     for t in ('char', 'unsigned char', 'short', 'unsigned short', 'int',
         'unsigned int', 'long', 'unsigned long', 'float', 'double',
         'cv::Vec', 'cv::Point', 'cv::Rect', 'cv::RotatedRect', 
         'cv::Scalar', 'cv::Range'):
-        if elem_type.decl_string.startswith(t):
+        if elem_type_pds.startswith(t):
             return True
     return False
     

@@ -5124,73 +5124,141 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     bp::to_python_converter<CvRNG, CvRNG_to_python, false>();
 
-    bp::def("asVec4w", &sdcpp::from_ndarray< cv::Vec4w >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec4w", &sdcpp::from_ndarray< cv::Vec<unsigned short,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec6f", &sdcpp::from_ndarray< cv::Vec6f >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned short,4> >, (bp::arg("inst_Vec4w")) );
 
-    bp::def("asVec3f", &sdcpp::from_ndarray< cv::Vec3f >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec6f", &sdcpp::from_ndarray< cv::Vec<float,6> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec3b >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<float,6> >, (bp::arg("inst_Vec6f")) );
 
-    bp::def("asVec2s", &sdcpp::from_ndarray< cv::Vec2s >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec3f", &sdcpp::from_ndarray< cv::Vec<float,3> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec4s >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<float,3> >, (bp::arg("inst_Vec3f")) );
 
-    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec6d >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec<unsigned char,3> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4i", &sdcpp::from_ndarray< cv::Vec4i >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned char,3> >, (bp::arg("inst_Vec3b")) );
 
-    bp::def("asVec4d", &sdcpp::from_ndarray< cv::Vec4d >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec2s", &sdcpp::from_ndarray< cv::Vec<short,2> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4f", &sdcpp::from_ndarray< cv::Vec4f >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<short,2> >, (bp::arg("inst_Vec2s")) );
 
-    bp::def("asVec2w", &sdcpp::from_ndarray< cv::Vec2w >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec<short,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2i", &sdcpp::from_ndarray< cv::Vec2i >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<short,4> >, (bp::arg("inst_Vec4s")) );
 
-    bp::def("asVec3i", &sdcpp::from_ndarray< cv::Vec3i >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec<double,6> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec4b", &sdcpp::from_ndarray< cv::Vec4b >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<double,6> >, (bp::arg("inst_Vec6d")) );
 
-    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec2f >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec4i", &sdcpp::from_ndarray< cv::Vec<int,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2b", &sdcpp::from_ndarray< cv::Vec2b >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<int,4> >, (bp::arg("inst_Vec4i")) );
 
-    bp::def("asVec3d", &sdcpp::from_ndarray< cv::Vec3d >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec4d", &sdcpp::from_ndarray< cv::Vec<double,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec3s", &sdcpp::from_ndarray< cv::Vec3s >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<double,4> >, (bp::arg("inst_Vec4d")) );
 
-    bp::def("asVec3w", &sdcpp::from_ndarray< cv::Vec3w >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec4f", &sdcpp::from_ndarray< cv::Vec<float,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec2d >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<float,4> >, (bp::arg("inst_Vec4f")) );
 
-    bp::def("asPoint2i", &sdcpp::from_ndarray< cv::Point2i >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec2w", &sdcpp::from_ndarray< cv::Vec<unsigned short,2> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint2f", &sdcpp::from_ndarray< cv::Point2f >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned short,2> >, (bp::arg("inst_Vec2w")) );
 
-    bp::def("asPoint2d", &sdcpp::from_ndarray< cv::Point2d >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec2i", &sdcpp::from_ndarray< cv::Vec<int,2> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint3i", &sdcpp::from_ndarray< cv::Point3i >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<int,2> >, (bp::arg("inst_Vec2i")) );
 
-    bp::def("asPoint3f", &sdcpp::from_ndarray< cv::Point3f >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec3i", &sdcpp::from_ndarray< cv::Vec<int,3> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asPoint3d", &sdcpp::from_ndarray< cv::Point3d >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<int,3> >, (bp::arg("inst_Vec3i")) );
 
-    bp::def("asSize2i", &sdcpp::from_ndarray< cv::Size2i >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec4b", &sdcpp::from_ndarray< cv::Vec<unsigned char,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asSize2f", &sdcpp::from_ndarray< cv::Size2f >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned char,4> >, (bp::arg("inst_Vec4b")) );
 
-    bp::def("asRect", &sdcpp::from_ndarray< cv::Rect >, (bp::arg("inst_ndarray")) );
+    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec<float,2> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<float,2> >, (bp::arg("inst_Vec2f")) );
+
+    bp::def("asVec2b", &sdcpp::from_ndarray< cv::Vec<unsigned char,2> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned char,2> >, (bp::arg("inst_Vec2b")) );
+
+    bp::def("asVec3d", &sdcpp::from_ndarray< cv::Vec<double,3> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<double,3> >, (bp::arg("inst_Vec3d")) );
+
+    bp::def("asVec3s", &sdcpp::from_ndarray< cv::Vec<short,3> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<short,3> >, (bp::arg("inst_Vec3s")) );
+
+    bp::def("asVec3w", &sdcpp::from_ndarray< cv::Vec<unsigned short,3> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned short,3> >, (bp::arg("inst_Vec3w")) );
+
+    bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec<double,2> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<double,2> >, (bp::arg("inst_Vec2d")) );
+
+    bp::def("asPoint2i", &sdcpp::from_ndarray< cv::Point_<int> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point_<int> >, (bp::arg("inst_Point2i")) );
+
+    bp::def("asPoint2f", &sdcpp::from_ndarray< cv::Point_<float> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point_<float> >, (bp::arg("inst_Point2f")) );
+
+    bp::def("asPoint2d", &sdcpp::from_ndarray< cv::Point_<double> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point_<double> >, (bp::arg("inst_Point2d")) );
+
+    bp::def("asPoint3i", &sdcpp::from_ndarray< cv::Point3_<int> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point3_<int> >, (bp::arg("inst_Point3i")) );
+
+    bp::def("asPoint3f", &sdcpp::from_ndarray< cv::Point3_<float> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point3_<float> >, (bp::arg("inst_Point3f")) );
+
+    bp::def("asPoint3d", &sdcpp::from_ndarray< cv::Point3_<double> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point3_<double> >, (bp::arg("inst_Point3d")) );
+
+    bp::def("asSize2i", &sdcpp::from_ndarray< cv::Size_<int> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Size_<int> >, (bp::arg("inst_Size2i")) );
+
+    bp::def("asSize2f", &sdcpp::from_ndarray< cv::Size_<float> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Size_<float> >, (bp::arg("inst_Size2f")) );
+
+    bp::def("asRect", &sdcpp::from_ndarray< cv::Rect_<int> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Rect_<int> >, (bp::arg("inst_Rect")) );
 
     bp::def("asRotatedRect", &sdcpp::from_ndarray< cv::RotatedRect >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asScalar", &sdcpp::from_ndarray< cv::Scalar >, (bp::arg("inst_ndarray")) );
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::RotatedRect >, (bp::arg("inst_RotatedRect")) );
+
+    bp::def("asScalar", &sdcpp::from_ndarray< cv::Scalar_<double> >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Scalar_<double> >, (bp::arg("inst_Scalar")) );
 
     bp::def("asRange", &sdcpp::from_ndarray< cv::Range >, (bp::arg("inst_ndarray")) );
 
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Range >, (bp::arg("inst_Range")) );
+
     bp::def("asMat", &sdcpp::from_ndarray< cv::Mat >, (bp::arg("inst_ndarray")) );
 
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::Mat >, (bp::arg("inst_Mat")) );
+
     bp::def("asMatND", &sdcpp::from_ndarray< cv::MatND >, (bp::arg("inst_ndarray")) );
+
+    bp::def("asndarray", &sdcpp::as_ndarray< cv::MatND >, (bp::arg("inst_MatND")) );
 
     bp::def( 
         "snakeImage"

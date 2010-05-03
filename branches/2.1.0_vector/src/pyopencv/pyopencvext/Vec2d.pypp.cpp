@@ -103,9 +103,9 @@ void register_Vec2d_class(){
         
         }
         Vec2d_exposer.staticmethod( "all" );
-        Vec2d_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Vec2d >, (bp::arg("inst_ndarray")) );
+        Vec2d_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Vec<double,2> >, (bp::arg("inst_ndarray")) );
         Vec2d_exposer.staticmethod("from_ndarray");
-        Vec2d_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Vec2d >);
+        Vec2d_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Vec<double,2> >);
         Vec2d_exposer.def("__iadd__", &__iadd__<cv::Vec2d, cv::Vec2b>, bp::return_self<>() );
         Vec2d_exposer.def("__isub__", &__isub__<cv::Vec2d, cv::Vec2b>, bp::return_self<>() );
         Vec2d_exposer.def("__iadd__", &__iadd__<cv::Vec2d, cv::Vec2s>, bp::return_self<>() );

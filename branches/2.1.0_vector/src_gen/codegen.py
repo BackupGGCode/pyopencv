@@ -224,16 +224,16 @@ mb.cc = cc
 
 def add_ndarray_interface(self, klass):
     klass.include_files.append("ndarray.hpp")
-    klass.add_registration_code('def("from_ndarray", &sdcpp::from_ndarray< cv::%s >, (bp::arg("inst_ndarray")) )' % klass.alias)
-    self.add_registration_code('bp::def("as%s", &sdcpp::from_ndarray< cv::%s >, (bp::arg("inst_ndarray")) );' % (klass.alias, klass.alias))
-    klass.add_registration_code('staticmethod("from_ndarray")'.replace("KLASS", klass.alias))
+    klass.add_registration_code('def("from_ndarray", &sdcpp::from_ndarray< %s >, (bp::arg("inst_ndarray")) )' % klass.pds)
+    self.add_registration_code('bp::def("as%s", &sdcpp::from_ndarray< %s >, (bp::arg("inst_ndarray")) );' % (klass.alias, klass.pds))
+    klass.add_registration_code('staticmethod("from_ndarray")')
     self.add_doc(klass.alias+".from_ndarray", "Creates a %s view on an ndarray instance." % klass.alias)
-    klass.add_registration_code('add_property("ndarray", &sdcpp::as_ndarray< cv::%s >)' % klass.alias)
-    # self.add_registration_code('bp::def("asndarray", &sdcpp::as_ndarray< cv::%s >, (bp::arg("inst_ndarray")) );' % klass.alias)
+    klass.add_registration_code('add_property("ndarray", &sdcpp::as_ndarray< %s >)' % klass.pds)
+    self.add_registration_code('bp::def("asndarray", &sdcpp::as_ndarray< %s >, (bp::arg("inst_%s")) );' % (klass.pds, klass.alias))
     self.add_doc(klass.alias,
         "Property 'ndarray' provides a numpy.ndarray view on the object.",
         "If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!",
-        # "Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.",
+        "Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.",
         "",
         "To create an instance of %s that shares the same data with an ndarray instance, use:" % klass.alias,
         "    '%s.from_ndarray(a)' or 'as%s(a)" % (klass.alias, klass.alias),
@@ -697,6 +697,26 @@ sdopencv.generate_code(mb, cc, D, FT, CP)
 #=============================================================================
 
 
+# rewrite the asndarray function
+cc.write('''
+def asndarray(obj):
+    """Converts a Python object into a numpy.ndarray object.
+    
+    This function basically invokes:
+    
+        _PE.asndarray(inst_<type of 'obj'>=obj)
+    
+    where _PE.asndarray is the internal asndarray() function of the Python
+    extension, and the type of the given Python object, 'obj', is determined
+    by looking at 'obj.__class__'.
+    """
+    return eval("_PE.asMat(inst_%s=obj)" % obj.__class__.__name__)
+asndarray.__doc__ = asndarray.__doc__ + """
+Docstring of the internal asndarray function:
+
+""" + _PE.asndarray.__doc__
+''')
+    
 for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
     'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
     'STUB_PHASE',
@@ -704,13 +724,6 @@ for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
     mb.enums(lambda x: x.name.startswith(z)).exclude()
 mb.enums(lambda x: x.decl_string.startswith('::std')).exclude()
 mb.enums(lambda x: x.decl_string.startswith('::tag')).exclude()
-
-# dummy struct
-mb.dummy_struct.add_registration_code('''setattr("v0", 0);
-    }
-    {
-        %s''' % mb.dummy_struct._reg_code)
-
 
 # rename functions that starts with 'cv'
 for z in mb.free_funs():
@@ -763,7 +776,7 @@ def __vector_fromlist(cls, obj):
 
 # expose std::vector, only those with alias starting with 'vector_'
 # remember to create operator==() for each element type
-for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
+for z in mb.classes(lambda x: x.pds.startswith('std::vector<')):
     # check if the class has been registered
     try:
         t = common.get_registered_decl(z.partial_decl_string)
@@ -786,8 +799,23 @@ _z.resize(1)
 CLASS_NAME.elem_type = _z[0].__class__
 del(_z)
     '''.replace('CLASS_NAME', z.alias))
+    # add conversion between vector and ndarray
+    if FT.is_elem_type_fixed_size(elem_type):
+        ds = mb.dummy_struct
+        ds.include_files.append('ndarray.hpp')
+        ds.add_reg_code('bp::def("asndarray", &sdcpp::vector_to_ndarray2< ELEM_TYPE >, (bp::arg("inst_CLASS_NAME")) );' \
+            .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type))
+        ds.add_reg_code('bp::def("asCLASS_NAME", &sdcpp::ndarray_to_vector2< ELEM_TYPE >, (bp::arg("inst_ndarray")) );' \
+            .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type))
 
     
+# dummy struct
+mb.dummy_struct.add_registration_code('''setattr("v0", 0);
+    }
+    {
+        %s''' % mb.dummy_struct._reg_code)
+
+
 # hack class_t so that py++ uses attribute 'pds' as declaration string
 from pyplusplus.decl_wrappers.class_wrapper import class_t
 class_t.old_create_decl_string = class_t.create_decl_string

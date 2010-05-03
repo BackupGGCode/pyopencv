@@ -32,7 +32,7 @@ namespace sdcpp {
 
 void ndarray::check_obj(object const &obj) const
 {
-    if(!PyArray_Check(obj.ptr())) // not an ndarray
+    if(obj.ptr()!=Py_None && !PyArray_Check(obj.ptr())) // not an ndarray
     {
         PyErr_SetString(PyExc_TypeError, "Not an ndarray.");
         throw bp::error_already_set();

@@ -422,7 +422,7 @@ def register_decl(pyName, pds, cChildName_pds=None, pyEquivName=None):
         # print "Declaration %s already registered." % pds
         return upds
     if '::' in pds: # assume it is a class
-        print "Registering class %s as %s..." % (upds, pyName)
+        print "Registration: %s -> %s..." % (upds, pyName)
         try:
             find_class(upds).rename(pyName)
         except RuntimeError:
