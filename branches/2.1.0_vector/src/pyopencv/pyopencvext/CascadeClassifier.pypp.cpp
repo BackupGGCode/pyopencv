@@ -2,7 +2,6 @@
 
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
-#include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "CascadeClassifier.pypp.hpp"
@@ -33,11 +32,9 @@ struct CascadeClassifier_wrapper : cv::CascadeClassifier, bp::wrapper< cv::Casca
     }
 
     static boost::python::object detectMultiScale( ::cv::CascadeClassifier & inst, ::cv::Mat const & image, double scaleFactor=1.10000000000000008881784197001252323389053344727e+0, int minNeighbors=3, int flags=0, ::cv::Size minSize=cv::Size_<int>() ){
-        ::std::vector< cv::Rect_<int> > objects2;
-        cv::Mat objects3;
+        std::vector<cv::Rect_<int>, std::allocator<cv::Rect_<int> > > objects2;
         inst.detectMultiScale(image, objects2, scaleFactor, minNeighbors, flags, minSize);
-        convert_from_vector_of_T_to_Mat(objects2, objects3);
-        return bp::object( objects3 );
+        return bp::object( objects2 );
     }
 
     cv::Mat sum, tilted, sqsum;
@@ -107,10 +104,6 @@ void register_CascadeClassifier_class(){
                 , detectMultiScale_function_type( &CascadeClassifier_wrapper::detectMultiScale )
                 , ( bp::arg("inst"), bp::arg("image"), bp::arg("scaleFactor")=1.10000000000000008881784197001252323389053344727e+0, bp::arg("minNeighbors")=(int)(3), bp::arg("flags")=(int)(0), bp::arg("minSize")=cv::Size_<int>() )
                 , "\nArgument 'objects':"\
-    "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         

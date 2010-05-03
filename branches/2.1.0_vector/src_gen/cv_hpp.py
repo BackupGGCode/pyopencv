@@ -66,7 +66,7 @@ def generate_code(mb, cc, D, FT, CP):
     # CascadeClassifier
     z = mb.class_('CascadeClassifier')
     mb.init_class(z)
-    z.mem_fun('detectMultiScale')._transformer_creators.append(FT.arg_std_vector('objects', 2))
+    z.mem_fun('detectMultiScale')._transformer_creators.append(FT.arg_output('objects'))
     common.register_ti('CvHaarClassifierCascade')
     mb.expose_class_Ptr('CvHaarClassifierCascade')
     # modify runAt() and setImage() -- I need them able to support old cascade
