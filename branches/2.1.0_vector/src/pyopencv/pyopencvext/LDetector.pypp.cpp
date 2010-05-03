@@ -2,7 +2,6 @@
 
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
-#include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "LDetector.pypp.hpp"
@@ -10,19 +9,15 @@
 namespace bp = boost::python;
 
 static boost::python::object __call___14ec982e59fdc13237968e34b82d6fe2( ::cv::LDetector const & inst, ::cv::Mat const & image, int maxCount=0, bool scaleCoords=true ){
-    ::std::vector< cv::KeyPoint > keypoints2;
-    bp::list keypoints3;
+    std::vector<cv::KeyPoint> keypoints2;
     inst.operator()(image, keypoints2, maxCount, scaleCoords);
-    convert_from_T_to_object(keypoints2, keypoints3);
-    return bp::object( keypoints3 );
+    return bp::object( keypoints2 );
 }
 
 static boost::python::object __call___015c5cd98f14b41d0eaab62238a1a6fe( ::cv::LDetector const & inst, ::std::vector< cv::Mat > const & pyr, int maxCount=0, bool scaleCoords=true ){
-    ::std::vector< cv::KeyPoint > keypoints2;
-    bp::list keypoints3;
+    std::vector<cv::KeyPoint> keypoints2;
     inst.operator()(pyr, keypoints2, maxCount, scaleCoords);
-    convert_from_T_to_object(keypoints2, keypoints3);
-    return bp::object( keypoints3 );
+    return bp::object( keypoints2 );
 }
 
 void register_LDetector_class(){
@@ -41,10 +36,6 @@ void register_LDetector_class(){
             , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list of KeyPoint."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." )    
         .def( 
@@ -54,10 +45,6 @@ void register_LDetector_class(){
             , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list of KeyPoint."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." )    
         .def( 

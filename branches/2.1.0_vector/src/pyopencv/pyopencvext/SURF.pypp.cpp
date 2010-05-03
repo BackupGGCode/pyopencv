@@ -2,7 +2,6 @@
 
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
-#include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "SURF.pypp.hpp"
@@ -10,19 +9,15 @@
 namespace bp = boost::python;
 
 static boost::python::object __call___8fbaf2f3b7cf23fdd67db0f4874c6b20( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask ){
-    ::std::vector< cv::KeyPoint > keypoints2;
-    bp::list keypoints3;
+    std::vector<cv::KeyPoint> keypoints2;
     inst.operator()(img, mask, keypoints2);
-    convert_from_T_to_object(keypoints2, keypoints3);
-    return bp::object( keypoints3 );
+    return bp::object( keypoints2 );
 }
 
 static boost::python::object __call___8904ace00c2f24b8eb00d3aa8ac85014( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, ::std::vector< cv::KeyPoint > & keypoints, bool useProvidedKeypoints=false ){
-    ::std::vector< float > descriptors2;
-    cv::Mat descriptors3;
+    std::vector<float> descriptors2;
     inst.operator()(img, mask, keypoints, descriptors2, useProvidedKeypoints);
-    convert_from_vector_of_T_to_Mat(descriptors2, descriptors3);
-    return bp::object( descriptors3 );
+    return bp::object( descriptors2 );
 }
 
 void register_SURF_class(){
@@ -54,10 +49,6 @@ void register_SURF_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list of KeyPoint."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         
@@ -73,10 +64,6 @@ void register_SURF_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'descriptors':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         

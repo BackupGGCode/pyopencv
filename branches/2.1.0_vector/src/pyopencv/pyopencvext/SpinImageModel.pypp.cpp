@@ -2,7 +2,6 @@
 
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
-#include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "SpinImageModel.pypp.hpp"
@@ -10,11 +9,9 @@
 namespace bp = boost::python;
 
 static boost::python::object match_86773a6b4d89ae97806d1109a2438811( ::cv::SpinImageModel & inst, ::cv::SpinImageModel const & scene ){
-    ::std::vector< std::vector< cv::Vec<int, 2> > > result3;
-    bp::list result4;
+    std::vector<std::vector<cv::Vec<int,2> > > result3;
     inst.match(scene, result3);
-    convert_from_T_to_object(result3, result4);
-    return bp::object( result4 );
+    return bp::object( result3 );
 }
 
 void register_SpinImageModel_class(){
@@ -105,10 +102,6 @@ void register_SpinImageModel_class(){
                 , match_function_type( &match_86773a6b4d89ae97806d1109a2438811 )
                 , ( bp::arg("inst"), bp::arg("scene") )
                 , "\nArgument 'result':"\
-    "\n    C/C++ type: ::std::vector< std::vector< cv::Vec<int, 2> > > &."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
-    "\n    Invoke asMat() to convert every 1D Python sequence into a Mat, e.g. "\
-    "\n    [asMat([0,1,2]), asMat((0,1,2)]."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         

@@ -84,7 +84,7 @@ def generate_code(mb, cc, D, FT, CP):
     # Octree
     z = mb.class_('Octree')
     mb.init_class(z)
-    z.mem_fun('getPointsWithinSphere')._transformer_creators.append(FT.arg_std_vector('points', 2))
+    z.mem_fun('getPointsWithinSphere')._transformer_creators.append(FT.arg_output('points'))
     mb.finalize_class(z)
 
     # Octree::Node
@@ -102,7 +102,7 @@ def generate_code(mb, cc, D, FT, CP):
     z = mb.class_('SpinImageModel')
     mb.init_class(z)
     z.mem_fun('setLogger').exclude() # wait until requested
-    z.mem_fun('match')._transformer_creators.append(FT.arg_std_vector('result', 2))
+    z.mem_fun('match')._transformer_creators.append(FT.arg_output('result'))
     for t in ('calcSpinMapCoo', 'geometricConsistency', 'groupingCreteria'):
         z.mem_fun(t).exclude() # wait until requested: not available in OpenCV's Windows package
     z.var('lambda').rename('lambda_') # to avoid a conflict with keyword lambda
@@ -116,9 +116,9 @@ def generate_code(mb, cc, D, FT, CP):
     z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
     z.mem_fun('getDefaultPeopleDetector').exclude()
-    z.mem_fun('compute')._transformer_creators.append(FT.arg_std_vector('descriptors', 2))
+    z.mem_fun('compute')._transformer_creators.append(FT.arg_output('descriptors'))
     for t in ('detect', 'detectMultiScale'):
-        z.mem_fun(t)._transformer_creators.append(FT.arg_std_vector('foundLocations', 2))
+        z.mem_fun(t)._transformer_creators.append(FT.arg_output('foundLocations'))
     z.var('svmDetector').exclude()
     z.add_declaration_code('''
 static cv::Mat getDefaultPeopleDetector() {
@@ -145,7 +145,7 @@ static cv::Mat get_svmDetector(cv::HOGDescriptor const &inst) { return convert_f
     z = mb.class_('LDetector')
     mb.init_class(z)
     for t in z.operators('()'):
-        t._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+        t._transformer_creators.append(FT.arg_output('keypoints'))
     mb.finalize_class(z)
     cc.write('''
 YAPE = LDetector
@@ -156,7 +156,7 @@ YAPE = LDetector
     # z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
     for t in z.operators('()'):
-        t._transformer_creators.append(FT.arg_std_vector('signature', 2))
+        t._transformer_creators.append(FT.arg_output('signature'))
     mb.finalize_class(z)
     
     # FernClassifier::Feature
@@ -176,7 +176,7 @@ YAPE = LDetector
     for t in ('getModelROI', 'getClassifier', 'getDetector'):
         z.mem_fun(t).exclude() # definition not yet available
     for z2 in z.operators('()'):
-        z2._transformer_creators.append(FT.arg_std_vector('corners', 2))
+        z2._transformer_creators.append(FT.arg_output('corners'))
         if len(z2.arguments)==5:
             z2._transformer_creators.append(FT.output_type1('pairs'))
     mb.finalize_class(z)
@@ -240,4 +240,4 @@ YAPE = LDetector
     # FAST
     z = mb.free_fun('FAST')
     z.include()
-    z._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+    z._transformer_creators.append(FT.arg_output('keypoints'))

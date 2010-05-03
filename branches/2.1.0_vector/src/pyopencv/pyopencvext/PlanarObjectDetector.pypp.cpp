@@ -3,7 +3,6 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
-#include "opencv_converters.hpp"
 #include "ndarray.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
@@ -42,20 +41,16 @@ struct PlanarObjectDetector_wrapper : cv::PlanarObjectDetector, bp::wrapper< cv:
     }
 
     static boost::python::tuple __call___4ace94e257458a02821c3e23f229be80( ::cv::PlanarObjectDetector const & inst, ::cv::Mat const & image, ::cv::Mat & H ){
-        ::std::vector< cv::Point_<float> > corners2;
-        cv::Mat corners3;
+        std::vector<cv::Point_<float> > corners2;
         bool result = inst.operator()(image, H, corners2);
-        convert_from_vector_of_T_to_Mat(corners2, corners3);
-        return bp::make_tuple( result, corners3 );
+        return bp::make_tuple( result, corners2 );
     }
 
     static boost::python::tuple __call___353477db407d578b28250d295a56ae36( ::cv::PlanarObjectDetector const & inst, ::std::vector< cv::Mat > const & pyr, ::std::vector< cv::KeyPoint > const & keypoints, ::cv::Mat & H ){
-        ::std::vector< cv::Point_<float> > corners2;
-        cv::Mat corners3;
+        std::vector<cv::Point_<float> > corners2;
         std::vector<int, std::allocator<int> > pairs2;
         bool result = inst.operator()(pyr, keypoints, H, corners2, &pairs2);
-        convert_from_vector_of_T_to_Mat(corners2, corners3);
-        return bp::make_tuple( result, corners3, pairs2 );
+        return bp::make_tuple( result, corners2, pairs2 );
     }
 
     virtual void train( ::std::vector< cv::Mat > const & pyr, int _npoints=300, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
@@ -115,10 +110,6 @@ void register_PlanarObjectDetector_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'corners':"\
-    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         
@@ -134,10 +125,6 @@ void register_PlanarObjectDetector_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'corners':"\
-    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)."\
     "\nArgument 'pairs':"\

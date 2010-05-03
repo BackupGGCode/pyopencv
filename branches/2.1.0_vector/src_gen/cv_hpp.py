@@ -136,8 +136,8 @@ def generate_code(mb, cc, D, FT, CP):
     # SURF
     z = mb.class_('SURF')
     mb.init_class(z)
-    z.operator(lambda x: len(x.arguments)==3)._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
-    z.operator(lambda x: len(x.arguments)==5)._transformer_creators.append(FT.arg_std_vector('descriptors', 2))
+    z.operator(lambda x: len(x.arguments)==3)._transformer_creators.append(FT.arg_output('keypoints'))
+    z.operator(lambda x: len(x.arguments)==5)._transformer_creators.append(FT.arg_output('descriptors'))
     mb.finalize_class(z)
     mb.class_('CvSURFParams').include()
 
@@ -145,14 +145,14 @@ def generate_code(mb, cc, D, FT, CP):
     # MSER
     z = mb.class_('MSER')
     mb.init_class(z)
-    z.operator('()')._transformer_creators.append(FT.arg_std_vector('msers', 2))
+    z.operator('()')._transformer_creators.append(FT.arg_output('msers'))
     mb.finalize_class(z)
     mb.class_('CvMSERParams').include()
     
     # StarDetector
     z = mb.class_('StarDetector')
     mb.init_class(z)
-    z.operator('()')._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+    z.operator('()')._transformer_creators.append(FT.arg_output('keypoints'))
     mb.finalize_class(z)
     mb.class_('CvStarDetectorParams').include()
     
@@ -254,7 +254,7 @@ def generate_code(mb, cc, D, FT, CP):
         x.arguments[0].type.partial_decl_string.startswith('::cv::FileNode')):
         z.include()
         if z.arguments[1].name=='keypoints':
-            z._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+            z._transformer_creators.append(FT.arg_output('keypoints'))
         else:
             z._transformer_creators.append(FT.output(z.arguments[1].name))
             FT.doc_output(z, z.arguments[1])   
@@ -269,15 +269,15 @@ def generate_code(mb, cc, D, FT, CP):
             
     # goodFeaturesToTrack
     FT.expose_func(mb.free_fun('goodFeaturesToTrack'), return_pointee=False, 
-        transformer_creators=[FT.arg_std_vector('corners', 2)])
+        transformer_creators=[FT.arg_output('corners')])
 
     # 'HoughCircles', 'HoughLines', 'HoughLinesP'
     FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, 
-        transformer_creators=[FT.arg_std_vector('circles', 2)])
+        transformer_creators=[FT.arg_output('circles')])
     FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, 
-        transformer_creators=[FT.arg_std_vector('lines', 2)])
+        transformer_creators=[FT.arg_output('lines')])
     FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, 
-        transformer_creators=[FT.arg_std_vector('lines', 2)])
+        transformer_creators=[FT.arg_output('lines')])
     
     # getOptimalNewCameraMatrix
     FT.expose_func(mb.free_fun('getOptimalNewCameraMatrix'), return_pointee=False, 
@@ -310,14 +310,14 @@ def generate_code(mb, cc, D, FT, CP):
     z = mb.free_fun(lambda x: x.name=='findContours' and len(x.arguments)==6)
     z.include()
     z._transformer_kwds['alias'] = 'findContours'
-    z._transformer_creators.append(FT.arg_std_vector('contours', 2))
-    z._transformer_creators.append(FT.arg_std_vector('hierarchy', 2))
+    z._transformer_creators.append(FT.arg_output('contours'))
+    z._transformer_creators.append(FT.arg_output('hierarchy'))
         
     # findContours
     z = mb.free_fun(lambda x: x.name=='findContours' and len(x.arguments)==5)
     z.include()
     z._transformer_kwds['alias'] = 'findContours'
-    z._transformer_creators.append(FT.arg_std_vector('contours', 2))
+    z._transformer_creators.append(FT.arg_output('contours'))
     
     # groupRectangles
     for z in mb.free_funs('groupRectangles'):
@@ -327,7 +327,7 @@ def generate_code(mb, cc, D, FT, CP):
     # approxPolyDP    
     for z in mb.free_funs('approxPolyDP'):
         z.include()
-        z._transformer_creators.append(FT.arg_std_vector('approxCurve', 2))
+        z._transformer_creators.append(FT.arg_output('approxCurve'))
         x = z.arguments[1].type.partial_decl_string
         if 'Point_<int>' in x:
             z._transformer_kwds['alias'] = 'approxPolyDP_int'
@@ -339,7 +339,7 @@ def generate_code(mb, cc, D, FT, CP):
     # convexHull
     for z in mb.free_funs('convexHull'):
         z.include()
-        z._transformer_creators.append(FT.arg_std_vector('hull', 2))
+        z._transformer_creators.append(FT.arg_output('hull'))
         x = z.arguments[1].type.partial_decl_string
         if 'Point_<int>' in x:
             z._transformer_kwds['alias'] = 'convexHull_int'
@@ -352,14 +352,14 @@ def generate_code(mb, cc, D, FT, CP):
     mb.free_funs('undistortPoints').include()
     z = mb.free_fun(lambda x: x.name=='undistortPoints' and 'vector' in x.decl_string)
     z._transformer_kwds['alias'] = 'undistortPoints2'
-    z._transformer_creators.append(FT.arg_std_vector('dst', 2))
+    z._transformer_creators.append(FT.arg_output('dst'))
         
     # findHomography
     z = mb.free_fun(lambda x: x.name=='findHomography' and len(x.arguments)==4).include()
     z = mb.free_fun(lambda x: x.name=='findHomography' and 'vector' in x.decl_string)
     z.include()
     z._transformer_kwds['alias'] = 'findHomography2'
-    z._transformer_creators.append(FT.arg_std_vector('mask', 2))
+    z._transformer_creators.append(FT.arg_output('mask'))
         
     # projectPoints
     for z in mb.free_funs('projectPoints'):
@@ -368,15 +368,15 @@ def generate_code(mb, cc, D, FT, CP):
             z._transformer_kwds['alias'] = 'projectPoints' 
         else:
             z._transformer_kwds['alias'] = 'projectPoints2'
-        z._transformer_creators.append(FT.arg_std_vector('imagePoints', 2))
+        z._transformer_creators.append(FT.arg_output('imagePoints'))
 
     # findChessboardCorners
     FT.expose_func(mb.free_fun('findChessboardCorners'), return_pointee=False,
-        transformer_creators=[FT.arg_std_vector('corners', 2)])
+        transformer_creators=[FT.arg_output('corners')])
     
     # calibrateCamera
     FT.expose_func(mb.free_fun('calibrateCamera'), return_pointee=False,
-        transformer_creators=[FT.arg_std_vector('rvecs', 2), FT.arg_std_vector('tvecs', 2)])
+        transformer_creators=[FT.arg_output('rvecs'), FT.arg_output('tvecs')])
         
     # stereoRectify
     for z in mb.free_funs('stereoRectify'):
@@ -393,17 +393,17 @@ def generate_code(mb, cc, D, FT, CP):
         z.include()        
         z._transformer_kwds['alias'] = 'convertPointsHomogeneous3D' if \
             'Point3' in z.decl_string else 'convertPointsHomogeneous2D'
-        z._transformer_creators.append(FT.arg_std_vector('dst', 2))
+        z._transformer_creators.append(FT.arg_output('dst'))
         
     # findFundamentalMat
     for z in mb.free_funs('findFundamentalMat'):
         z.include()
         if 'vector' in z.decl_string:
-            z._transformer_creators.append(FT.arg_std_vector('mask', 2))
+            z._transformer_creators.append(FT.arg_output('mask'))
             z._transformer_kwds['alias'] = 'findFundamentalMat2'
     
     # computeCorrespondEpilines
     FT.expose_func(mb.free_fun('computeCorrespondEpilines'), return_pointee=False,
-        transformer_creators=[FT.arg_std_vector('lines', 2)])
+        transformer_creators=[FT.arg_output('lines')])
     
     

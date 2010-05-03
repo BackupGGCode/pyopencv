@@ -835,6 +835,7 @@ class arg_output_t( transformer.transformer_t ):
         doc_output(self.function, self.arg)
         # declaring new variable, which will keep result
         elem_type = _D.remove_const(_D.remove_reference(self.arg.type))
+        elem_type = _D.dummy_type_t(common.unique_pds(elem_type.partial_decl_string))
         var_name = controller.declare_variable(elem_type, self.arg.name)
         # adding just declared variable to the original function call expression
         controller.modify_arg_expression( self.arg_index, var_name )

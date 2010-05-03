@@ -32,7 +32,7 @@ struct CascadeClassifier_wrapper : cv::CascadeClassifier, bp::wrapper< cv::Casca
     }
 
     static boost::python::object detectMultiScale( ::cv::CascadeClassifier & inst, ::cv::Mat const & image, double scaleFactor=1.10000000000000008881784197001252323389053344727e+0, int minNeighbors=3, int flags=0, ::cv::Size minSize=cv::Size_<int>() ){
-        std::vector<cv::Rect_<int>, std::allocator<cv::Rect_<int> > > objects2;
+        std::vector<cv::Rect_<int> > objects2;
         inst.detectMultiScale(image, objects2, scaleFactor, minNeighbors, flags, minSize);
         return bp::object( objects2 );
     }

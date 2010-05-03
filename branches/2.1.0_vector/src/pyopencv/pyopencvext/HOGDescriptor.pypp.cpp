@@ -3,7 +3,6 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
-#include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "opencv_converters.hpp"
@@ -52,16 +51,14 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     }
     
     static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point>() ){
-        ::std::vector< float > descriptors2;
-        cv::Mat descriptors3;
+        std::vector<float> descriptors2;
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::HOGDescriptor::compute(img, descriptors2, winStride, padding, locations);
         }
         else{
             inst.compute(img, descriptors2, winStride, padding, locations);
         }
-        convert_from_vector_of_T_to_Mat(descriptors2, descriptors3);
-        return bp::object( descriptors3 );
+        return bp::object( descriptors2 );
     }
 
     virtual void computeGradient( ::cv::Mat const & img, ::cv::Mat & grad, ::cv::Mat & angleOfs, ::cv::Size paddingTL=cv::Size_<int>(), ::cv::Size paddingBR=cv::Size_<int>() ) const  {
@@ -87,16 +84,14 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     }
     
     static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & searchLocations=std::vector<cv::Point>() ){
-        ::std::vector< cv::Point_<int> > foundLocations2;
-        cv::Mat foundLocations3;
+        std::vector<cv::Point_<int> > foundLocations2;
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::HOGDescriptor::detect(img, foundLocations2, hitThreshold, winStride, padding, searchLocations);
         }
         else{
             inst.detect(img, foundLocations2, hitThreshold, winStride, padding, searchLocations);
         }
-        convert_from_vector_of_T_to_Mat(foundLocations2, foundLocations3);
-        return bp::object( foundLocations3 );
+        return bp::object( foundLocations2 );
     }
 
     virtual void detectMultiScale( ::cv::Mat const & img, ::std::vector< cv::Rect_<int> > & foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), double scale=1.05000000000000004440892098500626161694526672363e+0, int groupThreshold=2 ) const  {
@@ -110,16 +105,14 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     }
     
     static boost::python::object default_detectMultiScale( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), double scale=1.05000000000000004440892098500626161694526672363e+0, int groupThreshold=2 ){
-        ::std::vector< cv::Rect_<int> > foundLocations2;
-        cv::Mat foundLocations3;
+        std::vector<cv::Rect_<int> > foundLocations2;
         if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::HOGDescriptor::detectMultiScale(img, foundLocations2, hitThreshold, winStride, padding, scale, groupThreshold);
         }
         else{
             inst.detectMultiScale(img, foundLocations2, hitThreshold, winStride, padding, scale, groupThreshold);
         }
-        convert_from_vector_of_T_to_Mat(foundLocations2, foundLocations3);
-        return bp::object( foundLocations3 );
+        return bp::object( foundLocations2 );
     }
 
     virtual bool load( ::cv::String const & filename, ::cv::String const & objname=std::string() ) {
@@ -195,10 +188,6 @@ void register_HOGDescriptor_class(){
                 , default_compute_function_type( &HOGDescriptor_wrapper::default_compute )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=std::vector<cv::Point>() )
                 , "\nArgument 'descriptors':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         
@@ -224,10 +213,6 @@ void register_HOGDescriptor_class(){
                 , default_detect_function_type( &HOGDescriptor_wrapper::default_detect )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=std::vector<cv::Point>() )
                 , "\nArgument 'foundLocations':"\
-    "\n    C/C++ type: ::std::vector< cv::Point_<int> > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         
@@ -241,10 +226,6 @@ void register_HOGDescriptor_class(){
                 , default_detectMultiScale_function_type( &HOGDescriptor_wrapper::default_detectMultiScale )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("scale")=1.05000000000000004440892098500626161694526672363e+0, bp::arg("groupThreshold")=(int)(2) )
                 , "\nArgument 'foundLocations':"\
-    "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         

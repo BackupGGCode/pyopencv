@@ -3,7 +3,6 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
-#include "opencv_converters.hpp"
 #include "__array_1.pypp.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
@@ -80,16 +79,14 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
     }
     
     static boost::python::object default_getPointsWithinSphere( ::cv::Octree const & inst, ::cv::Point3f const & center, float radius ){
-        ::std::vector< cv::Point3_<float> > points2;
-        cv::Mat points3;
+        std::vector<cv::Point3_<float> > points2;
         if( dynamic_cast< Octree_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::Octree::getPointsWithinSphere(center, radius, points2);
         }
         else{
             inst.getPointsWithinSphere(center, radius, points2);
         }
-        convert_from_vector_of_T_to_Mat(points2, points3);
-        return bp::object( points3 );
+        return bp::object( points2 );
     }
 
 };
@@ -159,10 +156,6 @@ void register_Octree_class(){
                 , default_getPointsWithinSphere_function_type( &Octree_wrapper::default_getPointsWithinSphere )
                 , ( bp::arg("inst"), bp::arg("center"), bp::arg("radius") )
                 , "\nArgument 'points':"\
-    "\n    C/C++ type: ::std::vector< cv::Point3_<float> > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         

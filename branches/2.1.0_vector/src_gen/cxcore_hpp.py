@@ -775,15 +775,11 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
         for z in mb.free_funs(t):
             if 'vector' in z.partial_decl_string:
                 z.include()
-                # z._transformer_creators.append(FT.arg_std_vector('mv'))
-                # z._transformer_kwds['alias'] = t
             
     # mixChannels
     for z in mb.free_funs('mixChannels'):
         if 'vector' in z.partial_decl_string:
             z.include()
-            # z._transformer_creators.append(FT.arg_std_vector('src'))
-            # z._transformer_creators.append(FT.arg_std_vector('dst'))
             z._transformer_kwds['alias'] = 'mixChannels'
             z._transformer_creators.append(FT.input_array1d('fromTo'))
     

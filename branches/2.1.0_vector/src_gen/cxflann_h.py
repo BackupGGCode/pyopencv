@@ -40,8 +40,8 @@ def generate_code(mb, cc, D, FT, CP):
         for z in cvflann_Index.mem_funs(t):
             z._transformer_kwds['alias'] = t
         z = cvflann_Index.mem_fun(lambda x: x.name==t and 'vector' in x.decl_string)
-        z._transformer_creators.append(FT.arg_std_vector('indices', 2))
-        z._transformer_creators.append(FT.arg_std_vector('dists', 2))
+        z._transformer_creators.append(FT.arg_output('indices'))
+        z._transformer_creators.append(FT.arg_output('dists'))
     mb.finalize_class(cvflann_Index)
     
     # IndexParams

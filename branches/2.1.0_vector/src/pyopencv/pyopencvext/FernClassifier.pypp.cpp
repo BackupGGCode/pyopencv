@@ -3,7 +3,6 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
-#include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "FernClassifier.pypp.hpp"
@@ -64,8 +63,7 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
     }
     
     static boost::python::tuple default___call___c4d2198033cf380377bb6f32571c2657( ::cv::FernClassifier const & inst, ::cv::Mat const & img, ::cv::Point2f kpt ){
-        ::std::vector< float > signature2;
-        cv::Mat signature3;
+        std::vector<float> signature2;
         int result;
         if( dynamic_cast< FernClassifier_wrapper const* >( boost::addressof( inst ) ) ){
             result = inst.::cv::FernClassifier::operator()(img, kpt, signature2);
@@ -73,8 +71,7 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
         else{
             result = inst.operator()(img, kpt, signature2);
         }
-        convert_from_vector_of_T_to_Mat(signature2, signature3);
-        return bp::make_tuple( result, signature3 );
+        return bp::make_tuple( result, signature2 );
     }
 
     virtual int operator()( ::cv::Mat const & patch, ::std::vector< float > & signature ) const  {
@@ -89,8 +86,7 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
     }
     
     static boost::python::tuple default___call___ddcd7402f4cc50fa35ce4888642630c7( ::cv::FernClassifier const & inst, ::cv::Mat const & patch ){
-        ::std::vector< float > signature2;
-        cv::Mat signature3;
+        std::vector<float> signature2;
         int result;
         if( dynamic_cast< FernClassifier_wrapper const* >( boost::addressof( inst ) ) ){
             result = inst.::cv::FernClassifier::operator()(patch, signature2);
@@ -98,8 +94,7 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
         else{
             result = inst.operator()(patch, signature2);
         }
-        convert_from_vector_of_T_to_Mat(signature2, signature3);
-        return bp::make_tuple( result, signature3 );
+        return bp::make_tuple( result, signature2 );
     }
 
     virtual void read( ::cv::FileNode const & n ) {
@@ -254,10 +249,6 @@ void register_FernClassifier_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'signature':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         
@@ -273,10 +264,6 @@ void register_FernClassifier_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'signature':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         
