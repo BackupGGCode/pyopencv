@@ -17,14 +17,11 @@ static boost::python::object __call___8fbaf2f3b7cf23fdd67db0f4874c6b20( ::cv::SU
     return bp::object( keypoints3 );
 }
 
-static boost::python::object __call___8904ace00c2f24b8eb00d3aa8ac85014( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, bp::list & keypoints, bool useProvidedKeypoints=false ){
+static boost::python::object __call___8904ace00c2f24b8eb00d3aa8ac85014( ::cv::SURF const & inst, ::cv::Mat const & img, ::cv::Mat const & mask, ::std::vector< cv::KeyPoint > & keypoints, bool useProvidedKeypoints=false ){
     ::std::vector< float > descriptors2;
     cv::Mat descriptors3;
-    ::std::vector< cv::KeyPoint > keypoints2;
-    convert_from_object_to_T(keypoints, keypoints2);
-    inst.operator()(img, mask, keypoints2, descriptors2, useProvidedKeypoints);
+    inst.operator()(img, mask, keypoints, descriptors2, useProvidedKeypoints);
     convert_from_vector_of_T_to_Mat(descriptors2, descriptors3);
-    convert_from_T_to_object(keypoints2, keypoints);
     return bp::object( descriptors3 );
 }
 
@@ -67,7 +64,7 @@ void register_SURF_class(){
         }
         { //::cv::SURF::operator()
         
-            typedef boost::python::object ( *__call___function_type )( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,bp::list &,bool );
+            typedef boost::python::object ( *__call___function_type )( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,::std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > &,bool );
             
             SURF_exposer.def( 
                 "__call__"
@@ -81,12 +78,7 @@ void register_SURF_class(){
     "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
     "\n    asMat([0,1,2]) or asMat((0,1,2))."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
-    "\n    along with the function's return value (if any)."\
-    "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list of KeyPoint."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()." );
+    "\n    along with the function's return value (if any)." );
         
         }
     }

@@ -206,6 +206,17 @@ void register_free_functions_co(){
     
     }
 
+    { //::cv::cornerSubPix
+    
+        typedef void ( *cornerSubPix_function_type )( ::cv::Mat const &,::std::vector< cv::Point_<float> > &,::cv::Size,::cv::Size,::cv::TermCriteria );
+        
+        bp::def( 
+            "cornerSubPix"
+            , cornerSubPix_function_type( &::cv::cornerSubPix )
+            , ( bp::arg("image"), bp::arg("corners"), bp::arg("winSize"), bp::arg("zeroZone"), bp::arg("criteria") ) );
+    
+    }
+
     { //::cv::countNonZero
     
         typedef int ( *countNonZero_function_type )( ::cv::MatND const & );

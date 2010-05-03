@@ -33,6 +33,17 @@ void register_free_functions_st(){
     
     }
 
+    { //::cv::stereoCalibrate
+    
+        typedef double ( *stereoCalibrate_function_type )( ::std::vector< std::vector< cv::Point3_<float> > > const &,::std::vector< std::vector< cv::Point_<float> > > const &,::std::vector< std::vector< cv::Point_<float> > > const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Size,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::TermCriteria,int );
+        
+        bp::def( 
+            "stereoCalibrate"
+            , stereoCalibrate_function_type( &::cv::stereoCalibrate )
+            , ( bp::arg("objectPoints"), bp::arg("imagePoints1"), bp::arg("imagePoints2"), bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("E"), bp::arg("F"), bp::arg("criteria")=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), bp::arg("flags")=int(::cv::CALIB_FIX_INTRINSIC) ) );
+    
+    }
+
     { //::cv::stereoRectify
     
         typedef void ( *stereoRectify_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Size,::cv::Mat const &,::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,int );

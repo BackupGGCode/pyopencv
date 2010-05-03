@@ -9,13 +9,6 @@
 
 namespace bp = boost::python;
 
-static void getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d( ::cv::LDetector const & inst, ::cv::Mat const & image, bp::list & keypoints, int maxCount, ::cv::PatchGenerator const & patchGenerator ){
-    ::std::vector< cv::KeyPoint > keypoints2;
-    convert_from_object_to_T(keypoints, keypoints2);
-    inst.getMostStable2D(image, keypoints2, maxCount, patchGenerator);
-    convert_from_T_to_object(keypoints2, keypoints);
-}
-
 static boost::python::object __call___14ec982e59fdc13237968e34b82d6fe2( ::cv::LDetector const & inst, ::cv::Mat const & image, int maxCount=0, bool scaleCoords=true ){
     ::std::vector< cv::KeyPoint > keypoints2;
     bp::list keypoints3;
@@ -39,13 +32,8 @@ void register_LDetector_class(){
         .def( bp::init< int, int, int, int, double, double >(( bp::arg("_radius"), bp::arg("_threshold"), bp::arg("_nOctaves"), bp::arg("_nViews"), bp::arg("_baseFeatureSize"), bp::arg("_clusteringDistance") )) )    
         .def( 
             "getMostStable2D"
-            , (void (*)( ::cv::LDetector const &,::cv::Mat const &,bp::list &,int,::cv::PatchGenerator const & ))( &getMostStable2D_b5c618f0990cbbe4d2707bd2d9eb711d )
-            , ( bp::arg("inst"), bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") )
-            , "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: list of KeyPoint."\
-    "\n    To convert a Mat into a list, invoke one of Mat's member functions "\
-    "\n    to_list_of_...()." )    
+            , (void ( ::cv::LDetector::* )( ::cv::Mat const &,::std::vector< cv::KeyPoint > &,int,::cv::PatchGenerator const & ) const)( &::cv::LDetector::getMostStable2D )
+            , ( bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") ) )    
         .def( 
             "__call__"
             , (boost::python::object (*)( ::cv::LDetector const &,::cv::Mat const &,int,bool ))( &__call___14ec982e59fdc13237968e34b82d6fe2 )

@@ -460,14 +460,6 @@ def beautify_func_list(self, func_list):
                         f._transformer_creators.append(FT.input_array1d('_newsz', '_newndims'))
                         break
 
-    # function argument std::vector<>
-    for f in func_list:
-        for arg in f.arguments:
-            if is_arg_touched(f, arg.name):
-                continue
-            if "std::vector<" in arg.type.decl_string and 'cv::Mat' not in arg.type.decl_string:
-                f._transformer_creators.append(FT.arg_std_vector(arg.name))
-
     # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
     for f in func_list:
         for arg in f.arguments:

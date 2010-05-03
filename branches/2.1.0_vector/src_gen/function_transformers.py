@@ -394,10 +394,11 @@ class input_array1d_t(transformer.transformer_t):
             oo_idx = self.function.arguments.index(oo_arg)
             oo_elem_pds = common.unique_pds(get_array_item_type(oo_arg.type).partial_decl_string)
             oo_vec_pds = get_vector_pds(oo_elem_pds)
-            oa_arg = controller.declare_variable(_D.dummy_type_t(oo_vec_pds), key)
+            oa_init = ("(%s)" % l_arr) if self.output_arrays[key]=='1' \
+                else ("(%s*%s)" % (l_arr, self.output_arrays[key]))
+            oa_arg = controller.declare_variable(_D.dummy_type_t(oo_vec_pds), key, oa_init)
             doc_common(self.function, oo_arg, common.get_registered_decl(oo_vec_pds)[0])
-            controller.add_pre_call_code("%s.resize(%s * %s);" % (oa_arg, l_arr, self.output_arrays[key]))
-            controller.modify_arg_expression(oo_idx, "(%s)&(%s[0])" \
+            controller.modify_arg_expression(oo_idx, "(%s)(&%s[0])" \
                 % (oo_arg.type.partial_decl_string, oa_arg))
             controller.remove_wrapper_arg(key)
 
