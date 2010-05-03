@@ -102,6 +102,8 @@ void register_SpinImageModel_class(){
                 , match_function_type( &match_86773a6b4d89ae97806d1109a2438811 )
                 , ( bp::arg("inst"), bp::arg("scene") )
                 , "\nArgument 'result':"\
+    "\n    C/C++ type: ::std::vector< std::vector< cv::Vec<int, 2> > > &."\
+    "\n    Python type: vector_vector_Vec2i."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
         

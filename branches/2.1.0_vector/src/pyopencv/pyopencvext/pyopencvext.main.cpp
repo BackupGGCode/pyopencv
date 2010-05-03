@@ -2185,6 +2185,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , FAST_function_type( &FAST_23d17220884e2f371691b185394322ec )
             , ( bp::arg("image"), bp::arg("threshold"), bp::arg("nonmax_supression")=(bool)(true) )
             , "\nArgument 'keypoints':"\
+    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
+    "\n    Python type: vector_KeyPoint."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2199,6 +2201,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , HoughCircles_function_type( &HoughCircles_ea2999473356200d9d2fc8b7258555b0 )
             , ( bp::arg("image"), bp::arg("method"), bp::arg("dp"), bp::arg("minDist"), bp::arg("param1")=100, bp::arg("param2")=100, bp::arg("minRadius")=(int)(0), bp::arg("maxRadius")=(int)(0) )
             , "\nArgument 'circles':"\
+    "\n    C/C++ type: ::std::vector< cv::Vec<float, 3> > &."\
+    "\n    Python type: vector_Vec3f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2213,6 +2217,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , HoughLines_function_type( &HoughLines_deaa796a20e753a0b781de4a4d81ba3d )
             , ( bp::arg("image"), bp::arg("rho"), bp::arg("theta"), bp::arg("threshold"), bp::arg("srn")=0, bp::arg("stn")=0 )
             , "\nArgument 'lines':"\
+    "\n    C/C++ type: ::std::vector< cv::Vec<float, 2> > &."\
+    "\n    Python type: vector_Vec2f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2227,6 +2233,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , HoughLinesP_function_type( &HoughLinesP_7e83e90590dfee49ad9ee8d704d1cfcb )
             , ( bp::arg("image"), bp::arg("rho"), bp::arg("theta"), bp::arg("threshold"), bp::arg("minLineLength")=0, bp::arg("maxLineGap")=0 )
             , "\nArgument 'lines':"\
+    "\n    C/C++ type: ::std::vector< cv::Vec<int, 4> > &."\
+    "\n    Python type: vector_Vec4i."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2254,6 +2262,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    approxPolyDP"
     "\nArgument 'approxCurve':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2270,6 +2280,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    approxPolyDP"
     "\nArgument 'approxCurve':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<int> > &."\
+    "\n    Python type: vector_Point2i."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2408,9 +2420,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , calibrateCamera_function_type( &calibrateCamera_e3c243276629b1246626096d8ff70485 )
             , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("flags")=(int)(0) )
             , "\nArgument 'tvecs':"\
+    "\n    C/C++ type: ::std::vector< cv::Mat > &."\
+    "\n    Python type: vector_Mat."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)."\
     "\nArgument 'rvecs':"\
+    "\n    C/C++ type: ::std::vector< cv::Mat > &."\
+    "\n    Python type: vector_Mat."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2463,6 +2479,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , computeCorrespondEpilines_function_type( &computeCorrespondEpilines_c5fa9f4742dac0ce300bb37345eb1f07 )
             , ( bp::arg("points1"), bp::arg("whichImage"), bp::arg("F") )
             , "\nArgument 'lines':"\
+    "\n    C/C++ type: ::std::vector< cv::Vec<float, 3> > &."\
+    "\n    Python type: vector_Vec3f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2479,6 +2497,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    convertPointsHomogeneous"
     "\nArgument 'dst':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2495,6 +2515,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    convertPointsHomogeneous"
     "\nArgument 'dst':"\
+    "\n    C/C++ type: ::std::vector< cv::Point3_<float> > &."\
+    "\n    Python type: vector_Point3f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2511,6 +2533,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    convexHull"
     "\nArgument 'hull':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2527,6 +2551,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    convexHull"
     "\nArgument 'hull':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<int> > &."\
+    "\n    Python type: vector_Point2i."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -2543,6 +2569,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    convexHull"
     "\nArgument 'hull':"\
+    "\n    C/C++ type: ::std::vector< int > &."\
+    "\n    Python type: vector_int."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -4416,6 +4444,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , findChessboardCorners_function_type( &findChessboardCorners_dbf15a4ace0e613206118382aa1793ea )
             , ( bp::arg("image"), bp::arg("patternSize"), bp::arg("flags")=(int)(3) )
             , "\nArgument 'corners':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -4430,6 +4460,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , findContours_function_type( &findContours_664763de08e36b95bc7d4fcebc9ccbf7 )
             , ( bp::arg("image"), bp::arg("mode"), bp::arg("method"), bp::arg("offset")=cv::Point_<int>() )
             , "\nArgument 'contours':"\
+    "\n    C/C++ type: ::std::vector< std::vector< cv::Point_<int> > > &."\
+    "\n    Python type: vector_vector_Point2i."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -4444,9 +4476,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , findContours_function_type( &findContours_369c42510a246d95804d68f7fdfbd8aa )
             , ( bp::arg("image"), bp::arg("mode"), bp::arg("method"), bp::arg("offset")=cv::Point_<int>() )
             , "\nArgument 'hierarchy':"\
+    "\n    C/C++ type: ::std::vector< cv::Vec<int, 4> > &."\
+    "\n    Python type: vector_Vec4i."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)."\
     "\nArgument 'contours':"\
+    "\n    C/C++ type: ::std::vector< std::vector< cv::Point_<int> > > &."\
+    "\n    Python type: vector_vector_Point2i."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -4463,6 +4499,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    findFundamentalMat"
     "\nArgument 'mask':"\
+    "\n    C/C++ type: ::std::vector< unsigned char > &."\
+    "\n    Python type: vector_uint8."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -4479,6 +4517,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    findHomography"
     "\nArgument 'mask':"\
+    "\n    C/C++ type: ::std::vector< unsigned char > &."\
+    "\n    Python type: vector_uint8."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -4594,6 +4634,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , goodFeaturesToTrack_function_type( &goodFeaturesToTrack_a887e3eb7b667339b1ac0c1a02f5735c )
             , ( bp::arg("image"), bp::arg("maxCorners"), bp::arg("qualityLevel"), bp::arg("minDistance"), bp::arg("mask")=cv::Mat(), bp::arg("blockSize")=(int)(3), bp::arg("useHarrisDetector")=(bool)(false), bp::arg("k")=4.00000000000000008326672684688674053177237510681e-2 )
             , "\nArgument 'corners':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -4611,6 +4653,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imencode"
     "\nArgument 'buf':"\
+    "\n    C/C++ type: ::std::vector< unsigned char > &."\
+    "\n    Python type: vector_uint8."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -4804,6 +4848,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    projectPoints"
     "\nArgument 'imagePoints':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -4818,6 +4864,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , projectPoints_function_type( &projectPoints_ce9cea7b4fadb5986d2a47a4d012fac0 )
             , ( bp::arg("objectPoints"), bp::arg("rvec"), bp::arg("tvec"), bp::arg("cameraMatrix"), bp::arg("distCoeffs") )
             , "\nArgument 'imagePoints':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -4834,6 +4882,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'keypoints':"\
+    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
+    "\n    Python type: vector_KeyPoint."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     
@@ -5065,6 +5115,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nWrapped function:"
     "\n    undistortPoints"
     "\nArgument 'dst':"\
+    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." );
     

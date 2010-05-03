@@ -36,6 +36,8 @@ void register_LDetector_class(){
             , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'keypoints':"\
+    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
+    "\n    Python type: vector_KeyPoint."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." )    
         .def( 
@@ -45,6 +47,8 @@ void register_LDetector_class(){
             , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'keypoints':"\
+    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
+    "\n    Python type: vector_KeyPoint."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." )    
         .def( 

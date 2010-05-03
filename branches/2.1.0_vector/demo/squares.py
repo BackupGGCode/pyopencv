@@ -31,7 +31,7 @@ def findSquares4( img, thresh ):
     pyr = Mat( Size(int(sz.width/2), int(sz.height/2)), CV_8UC3 )
     # create empty sequence that will contain points -
     # 4 points per square (the square's vertices)
-    squares = []
+    squares = vector_vector_Point2i()
 
     # select the maximum ROI in the image
     # with the width and height divisible by 2
@@ -72,6 +72,7 @@ def findSquares4( img, thresh ):
             for contour in contours:
                 # approximate contour with accuracy proportional
                 # to the contour perimeter
+                contour = asMat(contour)
                 result = approxPolyDP_int( contour, arcLength(contour, False)*0.02, False )
                 # square contours should have 4 vertices after approximation
                 # relatively large area (to filter out noisy contours)
@@ -79,14 +80,15 @@ def findSquares4( img, thresh ):
                 # Note: absolute value of an area is used because
                 # area may be positive or negative - in accordance with the
                 # contour orientation
-                if( result.cols == 4 and 
-                    abs(contourArea(result)) > 1000 and 
-                    isContourConvex(result) ):
+                if len(result) != 4:
+                    continue
+                res_mat = asMat(result)
+                if abs(contourArea(res_mat)) > 1000 and isContourConvex(res_mat):
                     s = 0;
                     for i in range(4):
                         # find minimum angle between joint
                         # edges (maximum of cosine)
-                        t = abs(angle( result[0,i], result[0,i-2], result[0,i-1]))
+                        t = abs(angle( res_mat[0,i], res_mat[0,i-2], res_mat[0,i-1]))
                         if s<t:
                             s=t
                     # if cosines of all angles are small

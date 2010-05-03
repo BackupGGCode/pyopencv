@@ -31,9 +31,13 @@ void register_Index_class(){
             , (boost::python::tuple (*)( cv::flann::Index &,std::vector<float> const &,int,cv::flann::SearchParams const & ))( &knnSearch_b27556db8034853ef4327f12b2570dc5 )
             , ( bp::arg("inst"), bp::arg("queries"), bp::arg("knn"), bp::arg("params") )
             , "\nArgument 'indices':"\
+    "\n    C/C++ type: ::std::vector< int > &."\
+    "\n    Python type: vector_int."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)."\
     "\nArgument 'dists':"\
+    "\n    C/C++ type: ::std::vector< float > &."\
+    "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." )    
         .def( 
@@ -45,9 +49,13 @@ void register_Index_class(){
             , (boost::python::tuple (*)( cv::flann::Index &,std::vector<float> const &,float,cv::flann::SearchParams const & ))( &radiusSearch_9595058c6922b247b15bed6a4e25038c )
             , ( bp::arg("inst"), bp::arg("query"), bp::arg("radius"), bp::arg("params") )
             , "\nArgument 'indices':"\
+    "\n    C/C++ type: ::std::vector< int > &."\
+    "\n    Python type: vector_int."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)."\
     "\nArgument 'dists':"\
+    "\n    C/C++ type: ::std::vector< float > &."\
+    "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from the calling sequence. It is returned "\
     "\n    along with the function's return value (if any)." )    
         .def( 
