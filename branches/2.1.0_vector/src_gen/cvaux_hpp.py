@@ -115,22 +115,10 @@ def generate_code(mb, cc, D, FT, CP):
     z = mb.class_('HOGDescriptor')
     z.include_files.append('opencv_converters.hpp')
     mb.init_class(z)
-    z.mem_fun('getDefaultPeopleDetector').exclude()
+    # z.mem_fun('getDefaultPeopleDetector').exclude()
     z.mem_fun('compute')._transformer_creators.append(FT.arg_output('descriptors'))
     for t in ('detect', 'detectMultiScale'):
         z.mem_fun(t)._transformer_creators.append(FT.arg_output('foundLocations'))
-    z.var('svmDetector').exclude()
-    z.add_declaration_code('''
-static cv::Mat getDefaultPeopleDetector() {
-    return convert_from_vector_of_T_to_Mat(cv::HOGDescriptor::getDefaultPeopleDetector());
-}
-
-static cv::Mat get_svmDetector(cv::HOGDescriptor const &inst) { return convert_from_vector_of_T_to_Mat(inst.svmDetector); }
-
-    ''')
-    z.add_registration_code('def("getDefaultPeopleDetector", &::getDefaultPeopleDetector)')
-    z.add_registration_code('staticmethod("getDefaultPeopleDetector")')
-    z.add_registration_code('add_property("svmDetector", &::get_svmDetector)')    
     mb.finalize_class(z)
     
     # SelfSimDescriptor

@@ -153,12 +153,6 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
 
 };
 
-static cv::Mat getDefaultPeopleDetector() {
-    return convert_from_vector_of_T_to_Mat(cv::HOGDescriptor::getDefaultPeopleDetector());
-}
-
-static cv::Mat get_svmDetector(cv::HOGDescriptor const &inst) { return convert_from_vector_of_T_to_Mat(inst.svmDetector); }
-
 void register_HOGDescriptor_class(){
 
     { //::cv::HOGDescriptor
@@ -230,6 +224,15 @@ void register_HOGDescriptor_class(){
     "\n    along with the function's return value (if any)." );
         
         }
+        { //::cv::HOGDescriptor::getDefaultPeopleDetector
+        
+            typedef ::std::vector< float > ( *getDefaultPeopleDetector_function_type )(  );
+            
+            HOGDescriptor_exposer.def( 
+                "getDefaultPeopleDetector"
+                , getDefaultPeopleDetector_function_type( &::cv::HOGDescriptor::getDefaultPeopleDetector ) );
+        
+        }
         { //::cv::HOGDescriptor::getDescriptorSize
         
             typedef ::size_t ( ::cv::HOGDescriptor::*getDescriptorSize_function_type )(  ) const;
@@ -292,11 +295,10 @@ void register_HOGDescriptor_class(){
         HOGDescriptor_exposer.def_readwrite( "gammaCorrection", &cv::HOGDescriptor::gammaCorrection );
         HOGDescriptor_exposer.def_readwrite( "histogramNormType", &cv::HOGDescriptor::histogramNormType );
         HOGDescriptor_exposer.def_readwrite( "nbins", &cv::HOGDescriptor::nbins );
+        HOGDescriptor_exposer.def_readwrite( "svmDetector", &cv::HOGDescriptor::svmDetector );
         HOGDescriptor_exposer.def_readwrite( "winSigma", &cv::HOGDescriptor::winSigma );
         HOGDescriptor_exposer.def_readwrite( "winSize", &cv::HOGDescriptor::winSize );
-        HOGDescriptor_exposer.def("getDefaultPeopleDetector", &::getDefaultPeopleDetector);
-        HOGDescriptor_exposer.staticmethod("getDefaultPeopleDetector");
-        HOGDescriptor_exposer.add_property("svmDetector", &::get_svmDetector);
+        HOGDescriptor_exposer.staticmethod( "getDefaultPeopleDetector" );
     }
 
 }
