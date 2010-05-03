@@ -35,12 +35,15 @@ static ::CvSet * get_edges( ::CvSubdiv2D const & inst ) { return inst.edges; }
 
 static cv::MemStorage get_storage(CvSubdiv2D const &inst) { return cv::MemStorage(inst.storage); }
 
+static cv::Point_<float> *get_topleft(CvSubdiv2D const &inst) { return (cv::Point_<float> *)(&inst.topleft); }
+
+static cv::Point_<float> *get_bottomright(CvSubdiv2D const &inst) { return (cv::Point_<float> *)(&inst.bottomright); }
+
 void register_CvSubdiv2D_class(){
 
     bp::class_< CvSubdiv2D >( "CvSubdiv2D" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvSubdiv2D >() )    
         .def_readwrite( "active_count", &CvSubdiv2D::active_count )    
-        .def_readwrite( "bottomright", &CvSubdiv2D::bottomright )    
         .def_readwrite( "delta_elems", &CvSubdiv2D::delta_elems )    
         .def_readwrite( "elem_size", &CvSubdiv2D::elem_size )    
         .def_readwrite( "flags", &CvSubdiv2D::flags )    
@@ -48,7 +51,6 @@ void register_CvSubdiv2D_class(){
         .def_readwrite( "is_geometry_valid", &CvSubdiv2D::is_geometry_valid )    
         .def_readwrite( "quad_edges", &CvSubdiv2D::quad_edges )    
         .def_readwrite( "recent_edge", &CvSubdiv2D::recent_edge )    
-        .def_readwrite( "topleft", &CvSubdiv2D::topleft )    
         .def_readwrite( "total", &CvSubdiv2D::total )    
         .add_property( "h_prev", bp::make_function(&::get_h_prev, bp::return_internal_reference<>()) )    
         .add_property( "h_next", bp::make_function(&::get_h_next, bp::return_internal_reference<>()) )    
@@ -60,6 +62,8 @@ void register_CvSubdiv2D_class(){
         .add_property( "ptr", &::get_ptr )    
         .add_property( "free_elems", bp::make_function(&::get_free_elems, bp::return_internal_reference<>()) )    
         .add_property( "edges", bp::make_function(&::get_edges, bp::return_internal_reference<>()) )    
-        .add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) );
+        .add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) )    
+        .add_property( "topleft", bp::make_function(&::get_topleft, bp::return_internal_reference<>()) )    
+        .add_property( "bottomright", bp::make_function(&::get_bottomright, bp::return_internal_reference<>()) );
 
 }

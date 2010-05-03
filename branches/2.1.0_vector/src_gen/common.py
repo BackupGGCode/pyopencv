@@ -361,7 +361,25 @@ def update_file(file_path, content):
         return True
     return False
 
-        
+
+
+c2cpp = {
+    'CvPoint': 'cv::Point_<int>',
+    'CvPoint2D32f': 'cv::Point_<float>',
+    'CvPoint2D64f': 'cv::Point_<double>',
+    'CvPoint3D32f': 'cv::Point3_<float>',
+    'CvPoint3D64f': 'cv::Point3_<double>',
+    'CvSize': 'cv::Size_<int>',
+    'CvSize2D32f': 'cv:Size_<float>',
+    'CvBox2D': 'cv::RotatedRect',
+    'CvTermCriteria': 'cv::TermCriteria',
+    'CvScalar': 'cv::Scalar_<double>',
+    'CvSlice': 'cv::Range',
+    'CvRect': 'cv::Rect_<int>',
+    'CvRNG': 'cv::RNG',
+}
+
+    
         
 _decls_reg = {}
 

@@ -656,11 +656,11 @@ static bp::object my_size(cv::SparseMat const &inst, int i = -1)
     ''')
     z.add_registration_code('def("size", (void (*)(int))(&my_size), (bp::arg("i")=bp::object(-1)))')
     z.mem_fun(lambda x: x.name == 'hash' and 'int const *' in x.arguments[0].type.decl_string) \
-        ._transformer_creators.append(FT.input_array1d_new('idx'))
+        ._transformer_creators.append(FT.input_array1d('idx'))
     for z2 in z.mem_funs('erase'):
         z2._transformer_creators.append(FT.output_type1('hashval'))
         if z2.arguments[0].name == 'idx':
-            z2._transformer_creators.append(FT.input_array1d_new('idx'))
+            z2._transformer_creators.append(FT.input_array1d('idx'))
     for t in ('node', 'newNode', 'removeNode', 'hdr', 'ptr', 'begin', 'end'):
         z.decls(t).exclude()                
     mb.finalize_class(z)
@@ -690,7 +690,7 @@ static bp::object my_size(cv::SparseMat const &inst, int i = -1)
     mb.init_class(z)
     z.decls(lambda x: 'CvFileStorage' in x.decl_string).exclude()
     z.operators(lambda x: '*' in x.name or 'char' in x.decl_string).exclude()
-    z.mem_fun('writeRaw')._transformer_creators.append(FT.input_array1d_new('vec', 'len'))
+    z.mem_fun('writeRaw')._transformer_creators.append(FT.input_array1d('vec', 'len'))
     z.mem_fun('writeObj').exclude() # too old
     for t in ('structs', 'fs'): # TODO: expose 'structs' but not 'fs'
         z.var(t).exclude()
@@ -785,7 +785,7 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
             # z._transformer_creators.append(FT.arg_std_vector('src'))
             # z._transformer_creators.append(FT.arg_std_vector('dst'))
             z._transformer_kwds['alias'] = 'mixChannels'
-            z._transformer_creators.append(FT.input_array1d_new('fromTo'))
+            z._transformer_creators.append(FT.input_array1d('fromTo'))
     
     # minMaxLoc
     for z in mb.free_funs('minMaxLoc'):
@@ -809,7 +809,7 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
     for z in mb.free_funs('calcCovarMatrix'):
         z.include()
         if z.arguments[0].type == D.dummy_type_t('::cv::Mat const *'):
-            z._transformer_creators.append(FT.input_array1d_new('samples', 'nsamples'))
+            z._transformer_creators.append(FT.input_array1d('samples', 'nsamples'))
         z._transformer_kwds['alias'] = 'calcCovarMatrix'
             
     # theRNG
@@ -820,7 +820,7 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
     # fillConvexPoly
     z = mb.free_fun('fillConvexPoly')
     z.include()
-    z._transformer_creators.append(FT.input_array1d_new('pts', 'npts'))
+    z._transformer_creators.append(FT.input_array1d('pts', 'npts'))
     
     # fillPoly
     for t in ('fillPoly', 'polylines'):

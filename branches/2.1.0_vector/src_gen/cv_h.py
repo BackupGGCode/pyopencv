@@ -383,7 +383,7 @@ CV_CALIB_CB_FAST_CHECK = 8 # OpenCV 2.1: Equivalent C++ constant not yet availab
 
     # cvCalcArrBackProject and cvCalcArrBackProjectPatch
     # for z in ('cvCalcArrBackProject', 'cvCalcArrBackProjectPatch'):
-        # FT.expose_func(mb.free_fun(z), return_pointee=False, transformer_creators=[FT.input_array1d_new('image')])
+        # FT.expose_func(mb.free_fun(z), return_pointee=False, transformer_creators=[FT.input_array1d('image')])
     # cc.write('''
 # backProject = calcArrBackProject
 # backProjectPatch = calcArrBackProjectPatch
@@ -392,7 +392,7 @@ CV_CALIB_CB_FAST_CHECK = 8 # OpenCV 2.1: Equivalent C++ constant not yet availab
 
     # cvSnakeImage
     # FT.expose_func(mb.free_fun('cvSnakeImage'), return_pointee=False, transformer_creators=[
-        # FT.input_array1d_new('alpha'), FT.input_array1d_new('beta'), FT.input_array1d_new('gamma')])
+        # FT.input_array1d('alpha'), FT.input_array1d('beta'), FT.input_array1d('gamma')])
     mb.free_fun('cvSnakeImage').exclude()
     mb.add_declaration_code('''
 static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::object const & alpha, bp::object const & beta, bp::object const & gamma, int coeff_usage, cv::Size const & win, cv::TermCriteria const & criteria, int calc_gradient=1 ){
@@ -435,7 +435,7 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     ''')
 
     # cvDistTransform
-    FT.expose_func(mb.free_fun('cvDistTransform'), return_pointee=False, transformer_creators=[FT.input_array1d_new('mask')])
+    FT.expose_func(mb.free_fun('cvDistTransform'), return_pointee=False, transformer_creators=[FT.input_array1d('mask')])
 
 
 

@@ -960,23 +960,18 @@ static void cvBoxPoints_a61b9e0e802e9997b4fd4c2315f450ae( cv::RotatedRect const 
     ::cvBoxPoints(*(CvBox2D *)(&box), pt);
 }
 
-static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, cv::Size_<int> const & win_size, int level, cv::TermCriteria const & criteria, int flags ){
-    int prev_features2=bp::len(prev_features);
-    std::vector< ::CvPoint2D32f > prev_features3(prev_features2);
-    std::vector < char > status2;
-    std::vector < float > track_error2;
-    std::vector < ::CvPoint2D32f > curr_features2;
-    std::vector < float > matrices2;
-    convert_from_object_to_T(prev_features, prev_features3);
+static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, std::vector<cv::Point_<float> > const & prev_features, cv::Size_<int> const & win_size, int level, cv::TermCriteria const & criteria, int flags ){
+    int prev_features2=(int)(prev_features.size());
+    std::vector<char> status2;
+    std::vector<float> track_error2;
+    std::vector<cv::Point_<float> > curr_features2;
+    std::vector<float> matrices2;
     status2.resize(prev_features2 * 1);
     track_error2.resize(prev_features2 * 1);
     curr_features2.resize(prev_features2 * 1);
     matrices2.resize(prev_features2 * 1);
-    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), &(matrices2[0]), prev_features2, *(CvSize *)(&win_size), level, &(status2[0]), &(track_error2[0]), *(CvTermCriteria *)(&criteria), flags);
-    return bp::make_tuple( convert_from_T_to_object(status2)
-                            , convert_from_T_to_object(track_error2)
-                            , convert_from_T_to_object(curr_features2)
-                            , convert_from_T_to_object(matrices2) );
+    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features[0]), (::CvPoint2D32f *)&(curr_features2[0]), (float *)&(matrices2[0]), prev_features2, *(CvSize *)(&win_size), level, (char *)&(status2[0]), (float *)&(track_error2[0]), *(CvTermCriteria *)(&criteria), flags);
+    return bp::make_tuple( status2, track_error2, curr_features2, matrices2 );
 }
 
 static boost::python::object cvCalcEMD2_f4e5308a9258b3a75a06fb112d06a2e8( ::cv::Mat & signature1, ::cv::Mat & signature2, int distance_type, boost::python::object distance_func=bp::object(), ::cv::Mat cost_matrix=cv::Mat(), ::cv::Mat flow=cv::Mat(), float * lower_bound=0, boost::python::object userdata=bp::object() ){
@@ -1026,20 +1021,16 @@ static void cvCalcOpticalFlowLK_0539268816232dbc93df209c0dc87327( ::cv::Mat & pr
     ::cvCalcOpticalFlowLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), *(CvSize *)(&win_size), get_CvMat_ptr(velx), get_CvMat_ptr(vely));
 }
 
-static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, bp::list const & prev_features, cv::Size_<int> const & win_size, int level, cv::TermCriteria const & criteria, int flags ){
-    int prev_features2=bp::len(prev_features);
-    std::vector< ::CvPoint2D32f > prev_features3(prev_features2);
-    std::vector < char > status2;
-    std::vector < float > track_error2;
-    std::vector < ::CvPoint2D32f > curr_features2;
-    convert_from_object_to_T(prev_features, prev_features3);
+static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, std::vector<cv::Point_<float> > const & prev_features, cv::Size_<int> const & win_size, int level, cv::TermCriteria const & criteria, int flags ){
+    int prev_features2=(int)(prev_features.size());
+    std::vector<char> status2;
+    std::vector<float> track_error2;
+    std::vector<cv::Point_<float> > curr_features2;
     status2.resize(prev_features2 * 1);
     track_error2.resize(prev_features2 * 1);
     curr_features2.resize(prev_features2 * 1);
-    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features3[0]), &(curr_features2[0]), prev_features2, *(CvSize *)(&win_size), level, &(status2[0]), &(track_error2[0]), *(CvTermCriteria *)(&criteria), flags);
-    return bp::make_tuple( convert_from_T_to_object(status2)
-                            , convert_from_T_to_object(track_error2)
-                            , convert_from_T_to_object(curr_features2) );
+    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features[0]), (::CvPoint2D32f *)&(curr_features2[0]), prev_features2, *(CvSize *)(&win_size), level, (char *)&(status2[0]), (float *)&(track_error2[0]), *(CvTermCriteria *)(&criteria), flags);
+    return bp::make_tuple( status2, track_error2, curr_features2 );
 }
 
 static boost::python::object cvCheckChessboard_59f8753d978791ecd1fc97cea5e10f04( ::cv::Mat & src, cv::Size_<int> const & size ){
@@ -1300,8 +1291,8 @@ static void cvRunningAvg_16515bd00db4472140aa21554e25bbc7( ::cv::Mat & image, ::
     ::cvRunningAvg(get_CvMat_ptr(image), get_CvMat_ptr(acc), alpha, get_CvMat_ptr(mask));
 }
 
-static boost::python::object cvSampleLine_9eb7a74db955c3538aef5be3e7392fc5( ::cv::Mat & image, ::CvPoint pt1, ::CvPoint pt2, void * buffer, int connectivity=8 ){
-    int result = ::cvSampleLine(get_CvMat_ptr(image), pt1, pt2, buffer, connectivity);
+static boost::python::object cvSampleLine_9eb7a74db955c3538aef5be3e7392fc5( ::cv::Mat & image, cv::Point_<int> const & pt1, cv::Point_<int> const & pt2, void * buffer, int connectivity=8 ){
+    int result = ::cvSampleLine(get_CvMat_ptr(image), *(CvPoint *)(&pt1), *(CvPoint *)(&pt2), buffer, connectivity);
     return bp::object( result );
 }
 
@@ -1350,8 +1341,13 @@ static void cvSquareAcc_df8ad076f822a2856ccecbbdf6a2b2b0( ::cv::Mat & image, ::c
     ::cvSquareAcc(get_CvMat_ptr(image), get_CvMat_ptr(sqsum), get_CvMat_ptr(mask));
 }
 
-static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc( ::cv::Mat & image, ::cv::MemStorage & storage, int header_size=88u, int mode=1, int method=2, ::CvPoint offset=cvPoint(0, 0) ){
-    ::CvContourScanner result = ::cvStartFindContours(get_CvMat_ptr(image), (CvMemStorage *)storage, header_size, mode, method, offset);
+static boost::python::object cvStarKeypoint_1c87e44a3d11d1203d898ffe498e82f7( cv::Point_<int> const & pt, int size, float response ){
+    ::CvStarKeypoint result = ::cvStarKeypoint(*(CvPoint *)(&pt), size, response);
+    return bp::object( result );
+}
+
+static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc( ::cv::Mat & image, ::cv::MemStorage & storage, int header_size=88u, int mode=1, int method=2, cv::Point_<int> offset=cv::Point(0, 0) ){
+    ::CvContourScanner result = ::cvStartFindContours(get_CvMat_ptr(image), (CvMemStorage *)storage, header_size, mode, method, *(CvPoint *)(&offset));
     typedef bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvContourScanner >( result ) );
 }
@@ -2982,7 +2978,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcAffineFlowPyrLK
     
-        typedef boost::python::tuple ( *calcAffineFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,cv::Size_<int> const &,int,cv::TermCriteria const &,int );
+        typedef boost::python::tuple ( *calcAffineFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,std::vector<cv::Point_<float> > const &,cv::Size_<int> const &,int,cv::TermCriteria const &,int );
         
         bp::def( 
             "calcAffineFlowPyrLK"
@@ -3013,8 +3009,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\nArgument 'prev_features':"\
     "\n    C/C++ type: ::CvPoint2D32f const *."\
-    "\n    Python type: Python sequence with elements of C++ type "\
-    "\n    '::CvPoint2D32f'."\
+    "\n    Python type: vector_Point2f."\
     "\nArgument 'criteria':"\
     "\n    C/C++ type: ::CvTermCriteria."\
     "\n    Python type: TermCriteria."\
@@ -3226,7 +3221,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvCalcOpticalFlowPyrLK
     
-        typedef boost::python::tuple ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,bp::list const &,cv::Size_<int> const &,int,cv::TermCriteria const &,int );
+        typedef boost::python::tuple ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,std::vector<cv::Point_<float> > const &,cv::Size_<int> const &,int,cv::TermCriteria const &,int );
         
         bp::def( 
             "calcOpticalFlowPyrLK"
@@ -3254,8 +3249,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\nArgument 'prev_features':"\
     "\n    C/C++ type: ::CvPoint2D32f const *."\
-    "\n    Python type: Python sequence with elements of C++ type "\
-    "\n    '::CvPoint2D32f'."\
+    "\n    Python type: vector_Point2f."\
     "\nArgument 'criteria':"\
     "\n    C/C++ type: ::CvTermCriteria."\
     "\n    Python type: TermCriteria."\
@@ -4267,7 +4261,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvSampleLine
     
-        typedef boost::python::object ( *sampleLine_function_type )( ::cv::Mat &,::CvPoint,::CvPoint,void *,int );
+        typedef boost::python::object ( *sampleLine_function_type )( ::cv::Mat &,cv::Point_<int> const &,cv::Point_<int> const &,void *,int );
         
         bp::def( 
             "sampleLine"
@@ -4277,7 +4271,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    cvSampleLine"
     "\nArgument 'image':"\
     "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat." );
+    "\n    Python type: Mat."\
+    "\nArgument 'pt2':"\
+    "\n    C/C++ type: ::CvPoint."\
+    "\n    Python type: Point2i."\
+    "\nArgument 'pt1':"\
+    "\n    C/C++ type: ::CvPoint."\
+    "\n    Python type: Point2i." );
     
     }
 
@@ -4457,14 +4457,30 @@ BOOST_PYTHON_MODULE(pyopencvext){
     
     }
 
+    { //::cvStarKeypoint
+    
+        typedef boost::python::object ( *starKeypoint_function_type )( cv::Point_<int> const &,int,float );
+        
+        bp::def( 
+            "starKeypoint"
+            , starKeypoint_function_type( &cvStarKeypoint_1c87e44a3d11d1203d898ffe498e82f7 )
+            , ( bp::arg("pt"), bp::arg("size"), bp::arg("response") )
+            , "\nWrapped function:"
+    "\n    cvStarKeypoint"
+    "\nArgument 'pt':"\
+    "\n    C/C++ type: ::CvPoint."\
+    "\n    Python type: Point2i." );
+    
+    }
+
     { //::cvStartFindContours
     
-        typedef boost::python::object ( *startFindContours_function_type )( ::cv::Mat &,::cv::MemStorage &,int,int,int,::CvPoint );
+        typedef boost::python::object ( *startFindContours_function_type )( ::cv::Mat &,::cv::MemStorage &,int,int,int,cv::Point_<int> );
         
         bp::def( 
             "startFindContours"
             , startFindContours_function_type( &cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc )
-            , ( bp::arg("image"), bp::arg("storage"), bp::arg("header_size")=(int)(88u), bp::arg("mode")=(int)(1), bp::arg("method")=(int)(2), bp::arg("offset")=cvPoint(0, 0) )
+            , ( bp::arg("image"), bp::arg("storage"), bp::arg("header_size")=(int)(88u), bp::arg("mode")=(int)(1), bp::arg("method")=(int)(2), bp::arg("offset")=cv::Point(0, 0) )
             , "\nWrapped function:"
     "\n    cvStartFindContours"
     "\nArgument 'image':"\
@@ -4472,7 +4488,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
+    "\n    Python type: MemStorage."\
+    "\nArgument 'offset':"\
+    "\n    C/C++ type: ::CvPoint."\
+    "\n    Python type: Point2i." );
     
     }
 

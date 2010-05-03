@@ -151,21 +151,7 @@ def beautify_memvars(klass):
             expose_member_as_Mat(klass, z.name, True)
         elif pds=='IplImage *':
             expose_member_as_Mat(klass, z.name, False)
-        elif pds=='CvSize':
-            expose_member_as_FixType('cv::Size_<int>', klass, z.name)
-        elif pds=='CvSize2D32f':
-            expose_member_as_FixType('cv::Size_<float>', klass, z.name)
-        elif pds=='CvBox2D':
-            expose_member_as_FixType('cv::RotatedRect', klass, z.name)
-        elif pds=='CvTermCriteria':
-            expose_member_as_FixType('cv::TermCriteria', klass, z.name)
-        elif pds=='CvScalar':
-            expose_member_as_FixType('cv::Scalar_<double>', klass, z.name)
-        elif pds=='CvSlice':
-            expose_member_as_FixType('cv::Range', klass, z.name)
-        elif pds=='CvRect':
-            expose_member_as_FixType('cv::Rect_<int>', klass, z.name)
-        elif pds=='CvRNG':
-            expose_member_as_FixType('cv::RNG', klass, z.name)
+        elif pds in common.c2cpp:
+            expose_member_as_FixType(common.c2cpp[pds], klass, z.name)
         elif pds=='CvSeq *' or pds=='CvSet *':
             expose_member_as_pointee(klass, z.name)

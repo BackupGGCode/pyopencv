@@ -8,19 +8,6 @@ namespace bp = boost::python;
 
 void register_free_functions_st(){
 
-    { //::cvStarKeypoint
-    
-        typedef ::CvStarKeypoint ( *starKeypoint_function_type )( ::CvPoint,int,float );
-        
-        bp::def( 
-            "starKeypoint"
-            , starKeypoint_function_type( &::cvStarKeypoint )
-            , ( bp::arg("pt"), bp::arg("size"), bp::arg("response") )
-            , "\nWrapped function:"
-    "\n    cvStarKeypoint" );
-    
-    }
-
     { //::cvStartReadChainPoints
     
         typedef void ( *startReadChainPoints_function_type )( ::CvChain *,::CvChainPtReader * );

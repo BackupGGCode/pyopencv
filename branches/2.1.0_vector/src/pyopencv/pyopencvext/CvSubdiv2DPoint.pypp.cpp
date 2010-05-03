@@ -7,6 +7,8 @@
 
 namespace bp = boost::python;
 
+static cv::Point_<float> *get_pt(CvSubdiv2DPoint const &inst) { return (cv::Point_<float> *)(&inst.pt); }
+
 void register_CvSubdiv2DPoint_class(){
 
     bp::class_< CvSubdiv2DPoint >( "CvSubdiv2DPoint" )    
@@ -14,6 +16,6 @@ void register_CvSubdiv2DPoint_class(){
         .def_readwrite( "first", &CvSubdiv2DPoint::first )    
         .def_readwrite( "flags", &CvSubdiv2DPoint::flags )    
         .def_readwrite( "id", &CvSubdiv2DPoint::id )    
-        .def_readwrite( "pt", &CvSubdiv2DPoint::pt );
+        .add_property( "pt", bp::make_function(&::get_pt, bp::return_internal_reference<>()) );
 
 }

@@ -164,8 +164,10 @@ def doc_dependent(func, func_arg, func_parent_arg):
 
 def get_vector_pds(elem_type_pds):
     elem_type_pds = common.unique_pds(elem_type_pds)
-    # if elem_type_pds in ['char *', 'char const *']:
-        # elem_type_pds = 'std::string'
+    try:
+        elem_type_pds = common.c2cpp[elem_type_pds]
+    except KeyError:
+        pass
     return common.unique_pds('std::vector< %s >' % elem_type_pds)
 
 def get_vector_elem_type(vector_type):
@@ -305,8 +307,8 @@ def input_string( *args, **keywd ):
     return creator
 
     
-# input_array1d_t
-class input_array1d_t(transformer.transformer_t):
+# input_array1d_old_t
+class input_array1d_old_t(transformer.transformer_t):
     """Handles an input array with a dynamic size.
 
     void do_something([int N, ]data_type* v) ->  do_something(object v2)
@@ -324,7 +326,7 @@ class input_array1d_t(transformer.transformer_t):
         self.arg_index = self.function.arguments.index( self.arg )
 
         if not _T.is_ptr_or_array( self.arg.type ):
-            raise ValueError( '%s\nin order to use "input_array1d" transformation, argument %s type must be a array or a pointer (got %s).' ) \
+            raise ValueError( '%s\nin order to use "input_array1d_old" transformation, argument %s type must be a array or a pointer (got %s).' ) \
                   % ( function, self.arg.name, self.arg.type)
 
         if arg_size_ref is not None:
@@ -332,7 +334,7 @@ class input_array1d_t(transformer.transformer_t):
             self.arg_size_index = self.function.arguments.index( self.arg_size )
             
             if not _D.is_integral( self.arg_size.type ):
-                raise ValueError( '%s\nin order to use "input_array1d" transformation, argument %s type must be an integer (got %s).' ) \
+                raise ValueError( '%s\nin order to use "input_array1d_old" transformation, argument %s type must be an integer (got %s).' ) \
                       % ( function, self.arg_size.name, self.arg_size.type)
 
         else:
@@ -347,8 +349,8 @@ class input_array1d_t(transformer.transformer_t):
 
     def __str__(self):
         if self.arg_size is not None:
-            return "input_array1d(%s,%s)"%( self.arg.name, self.arg_size.name)
-        return "input_array1d(%s)"% self.arg.name
+            return "input_array1d_old(%s,%s)"%( self.arg.name, self.arg_size.name)
+        return "input_array1d_old(%s)"% self.arg.name
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
@@ -422,14 +424,14 @@ class input_array1d_t(transformer.transformer_t):
     def configure_virtual_mem_fun( self, controller ):
         self.__configure_v_mem_fun_default( controller.default_controller )
 
-def input_array1d( *args, **keywd ):
+def input_array1d_old( *args, **keywd ):
     def creator( function ):
-        return input_array1d_t( function, *args, **keywd )
+        return input_array1d_old_t( function, *args, **keywd )
     return creator
 
 
-# input_array1d_new_t
-class input_array1d_new_t(transformer.transformer_t):
+# input_array1d_t
+class input_array1d_t(transformer.transformer_t):
     """Handles an input array with a dynamic size.
 
     void do_something([int N, ]data_type* v) ->  do_something(object v2)
@@ -446,7 +448,7 @@ class input_array1d_new_t(transformer.transformer_t):
         self.arg_index = self.function.arguments.index( self.arg )
 
         if not _T.is_ptr_or_array( self.arg.type ):
-            raise ValueError( '%s\nin order to use "input_array1d_new" transformation, argument %s type must be a array or a pointer (got %s).' ) \
+            raise ValueError( '%s\nin order to use "input_array1d" transformation, argument %s type must be a array or a pointer (got %s).' ) \
                   % ( function, self.arg.name, self.arg.type)
 
         if arg_size_ref is not None:
@@ -454,7 +456,7 @@ class input_array1d_new_t(transformer.transformer_t):
             self.arg_size_index = self.function.arguments.index( self.arg_size )
             
             if not _D.is_integral( self.arg_size.type ):
-                raise ValueError( '%s\nin order to use "input_array1d_new" transformation, argument %s type must be an integer (got %s).' ) \
+                raise ValueError( '%s\nin order to use "input_array1d" transformation, argument %s type must be an integer (got %s).' ) \
                       % ( function, self.arg_size.name, self.arg_size.type)
 
         else:
@@ -467,8 +469,8 @@ class input_array1d_new_t(transformer.transformer_t):
 
     def __str__(self):
         if self.arg_size is not None:
-            return "input_array1d_new(%s,%s)"%( self.arg.name, self.arg_size.name)
-        return "input_array1d_new(%s)"% self.arg.name
+            return "input_array1d(%s,%s)"%( self.arg.name, self.arg_size.name)
+        return "input_array1d(%s)"% self.arg.name
 
     def required_headers( self ):
         """Returns list of header files that transformer generated code depends on."""
@@ -507,7 +509,8 @@ class input_array1d_new_t(transformer.transformer_t):
             oo_elem_pds = common.unique_pds(oo_elem.partial_decl_string)
             oa_arg = controller.declare_variable(_D.dummy_type_t(get_vector_pds(oo_elem_pds)), key)
             controller.add_pre_call_code("%s.resize(%s * %s);" % (oa_arg, l_arr, self.output_arrays[key]))
-            controller.modify_arg_expression(oo_idx, "(%s)&(%s[0])" % (oo_elem_pds, oa_arg))
+            controller.modify_arg_expression(oo_idx, "(%s)&(%s[0])" \
+                % (oo_arg.type.partial_decl_string, oa_arg))
             controller.remove_wrapper_arg(key)
 
             controller.return_variable(oa_arg)
@@ -526,9 +529,9 @@ class input_array1d_new_t(transformer.transformer_t):
     def configure_virtual_mem_fun( self, controller ):
         self.__configure_v_mem_fun_default( controller.default_controller )
 
-def input_array1d_new( *args, **keywd ):
+def input_array1d( *args, **keywd ):
     def creator( function ):
-        return input_array1d_new_t( function, *args, **keywd )
+        return input_array1d_t( function, *args, **keywd )
     return creator
 
 
