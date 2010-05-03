@@ -286,14 +286,14 @@ def generate_code(mb, cc, D, FT, CP):
     # calcHist
     for z in mb.free_funs('calcHist'):
         FT.expose_func(z, return_pointee=False, transformer_creators=[
-            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d('channels'),
+            FT.input_array1d('images', 'nimages'), FT.input_array1d('channels'),
             FT.input_array1d('histSize', 'dims'), FT.input_array2d('ranges')])
         z._transformer_kwds['alias'] = 'calcHist'
             
     # calcBackProject
     for z in mb.free_funs('calcBackProject'):
         FT.expose_func(z, return_pointee=False, transformer_creators=[
-            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d('channels'),
+            FT.input_array1d('images', 'nimages'), FT.input_array1d('channels'),
             FT.input_array2d('ranges')])
         z._transformer_kwds['alias'] = 'calcBackProject'
             

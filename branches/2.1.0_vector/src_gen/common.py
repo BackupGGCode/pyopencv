@@ -379,7 +379,6 @@ c2cpp = {
     'CvRNG': 'cv::RNG',
 }
 
-    
         
 _decls_reg = {}
 

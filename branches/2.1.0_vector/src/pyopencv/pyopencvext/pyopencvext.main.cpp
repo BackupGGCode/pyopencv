@@ -736,9 +736,7 @@ static boost::python::object approxPolyDP_d6c85380d14cce99fc92c414781ada55( ::cv
     return bp::object( approxCurve3 );
 }
 
-static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( sdcpp::sequence images, std::vector<int> const & channels, ::cv::SparseMat const & hist, ::cv::Mat & backProject, std::vector<std::vector<float> > const & ranges, double scale=1, bool uniform=true ){
-    std::vector< ::cv::Mat > images2;
-    convert_from_seq_of_Mat_to_vector_of_T(images, images2);
+static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( std::vector<cv::Mat> const & images, std::vector<int> const & channels, ::cv::SparseMat const & hist, ::cv::Mat & backProject, std::vector<std::vector<float> > const & ranges, double scale=1, bool uniform=true ){
     int n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
     std::vector<int> n1_ranges(n0_ranges);
@@ -748,12 +746,10 @@ static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( sdcpp::sequence im
         n1_ranges[i_ranges] = ranges[i_ranges].size();
     }
         
-    ::cv::calcBackProject((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), hist, backProject, (float const * *)(&buf_ranges[0]), scale, uniform);
+    ::cv::calcBackProject((::cv::Mat const *)(&images[0]), (int)(images.size()), (int const *)(&channels[0]), hist, backProject, (float const * *)(&buf_ranges[0]), scale, uniform);
 }
 
-static void calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8( sdcpp::sequence images, std::vector<int> const & channels, ::cv::MatND const & hist, ::cv::Mat & backProject, std::vector<std::vector<float> > const & ranges, double scale=1, bool uniform=true ){
-    std::vector< ::cv::Mat > images2;
-    convert_from_seq_of_Mat_to_vector_of_T(images, images2);
+static void calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8( std::vector<cv::Mat> const & images, std::vector<int> const & channels, ::cv::MatND const & hist, ::cv::Mat & backProject, std::vector<std::vector<float> > const & ranges, double scale=1, bool uniform=true ){
     int n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
     std::vector<int> n1_ranges(n0_ranges);
@@ -763,16 +759,14 @@ static void calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8( sdcpp::sequence im
         n1_ranges[i_ranges] = ranges[i_ranges].size();
     }
         
-    ::cv::calcBackProject((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), hist, backProject, (float const * *)(&buf_ranges[0]), scale, uniform);
+    ::cv::calcBackProject((::cv::Mat const *)(&images[0]), (int)(images.size()), (int const *)(&channels[0]), hist, backProject, (float const * *)(&buf_ranges[0]), scale, uniform);
 }
 
 static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( std::vector<cv::Mat> const & samples, ::cv::Mat & covar, ::cv::Mat & mean, int flags, int ctype=6 ){
     ::cv::calcCovarMatrix((::cv::Mat const *)(&samples[0]), (int)(samples.size()), covar, mean, flags, ctype);
 }
 
-static void calcHist_8e436c4da97e1e09468541e1bed60274( sdcpp::sequence images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::SparseMat & hist, std::vector<int> const & histSize, std::vector<std::vector<float> > const & ranges, bool uniform=true, bool accumulate=false ){
-    std::vector< ::cv::Mat > images2;
-    convert_from_seq_of_Mat_to_vector_of_T(images, images2);
+static void calcHist_8e436c4da97e1e09468541e1bed60274( std::vector<cv::Mat> const & images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::SparseMat & hist, std::vector<int> const & histSize, std::vector<std::vector<float> > const & ranges, bool uniform=true, bool accumulate=false ){
     int n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
     std::vector<int> n1_ranges(n0_ranges);
@@ -782,12 +776,10 @@ static void calcHist_8e436c4da97e1e09468541e1bed60274( sdcpp::sequence images, s
         n1_ranges[i_ranges] = ranges[i_ranges].size();
     }
         
-    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), mask, hist, (int)(histSize.size()), (int const *)(&histSize[0]), (float const * *)(&buf_ranges[0]), uniform, accumulate);
+    ::cv::calcHist((::cv::Mat const *)(&images[0]), (int)(images.size()), (int const *)(&channels[0]), mask, hist, (int)(histSize.size()), (int const *)(&histSize[0]), (float const * *)(&buf_ranges[0]), uniform, accumulate);
 }
 
-static void calcHist_a4cce9bdd9689d0fb0adf901f467bfa0( sdcpp::sequence images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::MatND & hist, std::vector<int> const & histSize, std::vector<std::vector<float> > const & ranges, bool uniform=true, bool accumulate=false ){
-    std::vector< ::cv::Mat > images2;
-    convert_from_seq_of_Mat_to_vector_of_T(images, images2);
+static void calcHist_a4cce9bdd9689d0fb0adf901f467bfa0( std::vector<cv::Mat> const & images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::MatND & hist, std::vector<int> const & histSize, std::vector<std::vector<float> > const & ranges, bool uniform=true, bool accumulate=false ){
     int n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
     std::vector<int> n1_ranges(n0_ranges);
@@ -797,7 +789,7 @@ static void calcHist_a4cce9bdd9689d0fb0adf901f467bfa0( sdcpp::sequence images, s
         n1_ranges[i_ranges] = ranges[i_ranges].size();
     }
         
-    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), mask, hist, (int)(histSize.size()), (int const *)(&histSize[0]), (float const * *)(&buf_ranges[0]), uniform, accumulate);
+    ::cv::calcHist((::cv::Mat const *)(&images[0]), (int)(images.size()), (int const *)(&channels[0]), mask, hist, (int)(histSize.size()), (int const *)(&histSize[0]), (float const * *)(&buf_ranges[0]), uniform, accumulate);
 }
 
 static boost::python::tuple calibrateCamera_e3c243276629b1246626096d8ff70485( ::std::vector< std::vector< cv::Point3_<float> > > const & objectPoints, ::std::vector< std::vector< cv::Point_<float> > > const & imagePoints, ::cv::Size imageSize, ::cv::Mat & cameraMatrix, ::cv::Mat & distCoeffs, int flags=0 ){
@@ -1101,10 +1093,13 @@ static void cvGetQuadrangleSubPix_fe2b1a5028fa8b02301dc960cdfbc131( ::cv::Mat & 
     ::cvGetQuadrangleSubPix(get_CvMat_ptr(src), get_CvMat_ptr(dst), get_CvMat_ptr(map_matrix));
 }
 
-static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc53b( sdcpp::sequence arrs, ::cv::Mat & mask, ::CvMatND * stubs, ::CvNArrayIterator * array_iterator, int flags=0 ){
-    std::vector< ::CvMat * > arrs2;
-    convert_from_seq_of_Mat_to_vector_of_T(arrs, arrs2);
-    int result = ::cvInitNArrayIterator(arrs2.size(), (::CvArr * *)&arrs2[0], get_CvMat_ptr(mask), stubs, array_iterator, flags);
+static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc53b( std::vector<cv::Mat> const & arrs, ::cv::Mat & mask, ::CvMatND * stubs, ::CvNArrayIterator * array_iterator, int flags=0 ){
+    
+    std::vector<void *> buf_arrs(arrs.size());
+    for(int i_arrs = 0; i_arrs<arrs.size(); ++i_arrs)
+        buf_arrs[i_arrs] = (void *)get_CvMat_ptr(arrs[i_arrs]);
+        
+    int result = ::cvInitNArrayIterator(arrs.size(), (CvArr * *)(&buf_arrs[0]), get_CvMat_ptr(mask), stubs, array_iterator, flags);
     return bp::object( result );
 }
 
@@ -2358,7 +2353,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcBackProject
     
-        typedef void ( *calcBackProject_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::SparseMat const &,::cv::Mat &,std::vector<std::vector<float> > const &,double,bool );
+        typedef void ( *calcBackProject_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,::cv::SparseMat const &,::cv::Mat &,std::vector<std::vector<float> > const &,double,bool );
         
         bp::def( 
             "calcBackProject"
@@ -2366,7 +2361,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("hist"), bp::arg("backProject"), bp::arg("ranges"), bp::arg("scale")=1, bp::arg("uniform")=(bool)(true) )
             , "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
+    "\n    Python type: vector_Mat."\
     "\nArgument 'channels':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
@@ -2381,7 +2376,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcBackProject
     
-        typedef void ( *calcBackProject_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::MatND const &,::cv::Mat &,std::vector<std::vector<float> > const &,double,bool );
+        typedef void ( *calcBackProject_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,::cv::MatND const &,::cv::Mat &,std::vector<std::vector<float> > const &,double,bool );
         
         bp::def( 
             "calcBackProject"
@@ -2389,7 +2384,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("hist"), bp::arg("backProject"), bp::arg("ranges"), bp::arg("scale")=1, bp::arg("uniform")=(bool)(true) )
             , "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
+    "\n    Python type: vector_Mat."\
     "\nArgument 'channels':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
@@ -2424,7 +2419,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcHist
     
-        typedef void ( *calcHist_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::Mat const &,::cv::SparseMat &,std::vector<int> const &,std::vector<std::vector<float> > const &,bool,bool );
+        typedef void ( *calcHist_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,::cv::Mat const &,::cv::SparseMat &,std::vector<int> const &,std::vector<std::vector<float> > const &,bool,bool );
         
         bp::def( 
             "calcHist"
@@ -2444,7 +2439,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    derived from argument 'histSize'."\
     "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
+    "\n    Python type: vector_Mat."\
     "\nArgument 'nimages':"\
     "\n    Dependent argument: omitted from the calling sequence. Its value is "\
     "\n    derived from argument 'images'." );
@@ -2453,7 +2448,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcHist
     
-        typedef void ( *calcHist_function_type )( sdcpp::sequence,std::vector<int> const &,::cv::Mat const &,::cv::MatND &,std::vector<int> const &,std::vector<std::vector<float> > const &,bool,bool );
+        typedef void ( *calcHist_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,::cv::Mat const &,::cv::MatND &,std::vector<int> const &,std::vector<std::vector<float> > const &,bool,bool );
         
         bp::def( 
             "calcHist"
@@ -2473,7 +2468,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    derived from argument 'histSize'."\
     "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]."\
+    "\n    Python type: vector_Mat."\
     "\nArgument 'nimages':"\
     "\n    Dependent argument: omitted from the calling sequence. Its value is "\
     "\n    derived from argument 'images'." );
@@ -3586,7 +3581,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvInitNArrayIterator
     
-        typedef boost::python::object ( *initNArrayIterator_function_type )( sdcpp::sequence,::cv::Mat &,::CvMatND *,::CvNArrayIterator *,int );
+        typedef boost::python::object ( *initNArrayIterator_function_type )( std::vector<cv::Mat> const &,::cv::Mat &,::CvMatND *,::CvNArrayIterator *,int );
         
         bp::def( 
             "initNArrayIterator"
@@ -3602,7 +3597,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Python type: Mat."\
     "\nArgument 'arrs':"\
     "\n    C/C++ type: ::CvArr * *."\
-    "\n    Python type: list of Mat, e.g. [Mat(), Mat(), Mat()]." );
+    "\n    Python type: vector_Mat." );
     
     }
 

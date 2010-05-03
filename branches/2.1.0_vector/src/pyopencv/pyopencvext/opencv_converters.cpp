@@ -117,6 +117,7 @@ CONVERT_FROM_SEQ_OF_MAT_TO_VECTOR_OF_T(cv::Ptr<cv::Mat>)
 // workaround for getting a CvMatND pointer
 CvMatND * get_CvMatND_ptr(cv::MatND const &matnd)
 {
+    if(!matnd.data) return 0;
     static int cnt = 0;
     static CvMatND arr[1024];
     CvMatND *result = &(arr[cnt] = matnd);

@@ -9,10 +9,13 @@
 
 namespace bp = boost::python;
 
-static void init_7fe56bf20c87d279d051169d318b592c( ::cv::NAryMatNDIterator & inst, sdcpp::sequence arrays ){
-    std::vector< ::cv::MatND * > arrays2;
-    convert_from_seq_of_MatND_to_vector_of_T(arrays, arrays2);
-    inst.init((::cv::MatND const * *)&arrays2[0], arrays2.size());
+static void init_7fe56bf20c87d279d051169d318b592c( ::cv::NAryMatNDIterator & inst, std::vector<cv::MatND> const & arrays ){
+    
+    std::vector<cv::MatND const *> buf_arrays(arrays.size());
+    for(int i_arrays = 0; i_arrays<arrays.size(); ++i_arrays)
+        buf_arrays[i_arrays] = (cv::MatND const *)&(arrays[i_arrays]);
+        
+    inst.init((cv::MatND const * *)(&buf_arrays[0]), arrays.size());
 }
 
 void register_NAryMatNDIterator_class(){
@@ -31,7 +34,7 @@ void register_NAryMatNDIterator_class(){
         NAryMatNDIterator_exposer.def( bp::init< >() );
         { //::cv::NAryMatNDIterator::init
         
-            typedef void ( *init_function_type )( ::cv::NAryMatNDIterator &,sdcpp::sequence );
+            typedef void ( *init_function_type )( ::cv::NAryMatNDIterator &,std::vector<cv::MatND> const & );
             
             NAryMatNDIterator_exposer.def( 
                 "init"
@@ -42,7 +45,7 @@ void register_NAryMatNDIterator_class(){
     "\n    derived from argument 'arrays'."\
     "\nArgument 'arrays':"\
     "\n    C/C++ type: ::cv::MatND const * *."\
-    "\n    Python type: list of MatND, e.g. [MatND(), MatND(), MatND()]." );
+    "\n    Python type: vector_MatND." );
         
         }
         NAryMatNDIterator_exposer.def_readwrite( "arrays", &cv::NAryMatNDIterator::arrays );
