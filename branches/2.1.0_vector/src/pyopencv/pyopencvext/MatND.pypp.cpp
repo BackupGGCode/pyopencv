@@ -38,13 +38,11 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
     }
 
     static void create( ::cv::MatND & inst, std::vector<int> const & _sizes, int _type ){
-        int _sizes2=(int)(_sizes.size());
-        inst.create(_sizes2, (int const *)(&_sizes[0]), _type);
+        inst.create((int)(_sizes.size()), (int const *)(&_sizes[0]), _type);
     }
 
     static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, std::vector<int> _newsz=std::vector<int>() ){
-        int _newsz2=(int)(_newsz.size());
-        ::cv::MatND result = inst.reshape(_newcn, _newsz2, (int const *)(&_newsz[0]));
+        ::cv::MatND result = inst.reshape(_newcn, (int)(_newsz.size()), (int const *)(&_newsz[0]));
         return bp::object( result );
     }
 

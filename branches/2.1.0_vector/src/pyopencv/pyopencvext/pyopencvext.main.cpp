@@ -738,7 +738,6 @@ static boost::python::object approxPolyDP_d6c85380d14cce99fc92c414781ada55( ::cv
 
 static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( sdcpp::sequence images, std::vector<int> const & channels, ::cv::SparseMat const & hist, ::cv::Mat & backProject, std::vector<std::vector<float> > const & ranges, double scale=1, bool uniform=true ){
     std::vector< ::cv::Mat > images2;
-    int channels2=(int)(channels.size());
     convert_from_seq_of_Mat_to_vector_of_T(images, images2);
     int n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
@@ -754,7 +753,6 @@ static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( sdcpp::sequence im
 
 static void calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8( sdcpp::sequence images, std::vector<int> const & channels, ::cv::MatND const & hist, ::cv::Mat & backProject, std::vector<std::vector<float> > const & ranges, double scale=1, bool uniform=true ){
     std::vector< ::cv::Mat > images2;
-    int channels2=(int)(channels.size());
     convert_from_seq_of_Mat_to_vector_of_T(images, images2);
     int n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
@@ -769,14 +767,11 @@ static void calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8( sdcpp::sequence im
 }
 
 static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( std::vector<cv::Mat> const & samples, ::cv::Mat & covar, ::cv::Mat & mean, int flags, int ctype=6 ){
-    int samples2=(int)(samples.size());
-    ::cv::calcCovarMatrix((::cv::Mat const *)(&samples[0]), samples2, covar, mean, flags, ctype);
+    ::cv::calcCovarMatrix((::cv::Mat const *)(&samples[0]), (int)(samples.size()), covar, mean, flags, ctype);
 }
 
 static void calcHist_8e436c4da97e1e09468541e1bed60274( sdcpp::sequence images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::SparseMat & hist, std::vector<int> const & histSize, std::vector<std::vector<float> > const & ranges, bool uniform=true, bool accumulate=false ){
     std::vector< ::cv::Mat > images2;
-    int channels2=(int)(channels.size());
-    int histSize2=(int)(histSize.size());
     convert_from_seq_of_Mat_to_vector_of_T(images, images2);
     int n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
@@ -787,13 +782,11 @@ static void calcHist_8e436c4da97e1e09468541e1bed60274( sdcpp::sequence images, s
         n1_ranges[i_ranges] = ranges[i_ranges].size();
     }
         
-    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), mask, hist, histSize2, (int const *)(&histSize[0]), (float const * *)(&buf_ranges[0]), uniform, accumulate);
+    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), mask, hist, (int)(histSize.size()), (int const *)(&histSize[0]), (float const * *)(&buf_ranges[0]), uniform, accumulate);
 }
 
 static void calcHist_a4cce9bdd9689d0fb0adf901f467bfa0( sdcpp::sequence images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::MatND & hist, std::vector<int> const & histSize, std::vector<std::vector<float> > const & ranges, bool uniform=true, bool accumulate=false ){
     std::vector< ::cv::Mat > images2;
-    int channels2=(int)(channels.size());
-    int histSize2=(int)(histSize.size());
     convert_from_seq_of_Mat_to_vector_of_T(images, images2);
     int n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
@@ -804,7 +797,7 @@ static void calcHist_a4cce9bdd9689d0fb0adf901f467bfa0( sdcpp::sequence images, s
         n1_ranges[i_ranges] = ranges[i_ranges].size();
     }
         
-    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), mask, hist, histSize2, (int const *)(&histSize[0]), (float const * *)(&buf_ranges[0]), uniform, accumulate);
+    ::cv::calcHist((::cv::Mat const *)&images2[0], images2.size(), (int const *)(&channels[0]), mask, hist, (int)(histSize.size()), (int const *)(&histSize[0]), (float const * *)(&buf_ranges[0]), uniform, accumulate);
 }
 
 static void calcOpticalFlowPyrLK_2855d31de3545ba96e3fc0ad950740f1( ::cv::Mat const & prevImg, ::cv::Mat const & nextImg, cv::Mat const & prevPts, cv::Mat & nextPts, cv::Mat & status, cv::Mat & err, ::cv::Size winSize=cv::Size_<int>(15, 15), int maxLevel=3, ::cv::TermCriteria criteria=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), double derivLambda=5.0e-1, int flags=0 ){
@@ -1079,8 +1072,7 @@ static boost::python::object cvCreateSubdivDelaunay2D_8eda8e15f20a4d068defcf9afd
 }
 
 static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, ::cv::Mat & dst, int distance_type=2, std::vector<float> mask=std::vector<float>(), ::cv::Mat labels=cv::Mat() ){
-    int mask2=(int)(mask.size());
-    ::cvDistTransform(get_CvMat_ptr(src), get_CvMat_ptr(dst), distance_type, mask2, (float const *)(&mask[0]), get_CvMat_ptr(labels));
+    ::cvDistTransform(get_CvMat_ptr(src), get_CvMat_ptr(dst), distance_type, (int)(mask.size()), (float const *)(&mask[0]), get_CvMat_ptr(labels));
 }
 
 static void cvEndWriteStruct_49df8f8a99539026dfbd302575d7a485( ::cv::FileStorage & fs ){
@@ -1390,8 +1382,7 @@ static boost::python::object estimateAffine3D_fd3dca5e5fd5d2ce4664db813a2c08bf( 
 }
 
 static void fillConvexPoly_1312287b0cded13c02c57cc3d8ebf4b4( ::cv::Mat & img, std::vector<cv::Point_<int> > const & pts, ::cv::Scalar const & color, int lineType=8, int shift=0 ){
-    int pts2=(int)(pts.size());
-    ::cv::fillConvexPoly(img, (::cv::Point const *)(&pts[0]), pts2, color, lineType, shift);
+    ::cv::fillConvexPoly(img, (::cv::Point const *)(&pts[0]), (int)(pts.size()), color, lineType, shift);
 }
 
 static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, std::vector<std::vector<cv::Point_<int> > > const & pts, ::cv::Scalar const & color, int lineType=8, int shift=0, ::cv::Point offset=cv::Point_<int>() ){
@@ -1471,8 +1462,6 @@ static boost::python::tuple floodFill_75a8a8f3e3e22b4d281bb304a7881151( ::cv::Ma
 }
 
 static boost::python::object getAffineTransform_aa493630c3e4efe1ff49141fe5060922( std::vector<cv::Point_<float> > const & src, std::vector<cv::Point_<float> > const & dst ){
-    int src2=(int)(src.size());
-    int dst2=(int)(dst.size());
     ::cv::Mat result = ::cv::getAffineTransform((::cv::Point2f const *)(&src[0]), (::cv::Point2f const *)(&dst[0]));
     return bp::object( result );
 }
@@ -1484,8 +1473,6 @@ static boost::python::tuple getOptimalNewCameraMatrix_e98b8ab28b52edfb3a210046fc
 }
 
 static boost::python::object getPerspectiveTransform_c06a0392152cb20f6b57ae1ff2ac2c11( std::vector<cv::Point_<float> > const & src, std::vector<cv::Point_<float> > const & dst ){
-    int src2=(int)(src.size());
-    int dst2=(int)(dst.size());
     ::cv::Mat result = ::cv::getPerspectiveTransform((::cv::Point2f const *)(&src[0]), (::cv::Point2f const *)(&dst[0]));
     return bp::object( result );
 }
@@ -1581,12 +1568,10 @@ static boost::python::tuple minMaxLoc_35f2a2e80fcf305e891ee746d58be725( ::cv::Ma
 }
 
 static void mixChannels_c8fa9614f4fb5a79f84423883d102a9e( ::std::vector< cv::MatND > const & src, ::std::vector< cv::MatND > & dst, std::vector<int> const & fromTo, int npairs ){
-    int fromTo2=(int)(fromTo.size());
     ::cv::mixChannels(src, dst, (int const *)(&fromTo[0]), npairs);
 }
 
 static void mixChannels_269d2fa250748779c49641b632451e5f( ::std::vector< cv::Mat > const & src, ::std::vector< cv::Mat > & dst, std::vector<int> const & fromTo, int npairs ){
-    int fromTo2=(int)(fromTo.size());
     ::cv::mixChannels(src, dst, (int const *)(&fromTo[0]), npairs);
 }
 

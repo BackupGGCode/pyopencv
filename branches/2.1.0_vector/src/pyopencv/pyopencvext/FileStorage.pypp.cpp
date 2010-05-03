@@ -69,8 +69,7 @@ struct FileStorage_wrapper : cv::FileStorage, bp::wrapper< cv::FileStorage > {
     }
 
     static void writeRaw( ::cv::FileStorage & inst, ::std::string const & fmt, std::vector<unsigned char> const & vec ){
-        int vec2=(int)(vec.size());
-        inst.writeRaw(fmt, (::uchar const *)(&vec[0]), vec2);
+        inst.writeRaw(fmt, (::uchar const *)(&vec[0]), (int)(vec.size()));
     }
 
 };

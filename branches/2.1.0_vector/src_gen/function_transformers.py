@@ -375,9 +375,15 @@ class input_array1d_t(transformer.transformer_t):
         doc_common(self.function, self.arg, common.get_registered_decl(vec_pds)[0])
 
         # number of elements
-        l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=(int)(%s.size())" % w_arg.name )
+        if self.remove_arg_size or self.arg_size is None:
+            l_arr = "(int)(%s.size())" % w_arg.name
+            if len(self.output_arrays)+(self.arg_size is not None) >= 2:
+                l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "="+l_arr )
+        else:
+            l_arr = self.arg_size.name
+            
+        # remove arg_size from the function wrapper definition and automatically fill in the missing argument
         if self.remove_arg_size and self.arg_size is not None:
-            # remove arg_size from the function wrapper definition and automatically fill in the missing argument
             controller.remove_wrapper_arg( self.arg_size.name )
             controller.modify_arg_expression( self.arg_size_index, l_arr )
             doc_dependent(self.function, self.arg_size, self.arg)

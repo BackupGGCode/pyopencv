@@ -14,8 +14,7 @@
 namespace bp = boost::python;
 
 static void create_4e9dc46b2911de920c7af1dfbb19412a( ::cv::SparseMat & inst, std::vector<int> const & _sizes, int _type ){
-    int _sizes2=(int)(_sizes.size());
-    inst.create(_sizes2, (int const *)(&_sizes[0]), _type);
+    inst.create((int)(_sizes.size()), (int const *)(&_sizes[0]), _type);
 }
 
 static boost::python::object erase_ce64effe5fbeb3e9588310d12240ddce( ::cv::SparseMat & inst, int i0, int i1 ){
@@ -32,13 +31,11 @@ static boost::python::object erase_ca8730dab3cfc35be7d8c7cfc84bf06f( ::cv::Spars
 
 static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::SparseMat & inst, std::vector<int> const & idx ){
     size_t hashval2;
-    int idx2=(int)(idx.size());
     inst.erase((int const *)(&idx[0]), &hashval2);
     return bp::object( hashval2 );
 }
 
 static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::SparseMat const & inst, std::vector<int> const & idx ){
-    int idx2=(int)(idx.size());
     ::size_t result = inst.hash((int const *)(&idx[0]));
     return bp::object( result );
 }
