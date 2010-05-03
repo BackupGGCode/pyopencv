@@ -15,7 +15,7 @@ void register_vector_vector_float32_class(){
         typedef bp::class_< std::vector< std::vector< float > > > vector_vector_float32_exposer_t;
         vector_vector_float32_exposer_t vector_vector_float32_exposer = vector_vector_float32_exposer_t( "vector_vector_float32" );
         bp::scope vector_vector_float32_scope( vector_vector_float32_exposer );
-        //WARNING: the next line of code will not compile, because "::std::vector<float, std::allocator<float> >" does not have operator== !
+        //WARNING: the next line of code will not compile, because "std::vector<float>" does not have operator== !
         vector_vector_float32_exposer.def( bp::vector_indexing_suite< ::std::vector< std::vector< float > > >() );
         vector_vector_float32_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

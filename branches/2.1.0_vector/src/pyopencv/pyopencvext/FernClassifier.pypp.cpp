@@ -135,14 +135,14 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
 
     virtual void write( ::cv::FileStorage & fs, ::cv::String const & name=std::string() ) const  {
         if( bp::override func_write = this->get_override( "write" ) )
-            func_write( boost::ref(fs), name );
+            func_write( boost::ref(fs), boost::ref(name) );
         else{
-            this->cv::FernClassifier::write( boost::ref(fs), name );
+            this->cv::FernClassifier::write( boost::ref(fs), boost::ref(name) );
         }
     }
     
     void default_write( ::cv::FileStorage & fs, ::cv::String const & name=std::string() ) const  {
-        cv::FernClassifier::write( boost::ref(fs), name );
+        cv::FernClassifier::write( boost::ref(fs), boost::ref(name) );
     }
 
 };
@@ -240,7 +240,7 @@ void register_FernClassifier_class(){
         }
         { //::cv::FernClassifier::operator()
         
-            typedef boost::python::tuple ( *default___call___function_type )( ::cv::FernClassifier const &,::cv::Mat const &,::cv::Point2f );
+            typedef boost::python::tuple ( *default___call___function_type )( cv::FernClassifier const &,cv::Mat const &,::cv::Point2f );
             
             FernClassifier_exposer.def( 
                 "__call__"
@@ -255,7 +255,7 @@ void register_FernClassifier_class(){
         }
         { //::cv::FernClassifier::operator()
         
-            typedef boost::python::tuple ( *default___call___function_type )( ::cv::FernClassifier const &,::cv::Mat const & );
+            typedef boost::python::tuple ( *default___call___function_type )( cv::FernClassifier const &,cv::Mat const & );
             
             FernClassifier_exposer.def( 
                 "__call__"

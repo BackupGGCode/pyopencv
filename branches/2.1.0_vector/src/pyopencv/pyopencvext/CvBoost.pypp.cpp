@@ -362,7 +362,7 @@ void register_CvBoost_class(){
         }
         { //::CvBoost::predict
         
-            typedef boost::python::tuple ( *default_predict_function_type )( ::CvBoost const &,::cv::Mat &,::cv::Mat &,cv::Range const &,bool,bool );
+            typedef boost::python::tuple ( *default_predict_function_type )( CvBoost const &,::cv::Mat &,::cv::Mat &,cv::Range const &,bool,bool );
             
             CvBoost_exposer.def( 
                 "predict"
@@ -386,7 +386,7 @@ void register_CvBoost_class(){
         }
         { //::CvBoost::predict
         
-            typedef boost::python::tuple ( *default_predict_function_type )( ::CvBoost const &,::cv::Mat const &,::cv::Mat const &,cv::Range const &,bool,bool );
+            typedef boost::python::tuple ( *default_predict_function_type )( CvBoost const &,cv::Mat const &,cv::Mat const &,cv::Range const &,bool,bool );
             
             CvBoost_exposer.def( 
                 "predict"
@@ -404,7 +404,7 @@ void register_CvBoost_class(){
         }
         { //::CvBoost::prune
         
-            typedef void ( *default_prune_function_type )( ::CvBoost &,cv::Range const & );
+            typedef void ( *default_prune_function_type )( CvBoost &,cv::Range const & );
             
             CvBoost_exposer.def( 
                 "prune"
@@ -417,7 +417,7 @@ void register_CvBoost_class(){
         }
         { //::CvBoost::read
         
-            typedef void ( *default_read_function_type )( ::CvBoost &,::cv::FileStorage &,::cv::FileNode & );
+            typedef void ( *default_read_function_type )( CvBoost &,::cv::FileStorage &,::cv::FileNode & );
             
             CvBoost_exposer.def( 
                 "read"
@@ -433,7 +433,7 @@ void register_CvBoost_class(){
         }
         { //::CvBoost::train
         
-            typedef boost::python::object ( *default_train_function_type )( ::CvBoost &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,::CvBoostParams,bool );
+            typedef boost::python::object ( *default_train_function_type )( CvBoost &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,CvBoostParams,bool );
             
             CvBoost_exposer.def( 
                 "train"
@@ -485,7 +485,7 @@ void register_CvBoost_class(){
         }
         { //::CvBoost::write
         
-            typedef void ( *default_write_function_type )( ::CvBoost const &,::cv::FileStorage &,char const * );
+            typedef void ( *default_write_function_type )( CvBoost const &,::cv::FileStorage &,char const * );
             
             CvBoost_exposer.def( 
                 "write"

@@ -43,7 +43,7 @@ void register_BackgroundSubtractor_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::BackgroundSubtractor >() )    
         .def( 
             "__call__"
-            , (void ( ::cv::BackgroundSubtractor::* )( ::cv::Mat const &,::cv::Mat &,double ) )(&::cv::BackgroundSubtractor::operator())
+            , (void ( cv::BackgroundSubtractor::* )( ::cv::Mat const &,::cv::Mat &,double ) )(&::cv::BackgroundSubtractor::operator())
             , (void ( BackgroundSubtractor_wrapper::* )( ::cv::Mat const &,::cv::Mat &,double ) )(&BackgroundSubtractor_wrapper::default___call__)
             , ( bp::arg("image"), bp::arg("fgmask"), bp::arg("learningRate")=0 ) );
 

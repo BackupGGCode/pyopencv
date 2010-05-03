@@ -14,16 +14,16 @@ void register_KalmanFilter_class(){
         .def( bp::init< int, int, bp::optional< int > >(( bp::arg("dynamParams"), bp::arg("measureParams"), bp::arg("controlParams")=(int)(0) )) )    
         .def( 
             "correct"
-            , (::cv::Mat const & ( ::cv::KalmanFilter::* )( ::cv::Mat const & ) )( &::cv::KalmanFilter::correct )
+            , (::cv::Mat const & ( cv::KalmanFilter::* )( ::cv::Mat const & ) )( &::cv::KalmanFilter::correct )
             , ( bp::arg("measurement") )
             , bp::return_self< >() )    
         .def( 
             "init"
-            , (void ( ::cv::KalmanFilter::* )( int,int,int ) )( &::cv::KalmanFilter::init )
+            , (void ( cv::KalmanFilter::* )( int,int,int ) )( &::cv::KalmanFilter::init )
             , ( bp::arg("dynamParams"), bp::arg("measureParams"), bp::arg("controlParams")=(int)(0) ) )    
         .def( 
             "predict"
-            , (::cv::Mat const & ( ::cv::KalmanFilter::* )( ::cv::Mat const & ) )( &::cv::KalmanFilter::predict )
+            , (::cv::Mat const & ( cv::KalmanFilter::* )( ::cv::Mat const & ) )( &::cv::KalmanFilter::predict )
             , ( bp::arg("control")=cv::Mat() )
             , bp::return_self< >() )    
         .def_readwrite( "controlMatrix", &cv::KalmanFilter::controlMatrix )    

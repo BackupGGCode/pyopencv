@@ -21,7 +21,7 @@ void register_StarDetector_class(){
         .def( bp::init< int, int, int, int, int >(( bp::arg("_maxSize"), bp::arg("_responseThreshold"), bp::arg("_lineThresholdProjected"), bp::arg("_lineThresholdBinarized"), bp::arg("_suppressNonmaxSize") )) )    
         .def( 
             "__call__"
-            , (boost::python::object (*)( ::cv::StarDetector const &,::cv::Mat const & ))( &__call___c2d97c9701a9c79dcec3239fd753dffc )
+            , (boost::python::object (*)( cv::StarDetector const &,cv::Mat const & ))( &__call___c2d97c9701a9c79dcec3239fd753dffc )
             , ( bp::arg("inst"), bp::arg("image") )
             , "\nWrapped function:"
     "\n    operator()"

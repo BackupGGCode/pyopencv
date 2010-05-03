@@ -13,15 +13,15 @@ void register_IntegralHistogram_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< sdopencv::IntegralHistogram >() )    
         .def( 
             "calcHist"
-            , (void ( ::sdopencv::IntegralHistogram::* )( ::cv::Rect,::std::vector< int > & ) )( &::sdopencv::IntegralHistogram::calcHist )
+            , (void ( sdopencv::IntegralHistogram::* )( ::cv::Rect,::std::vector< int > & ) )( &::sdopencv::IntegralHistogram::calcHist )
             , ( bp::arg("rect"), bp::arg("out_hist") ) )    
         .def( 
             "get_index"
-            , (int ( ::sdopencv::IntegralHistogram::* )( float ) )( &::sdopencv::IntegralHistogram::get_index )
+            , (int ( sdopencv::IntegralHistogram::* )( float ) )( &::sdopencv::IntegralHistogram::get_index )
             , ( bp::arg("value") ) )    
         .def( 
             "__call__"
-            , (void ( ::sdopencv::IntegralHistogram::* )( ::cv::Mat const & ) )( &::sdopencv::IntegralHistogram::operator() )
+            , (void ( sdopencv::IntegralHistogram::* )( ::cv::Mat const & ) )( &::sdopencv::IntegralHistogram::operator() )
             , ( bp::arg("image") )
             , "\nWrapped function:"
     "\n    operator()" );

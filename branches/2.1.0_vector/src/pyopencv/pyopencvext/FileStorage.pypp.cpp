@@ -26,7 +26,7 @@ struct FileStorage_wrapper : cv::FileStorage, bp::wrapper< cv::FileStorage > {
     }
 
     FileStorage_wrapper(::std::string const & filename, int flags )
-    : cv::FileStorage( filename, flags )
+    : cv::FileStorage( boost::ref(filename), flags )
       , bp::wrapper< cv::FileStorage >(){
         // constructor
     
@@ -46,14 +46,14 @@ struct FileStorage_wrapper : cv::FileStorage, bp::wrapper< cv::FileStorage > {
 
     virtual bool open( ::std::string const & filename, int flags ) {
         if( bp::override func_open = this->get_override( "open" ) )
-            return func_open( filename, flags );
+            return func_open( boost::ref(filename), flags );
         else{
-            return this->cv::FileStorage::open( filename, flags );
+            return this->cv::FileStorage::open( boost::ref(filename), flags );
         }
     }
     
     bool default_open( ::std::string const & filename, int flags ) {
-        return cv::FileStorage::open( filename, flags );
+        return cv::FileStorage::open( boost::ref(filename), flags );
     }
 
     virtual void release(  ) {
@@ -190,7 +190,7 @@ void register_FileStorage_class(){
         }
         { //::cv::FileStorage::writeRaw
         
-            typedef void ( *writeRaw_function_type )( ::cv::FileStorage &,::std::string const &,std::vector<unsigned char> const & );
+            typedef void ( *writeRaw_function_type )( cv::FileStorage &,::std::string const &,std::vector<unsigned char> const & );
             
             FileStorage_exposer.def( 
                 "writeRaw"

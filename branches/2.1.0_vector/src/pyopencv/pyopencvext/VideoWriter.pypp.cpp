@@ -24,7 +24,7 @@ struct VideoWriter_wrapper : cv::VideoWriter, bp::wrapper< cv::VideoWriter > {
     }
 
     VideoWriter_wrapper(::std::string const & filename, int fourcc, double fps, ::cv::Size frameSize, bool isColor=true )
-    : cv::VideoWriter( filename, fourcc, fps, frameSize, isColor )
+    : cv::VideoWriter( boost::ref(filename), fourcc, fps, frameSize, isColor )
       , bp::wrapper< cv::VideoWriter >(){
         // constructor
     
@@ -44,14 +44,14 @@ struct VideoWriter_wrapper : cv::VideoWriter, bp::wrapper< cv::VideoWriter > {
 
     virtual bool open( ::std::string const & filename, int fourcc, double fps, ::cv::Size frameSize, bool isColor=true ) {
         if( bp::override func_open = this->get_override( "open" ) )
-            return func_open( filename, fourcc, fps, frameSize, isColor );
+            return func_open( boost::ref(filename), fourcc, fps, frameSize, isColor );
         else{
-            return this->cv::VideoWriter::open( filename, fourcc, fps, frameSize, isColor );
+            return this->cv::VideoWriter::open( boost::ref(filename), fourcc, fps, frameSize, isColor );
         }
     }
     
     bool default_open( ::std::string const & filename, int fourcc, double fps, ::cv::Size frameSize, bool isColor=true ) {
-        return cv::VideoWriter::open( filename, fourcc, fps, frameSize, isColor );
+        return cv::VideoWriter::open( boost::ref(filename), fourcc, fps, frameSize, isColor );
     }
 
 };
@@ -69,11 +69,11 @@ void register_VideoWriter_class(){
         .def( bp::init< std::string const &, int, double, cv::Size, bp::optional< bool > >(( bp::arg("filename"), bp::arg("fourcc"), bp::arg("fps"), bp::arg("frameSize"), bp::arg("isColor")=(bool)(true) )) )    
         .def( 
             "isOpened"
-            , (bool ( ::cv::VideoWriter::* )(  ) const)(&::cv::VideoWriter::isOpened)
+            , (bool ( cv::VideoWriter::* )(  ) const)(&::cv::VideoWriter::isOpened)
             , (bool ( VideoWriter_wrapper::* )(  ) const)(&VideoWriter_wrapper::default_isOpened) )    
         .def( 
             "open"
-            , (bool ( ::cv::VideoWriter::* )( ::std::string const &,int,double,::cv::Size,bool ) )(&::cv::VideoWriter::open)
+            , (bool ( cv::VideoWriter::* )( ::std::string const &,int,double,::cv::Size,bool ) )(&::cv::VideoWriter::open)
             , (bool ( VideoWriter_wrapper::* )( ::std::string const &,int,double,::cv::Size,bool ) )(&VideoWriter_wrapper::default_open)
             , ( bp::arg("filename"), bp::arg("fourcc"), bp::arg("fps"), bp::arg("frameSize"), bp::arg("isColor")=(bool)(true) ) )    
         .def( "__lshift__", &::lshift, bp::return_self<>() );

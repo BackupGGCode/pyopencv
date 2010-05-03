@@ -95,7 +95,7 @@ void register_SpinImageModel_class(){
         }
         { //::cv::SpinImageModel::match
         
-            typedef boost::python::object ( *match_function_type )( ::cv::SpinImageModel &,::cv::SpinImageModel const & );
+            typedef boost::python::object ( *match_function_type )( cv::SpinImageModel &,cv::SpinImageModel const & );
             
             SpinImageModel_exposer.def( 
                 "match"

@@ -787,6 +787,16 @@ CLASS_NAME.elem_type = _z[0].__class__
 del(_z)
     '''.replace('CLASS_NAME', z.alias))
 
+    
+# hack class_t so that py++ uses attribute 'pds' as declaration string
+from pyplusplus.decl_wrappers.class_wrapper import class_t
+class_t.old_create_decl_string = class_t.create_decl_string
+def create_decl_string(self, with_defaults=True):
+    if with_defaults and 'pds' in self.__dict__:
+        return self.pds
+    return self.old_create_decl_string(with_defaults)
+class_t.create_decl_string = create_decl_string
+    
 
 
 #=============================================================================

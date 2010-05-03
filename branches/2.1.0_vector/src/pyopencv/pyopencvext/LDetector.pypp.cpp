@@ -27,11 +27,11 @@ void register_LDetector_class(){
         .def( bp::init< int, int, int, int, double, double >(( bp::arg("_radius"), bp::arg("_threshold"), bp::arg("_nOctaves"), bp::arg("_nViews"), bp::arg("_baseFeatureSize"), bp::arg("_clusteringDistance") )) )    
         .def( 
             "getMostStable2D"
-            , (void ( ::cv::LDetector::* )( ::cv::Mat const &,::std::vector< cv::KeyPoint > &,int,::cv::PatchGenerator const & ) const)( &::cv::LDetector::getMostStable2D )
+            , (void ( cv::LDetector::* )( ::cv::Mat const &,::std::vector< cv::KeyPoint > &,int,::cv::PatchGenerator const & ) const)( &::cv::LDetector::getMostStable2D )
             , ( bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") ) )    
         .def( 
             "__call__"
-            , (boost::python::object (*)( ::cv::LDetector const &,::cv::Mat const &,int,bool ))( &__call___14ec982e59fdc13237968e34b82d6fe2 )
+            , (boost::python::object (*)( cv::LDetector const &,cv::Mat const &,int,bool ))( &__call___14ec982e59fdc13237968e34b82d6fe2 )
             , ( bp::arg("inst"), bp::arg("image"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
             , "\nWrapped function:"
     "\n    operator()"
@@ -40,7 +40,7 @@ void register_LDetector_class(){
     "\n    along with the function's return value (if any)." )    
         .def( 
             "__call__"
-            , (boost::python::object (*)( ::cv::LDetector const &,::std::vector<cv::Mat, std::allocator<cv::Mat> > const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
+            , (boost::python::object (*)( cv::LDetector const &,std::vector<cv::Mat> const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
             , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
             , "\nWrapped function:"
     "\n    operator()"
@@ -49,15 +49,15 @@ void register_LDetector_class(){
     "\n    along with the function's return value (if any)." )    
         .def( 
             "read"
-            , (void ( ::cv::LDetector::* )( ::cv::FileNode const & ) )( &::cv::LDetector::read )
+            , (void ( cv::LDetector::* )( ::cv::FileNode const & ) )( &::cv::LDetector::read )
             , ( bp::arg("node") ) )    
         .def( 
             "setVerbose"
-            , (void ( ::cv::LDetector::* )( bool ) )( &::cv::LDetector::setVerbose )
+            , (void ( cv::LDetector::* )( bool ) )( &::cv::LDetector::setVerbose )
             , ( bp::arg("verbose") ) )    
         .def( 
             "write"
-            , (void ( ::cv::LDetector::* )( ::cv::FileStorage &,::cv::String const & ) const)( &::cv::LDetector::write )
+            , (void ( cv::LDetector::* )( ::cv::FileStorage &,::cv::String const & ) const)( &::cv::LDetector::write )
             , ( bp::arg("fs"), bp::arg("name")=std::string() ) )    
         .def_readwrite( "baseFeatureSize", &cv::LDetector::baseFeatureSize )    
         .def_readwrite( "clusteringDistance", &cv::LDetector::clusteringDistance )    

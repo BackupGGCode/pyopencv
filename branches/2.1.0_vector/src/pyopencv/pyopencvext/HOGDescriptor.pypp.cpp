@@ -34,7 +34,7 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
     }
 
     HOGDescriptor_wrapper(::cv::String const & filename )
-    : cv::HOGDescriptor( filename )
+    : cv::HOGDescriptor( boost::ref(filename) )
       , bp::wrapper< cv::HOGDescriptor >(){
         // constructor
     
@@ -117,26 +117,26 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
 
     virtual bool load( ::cv::String const & filename, ::cv::String const & objname=std::string() ) {
         if( bp::override func_load = this->get_override( "load" ) )
-            return func_load( filename, objname );
+            return func_load( boost::ref(filename), boost::ref(objname) );
         else{
-            return this->cv::HOGDescriptor::load( filename, objname );
+            return this->cv::HOGDescriptor::load( boost::ref(filename), boost::ref(objname) );
         }
     }
     
     bool default_load( ::cv::String const & filename, ::cv::String const & objname=std::string() ) {
-        return cv::HOGDescriptor::load( filename, objname );
+        return cv::HOGDescriptor::load( boost::ref(filename), boost::ref(objname) );
     }
 
     virtual void save( ::cv::String const & filename, ::cv::String const & objname=std::string() ) const  {
         if( bp::override func_save = this->get_override( "save" ) )
-            func_save( filename, objname );
+            func_save( boost::ref(filename), boost::ref(objname) );
         else{
-            this->cv::HOGDescriptor::save( filename, objname );
+            this->cv::HOGDescriptor::save( boost::ref(filename), boost::ref(objname) );
         }
     }
     
     void default_save( ::cv::String const & filename, ::cv::String const & objname=std::string() ) const  {
-        cv::HOGDescriptor::save( filename, objname );
+        cv::HOGDescriptor::save( boost::ref(filename), boost::ref(objname) );
     }
 
     virtual void setSVMDetector( ::std::vector< float > const & _svmdetector ) {
@@ -181,7 +181,7 @@ void register_HOGDescriptor_class(){
         }
         { //::cv::HOGDescriptor::compute
         
-            typedef boost::python::object ( *default_compute_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,::cv::Size,::cv::Size,::std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > const & );
+            typedef boost::python::object ( *default_compute_function_type )( cv::HOGDescriptor const &,cv::Mat const &,::cv::Size,::cv::Size,std::vector<cv::Point_<int> > const & );
             
             HOGDescriptor_exposer.def( 
                 "compute"
@@ -206,7 +206,7 @@ void register_HOGDescriptor_class(){
         }
         { //::cv::HOGDescriptor::detect
         
-            typedef boost::python::object ( *default_detect_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,double,::cv::Size,::cv::Size,::std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > > const & );
+            typedef boost::python::object ( *default_detect_function_type )( cv::HOGDescriptor const &,cv::Mat const &,double,::cv::Size,::cv::Size,std::vector<cv::Point_<int> > const & );
             
             HOGDescriptor_exposer.def( 
                 "detect"
@@ -219,7 +219,7 @@ void register_HOGDescriptor_class(){
         }
         { //::cv::HOGDescriptor::detectMultiScale
         
-            typedef boost::python::object ( *default_detectMultiScale_function_type )( ::cv::HOGDescriptor const &,::cv::Mat const &,double,::cv::Size,::cv::Size,double,int );
+            typedef boost::python::object ( *default_detectMultiScale_function_type )( cv::HOGDescriptor const &,cv::Mat const &,double,::cv::Size,::cv::Size,double,int );
             
             HOGDescriptor_exposer.def( 
                 "detectMultiScale"

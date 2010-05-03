@@ -15,7 +15,7 @@ void register_vector_Octree_Node_class(){
         typedef bp::class_< std::vector< cv::Octree::Node > > vector_Octree_Node_exposer_t;
         vector_Octree_Node_exposer_t vector_Octree_Node_exposer = vector_Octree_Node_exposer_t( "vector_Octree_Node" );
         bp::scope vector_Octree_Node_scope( vector_Octree_Node_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::Octree::Node" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::Octree::Node" does not have operator== !
         vector_Octree_Node_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::Octree::Node > >() );
         vector_Octree_Node_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

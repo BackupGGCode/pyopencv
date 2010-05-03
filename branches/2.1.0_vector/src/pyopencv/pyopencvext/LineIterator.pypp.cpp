@@ -23,12 +23,12 @@ void register_LineIterator_class(){
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#lineiterator" )    
         .def( 
             "__iter__"
-            , (::sdopencv::LineIterator const & ( ::sdopencv::LineIterator::* )(  ) )( &::sdopencv::LineIterator::iter )
+            , (::sdopencv::LineIterator const & ( sdopencv::LineIterator::* )(  ) )( &::sdopencv::LineIterator::iter )
             , bp::return_value_policy< bp::copy_const_reference >()
             , "\nWrapped function:"
     "\n    iter" )    
         .def( 
             "next"
-            , (::cv::Point ( ::sdopencv::LineIterator::* )(  ) )( &::sdopencv::LineIterator::next ) );
+            , (::cv::Point ( sdopencv::LineIterator::* )(  ) )( &::sdopencv::LineIterator::next ) );
 
 }

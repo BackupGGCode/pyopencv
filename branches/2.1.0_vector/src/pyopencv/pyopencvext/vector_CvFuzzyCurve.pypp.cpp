@@ -15,7 +15,7 @@ void register_vector_CvFuzzyCurve_class(){
         typedef bp::class_< std::vector< CvFuzzyCurve > > vector_CvFuzzyCurve_exposer_t;
         vector_CvFuzzyCurve_exposer_t vector_CvFuzzyCurve_exposer = vector_CvFuzzyCurve_exposer_t( "vector_CvFuzzyCurve" );
         bp::scope vector_CvFuzzyCurve_scope( vector_CvFuzzyCurve_exposer );
-        //WARNING: the next line of code will not compile, because "::CvFuzzyCurve" does not have operator== !
+        //WARNING: the next line of code will not compile, because "CvFuzzyCurve" does not have operator== !
         vector_CvFuzzyCurve_exposer.def( bp::vector_indexing_suite< ::std::vector< CvFuzzyCurve > >() );
         vector_CvFuzzyCurve_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

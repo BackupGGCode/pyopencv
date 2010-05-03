@@ -23,7 +23,7 @@ void register_CvObjectDetector_class(){
         bp::implicitly_convertible< char const *, CvObjectDetector >();
         { //::CvObjectDetector::Detect
         
-            typedef void ( *Detect_function_type )( ::CvObjectDetector &,::cv::Mat &,::CvBlobSeq * );
+            typedef void ( *Detect_function_type )( CvObjectDetector &,::cv::Mat &,CvBlobSeq * );
             
             CvObjectDetector_exposer.def( 
                 "Detect"

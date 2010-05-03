@@ -180,7 +180,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::create
         
-            typedef void ( *create_function_type )( ::cv::SparseMat &,std::vector<int> const &,int );
+            typedef void ( *create_function_type )( cv::SparseMat &,std::vector<int> const &,int );
             
             SparseMat_exposer.def( 
                 "create"
@@ -232,7 +232,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::erase
         
-            typedef boost::python::object ( *erase_ce64effe5fbeb3e9588310d12240ddce_function_type )( ::cv::SparseMat &,int,int );
+            typedef boost::python::object ( *erase_ce64effe5fbeb3e9588310d12240ddce_function_type )( cv::SparseMat &,int,int );
             
             SparseMat_exposer.def( 
                 "erase_ce64effe5fbeb3e9588310d12240ddce"
@@ -249,7 +249,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::erase
         
-            typedef boost::python::object ( *erase_ca8730dab3cfc35be7d8c7cfc84bf06f_function_type )( ::cv::SparseMat &,int,int,int );
+            typedef boost::python::object ( *erase_ca8730dab3cfc35be7d8c7cfc84bf06f_function_type )( cv::SparseMat &,int,int,int );
             
             SparseMat_exposer.def( 
                 "erase_ca8730dab3cfc35be7d8c7cfc84bf06f"
@@ -266,7 +266,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::erase
         
-            typedef boost::python::object ( *erase_7ee4e9a1250db62333754bd289edbba8_function_type )( ::cv::SparseMat &,std::vector<int> const & );
+            typedef boost::python::object ( *erase_7ee4e9a1250db62333754bd289edbba8_function_type )( cv::SparseMat &,std::vector<int> const & );
             
             SparseMat_exposer.def( 
                 "erase_7ee4e9a1250db62333754bd289edbba8"
@@ -316,7 +316,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::hash
         
-            typedef boost::python::object ( *hash_19477be6a05d6299f1601326adc61332_function_type )( ::cv::SparseMat const &,std::vector<int> const & );
+            typedef boost::python::object ( *hash_19477be6a05d6299f1601326adc61332_function_type )( cv::SparseMat const &,std::vector<int> const & );
             
             SparseMat_exposer.def( 
                 "hash_19477be6a05d6299f1601326adc61332"

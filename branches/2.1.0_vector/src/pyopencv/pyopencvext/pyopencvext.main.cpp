@@ -967,9 +967,9 @@ static boost::python::object cvCreateContourTree_d634bc0ea26451db7832bf763df380f
 }
 
 static boost::python::object cvCreateKDTree_bedd697814f42b0adb235e1d1bda9bdd( ::cv::Mat & desc ){
-    ::CvFeatureTree * result = ::cvCreateKDTree(get_CvMat_ptr(desc));
+    CvFeatureTree * result = ::cvCreateKDTree(get_CvMat_ptr(desc));
     typedef bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
-    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvFeatureTree * >( result ) );
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, CvFeatureTree * >( result ) );
 }
 
 static boost::python::object cvCreateSeq_2f3129dfcaf52efd3761ddb7b9d8096d( int seq_flags, int header_size, int elem_size, ::cv::MemStorage & storage ){
@@ -985,9 +985,9 @@ static boost::python::object cvCreateSet_450935d8525d718f561edada26de1f0c( int s
 }
 
 static boost::python::object cvCreateSpillTree_22146c3478f3d8c8ff22213a86f1b244( ::cv::Mat & raw_data, int const naive=50, double const rho=6.99999999999999955591079014993738383054733276367e-1, double const tau=1.00000000000000005551115123125782702118158340454e-1 ){
-    ::CvFeatureTree * result = ::cvCreateSpillTree(get_CvMat_ptr(raw_data), naive, rho, tau);
+    CvFeatureTree * result = ::cvCreateSpillTree(get_CvMat_ptr(raw_data), naive, rho, tau);
     typedef bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
-    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvFeatureTree * >( result ) );
+    return bp::object( pyplusplus::call_policies::make_object< call_policies_t, CvFeatureTree * >( result ) );
 }
 
 static boost::python::object cvCreateSubdiv2D_56b293d10aa190d3e2dee490cf17ff0c( int subdiv_type, int header_size, int vtx_size, int quadedge_size, ::cv::MemStorage & storage ){
@@ -1330,13 +1330,13 @@ static boost::python::tuple findContours_369c42510a246d95804d68f7fdfbd8aa( ::cv:
 
 static boost::python::tuple findFundamentalMat_4b8947da99452ee36abb2b044e941f4a( ::cv::Mat const & points1, ::cv::Mat const & points2, int method=int(::cv::FM_RANSAC), double param1=3.0e+0, double param2=9.89999999999999991118215802998747676610946655273e-1 ){
     std::vector<unsigned char> mask2;
-    ::cv::Mat result = ::cv::findFundamentalMat(points1, points2, mask2, method, param1, param2);
+    cv::Mat result = ::cv::findFundamentalMat(points1, points2, mask2, method, param1, param2);
     return bp::make_tuple( result, mask2 );
 }
 
 static boost::python::tuple findHomography_43999ba4bb258d7c74f144c8915f1665( ::cv::Mat const & srcPoints, ::cv::Mat const & dstPoints, int method=0, double ransacReprojThreshold=0 ){
     std::vector<unsigned char> mask2;
-    ::cv::Mat result = ::cv::findHomography(srcPoints, dstPoints, mask2, method, ransacReprojThreshold);
+    cv::Mat result = ::cv::findHomography(srcPoints, dstPoints, mask2, method, ransacReprojThreshold);
     return bp::make_tuple( result, mask2 );
 }
 
@@ -1353,18 +1353,18 @@ static boost::python::tuple floodFill_75a8a8f3e3e22b4d281bb304a7881151( ::cv::Ma
 }
 
 static boost::python::object getAffineTransform_aa493630c3e4efe1ff49141fe5060922( std::vector<cv::Point_<float> > const & src, std::vector<cv::Point_<float> > const & dst ){
-    ::cv::Mat result = ::cv::getAffineTransform((::cv::Point2f const *)(&src[0]), (::cv::Point2f const *)(&dst[0]));
+    cv::Mat result = ::cv::getAffineTransform((::cv::Point2f const *)(&src[0]), (::cv::Point2f const *)(&dst[0]));
     return bp::object( result );
 }
 
 static boost::python::tuple getOptimalNewCameraMatrix_e98b8ab28b52edfb3a210046fcf0527e( ::cv::Mat const & cameraMatrix, ::cv::Mat const & distCoeffs, ::cv::Size imageSize, double alpha, ::cv::Size newImgSize=cv::Size_<int>() ){
     cv::Rect_<int> validPixROI2;
-    ::cv::Mat result = ::cv::getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, imageSize, alpha, newImgSize, &validPixROI2);
+    cv::Mat result = ::cv::getOptimalNewCameraMatrix(cameraMatrix, distCoeffs, imageSize, alpha, newImgSize, &validPixROI2);
     return bp::make_tuple( result, validPixROI2 );
 }
 
 static boost::python::object getPerspectiveTransform_c06a0392152cb20f6b57ae1ff2ac2c11( std::vector<cv::Point_<float> > const & src, std::vector<cv::Point_<float> > const & dst ){
-    ::cv::Mat result = ::cv::getPerspectiveTransform((::cv::Point2f const *)(&src[0]), (::cv::Point2f const *)(&dst[0]));
+    cv::Mat result = ::cv::getPerspectiveTransform((::cv::Point2f const *)(&src[0]), (::cv::Point2f const *)(&dst[0]));
     return bp::object( result );
 }
 
@@ -1477,7 +1477,7 @@ static boost::python::object read_fd962997898e5b5f59cbef9efc942bcd( ::cv::FileNo
 }
 
 static boost::python::object read_31e582223a7f98972af6d67b7558569e( ::cv::FileNode const & node, ::std::string const & default_value ){
-    std::basic_string<char,std::char_traits<char>,std::allocator<char> > value2;
+    std::string value2;
     ::cv::read(node, value2, default_value);
     return bp::object( value2 );
 }
@@ -2178,7 +2178,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::FAST
     
-        typedef boost::python::object ( *FAST_function_type )( ::cv::Mat const &,int,bool );
+        typedef boost::python::object ( *FAST_function_type )( cv::Mat const &,int,bool );
         
         bp::def( 
             "FAST"
@@ -2192,7 +2192,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::HoughCircles
     
-        typedef boost::python::object ( *HoughCircles_function_type )( ::cv::Mat const &,int,double,double,double,double,int,int );
+        typedef boost::python::object ( *HoughCircles_function_type )( cv::Mat const &,int,double,double,double,double,int,int );
         
         bp::def( 
             "HoughCircles"
@@ -2206,7 +2206,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::HoughLines
     
-        typedef boost::python::object ( *HoughLines_function_type )( ::cv::Mat const &,double,double,int,double,double );
+        typedef boost::python::object ( *HoughLines_function_type )( cv::Mat const &,double,double,int,double,double );
         
         bp::def( 
             "HoughLines"
@@ -2220,7 +2220,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::HoughLinesP
     
-        typedef boost::python::object ( *HoughLinesP_function_type )( ::cv::Mat &,double,double,int,double,double );
+        typedef boost::python::object ( *HoughLinesP_function_type )( cv::Mat &,double,double,int,double,double );
         
         bp::def( 
             "HoughLinesP"
@@ -2234,7 +2234,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::HuMoments
     
-        typedef boost::python::object ( *HuMoments_function_type )( ::cv::Moments const & );
+        typedef boost::python::object ( *HuMoments_function_type )( cv::Moments const & );
         
         bp::def( 
             "HuMoments"
@@ -2245,7 +2245,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::approxPolyDP
     
-        typedef boost::python::object ( *approxPolyDP_float32_function_type )( ::cv::Mat const &,double,bool );
+        typedef boost::python::object ( *approxPolyDP_float32_function_type )( cv::Mat const &,double,bool );
         
         bp::def( 
             "approxPolyDP_float32"
@@ -2261,7 +2261,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::approxPolyDP
     
-        typedef boost::python::object ( *approxPolyDP_int_function_type )( ::cv::Mat const &,double,bool );
+        typedef boost::python::object ( *approxPolyDP_int_function_type )( cv::Mat const &,double,bool );
         
         bp::def( 
             "approxPolyDP_int"
@@ -2277,7 +2277,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcBackProject
     
-        typedef void ( *calcBackProject_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,::cv::SparseMat const &,::cv::Mat &,std::vector<std::vector<float> > const &,double,bool );
+        typedef void ( *calcBackProject_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,cv::SparseMat const &,cv::Mat &,std::vector<std::vector<float> > const &,double,bool );
         
         bp::def( 
             "calcBackProject"
@@ -2300,7 +2300,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcBackProject
     
-        typedef void ( *calcBackProject_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,::cv::MatND const &,::cv::Mat &,std::vector<std::vector<float> > const &,double,bool );
+        typedef void ( *calcBackProject_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,cv::MatND const &,cv::Mat &,std::vector<std::vector<float> > const &,double,bool );
         
         bp::def( 
             "calcBackProject"
@@ -2323,7 +2323,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcCovarMatrix
     
-        typedef void ( *calcCovarMatrix_function_type )( std::vector<cv::Mat> const &,::cv::Mat &,::cv::Mat &,int,int );
+        typedef void ( *calcCovarMatrix_function_type )( std::vector<cv::Mat> const &,cv::Mat &,cv::Mat &,int,int );
         
         bp::def( 
             "calcCovarMatrix"
@@ -2343,7 +2343,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcHist
     
-        typedef void ( *calcHist_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,::cv::Mat const &,::cv::SparseMat &,std::vector<int> const &,std::vector<std::vector<float> > const &,bool,bool );
+        typedef void ( *calcHist_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,cv::Mat const &,cv::SparseMat &,std::vector<int> const &,std::vector<std::vector<float> > const &,bool,bool );
         
         bp::def( 
             "calcHist"
@@ -2372,7 +2372,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calcHist
     
-        typedef void ( *calcHist_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,::cv::Mat const &,::cv::MatND &,std::vector<int> const &,std::vector<std::vector<float> > const &,bool,bool );
+        typedef void ( *calcHist_function_type )( std::vector<cv::Mat> const &,std::vector<int> const &,cv::Mat const &,cv::MatND &,std::vector<int> const &,std::vector<std::vector<float> > const &,bool,bool );
         
         bp::def( 
             "calcHist"
@@ -2401,7 +2401,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::calibrateCamera
     
-        typedef boost::python::tuple ( *calibrateCamera_function_type )( ::std::vector<std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > >, std::allocator<std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > > > > const &,::std::vector<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > >, std::allocator<std::vector<cv::Point_<float>, std::allocator<cv::Point_<float> > > > > const &,::cv::Size,::cv::Mat &,::cv::Mat &,int );
+        typedef boost::python::tuple ( *calibrateCamera_function_type )( std::vector<std::vector<cv::Point3_<float> > > const &,std::vector<std::vector<cv::Point_<float> > > const &,::cv::Size,cv::Mat &,cv::Mat &,int );
         
         bp::def( 
             "calibrateCamera"
@@ -2418,7 +2418,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::checkRange
     
-        typedef boost::python::tuple ( *checkRange_function_type )( ::cv::MatND const &,bool,double,double );
+        typedef boost::python::tuple ( *checkRange_function_type )( cv::MatND const &,bool,double,double );
         
         bp::def( 
             "checkRange"
@@ -2437,7 +2437,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::checkRange
     
-        typedef boost::python::tuple ( *checkRange_function_type )( ::cv::Mat const &,bool,double,double );
+        typedef boost::python::tuple ( *checkRange_function_type )( cv::Mat const &,bool,double,double );
         
         bp::def( 
             "checkRange"
@@ -2456,7 +2456,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::computeCorrespondEpilines
     
-        typedef boost::python::object ( *computeCorrespondEpilines_function_type )( ::cv::Mat const &,int,::cv::Mat const & );
+        typedef boost::python::object ( *computeCorrespondEpilines_function_type )( cv::Mat const &,int,cv::Mat const & );
         
         bp::def( 
             "computeCorrespondEpilines"
@@ -2470,7 +2470,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::convertPointsHomogeneous
     
-        typedef boost::python::object ( *convertPointsHomogeneous2D_function_type )( ::cv::Mat const & );
+        typedef boost::python::object ( *convertPointsHomogeneous2D_function_type )( cv::Mat const & );
         
         bp::def( 
             "convertPointsHomogeneous2D"
@@ -2486,7 +2486,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::convertPointsHomogeneous
     
-        typedef boost::python::object ( *convertPointsHomogeneous3D_function_type )( ::cv::Mat const & );
+        typedef boost::python::object ( *convertPointsHomogeneous3D_function_type )( cv::Mat const & );
         
         bp::def( 
             "convertPointsHomogeneous3D"
@@ -2502,7 +2502,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::convexHull
     
-        typedef boost::python::object ( *convexHull_float32_function_type )( ::cv::Mat const &,bool );
+        typedef boost::python::object ( *convexHull_float32_function_type )( cv::Mat const &,bool );
         
         bp::def( 
             "convexHull_float32"
@@ -2518,7 +2518,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::convexHull
     
-        typedef boost::python::object ( *convexHull_int_function_type )( ::cv::Mat const &,bool );
+        typedef boost::python::object ( *convexHull_int_function_type )( cv::Mat const &,bool );
         
         bp::def( 
             "convexHull_int"
@@ -2534,7 +2534,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::convexHull
     
-        typedef boost::python::object ( *convexHullIdx_function_type )( ::cv::Mat const &,bool );
+        typedef boost::python::object ( *convexHullIdx_function_type )( cv::Mat const &,bool );
         
         bp::def( 
             "convexHullIdx"
@@ -3316,7 +3316,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvFindFeatures
     
-        typedef void ( *findFeatures_function_type )( ::CvFeatureTree *,::cv::Mat &,::cv::Mat &,::cv::Mat &,int,int );
+        typedef void ( *findFeatures_function_type )( CvFeatureTree *,::cv::Mat &,::cv::Mat &,::cv::Mat &,int,int );
         
         bp::def( 
             "findFeatures"
@@ -3338,7 +3338,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvFindFeaturesBoxed
     
-        typedef boost::python::object ( *findFeaturesBoxed_function_type )( ::CvFeatureTree *,::cv::Mat &,::cv::Mat &,::cv::Mat & );
+        typedef boost::python::object ( *findFeaturesBoxed_function_type )( CvFeatureTree *,::cv::Mat &,::cv::Mat &,::cv::Mat & );
         
         bp::def( 
             "findFeaturesBoxed"
@@ -3537,7 +3537,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvLSHAdd
     
-        typedef void ( *LSHAdd_function_type )( ::CvLSH *,::cv::Mat &,::cv::Mat );
+        typedef void ( *LSHAdd_function_type )( CvLSH *,::cv::Mat &,::cv::Mat );
         
         bp::def( 
             "LSHAdd"
@@ -3556,7 +3556,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvLSHQuery
     
-        typedef void ( *LSHQuery_function_type )( ::CvLSH *,::cv::Mat &,::cv::Mat &,::cv::Mat &,int,int );
+        typedef void ( *LSHQuery_function_type )( CvLSH *,::cv::Mat &,::cv::Mat &,::cv::Mat &,int,int );
         
         bp::def( 
             "LSHQuery"
@@ -3578,7 +3578,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvLSHRemove
     
-        typedef void ( *LSHRemove_function_type )( ::CvLSH *,::cv::Mat & );
+        typedef void ( *LSHRemove_function_type )( CvLSH *,::cv::Mat & );
         
         bp::def( 
             "LSHRemove"
@@ -3801,7 +3801,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvReleaseConDensation
     
-        typedef void ( *_cvReleaseConDensation_function_type )( ::CvConDensation );
+        typedef void ( *_cvReleaseConDensation_function_type )( CvConDensation );
         
         bp::def( 
             "_cvReleaseConDensation"
@@ -3817,7 +3817,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvReleaseFileStorage
     
-        typedef void ( *_cvReleaseFileStorage_function_type )( ::CvFileStorage );
+        typedef void ( *_cvReleaseFileStorage_function_type )( CvFileStorage );
         
         bp::def( 
             "_cvReleaseFileStorage"
@@ -3833,7 +3833,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvReleasePOSITObject
     
-        typedef void ( *_cvReleasePOSITObject_function_type )( ::CvPOSITObject );
+        typedef void ( *_cvReleasePOSITObject_function_type )( CvPOSITObject );
         
         bp::def( 
             "_cvReleasePOSITObject"
@@ -3849,7 +3849,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvReleaseStereoGCState
     
-        typedef void ( *_cvReleaseStereoGCState_function_type )( ::CvStereoGCState );
+        typedef void ( *_cvReleaseStereoGCState_function_type )( CvStereoGCState );
         
         bp::def( 
             "_cvReleaseStereoGCState"
@@ -4366,7 +4366,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::fillConvexPoly
     
-        typedef void ( *fillConvexPoly_function_type )( ::cv::Mat &,std::vector<cv::Point_<int> > const &,::cv::Scalar const &,int,int );
+        typedef void ( *fillConvexPoly_function_type )( cv::Mat &,std::vector<cv::Point_<int> > const &,::cv::Scalar const &,int,int );
         
         bp::def( 
             "fillConvexPoly"
@@ -4386,7 +4386,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::fillPoly
     
-        typedef void ( *fillPoly_function_type )( ::cv::Mat &,std::vector<std::vector<cv::Point_<int> > > const &,::cv::Scalar const &,int,int,::cv::Point );
+        typedef void ( *fillPoly_function_type )( cv::Mat &,std::vector<std::vector<cv::Point_<int> > > const &,::cv::Scalar const &,int,int,::cv::Point );
         
         bp::def( 
             "fillPoly"
@@ -4409,7 +4409,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::findChessboardCorners
     
-        typedef boost::python::tuple ( *findChessboardCorners_function_type )( ::cv::Mat const &,::cv::Size,int );
+        typedef boost::python::tuple ( *findChessboardCorners_function_type )( cv::Mat const &,::cv::Size,int );
         
         bp::def( 
             "findChessboardCorners"
@@ -4423,7 +4423,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::findContours
     
-        typedef boost::python::object ( *findContours_function_type )( ::cv::Mat &,int,int,::cv::Point );
+        typedef boost::python::object ( *findContours_function_type )( cv::Mat &,int,int,::cv::Point );
         
         bp::def( 
             "findContours"
@@ -4437,7 +4437,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::findContours
     
-        typedef boost::python::tuple ( *findContours_function_type )( ::cv::Mat &,int,int,::cv::Point );
+        typedef boost::python::tuple ( *findContours_function_type )( cv::Mat &,int,int,::cv::Point );
         
         bp::def( 
             "findContours"
@@ -4454,7 +4454,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::findFundamentalMat
     
-        typedef boost::python::tuple ( *findFundamentalMat2_function_type )( ::cv::Mat const &,::cv::Mat const &,int,double,double );
+        typedef boost::python::tuple ( *findFundamentalMat2_function_type )( cv::Mat const &,cv::Mat const &,int,double,double );
         
         bp::def( 
             "findFundamentalMat2"
@@ -4470,7 +4470,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::findHomography
     
-        typedef boost::python::tuple ( *findHomography2_function_type )( ::cv::Mat const &,::cv::Mat const &,int,double );
+        typedef boost::python::tuple ( *findHomography2_function_type )( cv::Mat const &,cv::Mat const &,int,double );
         
         bp::def( 
             "findHomography2"
@@ -4486,7 +4486,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::floodFill
     
-        typedef boost::python::tuple ( *floodFill_function_type )( ::cv::Mat &,::cv::Mat &,::cv::Point,::cv::Scalar,::cv::Scalar,::cv::Scalar,int );
+        typedef boost::python::tuple ( *floodFill_function_type )( cv::Mat &,cv::Mat &,::cv::Point,::cv::Scalar,::cv::Scalar,::cv::Scalar,int );
         
         bp::def( 
             "floodFill"
@@ -4502,7 +4502,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::floodFill
     
-        typedef boost::python::tuple ( *floodFill_function_type )( ::cv::Mat &,::cv::Point,::cv::Scalar,::cv::Scalar,::cv::Scalar,int );
+        typedef boost::python::tuple ( *floodFill_function_type )( cv::Mat &,::cv::Point,::cv::Scalar,::cv::Scalar,::cv::Scalar,int );
         
         bp::def( 
             "floodFill"
@@ -4535,7 +4535,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::getOptimalNewCameraMatrix
     
-        typedef boost::python::tuple ( *getOptimalNewCameraMatrix_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Size,double,::cv::Size );
+        typedef boost::python::tuple ( *getOptimalNewCameraMatrix_function_type )( cv::Mat const &,cv::Mat const &,::cv::Size,double,::cv::Size );
         
         bp::def( 
             "getOptimalNewCameraMatrix"
@@ -4587,7 +4587,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::goodFeaturesToTrack
     
-        typedef boost::python::object ( *goodFeaturesToTrack_function_type )( ::cv::Mat const &,int,double,double,::cv::Mat const &,int,bool,double );
+        typedef boost::python::object ( *goodFeaturesToTrack_function_type )( cv::Mat const &,int,double,double,cv::Mat const &,int,bool,double );
         
         bp::def( 
             "goodFeaturesToTrack"
@@ -4601,7 +4601,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::imencode
     
-        typedef boost::python::tuple ( *imencode_function_type )( ::std::string const &,::cv::Mat const &,::std::vector<int, std::allocator<int> > const & );
+        typedef boost::python::tuple ( *imencode_function_type )( ::std::string const &,cv::Mat const &,std::vector<int> const & );
         
         bp::def( 
             "imencode"
@@ -4618,7 +4618,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::kmeans
     
-        typedef boost::python::tuple ( *kmeans_function_type )( ::cv::Mat const &,int,::cv::Mat &,::cv::TermCriteria,int,int );
+        typedef boost::python::tuple ( *kmeans_function_type )( cv::Mat const &,int,cv::Mat &,cv::TermCriteria,int,int );
         
         bp::def( 
             "kmeans"
@@ -4634,7 +4634,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::minMaxLoc
     
-        typedef boost::python::tuple ( *minMaxLoc_function_type )( ::cv::SparseMat const & );
+        typedef boost::python::tuple ( *minMaxLoc_function_type )( cv::SparseMat const & );
         
         bp::def( 
             "minMaxLoc"
@@ -4668,7 +4668,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::minMaxLoc
     
-        typedef boost::python::tuple ( *minMaxLoc_function_type )( ::cv::MatND const &,::cv::MatND const & );
+        typedef boost::python::tuple ( *minMaxLoc_function_type )( cv::MatND const &,cv::MatND const & );
         
         bp::def( 
             "minMaxLoc"
@@ -4702,7 +4702,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::minMaxLoc
     
-        typedef boost::python::tuple ( *minMaxLoc_function_type )( ::cv::Mat const &,::cv::Mat const & );
+        typedef boost::python::tuple ( *minMaxLoc_function_type )( cv::Mat const &,cv::Mat const & );
         
         bp::def( 
             "minMaxLoc"
@@ -4736,7 +4736,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::mixChannels
     
-        typedef void ( *mixChannels_function_type )( ::std::vector<cv::MatND, std::allocator<cv::MatND> > const &,::std::vector<cv::MatND, std::allocator<cv::MatND> > &,std::vector<int> const &,int );
+        typedef void ( *mixChannels_function_type )( std::vector<cv::MatND> const &,std::vector<cv::MatND> &,std::vector<int> const &,int );
         
         bp::def( 
             "mixChannels"
@@ -4754,7 +4754,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::mixChannels
     
-        typedef void ( *mixChannels_function_type )( ::std::vector<cv::Mat, std::allocator<cv::Mat> > const &,::std::vector<cv::Mat, std::allocator<cv::Mat> > &,std::vector<int> const &,int );
+        typedef void ( *mixChannels_function_type )( std::vector<cv::Mat> const &,std::vector<cv::Mat> &,std::vector<int> const &,int );
         
         bp::def( 
             "mixChannels"
@@ -4772,7 +4772,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::polylines
     
-        typedef void ( *polylines_function_type )( ::cv::Mat &,std::vector<std::vector<cv::Point_<int> > > const &,bool,::cv::Scalar const &,int,int,int );
+        typedef void ( *polylines_function_type )( cv::Mat &,std::vector<std::vector<cv::Point_<int> > > const &,bool,::cv::Scalar const &,int,int,int );
         
         bp::def( 
             "polylines"
@@ -4795,7 +4795,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::projectPoints
     
-        typedef boost::python::object ( *projectPoints2_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,double );
+        typedef boost::python::object ( *projectPoints2_function_type )( cv::Mat const &,cv::Mat const &,cv::Mat const &,cv::Mat const &,cv::Mat const &,cv::Mat &,cv::Mat &,cv::Mat &,cv::Mat &,cv::Mat &,double );
         
         bp::def( 
             "projectPoints2"
@@ -4811,7 +4811,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::projectPoints
     
-        typedef boost::python::object ( *projectPoints_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const & );
+        typedef boost::python::object ( *projectPoints_function_type )( cv::Mat const &,cv::Mat const &,cv::Mat const &,cv::Mat const &,cv::Mat const & );
         
         bp::def( 
             "projectPoints"
@@ -4825,7 +4825,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_list_of_KeyPoint_function_type )( ::cv::FileNode const & );
+        typedef boost::python::object ( *read_list_of_KeyPoint_function_type )( cv::FileNode const & );
         
         bp::def( 
             "read_list_of_KeyPoint"
@@ -4841,7 +4841,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_SparseMat_function_type )( ::cv::FileNode const &,::cv::SparseMat const & );
+        typedef boost::python::object ( *read_SparseMat_function_type )( cv::FileNode const &,cv::SparseMat const & );
         
         bp::def( 
             "read_SparseMat"
@@ -4857,7 +4857,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_MatND_function_type )( ::cv::FileNode const &,::cv::MatND const & );
+        typedef boost::python::object ( *read_MatND_function_type )( cv::FileNode const &,cv::MatND const & );
         
         bp::def( 
             "read_MatND"
@@ -4873,7 +4873,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_Mat_function_type )( ::cv::FileNode const &,::cv::Mat const & );
+        typedef boost::python::object ( *read_Mat_function_type )( cv::FileNode const &,cv::Mat const & );
         
         bp::def( 
             "read_Mat"
@@ -4889,7 +4889,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_str_function_type )( ::cv::FileNode const &,::std::string const & );
+        typedef boost::python::object ( *read_str_function_type )( cv::FileNode const &,::std::string const & );
         
         bp::def( 
             "read_str"
@@ -4905,7 +4905,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_float64_function_type )( ::cv::FileNode const &,double );
+        typedef boost::python::object ( *read_float64_function_type )( cv::FileNode const &,double );
         
         bp::def( 
             "read_float64"
@@ -4921,7 +4921,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_float32_function_type )( ::cv::FileNode const &,float );
+        typedef boost::python::object ( *read_float32_function_type )( cv::FileNode const &,float );
         
         bp::def( 
             "read_float32"
@@ -4937,7 +4937,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_int_function_type )( ::cv::FileNode const &,int );
+        typedef boost::python::object ( *read_int_function_type )( cv::FileNode const &,int );
         
         bp::def( 
             "read_int"
@@ -4953,7 +4953,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_int16_function_type )( ::cv::FileNode const &,short int );
+        typedef boost::python::object ( *read_int16_function_type )( cv::FileNode const &,short int );
         
         bp::def( 
             "read_int16"
@@ -4969,7 +4969,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_uint16_function_type )( ::cv::FileNode const &,::ushort );
+        typedef boost::python::object ( *read_uint16_function_type )( cv::FileNode const &,::ushort );
         
         bp::def( 
             "read_uint16"
@@ -4985,7 +4985,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_int8_function_type )( ::cv::FileNode const &,::schar );
+        typedef boost::python::object ( *read_int8_function_type )( cv::FileNode const &,::schar );
         
         bp::def( 
             "read_int8"
@@ -5001,7 +5001,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_uint8_function_type )( ::cv::FileNode const &,::uchar );
+        typedef boost::python::object ( *read_uint8_function_type )( cv::FileNode const &,::uchar );
         
         bp::def( 
             "read_uint8"
@@ -5017,7 +5017,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::read
     
-        typedef boost::python::object ( *read_bool_function_type )( ::cv::FileNode const &,bool );
+        typedef boost::python::object ( *read_bool_function_type )( cv::FileNode const &,bool );
         
         bp::def( 
             "read_bool"
@@ -5033,7 +5033,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::stereoRectify
     
-        typedef boost::python::tuple ( *stereoRectify2_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Size,::cv::Mat const &,::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,double,::cv::Size,int );
+        typedef boost::python::tuple ( *stereoRectify2_function_type )( cv::Mat const &,cv::Mat const &,cv::Mat const &,cv::Mat const &,::cv::Size,cv::Mat const &,cv::Mat const &,cv::Mat &,cv::Mat &,cv::Mat &,cv::Mat &,cv::Mat &,double,::cv::Size,int );
         
         bp::def( 
             "stereoRectify2"
@@ -5056,7 +5056,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cv::undistortPoints
     
-        typedef boost::python::object ( *undistortPoints2_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const & );
+        typedef boost::python::object ( *undistortPoints2_function_type )( cv::Mat const &,cv::Mat const &,cv::Mat const &,cv::Mat const &,cv::Mat const & );
         
         bp::def( 
             "undistortPoints2"

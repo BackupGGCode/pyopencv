@@ -107,16 +107,16 @@ void register_CvStatModel_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvStatModel >() )    
         .def( 
             "clear"
-            , (void ( ::CvStatModel::* )(  ) )(&::CvStatModel::clear)
+            , (void ( CvStatModel::* )(  ) )(&::CvStatModel::clear)
             , (void ( CvStatModel_wrapper::* )(  ) )(&CvStatModel_wrapper::default_clear) )    
         .def( 
             "load"
-            , (void ( ::CvStatModel::* )( char const *,char const * ) )(&::CvStatModel::load)
+            , (void ( CvStatModel::* )( char const *,char const * ) )(&::CvStatModel::load)
             , (void ( CvStatModel_wrapper::* )( char const *,char const * ) )(&CvStatModel_wrapper::default_load)
             , ( bp::arg("filename"), bp::arg("name")=bp::object() ) )    
         .def( 
             "read"
-            , (void (*)( ::CvStatModel &,::cv::FileStorage &,::cv::FileNode & ))( &CvStatModel_wrapper::default_read )
+            , (void (*)( CvStatModel &,::cv::FileStorage &,::cv::FileNode & ))( &CvStatModel_wrapper::default_read )
             , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
             , "\nArgument 'node':"\
     "\n    C/C++ type: ::CvFileNode *."\
@@ -126,12 +126,12 @@ void register_CvStatModel_class(){
     "\n    Python type: FileStorage." )    
         .def( 
             "save"
-            , (void ( ::CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
+            , (void ( CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
             , (void ( CvStatModel_wrapper::* )( char const *,char const * ) const)(&CvStatModel_wrapper::default_save)
             , ( bp::arg("filename"), bp::arg("name")=bp::object() ) )    
         .def( 
             "write"
-            , (void (*)( ::CvStatModel const &,::cv::FileStorage &,char const * ))( &CvStatModel_wrapper::default_write )
+            , (void (*)( CvStatModel const &,::cv::FileStorage &,char const * ))( &CvStatModel_wrapper::default_write )
             , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
             , "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvFileStorage *."\

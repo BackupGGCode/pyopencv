@@ -15,7 +15,7 @@ void register_vector_vector_Point2d_class(){
         typedef bp::class_< std::vector< std::vector< cv::Point_<double> > > > vector_vector_Point2d_exposer_t;
         vector_vector_Point2d_exposer_t vector_vector_Point2d_exposer = vector_vector_Point2d_exposer_t( "vector_vector_Point2d" );
         bp::scope vector_vector_Point2d_scope( vector_vector_Point2d_exposer );
-        //WARNING: the next line of code will not compile, because "::std::vector<cv::Point_<double>, std::allocator<cv::Point_<double> > >" does not have operator== !
+        //WARNING: the next line of code will not compile, because "std::vector<cv::Point_<double> >" does not have operator== !
         vector_vector_Point2d_exposer.def( bp::vector_indexing_suite< ::std::vector< std::vector< cv::Point_<double> > > >() );
         vector_vector_Point2d_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

@@ -25,7 +25,7 @@ struct CascadeClassifier_wrapper : cv::CascadeClassifier, bp::wrapper< cv::Casca
     }
 
     CascadeClassifier_wrapper(::std::string const & filename )
-    : cv::CascadeClassifier( filename )
+    : cv::CascadeClassifier( boost::ref(filename) )
       , bp::wrapper< cv::CascadeClassifier >(){
         // constructor
     
@@ -97,7 +97,7 @@ void register_CascadeClassifier_class(){
         bp::implicitly_convertible< std::string const &, cv::CascadeClassifier >();
         { //::cv::CascadeClassifier::detectMultiScale
         
-            typedef boost::python::object ( *detectMultiScale_function_type )( ::cv::CascadeClassifier &,::cv::Mat const &,double,int,int,::cv::Size );
+            typedef boost::python::object ( *detectMultiScale_function_type )( cv::CascadeClassifier &,cv::Mat const &,double,int,int,::cv::Size );
             
             CascadeClassifier_exposer.def( 
                 "detectMultiScale"

@@ -15,7 +15,7 @@ void register_vector_MatND_class(){
         typedef bp::class_< std::vector< cv::MatND > > vector_MatND_exposer_t;
         vector_MatND_exposer_t vector_MatND_exposer = vector_MatND_exposer_t( "vector_MatND" );
         bp::scope vector_MatND_scope( vector_MatND_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::MatND" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::MatND" does not have operator== !
         vector_MatND_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::MatND > >() );
         vector_MatND_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

@@ -43,7 +43,7 @@ void register_LinearIndexParams_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::LinearIndexParams >() )    
         .def( 
             "createIndex"
-            , (::flann::Index * ( ::cv::flann::LinearIndexParams::* )( ::cv::Mat const & ) const)(&::cv::flann::LinearIndexParams::createIndex)
+            , (::flann::Index * ( cv::flann::LinearIndexParams::* )( ::cv::Mat const & ) const)(&::cv::flann::LinearIndexParams::createIndex)
             , (::flann::Index * ( LinearIndexParams_wrapper::* )( ::cv::Mat const & ) const)(&LinearIndexParams_wrapper::default_createIndex)
             , ( bp::arg("dataset") )
             , bp::return_value_policy< bp::reference_existing_object >() );

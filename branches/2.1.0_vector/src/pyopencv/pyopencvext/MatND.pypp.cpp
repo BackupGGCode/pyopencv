@@ -42,17 +42,17 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
     }
 
     static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, std::vector<int> const & _newsz=std::vector<int>() ){
-        ::cv::MatND result = inst.reshape(_newcn, (int)(_newsz.size()), (int const *)(&_newsz[0]));
+        cv::MatND result = inst.reshape(_newcn, (int)(_newsz.size()), (int const *)(&_newsz[0]));
         return bp::object( result );
     }
 
     static pyplusplus::containers::static_sized::array_1_t< int, 32>
-    pyplusplus_size_wrapper( ::cv::MatND & inst ){
+    pyplusplus_size_wrapper( cv::MatND & inst ){
         return pyplusplus::containers::static_sized::array_1_t< int, 32>( inst.size );
     }
 
     static pyplusplus::containers::static_sized::array_1_t< size_t, 32>
-    pyplusplus_step_wrapper( ::cv::MatND & inst ){
+    pyplusplus_step_wrapper( cv::MatND & inst ){
         return pyplusplus::containers::static_sized::array_1_t< size_t, 32>( inst.step );
     }
 
@@ -171,7 +171,7 @@ void register_MatND_class(){
         }
         { //::cv::MatND::create
         
-            typedef void ( *create_function_type )( ::cv::MatND &,std::vector<int> const &,int );
+            typedef void ( *create_function_type )( cv::MatND &,std::vector<int> const &,int );
             
             MatND_exposer.def( 
                 "create"
@@ -260,7 +260,7 @@ void register_MatND_class(){
         }
         { //::cv::MatND::reshape
         
-            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,std::vector<int> const & );
+            typedef boost::python::object ( *reshape_function_type )( cv::MatND const &,int,std::vector<int> const & );
             
             MatND_exposer.def( 
                 "reshape"
@@ -308,7 +308,7 @@ void register_MatND_class(){
         MatND_exposer.def_readwrite( "flags", &cv::MatND::flags );
         { //cv::MatND::size [variable], type=int[32]
         
-            typedef pyplusplus::containers::static_sized::array_1_t< int, 32> ( *array_wrapper_creator )( ::cv::MatND & );
+            typedef pyplusplus::containers::static_sized::array_1_t< int, 32> ( *array_wrapper_creator )( cv::MatND & );
             
             MatND_exposer.add_property( "size"
                 , bp::make_function( array_wrapper_creator(&MatND_wrapper::pyplusplus_size_wrapper)
@@ -317,7 +317,7 @@ void register_MatND_class(){
         pyplusplus::containers::static_sized::register_array_1< size_t, 32 >( "__array_1_size_t_32" );
         { //cv::MatND::step [variable], type=size_t[32]
         
-            typedef pyplusplus::containers::static_sized::array_1_t< size_t, 32> ( *array_wrapper_creator )( ::cv::MatND & );
+            typedef pyplusplus::containers::static_sized::array_1_t< size_t, 32> ( *array_wrapper_creator )( cv::MatND & );
             
             MatND_exposer.add_property( "step"
                 , bp::make_function( array_wrapper_creator(&MatND_wrapper::pyplusplus_step_wrapper)

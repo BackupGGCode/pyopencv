@@ -48,7 +48,7 @@ struct PlanarObjectDetector_wrapper : cv::PlanarObjectDetector, bp::wrapper< cv:
 
     static boost::python::tuple __call___353477db407d578b28250d295a56ae36( ::cv::PlanarObjectDetector const & inst, ::std::vector< cv::Mat > const & pyr, ::std::vector< cv::KeyPoint > const & keypoints, ::cv::Mat & H ){
         std::vector<cv::Point_<float> > corners2;
-        std::vector<int, std::allocator<int> > pairs2;
+        std::vector<int> pairs2;
         bool result = inst.operator()(pyr, keypoints, H, corners2, &pairs2);
         return bp::make_tuple( result, corners2, pairs2 );
     }
@@ -101,7 +101,7 @@ void register_PlanarObjectDetector_class(){
         }
         { //::cv::PlanarObjectDetector::operator()
         
-            typedef boost::python::tuple ( *__call___function_type )( ::cv::PlanarObjectDetector const &,::cv::Mat const &,::cv::Mat & );
+            typedef boost::python::tuple ( *__call___function_type )( cv::PlanarObjectDetector const &,cv::Mat const &,cv::Mat & );
             
             PlanarObjectDetector_exposer.def( 
                 "__call__"
@@ -116,7 +116,7 @@ void register_PlanarObjectDetector_class(){
         }
         { //::cv::PlanarObjectDetector::operator()
         
-            typedef boost::python::tuple ( *__call___function_type )( ::cv::PlanarObjectDetector const &,::std::vector<cv::Mat, std::allocator<cv::Mat> > const &,::std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > const &,::cv::Mat & );
+            typedef boost::python::tuple ( *__call___function_type )( cv::PlanarObjectDetector const &,std::vector<cv::Mat> const &,std::vector<cv::KeyPoint> const &,cv::Mat & );
             
             PlanarObjectDetector_exposer.def( 
                 "__call__"

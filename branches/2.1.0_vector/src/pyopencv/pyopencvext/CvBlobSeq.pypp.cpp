@@ -253,7 +253,7 @@ void register_CvBlobSeq_class(){
         }
         { //::CvBlobSeq::Load
         
-            typedef void ( *default_Load_function_type )( ::CvBlobSeq &,::cv::FileStorage &,::cv::FileNode & );
+            typedef void ( *default_Load_function_type )( CvBlobSeq &,::cv::FileStorage &,::cv::FileNode & );
             
             CvBlobSeq_exposer.def( 
                 "Load"
@@ -269,7 +269,7 @@ void register_CvBlobSeq_class(){
         }
         { //::CvBlobSeq::Write
         
-            typedef void ( *default_Write_function_type )( ::CvBlobSeq &,::cv::FileStorage &,char const * );
+            typedef void ( *default_Write_function_type )( CvBlobSeq &,::cv::FileStorage &,char const * );
             
             CvBlobSeq_exposer.def( 
                 "Write"

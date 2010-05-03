@@ -34,7 +34,7 @@ void register_NAryMatNDIterator_class(){
         NAryMatNDIterator_exposer.def( bp::init< >() );
         { //::cv::NAryMatNDIterator::init
         
-            typedef void ( *init_function_type )( ::cv::NAryMatNDIterator &,std::vector<cv::MatND> const & );
+            typedef void ( *init_function_type )( cv::NAryMatNDIterator &,std::vector<cv::MatND> const & );
             
             NAryMatNDIterator_exposer.def( 
                 "init"

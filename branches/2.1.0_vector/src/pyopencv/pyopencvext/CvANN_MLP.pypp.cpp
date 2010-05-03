@@ -234,7 +234,7 @@ void register_CvANN_MLP_class(){
         }
         { //::CvANN_MLP::create
         
-            typedef void ( *default_create_function_type )( ::CvANN_MLP &,::cv::Mat &,int,double,double );
+            typedef void ( *default_create_function_type )( CvANN_MLP &,::cv::Mat &,int,double,double );
             
             CvANN_MLP_exposer.def( 
                 "create"
@@ -278,7 +278,7 @@ void register_CvANN_MLP_class(){
         }
         { //::CvANN_MLP::predict
         
-            typedef boost::python::object ( *default_predict_function_type )( ::CvANN_MLP const &,::cv::Mat &,::cv::Mat & );
+            typedef boost::python::object ( *default_predict_function_type )( CvANN_MLP const &,::cv::Mat &,::cv::Mat & );
             
             CvANN_MLP_exposer.def( 
                 "predict"
@@ -306,7 +306,7 @@ void register_CvANN_MLP_class(){
         }
         { //::CvANN_MLP::read
         
-            typedef void ( *default_read_function_type )( ::CvANN_MLP &,::cv::FileStorage &,::cv::FileNode & );
+            typedef void ( *default_read_function_type )( CvANN_MLP &,::cv::FileStorage &,::cv::FileNode & );
             
             CvANN_MLP_exposer.def( 
                 "read"
@@ -322,7 +322,7 @@ void register_CvANN_MLP_class(){
         }
         { //::CvANN_MLP::train
         
-            typedef boost::python::object ( *default_train_function_type )( ::CvANN_MLP &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat,::CvANN_MLP_TrainParams,int );
+            typedef boost::python::object ( *default_train_function_type )( CvANN_MLP &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat,CvANN_MLP_TrainParams,int );
             
             CvANN_MLP_exposer.def( 
                 "train"
@@ -356,7 +356,7 @@ void register_CvANN_MLP_class(){
         }
         { //::CvANN_MLP::write
         
-            typedef void ( *default_write_function_type )( ::CvANN_MLP const &,::cv::FileStorage &,char const * );
+            typedef void ( *default_write_function_type )( CvANN_MLP const &,::cv::FileStorage &,char const * );
             
             CvANN_MLP_exposer.def( 
                 "write"

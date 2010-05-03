@@ -36,7 +36,7 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
         }
     
         static pyplusplus::containers::static_sized::array_1_t< int, 8>
-        pyplusplus_children_wrapper( ::cv::Octree::Node & inst ){
+        pyplusplus_children_wrapper( cv::Octree::Node & inst ){
             return pyplusplus::containers::static_sized::array_1_t< int, 8>( inst.children );
         }
     
@@ -107,7 +107,7 @@ void register_Octree_class(){
             pyplusplus::containers::static_sized::register_array_1< int, 8 >( "__array_1_int_8" );
             { //cv::Octree::Node::children [variable], type=int[8]
             
-                typedef pyplusplus::containers::static_sized::array_1_t< int, 8> ( *array_wrapper_creator )( ::cv::Octree::Node & );
+                typedef pyplusplus::containers::static_sized::array_1_t< int, 8> ( *array_wrapper_creator )( cv::Octree::Node & );
                 
                 Node_exposer.add_property( "children"
                     , bp::make_function( array_wrapper_creator(&Octree_wrapper::Node_wrapper::pyplusplus_children_wrapper)
@@ -149,7 +149,7 @@ void register_Octree_class(){
         }
         { //::cv::Octree::getPointsWithinSphere
         
-            typedef boost::python::object ( *default_getPointsWithinSphere_function_type )( ::cv::Octree const &,::cv::Point3f const &,float );
+            typedef boost::python::object ( *default_getPointsWithinSphere_function_type )( cv::Octree const &,::cv::Point3f const &,float );
             
             Octree_exposer.def( 
                 "getPointsWithinSphere"

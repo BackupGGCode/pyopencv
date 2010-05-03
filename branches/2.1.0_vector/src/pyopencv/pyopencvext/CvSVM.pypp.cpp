@@ -322,7 +322,7 @@ void register_CvSVM_class(){
         }
         { //::CvSVM::predict
         
-            typedef boost::python::object ( *default_predict_function_type )( ::CvSVM const &,::cv::Mat &,bool );
+            typedef boost::python::object ( *default_predict_function_type )( CvSVM const &,::cv::Mat &,bool );
             
             CvSVM_exposer.def( 
                 "predict"
@@ -347,7 +347,7 @@ void register_CvSVM_class(){
         }
         { //::CvSVM::read
         
-            typedef void ( *default_read_function_type )( ::CvSVM &,::cv::FileStorage &,::cv::FileNode & );
+            typedef void ( *default_read_function_type )( CvSVM &,::cv::FileStorage &,::cv::FileNode & );
             
             CvSVM_exposer.def( 
                 "read"
@@ -363,7 +363,7 @@ void register_CvSVM_class(){
         }
         { //::CvSVM::train
         
-            typedef boost::python::object ( *default_train_function_type )( ::CvSVM &,::cv::Mat &,::cv::Mat &,::cv::Mat,::cv::Mat,::CvSVMParams );
+            typedef boost::python::object ( *default_train_function_type )( CvSVM &,::cv::Mat &,::cv::Mat &,::cv::Mat,::cv::Mat,CvSVMParams );
             
             CvSVM_exposer.def( 
                 "train"
@@ -397,7 +397,7 @@ void register_CvSVM_class(){
         }
         { //::CvSVM::train_auto
         
-            typedef boost::python::object ( *default_train_auto_function_type )( ::CvSVM &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::CvSVMParams,int,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid );
+            typedef boost::python::object ( *default_train_auto_function_type )( CvSVM &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,CvSVMParams,int,CvParamGrid,CvParamGrid,CvParamGrid,CvParamGrid,CvParamGrid,CvParamGrid );
             
             CvSVM_exposer.def( 
                 "train_auto"
@@ -431,7 +431,7 @@ void register_CvSVM_class(){
         }
         { //::CvSVM::write
         
-            typedef void ( *default_write_function_type )( ::CvSVM const &,::cv::FileStorage &,char const * );
+            typedef void ( *default_write_function_type )( CvSVM const &,::cv::FileStorage &,char const * );
             
             CvSVM_exposer.def( 
                 "write"

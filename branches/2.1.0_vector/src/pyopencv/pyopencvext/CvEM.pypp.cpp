@@ -272,7 +272,7 @@ void register_CvEM_class(){
         }
         { //::CvEM::predict
         
-            typedef boost::python::object ( *default_predict_function_type )( ::CvEM const &,::cv::Mat &,::cv::Mat & );
+            typedef boost::python::object ( *default_predict_function_type )( CvEM const &,::cv::Mat &,::cv::Mat & );
             
             CvEM_exposer.def( 
                 "predict"
@@ -300,7 +300,7 @@ void register_CvEM_class(){
         }
         { //::CvEM::train
         
-            typedef boost::python::object ( *default_train_function_type )( ::CvEM &,::cv::Mat &,::cv::Mat,::CvEMParams,::cv::Mat );
+            typedef boost::python::object ( *default_train_function_type )( CvEM &,::cv::Mat &,::cv::Mat,CvEMParams,::cv::Mat );
             
             CvEM_exposer.def( 
                 "train"
@@ -343,7 +343,7 @@ void register_CvEM_class(){
         }
         { //::CvStatModel::read
         
-            typedef void ( *default_read_function_type )( ::CvStatModel &,::cv::FileStorage &,::cv::FileNode & );
+            typedef void ( *default_read_function_type )( CvStatModel &,::cv::FileStorage &,::cv::FileNode & );
             
             CvEM_exposer.def( 
                 "read"
@@ -371,7 +371,7 @@ void register_CvEM_class(){
         }
         { //::CvStatModel::write
         
-            typedef void ( *default_write_function_type )( ::CvStatModel const &,::cv::FileStorage &,char const * );
+            typedef void ( *default_write_function_type )( CvStatModel const &,::cv::FileStorage &,char const * );
             
             CvEM_exposer.def( 
                 "write"

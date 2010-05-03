@@ -15,7 +15,7 @@ void register_vector_Ptr_Mat_class(){
         typedef bp::class_< std::vector< cv::Ptr<cv::Mat> > > vector_Ptr_Mat_exposer_t;
         vector_Ptr_Mat_exposer_t vector_Ptr_Mat_exposer = vector_Ptr_Mat_exposer_t( "vector_Ptr_Mat" );
         bp::scope vector_Ptr_Mat_scope( vector_Ptr_Mat_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::Ptr<cv::Mat>" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::Ptr<cv::Mat>" does not have operator== !
         vector_Ptr_Mat_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::Ptr<cv::Mat> > >() );
         vector_Ptr_Mat_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

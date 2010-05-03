@@ -40,7 +40,7 @@ void register_SURF_class(){
         }
         { //::cv::SURF::operator()
         
-            typedef boost::python::object ( *__call___function_type )( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const & );
+            typedef boost::python::object ( *__call___function_type )( cv::SURF const &,cv::Mat const &,cv::Mat const & );
             
             SURF_exposer.def( 
                 "__call__"
@@ -55,7 +55,7 @@ void register_SURF_class(){
         }
         { //::cv::SURF::operator()
         
-            typedef boost::python::object ( *__call___function_type )( ::cv::SURF const &,::cv::Mat const &,::cv::Mat const &,::std::vector<cv::KeyPoint, std::allocator<cv::KeyPoint> > &,bool );
+            typedef boost::python::object ( *__call___function_type )( cv::SURF const &,cv::Mat const &,cv::Mat const &,std::vector<cv::KeyPoint> &,bool );
             
             SURF_exposer.def( 
                 "__call__"
