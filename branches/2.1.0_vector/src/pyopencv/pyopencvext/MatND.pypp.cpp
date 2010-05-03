@@ -41,7 +41,7 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
         inst.create((int)(_sizes.size()), (int const *)(&_sizes[0]), _type);
     }
 
-    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, std::vector<int> _newsz=std::vector<int>() ){
+    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, std::vector<int> const & _newsz=std::vector<int>() ){
         ::cv::MatND result = inst.reshape(_newcn, (int)(_newsz.size()), (int const *)(&_newsz[0]));
         return bp::object( result );
     }
@@ -260,7 +260,7 @@ void register_MatND_class(){
         }
         { //::cv::MatND::reshape
         
-            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,std::vector<int> );
+            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,std::vector<int> const & );
             
             MatND_exposer.def( 
                 "reshape"

@@ -361,13 +361,11 @@ class input_array1d_t(transformer.transformer_t):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         
         vec_pds = get_vector_pds(self.array_item_type.partial_decl_string)
+        w_arg.type = _D.dummy_type_t( vec_pds+" const &" )
         
+        # what about non-NULL default value?
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.type = _D.dummy_type_t( vec_pds )
             w_arg.default_value = vec_pds+'()'
-        else:
-            w_arg.type = _D.dummy_type_t( vec_pds+" const &" )
-            # what about non-NULL default value?
         
         # input array
         controller.modify_arg_expression( self.arg_index, "(%s)(&%s[0])" \
@@ -467,13 +465,11 @@ class input_list_of_string_t(transformer.transformer_t):
 
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
+        w_arg.type = _D.dummy_type_t('bp::list const &')
         
+        # what about non-NULL default value?
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.type = _D.dummy_type_t('bp::list')
             w_arg.default_value = 'bp::list()'
-        else:
-            w_arg.type = _D.dummy_type_t('bp::list const &')
-            # what about non-NULL default value?
             
         # number of elements
         l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=bp::len(%s)" % w_arg.name )
@@ -571,12 +567,10 @@ class input_array2d_t(transformer.transformer_t):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         elem_pds = common.unique_pds(self.array_item_type.partial_decl_string)
         vec_pds = get_vector_pds(get_vector_pds(elem_pds))
+        w_arg.type = _D.dummy_type_t(vec_pds+" const &")
 
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.type = _D.dummy_type_t(vec_pds)
             w_arg.default_value = vec_pds+"()"
-        else:
-            w_arg.type = _D.dummy_type_t(vec_pds+" const &")
         doc_common(self.function, self.arg, common.get_registered_decl(vec_pds)[0])
         
         if self.remove_arg_size and self.arg_size is not None:
@@ -1263,10 +1257,8 @@ class input_as_FixType_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg(self.arg.name)
-        if self.arg.default_value is None:
-            w_arg.type = _D.dummy_type_t(self.dst_type_pds+" const &")
-        else:
-            w_arg.type = _D.dummy_type_t(self.dst_type_pds)
+        w_arg.type = _D.dummy_type_t(self.dst_type_pds+" const &")
+        if self.arg.default_value is not None:
             s = self.arg.default_value
             repl_dict = {
                 'cvPoint': 'cv::Point',

@@ -1038,7 +1038,7 @@ static boost::python::object cvCreateSubdivDelaunay2D_8eda8e15f20a4d068defcf9afd
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSubdiv2D * >( result ) );
 }
 
-static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, ::cv::Mat & dst, int distance_type=2, std::vector<float> mask=std::vector<float>(), ::cv::Mat labels=cv::Mat() ){
+static void cvDistTransform_68addecae85b6b48cd46044102a6c028( ::cv::Mat & src, ::cv::Mat & dst, int distance_type=2, std::vector<float> const & mask=std::vector<float>(), ::cv::Mat labels=cv::Mat() ){
     ::cvDistTransform(get_CvMat_ptr(src), get_CvMat_ptr(dst), distance_type, (int)(mask.size()), (float const *)(&mask[0]), get_CvMat_ptr(labels));
 }
 
@@ -1160,7 +1160,7 @@ static boost::python::object cvPointSeqFromMat_ef8459cfef37d715411cf088e0da5576(
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
 
-static void cvPyrMeanShiftFiltering_21ec6b7149a6e00a31f1d76aebb9a22b( ::cv::Mat & src, ::cv::Mat & dst, double sp, double sr, int max_level=1, cv::TermCriteria termcrit=cv::TermCriteria(3, 5, 1.0e+0) ){
+static void cvPyrMeanShiftFiltering_21ec6b7149a6e00a31f1d76aebb9a22b( ::cv::Mat & src, ::cv::Mat & dst, double sp, double sr, int max_level=1, cv::TermCriteria const & termcrit=cv::TermCriteria(3, 5, 1.0e+0) ){
     ::cvPyrMeanShiftFiltering(get_CvMat_ptr(src), get_CvMat_ptr(dst), sp, sr, max_level, *(CvTermCriteria *)(&termcrit));
 }
 
@@ -1268,7 +1268,7 @@ static boost::python::object cvStarKeypoint_1c87e44a3d11d1203d898ffe498e82f7( cv
     return bp::object( result );
 }
 
-static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc( ::cv::Mat & image, ::cv::MemStorage & storage, int header_size=88u, int mode=1, int method=2, cv::Point_<int> offset=cv::Point(0, 0) ){
+static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc( ::cv::Mat & image, ::cv::MemStorage & storage, int header_size=88u, int mode=1, int method=2, cv::Point_<int> const & offset=cv::Point(0, 0) ){
     ::CvContourScanner result = ::cvStartFindContours(get_CvMat_ptr(image), (CvMemStorage *)storage, header_size, mode, method, *(CvPoint *)(&offset));
     typedef bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvContourScanner >( result ) );
@@ -3313,7 +3313,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvDistTransform
     
-        typedef void ( *distTransform_function_type )( ::cv::Mat &,::cv::Mat &,int,std::vector<float>,::cv::Mat );
+        typedef void ( *distTransform_function_type )( ::cv::Mat &,::cv::Mat &,int,std::vector<float> const &,::cv::Mat );
         
         bp::def( 
             "distTransform"
@@ -3820,7 +3820,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvPyrMeanShiftFiltering
     
-        typedef void ( *pyrMeanShiftFiltering_function_type )( ::cv::Mat &,::cv::Mat &,double,double,int,cv::TermCriteria );
+        typedef void ( *pyrMeanShiftFiltering_function_type )( ::cv::Mat &,::cv::Mat &,double,double,int,cv::TermCriteria const & );
         
         bp::def( 
             "pyrMeanShiftFiltering"
@@ -4248,7 +4248,7 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     { //::cvStartFindContours
     
-        typedef boost::python::object ( *startFindContours_function_type )( ::cv::Mat &,::cv::MemStorage &,int,int,int,cv::Point_<int> );
+        typedef boost::python::object ( *startFindContours_function_type )( ::cv::Mat &,::cv::MemStorage &,int,int,int,cv::Point_<int> const & );
         
         bp::def( 
             "startFindContours"
