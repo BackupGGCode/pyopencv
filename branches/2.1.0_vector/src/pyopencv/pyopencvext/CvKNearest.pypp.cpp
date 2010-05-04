@@ -172,10 +172,10 @@ void register_CvKNearest_class(){
     "\nArgument '_train_data':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_sample_idx':"\
+    "\nArgument '_responses':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_responses':"\
+    "\nArgument '_sample_idx':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat.") )    
         .def( bp::init< cv::Mat const &, cv::Mat const &, bp::optional< cv::Mat const &, bool, int > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_is_regression")=(bool)(false), bp::arg("max_k")=(int)(32) )) )    
@@ -202,10 +202,10 @@ void register_CvKNearest_class(){
             , "\nArgument '_train_data':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_sample_idx':"\
+    "\nArgument '_responses':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_responses':"\
+    "\nArgument '_sample_idx':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 
@@ -222,12 +222,12 @@ void register_CvKNearest_class(){
             "read"
             , (void (*)( CvStatModel &,::cv::FileStorage &,::cv::FileNode & ))( &CvKNearest_wrapper::default_read )
             , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-            , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'storage':"\
+            , "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." )    
         .def( 
             "save"
             , (void ( CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)

@@ -275,11 +275,13 @@ CV_LKFLOW_GET_MIN_EIGENVALS = 8
 
     # cvCalcOpticalFlowPyrLK
     FT.expose_func(mb.free_fun('cvCalcOpticalFlowPyrLK'), return_pointee=False, transformer_creators=[
-        FT.input_array1d('prev_features', 'count', output_arrays={'curr_features':'1', 'status':'1', 'track_error':'1' })])
+        FT.input_array1d('prev_features', 'count', output_arrays=[('curr_features','1'), 
+            ('status','1'), ('track_error','1')])])
 
     # cvCalcAffineFlowPyrLK
     FT.expose_func(mb.free_fun('cvCalcAffineFlowPyrLK'), return_pointee=False, transformer_creators=[
-        FT.input_array1d('prev_features', 'count', output_arrays={'curr_features':'1', 'matrices':'1', 'status':'1', 'track_error':'1' })])
+        FT.input_array1d('prev_features', 'count', output_arrays=[('curr_features','1'), 
+            ('matrices','1'), ('status','1'), ('track_error','1')])])
 
     # cvSegmentMotion
     FT.expose_func(mb.free_fun('cvSegmentMotion'), ward_indices=(3,))

@@ -320,7 +320,7 @@ class input_array1d_t(transformer.transformer_t):
 
     where v2 is a std::vector object of N elements, whose element type is 'data_type'.
     output_arrays : set of arguments (which are arrays) to be returned as output std::vectors
-        output_arrays is a dictionary of (key,value) pairs. A key is an output argument's name. Its associated value is the number of times that the array's size is multiplied with.
+        output_arrays is a list of (key,value) pairs. A key is an output argument's name. Its associated value is the number of times that the array's size is multiplied with.
     """
 
     def __init__(self, function, arg_ref, arg_size_ref=None, remove_arg_size=True, output_arrays={}):
@@ -388,13 +388,12 @@ class input_array1d_t(transformer.transformer_t):
             doc_dependent(self.function, self.arg_size, self.arg)
 
         # dealing with output arrays
-        for key in self.output_arrays.keys():
+        for key, scale in self.output_arrays:
             oo_arg = self.get_argument(key)            
             oo_idx = self.function.arguments.index(oo_arg)
             oo_elem_pds = common.unique_pds(get_array_item_type(oo_arg.type).partial_decl_string)
             oo_vec_pds = get_vector_pds(oo_elem_pds)
-            oa_init = ("(%s)" % l_arr) if self.output_arrays[key]=='1' \
-                else ("(%s*%s)" % (l_arr, self.output_arrays[key]))
+            oa_init = ("(%s)" % l_arr) if scale=='1' else ("(%s*%s)" % (l_arr, scale))
             oa_arg = controller.declare_variable(_D.dummy_type_t(oo_vec_pds), key, oa_init)
             doc_common(self.function, oo_arg, common.get_registered_decl(oo_vec_pds)[0])
             controller.modify_arg_expression(oo_idx, "(%s)(&%s[0])" \

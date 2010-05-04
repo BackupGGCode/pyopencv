@@ -266,12 +266,12 @@ void register_MatND_class(){
                 "reshape"
                 , reshape_function_type( &MatND_wrapper::reshape )
                 , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=std::vector<int>() )
-                , "\nArgument '_newsz':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: vector_int."\
-    "\nArgument '_newndims':"\
+                , "\nArgument '_newndims':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
-    "\n    argument '_newsz'." );
+    "\n    argument '_newsz'."\
+    "\nArgument '_newsz':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: vector_int." );
         
         }
         { //::cv::MatND::setTo

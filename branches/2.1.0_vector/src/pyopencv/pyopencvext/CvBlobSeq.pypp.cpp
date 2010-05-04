@@ -259,12 +259,12 @@ void register_CvBlobSeq_class(){
                 "Load"
                 , default_Load_function_type( &CvBlobSeq_wrapper::default_Load )
                 , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-                , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'fs':"\
+                , "\nArgument 'fs':"\
     "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." );
         
         }
         { //::CvBlobSeq::Write

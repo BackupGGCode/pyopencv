@@ -394,7 +394,30 @@ def is_arg_touched(f, arg_name):
             if arg_name in cell.cell_contents:
                 return True
     return False
+    
+    
+def sort_transformers(f):
+    # list of function arguments
+    f_args = [x.name for x in f.arguments]
 
+    arg_idx = {}
+    for idx in xrange(len(f._transformer_creators)):
+        t = f._transformer_creators[idx]
+        # get the argument index
+        t_args = t.func_closure[0].cell_contents
+        if not isinstance(t_args, tuple):
+            t_args = t.func_closure[1].cell_contents        
+        for ta in t_args:
+            if ta in f_args:
+                arg_idx[f_args.index(ta)] = idx
+                break
+        else:
+            arg_idx[1000+idx] = idx
+    
+    # rewrite
+    ids = arg_idx.keys()
+    ids.sort()
+    f._transformer_creators = [f._transformer_creators[arg_idx[id]] for id in ids]
 
 def beautify_func_list(self, func_list):
     func_list = [f for f in func_list if not f.ignore]
@@ -484,6 +507,8 @@ def beautify_func_list(self, func_list):
     # final step: apply all the function transformations
     for f in func_list:
         if len(f._transformer_creators) > 0:
+            sort_transformers(f)
+        
             f.add_transformation(*f._transformer_creators, **f._transformer_kwds)
             if 'unique_function_name' in f._transformer_kwds:
                 f.transformations[0].unique_name = f._transformer_kwds['unique_function_name']

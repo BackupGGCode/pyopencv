@@ -186,12 +186,12 @@ void register_SparseMat_class(){
                 "create"
                 , create_function_type( &create_4e9dc46b2911de920c7af1dfbb19412a )
                 , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") )
-                , "\nArgument '_sizes':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: vector_int."\
-    "\nArgument 'dims':"\
+                , "\nArgument 'dims':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
-    "\n    argument '_sizes'." );
+    "\n    argument '_sizes'."\
+    "\nArgument '_sizes':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: vector_int." );
         
         }
         { //::cv::SparseMat::depth
@@ -276,13 +276,13 @@ void register_SparseMat_class(){
                 , ( bp::arg("inst"), bp::arg("idx") )
                 , "\nWrapped function:"
     "\n    erase"
+    "\nArgument 'idx':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: vector_int."\
     "\nArgument 'hashval':"\
     "\n    C/C++ type: ::size_t *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'idx':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: vector_int."\
     "\nReturns:"\
     "\n    hashval" );
         

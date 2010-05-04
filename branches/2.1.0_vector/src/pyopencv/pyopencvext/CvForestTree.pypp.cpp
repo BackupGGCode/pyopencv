@@ -322,36 +322,36 @@ void register_CvForestTree_class(){
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node"), bp::arg("forest"), bp::arg("_data") )
             , "\nWrapped function:"
     "\n    read"
-    "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
     "\nArgument 'fs':"\
     "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." )    
         .def( 
             "read_21f4d9d118da24ef774e945ac72443bf"
             , (void (*)( CvForestTree &,::cv::FileStorage &,::cv::FileNode & ))( &CvForestTree_wrapper::default_read_21f4d9d118da24ef774e945ac72443bf )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
             , "\nWrapped function:"
     "\n    read"
-    "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
     "\nArgument 'fs':"\
     "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." )    
         .def( 
             "read_f1eddefe30282eed3e835c344b312841"
             , (void (*)( CvForestTree &,::cv::FileStorage &,::cv::FileNode &,CvDTreeTrainData * ))( &CvForestTree_wrapper::default_read_f1eddefe30282eed3e835c344b312841 )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node"), bp::arg("data") )
             , "\nWrapped function:"
     "\n    read"
-    "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
     "\nArgument 'fs':"\
     "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." )    
         .def( 
             "train"
             , (boost::python::object (*)( CvForestTree &,CvDTreeTrainData *,::cv::Mat &,CvRTrees * ))( &CvForestTree_wrapper::default_train_4bc7f79d4a1e6910af357373bfa4eddb )
@@ -363,22 +363,22 @@ void register_CvForestTree_class(){
             "train"
             , (boost::python::object (*)( CvForestTree &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,CvDTreeParams ))( &CvForestTree_wrapper::default_train_96f2f7218741280e2a32a5f6ce32c0f0 )
             , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvDTreeParams( ) )
-            , "\nArgument '_missing_mask':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_type':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_sample_idx':"\
+            , "\nArgument '_train_data':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_responses':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_train_data':"\
+    "\nArgument '_var_idx':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample_idx':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_type':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_missing_mask':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 
@@ -406,10 +406,10 @@ void register_CvForestTree_class(){
             "predict"
             , (boost::python::object (*)( CvDTree const &,::cv::Mat &,::cv::Mat,bool ))( &CvForestTree_wrapper::default_predict_76f915d59fbfe6ec6c36b63903c7e6de )
             , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("_missing_data_mask")=cv::Mat(), bp::arg("preprocessed_input")=(bool)(false) )
-            , "\nArgument '_missing_data_mask':"\
+            , "\nArgument '_sample':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_sample':"\
+    "\nArgument '_missing_data_mask':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 

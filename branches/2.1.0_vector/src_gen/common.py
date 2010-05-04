@@ -327,7 +327,10 @@ def add_decl_desc(decl):
         
     try:
         # assume decl is a function
-        for arg in decl._args_docs:
+        for a in decl.arguments:
+            if not a.name in decl._args_docs:
+                continue
+            arg = a.name
             add_decl_boost_doc(decl, "Argument '%s':" % arg)
             for z in decl._args_docs[arg]:
                 add_decl_boost_doc(decl, "    "+z)

@@ -204,26 +204,26 @@ void register_CvNormalBayesClassifier_class(){
             "read"
             , (void (*)( CvNormalBayesClassifier &,::cv::FileStorage &,::cv::FileNode & ))( &CvNormalBayesClassifier_wrapper::default_read )
             , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-            , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'storage':"\
+            , "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." )    
         .def( 
             "train"
             , (boost::python::object (*)( CvNormalBayesClassifier &,::cv::Mat &,::cv::Mat &,::cv::Mat,::cv::Mat,bool ))( &CvNormalBayesClassifier_wrapper::default_train_6a363548a0937608c0ae8843b948b178 )
             , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("update")=(bool)(false) )
-            , "\nArgument '_sample_idx':"\
+            , "\nArgument '_train_data':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_train_data':"\
+    "\nArgument '_responses':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_var_idx':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_responses':"\
+    "\nArgument '_sample_idx':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 

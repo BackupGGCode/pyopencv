@@ -353,12 +353,12 @@ void register_CvSVM_class(){
                 "read"
                 , default_read_function_type( &CvSVM_wrapper::default_read )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-                , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'storage':"\
+                , "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." );
         
         }
         { //::CvSVM::train
@@ -369,16 +369,16 @@ void register_CvSVM_class(){
                 "train"
                 , default_train_function_type( &CvSVM_wrapper::default_train_a051ed21e9e7670e8100d8bda1f730ea )
                 , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )
-                , "\nArgument '_sample_idx':"\
+                , "\nArgument '_train_data':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_train_data':"\
+    "\nArgument '_responses':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_var_idx':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_responses':"\
+    "\nArgument '_sample_idx':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
         
@@ -403,16 +403,16 @@ void register_CvSVM_class(){
                 "train_auto"
                 , default_train_auto_function_type( &CvSVM_wrapper::default_train_auto_8b5d0a3d89137f3ac15eb66fedb4914d )
                 , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx"), bp::arg("_sample_idx"), bp::arg("_params"), bp::arg("k_fold")=(int)(10), bp::arg("C_grid")=CvSVM::get_default_grid(0), bp::arg("gamma_grid")=CvSVM::get_default_grid(1), bp::arg("p_grid")=CvSVM::get_default_grid(2), bp::arg("nu_grid")=CvSVM::get_default_grid(3), bp::arg("coef_grid")=CvSVM::get_default_grid(4), bp::arg("degree_grid")=CvSVM::get_default_grid(5) )
-                , "\nArgument '_sample_idx':"\
+                , "\nArgument '_train_data':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_train_data':"\
+    "\nArgument '_responses':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_var_idx':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_responses':"\
+    "\nArgument '_sample_idx':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
         

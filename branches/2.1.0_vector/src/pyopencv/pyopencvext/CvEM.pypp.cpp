@@ -199,14 +199,14 @@ void register_CvEM_class(){
         bp::scope().attr("START_AUTO_STEP") = (int)CvEM::START_AUTO_STEP;
         CvEM_exposer.def( bp::init< CvMat const *, bp::optional< CvMat const *, CvEMParams, CvMat * > >(( bp::arg("samples"), bp::arg("sample_idx")=bp::object(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() ), "\nWrapped function:"
     "\n    CvEM"
+    "\nArgument 'samples':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
     "\nArgument 'sample_idx':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'labels':"\
     "\n    C/C++ type: ::CvMat *."\
-    "\n    Python type: Mat."\
-    "\nArgument 'samples':"\
-    "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat.") );
         bp::implicitly_convertible< CvMat const *, CvEM >();
         CvEM_exposer.def( bp::init< cv::Mat const &, bp::optional< cv::Mat const &, CvEMParams, cv::Mat * > >(( bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() )) );
@@ -306,14 +306,14 @@ void register_CvEM_class(){
                 "train"
                 , default_train_function_type( &CvEM_wrapper::default_train_ad96ec9280c0f7571752ed3a0ca86d28 )
                 , ( bp::arg("inst"), bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=cv::Mat() )
-                , "\nArgument 'sample_idx':"\
+                , "\nArgument 'samples':"\
+    "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'sample_idx':"\
     "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'labels':"\
     "\n    C/C++ type: ::CvMat *."\
-    "\n    Python type: Mat."\
-    "\nArgument 'samples':"\
-    "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
         
         }
@@ -349,12 +349,12 @@ void register_CvEM_class(){
                 "read"
                 , default_read_function_type( &CvEM_wrapper::default_read )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-                , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'storage':"\
+                , "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." );
         
         }
         { //::CvStatModel::save

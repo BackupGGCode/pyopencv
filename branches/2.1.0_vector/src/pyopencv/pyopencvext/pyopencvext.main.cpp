@@ -853,12 +853,12 @@ static void cvBoxPoints_a61b9e0e802e9997b4fd4c2315f450ae( cv::RotatedRect const 
 
 static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, std::vector<cv::Point_<float> > const & prev_features, cv::Size_<int> const & win_size, int level, cv::TermCriteria const & criteria, int flags ){
     int prev_features2=(int)(prev_features.size());
-    std::vector<char> status2(prev_features2);
-    std::vector<float> track_error2(prev_features2);
     std::vector<cv::Point_<float> > curr_features2(prev_features2);
     std::vector<float> matrices2(prev_features2);
+    std::vector<char> status2(prev_features2);
+    std::vector<float> track_error2(prev_features2);
     ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features[0]), (::CvPoint2D32f *)(&curr_features2[0]), (float *)(&matrices2[0]), prev_features2, *(CvSize *)(&win_size), level, (char *)(&status2[0]), (float *)(&track_error2[0]), *(CvTermCriteria *)(&criteria), flags);
-    return bp::make_tuple( status2, track_error2, curr_features2, matrices2 );
+    return bp::make_tuple( curr_features2, matrices2, status2, track_error2 );
 }
 
 static boost::python::object cvCalcEMD2_f4e5308a9258b3a75a06fb112d06a2e8( ::cv::Mat & signature1, ::cv::Mat & signature2, int distance_type, boost::python::object distance_func=bp::object(), ::cv::Mat cost_matrix=cv::Mat(), ::cv::Mat flow=cv::Mat(), float * lower_bound=0, boost::python::object userdata=bp::object() ){
@@ -910,11 +910,11 @@ static void cvCalcOpticalFlowLK_0539268816232dbc93df209c0dc87327( ::cv::Mat & pr
 
 static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, std::vector<cv::Point_<float> > const & prev_features, cv::Size_<int> const & win_size, int level, cv::TermCriteria const & criteria, int flags ){
     int prev_features2=(int)(prev_features.size());
+    std::vector<cv::Point_<float> > curr_features2(prev_features2);
     std::vector<char> status2(prev_features2);
     std::vector<float> track_error2(prev_features2);
-    std::vector<cv::Point_<float> > curr_features2(prev_features2);
     ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features[0]), (::CvPoint2D32f *)(&curr_features2[0]), prev_features2, *(CvSize *)(&win_size), level, (char *)(&status2[0]), (float *)(&track_error2[0]), *(CvTermCriteria *)(&criteria), flags);
-    return bp::make_tuple( status2, track_error2, curr_features2 );
+    return bp::make_tuple( curr_features2, status2, track_error2 );
 }
 
 static boost::python::object cvCheckChessboard_59f8753d978791ecd1fc97cea5e10f04( ::cv::Mat & src, cv::Size_<int> const & size ){
@@ -2296,12 +2296,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
     "\n    Python type: vector_Mat."\
-    "\nArgument 'channels':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: vector_int."\
     "\nArgument 'nimages':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'images'."\
+    "\nArgument 'channels':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: vector_int."\
     "\nArgument 'ranges':"\
     "\n    C/C++ type: float const * *."\
     "\n    Python type: vector_vector_float32." );
@@ -2319,12 +2319,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nArgument 'images':"\
     "\n    C/C++ type: ::cv::Mat const *."\
     "\n    Python type: vector_Mat."\
-    "\nArgument 'channels':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: vector_int."\
     "\nArgument 'nimages':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'images'."\
+    "\nArgument 'channels':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: vector_int."\
     "\nArgument 'ranges':"\
     "\n    C/C++ type: float const * *."\
     "\n    Python type: vector_vector_float32." );
@@ -2342,12 +2342,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nCalculates covariation matrix of a set of vectors."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#calccovarmatrix"
-    "\nArgument 'nsamples':"\
-    "\n    Dependent argument: omitted from input. Its value is derived from "\
-    "\n    argument 'samples'."\
     "\nArgument 'samples':"\
     "\n    C/C++ type: ::cv::Mat const *."\
-    "\n    Python type: vector_Mat." );
+    "\n    Python type: vector_Mat."\
+    "\nArgument 'nsamples':"\
+    "\n    Dependent argument: omitted from input. Its value is derived from "\
+    "\n    argument 'samples'." );
     
     }
 
@@ -2359,24 +2359,24 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "calcHist"
             , calcHist_function_type( &calcHist_8e436c4da97e1e09468541e1bed60274 )
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), bp::arg("hist"), bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=(bool)(true), bp::arg("accumulate")=(bool)(false) )
-            , "\nArgument 'ranges':"\
-    "\n    C/C++ type: float const * *."\
-    "\n    Python type: vector_vector_float32."\
-    "\nArgument 'histSize':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: vector_int."\
+            , "\nArgument 'images':"\
+    "\n    C/C++ type: ::cv::Mat const *."\
+    "\n    Python type: vector_Mat."\
+    "\nArgument 'nimages':"\
+    "\n    Dependent argument: omitted from input. Its value is derived from "\
+    "\n    argument 'images'."\
     "\nArgument 'channels':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
     "\nArgument 'dims':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'histSize'."\
-    "\nArgument 'images':"\
-    "\n    C/C++ type: ::cv::Mat const *."\
-    "\n    Python type: vector_Mat."\
-    "\nArgument 'nimages':"\
-    "\n    Dependent argument: omitted from input. Its value is derived from "\
-    "\n    argument 'images'." );
+    "\nArgument 'histSize':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: vector_int."\
+    "\nArgument 'ranges':"\
+    "\n    C/C++ type: float const * *."\
+    "\n    Python type: vector_vector_float32." );
     
     }
 
@@ -2388,24 +2388,24 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "calcHist"
             , calcHist_function_type( &calcHist_a4cce9bdd9689d0fb0adf901f467bfa0 )
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), bp::arg("hist"), bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=(bool)(true), bp::arg("accumulate")=(bool)(false) )
-            , "\nArgument 'ranges':"\
-    "\n    C/C++ type: float const * *."\
-    "\n    Python type: vector_vector_float32."\
-    "\nArgument 'histSize':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: vector_int."\
+            , "\nArgument 'images':"\
+    "\n    C/C++ type: ::cv::Mat const *."\
+    "\n    Python type: vector_Mat."\
+    "\nArgument 'nimages':"\
+    "\n    Dependent argument: omitted from input. Its value is derived from "\
+    "\n    argument 'images'."\
     "\nArgument 'channels':"\
     "\n    C/C++ type: int const *."\
     "\n    Python type: vector_int."\
     "\nArgument 'dims':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'histSize'."\
-    "\nArgument 'images':"\
-    "\n    C/C++ type: ::cv::Mat const *."\
-    "\n    Python type: vector_Mat."\
-    "\nArgument 'nimages':"\
-    "\n    Dependent argument: omitted from input. Its value is derived from "\
-    "\n    argument 'images'." );
+    "\nArgument 'histSize':"\
+    "\n    C/C++ type: int const *."\
+    "\n    Python type: vector_int."\
+    "\nArgument 'ranges':"\
+    "\n    C/C++ type: float const * *."\
+    "\n    Python type: vector_vector_float32." );
     
     }
 
@@ -2417,11 +2417,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "calibrateCamera"
             , calibrateCamera_function_type( &calibrateCamera_e3c243276629b1246626096d8ff70485 )
             , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("flags")=(int)(0) )
-            , "\nArgument 'tvecs':"\
+            , "\nArgument 'rvecs':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > &."\
     "\n    Python type: vector_Mat."\
     "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'rvecs':"\
+    "\nArgument 'tvecs':"\
     "\n    C/C++ type: ::std::vector< cv::Mat > &."\
     "\n    Python type: vector_Mat."\
     "\n    Output argument: omitted from input and returned as output."\
@@ -2616,11 +2616,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'image':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
-    "\nArgument 'mask':"\
-    "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat."\
     "\nArgument 'sum':"\
     "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'mask':"\
+    "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat." );
     
     }
@@ -2667,23 +2667,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("prev"), bp::arg("curr"), bp::arg("prev_pyr"), bp::arg("curr_pyr"), bp::arg("prev_features"), bp::arg("win_size"), bp::arg("level"), bp::arg("criteria"), bp::arg("flags") )
             , "\nWrapped function:"
     "\n    cvCalcAffineFlowPyrLK"
-    "\nArgument 'count':"\
-    "\n    Dependent argument: omitted from input. Its value is derived from "\
-    "\n    argument 'prev_features'."\
-    "\nArgument 'status':"\
-    "\n    C/C++ type: char *."\
-    "\n    Python type: vector_int8."\
-    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'prev':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'curr':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
-    "\nArgument 'track_error':"\
-    "\n    C/C++ type: float *."\
-    "\n    Python type: vector_float32."\
-    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'prev_pyr':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
@@ -2693,9 +2682,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'prev_features':"\
     "\n    C/C++ type: ::CvPoint2D32f const *."\
     "\n    Python type: vector_Point2f."\
-    "\nArgument 'criteria':"\
-    "\n    C/C++ type: ::CvTermCriteria."\
-    "\n    Python type: TermCriteria."\
     "\nArgument 'curr_features':"\
     "\n    C/C++ type: ::CvPoint2D32f *."\
     "\n    Python type: vector_Point2f."\
@@ -2704,11 +2690,25 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    C/C++ type: float *."\
     "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from input and returned as output."\
+    "\nArgument 'count':"\
+    "\n    Dependent argument: omitted from input. Its value is derived from "\
+    "\n    argument 'prev_features'."\
     "\nArgument 'win_size':"\
     "\n    C/C++ type: ::CvSize."\
     "\n    Python type: Size2i."\
+    "\nArgument 'status':"\
+    "\n    C/C++ type: char *."\
+    "\n    Python type: vector_int8."\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nArgument 'track_error':"\
+    "\n    C/C++ type: float *."\
+    "\n    Python type: vector_float32."\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nArgument 'criteria':"\
+    "\n    C/C++ type: ::CvTermCriteria."\
+    "\n    Python type: TermCriteria."\
     "\nReturns:"\
-    "\n    (status, track_error, curr_features, matrices)" );
+    "\n    (curr_features, matrices, status, track_error)" );
     
     }
 
@@ -2728,11 +2728,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'signature2':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
-    "\nArgument 'flow':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
     "\nArgument 'cost_matrix':"\
     "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'flow':"\
+    "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat." );
     
     }
@@ -2747,10 +2747,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("orientation"), bp::arg("mask"), bp::arg("mhi"), bp::arg("timestamp"), bp::arg("duration") )
             , "\nWrapped function:"
     "\n    cvCalcGlobalOrientation"
-    "\nArgument 'mask':"\
+    "\nArgument 'orientation':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
-    "\nArgument 'orientation':"\
+    "\nArgument 'mask':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'mhi':"\
@@ -2782,14 +2782,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("mhi"), bp::arg("mask"), bp::arg("orientation"), bp::arg("delta1"), bp::arg("delta2"), bp::arg("aperture_size")=(int)(3) )
             , "\nWrapped function:"
     "\n    cvCalcMotionGradient"
+    "\nArgument 'mhi':"\
+    "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat."\
     "\nArgument 'mask':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
     "\nArgument 'orientation':"\
     "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
-    "\nArgument 'mhi':"\
-    "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat." );
     
     }
@@ -2804,27 +2804,27 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("prev"), bp::arg("curr"), bp::arg("block_size"), bp::arg("shift_size"), bp::arg("max_range"), bp::arg("use_previous"), bp::arg("velx"), bp::arg("vely") )
             , "\nWrapped function:"
     "\n    cvCalcOpticalFlowBM"
-    "\nArgument 'max_range':"\
-    "\n    C/C++ type: ::CvSize."\
-    "\n    Python type: Size2i."\
     "\nArgument 'prev':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'curr':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
+    "\nArgument 'block_size':"\
+    "\n    C/C++ type: ::CvSize."\
+    "\n    Python type: Size2i."\
     "\nArgument 'shift_size':"\
     "\n    C/C++ type: ::CvSize."\
     "\n    Python type: Size2i."\
-    "\nArgument 'vely':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
+    "\nArgument 'max_range':"\
+    "\n    C/C++ type: ::CvSize."\
+    "\n    Python type: Size2i."\
     "\nArgument 'velx':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
-    "\nArgument 'block_size':"\
-    "\n    C/C++ type: ::CvSize."\
-    "\n    Python type: Size2i." );
+    "\nArgument 'vely':"\
+    "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat." );
     
     }
 
@@ -2841,11 +2841,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'prev':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
-    "\nArgument 'flow':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
     "\nArgument 'next':"\
     "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'flow':"\
+    "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat." );
     
     }
@@ -2860,21 +2860,21 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("prev"), bp::arg("curr"), bp::arg("use_previous"), bp::arg("velx"), bp::arg("vely"), bp::arg("lambda"), bp::arg("criteria") )
             , "\nWrapped function:"
     "\n    cvCalcOpticalFlowHS"
-    "\nArgument 'criteria':"\
-    "\n    C/C++ type: ::CvTermCriteria."\
-    "\n    Python type: TermCriteria."\
     "\nArgument 'prev':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'curr':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
+    "\nArgument 'velx':"\
+    "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat."\
     "\nArgument 'vely':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
-    "\nArgument 'velx':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat." );
+    "\nArgument 'criteria':"\
+    "\n    C/C++ type: ::CvTermCriteria."\
+    "\n    Python type: TermCriteria." );
     
     }
 
@@ -2894,13 +2894,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'curr':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
-    "\nArgument 'vely':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
     "\nArgument 'win_size':"\
     "\n    C/C++ type: ::CvSize."\
     "\n    Python type: Size2i."\
     "\nArgument 'velx':"\
+    "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'vely':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat." );
     
@@ -2916,44 +2916,44 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("prev"), bp::arg("curr"), bp::arg("prev_pyr"), bp::arg("curr_pyr"), bp::arg("prev_features"), bp::arg("win_size"), bp::arg("level"), bp::arg("criteria"), bp::arg("flags") )
             , "\nWrapped function:"
     "\n    cvCalcOpticalFlowPyrLK"
-    "\nArgument 'count':"\
-    "\n    Dependent argument: omitted from input. Its value is derived from "\
-    "\n    argument 'prev_features'."\
-    "\nArgument 'status':"\
-    "\n    C/C++ type: char *."\
-    "\n    Python type: vector_int8."\
-    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'prev':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'curr':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
-    "\nArgument 'track_error':"\
-    "\n    C/C++ type: float *."\
-    "\n    Python type: vector_float32."\
-    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'prev_pyr':"\
+    "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'curr_pyr':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
     "\nArgument 'prev_features':"\
     "\n    C/C++ type: ::CvPoint2D32f const *."\
     "\n    Python type: vector_Point2f."\
-    "\nArgument 'criteria':"\
-    "\n    C/C++ type: ::CvTermCriteria."\
-    "\n    Python type: TermCriteria."\
     "\nArgument 'curr_features':"\
     "\n    C/C++ type: ::CvPoint2D32f *."\
     "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'curr_pyr':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
+    "\nArgument 'count':"\
+    "\n    Dependent argument: omitted from input. Its value is derived from "\
+    "\n    argument 'prev_features'."\
     "\nArgument 'win_size':"\
     "\n    C/C++ type: ::CvSize."\
     "\n    Python type: Size2i."\
+    "\nArgument 'status':"\
+    "\n    C/C++ type: char *."\
+    "\n    Python type: vector_int8."\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nArgument 'track_error':"\
+    "\n    C/C++ type: float *."\
+    "\n    Python type: vector_float32."\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nArgument 'criteria':"\
+    "\n    C/C++ type: ::CvTermCriteria."\
+    "\n    Python type: TermCriteria."\
     "\nReturns:"\
-    "\n    (status, track_error, curr_features)" );
+    "\n    (curr_features, status, track_error)" );
     
     }
 
@@ -3078,15 +3078,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("contour"), bp::arg("convexhull"), bp::arg("storage")=cv::MemStorage(0) )
             , "\nWrapped function:"
     "\n    cvConvexityDefects"
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage."\
     "\nArgument 'contour':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'convexhull':"\
     "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat." );
+    "\n    Python type: Mat."\
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
     
     }
 
@@ -3100,19 +3100,19 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("F"), bp::arg("points1"), bp::arg("points2"), bp::arg("new_points1"), bp::arg("new_points2") )
             , "\nWrapped function:"
     "\n    cvCorrectMatches"
+    "\nArgument 'F':"\
+    "\n    C/C++ type: ::CvMat *."\
+    "\n    Python type: Mat."\
     "\nArgument 'points1':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat."\
     "\nArgument 'points2':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat."\
-    "\nArgument 'new_points2':"\
-    "\n    C/C++ type: ::CvMat *."\
-    "\n    Python type: Mat."\
     "\nArgument 'new_points1':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat."\
-    "\nArgument 'F':"\
+    "\nArgument 'new_points2':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat." );
     
@@ -3224,12 +3224,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("rect"), bp::arg("storage") )
             , "\nWrapped function:"
     "\n    cvCreateSubdivDelaunay2D"
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage."\
     "\nArgument 'rect':"\
     "\n    C/C++ type: ::CvRect."\
-    "\n    Python type: Rect." );
+    "\n    Python type: Rect."\
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
     
     }
 
@@ -3249,15 +3249,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'dst':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
-    "\nArgument 'labels':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
+    "\nArgument 'mask_size':"\
+    "\n    Dependent argument: omitted from input. Its value is derived from "\
+    "\n    argument 'mask'."\
     "\nArgument 'mask':"\
     "\n    C/C++ type: float const *."\
     "\n    Python type: vector_float32."\
-    "\nArgument 'mask_size':"\
-    "\n    Dependent argument: omitted from input. Its value is derived from "\
-    "\n    argument 'mask'." );
+    "\nArgument 'labels':"\
+    "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat." );
     
     }
 
@@ -3309,22 +3309,22 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("img"), bp::arg("mask"), bp::arg("keypoints"), bp::arg("params"), bp::arg("useProvidedKeyPts")=(int)(0) )
             , "\nWrapped function:"
     "\n    cvExtractSURF"
+    "\nArgument 'img':"\
+    "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'mask':"\
+    "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'keypoints':"\
+    "\n    C/C++ type: ::CvSeq * *."\
+    "\n    Python type: Seq_CvSURFPoint."\
     "\nArgument 'descriptors':"\
     "\n    C/C++ type: ::CvSeq * *."\
     "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'mask':"\
-    "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat."\
     "\nArgument 'storage':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'keypoints'."\
-    "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::CvSeq * *."\
-    "\n    Python type: Seq_CvSURFPoint."\
-    "\nArgument 'img':"\
-    "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat."\
     "\nReturns:"\
     "\n    descriptors" );
     
@@ -3356,11 +3356,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("tr"), bp::arg("query_points"), bp::arg("indices"), bp::arg("dist"), bp::arg("k"), bp::arg("emax")=(int)(20) )
             , "\nWrapped function:"
     "\n    cvFindFeatures"
-    "\nArgument 'indices':"\
-    "\n    C/C++ type: ::CvMat *."\
-    "\n    Python type: Mat."\
     "\nArgument 'query_points':"\
     "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'indices':"\
+    "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat."\
     "\nArgument 'dist':"\
     "\n    C/C++ type: ::CvMat *."\
@@ -3381,10 +3381,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'bounds_min':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat."\
-    "\nArgument 'out_indices':"\
+    "\nArgument 'bounds_max':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat."\
-    "\nArgument 'bounds_max':"\
+    "\nArgument 'out_indices':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat." );
     
@@ -3416,14 +3416,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("leftImage"), bp::arg("rightImage"), bp::arg("mode"), bp::arg("dispImage"), bp::arg("maxDisparity"), bp::arg("param1")=12345, bp::arg("param2")=12345, bp::arg("param3")=12345, bp::arg("param4")=12345, bp::arg("param5")=12345 )
             , "\nWrapped function:"
     "\n    cvFindStereoCorrespondence"
-    "\nArgument 'dispImage':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
     "\nArgument 'leftImage':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'rightImage':"\
     "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'dispImage':"\
+    "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat." );
     
     }
@@ -3438,17 +3438,17 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("left"), bp::arg("right"), bp::arg("disparityLeft"), bp::arg("disparityRight"), bp::arg("state"), bp::arg("useDisparityGuess")=(int)(0) )
             , "\nWrapped function:"
     "\n    cvFindStereoCorrespondenceGC"
-    "\nArgument 'disparityLeft':"\
-    "\n    C/C++ type: ::CvArr *."\
+    "\nArgument 'left':"\
+    "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'right':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
-    "\nArgument 'disparityRight':"\
+    "\nArgument 'disparityLeft':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
-    "\nArgument 'left':"\
-    "\n    C/C++ type: ::CvArr const *."\
+    "\nArgument 'disparityRight':"\
+    "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat." );
     
     }
@@ -3495,14 +3495,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("map_matrix") )
             , "\nWrapped function:"
     "\n    cvGetQuadrangleSubPix"
-    "\nArgument 'map_matrix':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
     "\nArgument 'src':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'dst':"\
     "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'map_matrix':"\
+    "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
     
     }
@@ -3520,12 +3520,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'count':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'arrs'."\
-    "\nArgument 'mask':"\
-    "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat."\
     "\nArgument 'arrs':"\
     "\n    C/C++ type: ::CvArr * *."\
-    "\n    Python type: vector_Mat." );
+    "\n    Python type: vector_Mat."\
+    "\nArgument 'mask':"\
+    "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat." );
     
     }
 
@@ -3577,11 +3577,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("lsh"), bp::arg("data"), bp::arg("indices")=cv::Mat() )
             , "\nWrapped function:"
     "\n    cvLSHAdd"
-    "\nArgument 'indices':"\
-    "\n    C/C++ type: ::CvMat *."\
-    "\n    Python type: Mat."\
     "\nArgument 'data':"\
     "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'indices':"\
+    "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat." );
     
     }
@@ -3596,11 +3596,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("lsh"), bp::arg("query_points"), bp::arg("indices"), bp::arg("dist"), bp::arg("k"), bp::arg("emax") )
             , "\nWrapped function:"
     "\n    cvLSHQuery"
-    "\nArgument 'indices':"\
-    "\n    C/C++ type: ::CvMat *."\
-    "\n    Python type: Mat."\
     "\nArgument 'query_points':"\
     "\n    C/C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'indices':"\
+    "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat."\
     "\nArgument 'dist':"\
     "\n    C/C++ type: ::CvMat *."\
@@ -3694,14 +3694,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("image1"), bp::arg("image2"), bp::arg("acc"), bp::arg("mask")=cv::Mat() )
             , "\nWrapped function:"
     "\n    cvMultiplyAcc"
-    "\nArgument 'acc':"\
-    "\n    C/C++ type: ::CvArr *."\
+    "\nArgument 'image1':"\
+    "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'image2':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
-    "\nArgument 'image1':"\
-    "\n    C/C++ type: ::CvArr const *."\
+    "\nArgument 'acc':"\
+    "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
     "\nArgument 'mask':"\
     "\n    C/C++ type: ::CvArr const *."\
@@ -3773,19 +3773,19 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("storage"), bp::arg("level"), bp::arg("threshold1"), bp::arg("threshold2") )
             , "\nWrapped function:"
     "\n    cvPyrSegmentation"
-    "\nArgument 'comp':"\
-    "\n    C/C++ type: ::CvSeq * *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from input and returned as output."\
+    "\nArgument 'src':"\
+    "\n    C/C++ type: ::IplImage *."\
+    "\n    Python type: Mat."\
     "\nArgument 'dst':"\
     "\n    C/C++ type: ::IplImage *."\
     "\n    Python type: Mat."\
     "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvMemStorage *."\
     "\n    Python type: MemStorage."\
-    "\nArgument 'src':"\
-    "\n    C/C++ type: ::IplImage *."\
-    "\n    Python type: Mat."\
+    "\nArgument 'comp':"\
+    "\n    C/C++ type: ::CvSeq * *."\
+    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    comp" );
     
@@ -3801,16 +3801,16 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("rng"), bp::arg("arr"), bp::arg("dist_type"), bp::arg("param1"), bp::arg("param2") )
             , "\nWrapped function:"
     "\n    cvRandArr"
-    "\nArgument 'arr':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
     "\nArgument 'rng':"\
     "\n    C/C++ type: ::CvRNG *."\
     "\n    Python type: RNG."\
-    "\nArgument 'param2':"\
+    "\nArgument 'arr':"\
+    "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'param1':"\
     "\n    C/C++ type: ::CvScalar."\
     "\n    Python type: Scalar."\
-    "\nArgument 'param1':"\
+    "\nArgument 'param2':"\
     "\n    C/C++ type: ::CvScalar."\
     "\n    Python type: Scalar." );
     
@@ -3906,14 +3906,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("disparityImage"), bp::arg("_3dImage"), bp::arg("Q"), bp::arg("handleMissingValues")=(int)(0) )
             , "\nWrapped function:"
     "\n    cvReprojectImageTo3D"
-    "\nArgument 'Q':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
     "\nArgument 'disparityImage':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument '_3dImage':"\
     "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'Q':"\
+    "\n    C/C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
     
     }
@@ -3944,11 +3944,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("image"), bp::arg("acc"), bp::arg("alpha"), bp::arg("mask")=cv::Mat() )
             , "\nWrapped function:"
     "\n    cvRunningAvg"
-    "\nArgument 'acc':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
     "\nArgument 'image':"\
     "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'acc':"\
+    "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
     "\nArgument 'mask':"\
     "\n    C/C++ type: ::CvArr const *."\
@@ -3969,10 +3969,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'image':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
-    "\nArgument 'pt2':"\
+    "\nArgument 'pt1':"\
     "\n    C/C++ type: ::CvPoint."\
     "\n    Python type: Point2i."\
-    "\nArgument 'pt1':"\
+    "\nArgument 'pt2':"\
     "\n    C/C++ type: ::CvPoint."\
     "\n    Python type: Point2i." );
     
@@ -4004,11 +4004,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("srcarr"), bp::arg("dstarr"), bp::arg("canny_threshold"), bp::arg("ffill_threshold"), bp::arg("storage") )
             , "\nWrapped function:"
     "\n    cvSegmentImage"
-    "\nArgument 'dstarr':"\
-    "\n    C/C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
     "\nArgument 'srcarr':"\
     "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'dstarr':"\
+    "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
     "\nArgument 'storage':"\
     "\n    C/C++ type: ::CvMemStorage *."\
@@ -4026,15 +4026,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("mhi"), bp::arg("seg_mask"), bp::arg("storage"), bp::arg("timestamp"), bp::arg("seg_thresh") )
             , "\nWrapped function:"
     "\n    cvSegmentMotion"
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage."\
+    "\nArgument 'mhi':"\
+    "\n    C/C++ type: ::CvArr const *."\
+    "\n    Python type: Mat."\
     "\nArgument 'seg_mask':"\
     "\n    C/C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
-    "\nArgument 'mhi':"\
-    "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat." );
+    "\nArgument 'storage':"\
+    "\n    C/C++ type: ::CvMemStorage *."\
+    "\n    Python type: MemStorage." );
     
     }
 
@@ -4142,14 +4142,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("image"), bp::arg("sqsum"), bp::arg("mask")=cv::Mat() )
             , "\nWrapped function:"
     "\n    cvSquareAcc"
-    "\nArgument 'mask':"\
-    "\n    C/C++ type: ::CvArr const *."\
-    "\n    Python type: Mat."\
     "\nArgument 'image':"\
     "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat."\
     "\nArgument 'sqsum':"\
     "\n    C/C++ type: ::CvArr *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'mask':"\
+    "\n    C/C++ type: ::CvArr const *."\
     "\n    Python type: Mat." );
     
     }
@@ -4234,13 +4234,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("subdiv"), bp::arg("pt"), bp::arg("edge") )
             , "\nWrapped function:"
     "\n    cvSubdiv2DLocate"
+    "\nArgument 'pt':"\
+    "\n    C/C++ type: ::CvPoint2D32f."\
+    "\n    Python type: Point2f."\
     "\nArgument 'vertex':"\
     "\n    C/C++ type: ::CvSubdiv2DPoint * *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'pt':"\
-    "\n    C/C++ type: ::CvPoint2D32f."\
-    "\n    Python type: Point2f."\
     "\nReturns:"\
     "\n    ((CvSubdiv2DPointLocation), vertex)" );
     
@@ -4275,10 +4275,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\nArgument 'a':"\
     "\n    C/C++ type: ::CvPoint2D32f."\
     "\n    Python type: Point2f."\
-    "\nArgument 'c':"\
+    "\nArgument 'b':"\
     "\n    C/C++ type: ::CvPoint2D32f."\
     "\n    Python type: Point2f."\
-    "\nArgument 'b':"\
+    "\nArgument 'c':"\
     "\n    C/C++ type: ::CvPoint2D32f."\
     "\n    Python type: Point2f." );
     
@@ -4294,19 +4294,19 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("projMatr1"), bp::arg("projMatr2"), bp::arg("projPoints1"), bp::arg("projPoints2"), bp::arg("points4D") )
             , "\nWrapped function:"
     "\n    cvTriangulatePoints"
-    "\nArgument 'projPoints2':"\
-    "\n    C/C++ type: ::CvMat *."\
-    "\n    Python type: Mat."\
-    "\nArgument 'projPoints1':"\
+    "\nArgument 'projMatr1':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat."\
     "\nArgument 'projMatr2':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat."\
-    "\nArgument 'points4D':"\
+    "\nArgument 'projPoints1':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat."\
-    "\nArgument 'projMatr1':"\
+    "\nArgument 'projPoints2':"\
+    "\n    C/C++ type: ::CvMat *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'points4D':"\
     "\n    C/C++ type: ::CvMat *."\
     "\n    Python type: Mat." );
     
@@ -4389,12 +4389,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("fs"), bp::arg("new_node_name"), bp::arg("node"), bp::arg("embed") )
             , "\nWrapped function:"
     "\n    cvWriteFileNode"
-    "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode const *."\
-    "\n    Python type: FileNode."\
     "\nArgument 'fs':"\
     "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C/C++ type: ::CvFileNode const *."\
+    "\n    Python type: FileNode." );
     
     }
 
@@ -4409,12 +4409,12 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nFills a convex polygon."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillconvexpoly"
-    "\nArgument 'npts':"\
-    "\n    Dependent argument: omitted from input. Its value is derived from "\
-    "\n    argument 'pts'."\
     "\nArgument 'pts':"\
     "\n    C/C++ type: ::cv::Point const *."\
-    "\n    Python type: vector_Point2i." );
+    "\n    Python type: vector_Point2i."\
+    "\nArgument 'npts':"\
+    "\n    Dependent argument: omitted from input. Its value is derived from "\
+    "\n    argument 'pts'." );
     
     }
 
@@ -4429,15 +4429,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nFills the area bounded by one or more polygons."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillpoly"
+    "\nArgument 'pts':"\
+    "\n    C/C++ type: ::cv::Point const * *."\
+    "\n    Python type: vector_vector_Point2i."\
     "\nArgument 'npts':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'pts'."\
     "\nArgument 'ncontours':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
-    "\n    argument 'pts'."\
-    "\nArgument 'pts':"\
-    "\n    C/C++ type: ::cv::Point const * *."\
-    "\n    Python type: vector_vector_Point2i." );
+    "\n    argument 'pts'." );
     
     }
 
@@ -4483,13 +4483,13 @@ BOOST_PYTHON_MODULE(pyopencvext){
             "findContours"
             , findContours_function_type( &findContours_369c42510a246d95804d68f7fdfbd8aa )
             , ( bp::arg("image"), bp::arg("mode"), bp::arg("method"), bp::arg("offset")=cv::Point_<int>() )
-            , "\nArgument 'hierarchy':"\
-    "\n    C/C++ type: ::std::vector< cv::Vec<int, 4> > &."\
-    "\n    Python type: vector_Vec4i."\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'contours':"\
+            , "\nArgument 'contours':"\
     "\n    C/C++ type: ::std::vector< std::vector< cv::Point_<int> > > &."\
     "\n    Python type: vector_vector_Point2i."\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nArgument 'hierarchy':"\
+    "\n    C/C++ type: ::std::vector< cv::Vec<int, 4> > &."\
+    "\n    Python type: vector_Vec4i."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    (contours, hierarchy)" );
@@ -4704,6 +4704,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nFinds global minimum and maximum in a whole array or sub-array."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
+    "\nArgument 'minVal':"\
+    "\n    C/C++ type: double *."\
+    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'maxVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -4714,10 +4718,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'maxIdx':"\
     "\n    C/C++ type: int *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'minVal':"\
-    "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
@@ -4736,6 +4736,10 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nFinds global minimum and maximum in a whole array or sub-array."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
+    "\nArgument 'minVal':"\
+    "\n    C/C++ type: double *."\
+    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'maxVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
@@ -4746,10 +4750,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'maxIdx':"\
     "\n    C/C++ type: int *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'minVal':"\
-    "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
@@ -4768,20 +4768,20 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nFinds global minimum and maximum in a whole array or sub-array."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
-    "\nArgument 'minLoc':"\
-    "\n    C/C++ type: ::cv::Point *."\
+    "\nArgument 'minVal':"\
+    "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'maxVal':"\
     "\n    C/C++ type: double *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'maxLoc':"\
+    "\nArgument 'minLoc':"\
     "\n    C/C++ type: ::cv::Point *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'minVal':"\
-    "\n    C/C++ type: double *."\
+    "\nArgument 'maxLoc':"\
+    "\n    C/C++ type: ::cv::Point *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
@@ -4836,15 +4836,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , "\nDraws several polygonal curves."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-polylines"
+    "\nArgument 'pts':"\
+    "\n    C/C++ type: ::cv::Point const * *."\
+    "\n    Python type: vector_vector_Point2i."\
     "\nArgument 'npts':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'pts'."\
     "\nArgument 'ncontours':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
-    "\n    argument 'pts'."\
-    "\nArgument 'pts':"\
-    "\n    C/C++ type: ::cv::Point const * *."\
-    "\n    Python type: vector_vector_Point2i." );
+    "\n    argument 'pts'." );
     
     }
 
@@ -5117,11 +5117,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
             , ( bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("R1"), bp::arg("R2"), bp::arg("P1"), bp::arg("P2"), bp::arg("Q"), bp::arg("alpha"), bp::arg("newImageSize")=cv::Size_<int>(), bp::arg("flags")=int(::cv::CALIB_ZERO_DISPARITY) )
             , "\nWrapped function:"
     "\n    stereoRectify"
-    "\nArgument 'validPixROI2':"\
+    "\nArgument 'validPixROI1':"\
     "\n    C/C++ type: ::cv::Rect *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'validPixROI1':"\
+    "\nArgument 'validPixROI2':"\
     "\n    C/C++ type: ::cv::Rect *."\
     "\n    Python type: Python equivalence of the C/C++ type without pointer."\
     "\n    Output argument: omitted from input and returned as output."\
