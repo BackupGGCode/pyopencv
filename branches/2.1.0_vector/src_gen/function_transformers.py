@@ -1430,9 +1430,13 @@ class input_as_FixType_t(transformer_t):
             w_arg.default_value = s
             
         if self.by_ref:
-            controller.modify_arg_expression( self.arg_index, "*(%s *)(&%s)" % (self.src_type_pds, w_arg.name) )
+            if _D.is_reference(self.arg.type):
+                src_pds = common.unique_pds(self.arg.type.partial_decl_string)
+            else:
+                src_pds = self.src_type_pds+" const &"
         else:
-            controller.modify_arg_expression( self.arg_index, "(%s)(%s)" % (self.src_type_pds, w_arg.name) )
+            src_pds = self.src_type_pds
+        controller.modify_arg_expression( self.arg_index, "(%s)%s" % (src_pds, w_arg.name) )
 
         # documentation
         doc_common(self.function, self.arg, common.get_decl_equivname(self.dst_type_pds))            

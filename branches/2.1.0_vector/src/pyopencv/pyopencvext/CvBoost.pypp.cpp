@@ -80,10 +80,10 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
         CvMat weak_responses2;
         float result;
         if( dynamic_cast< CvBoost_wrapper const* >( boost::addressof( inst ) ) ){
-            result = inst.::CvBoost::predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing), &weak_responses2, *(CvSlice *)(&slice), raw_mode, return_sum);
+            result = inst.::CvBoost::predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing), &weak_responses2, (CvSlice const &)slice, raw_mode, return_sum);
         }
         else{
-            result = inst.predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing), &weak_responses2, *(CvSlice *)(&slice), raw_mode, return_sum);
+            result = inst.predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing), &weak_responses2, (CvSlice const &)slice, raw_mode, return_sum);
         }
         return bp::make_tuple( result, weak_responses2 );
     }
@@ -103,10 +103,10 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
         cv::Mat weak_responses2;
         float result;
         if( dynamic_cast< CvBoost_wrapper const* >( boost::addressof( inst ) ) ){
-            result = inst.::CvBoost::predict(_sample, _missing, &weak_responses2, *(CvSlice *)(&slice), raw_mode, return_sum);
+            result = inst.::CvBoost::predict(_sample, _missing, &weak_responses2, (CvSlice const &)slice, raw_mode, return_sum);
         }
         else{
-            result = inst.predict(_sample, _missing, &weak_responses2, *(CvSlice *)(&slice), raw_mode, return_sum);
+            result = inst.predict(_sample, _missing, &weak_responses2, (CvSlice const &)slice, raw_mode, return_sum);
         }
         return bp::make_tuple( result, weak_responses2 );
     }
@@ -123,10 +123,10 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
     
     static void default_prune( ::CvBoost & inst, cv::Range const & slice ){
         if( dynamic_cast< CvBoost_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvBoost::prune(*(CvSlice *)(&slice));
+            inst.::CvBoost::prune((CvSlice const &)slice);
         }
         else{
-            inst.prune(*(CvSlice *)(&slice));
+            inst.prune((CvSlice const &)slice);
         }
     }
 

@@ -848,7 +848,7 @@ static boost::python::object cvApproxChains_b8771ffee686c2a91ab4b9fdc5919291( ::
 }
 
 static void cvBoxPoints_a61b9e0e802e9997b4fd4c2315f450ae( cv::RotatedRect const & box, ::CvPoint2D32f * pt ){
-    ::cvBoxPoints(*(CvBox2D *)(&box), pt);
+    ::cvBoxPoints((CvBox2D const &)box, pt);
 }
 
 static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4aa( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, std::vector<cv::Point_<float> > const & prev_features, cv::Size_<int> const & win_size, int level, cv::TermCriteria const & criteria, int flags ){
@@ -857,7 +857,7 @@ static boost::python::tuple cvCalcAffineFlowPyrLK_3a4b3f5dff85e72a121da3f42cded4
     std::vector<float> matrices2(prev_features2);
     std::vector<char> status2(prev_features2);
     std::vector<float> track_error2(prev_features2);
-    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features[0]), (::CvPoint2D32f *)(&curr_features2[0]), (float *)(&matrices2[0]), prev_features2, *(CvSize *)(&win_size), level, (char *)(&status2[0]), (float *)(&track_error2[0]), *(CvTermCriteria *)(&criteria), flags);
+    ::cvCalcAffineFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features[0]), (::CvPoint2D32f *)(&curr_features2[0]), (float *)(&matrices2[0]), prev_features2, (CvSize const &)win_size, level, (char *)(&status2[0]), (float *)(&track_error2[0]), (CvTermCriteria const &)criteria, flags);
     return bp::make_tuple( curr_features2, matrices2, status2, track_error2 );
 }
 
@@ -893,7 +893,7 @@ static void cvCalcMotionGradient_7506fb6ca34b4a6cb9165f5aff081454( ::cv::Mat & m
 }
 
 static void cvCalcOpticalFlowBM_3537c5574d176e4f3dea85450be5ee9f( ::cv::Mat & prev, ::cv::Mat & curr, cv::Size_<int> const & block_size, cv::Size_<int> const & shift_size, cv::Size_<int> const & max_range, int use_previous, ::cv::Mat & velx, ::cv::Mat & vely ){
-    ::cvCalcOpticalFlowBM(get_CvMat_ptr(prev), get_CvMat_ptr(curr), *(CvSize *)(&block_size), *(CvSize *)(&shift_size), *(CvSize *)(&max_range), use_previous, get_CvMat_ptr(velx), get_CvMat_ptr(vely));
+    ::cvCalcOpticalFlowBM(get_CvMat_ptr(prev), get_CvMat_ptr(curr), (CvSize const &)block_size, (CvSize const &)shift_size, (CvSize const &)max_range, use_previous, get_CvMat_ptr(velx), get_CvMat_ptr(vely));
 }
 
 static void cvCalcOpticalFlowFarneback_409b7a55ce4ab8f251cb192176e9376c( ::cv::Mat & prev, ::cv::Mat & next, ::cv::Mat & flow, double pyr_scale, int levels, int winsize, int iterations, int poly_n, double poly_sigma, int flags ){
@@ -901,11 +901,11 @@ static void cvCalcOpticalFlowFarneback_409b7a55ce4ab8f251cb192176e9376c( ::cv::M
 }
 
 static void cvCalcOpticalFlowHS_0757feb4eeb7fd8c38b710aec2f5f8e9( ::cv::Mat & prev, ::cv::Mat & curr, int use_previous, ::cv::Mat & velx, ::cv::Mat & vely, double lambda, cv::TermCriteria const & criteria ){
-    ::cvCalcOpticalFlowHS(get_CvMat_ptr(prev), get_CvMat_ptr(curr), use_previous, get_CvMat_ptr(velx), get_CvMat_ptr(vely), lambda, *(CvTermCriteria *)(&criteria));
+    ::cvCalcOpticalFlowHS(get_CvMat_ptr(prev), get_CvMat_ptr(curr), use_previous, get_CvMat_ptr(velx), get_CvMat_ptr(vely), lambda, (CvTermCriteria const &)criteria);
 }
 
 static void cvCalcOpticalFlowLK_0539268816232dbc93df209c0dc87327( ::cv::Mat & prev, ::cv::Mat & curr, cv::Size_<int> const & win_size, ::cv::Mat & velx, ::cv::Mat & vely ){
-    ::cvCalcOpticalFlowLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), *(CvSize *)(&win_size), get_CvMat_ptr(velx), get_CvMat_ptr(vely));
+    ::cvCalcOpticalFlowLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), (CvSize const &)win_size, get_CvMat_ptr(velx), get_CvMat_ptr(vely));
 }
 
 static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b12836c2( ::cv::Mat & prev, ::cv::Mat & curr, ::cv::Mat & prev_pyr, ::cv::Mat & curr_pyr, std::vector<cv::Point_<float> > const & prev_features, cv::Size_<int> const & win_size, int level, cv::TermCriteria const & criteria, int flags ){
@@ -913,12 +913,12 @@ static boost::python::tuple cvCalcOpticalFlowPyrLK_925fd4448f97740474886f84b1283
     std::vector<cv::Point_<float> > curr_features2(prev_features2);
     std::vector<char> status2(prev_features2);
     std::vector<float> track_error2(prev_features2);
-    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features[0]), (::CvPoint2D32f *)(&curr_features2[0]), prev_features2, *(CvSize *)(&win_size), level, (char *)(&status2[0]), (float *)(&track_error2[0]), *(CvTermCriteria *)(&criteria), flags);
+    ::cvCalcOpticalFlowPyrLK(get_CvMat_ptr(prev), get_CvMat_ptr(curr), get_CvMat_ptr(prev_pyr), get_CvMat_ptr(curr_pyr), (::CvPoint2D32f const *)(&prev_features[0]), (::CvPoint2D32f *)(&curr_features2[0]), prev_features2, (CvSize const &)win_size, level, (char *)(&status2[0]), (float *)(&track_error2[0]), (CvTermCriteria const &)criteria, flags);
     return bp::make_tuple( curr_features2, status2, track_error2 );
 }
 
 static boost::python::object cvCheckChessboard_59f8753d978791ecd1fc97cea5e10f04( ::cv::Mat & src, cv::Size_<int> const & size ){
-    int result = ::cvCheckChessboard(get_IplImage_ptr(src), *(CvSize *)(&size));
+    int result = ::cvCheckChessboard(get_IplImage_ptr(src), (CvSize const &)size);
     return bp::object( result );
 }
 
@@ -937,7 +937,7 @@ static void cvConDensInitSampleSet_2b2c9d04e9f57fb36a248c795590341d( ::CvConDens
 }
 
 static boost::python::object cvContourFromContourTree_47f5c065694c470d5919cd861fe8d325( ::CvContourTree const * tree, ::cv::MemStorage & storage, cv::TermCriteria const & criteria ){
-    ::CvSeq * result = ::cvContourFromContourTree(tree, (CvMemStorage *)storage, *(CvTermCriteria *)(&criteria));
+    ::CvSeq * result = ::cvContourFromContourTree(tree, (CvMemStorage *)storage, (CvTermCriteria const &)criteria);
     typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSeq * >( result ) );
 }
@@ -993,7 +993,7 @@ static boost::python::object cvCreateSubdiv2D_56b293d10aa190d3e2dee490cf17ff0c( 
 }
 
 static boost::python::object cvCreateSubdivDelaunay2D_8eda8e15f20a4d068defcf9afd8ee589( cv::Rect_<int> const & rect, ::cv::MemStorage & storage ){
-    ::CvSubdiv2D * result = ::cvCreateSubdivDelaunay2D(*(CvRect *)(&rect), (CvMemStorage *)storage);
+    ::CvSubdiv2D * result = ::cvCreateSubdivDelaunay2D((CvRect const &)rect, (CvMemStorage *)storage);
     typedef bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSubdiv2D * >( result ) );
 }
@@ -1033,7 +1033,7 @@ static boost::python::object cvFindFeaturesBoxed_6d675cd8257b64f665600bd276900d3
 }
 
 static boost::python::object cvFindNearestPoint2D_4658231361f43a6fc66c2e150f75dca8( ::CvSubdiv2D * subdiv, cv::Point_<float> const & pt ){
-    ::CvSubdiv2DPoint * result = ::cvFindNearestPoint2D(subdiv, *(CvPoint2D32f *)(&pt));
+    ::CvSubdiv2DPoint * result = ::cvFindNearestPoint2D(subdiv, (CvPoint2D32f const &)pt);
     typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSubdiv2DPoint * >( result ) );
 }
@@ -1072,7 +1072,7 @@ static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc5
 }
 
 static void cvInitSubdivDelaunay2D_9125b981b281211984978f2c9ce6eb8b( ::CvSubdiv2D * subdiv, cv::Rect_<int> const & rect ){
-    ::cvInitSubdivDelaunay2D(subdiv, *(CvRect *)(&rect));
+    ::cvInitSubdivDelaunay2D(subdiv, (CvRect const &)rect);
 }
 
 static boost::python::object cvInitSystem_f0aa383f9ae0b2f0bf89bbcb5e73da23( bp::list const & argv ){
@@ -1096,11 +1096,11 @@ static void cvLSHRemove_5f32fb503216c52038c4ae3bf17b62db( ::CvLSH * lsh, ::cv::M
 }
 
 static void cvLinearPolar_b75d44697de3c90f0462366e93d77425( ::cv::Mat & src, ::cv::Mat & dst, cv::Point_<float> const & center, double maxRadius, int flags=9 ){
-    ::cvLinearPolar(get_CvMat_ptr(src), get_CvMat_ptr(dst), *(CvPoint2D32f *)(&center), maxRadius, flags);
+    ::cvLinearPolar(get_CvMat_ptr(src), get_CvMat_ptr(dst), (CvPoint2D32f const &)center, maxRadius, flags);
 }
 
 static void cvLogPolar_27c4d18226a6e750886777db97773f4d( ::cv::Mat & src, ::cv::Mat & dst, cv::Point_<float> const & center, double M, int flags=9 ){
-    ::cvLogPolar(get_CvMat_ptr(src), get_CvMat_ptr(dst), *(CvPoint2D32f *)(&center), M, flags);
+    ::cvLogPolar(get_CvMat_ptr(src), get_CvMat_ptr(dst), (CvPoint2D32f const &)center, M, flags);
 }
 
 static boost::python::object cvMemStorageAllocString_9839ce871d1503bdcc9755acafa55ace( ::cv::MemStorage & storage, char const * ptr, int len=-0x000000001 ){
@@ -1114,7 +1114,7 @@ static void cvMultiplyAcc_c64c83fc39cb1265f3d1a69d9e600a47( ::cv::Mat & image1, 
 }
 
 static void cvPOSIT_87713841f128738a6d8e29669752951a( ::CvPOSITObject * posit_object, ::CvPoint2D32f * image_points, double focal_length, cv::TermCriteria const & criteria, ::CvMatr32f rotation_matrix, ::CvVect32f translation_vector ){
-    ::cvPOSIT(posit_object, image_points, focal_length, *(CvTermCriteria *)(&criteria), rotation_matrix, translation_vector);
+    ::cvPOSIT(posit_object, image_points, focal_length, (CvTermCriteria const &)criteria, rotation_matrix, translation_vector);
 }
 
 static boost::python::object cvPointSeqFromMat_ef8459cfef37d715411cf088e0da5576( int seq_kind, ::cv::Mat & mat, ::CvContour * contour_header, ::CvSeqBlock * block ){
@@ -1124,7 +1124,7 @@ static boost::python::object cvPointSeqFromMat_ef8459cfef37d715411cf088e0da5576(
 }
 
 static void cvPyrMeanShiftFiltering_21ec6b7149a6e00a31f1d76aebb9a22b( ::cv::Mat & src, ::cv::Mat & dst, double sp, double sr, int max_level=1, cv::TermCriteria const & termcrit=cv::TermCriteria(3, 5, 1.0e+0) ){
-    ::cvPyrMeanShiftFiltering(get_CvMat_ptr(src), get_CvMat_ptr(dst), sp, sr, max_level, *(CvTermCriteria *)(&termcrit));
+    ::cvPyrMeanShiftFiltering(get_CvMat_ptr(src), get_CvMat_ptr(dst), sp, sr, max_level, (CvTermCriteria const &)termcrit);
 }
 
 static boost::python::object cvPyrSegmentation_0a5e58f4641f1c9757bb83d3f16f4191( ::cv::Mat & src, ::cv::Mat & dst, ::cv::MemStorage & storage, int level, double threshold1, double threshold2 ){
@@ -1135,7 +1135,7 @@ static boost::python::object cvPyrSegmentation_0a5e58f4641f1c9757bb83d3f16f4191(
 }
 
 static void cvRandArr_7e6e03c94e3a5f654b62b47647889d1d( ::cv::RNG & rng, ::cv::Mat & arr, int dist_type, cv::Scalar_<double> const & param1, cv::Scalar_<double> const & param2 ){
-    ::cvRandArr(&rng.state, get_CvMat_ptr(arr), dist_type, *(CvScalar *)(&param1), *(CvScalar *)(&param2));
+    ::cvRandArr(&rng.state, get_CvMat_ptr(arr), dist_type, (CvScalar const &)param1, (CvScalar const &)param2);
 }
 
 static boost::python::object cvRange_073a997114e2c96bbeff2aaa986e76a1( ::cv::Mat & mat, double start, double end ){
@@ -1177,7 +1177,7 @@ static void cvRunningAvg_16515bd00db4472140aa21554e25bbc7( ::cv::Mat & image, ::
 }
 
 static boost::python::object cvSampleLine_9eb7a74db955c3538aef5be3e7392fc5( ::cv::Mat & image, cv::Point_<int> const & pt1, cv::Point_<int> const & pt2, void * buffer, int connectivity=8 ){
-    int result = ::cvSampleLine(get_CvMat_ptr(image), *(CvPoint *)(&pt1), *(CvPoint *)(&pt2), buffer, connectivity);
+    int result = ::cvSampleLine(get_CvMat_ptr(image), (CvPoint const &)pt1, (CvPoint const &)pt2, buffer, connectivity);
     return bp::object( result );
 }
 
@@ -1205,7 +1205,7 @@ static boost::python::object cvSetMouseCallback_c212defec0903d7de57c5c0b0ee9b03d
 }
 
 static boost::python::object cvSliceLength_e14285df18654820c66883f592fc67a6( cv::Range const & slice, ::CvSeq const * seq ){
-    int result = ::cvSliceLength(*(CvSlice *)(&slice), seq);
+    int result = ::cvSliceLength((CvSlice const &)slice, seq);
     return bp::object( result );
 }
 
@@ -1227,12 +1227,12 @@ static void cvSquareAcc_df8ad076f822a2856ccecbbdf6a2b2b0( ::cv::Mat & image, ::c
 }
 
 static boost::python::object cvStarKeypoint_1c87e44a3d11d1203d898ffe498e82f7( cv::Point_<int> const & pt, int size, float response ){
-    ::CvStarKeypoint result = ::cvStarKeypoint(*(CvPoint *)(&pt), size, response);
+    ::CvStarKeypoint result = ::cvStarKeypoint((CvPoint const &)pt, size, response);
     return bp::object( result );
 }
 
 static boost::python::object cvStartFindContours_1914ce1dccb0d5710ebdf49d4c3d96cc( ::cv::Mat & image, ::cv::MemStorage & storage, int header_size=88u, int mode=1, int method=2, cv::Point_<int> const & offset=cv::Point(0, 0) ){
-    ::CvContourScanner result = ::cvStartFindContours(get_CvMat_ptr(image), (CvMemStorage *)storage, header_size, mode, method, *(CvPoint *)(&offset));
+    ::CvContourScanner result = ::cvStartFindContours(get_CvMat_ptr(image), (CvMemStorage *)storage, header_size, mode, method, (CvPoint const &)offset);
     typedef bp::with_ownershiplevel_postcall< 1, bp::with_custodian_and_ward_postcall< 0, 2, bp::return_value_policy< bp::reference_existing_object > > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvContourScanner >( result ) );
 }
@@ -1247,18 +1247,18 @@ static void cvStartWriteStruct_e7e2128639c3a858bdb332c89468a8e0( ::cv::FileStora
 
 static boost::python::tuple cvSubdiv2DLocate_1df86dbc29fc9de6df2bbdb2196d6db3( ::CvSubdiv2D * subdiv, cv::Point_<float> const & pt, ::CvSubdiv2DEdge * edge ){
     CvSubdiv2DPoint * vertex2=(::CvSubdiv2DPoint *)0;
-    ::CvSubdiv2DPointLocation result = ::cvSubdiv2DLocate(subdiv, *(CvPoint2D32f *)(&pt), edge, &vertex2);
+    ::CvSubdiv2DPointLocation result = ::cvSubdiv2DLocate(subdiv, (CvPoint2D32f const &)pt, edge, &vertex2);
     return bp::make_tuple( result, vertex2 );
 }
 
 static boost::python::object cvSubdivDelaunay2DInsert_0d66ff0b2bc8918d0793f968404f1cb2( ::CvSubdiv2D * subdiv, cv::Point_<float> const & pt ){
-    ::CvSubdiv2DPoint * result = ::cvSubdivDelaunay2DInsert(subdiv, *(CvPoint2D32f *)(&pt));
+    ::CvSubdiv2DPoint * result = ::cvSubdivDelaunay2DInsert(subdiv, (CvPoint2D32f const &)pt);
     typedef bp::with_custodian_and_ward_postcall< 0, 1, bp::return_value_policy< bp::reference_existing_object > > call_policies_t;
     return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvSubdiv2DPoint * >( result ) );
 }
 
 static boost::python::object cvTriangleArea_727599fdabcae9fb78274a766e9dac94( cv::Point_<float> const & a, cv::Point_<float> const & b, cv::Point_<float> const & c ){
-    double result = ::cvTriangleArea(*(CvPoint2D32f *)(&a), *(CvPoint2D32f *)(&b), *(CvPoint2D32f *)(&c));
+    double result = ::cvTriangleArea((CvPoint2D32f const &)a, (CvPoint2D32f const &)b, (CvPoint2D32f const &)c);
     return bp::object( result );
 }
 
