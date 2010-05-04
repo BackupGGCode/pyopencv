@@ -182,7 +182,7 @@ void register_HOGDescriptor_class(){
                 , default_compute_function_type( &HOGDescriptor_wrapper::default_compute )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=std::vector<cv::Point>() )
                 , "\nArgument 'descriptors':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
+    "\n    C++ type: ::std::vector< float > &."\
     "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
@@ -210,7 +210,7 @@ void register_HOGDescriptor_class(){
                 , default_detect_function_type( &HOGDescriptor_wrapper::default_detect )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=std::vector<cv::Point>() )
                 , "\nArgument 'foundLocations':"\
-    "\n    C/C++ type: ::std::vector< cv::Point_<int> > &."\
+    "\n    C++ type: ::std::vector< cv::Point_<int> > &."\
     "\n    Python type: vector_Point2i."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
@@ -226,7 +226,7 @@ void register_HOGDescriptor_class(){
                 , default_detectMultiScale_function_type( &HOGDescriptor_wrapper::default_detectMultiScale )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("scale")=1.05000000000000004440892098500626161694526672363e+0, bp::arg("groupThreshold")=(int)(2) )
                 , "\nArgument 'foundLocations':"\
-    "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
+    "\n    C++ type: ::std::vector< cv::Rect_<int> > &."\
     "\n    Python type: vector_Rect."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\

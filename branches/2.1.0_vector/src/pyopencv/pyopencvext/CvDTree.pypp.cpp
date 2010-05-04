@@ -284,10 +284,10 @@ void register_CvDTree_class(){
             , (boost::python::object (*)( CvDTree const &,::cv::Mat &,::cv::Mat,bool ))( &CvDTree_wrapper::default_predict_76f915d59fbfe6ec6c36b63903c7e6de )
             , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("_missing_data_mask")=cv::Mat(), bp::arg("preprocessed_input")=(bool)(false) )
             , "\nArgument '_sample':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_missing_data_mask':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 
             "predict"
@@ -302,10 +302,10 @@ void register_CvDTree_class(){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage."\
     "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    C++ type: ::CvFileNode *."\
     "\n    Python type: FileNode." )    
         .def( 
             "read_ea82e003cd38c548aefac78eb636ff45"
@@ -314,32 +314,32 @@ void register_CvDTree_class(){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage."\
     "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    C++ type: ::CvFileNode *."\
     "\n    Python type: FileNode." )    
         .def( 
             "train"
             , (boost::python::object (*)( CvDTree &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,CvDTreeParams ))( &CvDTree_wrapper::default_train_e7fbbd1bbcaefbdc1d2bb52c4a4a1164 )
             , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvDTreeParams( ) )
             , "\nArgument '_train_data':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_responses':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_var_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_var_type':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_missing_mask':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 
             "train"
@@ -351,7 +351,7 @@ void register_CvDTree_class(){
             , (boost::python::object (*)( CvDTree &,CvDTreeTrainData *,::cv::Mat & ))( &CvDTree_wrapper::default_train_e18ab36aab283a0a1ad725a1ae852c5c )
             , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_subsample_idx") )
             , "\nArgument '_subsample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 
             "train"
@@ -365,7 +365,7 @@ void register_CvDTree_class(){
             , "\nWrapped function:"
     "\n    write"
     "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." )    
         .def( 
             "write_d1e064f966d50e01902f80ef0f045741"
@@ -374,7 +374,7 @@ void register_CvDTree_class(){
             , "\nWrapped function:"
     "\n    write"
     "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." )    
         .def_readwrite( "pruned_tree_idx", &CvDTree::pruned_tree_idx )    
         .def( 

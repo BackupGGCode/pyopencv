@@ -63,10 +63,10 @@ void register_CvSVMParams_class(){
         .def( bp::init< int, int, double, double, double, double, double, double, CvMat *, CvTermCriteria >(( bp::arg("_svm_type"), bp::arg("_kernel_type"), bp::arg("_degree"), bp::arg("_gamma"), bp::arg("_coef0"), bp::arg("Cvalue"), bp::arg("_nu"), bp::arg("_p"), bp::arg("_class_weights"), bp::arg("_term_crit") ), "\nWrapped function:"
     "\n    CvSVMParams"
     "\nArgument '_class_weights':"\
-    "\n    C/C++ type: ::CvMat *."\
+    "\n    C++ type: ::CvMat *."\
     "\n    Python type: Mat."\
     "\nArgument '_term_crit':"\
-    "\n    C/C++ type: ::CvTermCriteria."\
+    "\n    C++ type: ::CvTermCriteria."\
     "\n    Python type: TermCriteria.") )    
         .def_readwrite( "C", &CvSVMParams::C )    
         .def_readwrite( "coef0", &CvSVMParams::coef0 )    

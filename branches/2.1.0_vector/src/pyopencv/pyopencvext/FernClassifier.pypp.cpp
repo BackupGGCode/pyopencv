@@ -249,7 +249,7 @@ void register_FernClassifier_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'signature':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
+    "\n    C++ type: ::std::vector< float > &."\
     "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
@@ -267,7 +267,7 @@ void register_FernClassifier_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'signature':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
+    "\n    C++ type: ::std::vector< float > &."\
     "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\

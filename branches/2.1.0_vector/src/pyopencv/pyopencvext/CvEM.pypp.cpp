@@ -200,13 +200,13 @@ void register_CvEM_class(){
         CvEM_exposer.def( bp::init< CvMat const *, bp::optional< CvMat const *, CvEMParams, CvMat * > >(( bp::arg("samples"), bp::arg("sample_idx")=bp::object(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() ), "\nWrapped function:"
     "\n    CvEM"
     "\nArgument 'samples':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'labels':"\
-    "\n    C/C++ type: ::CvMat *."\
+    "\n    C++ type: ::CvMat *."\
     "\n    Python type: Mat.") );
         bp::implicitly_convertible< CvMat const *, CvEM >();
         CvEM_exposer.def( bp::init< cv::Mat const &, bp::optional< cv::Mat const &, CvEMParams, cv::Mat * > >(( bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() )) );
@@ -279,10 +279,10 @@ void register_CvEM_class(){
                 , default_predict_function_type( &CvEM_wrapper::default_predict_e2a6ccb3e80d0945b65e2adfc4d80129 )
                 , ( bp::arg("inst"), bp::arg("sample"), bp::arg("probs") )
                 , "\nArgument 'sample':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'probs':"\
-    "\n    C/C++ type: ::CvMat *."\
+    "\n    C++ type: ::CvMat *."\
     "\n    Python type: Mat." );
         
         }
@@ -307,13 +307,13 @@ void register_CvEM_class(){
                 , default_train_function_type( &CvEM_wrapper::default_train_ad96ec9280c0f7571752ed3a0ca86d28 )
                 , ( bp::arg("inst"), bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=cv::Mat() )
                 , "\nArgument 'samples':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'labels':"\
-    "\n    C/C++ type: ::CvMat *."\
+    "\n    C++ type: ::CvMat *."\
     "\n    Python type: Mat." );
         
         }
@@ -350,10 +350,10 @@ void register_CvEM_class(){
                 , default_read_function_type( &CvEM_wrapper::default_read )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
                 , "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage."\
     "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    C++ type: ::CvFileNode *."\
     "\n    Python type: FileNode." );
         
         }
@@ -378,7 +378,7 @@ void register_CvEM_class(){
                 , default_write_function_type( &CvEM_wrapper::default_write )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
                 , "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
         
         }

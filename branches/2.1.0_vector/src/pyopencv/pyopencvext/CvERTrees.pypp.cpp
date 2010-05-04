@@ -271,22 +271,22 @@ void register_CvERTrees_class(){
             , (boost::python::object (*)( CvERTrees &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,CvRTParams ))( &CvERTrees_wrapper::default_train_9f93dc7be6c6cee516880b16f5290b4d )
             , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvRTParams( ) )
             , "\nArgument '_train_data':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_responses':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_var_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_var_type':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_missing_mask':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 
             "train"
@@ -307,16 +307,16 @@ void register_CvERTrees_class(){
             , (boost::python::object (*)( CvRTrees const &,::cv::Mat &,::cv::Mat &,::cv::Mat,::cv::Mat ))( &CvERTrees_wrapper::default_get_proximity )
             , ( bp::arg("inst"), bp::arg("sample1"), bp::arg("sample2"), bp::arg("missing1")=cv::Mat(), bp::arg("missing2")=cv::Mat() )
             , "\nArgument 'sample1':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'sample2':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'missing1':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'missing2':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 
             "get_train_error"
@@ -337,10 +337,10 @@ void register_CvERTrees_class(){
             , (boost::python::object (*)( CvRTrees const &,::cv::Mat &,::cv::Mat ))( &CvERTrees_wrapper::default_predict_8f760c2403d8e76b3c8cb03f101d0997 )
             , ( bp::arg("inst"), bp::arg("sample"), bp::arg("missing")=cv::Mat() )
             , "\nArgument 'sample':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'missing':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 
             "predict"
@@ -352,10 +352,10 @@ void register_CvERTrees_class(){
             , (boost::python::object (*)( CvRTrees const &,::cv::Mat &,::cv::Mat ))( &CvERTrees_wrapper::default_predict_prob_4a1ffb549242708ef963dcd84a06f27d )
             , ( bp::arg("inst"), bp::arg("sample"), bp::arg("missing")=cv::Mat() )
             , "\nArgument 'sample':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'missing':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 
             "predict_prob"
@@ -367,10 +367,10 @@ void register_CvERTrees_class(){
             , (void (*)( CvRTrees &,::cv::FileStorage &,::cv::FileNode & ))( &CvERTrees_wrapper::default_read )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
             , "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage."\
     "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    C++ type: ::CvFileNode *."\
     "\n    Python type: FileNode." )    
         .def( 
             "save"
@@ -382,7 +382,7 @@ void register_CvERTrees_class(){
             , (void (*)( CvRTrees const &,::cv::FileStorage &,char const * ))( &CvERTrees_wrapper::default_write )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
             , "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
 
 }

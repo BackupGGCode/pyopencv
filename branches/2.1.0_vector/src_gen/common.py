@@ -341,10 +341,7 @@ def add_decl_desc(decl):
             if decl.return_type.partial_decl_string!='void':
                 return_type = _D.remove_const(_D.remove_reference(decl.return_type))
                 pds = unique_pds(return_type.partial_decl_string)
-                try:
-                    pds = get_registered_decl(pds)[0]
-                except ValueError:
-                    pass
+                pds = get_registered_decl_name(pds)
                 return_list.append("(%s)" % pds)
             return_list.extend([x.name for x in decl._output_args])
                 
@@ -436,6 +433,14 @@ def get_registered_decl(pds):
         return _decls_reg[upds]
     except KeyError:
         raise ValueError("Class of pds '%s' has not been registered." % pds)
+        
+def get_registered_decl_name(pds):
+    upds = unique_pds(pds)
+    try:
+        return _decls_reg[upds][0]
+    except KeyError:
+        return "(C++)"+upds
+    
         
 def find_classes(pds):
     pds = unique_pds(pds)

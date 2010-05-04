@@ -181,7 +181,7 @@ void register_MatND_class(){
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument '_sizes'."\
     "\nArgument '_sizes':"\
-    "\n    C/C++ type: int const *."\
+    "\n    C++ type: int const *."\
     "\n    Python type: vector_int." );
         
         }
@@ -270,7 +270,7 @@ void register_MatND_class(){
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument '_newsz'."\
     "\nArgument '_newsz':"\
-    "\n    C/C++ type: int const *."\
+    "\n    C++ type: int const *."\
     "\n    Python type: vector_int." );
         
         }

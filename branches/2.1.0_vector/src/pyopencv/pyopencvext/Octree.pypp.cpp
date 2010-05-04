@@ -156,7 +156,7 @@ void register_Octree_class(){
                 , default_getPointsWithinSphere_function_type( &Octree_wrapper::default_getPointsWithinSphere )
                 , ( bp::arg("inst"), bp::arg("center"), bp::arg("radius") )
                 , "\nArgument 'points':"\
-    "\n    C/C++ type: ::std::vector< cv::Point3_<float> > &."\
+    "\n    C++ type: ::std::vector< cv::Point3_<float> > &."\
     "\n    Python type: vector_Point3f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\

@@ -41,7 +41,7 @@ void register_NAryMatNDIterator_class(){
                 , init_function_type( &init_7fe56bf20c87d279d051169d318b592c )
                 , ( bp::arg("inst"), bp::arg("arrays") )
                 , "\nArgument 'arrays':"\
-    "\n    C/C++ type: ::cv::MatND const * *."\
+    "\n    C++ type: ::cv::MatND const * *."\
     "\n    Python type: vector_MatND."\
     "\nArgument 'count':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\

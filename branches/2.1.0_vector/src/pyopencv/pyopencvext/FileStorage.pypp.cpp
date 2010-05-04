@@ -200,7 +200,7 @@ void register_FileStorage_class(){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"
     "\nArgument 'vec':"\
-    "\n    C/C++ type: ::uchar const *."\
+    "\n    C++ type: ::uchar const *."\
     "\n    Python type: vector_uint8."\
     "\nArgument 'len':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\

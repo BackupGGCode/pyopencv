@@ -110,7 +110,7 @@ void register_PlanarObjectDetector_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'corners':"\
-    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
     "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
@@ -128,12 +128,12 @@ void register_PlanarObjectDetector_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'corners':"\
-    "\n    C/C++ type: ::std::vector< cv::Point_<float> > &."\
+    "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
     "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'pairs':"\
-    "\n    C/C++ type: ::std::vector< int > *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    C++ type: ::std::vector< int > *."\
+    "\n    Python type: vector_int."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((bool), corners, pairs)" );

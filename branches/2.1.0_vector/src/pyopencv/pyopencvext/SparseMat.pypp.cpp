@@ -190,7 +190,7 @@ void register_SparseMat_class(){
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument '_sizes'."\
     "\nArgument '_sizes':"\
-    "\n    C/C++ type: int const *."\
+    "\n    C++ type: int const *."\
     "\n    Python type: vector_int." );
         
         }
@@ -241,8 +241,8 @@ void register_SparseMat_class(){
                 , "\nWrapped function:"
     "\n    erase"
     "\nArgument 'hashval':"\
-    "\n    C/C++ type: ::size_t *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    C++ type: ::size_t *."\
+    "\n    Python type: uint."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    hashval" );
@@ -259,8 +259,8 @@ void register_SparseMat_class(){
                 , "\nWrapped function:"
     "\n    erase"
     "\nArgument 'hashval':"\
-    "\n    C/C++ type: ::size_t *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    C++ type: ::size_t *."\
+    "\n    Python type: uint."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    hashval" );
@@ -277,11 +277,11 @@ void register_SparseMat_class(){
                 , "\nWrapped function:"
     "\n    erase"
     "\nArgument 'idx':"\
-    "\n    C/C++ type: int const *."\
+    "\n    C++ type: int const *."\
     "\n    Python type: vector_int."\
     "\nArgument 'hashval':"\
-    "\n    C/C++ type: ::size_t *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
+    "\n    C++ type: ::size_t *."\
+    "\n    Python type: uint."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    hashval" );
@@ -328,7 +328,7 @@ void register_SparseMat_class(){
                 , "\nWrapped function:"
     "\n    hash"
     "\nArgument 'idx':"\
-    "\n    C/C++ type: int const *."\
+    "\n    C++ type: int const *."\
     "\n    Python type: vector_int." );
         
         }

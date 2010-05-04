@@ -49,7 +49,7 @@ void register_SURF_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'keypoints':"\
-    "\n    C/C++ type: ::std::vector< cv::KeyPoint > &."\
+    "\n    C++ type: ::std::vector< cv::KeyPoint > &."\
     "\n    Python type: vector_KeyPoint."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
@@ -67,7 +67,7 @@ void register_SURF_class(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'descriptors':"\
-    "\n    C/C++ type: ::std::vector< float > &."\
+    "\n    C++ type: ::std::vector< float > &."\
     "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\

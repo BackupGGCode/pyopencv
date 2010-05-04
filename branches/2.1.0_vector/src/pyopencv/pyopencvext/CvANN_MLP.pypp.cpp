@@ -241,7 +241,7 @@ void register_CvANN_MLP_class(){
                 , default_create_function_type( &CvANN_MLP_wrapper::default_create_2df16ffe056647bb3693b370c1654006 )
                 , ( bp::arg("inst"), bp::arg("_layer_sizes"), bp::arg("_activ_func")=int(::CvANN_MLP::SIGMOID_SYM), bp::arg("_f_param1")=0, bp::arg("_f_param2")=0 )
                 , "\nArgument '_layer_sizes':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
         
         }
@@ -285,10 +285,10 @@ void register_CvANN_MLP_class(){
                 , default_predict_function_type( &CvANN_MLP_wrapper::default_predict_b2417e3fee351e89cc767f5cf2c03f3c )
                 , ( bp::arg("inst"), bp::arg("_inputs"), bp::arg("_outputs") )
                 , "\nArgument '_inputs':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_outputs':"\
-    "\n    C/C++ type: ::CvMat *."\
+    "\n    C++ type: ::CvMat *."\
     "\n    Python type: Mat." );
         
         }
@@ -313,10 +313,10 @@ void register_CvANN_MLP_class(){
                 , default_read_function_type( &CvANN_MLP_wrapper::default_read )
                 , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
                 , "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage."\
     "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    C++ type: ::CvFileNode *."\
     "\n    Python type: FileNode." );
         
         }
@@ -329,16 +329,16 @@ void register_CvANN_MLP_class(){
                 , default_train_function_type( &CvANN_MLP_wrapper::default_train_9aa430cd36f2c0c2d3639234b6e204fc )
                 , ( bp::arg("inst"), bp::arg("_inputs"), bp::arg("_outputs"), bp::arg("_sample_weights"), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvANN_MLP_TrainParams( ), bp::arg("flags")=(int)(0) )
                 , "\nArgument '_inputs':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_outputs':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_sample_weights':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
         
         }
@@ -363,7 +363,7 @@ void register_CvANN_MLP_class(){
                 , default_write_function_type( &CvANN_MLP_wrapper::default_write )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
                 , "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
         
         }
