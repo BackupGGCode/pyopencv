@@ -10,7 +10,7 @@ PyOpenCV is compatible with OpenCV version 2.0 and 2.1.0. The main line of devel
 
 No, not yet. But it is a feature I hope PyOpenCV will have one day. The main problem is that I do not have a 64-bit platform to test with.
 
-Update: as of May 4th, 2010, PyOpenCV version 2.1.0.wr1.0.2 was reported to be built successfully on OpenSUSE (see issue 11). :)
+Update: as of May 4th, 2010, PyOpenCV version 2.1.0.wr1.0.2 was reported to be built successfully on OpenSUSE (see issue 11).
 
 ===Is PyOpenCV compatible with Python 3?===
 
