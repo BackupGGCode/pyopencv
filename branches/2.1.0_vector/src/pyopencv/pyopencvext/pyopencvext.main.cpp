@@ -152,7 +152,15 @@
 
 #include "pyopencvext/CvHaarStageClassifier.pypp.hpp"
 
+#include "pyopencvext/CvHidHaarClassifier.pypp.hpp"
+
 #include "pyopencvext/CvHidHaarClassifierCascade.pypp.hpp"
+
+#include "pyopencvext/CvHidHaarFeature.pypp.hpp"
+
+#include "pyopencvext/CvHidHaarStageClassifier.pypp.hpp"
+
+#include "pyopencvext/CvHidHaarTreeNode.pypp.hpp"
 
 #include "pyopencvext/CvKNearest.pypp.hpp"
 
@@ -1810,7 +1818,15 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_CvHaarStageClassifier_class();
 
+    register_CvHidHaarClassifier_class();
+
     register_CvHidHaarClassifierCascade_class();
+
+    register_CvHidHaarFeature_class();
+
+    register_CvHidHaarStageClassifier_class();
+
+    register_CvHidHaarTreeNode_class();
 
     register_CvKNearest_class();
 

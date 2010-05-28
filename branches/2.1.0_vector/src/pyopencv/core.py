@@ -1973,6 +1973,8 @@ CV_HAAR_MAGIC_VAL    = 0x42500000
 CV_TYPE_NAME_HAAR    = "opencv-haar-classifier"
 CV_HAAR_FEATURE_MAX  = 3
 
+def CV_IS_HAAR_CLASSIFIER(haar_cascade):
+    return isinstance(haar_cascade, CvHaarClassifierCascade) and         haar_cascade.flags&CV_MAGIC_MASK==CV_HAAR_MAGIC_VAL
 
     
 CvContourScanner._ownershiplevel = 0

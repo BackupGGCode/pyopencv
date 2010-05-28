@@ -102,9 +102,42 @@ def generate_code(mb, cc, D, FT, CP):
         return setImage(_feval, image);
     }
     
+    std::vector<cv::Point> my_dryRun(const cv::Mat &image)
+    {
+        std::vector<cv::Point> pts;
+        my_setImage(feval, image);
+        float bias=0.0001f;
+        CvHidHaarClassifierCascade* cascade = oldCascade->hid_cascade;
+        int i;
+        for(i = 0; i < cascade->count; ++i)
+            cascade->stage_classifier[i].threshold += bias;
+        cv::Point pt;
+        int w1 = oldCascade->orig_window_size.width;
+        int h1 = oldCascade->orig_window_size.height;
+        int w = image.cols-w1;
+        int h = image.rows-h1;
+        double mean, var;
+        for(pt.y = 0; pt.y < h; ++pt.y)
+            for(pt.x = 0; pt.x < w; ++pt.x)
+            {
+                // mean = ((double)(sum.at<int>(pt.y, pt.x) + sum.at<int>(pt.y+h1, pt.x+w1)
+                    // - sum.at<int>(pt.y+h1, pt.x) - sum.at<int>(pt.y, pt.x+w1))) / 
+                    // (w1*h1);
+                // var = ((double)(sqsum.at<int>(pt.y, pt.x) + sqsum.at<int>(pt.y+h1, pt.x+w1)
+                    // - sqsum.at<int>(pt.y+h1, pt.x) - sqsum.at<int>(pt.y, pt.x+w1))) / 
+                    // (w1*h1) - mean*mean;
+                // if(var <= bias) continue;
+                if(my_runAt(feval, pt) > 0) pts.push_back(pt);
+            }
+        for(i = 0; i < cascade->count; ++i)
+            cascade->stage_classifier[i].threshold -= bias;
+        return pts;
+    }
+    
     ''')
     z.add_registration_code('def("runAt", &::CascadeClassifier_wrapper::my_runAt, ( bp::arg("_feval"), bp::arg("pt") ) )')
     z.add_registration_code('def("setImage", &::CascadeClassifier_wrapper::my_setImage, ( bp::arg("_feval"), bp::arg("image") ) )')
+    z.add_registration_code('def("runCascade", &::CascadeClassifier_wrapper::my_dryRun, ( bp::arg("image") ) )')
     mb.finalize_class(z)
     
     # CascadeClassifier's sub-classes

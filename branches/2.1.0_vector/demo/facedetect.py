@@ -5,7 +5,7 @@
 import sys
 from pyopencv import *
 
-cascadeName = "haarcascade_frontalface_alt.xml"
+cascadeName = "minhtri_frontalface.xml"
 nestedCascadeName = "haarcascade_eye_tree_eyeglasses.xml"
 
 def detectAndDraw(img, cascade, nestedCascade, scale):
