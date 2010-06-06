@@ -781,6 +781,21 @@ def __vector__repr__(self):
 def is_vector(cls):
     """Returns whether class 'cls' is a std::vector class."""
     return cls.__name__.startswith('vector_')
+    
+def __vector_create(self, obj):
+    """Creates the vector from a Python sequence.
+    
+    Argument 'obj':
+        a Python sequence
+    """
+    N = len(obj)
+    self.resize(N)
+    if is_vector(self.elem_type):
+        for i in xrange(N):
+            self[i] = self.elem_type.fromlist(obj[i])
+    else:
+        for i in xrange(N):
+            self[i] = obj[i]
 
 def __vector_tolist(self):
     if is_vector(self.elem_type):
@@ -788,14 +803,29 @@ def __vector_tolist(self):
     return [self[i] for i in xrange(len(self))]
 
 def __vector_fromlist(cls, obj):
+    """Creates a vector from a Python sequence.
+    
+    Argument 'obj':
+        a Python sequence
+    """
     z = cls()
-    if is_vector(cls.elem_type):
-        for x in obj:
-            z.append(cls.elem_type.fromlist(x))
-    else:
-        for x in obj:
-            z.append(x)
+    z.create(obj)
     return z
+    
+def __vector__init__(self, obj=None):
+    """Initializes the vector.
+    
+    Argument 'obj':
+        If 'obj' is an integecd r, the vector is initialized as a vector of 
+        'obj' elements. If 'obj' is a Python sequence. The vector is
+        initialized as an equivalence of 'obj' by invoking self.fromlist().
+    """
+    self.__old_init__()
+    if isinstance(obj, int):
+        self.resize(obj)
+    elif not obj is None:
+        self.create(obj)
+    
 ''')
 
 
@@ -816,6 +846,9 @@ for z in mb.classes(lambda x: x.pds.startswith('std::vector<')):
         % z.partial_decl_string)
     z.add_registration_code('def("resize", &::resize, ( bp::arg("num") ))')
     cc.write('''
+CLASS_NAME.__old_init__ = CLASS_NAME.__init__
+CLASS_NAME.__init__ = __vector__init__
+CLASS_NAME.create = __vector_create
 CLASS_NAME.__repr__ = __vector__repr__
 CLASS_NAME.tolist = __vector_tolist
 CLASS_NAME.fromlist = classmethod(__vector_fromlist)
