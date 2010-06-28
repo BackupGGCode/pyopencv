@@ -29,10 +29,17 @@ template<typename T> inline PyTypeObject const *get_pytype() { return 0; }
 class sdobject
 {
 public:
-    sdobject(object const &obj) : obj(obj) {}
+    sdobject(object const &obj) : obj(obj) { incref(obj.ptr()); }
+    ~sdobject() { decref(obj.ptr()); }
     
     object const & get_obj() const { return obj; }
-    sdobject &operator=(sdobject const &inst) { obj = inst.obj; return *this; }
+    sdobject &operator=(sdobject const &inst)
+    {
+        decref(obj.ptr());
+        obj = inst.obj;
+        incref(obj.ptr());
+        return *this;
+    }
 
 protected:
     object obj;

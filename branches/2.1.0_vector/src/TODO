@@ -26,6 +26,8 @@ Add iterator for SparseMat
 
 - expose C functions for class CvSet, write a Set<T> that is a subclass of Seq<T>?
 
+- make_nurse_and_patient(nurse, patient) = keep 'patient' alive as long as 'nurse' is alive, weird.
+
 ------------------------------------------
 Making a snapshot release using setuptools:
 
