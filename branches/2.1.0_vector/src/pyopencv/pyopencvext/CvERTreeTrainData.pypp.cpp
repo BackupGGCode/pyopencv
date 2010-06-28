@@ -226,21 +226,9 @@ struct CvERTreeTrainData_wrapper : CvERTreeTrainData, bp::wrapper< CvERTreeTrain
         }
     }
 
-    cv::Mat missing_mask_as_Mat;
-    CvMat missing_mask_as_CvMat;
-    void set_missing_mask(cv::Mat const &new_missing_mask)
-    {
-        missing_mask_as_Mat = new_missing_mask; // to keep a reference to missing_mask
-        missing_mask_as_CvMat = missing_mask_as_Mat; // to ensure missing_mask points to a valid CvMat
-        missing_mask = &missing_mask_as_CvMat;
-    }
-    cv::Mat & get_missing_mask()
-    {
-        if(missing_mask != &missing_mask_as_CvMat) set_missing_mask(cv::Mat(missing_mask));
-        return missing_mask_as_Mat;
-    }
-
 };
+
+static cv::Mat get_missing_mask(::CvERTreeTrainData const &inst) { return inst.missing_mask? cv::Mat(inst.missing_mask): cv::Mat(); }
 
 void register_CvERTreeTrainData_class(){
 
@@ -342,7 +330,6 @@ void register_CvERTreeTrainData_class(){
             , "\nArgument 'fs':"\
     "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." )    
-        .add_property( "missing_mask", bp::make_function(&::CvERTreeTrainData_wrapper::get_missing_mask, bp::return_internal_reference<>()),
-        &::CvERTreeTrainData_wrapper::set_missing_mask);
+        .add_property( "missing_mask", &::get_missing_mask );
 
 }

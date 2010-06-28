@@ -40,15 +40,23 @@ struct CvSVMParams_wrapper : CvSVMParams, bp::wrapper< CvSVMParams > {
 
     cv::Mat class_weights_as_Mat;
     CvMat class_weights_as_CvMat;
+    void update_class_weights()
+    {
+        if(class_weights_as_Mat.empty()) class_weights = 0; // NULL pointer
+        else
+        {
+            class_weights_as_CvMat = class_weights_as_Mat; // to ensure class_weights points to a valid CvMat
+            class_weights = &class_weights_as_CvMat;
+        }
+    }
     void set_class_weights(cv::Mat const &new_class_weights)
     {
         class_weights_as_Mat = new_class_weights; // to keep a reference to class_weights
-        class_weights_as_CvMat = class_weights_as_Mat; // to ensure class_weights points to a valid CvMat
-        class_weights = &class_weights_as_CvMat;
+        update_class_weights();
     }
     cv::Mat & get_class_weights()
     {
-        if(class_weights != &class_weights_as_CvMat) set_class_weights(cv::Mat(class_weights));
+        update_class_weights();
         return class_weights_as_Mat;
     }
 
@@ -78,7 +86,8 @@ void register_CvSVMParams_class(){
         .def_readwrite( "svm_type", &CvSVMParams::svm_type )    
         .def( bp::init< int, int, double, double, double, double, double, double, cv::Mat const &, cv::TermCriteria const & >(( bp::arg("_svm_type"), bp::arg("_kernel_type"), bp::arg("_degree"), bp::arg("_gamma"), bp::arg("_coef0"), bp::arg("_C"), bp::arg("_nu"), bp::arg("_p"), bp::arg("_class_weights"), bp::arg("_term_crit") )) )    
         .add_property( "class_weights", bp::make_function(&::CvSVMParams_wrapper::get_class_weights, bp::return_internal_reference<>()),
-        &::CvSVMParams_wrapper::set_class_weights)    
+            &::CvSVMParams_wrapper::set_class_weights)    
+        .def( "validate_class_weights", &::CvSVMParams_wrapper::update_class_weights, "Updates the internal C pointer that represents 'class_weights'. The function should be called every time the header of 'class_weights' is modified by the user." )    
         .add_property( "term_crit", bp::make_function(&::get_term_crit, bp::return_internal_reference<>()) );
 
 }
