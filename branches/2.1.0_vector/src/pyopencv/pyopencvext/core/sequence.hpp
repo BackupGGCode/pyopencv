@@ -21,7 +21,13 @@ namespace sdcpp {
 
 using namespace boost::python;
 
+// get an object which is a _borrowed_ reference to py_obj
+// borrowed vs new: http://docs.python.org/release/2.5.2/ext/refcountsInPython.html
 inline object get_borrowed_object(PyObject *py_obj) { return object(handle<>(borrowed(py_obj))); }
+
+// get an object which is a _new_ reference to py_obj
+// borrowed vs new: http://docs.python.org/release/2.5.2/ext/refcountsInPython.html
+inline object get_new_object(PyObject *py_obj) { return object(handle<>(py_obj)); }
 
 template<typename T> inline bool check(object const &obj) { return true; }
 template<typename T> inline PyTypeObject const *get_pytype() { return 0; }

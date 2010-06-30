@@ -84,8 +84,8 @@ static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
 
 static bp::object get_data(cv::MatND const &inst)
 {
-    return bp::object(bp::handle<>(bp::borrowed(PyBuffer_FromReadWriteMemory(
-        (void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1]))));
+    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory(
+        (void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1])));
 }
 
 void register_MatND_class(){

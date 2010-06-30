@@ -210,8 +210,8 @@ CV_TYPE_NAME_MAT = "opencv-matrix"
     z.add_declaration_code('''
 static bp::object get_data(CvMat const &inst)
 {
-    return bp::object(bp::handle<>(bp::borrowed(PyBuffer_FromReadWriteMemory(
-        (void*)inst.data.ptr, inst.rows*inst.step))));
+    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory(
+        (void*)inst.data.ptr, inst.rows*inst.step)));
 }
 
     ''')

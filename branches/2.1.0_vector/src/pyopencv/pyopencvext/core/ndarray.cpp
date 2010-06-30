@@ -75,14 +75,13 @@ int ndarray::cvrank() const { return ndim()-last_dim_as_cvchannel(); }
 
 ndarray simplenew_ndarray(int len, const int *shape, int dtype)
 {
-    return ndarray(object(handle<>(borrowed(PyArray_SimpleNew(len, 
-        (npy_intp *)shape, dtype)))));
+    return ndarray(get_borrowed_object(PyArray_SimpleNew(len, (npy_intp *)shape, dtype)));
 }
 
 ndarray new_ndarray(int len, const int *shape, int dtype, const int *strides, void *data, int flags)
 {
-    return ndarray(object(handle<>(borrowed(PyArray_New(&PyArray_Type, len, 
-        (npy_intp *)shape, dtype, (npy_intp *)strides, data, 0, flags, NULL)))));
+    return ndarray(get_borrowed_object(PyArray_New(&PyArray_Type, len, 
+        (npy_intp *)shape, dtype, (npy_intp *)strides, data, 0, flags, NULL)));
 }
 
 // ================================================================================================
