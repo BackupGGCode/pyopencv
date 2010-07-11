@@ -5,6 +5,30 @@ PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 Change Log
 ==========
 
+pyopencv-2.1.0.wr1.1.0 transition release
+-----------------------------------------
+
+This release mainly reverted arguments/member variables representing arrays 
+in C/C++ but were replaced as Python list in previous versions back to 
+std::vector instances. This step is important as it will allow PyOpenCV to
+operate consistently with future versions of OpenCV. However, the reversion
+implies that some function calls and some member variables accesses are
+incompatible with previous versions. Therefore, you may receive a few run
+time errors complaining that the function calls are not correct.
+
+- improved some default values
+- improved class CascadeClassifier
+- shorten the source code significantly, no more std::allocator
+- fixed HOGDescriptor and updated some demo files
+- improved some default docstring
+- fixed watershed.py
+- added ndarray conversion for vector classes with a fixed-size element type
+- sorted function arguments in docstrings
+- improved the initialization of vector classes
+- fixed a bug with reference counting in class sdobject
+- fixed a bug that risks using freed memory in get_data() of Mat, MatND and CvMat
+- fixed a memory leak in creating an ndarray view
+
 pyopencv-2.1.0.wr1.0.2 bug-fix release
 --------------------------------------
 
