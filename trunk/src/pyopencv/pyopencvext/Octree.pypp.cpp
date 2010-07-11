@@ -3,7 +3,6 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
-#include "opencv_converters.hpp"
 #include "__array_1.pypp.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
@@ -37,7 +36,7 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
         }
     
         static pyplusplus::containers::static_sized::array_1_t< int, 8>
-        pyplusplus_children_wrapper( ::cv::Octree::Node & inst ){
+        pyplusplus_children_wrapper( cv::Octree::Node & inst ){
             return pyplusplus::containers::static_sized::array_1_t< int, 8>( inst.children );
         }
     
@@ -58,24 +57,15 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
     }
 
     virtual void buildTree( ::std::vector< cv::Point3_<float> > const & points, int maxLevels=10, int minPoints=20 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_buildTree = this->get_override( "buildTree" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_buildTree.ptr(), points, maxLevels, minPoints );
-        }
+        if( bp::override func_buildTree = this->get_override( "buildTree" ) )
+            func_buildTree( boost::ref(points), maxLevels, minPoints );
         else{
-            cv::Octree::buildTree( boost::ref(points), maxLevels, minPoints );
+            this->cv::Octree::buildTree( boost::ref(points), maxLevels, minPoints );
         }
     }
     
-    static void default_buildTree( ::cv::Octree & inst, cv::Mat const & points, int maxLevels=10, int minPoints=20 ){
-        ::std::vector< cv::Point3_<float> > points2;
-        convert_from_Mat_to_vector_of_T(points, points2);
-        if( dynamic_cast< Octree_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::cv::Octree::buildTree(points2, maxLevels, minPoints);
-        }
-        else{
-            inst.buildTree(points2, maxLevels, minPoints);
-        }
+    void default_buildTree( ::std::vector< cv::Point3_<float> > const & points, int maxLevels=10, int minPoints=20 ) {
+        cv::Octree::buildTree( boost::ref(points), maxLevels, minPoints );
     }
 
     virtual void getPointsWithinSphere( ::cv::Point3f const & center, float radius, ::std::vector< cv::Point3_<float> > & points ) const  {
@@ -89,16 +79,14 @@ struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
     }
     
     static boost::python::object default_getPointsWithinSphere( ::cv::Octree const & inst, ::cv::Point3f const & center, float radius ){
-        ::std::vector< cv::Point3_<float> > points2;
-        cv::Mat points3;
+        std::vector<cv::Point3_<float> > points2;
         if( dynamic_cast< Octree_wrapper const* >( boost::addressof( inst ) ) ){
             inst.::cv::Octree::getPointsWithinSphere(center, radius, points2);
         }
         else{
             inst.getPointsWithinSphere(center, radius, points2);
         }
-        convert_from_vector_of_T_to_Mat(points2, points3);
-        return bp::object( points3 );
+        return bp::object( points2 );
     }
 
 };
@@ -119,7 +107,7 @@ void register_Octree_class(){
             pyplusplus::containers::static_sized::register_array_1< int, 8 >( "__array_1_int_8" );
             { //cv::Octree::Node::children [variable], type=int[8]
             
-                typedef pyplusplus::containers::static_sized::array_1_t< int, 8> ( *array_wrapper_creator )( ::cv::Octree::Node & );
+                typedef pyplusplus::containers::static_sized::array_1_t< int, 8> ( *array_wrapper_creator )( cv::Octree::Node & );
                 
                 Node_exposer.add_property( "children"
                     , bp::make_function( array_wrapper_creator(&Octree_wrapper::Node_wrapper::pyplusplus_children_wrapper)
@@ -135,27 +123,18 @@ void register_Octree_class(){
             Node_exposer.def_readwrite( "z_max", &cv::Octree::Node::z_max );
             Node_exposer.def_readwrite( "z_min", &cv::Octree::Node::z_min );
         }
-        Octree_exposer.def( bp::init< std::vector< cv::Point3_<float> > const &, bp::optional< int, int > >(( bp::arg("points"), bp::arg("maxLevels")=(int)(10), bp::arg("minPoints")=(int)(20) ), "\nWrapped function:"
-    "\n    Octree"
-    "\nArgument 'points':"\
-    "\n    C/C++ type: ::std::vector< cv::Point3_<float> > const &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2)).") );
+        Octree_exposer.def( bp::init< std::vector< cv::Point3_<float> > const &, bp::optional< int, int > >(( bp::arg("points"), bp::arg("maxLevels")=(int)(10), bp::arg("minPoints")=(int)(20) )) );
         bp::implicitly_convertible< std::vector< cv::Point3_<float> > const &, cv::Octree >();
         { //::cv::Octree::buildTree
         
-            typedef void ( *default_buildTree_function_type )( ::cv::Octree &,cv::Mat const &,int,int );
+            typedef void ( ::cv::Octree::*buildTree_function_type )( ::std::vector< cv::Point3_<float> > const &,int,int ) ;
+            typedef void ( Octree_wrapper::*default_buildTree_function_type )( ::std::vector< cv::Point3_<float> > const &,int,int ) ;
             
             Octree_exposer.def( 
                 "buildTree"
-                , default_buildTree_function_type( &Octree_wrapper::default_buildTree )
-                , ( bp::arg("inst"), bp::arg("points"), bp::arg("maxLevels")=(int)(10), bp::arg("minPoints")=(int)(20) )
-                , "\nArgument 'points':"\
-    "\n    C/C++ type: ::std::vector< cv::Point3_<float> > const &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+                , buildTree_function_type(&::cv::Octree::buildTree)
+                , default_buildTree_function_type(&Octree_wrapper::default_buildTree)
+                , ( bp::arg("points"), bp::arg("maxLevels")=(int)(10), bp::arg("minPoints")=(int)(20) ) );
         
         }
         { //::cv::Octree::getNodes
@@ -170,19 +149,18 @@ void register_Octree_class(){
         }
         { //::cv::Octree::getPointsWithinSphere
         
-            typedef boost::python::object ( *default_getPointsWithinSphere_function_type )( ::cv::Octree const &,::cv::Point3f const &,float );
+            typedef boost::python::object ( *default_getPointsWithinSphere_function_type )( cv::Octree const &,::cv::Point3f const &,float );
             
             Octree_exposer.def( 
                 "getPointsWithinSphere"
                 , default_getPointsWithinSphere_function_type( &Octree_wrapper::default_getPointsWithinSphere )
                 , ( bp::arg("inst"), bp::arg("center"), bp::arg("radius") )
                 , "\nArgument 'points':"\
-    "\n    C/C++ type: ::std::vector< cv::Point3_<float> > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    C++ type: ::std::vector< cv::Point3_<float> > &."\
+    "\n    Python type: vector_Point3f."\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    points" );
         
         }
     }

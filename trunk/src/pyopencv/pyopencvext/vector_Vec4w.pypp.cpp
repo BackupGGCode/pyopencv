@@ -15,7 +15,7 @@ void register_vector_Vec4w_class(){
         typedef bp::class_< std::vector< cv::Vec<unsigned short, 4> > > vector_Vec4w_exposer_t;
         vector_Vec4w_exposer_t vector_Vec4w_exposer = vector_Vec4w_exposer_t( "vector_Vec4w" );
         bp::scope vector_Vec4w_scope( vector_Vec4w_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::Vec<unsigned short, 4>" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::Vec<unsigned short,4>" does not have operator== !
         vector_Vec4w_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::Vec<unsigned short, 4> > >() );
         vector_Vec4w_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

@@ -53,26 +53,59 @@ static DST_TYPE *get_MEMBER_NAME(CLASS_TYPE const &inst) { return (DST_TYPE *)(&
     klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&::get_MEMBER_NAME, bp::return_internal_reference<>()) )'''\
         .replace("MEMBER_NAME", member_name))
         
-def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True):
+def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True, header_management_policy=0):
+    """Expose a member as a cv::Mat.
+    
+    Parameters:
+        is_CvMat_ptr : bool
+            whether the member is a pointer to a CvMat or a pointer to an 
+            IplImage
+        header_management_policy : int
+            0 = header is read-only. The class manages the life cycle of the 
+                member.
+            1 = header is writable. However, it is assumed that the class 
+                only uses the member as a reference to an external image. 
+                Additionally, when the user changes the image header, (s)he 
+                should notify the instance containing the member by calling
+                validate_MEMBER_NAME(). Otherwise, the instance would not
+                know the change and thus would not update its internal
+                pointer variables accordingly.
+    """
     klass.var(member_name).exclude()
     CvMat = 'CvMat' if is_CvMat_ptr else 'IplImage'
-    klass.add_wrapper_code('''
+    if header_management_policy > 0:
+        klass.add_wrapper_code('''
     cv::Mat MEMBER_NAME_as_Mat;
     CVMAT MEMBER_NAME_as_CvMat;
+    void update_MEMBER_NAME()
+    {
+        if(MEMBER_NAME_as_Mat.empty()) MEMBER_NAME = 0; // NULL pointer
+        else
+        {
+            MEMBER_NAME_as_CVMAT = MEMBER_NAME_as_Mat; // to ensure MEMBER_NAME points to a valid CVMAT
+            MEMBER_NAME = &MEMBER_NAME_as_CVMAT;
+        }
+    }
     void set_MEMBER_NAME(cv::Mat const &new_MEMBER_NAME)
     {
         MEMBER_NAME_as_Mat = new_MEMBER_NAME; // to keep a reference to MEMBER_NAME
-        MEMBER_NAME_as_CVMAT = MEMBER_NAME_as_Mat; // to ensure MEMBER_NAME points to a valid CVMAT
-        MEMBER_NAME = &MEMBER_NAME_as_CVMAT;
+        update_MEMBER_NAME();
     }
     cv::Mat & get_MEMBER_NAME()
     {
-        if(MEMBER_NAME != &MEMBER_NAME_as_CVMAT) set_MEMBER_NAME(cv::Mat(MEMBER_NAME));
+        update_MEMBER_NAME();
         return MEMBER_NAME_as_Mat;
     }
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string).replace("CVMAT", CvMat))
-    klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_MEMBER_NAME, bp::return_internal_reference<>()),
-        &CLASS_TYPE_wrapper::set_MEMBER_NAME)'''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
+
+        '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string).replace("CVMAT", CvMat))
+        klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_MEMBER_NAME, bp::return_internal_reference<>()),
+            &CLASS_TYPE_wrapper::set_MEMBER_NAME)'''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
+        klass.add_registration_code('''def( "validate_MEMBER_NAME", &CLASS_TYPE_wrapper::update_MEMBER_NAME, "Updates the internal C pointer that represents 'MEMBER_NAME'. The function should be called every time the header of 'MEMBER_NAME' is modified by the user." )'''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
+    else:
+        klass.add_declaration_code('''
+static cv::Mat get_MEMBER_NAME(CLASS_TYPE const &inst) { return inst.MEMBER_NAME? cv::Mat(inst.MEMBER_NAME): cv::Mat(); }
+        '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string).replace("CVMAT", CvMat))
+        klass.add_registration_code('''add_property( "MEMBER_NAME", &::get_MEMBER_NAME )'''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
         
 def expose_array_member_as_Mat(klass, member_name, member_size_name, extra="0"):
     klass.include_files.append( "opencv_converters.hpp" )
@@ -147,25 +180,15 @@ def beautify_memvars(klass):
         pds = common.unique_pds(z.type.partial_decl_string)
         if pds=='CvMemStorage *':
             expose_member_as_MemStorage(klass, z.name)
-        elif pds=='CvMat *' or pds=='CvArr *' or pds=='CvMat const *':
-            expose_member_as_Mat(klass, z.name, True)
+        elif pds in ['CvMat *', 'CvArr *']:
+            expose_member_as_Mat(klass, z.name, True, 1)
+        elif pds in ['CvMat const *', 'CvArr const *']:
+            expose_member_as_Mat(klass, z.name, True, 0)
         elif pds=='IplImage *':
-            expose_member_as_Mat(klass, z.name, False)
-        elif pds=='CvSize':
-            expose_member_as_FixType('cv::Size_<int>', klass, z.name)
-        elif pds=='CvSize2D32f':
-            expose_member_as_FixType('cv::Size_<float>', klass, z.name)
-        elif pds=='CvBox2D':
-            expose_member_as_FixType('cv::RotatedRect', klass, z.name)
-        elif pds=='CvTermCriteria':
-            expose_member_as_FixType('cv::TermCriteria', klass, z.name)
-        elif pds=='CvScalar':
-            expose_member_as_FixType('cv::Scalar_<double>', klass, z.name)
-        elif pds=='CvSlice':
-            expose_member_as_FixType('cv::Range', klass, z.name)
-        elif pds=='CvRect':
-            expose_member_as_FixType('cv::Rect_<int>', klass, z.name)
-        elif pds=='CvRNG':
-            expose_member_as_FixType('cv::RNG', klass, z.name)
+            expose_member_as_Mat(klass, z.name, False, 1)
+        elif pds=='IplImage const *':
+            expose_member_as_Mat(klass, z.name, False, 0)
+        elif pds in common.c2cpp:
+            expose_member_as_FixType(common.c2cpp[pds], klass, z.name)
         elif pds=='CvSeq *' or pds=='CvSet *':
             expose_member_as_pointee(klass, z.name)

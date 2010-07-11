@@ -15,7 +15,7 @@ void register_vector_Rect_class(){
         typedef bp::class_< std::vector< cv::Rect_<int> > > vector_Rect_exposer_t;
         vector_Rect_exposer_t vector_Rect_exposer = vector_Rect_exposer_t( "vector_Rect" );
         bp::scope vector_Rect_scope( vector_Rect_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::Rect_<int>" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::Rect_<int>" does not have operator== !
         vector_Rect_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::Rect_<int> > >() );
         vector_Rect_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

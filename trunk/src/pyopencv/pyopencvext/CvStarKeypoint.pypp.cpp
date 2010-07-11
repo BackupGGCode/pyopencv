@@ -7,12 +7,14 @@
 
 namespace bp = boost::python;
 
+static cv::Point_<int> *get_pt(CvStarKeypoint const &inst) { return (cv::Point_<int> *)(&inst.pt); }
+
 void register_CvStarKeypoint_class(){
 
     bp::class_< CvStarKeypoint >( "CvStarKeypoint" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvStarKeypoint >() )    
-        .def_readwrite( "pt", &CvStarKeypoint::pt )    
         .def_readwrite( "response", &CvStarKeypoint::response )    
-        .def_readwrite( "size", &CvStarKeypoint::size );
+        .def_readwrite( "size", &CvStarKeypoint::size )    
+        .add_property( "pt", bp::make_function(&::get_pt, bp::return_internal_reference<>()) );
 
 }

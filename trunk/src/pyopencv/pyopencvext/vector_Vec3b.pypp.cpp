@@ -15,7 +15,7 @@ void register_vector_Vec3b_class(){
         typedef bp::class_< std::vector< cv::Vec<unsigned char, 3> > > vector_Vec3b_exposer_t;
         vector_Vec3b_exposer_t vector_Vec3b_exposer = vector_Vec3b_exposer_t( "vector_Vec3b" );
         bp::scope vector_Vec3b_scope( vector_Vec3b_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::Vec<unsigned char, 3>" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::Vec<unsigned char,3>" does not have operator== !
         vector_Vec3b_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::Vec<unsigned char, 3> > >() );
         vector_Vec3b_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

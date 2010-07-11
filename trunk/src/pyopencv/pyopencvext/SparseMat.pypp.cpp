@@ -13,11 +13,8 @@
 
 namespace bp = boost::python;
 
-static void create_4e9dc46b2911de920c7af1dfbb19412a( ::cv::SparseMat & inst, cv::Mat const & _sizes, int _type ){
-    int _sizes2;
-    int * _sizes3;
-    convert_from_Mat_to_array_of_T(_sizes, _sizes3, _sizes2);
-    inst.create(_sizes2, _sizes3, _type);
+static void create_4e9dc46b2911de920c7af1dfbb19412a( ::cv::SparseMat & inst, std::vector<int> const & _sizes, int _type ){
+    inst.create((int)(_sizes.size()), (int const *)(&_sizes[0]), _type);
 }
 
 static boost::python::object erase_ce64effe5fbeb3e9588310d12240ddce( ::cv::SparseMat & inst, int i0, int i1 ){
@@ -32,20 +29,14 @@ static boost::python::object erase_ca8730dab3cfc35be7d8c7cfc84bf06f( ::cv::Spars
     return bp::object( hashval2 );
 }
 
-static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::SparseMat & inst, cv::Mat const & idx ){
+static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::SparseMat & inst, std::vector<int> const & idx ){
     size_t hashval2;
-    int idx2;
-    int * idx3;
-    convert_from_Mat_to_array_of_T(idx, idx3, idx2);
-    inst.erase(idx3, &hashval2);
+    inst.erase((int const *)(&idx[0]), &hashval2);
     return bp::object( hashval2 );
 }
 
-static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::SparseMat const & inst, cv::Mat const & idx ){
-    int idx2;
-    int * idx3;
-    convert_from_Mat_to_array_of_T(idx, idx3, idx2);
-    ::size_t result = inst.hash(idx3);
+static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::SparseMat const & inst, std::vector<int> const & idx ){
+    ::size_t result = inst.hash((int const *)(&idx[0]));
     return bp::object( result );
 }
 
@@ -189,20 +180,18 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::create
         
-            typedef void ( *create_function_type )( ::cv::SparseMat &,cv::Mat const &,int );
+            typedef void ( *create_function_type )( cv::SparseMat &,std::vector<int> const &,int );
             
             SparseMat_exposer.def( 
                 "create"
                 , create_function_type( &create_4e9dc46b2911de920c7af1dfbb19412a )
                 , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") )
-                , "\nArgument '_sizes':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument 'dims':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument '_sizes'." );
+                , "\nArgument 'dims':"\
+    "\n    Dependent argument: omitted from input. Its value is derived from "\
+    "\n    argument '_sizes'."\
+    "\nArgument '_sizes':"\
+    "\n    C++ type: int const *."\
+    "\n    Python type: vector_int." );
         
         }
         { //::cv::SparseMat::depth
@@ -243,7 +232,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::erase
         
-            typedef boost::python::object ( *erase_ce64effe5fbeb3e9588310d12240ddce_function_type )( ::cv::SparseMat &,int,int );
+            typedef boost::python::object ( *erase_ce64effe5fbeb3e9588310d12240ddce_function_type )( cv::SparseMat &,int,int );
             
             SparseMat_exposer.def( 
                 "erase_ce64effe5fbeb3e9588310d12240ddce"
@@ -252,15 +241,16 @@ void register_SparseMat_class(){
                 , "\nWrapped function:"
     "\n    erase"
     "\nArgument 'hashval':"\
-    "\n    C/C++ type: ::size_t *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    C++ type: ::size_t *."\
+    "\n    Python type: uint."\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    hashval" );
         
         }
         { //::cv::SparseMat::erase
         
-            typedef boost::python::object ( *erase_ca8730dab3cfc35be7d8c7cfc84bf06f_function_type )( ::cv::SparseMat &,int,int,int );
+            typedef boost::python::object ( *erase_ca8730dab3cfc35be7d8c7cfc84bf06f_function_type )( cv::SparseMat &,int,int,int );
             
             SparseMat_exposer.def( 
                 "erase_ca8730dab3cfc35be7d8c7cfc84bf06f"
@@ -269,15 +259,16 @@ void register_SparseMat_class(){
                 , "\nWrapped function:"
     "\n    erase"
     "\nArgument 'hashval':"\
-    "\n    C/C++ type: ::size_t *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    C++ type: ::size_t *."\
+    "\n    Python type: uint."\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    hashval" );
         
         }
         { //::cv::SparseMat::erase
         
-            typedef boost::python::object ( *erase_7ee4e9a1250db62333754bd289edbba8_function_type )( ::cv::SparseMat &,cv::Mat const & );
+            typedef boost::python::object ( *erase_7ee4e9a1250db62333754bd289edbba8_function_type )( cv::SparseMat &,std::vector<int> const & );
             
             SparseMat_exposer.def( 
                 "erase_7ee4e9a1250db62333754bd289edbba8"
@@ -285,16 +276,15 @@ void register_SparseMat_class(){
                 , ( bp::arg("inst"), bp::arg("idx") )
                 , "\nWrapped function:"
     "\n    erase"
-    "\nArgument 'hashval':"\
-    "\n    C/C++ type: ::size_t *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
     "\nArgument 'idx':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+    "\n    C++ type: int const *."\
+    "\n    Python type: vector_int."\
+    "\nArgument 'hashval':"\
+    "\n    C++ type: ::size_t *."\
+    "\n    Python type: uint."\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    hashval" );
         
         }
         { //::cv::SparseMat::hash
@@ -329,7 +319,7 @@ void register_SparseMat_class(){
         }
         { //::cv::SparseMat::hash
         
-            typedef boost::python::object ( *hash_19477be6a05d6299f1601326adc61332_function_type )( ::cv::SparseMat const &,cv::Mat const & );
+            typedef boost::python::object ( *hash_19477be6a05d6299f1601326adc61332_function_type )( cv::SparseMat const &,std::vector<int> const & );
             
             SparseMat_exposer.def( 
                 "hash_19477be6a05d6299f1601326adc61332"
@@ -338,10 +328,8 @@ void register_SparseMat_class(){
                 , "\nWrapped function:"
     "\n    hash"
     "\nArgument 'idx':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+    "\n    C++ type: int const *."\
+    "\n    Python type: vector_int." );
         
         }
         { //::cv::SparseMat::nzcount

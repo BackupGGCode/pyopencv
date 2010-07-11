@@ -15,7 +15,7 @@ void register_vector_RotatedRect_class(){
         typedef bp::class_< std::vector< cv::RotatedRect > > vector_RotatedRect_exposer_t;
         vector_RotatedRect_exposer_t vector_RotatedRect_exposer = vector_RotatedRect_exposer_t( "vector_RotatedRect" );
         bp::scope vector_RotatedRect_scope( vector_RotatedRect_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::RotatedRect" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::RotatedRect" does not have operator== !
         vector_RotatedRect_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::RotatedRect > >() );
         vector_RotatedRect_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

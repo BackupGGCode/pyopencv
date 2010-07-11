@@ -31,6 +31,8 @@ static bp::object get_ptr( ::CvChain const & inst ){
 
 static cv::MemStorage get_storage(CvChain const &inst) { return cv::MemStorage(inst.storage); }
 
+static cv::Point_<int> *get_origin(CvChain const &inst) { return (cv::Point_<int> *)(&inst.origin); }
+
 void register_CvChain_class(){
 
     bp::class_< CvChain >( "CvChain" )    
@@ -39,7 +41,6 @@ void register_CvChain_class(){
         .def_readwrite( "elem_size", &CvChain::elem_size )    
         .def_readwrite( "flags", &CvChain::flags )    
         .def_readwrite( "header_size", &CvChain::header_size )    
-        .def_readwrite( "origin", &CvChain::origin )    
         .def_readwrite( "total", &CvChain::total )    
         .add_property( "h_prev", bp::make_function(&::get_h_prev, bp::return_internal_reference<>()) )    
         .add_property( "h_next", bp::make_function(&::get_h_next, bp::return_internal_reference<>()) )    
@@ -49,6 +50,7 @@ void register_CvChain_class(){
         .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
         .add_property( "block_max", &::get_block_max )    
         .add_property( "ptr", &::get_ptr )    
-        .add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) );
+        .add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) )    
+        .add_property( "origin", bp::make_function(&::get_origin, bp::return_internal_reference<>()) );
 
 }

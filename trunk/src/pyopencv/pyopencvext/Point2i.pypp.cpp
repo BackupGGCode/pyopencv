@@ -81,9 +81,9 @@ void register_Point2i_class(){
         }
         Point2i_exposer.def_readwrite( "x", &cv::Point_< int >::x );
         Point2i_exposer.def_readwrite( "y", &cv::Point_< int >::y );
-        Point2i_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Point2i >, (bp::arg("inst_ndarray")) );
+        Point2i_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Point_<int> >, (bp::arg("inst_ndarray")) );
         Point2i_exposer.staticmethod("from_ndarray");
-        Point2i_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Point2i >);
+        Point2i_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Point_<int> >);
         Point2i_exposer.def("__iadd__", &__iadd__<cv::Point2i, cv::Point2i>, bp::return_self<>() );
         Point2i_exposer.def("__isub__", &__isub__<cv::Point2i, cv::Point2i>, bp::return_self<>() );
         Point2i_exposer.def("__imul__", &__imul__<cv::Point2i, double>, bp::return_self<>() );

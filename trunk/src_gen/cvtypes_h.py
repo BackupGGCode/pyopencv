@@ -40,6 +40,9 @@ CV_HAAR_MAGIC_VAL    = 0x42500000
 CV_TYPE_NAME_HAAR    = "opencv-haar-classifier"
 CV_HAAR_FEATURE_MAX  = 3
 
+def CV_IS_HAAR_CLASSIFIER(haar_cascade):
+    return isinstance(haar_cascade, CvHaarClassifierCascade) and \
+        haar_cascade.flags&CV_MAGIC_MASK==CV_HAAR_MAGIC_VAL
 
     ''')
 
@@ -50,15 +53,17 @@ CV_HAAR_FEATURE_MAX  = 3
 
     # CvContourScanner
     z = mb.class_('_CvContourScanner')
-    z.include()
+    mb.init_class(z)
     z.rename('CvContourScanner')
     mb.insert_del_interface('CvContourScanner', '_PE._cvEndFindContours')
+    mb.finalize_class(z)
 
     # CvChainPtReader
     z = mb.class_('CvChainPtReader')
-    z.include()
+    mb.init_class(z)
     cxtypes_h.expose_CvSeqReader_members(z, FT)
     z.var('deltas').exclude() # wait until requested
+    mb.finalize_class(z)
 
     # CvContourTree
     z = mb.class_('CvContourTree')
@@ -68,20 +73,21 @@ CV_HAAR_FEATURE_MAX  = 3
 
     #CvConvexityDefect
     z = mb.class_('CvConvexityDefect')
-    z.include()
+    mb.init_class(z)
     for t in (
         'start', 'end', 'depth_point',
         ):
         FT.expose_member_as_pointee(z, t)
-
+    mb.finalize_class(z)
 
     def expose_QuadEdge2D_members(z):
         FT.expose_member_as_array_of_pointees(z, 'pt', 4)
         FT.set_array_item_type_as_size_t(z, 'next')
         
     z = mb.class_('CvQuadEdge2D')
-    z.include()
+    mb.init_class(z)
     expose_QuadEdge2D_members(z)
+    mb.finalize_class(z)
 
     # CvSubdiv2DPoint
     z = mb.class_('CvSubdiv2DPoint')
@@ -106,17 +112,18 @@ CV_HAAR_FEATURE_MAX  = 3
         'CvAvgComp',
         ):
         k = mb.class_(z)
-        k.include()
+        mb.init_class(k)
         for v in k.vars():
             if D.is_pointer(v.type):
                 if 'Cv' in v.type.decl_string:
                     FT.expose_member_as_pointee(k, v.name)
                 else:
                     v.exclude()
+        mb.finalize_class(k)
 
     # CvHaarFeature
     z = mb.class_('CvHaarFeature')
-    z.include()
+    mb.init_class(z)
     for t in ('r', 'weight', 'rect'):
         z.decl(t).exclude()
     z.add_declaration_code('''
@@ -139,29 +146,79 @@ static void set_rect_weight(CvHaarFeature &inst, int i, float _weight)
     z.add_registration_code('def("get_rect", &::get_rect, bp::return_internal_reference<>())')
     z.add_registration_code('def("get_rect_weight", &::get_rect_weight)')
     z.add_registration_code('def("set_rect_weight", &::set_rect_weight)')
+    mb.finalize_class(z)
     
     # CvHaarClassifier
     z = mb.class_('CvHaarClassifier')
-    z.include()
+    mb.init_class(z)
     FT.expose_member_as_pointee(z, 'haar_feature')
     FT.expose_array_member_as_Mat(z, 'threshold', 'count')
     FT.expose_array_member_as_Mat(z, 'left', 'count')
     FT.expose_array_member_as_Mat(z, 'right', 'count')
     FT.expose_array_member_as_Mat(z, 'alpha', 'count', '1')
+    mb.finalize_class(z)
     
     # CvHaarStageClassifier
     z = mb.class_('CvHaarStageClassifier')
-    z.include()
+    mb.init_class(z)
     FT.expose_member_as_array_of_pointees(z, 'classifier', 'inst.count')
-    
-    # CvHidHaarClassifierCascade
-    z = mb.class_('CvHidHaarClassifierCascade')
-    z.include()
+    mb.finalize_class(z)
     
     # CvHaarClassifierCascade
     z = mb.class_('CvHaarClassifierCascade')
-    z.include()
+    mb.init_class(z)
     FT.expose_member_as_array_of_pointees(z, 'stage_classifier', 'inst.count')
     FT.expose_member_as_pointee(z, 'hid_cascade')
+    mb.finalize_class(z)
+    
+    # CvHidHaarFeature
+    z = mb.class_('CvHidHaarFeature')
+    mb.init_class(z)
+    for t in ('p0', 'p1', 'p2', 'p3', 'weight', 'rect'):
+        z.decl(t).exclude()
+    z.add_declaration_code('''
+static float get_rect_weight(CvHidHaarFeature const &inst, int i)
+{
+    return inst.rect[i].weight;
+}
+
+static void set_rect_weight(CvHidHaarFeature &inst, int i, float _weight)
+{
+    inst.rect[i].weight = _weight;
+}
+
+    ''')
+    z.add_registration_code('def("get_rect_weight", &::get_rect_weight)')
+    z.add_registration_code('def("set_rect_weight", &::set_rect_weight)')
+    mb.finalize_class(z)
+    
+    # CvHidHaarTreeNode
+    z = mb.class_('CvHidHaarTreeNode')
+    mb.init_class(z)
+    mb.finalize_class(z)
+    
+    # CvHidHaarClassifier
+    z = mb.class_('CvHidHaarClassifier')
+    mb.init_class(z)
+    FT.expose_member_as_array_of_pointees(z, 'node', 'inst.count')
+    FT.expose_array_member_as_Mat(z, 'alpha', 'count', '1')
+    mb.finalize_class(z)
+    
+    # CvHidHaarStageClassifier
+    z = mb.class_('CvHidHaarStageClassifier')
+    mb.init_class(z)
+    FT.expose_member_as_array_of_pointees(z, 'classifier', 'inst.count')
+    FT.expose_member_as_pointee(z, 'next')
+    FT.expose_member_as_pointee(z, 'parent')
+    FT.expose_member_as_pointee(z, 'child')
+    mb.finalize_class(z)
+    
+    # CvHidHaarClassifierCascade
+    z = mb.class_('CvHidHaarClassifierCascade')
+    mb.init_class(z)
+    for t in ('pq0', 'pq1', 'pq2', 'pq3', 'p0', 'p1', 'p2', 'p3', 'ipp_stages'):
+        z.var(t).exclude()
+    FT.expose_member_as_array_of_pointees(z, 'stage_classifier', 'inst.count')
+    mb.finalize_class(z)
     
                     

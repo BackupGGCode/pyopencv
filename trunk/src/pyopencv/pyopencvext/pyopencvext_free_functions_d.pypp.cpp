@@ -187,4 +187,15 @@ void register_free_functions_d(){
     
     }
 
+    { //::cv::drawContours
+    
+        typedef void ( *drawContours_function_type )( ::cv::Mat &,::std::vector< std::vector< cv::Point_<int> > > const &,int,::cv::Scalar const &,int,int,::std::vector< cv::Vec<int, 4> > const &,int,::cv::Point );
+        
+        bp::def( 
+            "drawContours"
+            , drawContours_function_type( &::cv::drawContours )
+            , ( bp::arg("image"), bp::arg("contours"), bp::arg("contourIdx"), bp::arg("color"), bp::arg("thickness")=(int)(1), bp::arg("lineType")=(int)(8), bp::arg("hierarchy")=std::vector<cv::Vec4i>(), bp::arg("maxLevel")=(int)(2147483647), bp::arg("offset")=cv::Point_<int>() ) );
+    
+    }
+
 }

@@ -75,30 +75,30 @@ void register_FilterEngine_class(){
         .def( bp::init< cv::Ptr< cv::BaseFilter > const &, cv::Ptr< cv::BaseRowFilter > const &, cv::Ptr< cv::BaseColumnFilter > const &, int, int, int, bp::optional< int, int, cv::Scalar const & > >(( bp::arg("_filter2D"), bp::arg("_rowFilter"), bp::arg("_columnFilter"), bp::arg("srcType"), bp::arg("dstType"), bp::arg("bufType"), bp::arg("_rowBorderType")=int(::cv::BORDER_REPLICATE), bp::arg("_columnBorderType")=(int)(-0x000000001), bp::arg("_borderValue")=cv::Scalar_<double>() )) )    
         .def( 
             "apply"
-            , (void ( ::cv::FilterEngine::* )( ::cv::Mat const &,::cv::Mat &,::cv::Rect const &,::cv::Point,bool ) )(&::cv::FilterEngine::apply)
+            , (void ( cv::FilterEngine::* )( ::cv::Mat const &,::cv::Mat &,::cv::Rect const &,::cv::Point,bool ) )(&::cv::FilterEngine::apply)
             , (void ( FilterEngine_wrapper::* )( ::cv::Mat const &,::cv::Mat &,::cv::Rect const &,::cv::Point,bool ) )(&FilterEngine_wrapper::default_apply)
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("srcRoi")=cv::Rect_<int>(0, 0, -0x000000001, -0x000000001), bp::arg("dstOfs")=cv::Point_<int>(0, 0), bp::arg("isolated")=(bool)(false) ) )    
         .def( 
             "init"
-            , (void ( ::cv::FilterEngine::* )( ::cv::Ptr< cv::BaseFilter > const &,::cv::Ptr< cv::BaseRowFilter > const &,::cv::Ptr< cv::BaseColumnFilter > const &,int,int,int,int,int,::cv::Scalar const & ) )( &::cv::FilterEngine::init )
+            , (void ( cv::FilterEngine::* )( ::cv::Ptr< cv::BaseFilter > const &,::cv::Ptr< cv::BaseRowFilter > const &,::cv::Ptr< cv::BaseColumnFilter > const &,int,int,int,int,int,::cv::Scalar const & ) )( &::cv::FilterEngine::init )
             , ( bp::arg("_filter2D"), bp::arg("_rowFilter"), bp::arg("_columnFilter"), bp::arg("srcType"), bp::arg("dstType"), bp::arg("bufType"), bp::arg("_rowBorderType")=int(::cv::BORDER_REPLICATE), bp::arg("_columnBorderType")=(int)(-0x000000001), bp::arg("_borderValue")=cv::Scalar_<double>() ) )    
         .def( 
             "isSeparable"
-            , (bool ( ::cv::FilterEngine::* )(  ) const)( &::cv::FilterEngine::isSeparable ) )    
+            , (bool ( cv::FilterEngine::* )(  ) const)( &::cv::FilterEngine::isSeparable ) )    
         .def( 
             "remainingInputRows"
-            , (int ( ::cv::FilterEngine::* )(  ) const)( &::cv::FilterEngine::remainingInputRows ) )    
+            , (int ( cv::FilterEngine::* )(  ) const)( &::cv::FilterEngine::remainingInputRows ) )    
         .def( 
             "remainingOutputRows"
-            , (int ( ::cv::FilterEngine::* )(  ) const)( &::cv::FilterEngine::remainingOutputRows ) )    
+            , (int ( cv::FilterEngine::* )(  ) const)( &::cv::FilterEngine::remainingOutputRows ) )    
         .def( 
             "start"
-            , (int ( ::cv::FilterEngine::* )( ::cv::Size,::cv::Rect,int ) )(&::cv::FilterEngine::start)
+            , (int ( cv::FilterEngine::* )( ::cv::Size,::cv::Rect,int ) )(&::cv::FilterEngine::start)
             , (int ( FilterEngine_wrapper::* )( ::cv::Size,::cv::Rect,int ) )(&FilterEngine_wrapper::default_start)
             , ( bp::arg("wholeSize"), bp::arg("roi"), bp::arg("maxBufRows")=(int)(-0x000000001) ) )    
         .def( 
             "start"
-            , (int ( ::cv::FilterEngine::* )( ::cv::Mat const &,::cv::Rect const &,bool,int ) )(&::cv::FilterEngine::start)
+            , (int ( cv::FilterEngine::* )( ::cv::Mat const &,::cv::Rect const &,bool,int ) )(&::cv::FilterEngine::start)
             , (int ( FilterEngine_wrapper::* )( ::cv::Mat const &,::cv::Rect const &,bool,int ) )(&FilterEngine_wrapper::default_start)
             , ( bp::arg("src"), bp::arg("srcRoi")=cv::Rect_<int>(0, 0, -0x000000001, -0x000000001), bp::arg("isolated")=(bool)(false), bp::arg("maxBufRows")=(int)(-0x000000001) ) )    
         .def_readwrite( "anchor", &cv::FilterEngine::anchor )    

@@ -13,27 +13,27 @@ void register_TickMeter_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::TickMeter >() )    
         .def( 
             "getCounter"
-            , (::int64 ( ::cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getCounter ) )    
+            , (::int64 ( cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getCounter ) )    
         .def( 
             "getTimeMicro"
-            , (double ( ::cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeMicro ) )    
+            , (double ( cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeMicro ) )    
         .def( 
             "getTimeMilli"
-            , (double ( ::cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeMilli ) )    
+            , (double ( cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeMilli ) )    
         .def( 
             "getTimeSec"
-            , (double ( ::cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeSec ) )    
+            , (double ( cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeSec ) )    
         .def( 
             "getTimeTicks"
-            , (::int64 ( ::cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeTicks ) )    
+            , (::int64 ( cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeTicks ) )    
         .def( 
             "reset"
-            , (void ( ::cv::TickMeter::* )(  ) )( &::cv::TickMeter::reset ) )    
+            , (void ( cv::TickMeter::* )(  ) )( &::cv::TickMeter::reset ) )    
         .def( 
             "start"
-            , (void ( ::cv::TickMeter::* )(  ) )( &::cv::TickMeter::start ) )    
+            , (void ( cv::TickMeter::* )(  ) )( &::cv::TickMeter::start ) )    
         .def( 
             "stop"
-            , (void ( ::cv::TickMeter::* )(  ) )( &::cv::TickMeter::stop ) );
+            , (void ( cv::TickMeter::* )(  ) )( &::cv::TickMeter::stop ) );
 
 }

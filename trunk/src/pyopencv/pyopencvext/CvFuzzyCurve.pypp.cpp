@@ -13,28 +13,28 @@ void register_CvFuzzyCurve_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvFuzzyCurve >() )    
         .def( 
             "addPoint"
-            , (void ( ::CvFuzzyCurve::* )( double,double ) )( &::CvFuzzyCurve::addPoint )
+            , (void ( CvFuzzyCurve::* )( double,double ) )( &::CvFuzzyCurve::addPoint )
             , ( bp::arg("x"), bp::arg("y") ) )    
         .def( 
             "calcValue"
-            , (double ( ::CvFuzzyCurve::* )( double ) )( &::CvFuzzyCurve::calcValue )
+            , (double ( CvFuzzyCurve::* )( double ) )( &::CvFuzzyCurve::calcValue )
             , ( bp::arg("param") ) )    
         .def( 
             "clear"
-            , (void ( ::CvFuzzyCurve::* )(  ) )( &::CvFuzzyCurve::clear ) )    
+            , (void ( CvFuzzyCurve::* )(  ) )( &::CvFuzzyCurve::clear ) )    
         .def( 
             "getCentre"
-            , (double ( ::CvFuzzyCurve::* )(  ) )( &::CvFuzzyCurve::getCentre ) )    
+            , (double ( CvFuzzyCurve::* )(  ) )( &::CvFuzzyCurve::getCentre ) )    
         .def( 
             "getValue"
-            , (double ( ::CvFuzzyCurve::* )(  ) )( &::CvFuzzyCurve::getValue ) )    
+            , (double ( CvFuzzyCurve::* )(  ) )( &::CvFuzzyCurve::getValue ) )    
         .def( 
             "setCentre"
-            , (void ( ::CvFuzzyCurve::* )( double ) )( &::CvFuzzyCurve::setCentre )
+            , (void ( CvFuzzyCurve::* )( double ) )( &::CvFuzzyCurve::setCentre )
             , ( bp::arg("_centre") ) )    
         .def( 
             "setValue"
-            , (void ( ::CvFuzzyCurve::* )( double ) )( &::CvFuzzyCurve::setValue )
+            , (void ( CvFuzzyCurve::* )( double ) )( &::CvFuzzyCurve::setValue )
             , ( bp::arg("_value") ) );
 
 }

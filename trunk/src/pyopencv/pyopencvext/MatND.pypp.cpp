@@ -37,28 +37,22 @@ struct MatND_wrapper : cv::MatND, bp::wrapper< cv::MatND > {
     
     }
 
-    static void create( ::cv::MatND & inst, cv::Mat const & _sizes, int _type ){
-        int _sizes2;
-        int * _sizes3;
-        convert_from_Mat_to_array_of_T(_sizes, _sizes3, _sizes2);
-        inst.create(_sizes2, _sizes3, _type);
+    static void create( ::cv::MatND & inst, std::vector<int> const & _sizes, int _type ){
+        inst.create((int)(_sizes.size()), (int const *)(&_sizes[0]), _type);
     }
 
-    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, cv::Mat _newsz=cv::Mat() ){
-        int _newsz2;
-        int * _newsz3;
-        convert_from_Mat_to_array_of_T(_newsz, _newsz3, _newsz2);
-        ::cv::MatND result = inst.reshape(_newcn, _newsz2, _newsz3);
+    static boost::python::object reshape( ::cv::MatND const & inst, int _newcn, std::vector<int> const & _newsz=std::vector<int>() ){
+        cv::MatND result = inst.reshape(_newcn, (int)(_newsz.size()), (int const *)(&_newsz[0]));
         return bp::object( result );
     }
 
     static pyplusplus::containers::static_sized::array_1_t< int, 32>
-    pyplusplus_size_wrapper( ::cv::MatND & inst ){
+    pyplusplus_size_wrapper( cv::MatND & inst ){
         return pyplusplus::containers::static_sized::array_1_t< int, 32>( inst.size );
     }
 
     static pyplusplus::containers::static_sized::array_1_t< size_t, 32>
-    pyplusplus_step_wrapper( ::cv::MatND & inst ){
+    pyplusplus_step_wrapper( cv::MatND & inst ){
         return pyplusplus::containers::static_sized::array_1_t< size_t, 32>( inst.step );
     }
 
@@ -90,8 +84,8 @@ static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
 
 static bp::object get_data(cv::MatND const &inst)
 {
-    return bp::object(bp::handle<>(bp::borrowed(PyBuffer_FromReadWriteMemory(
-        (void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1]))));
+    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory(
+        (void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1])));
 }
 
 void register_MatND_class(){
@@ -177,20 +171,18 @@ void register_MatND_class(){
         }
         { //::cv::MatND::create
         
-            typedef void ( *create_function_type )( ::cv::MatND &,cv::Mat const &,int );
+            typedef void ( *create_function_type )( cv::MatND &,std::vector<int> const &,int );
             
             MatND_exposer.def( 
                 "create"
                 , create_function_type( &MatND_wrapper::create )
                 , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") )
                 , "\nArgument '_ndims':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument '_sizes'."\
+    "\n    Dependent argument: omitted from input. Its value is derived from "\
+    "\n    argument '_sizes'."\
     "\nArgument '_sizes':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))." );
+    "\n    C++ type: int const *."\
+    "\n    Python type: vector_int." );
         
         }
         { //::cv::MatND::depth
@@ -268,20 +260,18 @@ void register_MatND_class(){
         }
         { //::cv::MatND::reshape
         
-            typedef boost::python::object ( *reshape_function_type )( ::cv::MatND const &,int,cv::Mat );
+            typedef boost::python::object ( *reshape_function_type )( cv::MatND const &,int,std::vector<int> const & );
             
             MatND_exposer.def( 
                 "reshape"
                 , reshape_function_type( &MatND_wrapper::reshape )
-                , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=cv::Mat() )
-                , "\nArgument '_newsz':"\
-    "\n    C/C++ type: int const *."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\nArgument '_newndims':"\
-    "\n    Dependent argument: omitted from the function's calling sequence, as "\
-    "\n    its value is derived from argument '_newsz'." );
+                , ( bp::arg("inst"), bp::arg("_newcn"), bp::arg("_newsz")=std::vector<int>() )
+                , "\nArgument '_newndims':"\
+    "\n    Dependent argument: omitted from input. Its value is derived from "\
+    "\n    argument '_newsz'."\
+    "\nArgument '_newsz':"\
+    "\n    C++ type: int const *."\
+    "\n    Python type: vector_int." );
         
         }
         { //::cv::MatND::setTo
@@ -318,7 +308,7 @@ void register_MatND_class(){
         MatND_exposer.def_readwrite( "flags", &cv::MatND::flags );
         { //cv::MatND::size [variable], type=int[32]
         
-            typedef pyplusplus::containers::static_sized::array_1_t< int, 32> ( *array_wrapper_creator )( ::cv::MatND & );
+            typedef pyplusplus::containers::static_sized::array_1_t< int, 32> ( *array_wrapper_creator )( cv::MatND & );
             
             MatND_exposer.add_property( "size"
                 , bp::make_function( array_wrapper_creator(&MatND_wrapper::pyplusplus_size_wrapper)
@@ -327,7 +317,7 @@ void register_MatND_class(){
         pyplusplus::containers::static_sized::register_array_1< size_t, 32 >( "__array_1_size_t_32" );
         { //cv::MatND::step [variable], type=size_t[32]
         
-            typedef pyplusplus::containers::static_sized::array_1_t< size_t, 32> ( *array_wrapper_creator )( ::cv::MatND & );
+            typedef pyplusplus::containers::static_sized::array_1_t< size_t, 32> ( *array_wrapper_creator )( cv::MatND & );
             
             MatND_exposer.add_property( "step"
                 , bp::make_function( array_wrapper_creator(&MatND_wrapper::pyplusplus_step_wrapper)

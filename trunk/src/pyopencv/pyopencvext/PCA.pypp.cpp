@@ -24,21 +24,21 @@ void register_PCA_class(){
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-pca") )    
         .def( 
             "backProject"
-            , (::cv::Mat ( ::cv::PCA::* )( ::cv::Mat const & ) const)( &::cv::PCA::backProject )
+            , (::cv::Mat ( cv::PCA::* )( ::cv::Mat const & ) const)( &::cv::PCA::backProject )
             , ( bp::arg("vec") )
             , "\nReconstruct vectors from their PC projections."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-backproject" )    
         .def( 
             "backProject"
-            , (void ( ::cv::PCA::* )( ::cv::Mat const &,::cv::Mat & ) const)( &::cv::PCA::backProject )
+            , (void ( cv::PCA::* )( ::cv::Mat const &,::cv::Mat & ) const)( &::cv::PCA::backProject )
             , ( bp::arg("vec"), bp::arg("result") )
             , "\nReconstruct vectors from their PC projections."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-backproject" )    
         .def( 
             "__call__"
-            , (::cv::PCA & ( ::cv::PCA::* )( ::cv::Mat const &,::cv::Mat const &,int,int ) )( &::cv::PCA::operator() )
+            , (::cv::PCA & ( cv::PCA::* )( ::cv::Mat const &,::cv::Mat const &,int,int ) )( &::cv::PCA::operator() )
             , ( bp::arg("data"), bp::arg("mean"), bp::arg("flags"), bp::arg("maxComponents")=(int)(0) )
             , bp::return_self< >()
             , "\nPerforms Principal Component Analysis of the supplied dataset."
@@ -48,14 +48,14 @@ void register_PCA_class(){
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-operator" )    
         .def( 
             "project"
-            , (::cv::Mat ( ::cv::PCA::* )( ::cv::Mat const & ) const)( &::cv::PCA::project )
+            , (::cv::Mat ( cv::PCA::* )( ::cv::Mat const & ) const)( &::cv::PCA::project )
             , ( bp::arg("vec") )
             , "\nProject vector(s) to the principal component subspace."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-project" )    
         .def( 
             "project"
-            , (void ( ::cv::PCA::* )( ::cv::Mat const &,::cv::Mat & ) const)( &::cv::PCA::project )
+            , (void ( cv::PCA::* )( ::cv::Mat const &,::cv::Mat & ) const)( &::cv::PCA::project )
             , ( bp::arg("vec"), bp::arg("result") )
             , "\nProject vector(s) to the principal component subspace."
     "\nReference:"

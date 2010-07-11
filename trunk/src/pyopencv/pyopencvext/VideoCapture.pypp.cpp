@@ -24,7 +24,7 @@ struct VideoCapture_wrapper : cv::VideoCapture, bp::wrapper< cv::VideoCapture > 
     }
 
     VideoCapture_wrapper(::std::string const & filename )
-    : cv::VideoCapture( filename )
+    : cv::VideoCapture( boost::ref(filename) )
       , bp::wrapper< cv::VideoCapture >(){
         // constructor
     
@@ -75,14 +75,14 @@ struct VideoCapture_wrapper : cv::VideoCapture, bp::wrapper< cv::VideoCapture > 
 
     virtual bool open( ::std::string const & filename ) {
         if( bp::override func_open = this->get_override( "open" ) )
-            return func_open( filename );
+            return func_open( boost::ref(filename) );
         else{
-            return this->cv::VideoCapture::open( filename );
+            return this->cv::VideoCapture::open( boost::ref(filename) );
         }
     }
     
     bool default_open( ::std::string const & filename ) {
-        return cv::VideoCapture::open( filename );
+        return cv::VideoCapture::open( boost::ref(filename) );
     }
 
     virtual bool open( int device ) {

@@ -15,7 +15,7 @@ void register_vector_Size2i_class(){
         typedef bp::class_< std::vector< cv::Size_<int> > > vector_Size2i_exposer_t;
         vector_Size2i_exposer_t vector_Size2i_exposer = vector_Size2i_exposer_t( "vector_Size2i" );
         bp::scope vector_Size2i_scope( vector_Size2i_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::Size_<int>" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::Size_<int>" does not have operator== !
         vector_Size2i_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::Size_<int> > >() );
         vector_Size2i_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

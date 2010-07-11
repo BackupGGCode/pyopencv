@@ -98,6 +98,17 @@ void register_free_functions_f(){
     
     }
 
+    { //::cv::find4QuadCornerSubpix
+    
+        typedef bool ( *find4QuadCornerSubpix_function_type )( ::cv::Mat const &,::std::vector< cv::Point_<float> > &,::cv::Size );
+        
+        bp::def( 
+            "find4QuadCornerSubpix"
+            , find4QuadCornerSubpix_function_type( &::cv::find4QuadCornerSubpix )
+            , ( bp::arg("img"), bp::arg("corners"), bp::arg("region_size") ) );
+    
+    }
+
     { //::cv::findFundamentalMat
     
         typedef ::cv::Mat ( *findFundamentalMat_function_type )( ::cv::Mat const &,::cv::Mat const &,int,double,double );

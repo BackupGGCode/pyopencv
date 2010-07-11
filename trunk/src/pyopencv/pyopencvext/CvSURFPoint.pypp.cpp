@@ -7,6 +7,8 @@
 
 namespace bp = boost::python;
 
+static cv::Point_<float> *get_pt(CvSURFPoint const &inst) { return (cv::Point_<float> *)(&inst.pt); }
+
 void register_CvSURFPoint_class(){
 
     bp::class_< CvSURFPoint >( "CvSURFPoint" )    
@@ -14,7 +16,7 @@ void register_CvSURFPoint_class(){
         .def_readwrite( "dir", &CvSURFPoint::dir )    
         .def_readwrite( "hessian", &CvSURFPoint::hessian )    
         .def_readwrite( "laplacian", &CvSURFPoint::laplacian )    
-        .def_readwrite( "pt", &CvSURFPoint::pt )    
-        .def_readwrite( "size", &CvSURFPoint::size );
+        .def_readwrite( "size", &CvSURFPoint::size )    
+        .add_property( "pt", bp::make_function(&::get_pt, bp::return_internal_reference<>()) );
 
 }

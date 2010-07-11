@@ -11,8 +11,8 @@ namespace bp = boost::python;
 
 static bp::object get_data(cv::Mat const &inst)
 {
-    return bp::object(bp::handle<>(bp::borrowed(PyBuffer_FromReadWriteMemory(
-        (void*)inst.data, inst.rows*inst.step))));
+    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory(
+        (void*)inst.data, inst.rows*inst.step)));
 }
 
 static boost::shared_ptr<cv::Mat> Mat__init1__(bp::object const &arg1)

@@ -29,6 +29,8 @@ static bp::object get_prev_elem( ::CvChainPtReader const & inst ){
     return inst.prev_elem? bp::str(inst.prev_elem): bp::object();
 }
 
+static cv::Point_<int> *get_pt(CvChainPtReader const &inst) { return (cv::Point_<int> *)(&inst.pt); }
+
 void register_CvChainPtReader_class(){
 
     bp::class_< CvChainPtReader >( "CvChainPtReader" )    
@@ -36,12 +38,12 @@ void register_CvChainPtReader_class(){
         .def_readwrite( "code", &CvChainPtReader::code )    
         .def_readwrite( "delta_index", &CvChainPtReader::delta_index )    
         .def_readwrite( "header_size", &CvChainPtReader::header_size )    
-        .def_readwrite( "pt", &CvChainPtReader::pt )    
         .add_property( "seq", bp::make_function(&::get_seq, bp::return_internal_reference<>()) )    
         .add_property( "block", bp::make_function(&::get_block, bp::return_internal_reference<>()) )    
         .add_property( "ptr", &::get_ptr )    
         .add_property( "block_min", &::get_block_min )    
         .add_property( "block_max", &::get_block_max )    
-        .add_property( "prev_elem", &::get_prev_elem );
+        .add_property( "prev_elem", &::get_prev_elem )    
+        .add_property( "pt", bp::make_function(&::get_pt, bp::return_internal_reference<>()) );
 
 }

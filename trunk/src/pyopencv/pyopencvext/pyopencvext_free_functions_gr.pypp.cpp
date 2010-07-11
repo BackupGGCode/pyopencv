@@ -19,4 +19,26 @@ void register_free_functions_gr(){
     
     }
 
+    { //::cv::groupRectangles
+    
+        typedef void ( *groupRectangles_function_type )( ::std::vector< cv::Rect_<int> > &,::std::vector< int > &,int,double );
+        
+        bp::def( 
+            "groupRectangles"
+            , groupRectangles_function_type( &::cv::groupRectangles )
+            , ( bp::arg("rectList"), bp::arg("weights"), bp::arg("groupThreshold"), bp::arg("eps")=2.00000000000000011102230246251565404236316680908e-1 ) );
+    
+    }
+
+    { //::cv::groupRectangles
+    
+        typedef void ( *groupRectangles_function_type )( ::std::vector< cv::Rect_<int> > &,int,double );
+        
+        bp::def( 
+            "groupRectangles"
+            , groupRectangles_function_type( &::cv::groupRectangles )
+            , ( bp::arg("rectList"), bp::arg("groupThreshold"), bp::arg("eps")=2.00000000000000011102230246251565404236316680908e-1 ) );
+    
+    }
+
 }

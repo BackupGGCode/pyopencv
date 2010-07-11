@@ -14,8 +14,8 @@ def findPairs(surf, objectKeypoints, objectDescriptors, imageKeypoints, imageDes
     K = 2 # K as in K nearest neighbors
     dim = surf.descriptorSize()
 
-    m_object = cv.asMat(objectDescriptors[:].reshape(N, dim))
-    m_image = cv.asMat(imageDescriptors[:].reshape(len(imageKeypoints), dim))
+    m_object = cv.asMat(objectDescriptors).reshape(1, N)
+    m_image = cv.asMat(imageDescriptors).reshape(1, len(imageKeypoints))
 
     flann = cv.Index(m_image,cv.KDTreeIndexParams(4))
 
@@ -29,7 +29,7 @@ def findPairs(surf, objectKeypoints, objectDescriptors, imageKeypoints, imageDes
     
     for i in xrange(N):
         if dists[i,0] < 0.6*dists[i,1]:
-            ptpairs.append((objectKeypoints[i].pt, imageKeypoints[indices[i]].pt))
+            ptpairs.append((objectKeypoints[i].pt, imageKeypoints[int(indices[i])].pt))
     
     return ptpairs
 
@@ -96,10 +96,10 @@ if __name__ == '__main__':
     surf = cv.SURF(500, 4, 2, True)
     mask = cv.Mat()
     tt = float(cv.getTickCount())    
-    objectKeypoints = []
+    objectKeypoints = cv.vector_KeyPoint()
     objectDescriptors = surf(object, mask, objectKeypoints)
     print("Object Descriptors: %d\n" % len(objectKeypoints))
-    imageKeypoints = []
+    imageKeypoints = cv.vector_KeyPoint()
     imageDescriptors = surf(image, mask, imageKeypoints)
     print("Image Descriptors: %d\n" % len(imageKeypoints))
     tt = float(cv.getTickCount()) - tt

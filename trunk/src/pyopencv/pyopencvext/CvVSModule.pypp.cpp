@@ -81,77 +81,77 @@ void register_CvVSModule_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvVSModule >() )    
         .def( 
             "GetNickName"
-            , (char const * ( ::CvVSModule::* )(  ) )( &::CvVSModule::GetNickName ) )    
+            , (char const * ( CvVSModule::* )(  ) )( &::CvVSModule::GetNickName ) )    
         .def( 
             "GetParam"
-            , (double ( ::CvVSModule::* )( char const * ) )( &::CvVSModule::GetParam )
+            , (double ( CvVSModule::* )( char const * ) )( &::CvVSModule::GetParam )
             , ( bp::arg("name") ) )    
         .def( 
             "GetParamComment"
-            , (char const * ( ::CvVSModule::* )( char const * ) )( &::CvVSModule::GetParamComment )
+            , (char const * ( CvVSModule::* )( char const * ) )( &::CvVSModule::GetParamComment )
             , ( bp::arg("name") ) )    
         .def( 
             "GetParamName"
-            , (char const * ( ::CvVSModule::* )( int ) )( &::CvVSModule::GetParamName )
+            , (char const * ( CvVSModule::* )( int ) )( &::CvVSModule::GetParamName )
             , ( bp::arg("index") ) )    
         .def( 
             "GetParamStr"
-            , (char const * ( ::CvVSModule::* )( char const * ) )( &::CvVSModule::GetParamStr )
+            , (char const * ( CvVSModule::* )( char const * ) )( &::CvVSModule::GetParamStr )
             , ( bp::arg("name") ) )    
         .def( 
             "GetTypeName"
-            , (char const * ( ::CvVSModule::* )(  ) )( &::CvVSModule::GetTypeName ) )    
+            , (char const * ( CvVSModule::* )(  ) )( &::CvVSModule::GetTypeName ) )    
         .def( 
             "IsModuleName"
-            , (int ( ::CvVSModule::* )( char const * ) )( &::CvVSModule::IsModuleName )
+            , (int ( CvVSModule::* )( char const * ) )( &::CvVSModule::IsModuleName )
             , ( bp::arg("name") ) )    
         .def( 
             "IsModuleTypeName"
-            , (int ( ::CvVSModule::* )( char const * ) )( &::CvVSModule::IsModuleTypeName )
+            , (int ( CvVSModule::* )( char const * ) )( &::CvVSModule::IsModuleTypeName )
             , ( bp::arg("name") ) )    
         .def( 
             "LoadState"
-            , (void (*)( ::CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvVSModule_wrapper::default_LoadState )
+            , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvVSModule_wrapper::default_LoadState )
             , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
             , "\nArgument 'arg0':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage."\
     "\nArgument 'arg1':"\
-    "\n    C/C++ type: ::CvFileNode *."\
+    "\n    C++ type: ::CvFileNode *."\
     "\n    Python type: FileNode." )    
         .def( 
             "ParamUpdate"
-            , (void ( ::CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
+            , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
             , (void ( CvVSModule_wrapper::* )(  ) )(&CvVSModule_wrapper::default_ParamUpdate) )    
         .def( 
             "Release"
-            , bp::pure_virtual( (void ( ::CvVSModule::* )(  ) )(&::CvVSModule::Release) ) )    
+            , bp::pure_virtual( (void ( CvVSModule::* )(  ) )(&::CvVSModule::Release) ) )    
         .def( 
             "SaveState"
-            , (void (*)( ::CvVSModule &,::cv::FileStorage & ))( &CvVSModule_wrapper::default_SaveState )
+            , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvVSModule_wrapper::default_SaveState )
             , ( bp::arg("inst"), bp::arg("arg0") )
             , "\nArgument 'arg0':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." )    
         .def( 
             "SetNickName"
-            , (void ( ::CvVSModule::* )( char const * ) )( &::CvVSModule::SetNickName )
+            , (void ( CvVSModule::* )( char const * ) )( &::CvVSModule::SetNickName )
             , ( bp::arg("pStr") ) )    
         .def( 
             "SetParam"
-            , (void ( ::CvVSModule::* )( char const *,double ) )( &::CvVSModule::SetParam )
+            , (void ( CvVSModule::* )( char const *,double ) )( &::CvVSModule::SetParam )
             , ( bp::arg("name"), bp::arg("val") ) )    
         .def( 
             "SetParamStr"
-            , (void ( ::CvVSModule::* )( char const *,char const * ) )( &::CvVSModule::SetParamStr )
+            , (void ( CvVSModule::* )( char const *,char const * ) )( &::CvVSModule::SetParamStr )
             , ( bp::arg("name"), bp::arg("str") ) )    
         .def( 
             "TransferParamsFromChild"
-            , (void ( ::CvVSModule::* )( ::CvVSModule *,char const * ) )( &::CvVSModule::TransferParamsFromChild )
+            , (void ( CvVSModule::* )( ::CvVSModule *,char const * ) )( &::CvVSModule::TransferParamsFromChild )
             , ( bp::arg("pM"), bp::arg("prefix")=bp::object() ) )    
         .def( 
             "TransferParamsToChild"
-            , (void ( ::CvVSModule::* )( ::CvVSModule *,char * ) )( &::CvVSModule::TransferParamsToChild )
+            , (void ( CvVSModule::* )( ::CvVSModule *,char * ) )( &::CvVSModule::TransferParamsToChild )
             , ( bp::arg("pM"), bp::arg("prefix")=bp::object() ) );
 
 }

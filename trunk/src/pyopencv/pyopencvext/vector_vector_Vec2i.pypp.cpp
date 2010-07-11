@@ -15,7 +15,7 @@ void register_vector_vector_Vec2i_class(){
         typedef bp::class_< std::vector< std::vector< cv::Vec<int, 2> > > > vector_vector_Vec2i_exposer_t;
         vector_vector_Vec2i_exposer_t vector_vector_Vec2i_exposer = vector_vector_Vec2i_exposer_t( "vector_vector_Vec2i" );
         bp::scope vector_vector_Vec2i_scope( vector_vector_Vec2i_exposer );
-        //WARNING: the next line of code will not compile, because "::std::vector<cv::Vec<int, 2>, std::allocator<cv::Vec<int, 2> > >" does not have operator== !
+        //WARNING: the next line of code will not compile, because "std::vector<cv::Vec<int,2> >" does not have operator== !
         vector_vector_Vec2i_exposer.def( bp::vector_indexing_suite< ::std::vector< std::vector< cv::Vec<int, 2> > > >() );
         vector_vector_Vec2i_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }
