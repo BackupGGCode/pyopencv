@@ -2,6 +2,10 @@
 PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 =======================================================================
 
+To move to CMAKE build system
+
+To support 64-bit platforms
+
 Image conversion to/from wxWidget
 
 Provide more demos -- may ask people to help :)
@@ -27,6 +31,8 @@ Add iterator for SparseMat
 - expose C functions for class CvSet, write a Set<T> that is a subclass of Seq<T>?
 
 - make_nurse_and_patient(nurse, patient) = keep 'patient' alive as long as 'nurse' is alive, weird.
+
+
 
 ------------------------------------------
 Making a snapshot release using setuptools:
