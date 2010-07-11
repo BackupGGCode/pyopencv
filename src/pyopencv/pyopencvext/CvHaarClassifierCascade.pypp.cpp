@@ -19,16 +19,20 @@ static bp::object get_stage_classifier( ::CvHaarClassifierCascade const & inst )
 
 static ::CvHidHaarClassifierCascade * get_hid_cascade( ::CvHaarClassifierCascade const & inst ) { return inst.hid_cascade; }
 
+static cv::Size_<int> *get_orig_window_size(CvHaarClassifierCascade const &inst) { return (cv::Size_<int> *)(&inst.orig_window_size); }
+
+static cv::Size_<int> *get_real_window_size(CvHaarClassifierCascade const &inst) { return (cv::Size_<int> *)(&inst.real_window_size); }
+
 void register_CvHaarClassifierCascade_class(){
 
     bp::class_< CvHaarClassifierCascade >( "CvHaarClassifierCascade" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvHaarClassifierCascade >() )    
         .def_readwrite( "count", &CvHaarClassifierCascade::count )    
         .def_readwrite( "flags", &CvHaarClassifierCascade::flags )    
-        .def_readwrite( "orig_window_size", &CvHaarClassifierCascade::orig_window_size )    
-        .def_readwrite( "real_window_size", &CvHaarClassifierCascade::real_window_size )    
         .def_readwrite( "scale", &CvHaarClassifierCascade::scale )    
         .add_property( "stage_classifier", &::get_stage_classifier )    
-        .add_property( "hid_cascade", bp::make_function(&::get_hid_cascade, bp::return_internal_reference<>()) );
+        .add_property( "hid_cascade", bp::make_function(&::get_hid_cascade, bp::return_internal_reference<>()) )    
+        .add_property( "orig_window_size", bp::make_function(&::get_orig_window_size, bp::return_internal_reference<>()) )    
+        .add_property( "real_window_size", bp::make_function(&::get_real_window_size, bp::return_internal_reference<>()) );
 
 }

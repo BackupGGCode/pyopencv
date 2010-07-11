@@ -77,6 +77,17 @@ void register_free_functions_ca(){
     
     }
 
+    { //::cv::calcOpticalFlowPyrLK
+    
+        typedef void ( *calcOpticalFlowPyrLK_function_type )( ::cv::Mat const &,::cv::Mat const &,::std::vector< cv::Point_<float> > const &,::std::vector< cv::Point_<float> > &,::std::vector< unsigned char > &,::std::vector< float > &,::cv::Size,int,::cv::TermCriteria,double,int );
+        
+        bp::def( 
+            "calcOpticalFlowPyrLK"
+            , calcOpticalFlowPyrLK_function_type( &::cv::calcOpticalFlowPyrLK )
+            , ( bp::arg("prevImg"), bp::arg("nextImg"), bp::arg("prevPts"), bp::arg("nextPts"), bp::arg("status"), bp::arg("err"), bp::arg("winSize")=cv::Size_<int>(15, 15), bp::arg("maxLevel")=(int)(3), bp::arg("criteria")=cv::TermCriteria(3, 30, 1.0000000000000000208166817117216851329430937767e-2), bp::arg("derivLambda")=5.0e-1, bp::arg("flags")=(int)(0) ) );
+    
+    }
+
     { //::cv::calibrationMatrixValues
     
         typedef void ( *calibrationMatrixValues_function_type )( ::cv::Mat const &,::cv::Size,double,double,double &,double &,double &,::cv::Point2d &,double & );

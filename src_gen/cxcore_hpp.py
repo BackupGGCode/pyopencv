@@ -255,8 +255,8 @@ KLASS.__repr__ = _KLASS__repr__
     z.add_declaration_code('''
 static bp::object get_data(cv::Mat const &inst)
 {
-    return bp::object(bp::handle<>(bp::borrowed(PyBuffer_FromReadWriteMemory(
-        (void*)inst.data, inst.rows*inst.step))));
+    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory(
+        (void*)inst.data, inst.rows*inst.step)));
 }
 
     ''')
@@ -601,8 +601,8 @@ static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
     z.add_declaration_code('''
 static bp::object get_data(cv::MatND const &inst)
 {
-    return bp::object(bp::handle<>(bp::borrowed(PyBuffer_FromReadWriteMemory(
-        (void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1]))));
+    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory(
+        (void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1])));
 }
 
     ''')
@@ -621,7 +621,7 @@ MatND.__repr__ = _MatND__repr__
     z = mb.class_('NAryMatNDIterator')
     mb.init_class(z)
     z.constructors(lambda x: "MatND const *" in x.partial_decl_string).exclude() # TODO: fix these constructors
-    z.mem_fun('init')._transformer_creators.append(FT.input_as_list_of_MatND('arrays', 'count'))
+    z.mem_fun('init')._transformer_creators.append(FT.input_as_list_of_Matlike('arrays', 'count'))
     mb.finalize_class(z)
     
     # SparseMat
@@ -775,15 +775,11 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
         for z in mb.free_funs(t):
             if 'vector' in z.partial_decl_string:
                 z.include()
-                # z._transformer_creators.append(FT.arg_std_vector('mv'))
-                # z._transformer_kwds['alias'] = t
             
     # mixChannels
     for z in mb.free_funs('mixChannels'):
         if 'vector' in z.partial_decl_string:
             z.include()
-            # z._transformer_creators.append(FT.arg_std_vector('src'))
-            # z._transformer_creators.append(FT.arg_std_vector('dst'))
             z._transformer_kwds['alias'] = 'mixChannels'
             z._transformer_creators.append(FT.input_array1d('fromTo'))
     
@@ -839,7 +835,7 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
     mb.expose_class_Ptr('CvMemStorage')
     
     # Seq
-    # TODO: do something with Seq<>
+    # to expose a template class Seq<T>, use expose_class_Seq('T')
 
     # MatExpr
     mb.decls(lambda x: 'MatExpr' in x.decl_string).exclude()

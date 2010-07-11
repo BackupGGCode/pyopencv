@@ -15,7 +15,7 @@ void register_vector_Point3d_class(){
         typedef bp::class_< std::vector< cv::Point3_<double> > > vector_Point3d_exposer_t;
         vector_Point3d_exposer_t vector_Point3d_exposer = vector_Point3d_exposer_t( "vector_Point3d" );
         bp::scope vector_Point3d_scope( vector_Point3d_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::Point3_<double>" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::Point3_<double>" does not have operator== !
         vector_Point3d_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::Point3_<double> > >() );
         vector_Point3d_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

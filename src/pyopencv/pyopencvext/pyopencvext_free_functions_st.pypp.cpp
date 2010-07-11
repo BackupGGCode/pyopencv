@@ -8,19 +8,6 @@ namespace bp = boost::python;
 
 void register_free_functions_st(){
 
-    { //::cvStarKeypoint
-    
-        typedef ::CvStarKeypoint ( *starKeypoint_function_type )( ::CvPoint,int,float );
-        
-        bp::def( 
-            "starKeypoint"
-            , starKeypoint_function_type( &::cvStarKeypoint )
-            , ( bp::arg("pt"), bp::arg("size"), bp::arg("response") )
-            , "\nWrapped function:"
-    "\n    cvStarKeypoint" );
-    
-    }
-
     { //::cvStartReadChainPoints
     
         typedef void ( *startReadChainPoints_function_type )( ::CvChain *,::CvChainPtReader * );
@@ -43,6 +30,17 @@ void register_free_functions_st(){
             , startWindowThread_function_type( &::cvStartWindowThread )
             , "\nWrapped function:"
     "\n    cvStartWindowThread" );
+    
+    }
+
+    { //::cv::stereoCalibrate
+    
+        typedef double ( *stereoCalibrate_function_type )( ::std::vector< std::vector< cv::Point3_<float> > > const &,::std::vector< std::vector< cv::Point_<float> > > const &,::std::vector< std::vector< cv::Point_<float> > > const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Size,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::TermCriteria,int );
+        
+        bp::def( 
+            "stereoCalibrate"
+            , stereoCalibrate_function_type( &::cv::stereoCalibrate )
+            , ( bp::arg("objectPoints"), bp::arg("imagePoints1"), bp::arg("imagePoints2"), bp::arg("cameraMatrix1"), bp::arg("distCoeffs1"), bp::arg("cameraMatrix2"), bp::arg("distCoeffs2"), bp::arg("imageSize"), bp::arg("R"), bp::arg("T"), bp::arg("E"), bp::arg("F"), bp::arg("criteria")=cv::TermCriteria(3, 30, 9.99999999999999954748111825886258685613938723691e-7), bp::arg("flags")=int(::cv::CALIB_FIX_INTRINSIC) ) );
     
     }
 

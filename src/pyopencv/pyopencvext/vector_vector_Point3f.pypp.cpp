@@ -15,7 +15,7 @@ void register_vector_vector_Point3f_class(){
         typedef bp::class_< std::vector< std::vector< cv::Point3_<float> > > > vector_vector_Point3f_exposer_t;
         vector_vector_Point3f_exposer_t vector_vector_Point3f_exposer = vector_vector_Point3f_exposer_t( "vector_vector_Point3f" );
         bp::scope vector_vector_Point3f_scope( vector_vector_Point3f_exposer );
-        //WARNING: the next line of code will not compile, because "::std::vector<cv::Point3_<float>, std::allocator<cv::Point3_<float> > >" does not have operator== !
+        //WARNING: the next line of code will not compile, because "std::vector<cv::Point3_<float> >" does not have operator== !
         vector_vector_Point3f_exposer.def( bp::vector_indexing_suite< ::std::vector< std::vector< cv::Point3_<float> > > >() );
         vector_vector_Point3f_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

@@ -21,7 +21,13 @@ namespace sdcpp {
 
 using namespace boost::python;
 
+// get an object which is a _borrowed_ reference to py_obj
+// borrowed vs new: http://docs.python.org/release/2.5.2/ext/refcountsInPython.html
 inline object get_borrowed_object(PyObject *py_obj) { return object(handle<>(borrowed(py_obj))); }
+
+// get an object which is a _new_ reference to py_obj
+// borrowed vs new: http://docs.python.org/release/2.5.2/ext/refcountsInPython.html
+inline object get_new_object(PyObject *py_obj) { return object(handle<>(py_obj)); }
 
 template<typename T> inline bool check(object const &obj) { return true; }
 template<typename T> inline PyTypeObject const *get_pytype() { return 0; }
@@ -29,10 +35,17 @@ template<typename T> inline PyTypeObject const *get_pytype() { return 0; }
 class sdobject
 {
 public:
-    sdobject(object const &obj) : obj(obj) {}
+    sdobject(object const &obj) : obj(obj) { incref(obj.ptr()); }
+    ~sdobject() { decref(obj.ptr()); }
     
     object const & get_obj() const { return obj; }
-    sdobject &operator=(sdobject const &inst) { obj = inst.obj; return *this; }
+    sdobject &operator=(sdobject const &inst)
+    {
+        decref(obj.ptr());
+        obj = inst.obj;
+        incref(obj.ptr());
+        return *this;
+    }
 
 protected:
     object obj;

@@ -253,30 +253,30 @@ void register_CvBlobSeq_class(){
         }
         { //::CvBlobSeq::Load
         
-            typedef void ( *default_Load_function_type )( ::CvBlobSeq &,::cv::FileStorage &,::cv::FileNode & );
+            typedef void ( *default_Load_function_type )( CvBlobSeq &,::cv::FileStorage &,::cv::FileNode & );
             
             CvBlobSeq_exposer.def( 
                 "Load"
                 , default_Load_function_type( &CvBlobSeq_wrapper::default_Load )
                 , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-                , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+                , "\nArgument 'fs':"\
+    "\n    C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." );
         
         }
         { //::CvBlobSeq::Write
         
-            typedef void ( *default_Write_function_type )( ::CvBlobSeq &,::cv::FileStorage &,char const * );
+            typedef void ( *default_Write_function_type )( CvBlobSeq &,::cv::FileStorage &,char const * );
             
             CvBlobSeq_exposer.def( 
                 "Write"
                 , default_Write_function_type( &CvBlobSeq_wrapper::default_Write )
                 , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
                 , "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
         
         }

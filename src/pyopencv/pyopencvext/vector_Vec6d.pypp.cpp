@@ -15,7 +15,7 @@ void register_vector_Vec6d_class(){
         typedef bp::class_< std::vector< cv::Vec<double, 6> > > vector_Vec6d_exposer_t;
         vector_Vec6d_exposer_t vector_Vec6d_exposer = vector_Vec6d_exposer_t( "vector_Vec6d" );
         bp::scope vector_Vec6d_scope( vector_Vec6d_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::Vec<double, 6>" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::Vec<double,6>" does not have operator== !
         vector_Vec6d_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::Vec<double, 6> > >() );
         vector_Vec6d_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

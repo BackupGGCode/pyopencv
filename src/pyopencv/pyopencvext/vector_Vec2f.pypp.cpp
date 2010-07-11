@@ -15,7 +15,7 @@ void register_vector_Vec2f_class(){
         typedef bp::class_< std::vector< cv::Vec<float, 2> > > vector_Vec2f_exposer_t;
         vector_Vec2f_exposer_t vector_Vec2f_exposer = vector_Vec2f_exposer_t( "vector_Vec2f" );
         bp::scope vector_Vec2f_scope( vector_Vec2f_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::Vec<float, 2>" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::Vec<float,2>" does not have operator== !
         vector_Vec2f_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::Vec<float, 2> > >() );
         vector_Vec2f_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

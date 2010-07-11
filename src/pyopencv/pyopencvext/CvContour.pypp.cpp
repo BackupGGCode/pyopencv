@@ -27,7 +27,7 @@ struct CvContour_wrapper : CvContour, bp::wrapper< CvContour > {
     }
 
     static pyplusplus::containers::static_sized::array_1_t< int, 3>
-    pyplusplus_reserved_wrapper( ::CvContour & inst ){
+    pyplusplus_reserved_wrapper( CvContour & inst ){
         return pyplusplus::containers::static_sized::array_1_t< int, 3>( inst.reserved );
     }
 
@@ -72,7 +72,7 @@ void register_CvContour_class(){
         pyplusplus::containers::static_sized::register_array_1< int, 3 >( "__array_1_int_3" );
         { //CvContour::reserved [variable], type=int[3]
         
-            typedef pyplusplus::containers::static_sized::array_1_t< int, 3> ( *array_wrapper_creator )( ::CvContour & );
+            typedef pyplusplus::containers::static_sized::array_1_t< int, 3> ( *array_wrapper_creator )( CvContour & );
             
             CvContour_exposer.add_property( "reserved"
                 , bp::make_function( array_wrapper_creator(&CvContour_wrapper::pyplusplus_reserved_wrapper)

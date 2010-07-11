@@ -45,11 +45,11 @@ struct CvERTreeTrainData_wrapper : CvERTreeTrainData, bp::wrapper< CvERTreeTrain
         }
     }
 
-    virtual ::CvDTreeNode * subsample_data( ::CvMat const * _subsample_idx ) {
+    virtual CvDTreeNode * subsample_data( ::CvMat const * _subsample_idx ) {
         namespace bpl = boost::python;
         if( bpl::override func_subsample_data = this->get_override( "subsample_data" ) ){
             bpl::object py_result = bpl::call<bpl::object>( func_subsample_data.ptr(), _subsample_idx );
-            return bpl::extract< ::CvDTreeNode * >( pyplus_conv::get_out_argument( py_result, 0 ) );
+            return bpl::extract< CvDTreeNode * >( pyplus_conv::get_out_argument( py_result, 0 ) );
         }
         else{
             return CvERTreeTrainData::subsample_data( boost::python::ptr(_subsample_idx) );
@@ -65,7 +65,7 @@ struct CvERTreeTrainData_wrapper : CvERTreeTrainData, bp::wrapper< CvERTreeTrain
             result = inst.subsample_data(get_CvMat_ptr(_subsample_idx));
         }
         typedef bp::return_internal_reference< > call_policies_t;
-        return bp::object( pyplusplus::call_policies::make_object< call_policies_t, ::CvDTreeNode * >( result ) );
+        return bp::object( pyplusplus::call_policies::make_object< call_policies_t, CvDTreeNode * >( result ) );
     }
 
     virtual void clear(  ) {
@@ -226,21 +226,9 @@ struct CvERTreeTrainData_wrapper : CvERTreeTrainData, bp::wrapper< CvERTreeTrain
         }
     }
 
-    cv::Mat missing_mask_as_Mat;
-    CvMat missing_mask_as_CvMat;
-    void set_missing_mask(cv::Mat const &new_missing_mask)
-    {
-        missing_mask_as_Mat = new_missing_mask; // to keep a reference to missing_mask
-        missing_mask_as_CvMat = missing_mask_as_Mat; // to ensure missing_mask points to a valid CvMat
-        missing_mask = &missing_mask_as_CvMat;
-    }
-    cv::Mat & get_missing_mask()
-    {
-        if(missing_mask != &missing_mask_as_CvMat) set_missing_mask(cv::Mat(missing_mask));
-        return missing_mask_as_Mat;
-    }
-
 };
+
+static cv::Mat get_missing_mask(::CvERTreeTrainData const &inst) { return inst.missing_mask? cv::Mat(inst.missing_mask): cv::Mat(); }
 
 void register_CvERTreeTrainData_class(){
 
@@ -248,101 +236,100 @@ void register_CvERTreeTrainData_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvERTreeTrainData >() )    
         .def( 
             "set_data"
-            , (void (*)( ::CvERTreeTrainData &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,::CvDTreeParams const &,bool,bool,bool ))( &CvERTreeTrainData_wrapper::default_set_data )
+            , (void (*)( CvERTreeTrainData &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,CvDTreeParams const &,bool,bool,bool ))( &CvERTreeTrainData_wrapper::default_set_data )
             , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("_params")=::CvDTreeParams( ), bp::arg("_shared")=(bool)(false), bp::arg("_add_labels")=(bool)(false), bp::arg("_update_data")=(bool)(false) )
-            , "\nArgument '_missing_mask':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_type':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+            , "\nArgument '_train_data':"\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_responses':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_train_data':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\nArgument '_var_idx':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample_idx':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_type':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_missing_mask':"\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 
             "subsample_data"
-            , (boost::python::object (*)( ::CvERTreeTrainData &,::cv::Mat & ))( &CvERTreeTrainData_wrapper::default_subsample_data )
+            , (boost::python::object (*)( CvERTreeTrainData &,::cv::Mat & ))( &CvERTreeTrainData_wrapper::default_subsample_data )
             , ( bp::arg("inst"), bp::arg("_subsample_idx") )
             , "\nArgument '_subsample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." )    
         .def( 
             "clear"
-            , (void ( ::CvDTreeTrainData::* )(  ) )(&::CvDTreeTrainData::clear)
+            , (void ( CvDTreeTrainData::* )(  ) )(&::CvDTreeTrainData::clear)
             , (void ( CvERTreeTrainData_wrapper::* )(  ) )(&CvERTreeTrainData_wrapper::default_clear) )    
         .def( 
             "do_responses_copy"
-            , (void ( ::CvDTreeTrainData::* )(  ) )(&::CvDTreeTrainData::do_responses_copy)
+            , (void ( CvDTreeTrainData::* )(  ) )(&::CvDTreeTrainData::do_responses_copy)
             , (void ( CvERTreeTrainData_wrapper::* )(  ) )(&CvERTreeTrainData_wrapper::default_do_responses_copy) )    
         .def( 
             "free_node"
-            , (void ( ::CvDTreeTrainData::* )( ::CvDTreeNode * ) )(&::CvDTreeTrainData::free_node)
+            , (void ( CvDTreeTrainData::* )( ::CvDTreeNode * ) )(&::CvDTreeTrainData::free_node)
             , (void ( CvERTreeTrainData_wrapper::* )( ::CvDTreeNode * ) )(&CvERTreeTrainData_wrapper::default_free_node)
             , ( bp::arg("node") ) )    
         .def( 
             "free_node_data"
-            , (void ( ::CvDTreeTrainData::* )( ::CvDTreeNode * ) )(&::CvDTreeTrainData::free_node_data)
+            , (void ( CvDTreeTrainData::* )( ::CvDTreeNode * ) )(&::CvDTreeTrainData::free_node_data)
             , (void ( CvERTreeTrainData_wrapper::* )( ::CvDTreeNode * ) )(&CvERTreeTrainData_wrapper::default_free_node_data)
             , ( bp::arg("node") ) )    
         .def( 
             "free_train_data"
-            , (void ( ::CvDTreeTrainData::* )(  ) )(&::CvDTreeTrainData::free_train_data)
+            , (void ( CvDTreeTrainData::* )(  ) )(&::CvDTreeTrainData::free_train_data)
             , (void ( CvERTreeTrainData_wrapper::* )(  ) )(&CvERTreeTrainData_wrapper::default_free_train_data) )    
         .def( 
             "get_child_buf_idx"
-            , (int ( ::CvDTreeTrainData::* )( ::CvDTreeNode * ) )(&::CvDTreeTrainData::get_child_buf_idx)
+            , (int ( CvDTreeTrainData::* )( ::CvDTreeNode * ) )(&::CvDTreeTrainData::get_child_buf_idx)
             , (int ( CvERTreeTrainData_wrapper::* )( ::CvDTreeNode * ) )(&CvERTreeTrainData_wrapper::default_get_child_buf_idx)
             , ( bp::arg("n") ) )    
         .def( 
             "new_node"
-            , (::CvDTreeNode * ( ::CvDTreeTrainData::* )( ::CvDTreeNode *,int,int,int ) )(&::CvDTreeTrainData::new_node)
+            , (::CvDTreeNode * ( CvDTreeTrainData::* )( ::CvDTreeNode *,int,int,int ) )(&::CvDTreeTrainData::new_node)
             , (::CvDTreeNode * ( CvERTreeTrainData_wrapper::* )( ::CvDTreeNode *,int,int,int ) )(&CvERTreeTrainData_wrapper::default_new_node)
             , ( bp::arg("parent"), bp::arg("count"), bp::arg("storage_idx"), bp::arg("offset") )
             , bp::return_internal_reference< >() )    
         .def( 
             "new_split_cat"
-            , (::CvDTreeSplit * ( ::CvDTreeTrainData::* )( int,float ) )(&::CvDTreeTrainData::new_split_cat)
+            , (::CvDTreeSplit * ( CvDTreeTrainData::* )( int,float ) )(&::CvDTreeTrainData::new_split_cat)
             , (::CvDTreeSplit * ( CvERTreeTrainData_wrapper::* )( int,float ) )(&CvERTreeTrainData_wrapper::default_new_split_cat)
             , ( bp::arg("vi"), bp::arg("quality") )
             , bp::return_internal_reference< >() )    
         .def( 
             "new_split_ord"
-            , (::CvDTreeSplit * ( ::CvDTreeTrainData::* )( int,float,int,int,float ) )(&::CvDTreeTrainData::new_split_ord)
+            , (::CvDTreeSplit * ( CvDTreeTrainData::* )( int,float,int,int,float ) )(&::CvDTreeTrainData::new_split_ord)
             , (::CvDTreeSplit * ( CvERTreeTrainData_wrapper::* )( int,float,int,int,float ) )(&CvERTreeTrainData_wrapper::default_new_split_ord)
             , ( bp::arg("vi"), bp::arg("cmp_val"), bp::arg("split_point"), bp::arg("inversed"), bp::arg("quality") )
             , bp::return_internal_reference< >() )    
         .def( 
             "read_params"
-            , (void (*)( ::CvDTreeTrainData &,::cv::FileStorage &,::cv::FileNode & ))( &CvERTreeTrainData_wrapper::default_read_params )
+            , (void (*)( CvDTreeTrainData &,::cv::FileStorage &,::cv::FileNode & ))( &CvERTreeTrainData_wrapper::default_read_params )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-            , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+            , "\nArgument 'fs':"\
+    "\n    C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." )    
         .def( 
             "set_params"
-            , (bool ( ::CvDTreeTrainData::* )( ::CvDTreeParams const & ) )(&::CvDTreeTrainData::set_params)
+            , (bool ( CvDTreeTrainData::* )( ::CvDTreeParams const & ) )(&::CvDTreeTrainData::set_params)
             , (bool ( CvERTreeTrainData_wrapper::* )( ::CvDTreeParams const & ) )(&CvERTreeTrainData_wrapper::default_set_params)
             , ( bp::arg("params") ) )    
         .def( 
             "write_params"
-            , (void (*)( ::CvDTreeTrainData const &,::cv::FileStorage & ))( &CvERTreeTrainData_wrapper::default_write_params )
+            , (void (*)( CvDTreeTrainData const &,::cv::FileStorage & ))( &CvERTreeTrainData_wrapper::default_write_params )
             , ( bp::arg("inst"), bp::arg("fs") )
             , "\nArgument 'fs':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." )    
-        .add_property( "missing_mask", bp::make_function(&::CvERTreeTrainData_wrapper::get_missing_mask, bp::return_internal_reference<>()),
-        &::CvERTreeTrainData_wrapper::set_missing_mask);
+        .add_property( "missing_mask", &::get_missing_mask );
 
 }

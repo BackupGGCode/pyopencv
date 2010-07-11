@@ -103,9 +103,9 @@ void register_Vec4b_class(){
         
         }
         Vec4b_exposer.staticmethod( "all" );
-        Vec4b_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Vec4b >, (bp::arg("inst_ndarray")) );
+        Vec4b_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Vec<unsigned char,4> >, (bp::arg("inst_ndarray")) );
         Vec4b_exposer.staticmethod("from_ndarray");
-        Vec4b_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Vec4b >);
+        Vec4b_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Vec<unsigned char,4> >);
         Vec4b_exposer.def("__iadd__", &__iadd__<cv::Vec4b, cv::Vec4b>, bp::return_self<>() );
         Vec4b_exposer.def("__isub__", &__isub__<cv::Vec4b, cv::Vec4b>, bp::return_self<>() );
         Vec4b_exposer.def("__iadd__", &__iadd__<cv::Vec4b, cv::Vec4s>, bp::return_self<>() );

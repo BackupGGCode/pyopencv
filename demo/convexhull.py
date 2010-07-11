@@ -36,8 +36,8 @@ if __name__ == '__main__':
                 my_random.randrange (0, image.cols / 2) + image.cols / 4)
 
         # compute the convex hull
-        hull = convexHull_int(points).to_list_of_Point2i()
-        points = points.to_list_of_Point2i()
+        hull = convexHull_int(points)
+        points = asvector_Point2i(points)
         
         # start with an empty image
         image[:] = 0

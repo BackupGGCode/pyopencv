@@ -2,7 +2,6 @@
 
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
-#include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "CascadeClassifier.pypp.hpp"
@@ -26,18 +25,16 @@ struct CascadeClassifier_wrapper : cv::CascadeClassifier, bp::wrapper< cv::Casca
     }
 
     CascadeClassifier_wrapper(::std::string const & filename )
-    : cv::CascadeClassifier( filename )
+    : cv::CascadeClassifier( boost::ref(filename) )
       , bp::wrapper< cv::CascadeClassifier >(){
         // constructor
     
     }
 
     static boost::python::object detectMultiScale( ::cv::CascadeClassifier & inst, ::cv::Mat const & image, double scaleFactor=1.10000000000000008881784197001252323389053344727e+0, int minNeighbors=3, int flags=0, ::cv::Size minSize=cv::Size_<int>() ){
-        ::std::vector< cv::Rect_<int> > objects2;
-        cv::Mat objects3;
+        std::vector<cv::Rect_<int> > objects2;
         inst.detectMultiScale(image, objects2, scaleFactor, minNeighbors, flags, minSize);
-        convert_from_vector_of_T_to_Mat(objects2, objects3);
-        return bp::object( objects3 );
+        return bp::object( objects2 );
     }
 
     cv::Mat sum, tilted, sqsum;
@@ -66,6 +63,38 @@ struct CascadeClassifier_wrapper : cv::CascadeClassifier, bp::wrapper< cv::Casca
         }
         
         return setImage(_feval, image);
+    }
+    
+    std::vector<cv::Point> my_dryRun(const cv::Mat &image)
+    {
+        std::vector<cv::Point> pts;
+        my_setImage(feval, image);
+        float bias=0.0001f;
+        CvHidHaarClassifierCascade* cascade = oldCascade->hid_cascade;
+        int i;
+        for(i = 0; i < cascade->count; ++i)
+            cascade->stage_classifier[i].threshold += bias;
+        cv::Point pt;
+        int w1 = oldCascade->orig_window_size.width;
+        int h1 = oldCascade->orig_window_size.height;
+        int w = image.cols-w1;
+        int h = image.rows-h1;
+        double mean, var;
+        for(pt.y = 0; pt.y < h; ++pt.y)
+            for(pt.x = 0; pt.x < w; ++pt.x)
+            {
+                // mean = ((double)(sum.at<int>(pt.y, pt.x) + sum.at<int>(pt.y+h1, pt.x+w1)
+                    // - sum.at<int>(pt.y+h1, pt.x) - sum.at<int>(pt.y, pt.x+w1))) / 
+                    // (w1*h1);
+                // var = ((double)(sqsum.at<int>(pt.y, pt.x) + sqsum.at<int>(pt.y+h1, pt.x+w1)
+                    // - sqsum.at<int>(pt.y+h1, pt.x) - sqsum.at<int>(pt.y, pt.x+w1))) / 
+                    // (w1*h1) - mean*mean;
+                // if(var <= bias) continue;
+                if(my_runAt(feval, pt) > 0) pts.push_back(pt);
+            }
+        for(i = 0; i < cascade->count; ++i)
+            cascade->stage_classifier[i].threshold -= bias;
+        return pts;
     }
 
 };
@@ -100,19 +129,18 @@ void register_CascadeClassifier_class(){
         bp::implicitly_convertible< std::string const &, cv::CascadeClassifier >();
         { //::cv::CascadeClassifier::detectMultiScale
         
-            typedef boost::python::object ( *detectMultiScale_function_type )( ::cv::CascadeClassifier &,::cv::Mat const &,double,int,int,::cv::Size );
+            typedef boost::python::object ( *detectMultiScale_function_type )( cv::CascadeClassifier &,cv::Mat const &,double,int,int,::cv::Size );
             
             CascadeClassifier_exposer.def( 
                 "detectMultiScale"
                 , detectMultiScale_function_type( &CascadeClassifier_wrapper::detectMultiScale )
                 , ( bp::arg("inst"), bp::arg("image"), bp::arg("scaleFactor")=1.10000000000000008881784197001252323389053344727e+0, bp::arg("minNeighbors")=(int)(3), bp::arg("flags")=(int)(0), bp::arg("minSize")=cv::Size_<int>() )
                 , "\nArgument 'objects':"\
-    "\n    C/C++ type: ::std::vector< cv::Rect_<int> > &."\
-    "\n    Python type: Mat."\
-    "\n    Invoke asMat() to convert a 1D Python sequence into a Mat, e.g. "\
-    "\n    asMat([0,1,2]) or asMat((0,1,2))."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)." );
+    "\n    C++ type: ::std::vector< cv::Rect_<int> > &."\
+    "\n    Python type: vector_Rect."\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    objects" );
         
         }
         { //::cv::CascadeClassifier::empty
@@ -158,6 +186,7 @@ void register_CascadeClassifier_class(){
         CascadeClassifier_exposer.def_readwrite( "subsets", &cv::CascadeClassifier::subsets );
         CascadeClassifier_exposer.def("runAt", &::CascadeClassifier_wrapper::my_runAt, ( bp::arg("_feval"), bp::arg("pt") ) );
         CascadeClassifier_exposer.def("setImage", &::CascadeClassifier_wrapper::my_setImage, ( bp::arg("_feval"), bp::arg("image") ) );
+        CascadeClassifier_exposer.def("runCascade", &::CascadeClassifier_wrapper::my_dryRun, ( bp::arg("image") ) );
     }
 
 }

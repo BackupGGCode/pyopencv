@@ -15,7 +15,7 @@ void register_vector_Vec6f_class(){
         typedef bp::class_< std::vector< cv::Vec<float, 6> > > vector_Vec6f_exposer_t;
         vector_Vec6f_exposer_t vector_Vec6f_exposer = vector_Vec6f_exposer_t( "vector_Vec6f" );
         bp::scope vector_Vec6f_scope( vector_Vec6f_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::Vec<float, 6>" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::Vec<float,6>" does not have operator== !
         vector_Vec6f_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::Vec<float, 6> > >() );
         vector_Vec6f_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

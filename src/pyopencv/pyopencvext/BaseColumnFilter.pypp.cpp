@@ -43,7 +43,7 @@ void register_BaseColumnFilter_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::BaseColumnFilter >() )    
         .def( 
             "reset"
-            , (void ( ::cv::BaseColumnFilter::* )(  ) )(&::cv::BaseColumnFilter::reset)
+            , (void ( cv::BaseColumnFilter::* )(  ) )(&::cv::BaseColumnFilter::reset)
             , (void ( BaseColumnFilter_wrapper::* )(  ) )(&BaseColumnFilter_wrapper::default_reset) )    
         .def_readwrite( "anchor", &cv::BaseColumnFilter::anchor )    
         .def_readwrite( "ksize", &cv::BaseColumnFilter::ksize );

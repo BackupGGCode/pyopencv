@@ -15,7 +15,7 @@ void register_vector_KeyPoint_class(){
         typedef bp::class_< std::vector< cv::KeyPoint > > vector_KeyPoint_exposer_t;
         vector_KeyPoint_exposer_t vector_KeyPoint_exposer = vector_KeyPoint_exposer_t( "vector_KeyPoint" );
         bp::scope vector_KeyPoint_scope( vector_KeyPoint_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::KeyPoint" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::KeyPoint" does not have operator== !
         vector_KeyPoint_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::KeyPoint > >() );
         vector_KeyPoint_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }

@@ -66,7 +66,7 @@ def generate_code(mb, cc, D, FT, CP):
     # CascadeClassifier
     z = mb.class_('CascadeClassifier')
     mb.init_class(z)
-    z.mem_fun('detectMultiScale')._transformer_creators.append(FT.arg_std_vector('objects', 2))
+    z.mem_fun('detectMultiScale')._transformer_creators.append(FT.arg_output('objects'))
     common.register_ti('CvHaarClassifierCascade')
     mb.expose_class_Ptr('CvHaarClassifierCascade')
     # modify runAt() and setImage() -- I need them able to support old cascade
@@ -102,9 +102,42 @@ def generate_code(mb, cc, D, FT, CP):
         return setImage(_feval, image);
     }
     
+    std::vector<cv::Point> my_dryRun(const cv::Mat &image)
+    {
+        std::vector<cv::Point> pts;
+        my_setImage(feval, image);
+        float bias=0.0001f;
+        CvHidHaarClassifierCascade* cascade = oldCascade->hid_cascade;
+        int i;
+        for(i = 0; i < cascade->count; ++i)
+            cascade->stage_classifier[i].threshold += bias;
+        cv::Point pt;
+        int w1 = oldCascade->orig_window_size.width;
+        int h1 = oldCascade->orig_window_size.height;
+        int w = image.cols-w1;
+        int h = image.rows-h1;
+        double mean, var;
+        for(pt.y = 0; pt.y < h; ++pt.y)
+            for(pt.x = 0; pt.x < w; ++pt.x)
+            {
+                // mean = ((double)(sum.at<int>(pt.y, pt.x) + sum.at<int>(pt.y+h1, pt.x+w1)
+                    // - sum.at<int>(pt.y+h1, pt.x) - sum.at<int>(pt.y, pt.x+w1))) / 
+                    // (w1*h1);
+                // var = ((double)(sqsum.at<int>(pt.y, pt.x) + sqsum.at<int>(pt.y+h1, pt.x+w1)
+                    // - sqsum.at<int>(pt.y+h1, pt.x) - sqsum.at<int>(pt.y, pt.x+w1))) / 
+                    // (w1*h1) - mean*mean;
+                // if(var <= bias) continue;
+                if(my_runAt(feval, pt) > 0) pts.push_back(pt);
+            }
+        for(i = 0; i < cascade->count; ++i)
+            cascade->stage_classifier[i].threshold -= bias;
+        return pts;
+    }
+    
     ''')
     z.add_registration_code('def("runAt", &::CascadeClassifier_wrapper::my_runAt, ( bp::arg("_feval"), bp::arg("pt") ) )')
     z.add_registration_code('def("setImage", &::CascadeClassifier_wrapper::my_setImage, ( bp::arg("_feval"), bp::arg("image") ) )')
+    z.add_registration_code('def("runCascade", &::CascadeClassifier_wrapper::my_dryRun, ( bp::arg("image") ) )')
     mb.finalize_class(z)
     
     # CascadeClassifier's sub-classes
@@ -136,8 +169,8 @@ def generate_code(mb, cc, D, FT, CP):
     # SURF
     z = mb.class_('SURF')
     mb.init_class(z)
-    z.operator(lambda x: len(x.arguments)==3)._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
-    z.operator(lambda x: len(x.arguments)==5)._transformer_creators.append(FT.arg_std_vector('descriptors', 2))
+    z.operator(lambda x: len(x.arguments)==3)._transformer_creators.append(FT.arg_output('keypoints'))
+    z.operator(lambda x: len(x.arguments)==5)._transformer_creators.append(FT.arg_output('descriptors'))
     mb.finalize_class(z)
     mb.class_('CvSURFParams').include()
 
@@ -145,14 +178,14 @@ def generate_code(mb, cc, D, FT, CP):
     # MSER
     z = mb.class_('MSER')
     mb.init_class(z)
-    z.operator('()')._transformer_creators.append(FT.arg_std_vector('msers', 2))
+    z.operator('()')._transformer_creators.append(FT.arg_output('msers'))
     mb.finalize_class(z)
     mb.class_('CvMSERParams').include()
     
     # StarDetector
     z = mb.class_('StarDetector')
     mb.init_class(z)
-    z.operator('()')._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+    z.operator('()')._transformer_creators.append(FT.arg_output('keypoints'))
     mb.finalize_class(z)
     mb.class_('CvStarDetectorParams').include()
     
@@ -254,7 +287,7 @@ def generate_code(mb, cc, D, FT, CP):
         x.arguments[0].type.partial_decl_string.startswith('::cv::FileNode')):
         z.include()
         if z.arguments[1].name=='keypoints':
-            z._transformer_creators.append(FT.arg_std_vector('keypoints', 2))
+            z._transformer_creators.append(FT.arg_output('keypoints'))
         else:
             z._transformer_creators.append(FT.output(z.arguments[1].name))
             FT.doc_output(z, z.arguments[1])   
@@ -269,15 +302,15 @@ def generate_code(mb, cc, D, FT, CP):
             
     # goodFeaturesToTrack
     FT.expose_func(mb.free_fun('goodFeaturesToTrack'), return_pointee=False, 
-        transformer_creators=[FT.arg_std_vector('corners', 2)])
+        transformer_creators=[FT.arg_output('corners')])
 
     # 'HoughCircles', 'HoughLines', 'HoughLinesP'
     FT.expose_func(mb.free_fun('HoughCircles'), return_pointee=False, 
-        transformer_creators=[FT.arg_std_vector('circles', 2)])
+        transformer_creators=[FT.arg_output('circles')])
     FT.expose_func(mb.free_fun('HoughLines'), return_pointee=False, 
-        transformer_creators=[FT.arg_std_vector('lines', 2)])
+        transformer_creators=[FT.arg_output('lines')])
     FT.expose_func(mb.free_fun('HoughLinesP'), return_pointee=False, 
-        transformer_creators=[FT.arg_std_vector('lines', 2)])
+        transformer_creators=[FT.arg_output('lines')])
     
     # getOptimalNewCameraMatrix
     FT.expose_func(mb.free_fun('getOptimalNewCameraMatrix'), return_pointee=False, 
@@ -286,14 +319,14 @@ def generate_code(mb, cc, D, FT, CP):
     # calcHist
     for z in mb.free_funs('calcHist'):
         FT.expose_func(z, return_pointee=False, transformer_creators=[
-            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d('channels'),
+            FT.input_array1d('images', 'nimages'), FT.input_array1d('channels'),
             FT.input_array1d('histSize', 'dims'), FT.input_array2d('ranges')])
         z._transformer_kwds['alias'] = 'calcHist'
             
     # calcBackProject
     for z in mb.free_funs('calcBackProject'):
         FT.expose_func(z, return_pointee=False, transformer_creators=[
-            FT.input_as_list_of_Mat('images', 'nimages'), FT.input_array1d('channels'),
+            FT.input_array1d('images', 'nimages'), FT.input_array1d('channels'),
             FT.input_array2d('ranges')])
         z._transformer_kwds['alias'] = 'calcBackProject'
             
@@ -310,14 +343,14 @@ def generate_code(mb, cc, D, FT, CP):
     z = mb.free_fun(lambda x: x.name=='findContours' and len(x.arguments)==6)
     z.include()
     z._transformer_kwds['alias'] = 'findContours'
-    z._transformer_creators.append(FT.arg_std_vector('contours', 2))
-    z._transformer_creators.append(FT.arg_std_vector('hierarchy', 2))
+    z._transformer_creators.append(FT.arg_output('contours'))
+    z._transformer_creators.append(FT.arg_output('hierarchy'))
         
     # findContours
     z = mb.free_fun(lambda x: x.name=='findContours' and len(x.arguments)==5)
     z.include()
     z._transformer_kwds['alias'] = 'findContours'
-    z._transformer_creators.append(FT.arg_std_vector('contours', 2))
+    z._transformer_creators.append(FT.arg_output('contours'))
     
     # groupRectangles
     for z in mb.free_funs('groupRectangles'):
@@ -327,7 +360,7 @@ def generate_code(mb, cc, D, FT, CP):
     # approxPolyDP    
     for z in mb.free_funs('approxPolyDP'):
         z.include()
-        z._transformer_creators.append(FT.arg_std_vector('approxCurve', 2))
+        z._transformer_creators.append(FT.arg_output('approxCurve'))
         x = z.arguments[1].type.partial_decl_string
         if 'Point_<int>' in x:
             z._transformer_kwds['alias'] = 'approxPolyDP_int'
@@ -339,7 +372,7 @@ def generate_code(mb, cc, D, FT, CP):
     # convexHull
     for z in mb.free_funs('convexHull'):
         z.include()
-        z._transformer_creators.append(FT.arg_std_vector('hull', 2))
+        z._transformer_creators.append(FT.arg_output('hull'))
         x = z.arguments[1].type.partial_decl_string
         if 'Point_<int>' in x:
             z._transformer_kwds['alias'] = 'convexHull_int'
@@ -352,14 +385,14 @@ def generate_code(mb, cc, D, FT, CP):
     mb.free_funs('undistortPoints').include()
     z = mb.free_fun(lambda x: x.name=='undistortPoints' and 'vector' in x.decl_string)
     z._transformer_kwds['alias'] = 'undistortPoints2'
-    z._transformer_creators.append(FT.arg_std_vector('dst', 2))
+    z._transformer_creators.append(FT.arg_output('dst'))
         
     # findHomography
     z = mb.free_fun(lambda x: x.name=='findHomography' and len(x.arguments)==4).include()
     z = mb.free_fun(lambda x: x.name=='findHomography' and 'vector' in x.decl_string)
     z.include()
     z._transformer_kwds['alias'] = 'findHomography2'
-    z._transformer_creators.append(FT.arg_std_vector('mask', 2))
+    z._transformer_creators.append(FT.arg_output('mask'))
         
     # projectPoints
     for z in mb.free_funs('projectPoints'):
@@ -368,15 +401,15 @@ def generate_code(mb, cc, D, FT, CP):
             z._transformer_kwds['alias'] = 'projectPoints' 
         else:
             z._transformer_kwds['alias'] = 'projectPoints2'
-        z._transformer_creators.append(FT.arg_std_vector('imagePoints', 2))
+        z._transformer_creators.append(FT.arg_output('imagePoints'))
 
     # findChessboardCorners
     FT.expose_func(mb.free_fun('findChessboardCorners'), return_pointee=False,
-        transformer_creators=[FT.arg_std_vector('corners', 2)])
+        transformer_creators=[FT.arg_output('corners')])
     
     # calibrateCamera
     FT.expose_func(mb.free_fun('calibrateCamera'), return_pointee=False,
-        transformer_creators=[FT.arg_std_vector('rvecs', 2), FT.arg_std_vector('tvecs', 2)])
+        transformer_creators=[FT.arg_output('rvecs'), FT.arg_output('tvecs')])
         
     # stereoRectify
     for z in mb.free_funs('stereoRectify'):
@@ -393,17 +426,17 @@ def generate_code(mb, cc, D, FT, CP):
         z.include()        
         z._transformer_kwds['alias'] = 'convertPointsHomogeneous3D' if \
             'Point3' in z.decl_string else 'convertPointsHomogeneous2D'
-        z._transformer_creators.append(FT.arg_std_vector('dst', 2))
+        z._transformer_creators.append(FT.arg_output('dst'))
         
     # findFundamentalMat
     for z in mb.free_funs('findFundamentalMat'):
         z.include()
         if 'vector' in z.decl_string:
-            z._transformer_creators.append(FT.arg_std_vector('mask', 2))
+            z._transformer_creators.append(FT.arg_output('mask'))
             z._transformer_kwds['alias'] = 'findFundamentalMat2'
     
     # computeCorrespondEpilines
     FT.expose_func(mb.free_fun('computeCorrespondEpilines'), return_pointee=False,
-        transformer_creators=[FT.arg_std_vector('lines', 2)])
+        transformer_creators=[FT.arg_output('lines')])
     
     

@@ -23,14 +23,14 @@ void register_RotatedRect_class(){
     "\n    http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect") )    
         .def( 
             "boundingRect"
-            , (::cv::Rect ( ::cv::RotatedRect::* )(  ) const)( &::cv::RotatedRect::boundingRect )
+            , (::cv::Rect ( cv::RotatedRect::* )(  ) const)( &::cv::RotatedRect::boundingRect )
             , "\nReturns minimal up-right rectangle that contains the rotated "
     "\nrectangle."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/basic_structures.html#rotatedrect" )    
         .def( 
             "points"
-            , (void ( ::cv::RotatedRect::* )( ::cv::Point2f * ) const)( &::cv::RotatedRect::points )
+            , (void ( cv::RotatedRect::* )( ::cv::Point2f * ) const)( &::cv::RotatedRect::points )
             , ( bp::arg("pt") ) )    
         .def_readwrite( "angle", &cv::RotatedRect::angle )    
         .def_readwrite( "center", &cv::RotatedRect::center )    

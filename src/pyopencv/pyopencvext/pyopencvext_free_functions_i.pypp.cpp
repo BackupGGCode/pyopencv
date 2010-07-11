@@ -104,6 +104,20 @@ void register_free_functions_i(){
     
     }
 
+    { //::cv::imwrite
+    
+        typedef bool ( *imwrite_function_type )( ::std::string const &,::cv::Mat const &,::std::vector< int > const & );
+        
+        bp::def( 
+            "imwrite"
+            , imwrite_function_type( &::cv::imwrite )
+            , ( bp::arg("filename"), bp::arg("img"), bp::arg("params")=std::vector<int>() )
+            , "\nSaves an image to a specified file."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imwrite" );
+    
+    }
+
     { //::cv::inRange
     
         typedef void ( *inRange_function_type )( ::cv::MatND const &,::cv::Scalar const &,::cv::Scalar const &,::cv::MatND & );
@@ -157,6 +171,17 @@ void register_free_functions_i(){
             , "\nChecks if array elements lie between the elements of two other arrays."
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-inrange" );
+    
+    }
+
+    { //::cv::initCameraMatrix2D
+    
+        typedef ::cv::Mat ( *initCameraMatrix2D_function_type )( ::std::vector< std::vector< cv::Point3_<float> > > const &,::std::vector< std::vector< cv::Point_<float> > > const &,::cv::Size,double );
+        
+        bp::def( 
+            "initCameraMatrix2D"
+            , initCameraMatrix2D_function_type( &::cv::initCameraMatrix2D )
+            , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("aspectRatio")=1.0e+0 ) );
     
     }
 

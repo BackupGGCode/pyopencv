@@ -27,11 +27,11 @@ struct CvAttrList_wrapper : CvAttrList, bp::wrapper< CvAttrList > {
         
     }
 
-    static ::CvAttrList * get_next(CvAttrList const & inst ){
+    static CvAttrList * get_next(CvAttrList const & inst ){
         return inst.next;
     }
     
-    static void set_next( CvAttrList & inst, ::CvAttrList * new_value ){ 
+    static void set_next( CvAttrList & inst, CvAttrList * new_value ){ 
         inst.next = new_value;
     }
 

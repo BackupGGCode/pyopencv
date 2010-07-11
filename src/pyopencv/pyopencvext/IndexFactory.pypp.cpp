@@ -29,7 +29,7 @@ void register_IndexFactory_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::IndexFactory >() )    
         .def( 
             "createIndex"
-            , bp::pure_virtual( (::flann::Index * ( ::cv::flann::IndexFactory::* )( ::cv::Mat const & ) const)(&::cv::flann::IndexFactory::createIndex) )
+            , bp::pure_virtual( (::flann::Index * ( cv::flann::IndexFactory::* )( ::cv::Mat const & ) const)(&::cv::flann::IndexFactory::createIndex) )
             , ( bp::arg("dataset") )
             , bp::return_value_policy< bp::reference_existing_object >() );
 

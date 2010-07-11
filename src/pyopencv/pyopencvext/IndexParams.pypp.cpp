@@ -30,7 +30,7 @@ void register_IndexParams_class(){
         .def( bp::init< >() )    
         .def( 
             "createIndex"
-            , bp::pure_virtual( (::flann::Index * ( ::cv::flann::IndexFactory::* )( ::cv::Mat const & ) const)(&::cv::flann::IndexFactory::createIndex) )
+            , bp::pure_virtual( (::flann::Index * ( cv::flann::IndexFactory::* )( ::cv::Mat const & ) const)(&::cv::flann::IndexFactory::createIndex) )
             , ( bp::arg("dataset") )
             , bp::return_value_policy< bp::reference_existing_object >() );
 

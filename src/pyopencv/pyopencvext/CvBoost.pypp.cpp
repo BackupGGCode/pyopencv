@@ -80,10 +80,10 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
         CvMat weak_responses2;
         float result;
         if( dynamic_cast< CvBoost_wrapper const* >( boost::addressof( inst ) ) ){
-            result = inst.::CvBoost::predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing), &weak_responses2, *(CvSlice *)(&slice), raw_mode, return_sum);
+            result = inst.::CvBoost::predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing), &weak_responses2, (CvSlice const &)slice, raw_mode, return_sum);
         }
         else{
-            result = inst.predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing), &weak_responses2, *(CvSlice *)(&slice), raw_mode, return_sum);
+            result = inst.predict(get_CvMat_ptr(_sample), get_CvMat_ptr(_missing), &weak_responses2, (CvSlice const &)slice, raw_mode, return_sum);
         }
         return bp::make_tuple( result, weak_responses2 );
     }
@@ -103,10 +103,10 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
         cv::Mat weak_responses2;
         float result;
         if( dynamic_cast< CvBoost_wrapper const* >( boost::addressof( inst ) ) ){
-            result = inst.::CvBoost::predict(_sample, _missing, &weak_responses2, *(CvSlice *)(&slice), raw_mode, return_sum);
+            result = inst.::CvBoost::predict(_sample, _missing, &weak_responses2, (CvSlice const &)slice, raw_mode, return_sum);
         }
         else{
-            result = inst.predict(_sample, _missing, &weak_responses2, *(CvSlice *)(&slice), raw_mode, return_sum);
+            result = inst.predict(_sample, _missing, &weak_responses2, (CvSlice const &)slice, raw_mode, return_sum);
         }
         return bp::make_tuple( result, weak_responses2 );
     }
@@ -123,10 +123,10 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
     
     static void default_prune( ::CvBoost & inst, cv::Range const & slice ){
         if( dynamic_cast< CvBoost_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvBoost::prune(*(CvSlice *)(&slice));
+            inst.::CvBoost::prune((CvSlice const &)slice);
         }
         else{
-            inst.prune(*(CvSlice *)(&slice));
+            inst.prune((CvSlice const &)slice);
         }
     }
 
@@ -257,23 +257,23 @@ void register_CvBoost_class(){
         bp::scope().attr("SQERR") = (int)CvBoost::SQERR;
         CvBoost_exposer.def( bp::init< CvMat const *, int, CvMat const *, bp::optional< CvMat const *, CvMat const *, CvMat const *, CvMat const *, CvBoostParams > >(( bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=bp::object(), bp::arg("_sample_idx")=bp::object(), bp::arg("_var_type")=bp::object(), bp::arg("_missing_mask")=bp::object(), bp::arg("params")=::CvBoostParams( ) ), "\nWrapped function:"
     "\n    CvBoost"
-    "\nArgument '_missing_mask':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_type':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\nArgument '_train_data':"\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_responses':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_train_data':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\nArgument '_var_idx':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample_idx':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_type':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_missing_mask':"\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat.") );
         CvBoost_exposer.def( bp::init< cv::Mat const &, int, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const &, CvBoostParams > >(( bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvBoostParams( ) )) );
         { //::CvBoost::clear
@@ -362,100 +362,102 @@ void register_CvBoost_class(){
         }
         { //::CvBoost::predict
         
-            typedef boost::python::tuple ( *default_predict_function_type )( ::CvBoost const &,::cv::Mat &,::cv::Mat &,cv::Range const &,bool,bool );
+            typedef boost::python::tuple ( *default_predict_function_type )( CvBoost const &,::cv::Mat &,::cv::Mat &,cv::Range const &,bool,bool );
             
             CvBoost_exposer.def( 
                 "predict"
                 , default_predict_function_type( &CvBoost_wrapper::default_predict_886066153d61aabdd5ea5947ce710be6 )
                 , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("_missing"), bp::arg("slice"), bp::arg("raw_mode")=(bool)(false), bp::arg("return_sum")=(bool)(false) )
-                , "\nArgument 'slice':"\
-    "\n    C/C++ type: ::CvSlice."\
-    "\n    Python type: Range."\
-    "\nArgument '_sample':"\
-    "\n    C/C++ type: ::CvMat const *."\
+                , "\nArgument '_sample':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_missing':"\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument 'weak_responses':"\
-    "\n    C/C++ type: ::CvMat *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
-    "\nArgument '_missing':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvMat *."\
+    "\n    Python type: CvMat."\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nArgument 'slice':"\
+    "\n    C++ type: ::CvSlice."\
+    "\n    Python type: Range."\
+    "\nReturns:"\
+    "\n    ((float32), weak_responses)" );
         
         }
         { //::CvBoost::predict
         
-            typedef boost::python::tuple ( *default_predict_function_type )( ::CvBoost const &,::cv::Mat const &,::cv::Mat const &,cv::Range const &,bool,bool );
+            typedef boost::python::tuple ( *default_predict_function_type )( CvBoost const &,cv::Mat const &,cv::Mat const &,cv::Range const &,bool,bool );
             
             CvBoost_exposer.def( 
                 "predict"
                 , default_predict_function_type( &CvBoost_wrapper::default_predict_457b8998388d215e0ce5b2a4e8c7c55f )
                 , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("_missing"), bp::arg("slice"), bp::arg("raw_mode")=(bool)(false), bp::arg("return_sum")=(bool)(false) )
                 , "\nArgument 'weak_responses':"\
-    "\n    C/C++ type: ::cv::Mat *."\
-    "\n    Python type: Python equivalence of the C/C++ type without pointer."\
-    "\n    Output argument: omitted from the function's calling sequence, and is "\
-    "\n    returned along with the function's return value (if any)."\
+    "\n    C++ type: ::cv::Mat *."\
+    "\n    Python type: Mat."\
+    "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'slice':"\
-    "\n    C/C++ type: ::CvSlice."\
-    "\n    Python type: Range." );
+    "\n    C++ type: ::CvSlice."\
+    "\n    Python type: Range."\
+    "\nReturns:"\
+    "\n    ((float32), weak_responses)" );
         
         }
         { //::CvBoost::prune
         
-            typedef void ( *default_prune_function_type )( ::CvBoost &,cv::Range const & );
+            typedef void ( *default_prune_function_type )( CvBoost &,cv::Range const & );
             
             CvBoost_exposer.def( 
                 "prune"
                 , default_prune_function_type( &CvBoost_wrapper::default_prune )
                 , ( bp::arg("inst"), bp::arg("slice") )
                 , "\nArgument 'slice':"\
-    "\n    C/C++ type: ::CvSlice."\
+    "\n    C++ type: ::CvSlice."\
     "\n    Python type: Range." );
         
         }
         { //::CvBoost::read
         
-            typedef void ( *default_read_function_type )( ::CvBoost &,::cv::FileStorage &,::cv::FileNode & );
+            typedef void ( *default_read_function_type )( CvBoost &,::cv::FileStorage &,::cv::FileNode & );
             
             CvBoost_exposer.def( 
                 "read"
                 , default_read_function_type( &CvBoost_wrapper::default_read )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-                , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+                , "\nArgument 'storage':"\
+    "\n    C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." );
         
         }
         { //::CvBoost::train
         
-            typedef boost::python::object ( *default_train_function_type )( ::CvBoost &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,::CvBoostParams,bool );
+            typedef boost::python::object ( *default_train_function_type )( CvBoost &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,CvBoostParams,bool );
             
             CvBoost_exposer.def( 
                 "train"
                 , default_train_function_type( &CvBoost_wrapper::default_train_3f66572c988fe182c19720cf6ee35a3e )
                 , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvBoostParams( ), bp::arg("update")=(bool)(false) )
-                , "\nArgument '_missing_mask':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_type':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+                , "\nArgument '_train_data':"\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_responses':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
-    "\nArgument '_train_data':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\nArgument '_var_idx':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample_idx':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_type':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_missing_mask':"\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
         
         }
@@ -485,14 +487,14 @@ void register_CvBoost_class(){
         }
         { //::CvBoost::write
         
-            typedef void ( *default_write_function_type )( ::CvBoost const &,::cv::FileStorage &,char const * );
+            typedef void ( *default_write_function_type )( CvBoost const &,::cv::FileStorage &,char const * );
             
             CvBoost_exposer.def( 
                 "write"
                 , default_write_function_type( &CvBoost_wrapper::default_write )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
                 , "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
         
         }

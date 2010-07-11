@@ -46,9 +46,9 @@ void register_Size2f_class(){
         }
         Size2f_exposer.def_readwrite( "height", &cv::Size_< float >::height );
         Size2f_exposer.def_readwrite( "width", &cv::Size_< float >::width );
-        Size2f_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Size2f >, (bp::arg("inst_ndarray")) );
+        Size2f_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Size_<float> >, (bp::arg("inst_ndarray")) );
         Size2f_exposer.staticmethod("from_ndarray");
-        Size2f_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Size2f >);
+        Size2f_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Size_<float> >);
         Size2f_exposer.def("__iadd__", &__iadd__<cv::Size2f, cv::Size2f>, bp::return_self<>() );
         Size2f_exposer.def("__isub__", &__isub__<cv::Size2f, cv::Size2f>, bp::return_self<>() );
         Size2f_exposer.def("__add__", &__add__<cv::Size2f, cv::Size2f> );

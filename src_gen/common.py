@@ -17,6 +17,7 @@
 
 import re as _re
 import os.path as OP
+from pygccxml import declarations as _D
 
 # -----------------------------------------------------------------------------------------------
 # Some useful common-ground sub-routines
@@ -29,6 +30,7 @@ def init_transformers(func_list):
         fun._transformer_creators = []
         fun._transformer_kwds = {}
         fun._args_docs = {}
+        fun._output_args = []
         
 def add_func_arg_doc(fun, arg, s=""):
     try:
@@ -325,10 +327,35 @@ def add_decl_desc(decl):
         
     try:
         # assume decl is a function
-        for arg in decl._args_docs:
+        for a in decl.arguments:
+            if not a.name in decl._args_docs:
+                continue
+            arg = a.name
             add_decl_boost_doc(decl, "Argument '%s':" % arg)
             for z in decl._args_docs[arg]:
-                add_decl_boost_doc(decl, "    "+z)            
+                add_decl_boost_doc(decl, "    "+z)
+                
+        if decl._output_args:
+            # get the return value and output arguments
+            return_list = []
+            if decl.return_type.partial_decl_string!='void':
+                return_type = _D.remove_const(_D.remove_reference(decl.return_type))
+                pds = unique_pds(return_type.partial_decl_string)
+                pds = get_registered_decl_name(pds)
+                return_list.append("(%s)" % pds)
+            return_list.extend([x.name for x in decl._output_args])
+                
+            # document it
+            add_decl_boost_doc(decl, "Returns:")
+            s = ""
+            for r in return_list:
+                s += r+", "
+            s = s[:-2]
+            if len(return_list) > 1:
+                s = "    ("+s+")"
+            else:
+                s = "    "+s
+            add_decl_boost_doc(decl, s)
     except AttributeError:
         pass
         
@@ -361,7 +388,24 @@ def update_file(file_path, content):
         return True
     return False
 
-        
+
+
+c2cpp = {
+    'CvPoint': 'cv::Point_<int>',
+    'CvPoint2D32f': 'cv::Point_<float>',
+    'CvPoint2D64f': 'cv::Point_<double>',
+    'CvPoint3D32f': 'cv::Point3_<float>',
+    'CvPoint3D64f': 'cv::Point3_<double>',
+    'CvSize': 'cv::Size_<int>',
+    'CvSize2D32f': 'cv:Size_<float>',
+    'CvBox2D': 'cv::RotatedRect',
+    'CvTermCriteria': 'cv::TermCriteria',
+    'CvScalar': 'cv::Scalar_<double>',
+    'CvSlice': 'cv::Range',
+    'CvRect': 'cv::Rect_<int>',
+    'CvRNG': 'cv::RNG',
+}
+
         
 _decls_reg = {}
 
@@ -388,7 +432,15 @@ def get_registered_decl(pds):
     try:
         return _decls_reg[upds]
     except KeyError:
-        raise ValueError("Class of pds '%s' has not been registered." % alias)
+        raise ValueError("Class of pds '%s' has not been registered." % pds)
+        
+def get_registered_decl_name(pds):
+    upds = unique_pds(pds)
+    try:
+        return _decls_reg[upds][0]
+    except KeyError:
+        return "(C++)"+upds
+    
         
 def find_classes(pds):
     pds = unique_pds(pds)
@@ -405,7 +457,7 @@ def register_decl(pyName, pds, cChildName_pds=None, pyEquivName=None):
         # print "Declaration %s already registered." % pds
         return upds
     if '::' in pds: # assume it is a class
-        print "Registering class %s as %s..." % (upds, pyName)
+        print "Registration: %s ==> %s..." % (upds, pyName)
         try:
             find_class(upds).rename(pyName)
         except RuntimeError:

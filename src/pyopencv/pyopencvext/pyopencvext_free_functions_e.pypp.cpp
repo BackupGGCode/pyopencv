@@ -97,6 +97,20 @@ void register_free_functions_e(){
     
     }
 
+    { //::cv::ellipse2Poly
+    
+        typedef void ( *ellipse2Poly_function_type )( ::cv::Point,::cv::Size,int,int,int,int,::std::vector< cv::Point_<int> > & );
+        
+        bp::def( 
+            "ellipse2Poly"
+            , ellipse2Poly_function_type( &::cv::ellipse2Poly )
+            , ( bp::arg("center"), bp::arg("axes"), bp::arg("angle"), bp::arg("arcStart"), bp::arg("arcEnd"), bp::arg("delta"), bp::arg("pts") )
+            , "\nApproximates an elliptic arc with a polyline."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-ellipse2poly" );
+    
+    }
+
     { //::cv::equalizeHist
     
         typedef void ( *equalizeHist_function_type )( ::cv::Mat const &,::cv::Mat & );
@@ -116,6 +130,17 @@ void register_free_functions_e(){
             "erode"
             , erode_function_type( &::cv::erode )
             , ( bp::arg("src"), bp::arg("dst"), bp::arg("kernel"), bp::arg("anchor")=cv::Point_<int>(-0x000000001, -0x000000001), bp::arg("iterations")=(int)(1), bp::arg("borderType")=int(::cv::BORDER_CONSTANT), bp::arg("borderValue")=cv::morphologyDefaultBorderValue( ) ) );
+    
+    }
+
+    { //::cv::estimateAffine3D
+    
+        typedef int ( *estimateAffine3D_function_type )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat &,::std::vector< unsigned char > &,double,double );
+        
+        bp::def( 
+            "estimateAffine3D"
+            , estimateAffine3D_function_type( &::cv::estimateAffine3D )
+            , ( bp::arg("from"), bp::arg("to"), bp::arg("out"), bp::arg("outliers"), bp::arg("param1")=3.0e+0, bp::arg("param2")=9.89999999999999991118215802998747676610946655273e-1 ) );
     
     }
 

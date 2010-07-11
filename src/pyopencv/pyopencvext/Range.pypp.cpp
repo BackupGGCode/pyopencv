@@ -19,10 +19,10 @@ void register_Range_class(){
             , (::cv::Range (*)(  ))( &::cv::Range::all ) )    
         .def( 
             "empty"
-            , (bool ( ::cv::Range::* )(  ) const)( &::cv::Range::empty ) )    
+            , (bool ( cv::Range::* )(  ) const)( &::cv::Range::empty ) )    
         .def( 
             "size"
-            , (int ( ::cv::Range::* )(  ) const)( &::cv::Range::size ) )    
+            , (int ( cv::Range::* )(  ) const)( &::cv::Range::size ) )    
         .def_readwrite( "end", &cv::Range::end )    
         .def_readwrite( "start", &cv::Range::start )    
         .staticmethod( "all" )    

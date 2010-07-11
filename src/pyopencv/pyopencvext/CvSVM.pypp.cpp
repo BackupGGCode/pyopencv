@@ -322,14 +322,14 @@ void register_CvSVM_class(){
         }
         { //::CvSVM::predict
         
-            typedef boost::python::object ( *default_predict_function_type )( ::CvSVM const &,::cv::Mat &,bool );
+            typedef boost::python::object ( *default_predict_function_type )( CvSVM const &,::cv::Mat &,bool );
             
             CvSVM_exposer.def( 
                 "predict"
                 , default_predict_function_type( &CvSVM_wrapper::default_predict_c02d4fcfe9f774ce1816d6b16d2df3c5 )
                 , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("returnDFVal")=(bool)(false) )
                 , "\nArgument '_sample':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
         
         }
@@ -347,39 +347,39 @@ void register_CvSVM_class(){
         }
         { //::CvSVM::read
         
-            typedef void ( *default_read_function_type )( ::CvSVM &,::cv::FileStorage &,::cv::FileNode & );
+            typedef void ( *default_read_function_type )( CvSVM &,::cv::FileStorage &,::cv::FileNode & );
             
             CvSVM_exposer.def( 
                 "read"
                 , default_read_function_type( &CvSVM_wrapper::default_read )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
-                , "\nArgument 'node':"\
-    "\n    C/C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode."\
-    "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+                , "\nArgument 'storage':"\
+    "\n    C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage."\
+    "\nArgument 'node':"\
+    "\n    C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." );
         
         }
         { //::CvSVM::train
         
-            typedef boost::python::object ( *default_train_function_type )( ::CvSVM &,::cv::Mat &,::cv::Mat &,::cv::Mat,::cv::Mat,::CvSVMParams );
+            typedef boost::python::object ( *default_train_function_type )( CvSVM &,::cv::Mat &,::cv::Mat &,::cv::Mat,::cv::Mat,CvSVMParams );
             
             CvSVM_exposer.def( 
                 "train"
                 , default_train_function_type( &CvSVM_wrapper::default_train_a051ed21e9e7670e8100d8bda1f730ea )
                 , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )
-                , "\nArgument '_sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_train_data':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+                , "\nArgument '_train_data':"\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_responses':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_idx':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample_idx':"\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
         
         }
@@ -397,23 +397,23 @@ void register_CvSVM_class(){
         }
         { //::CvSVM::train_auto
         
-            typedef boost::python::object ( *default_train_auto_function_type )( ::CvSVM &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::CvSVMParams,int,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid,::CvParamGrid );
+            typedef boost::python::object ( *default_train_auto_function_type )( CvSVM &,::cv::Mat &,::cv::Mat &,::cv::Mat &,::cv::Mat &,CvSVMParams,int,CvParamGrid,CvParamGrid,CvParamGrid,CvParamGrid,CvParamGrid,CvParamGrid );
             
             CvSVM_exposer.def( 
                 "train_auto"
                 , default_train_auto_function_type( &CvSVM_wrapper::default_train_auto_8b5d0a3d89137f3ac15eb66fedb4914d )
                 , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx"), bp::arg("_sample_idx"), bp::arg("_params"), bp::arg("k_fold")=(int)(10), bp::arg("C_grid")=CvSVM::get_default_grid(0), bp::arg("gamma_grid")=CvSVM::get_default_grid(1), bp::arg("p_grid")=CvSVM::get_default_grid(2), bp::arg("nu_grid")=CvSVM::get_default_grid(3), bp::arg("coef_grid")=CvSVM::get_default_grid(4), bp::arg("degree_grid")=CvSVM::get_default_grid(5) )
-                , "\nArgument '_sample_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_train_data':"\
-    "\n    C/C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
-    "\nArgument '_var_idx':"\
-    "\n    C/C++ type: ::CvMat const *."\
+                , "\nArgument '_train_data':"\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat."\
     "\nArgument '_responses':"\
-    "\n    C/C++ type: ::CvMat const *."\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_var_idx':"\
+    "\n    C++ type: ::CvMat const *."\
+    "\n    Python type: Mat."\
+    "\nArgument '_sample_idx':"\
+    "\n    C++ type: ::CvMat const *."\
     "\n    Python type: Mat." );
         
         }
@@ -431,14 +431,14 @@ void register_CvSVM_class(){
         }
         { //::CvSVM::write
         
-            typedef void ( *default_write_function_type )( ::CvSVM const &,::cv::FileStorage &,char const * );
+            typedef void ( *default_write_function_type )( CvSVM const &,::cv::FileStorage &,char const * );
             
             CvSVM_exposer.def( 
                 "write"
                 , default_write_function_type( &CvSVM_wrapper::default_write )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
                 , "\nArgument 'storage':"\
-    "\n    C/C++ type: ::CvFileStorage *."\
+    "\n    C++ type: ::CvFileStorage *."\
     "\n    Python type: FileStorage." );
         
         }

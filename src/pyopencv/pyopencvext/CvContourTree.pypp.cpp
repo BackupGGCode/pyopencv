@@ -31,6 +31,10 @@ static bp::object get_ptr( ::CvContourTree const & inst ){
 
 static cv::MemStorage get_storage(CvContourTree const &inst) { return cv::MemStorage(inst.storage); }
 
+static cv::Point_<int> *get_p1(CvContourTree const &inst) { return (cv::Point_<int> *)(&inst.p1); }
+
+static cv::Point_<int> *get_p2(CvContourTree const &inst) { return (cv::Point_<int> *)(&inst.p2); }
+
 void register_CvContourTree_class(){
 
     bp::class_< CvContourTree >( "CvContourTree" )    
@@ -39,8 +43,6 @@ void register_CvContourTree_class(){
         .def_readwrite( "elem_size", &CvContourTree::elem_size )    
         .def_readwrite( "flags", &CvContourTree::flags )    
         .def_readwrite( "header_size", &CvContourTree::header_size )    
-        .def_readwrite( "p1", &CvContourTree::p1 )    
-        .def_readwrite( "p2", &CvContourTree::p2 )    
         .def_readwrite( "total", &CvContourTree::total )    
         .add_property( "h_prev", bp::make_function(&::get_h_prev, bp::return_internal_reference<>()) )    
         .add_property( "h_next", bp::make_function(&::get_h_next, bp::return_internal_reference<>()) )    
@@ -50,6 +52,8 @@ void register_CvContourTree_class(){
         .add_property( "first", bp::make_function(&::get_first, bp::return_internal_reference<>()) )    
         .add_property( "block_max", &::get_block_max )    
         .add_property( "ptr", &::get_ptr )    
-        .add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) );
+        .add_property( "storage", bp::make_function(&::get_storage, bp::with_custodian_and_ward_postcall<0, 1>()) )    
+        .add_property( "p1", bp::make_function(&::get_p1, bp::return_internal_reference<>()) )    
+        .add_property( "p2", bp::make_function(&::get_p2, bp::return_internal_reference<>()) );
 
 }

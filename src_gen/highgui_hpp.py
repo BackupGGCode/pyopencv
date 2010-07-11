@@ -40,7 +40,7 @@ def generate_code(mb, cc, D, FT, CP):
         ):
         mb.free_fun(z).include()
         
-    mb.free_fun('imencode')._transformer_creators.append(FT.arg_std_vector('buf', 2))
+    mb.free_fun('imencode')._transformer_creators.append(FT.arg_output('buf'))
         
     # createTrackbar
     z = mb.free_fun('createTrackbar')

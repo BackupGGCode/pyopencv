@@ -67,9 +67,9 @@ void register_Point3i_class(){
         Point3i_exposer.def_readwrite( "x", &cv::Point3_< int >::x );
         Point3i_exposer.def_readwrite( "y", &cv::Point3_< int >::y );
         Point3i_exposer.def_readwrite( "z", &cv::Point3_< int >::z );
-        Point3i_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Point3i >, (bp::arg("inst_ndarray")) );
+        Point3i_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Point3_<int> >, (bp::arg("inst_ndarray")) );
         Point3i_exposer.staticmethod("from_ndarray");
-        Point3i_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Point3i >);
+        Point3i_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Point3_<int> >);
         Point3i_exposer.def("__iadd__", &__iadd__<cv::Point3i, cv::Point3i>, bp::return_self<>() );
         Point3i_exposer.def("__isub__", &__isub__<cv::Point3i, cv::Point3i>, bp::return_self<>() );
         Point3i_exposer.def("__imul__", &__imul__<cv::Point3i, double>, bp::return_self<>() );

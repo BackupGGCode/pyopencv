@@ -63,12 +63,12 @@ void register_BackgroundSubtractorMOG_class(){
         .def( bp::init< int, int, double, bp::optional< double > >(( bp::arg("history"), bp::arg("nmixtures"), bp::arg("backgroundRatio"), bp::arg("noiseSigma")=0 )) )    
         .def( 
             "initialize"
-            , (void ( ::cv::BackgroundSubtractorMOG::* )( ::cv::Size,int ) )(&::cv::BackgroundSubtractorMOG::initialize)
+            , (void ( cv::BackgroundSubtractorMOG::* )( ::cv::Size,int ) )(&::cv::BackgroundSubtractorMOG::initialize)
             , (void ( BackgroundSubtractorMOG_wrapper::* )( ::cv::Size,int ) )(&BackgroundSubtractorMOG_wrapper::default_initialize)
             , ( bp::arg("frameSize"), bp::arg("frameType") ) )    
         .def( 
             "__call__"
-            , (void ( ::cv::BackgroundSubtractorMOG::* )( ::cv::Mat const &,::cv::Mat &,double ) )(&::cv::BackgroundSubtractorMOG::operator())
+            , (void ( cv::BackgroundSubtractorMOG::* )( ::cv::Mat const &,::cv::Mat &,double ) )(&::cv::BackgroundSubtractorMOG::operator())
             , (void ( BackgroundSubtractorMOG_wrapper::* )( ::cv::Mat const &,::cv::Mat &,double ) )(&BackgroundSubtractorMOG_wrapper::default___call__)
             , ( bp::arg("image"), bp::arg("fgmask"), bp::arg("learningRate")=0 ) )    
         .def_readwrite( "backgroundRatio", &cv::BackgroundSubtractorMOG::backgroundRatio )    

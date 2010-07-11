@@ -12,7 +12,7 @@ if __name__ == "__main__":
     chessboard_dim = Size( 7, 5 )
     
     found, corners = findChessboardCorners( im, chessboard_dim )
-    drawChessboardCorners( im3, chessboard_dim, corners, found )
+    drawChessboardCorners( im3, chessboard_dim, asMat(corners), found )
     
     imshow("win", im3)
     waitKey()

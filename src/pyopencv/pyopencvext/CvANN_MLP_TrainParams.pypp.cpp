@@ -21,7 +21,7 @@ void register_CvANN_MLP_TrainParams_class(){
         CvANN_MLP_TrainParams_exposer.def( bp::init< CvTermCriteria, int, double, bp::optional< double > >(( bp::arg("term_crit"), bp::arg("train_method"), bp::arg("param1"), bp::arg("param2")=0 ), "\nWrapped function:"
     "\n    CvANN_MLP_TrainParams"
     "\nArgument 'term_crit':"\
-    "\n    C/C++ type: ::CvTermCriteria."\
+    "\n    C++ type: ::CvTermCriteria."\
     "\n    Python type: TermCriteria.") );
         CvANN_MLP_TrainParams_exposer.def_readwrite( "bp_dw_scale", &CvANN_MLP_TrainParams::bp_dw_scale );
         CvANN_MLP_TrainParams_exposer.def_readwrite( "bp_moment_scale", &CvANN_MLP_TrainParams::bp_moment_scale );

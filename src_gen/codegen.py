@@ -224,16 +224,16 @@ mb.cc = cc
 
 def add_ndarray_interface(self, klass):
     klass.include_files.append("ndarray.hpp")
-    klass.add_registration_code('def("from_ndarray", &sdcpp::from_ndarray< cv::%s >, (bp::arg("inst_ndarray")) )' % klass.alias)
-    self.add_registration_code('bp::def("as%s", &sdcpp::from_ndarray< cv::%s >, (bp::arg("inst_ndarray")) );' % (klass.alias, klass.alias))
-    klass.add_registration_code('staticmethod("from_ndarray")'.replace("KLASS", klass.alias))
+    klass.add_registration_code('def("from_ndarray", &sdcpp::from_ndarray< %s >, (bp::arg("inst_ndarray")) )' % klass.pds)
+    self.add_registration_code('bp::def("as%s", &sdcpp::from_ndarray< %s >, (bp::arg("inst_ndarray")) );' % (klass.alias, klass.pds))
+    klass.add_registration_code('staticmethod("from_ndarray")')
     self.add_doc(klass.alias+".from_ndarray", "Creates a %s view on an ndarray instance." % klass.alias)
-    klass.add_registration_code('add_property("ndarray", &sdcpp::as_ndarray< cv::%s >)' % klass.alias)
-    # self.add_registration_code('bp::def("asndarray", &sdcpp::as_ndarray< cv::%s >, (bp::arg("inst_ndarray")) );' % klass.alias)
+    klass.add_registration_code('add_property("ndarray", &sdcpp::as_ndarray< %s >)' % klass.pds)
+    self.add_registration_code('bp::def("asndarray", &sdcpp::as_ndarray< %s >, (bp::arg("inst_%s")) );' % (klass.pds, klass.alias))
     self.add_doc(klass.alias,
         "Property 'ndarray' provides a numpy.ndarray view on the object.",
         "If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!",
-        # "Alternatively, you could create a reference to 'ndarray' by using 'asndarray(inst)', where 'inst' is an instance of this class.",
+        "Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.",
         "",
         "To create an instance of %s that shares the same data with an ndarray instance, use:" % klass.alias,
         "    '%s.from_ndarray(a)' or 'as%s(a)" % (klass.alias, klass.alias),
@@ -394,7 +394,30 @@ def is_arg_touched(f, arg_name):
             if arg_name in cell.cell_contents:
                 return True
     return False
+    
+    
+def sort_transformers(f):
+    # list of function arguments
+    f_args = [x.name for x in f.arguments]
 
+    arg_idx = {}
+    for idx in xrange(len(f._transformer_creators)):
+        t = f._transformer_creators[idx]
+        # get the argument index
+        t_args = t.func_closure[0].cell_contents
+        if not isinstance(t_args, tuple):
+            t_args = t.func_closure[1].cell_contents        
+        for ta in t_args:
+            if ta in f_args:
+                arg_idx[f_args.index(ta)] = idx
+                break
+        else:
+            arg_idx[1000+idx] = idx
+    
+    # rewrite
+    ids = arg_idx.keys()
+    ids.sort()
+    f._transformer_creators = [f._transformer_creators[arg_idx[id]] for id in ids]
 
 def beautify_func_list(self, func_list):
     func_list = [f for f in func_list if not f.ignore]
@@ -420,22 +443,8 @@ def beautify_func_list(self, func_list):
             if is_arg_touched(f, arg.name):
                 continue
             pds = common.unique_pds(arg.type.partial_decl_string)
-            if pds=='CvPoint2D32f':
-                f._transformer_creators.append(FT.input_as_FixType('CvPoint2D32f', 'cv::Point_<float>', arg.name))
-            elif pds=='CvSize':
-                f._transformer_creators.append(FT.input_as_FixType('CvSize', 'cv::Size_<int>', arg.name))
-            elif pds=='CvSize2D32f':
-                f._transformer_creators.append(FT.input_as_FixType('CvSize2D32f', 'cv::Size_<float>', arg.name))
-            elif pds=='CvBox2D':
-                f._transformer_creators.append(FT.input_as_FixType('CvBox2D', 'cv::RotatedRect', arg.name))
-            elif pds=='CvTermCriteria':
-                f._transformer_creators.append(FT.input_as_FixType('CvTermCriteria', 'cv::TermCriteria', arg.name))
-            elif pds=='CvScalar':
-                f._transformer_creators.append(FT.input_as_FixType('CvScalar', 'cv::Scalar_<double>', arg.name))
-            elif pds=='CvSlice':
-                f._transformer_creators.append(FT.input_as_FixType('CvSlice', 'cv::Range', arg.name))
-            elif pds=='CvRect':
-                f._transformer_creators.append(FT.input_as_FixType('CvRect', 'cv::Rect_<int>', arg.name))
+            if pds in common.c2cpp:
+                f._transformer_creators.append(FT.input_as_FixType(pds, common.c2cpp[pds], arg.name))
             elif pds in ['CvRNG *', 'CvRNG &', 'CvRNG cosnt *', 'CvRNG const &']:
                 f._transformer_creators.append(FT.input_asRNG(arg.name))
             elif pds in ['CvFileStorage *', 'CvFileStorage const *']:
@@ -474,14 +483,6 @@ def beautify_func_list(self, func_list):
                         f._transformer_creators.append(FT.input_array1d('_newsz', '_newndims'))
                         break
 
-    # function argument std::vector<>
-    for f in func_list:
-        for arg in f.arguments:
-            if is_arg_touched(f, arg.name):
-                continue
-            if "std::vector<" in arg.type.decl_string and 'cv::Mat' not in arg.type.decl_string:
-                f._transformer_creators.append(FT.arg_std_vector(arg.name))
-
     # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
     for f in func_list:
         for arg in f.arguments:
@@ -506,6 +507,8 @@ def beautify_func_list(self, func_list):
     # final step: apply all the function transformations
     for f in func_list:
         if len(f._transformer_creators) > 0:
+            sort_transformers(f)
+        
             f.add_transformation(*f._transformer_creators, **f._transformer_kwds)
             if 'unique_function_name' in f._transformer_kwds:
                 f.transformations[0].unique_name = f._transformer_kwds['unique_function_name']
@@ -719,6 +722,26 @@ sdopencv.generate_code(mb, cc, D, FT, CP)
 #=============================================================================
 
 
+# rewrite the asndarray function
+cc.write('''
+def asndarray(obj):
+    """Converts a Python object into a numpy.ndarray object.
+    
+    This function basically invokes:
+    
+        _PE.asndarray(inst_<type of 'obj'>=obj)
+    
+    where _PE.asndarray is the internal asndarray() function of the Python
+    extension, and the type of the given Python object, 'obj', is determined
+    by looking at 'obj.__class__'.
+    """
+    return eval("_PE.asndarray(inst_%s=obj)" % obj.__class__.__name__)
+asndarray.__doc__ = asndarray.__doc__ + """
+Docstring of the internal asndarray function:
+
+""" + _PE.asndarray.__doc__
+''')
+    
 for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
     'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
     'STUB_PHASE',
@@ -726,13 +749,6 @@ for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
     mb.enums(lambda x: x.name.startswith(z)).exclude()
 mb.enums(lambda x: x.decl_string.startswith('::std')).exclude()
 mb.enums(lambda x: x.decl_string.startswith('::tag')).exclude()
-
-# dummy struct
-mb.dummy_struct.add_registration_code('''setattr("v0", 0);
-    }
-    {
-        %s''' % mb.dummy_struct._reg_code)
-
 
 # rename functions that starts with 'cv'
 for z in mb.free_funs():
@@ -765,6 +781,21 @@ def __vector__repr__(self):
 def is_vector(cls):
     """Returns whether class 'cls' is a std::vector class."""
     return cls.__name__.startswith('vector_')
+    
+def __vector_create(self, obj):
+    """Creates the vector from a Python sequence.
+    
+    Argument 'obj':
+        a Python sequence
+    """
+    N = len(obj)
+    self.resize(N)
+    if is_vector(self.elem_type):
+        for i in xrange(N):
+            self[i] = self.elem_type.fromlist(obj[i])
+    else:
+        for i in xrange(N):
+            self[i] = obj[i]
 
 def __vector_tolist(self):
     if is_vector(self.elem_type):
@@ -772,20 +803,35 @@ def __vector_tolist(self):
     return [self[i] for i in xrange(len(self))]
 
 def __vector_fromlist(cls, obj):
+    """Creates a vector from a Python sequence.
+    
+    Argument 'obj':
+        a Python sequence
+    """
     z = cls()
-    if is_vector(cls.elem_type):
-        for x in obj:
-            z.append(cls.elem_type.fromlist(x))
-    else:
-        for x in obj:
-            z.append(x)
+    z.create(obj)
     return z
+    
+def __vector__init__(self, obj=None):
+    """Initializes the vector.
+    
+    Argument 'obj':
+        If 'obj' is an integecd r, the vector is initialized as a vector of 
+        'obj' elements. If 'obj' is a Python sequence. The vector is
+        initialized as an equivalence of 'obj' by invoking self.fromlist().
+    """
+    self.__old_init__()
+    if isinstance(obj, int):
+        self.resize(obj)
+    elif not obj is None:
+        self.create(obj)
+    
 ''')
 
 
 # expose std::vector, only those with alias starting with 'vector_'
 # remember to create operator==() for each element type
-for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
+for z in mb.classes(lambda x: x.pds.startswith('std::vector<')):
     # check if the class has been registered
     try:
         t = common.get_registered_decl(z.partial_decl_string)
@@ -800,6 +846,9 @@ for z in mb.classes(lambda x: 'std::vector<' in x.decl_string):
         % z.partial_decl_string)
     z.add_registration_code('def("resize", &::resize, ( bp::arg("num") ))')
     cc.write('''
+CLASS_NAME.__old_init__ = CLASS_NAME.__init__
+CLASS_NAME.__init__ = __vector__init__
+CLASS_NAME.create = __vector_create
 CLASS_NAME.__repr__ = __vector__repr__
 CLASS_NAME.tolist = __vector_tolist
 CLASS_NAME.fromlist = classmethod(__vector_fromlist)
@@ -808,7 +857,32 @@ _z.resize(1)
 CLASS_NAME.elem_type = _z[0].__class__
 del(_z)
     '''.replace('CLASS_NAME', z.alias))
+    # add conversion between vector and ndarray
+    if FT.is_elem_type_fixed_size(elem_type):
+        ds = mb.dummy_struct
+        ds.include_files.append('ndarray.hpp')
+        ds.add_reg_code('bp::def("asndarray", &sdcpp::vector_to_ndarray2< ELEM_TYPE >, (bp::arg("inst_CLASS_NAME")) );' \
+            .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type))
+        ds.add_reg_code('bp::def("asCLASS_NAME", &sdcpp::ndarray_to_vector2< ELEM_TYPE >, (bp::arg("inst_ndarray")) );' \
+            .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type))
 
+    
+# dummy struct
+mb.dummy_struct.add_registration_code('''setattr("v0", 0);
+    }
+    {
+        %s''' % mb.dummy_struct._reg_code)
+
+
+# hack class_t so that py++ uses attribute 'pds' as declaration string
+from pyplusplus.decl_wrappers.class_wrapper import class_t
+class_t.old_create_decl_string = class_t.create_decl_string
+def create_decl_string(self, with_defaults=True):
+    if with_defaults and 'pds' in self.__dict__:
+        return self.pds
+    return self.old_create_decl_string(with_defaults)
+class_t.create_decl_string = create_decl_string
+    
 
 
 #=============================================================================

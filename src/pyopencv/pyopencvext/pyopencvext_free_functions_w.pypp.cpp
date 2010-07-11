@@ -57,6 +57,19 @@ void register_free_functions_w(){
 
     { //::cv::write
     
+        typedef void ( *write_list_of_KeyPoint_function_type )( ::cv::FileStorage &,::std::string const &,::std::vector< cv::KeyPoint > const & );
+        
+        bp::def( 
+            "write_list_of_KeyPoint"
+            , write_list_of_KeyPoint_function_type( &::cv::write )
+            , ( bp::arg("fs"), bp::arg("name"), bp::arg("keypoints") )
+            , "\nWrapped function:"
+    "\n    write" );
+    
+    }
+
+    { //::cv::write
+    
         typedef void ( *write_SparseMat_function_type )( ::cv::FileStorage &,::std::string const &,::cv::SparseMat const & );
         
         bp::def( 

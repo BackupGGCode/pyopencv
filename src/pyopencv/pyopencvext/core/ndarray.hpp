@@ -23,7 +23,7 @@ namespace sdcpp {
 class ndarray : public sdobject
 {
 public:
-    ndarray(object const &obj) : sdobject(obj) { check_obj(obj); }
+    ndarray(object const &obj=object()) : sdobject(obj) { check_obj(obj); }
     ndarray &operator=(ndarray const &inst)
     {
         sdobject::operator=(inst);
@@ -144,6 +144,14 @@ void ndarray_to_vector( const ndarray &in_arr, std::vector<T> &out_arr )
     throw error_already_set(); 
 }
 
+template<typename T>
+inline std::vector<T> ndarray_to_vector2( const ndarray &in_arr )
+{
+    std::vector<T> out_arr;
+    ndarray_to_vector(in_arr, out_arr);
+    return out_arr;
+}
+
 #define NDARRAY_TO_VECTOR(Type) template<> void ndarray_to_vector<Type>( const ndarray &in_arr, std::vector<Type> &out_arr )
 
 // basic
@@ -215,6 +223,14 @@ void vector_to_ndarray( const std::vector<T> &in_arr, ndarray &out_arr )
     sprintf( s, "Instantiation of function vector_to_ndarray() for class std::vector< '%s' > is not yet implemented.", typeid(T).name() );
     PyErr_SetString(PyExc_NotImplementedError, s);
     throw error_already_set(); 
+}
+
+template<typename T>
+inline ndarray vector_to_ndarray2( const std::vector<T> &in_arr )
+{
+    ndarray out_arr;
+    vector_to_ndarray(in_arr, out_arr);
+    return out_arr;
 }
 
 #define VECTOR_TO_NDARRAY(Type) template<> void vector_to_ndarray<Type>( const std::vector<Type> &in_arr, ndarray &out_arr )

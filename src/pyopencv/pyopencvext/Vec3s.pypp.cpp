@@ -103,9 +103,9 @@ void register_Vec3s_class(){
         
         }
         Vec3s_exposer.staticmethod( "all" );
-        Vec3s_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Vec3s >, (bp::arg("inst_ndarray")) );
+        Vec3s_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::Vec<short,3> >, (bp::arg("inst_ndarray")) );
         Vec3s_exposer.staticmethod("from_ndarray");
-        Vec3s_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Vec3s >);
+        Vec3s_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Vec<short,3> >);
         Vec3s_exposer.def("__iadd__", &__iadd__<cv::Vec3s, cv::Vec3b>, bp::return_self<>() );
         Vec3s_exposer.def("__isub__", &__isub__<cv::Vec3s, cv::Vec3b>, bp::return_self<>() );
         Vec3s_exposer.def("__iadd__", &__iadd__<cv::Vec3s, cv::Vec3s>, bp::return_self<>() );

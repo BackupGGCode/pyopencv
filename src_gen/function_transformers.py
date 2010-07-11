@@ -128,7 +128,7 @@ def remove_ptr( type_ ):
 
 # some doc functions
 def doc_common(func, func_arg, type_str=None):
-    common.add_func_arg_doc(func, func_arg, "C/C++ type: %s." % func_arg.type.partial_decl_string)
+    common.add_func_arg_doc(func, func_arg, "C++ type: %s." % func_arg.type.partial_decl_string)
     if type_str is None:
         new_type = _D.remove_const(_D.remove_reference(func_arg.type))
         type_str = common.get_decl_equivname(new_type.partial_decl_string[2:])
@@ -151,10 +151,11 @@ def doc_list(func, func_arg):
     common.add_func_arg_doc(func, func_arg, "To convert a Mat into a list, invoke one of Mat's member functions to_list_of_...().")
     
 def doc_output(func, func_arg):
-    common.add_func_arg_doc(func, func_arg, "Output argument: omitted from the function's calling sequence, and is returned along with the function's return value (if any).")
+    common.add_func_arg_doc(func, func_arg, "Output argument: omitted from input and returned as output.")
+    func._output_args.append(func_arg)
 
 def doc_dependent(func, func_arg, func_parent_arg):
-    common.add_func_arg_doc(func, func_arg, "Dependent argument: omitted from the function's calling sequence, as its value is derived from argument '%s'." % func_parent_arg.name)
+    common.add_func_arg_doc(func, func_arg, "Dependent argument: omitted from input. Its value is derived from argument '%s'." % func_parent_arg.name)
 
 
 # -----------------------------------------------------------------------------------------------
@@ -162,10 +163,16 @@ def doc_dependent(func, func_arg, func_parent_arg):
 # -----------------------------------------------------------------------------------------------
 
 
+def get_array_item_type(array_type):
+    return _D.remove_const(_D.array_item_type(array_type))
+
+
 def get_vector_pds(elem_type_pds):
     elem_type_pds = common.unique_pds(elem_type_pds)
-    # if elem_type_pds in ['char *', 'char const *']:
-        # elem_type_pds = 'std::string'
+    try:
+        elem_type_pds = common.c2cpp[elem_type_pds]
+    except KeyError:
+        pass
     return common.unique_pds('std::vector< %s >' % elem_type_pds)
 
 def get_vector_elem_type(vector_type):
@@ -179,15 +186,15 @@ def get_vector_elem_type(vector_type):
             s = '::' + s + ', std::allocator<' + s[12:] + ' >  >'
     return _D.dummy_type_t(s)
     
-def is_elem_type_fixed_size(elem_type):
+def is_elem_type_fixed_size(elem_type_pds):
     """Checks if an element type is a fixed-size array-like data type."""
-    if '*' in elem_type.partial_decl_string:
+    if '*' in elem_type_pds:
         return False
     for t in ('char', 'unsigned char', 'short', 'unsigned short', 'int',
         'unsigned int', 'long', 'unsigned long', 'float', 'double',
         'cv::Vec', 'cv::Point', 'cv::Rect', 'cv::RotatedRect', 
         'cv::Scalar', 'cv::Range'):
-        if elem_type.decl_string.startswith(t):
+        if elem_type_pds.startswith(t):
             return True
     return False
     
@@ -311,10 +318,9 @@ class input_array1d_t(transformer.transformer_t):
 
     void do_something([int N, ]data_type* v) ->  do_something(object v2)
 
-    where v2 is a Python sequence of N items, each of which is of type 'data_type'.
-    Note that if 'data_type' is replaced by 'CvSomething *', each element of v2 is still of type 'CvSomething' (i.e. the pointer is taken care of).
-    output_arrays : set of arguments (which are arrays) to be returned as output
-        output_arrays is a dictionary of (key,value) pairs. A key is an output argument's name. Its associated value is the number of times that the array's size is multiplied with.
+    where v2 is a std::vector object of N elements, whose element type is 'data_type'.
+    output_arrays : set of arguments (which are arrays) to be returned as output std::vectors
+        output_arrays is a list of (key,value) pairs. A key is an output argument's name. Its associated value is the number of times that the array's size is multiplied with.
     """
 
     def __init__(self, function, arg_ref, arg_size_ref=None, remove_arg_size=True, output_arrays={}):
@@ -338,9 +344,7 @@ class input_array1d_t(transformer.transformer_t):
         else:
             self.arg_size = None
 
-        self.array_item_type = _D.remove_const( _D.array_item_type( self.arg.type ) )
-        if self.array_item_type.partial_decl_string=='char *':
-            self.array_item_type = _D.dummy_type_t('char const *')
+        self.array_item_type = get_array_item_type(self.arg.type)
         self.remove_arg_size = remove_arg_size
 
         self.output_arrays = output_arrays
@@ -357,56 +361,46 @@ class input_array1d_t(transformer.transformer_t):
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         
-        if not is_elem_type_fixed_size(self.array_item_type): 
-            if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-                w_arg.type = _D.dummy_type_t( "bp::list" )
-                w_arg.default_value = 'bp::list()'
-            else:
-                w_arg.type = _D.dummy_type_t( "bp::list const &" )
-            if 'cv::Mat' in self.array_item_type.decl_string: # an array of cv::Mat
-                doc_list_of_Mat(self.function, self.arg)
-            else:
-                doc_common(self.function, self.arg, "Python sequence with elements of C++ type '%s'" \
-                    % self.array_item_type.partial_decl_string)
+        vec_pds = get_vector_pds(self.array_item_type.partial_decl_string)
+        w_arg.type = _D.dummy_type_t( vec_pds+" const &" )
         
-            # input array
-            l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=bp::len(%s)" % self.arg.name )
-            a_arr = controller.declare_variable( _D.dummy_type_t("std::vector< %s >" % self.array_item_type.decl_string), self.arg.name, "(%s)" % l_arr )
-            controller.add_pre_call_code("convert_from_object_to_T(%s, %s);" % (self.arg.name, a_arr))
-            controller.modify_arg_expression( self.arg_index, "(%s)(&%s[0])" \
-                % (self.arg.type.partial_decl_string, a_arr) )
-        else:
-            if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-                w_arg.type = _D.dummy_type_t( "cv::Mat" )
-                w_arg.default_value = 'cv::Mat()'
-            else:
-                w_arg.type = _D.dummy_type_t( "cv::Mat const &" )
-            doc_Mat(self.function, self.arg, True)
+        # what about non-NULL default value?
+        if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
+            w_arg.default_value = vec_pds+'()'
         
-            # input array
-            l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name )
-            a_arr = controller.declare_variable( _D.dummy_type_t(self.array_item_type.decl_string+ " *"), self.arg.name )
-            controller.add_pre_call_code("convert_from_Mat_to_array_of_T(%s, %s, %s);" % (self.arg.name, a_arr, l_arr))
-            controller.modify_arg_expression( self.arg_index, a_arr )
-        
+        # input array
+        controller.modify_arg_expression( self.arg_index, "(%s)(&%s[0])" \
+            % (self.arg.type.partial_decl_string, w_arg.name) )
+        doc_common(self.function, self.arg, common.get_registered_decl_name(vec_pds))
+
         # number of elements
+        if self.remove_arg_size or self.arg_size is None:
+            l_arr = "(int)(%s.size())" % w_arg.name
+            if len(self.output_arrays)+(self.arg_size is not None) >= 2:
+                l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "="+l_arr )
+        else:
+            l_arr = self.arg_size.name
+            
+        # remove arg_size from the function wrapper definition and automatically fill in the missing argument
         if self.remove_arg_size and self.arg_size is not None:
-            # remove arg_size from the function wrapper definition and automatically fill in the missing argument
             controller.remove_wrapper_arg( self.arg_size.name )
             controller.modify_arg_expression( self.arg_size_index, l_arr )
             doc_dependent(self.function, self.arg_size, self.arg)
 
         # dealing with output arrays
-        for key in self.output_arrays.keys():
-            oo_arg = self.get_argument(key)
-            ow_arg = controller.find_wrapper_arg(key)
-            oetype = _D.remove_const( _D.array_item_type( oo_arg.type ) )
-            oa_arg = controller.declare_variable( _D.dummy_type_t( "std::vector < %s >" % oetype.decl_string ), key )
-            controller.add_pre_call_code("%s.resize(%s * %s);" % (oa_arg, l_arr, self.output_arrays[key]))
-            controller.modify_arg_expression( self.function.arguments.index(oo_arg), "&(%s[0])" % oa_arg )
+        for key, scale in self.output_arrays:
+            oo_arg = self.get_argument(key)            
+            oo_idx = self.function.arguments.index(oo_arg)
+            oo_elem_pds = common.unique_pds(get_array_item_type(oo_arg.type).partial_decl_string)
+            oo_vec_pds = get_vector_pds(oo_elem_pds)
+            oa_init = ("(%s)" % l_arr) if scale=='1' else ("(%s*%s)" % (l_arr, scale))
+            oa_arg = controller.declare_variable(_D.dummy_type_t(oo_vec_pds), key, oa_init)
+            doc_common(self.function, oo_arg, common.get_registered_decl_name(oo_vec_pds))
+            controller.modify_arg_expression(oo_idx, "(%s)(&%s[0])" \
+                % (oo_arg.type.partial_decl_string, oa_arg))
             controller.remove_wrapper_arg(key)
 
-            controller.return_variable("convert_from_T_to_object(%s)" % oa_arg)
+            controller.return_variable(oa_arg)
             doc_output(self.function, oo_arg)
         
             
@@ -426,94 +420,80 @@ def input_array1d( *args, **keywd ):
     def creator( function ):
         return input_array1d_t( function, *args, **keywd )
     return creator
+    
+    
+# input_as_list_of_Matlike_t
+class input_as_list_of_Matlike_t(transformer_t):
+    """Converts an input/inout array argument into a std::vector<cv::Mat or cv::MatND>."""
 
-
-# input_array1d_new_t
-class input_array1d_new_t(transformer.transformer_t):
-    """Handles an input array with a dynamic size.
-
-    void do_something([int N, ]data_type* v) ->  do_something(object v2)
-
-    where v2 is a std::vector object of N elements, whose element type is 'data_type'.
-    output_arrays : set of arguments (which are arrays) to be returned as output std::vectors
-        output_arrays is a dictionary of (key,value) pairs. A key is an output argument's name. Its associated value is the number of times that the array's size is multiplied with.
-    """
-
-    def __init__(self, function, arg_ref, arg_size_ref=None, remove_arg_size=True, output_arrays={}):
+    mat_c2cpp = { # [conversion func, output type]
+        "IplImage": ["(IplImage)", "cv::Mat"],
+        "IplImage *": ["get_IplImage_ptr", "cv::Mat"],
+        "IplImage const *": ["get_IplImage_ptr", "cv::Mat"],
+        "CvMat": ["(CvMat)", "cv::Mat"],
+        "CvMat *": ["get_CvMat_ptr", "cv::Mat"],
+        "CvMat const *": ["get_CvMat_ptr", "cv::Mat"],
+        "void *": ["get_CvMat_ptr", "cv::Mat"],
+        "void const *": ["get_CvMat_ptr", "cv::Mat"],
+        "CvArr *": ["get_CvMat_ptr", "cv::Mat"],
+        "CvArr const *": ["get_CvMat_ptr", "cv::Mat"],
+        "cv::Mat *": ["&", "cv::Mat"],
+        "cv::Mat const *": ["&", "cv::Mat"],
+        "CvMatND": ["(CvMatND)", "cv::MatND"],
+        "CvMatND *": ["get_CvMatND_ptr", "cv::MatND"],
+        "CvMatND const *": ["get_CvMatND_ptr", "cv::MatND"],
+        "cv::MatND *": ["&", "cv::MatND"],
+        "cv::MatND const *": ["&", "cv::MatND"],
+    }
+    
+    def __init__(self, function, arg_ref, arg_size_ref=None):
         transformer.transformer_t.__init__( self, function )
-
         self.arg = self.get_argument( arg_ref )
         self.arg_index = self.function.arguments.index( self.arg )
-
-        if not _T.is_ptr_or_array( self.arg.type ):
-            raise ValueError( '%s\nin order to use "input_array1d_new" transformation, argument %s type must be a array or a pointer (got %s).' ) \
-                  % ( function, self.arg.name, self.arg.type)
-
+        self.arg_pds = common.unique_pds(self.arg.type.partial_decl_string)
+        
         if arg_size_ref is not None:
             self.arg_size = self.get_argument( arg_size_ref )
             self.arg_size_index = self.function.arguments.index( self.arg_size )
-            
-            if not _D.is_integral( self.arg_size.type ):
-                raise ValueError( '%s\nin order to use "input_array1d_new" transformation, argument %s type must be an integer (got %s).' ) \
-                      % ( function, self.arg_size.name, self.arg_size.type)
-
         else:
             self.arg_size = None
-
-        self.array_item_type = _D.remove_const( _D.array_item_type( self.arg.type ) )
-        self.remove_arg_size = remove_arg_size
-
-        self.output_arrays = output_arrays
+            
+        self.in_elem_pds = common.unique_pds(get_array_item_type(self.arg.type).partial_decl_string)
+        self.conversion_func, self.out_elem_pds = self.mat_c2cpp[self.in_elem_pds] 
+        self.vec_pds = get_vector_pds(self.out_elem_pds)
 
     def __str__(self):
-        if self.arg_size is not None:
-            return "input_array1d_new(%s,%s)"%( self.arg.name, self.arg_size.name)
-        return "input_array1d_new(%s)"% self.arg.name
+        return "input_as_list_of_Matlike(%s)" % self.arg.name
 
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_converters.hpp"]
-
-    def __configure_sealed(self, controller):
-        w_arg = controller.find_wrapper_arg( self.arg.name )
+    def __configure_sealed( self, controller ):
+        w_arg = controller.find_wrapper_arg(self.arg.name)
+        w_arg.type = _D.dummy_type_t(self.vec_pds+" const &")
         
-        vec_pds = get_vector_pds(self.array_item_type.partial_decl_string)
-        
+        # what about non-NULL default value?
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.type = _D.dummy_type_t( vec_pds )
-            w_arg.default_value = vec_pds+'()'
-        else:
-            w_arg.type = _D.dummy_type_t( vec_pds+" const &" )
-            # what about non-NULL default value?
+            w_arg.default_value = self.vec_pds+'()'
         
-        # input array
-        controller.modify_arg_expression( self.arg_index, "(%s)(&%s[0])" \
-            % (self.arg.type.partial_decl_string, w_arg.name) )
-        doc_common(self.function, self.arg, common.get_registered_decl(vec_pds)[0])
-
-        # number of elements
-        l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=(int)(%s.size())" % w_arg.name )
-        if self.remove_arg_size and self.arg_size is not None:
-            # remove arg_size from the function wrapper definition and automatically fill in the missing argument
+        # pre_call
+        controller.add_pre_call_code('''
+    std::vector<IN_ELEM_TYPE> buf_ARG(ARG.size());
+    for(int i_ARG = 0; i_ARG<ARG.size(); ++i_ARG)
+        buf_ARG[i_ARG] = (IN_ELEM_TYPE)CONVERSION_FUNC(ARG[i_ARG]);
+        '''.replace("ARG", w_arg.name).replace("IN_ELEM_TYPE", self.in_elem_pds)\
+        .replace("CONVERSION_FUNC", self.conversion_func))
+        
+        # main code
+        controller.modify_arg_expression( self.arg_index, "(%s)(&buf_%s[0])" \
+            % (self.arg_pds, w_arg.name) )
+            
+        # remove arg_size from the function wrapper definition and automatically fill in the missing argument
+        if self.arg_size is not None:
             controller.remove_wrapper_arg( self.arg_size.name )
-            controller.modify_arg_expression( self.arg_size_index, l_arr )
+            controller.modify_arg_expression( self.arg_size_index, w_arg.name+".size()" )
             doc_dependent(self.function, self.arg_size, self.arg)
 
-        # dealing with output arrays
-        for key in self.output_arrays.keys():
-            oo_arg = self.get_argument(key)            
-            oo_idx = self.function.arguments.index(oo_arg)
-            oo_elem = _D.remove_const(_D.array_item_type(oo_arg.type))
-            oo_elem_pds = common.unique_pds(oo_elem.partial_decl_string)
-            oa_arg = controller.declare_variable(_D.dummy_type_t(get_vector_pds(oo_elem_pds)), key)
-            controller.add_pre_call_code("%s.resize(%s * %s);" % (oa_arg, l_arr, self.output_arrays[key]))
-            controller.modify_arg_expression(oo_idx, "(%s)&(%s[0])" % (oo_elem_pds, oa_arg))
-            controller.remove_wrapper_arg(key)
+        # documentation
+        doc_common(self.function, self.arg, common.get_registered_decl_name(self.vec_pds))
 
-            controller.return_variable(oa_arg)
-            doc_output(self.function, oo_arg)
-        
-            
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
 
@@ -526,10 +506,14 @@ class input_array1d_new_t(transformer.transformer_t):
     def configure_virtual_mem_fun( self, controller ):
         self.__configure_v_mem_fun_default( controller.default_controller )
 
-def input_array1d_new( *args, **keywd ):
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return ["opencv_converters.hpp"]
+
+def input_as_list_of_Matlike( *args, **keywd ):
     def creator( function ):
-        return input_array1d_new_t( function, *args, **keywd )
-    return creator
+        return input_as_list_of_Matlike_t( function, *args, **keywd )
+    return creator    
 
 
 # input_list_of_string_t
@@ -575,13 +559,11 @@ class input_list_of_string_t(transformer.transformer_t):
 
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
+        w_arg.type = _D.dummy_type_t('bp::list const &')
         
+        # what about non-NULL default value?
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.type = _D.dummy_type_t('bp::list')
             w_arg.default_value = 'bp::list()'
-        else:
-            w_arg.type = _D.dummy_type_t('bp::list const &')
-            # what about non-NULL default value?
             
         # number of elements
         l_arr = controller.declare_variable( _D.dummy_type_t('int'), self.arg.name, "=bp::len(%s)" % w_arg.name )
@@ -663,7 +645,7 @@ class input_array2d_t(transformer.transformer_t):
             self.arg_size = None
         self.remove_arg_size = remove_arg_size
 
-        self.array_item_type = _D.remove_const( _D.array_item_type( _D.array_item_type( self.arg.type ) ) )
+        self.array_item_type = get_array_item_type(get_array_item_type(self.arg.type))
 
     def __str__(self):
         return "input_array2d(%s)"% (self.arg.name,
@@ -677,15 +659,13 @@ class input_array2d_t(transformer.transformer_t):
 
     def __configure_sealed(self, controller):
         w_arg = controller.find_wrapper_arg( self.arg.name )
-        w_arg.type = _D.dummy_type_t( "bp::object const &" )
-        str = _D.remove_const(self.array_item_type).partial_decl_string
-        if str.startswith('::'):
-            str = str[2:]
-        str = "std::vector< std::vector< %s > >" % str
-        doc_common(self.function, self.arg, common.get_decl_equivname(str))
+        elem_pds = common.unique_pds(self.array_item_type.partial_decl_string)
+        vec_pds = get_vector_pds(get_vector_pds(elem_pds))
+        w_arg.type = _D.dummy_type_t(vec_pds+" const &")
 
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
-            w_arg.default_value = 'bp::object()'
+            w_arg.default_value = vec_pds+"()"
+        doc_common(self.function, self.arg, common.get_registered_decl_name(vec_pds))
         
         if self.remove_arg_size and self.arg_size is not None:
             #removing arg_size from the function wrapper definition
@@ -696,33 +676,25 @@ class input_array2d_t(transformer.transformer_t):
             #removing arg_ncnts from the function wrapper definition
             controller.remove_wrapper_arg( self.arg_ncnts.name )
             doc_dependent(self.function, self.arg_ncnts, self.arg)
-        
+
         # precall_code
-        precall_code = """bool b_ARRAY = (ARRAY.ptr() != Py_None);
-    std::vector<std::vector< ITEM_TYPE > > arr_ARRAY;
-    if(b_ARRAY) convert_from_object_to_T(ARRAY, arr_ARRAY);
-    int n0_ARRAY = b_ARRAY? arr_ARRAY.size(): 0;
-    
-    std::vector< ITEM_TYPE * > buf_ARRAY;
-    std::vector<int> n1_ARRAY;
-    if(b_ARRAY)
+        precall_code = """int n0_ARRAY = ARRAY.size();
+    std::vector< ITEM_TYPE * > buf_ARRAY(n0_ARRAY);
+    std::vector<int> n1_ARRAY(n0_ARRAY);
+    for(int i_ARRAY = 0; i_ARRAY<n0_ARRAY; ++i_ARRAY)
     {
-        buf_ARRAY.resize(n0_ARRAY);
-        n1_ARRAY.resize(n0_ARRAY);
-        for(int i_ARRAY = 0; i_ARRAY < n0_ARRAY; ++i_ARRAY)
-        {
-            buf_ARRAY[i_ARRAY] = &arr_ARRAY[i_ARRAY][0];
-            n1_ARRAY[i_ARRAY] = arr_ARRAY[i_ARRAY].size();
-        }
+        buf_ARRAY[i_ARRAY] = (ITEM_TYPE *)(&ARRAY[i_ARRAY][0]);
+        n1_ARRAY[i_ARRAY] = ARRAY[i_ARRAY].size();
     }
-        """.replace("ARRAY", self.arg.name) \
-            .replace("ITEM_TYPE", self.array_item_type.decl_string)
+        """.replace("ARRAY", self.arg.name).replace("ITEM_TYPE", elem_pds)
         controller.add_pre_call_code(precall_code)
         
-        controller.modify_arg_expression( self.arg_index, "(%s) &buf_%s[0]" % (self.arg.type.decl_string, self.arg.name) )
+        controller.modify_arg_expression( self.arg_index, "(%s)(&buf_%s[0])" \
+            % (self.arg.type.partial_decl_string, self.arg.name) )
         
         if self.remove_arg_ncnts and self.arg_ncnts is not None:
-            controller.modify_arg_expression( self.arg_ncnts_index, "&n1_%s[0]" % self.arg.name )
+            controller.modify_arg_expression( self.arg_ncnts_index, "(%s)(&n1_%s[0])" 
+                % (self.arg_ncnts.type.partial_decl_string, self.arg.name) )
 
         if self.remove_arg_size and self.arg_size is not None:
             controller.modify_arg_expression( self.arg_size_index, "n0_"+self.arg.name )
@@ -789,7 +761,8 @@ class output_type1_t( transformer.transformer_t ):
         # removing arg from the function wrapper definition
         controller.remove_wrapper_arg( self.arg.name )
         # documentation
-        doc_common(self.function, self.arg, "Python equivalence of the C/C++ type without pointer")
+        pds = _D.remove_const(_D.remove_pointer(self.arg.type)).partial_decl_string
+        doc_common(self.function, self.arg, common.get_registered_decl_name(pds))
         doc_output(self.function, self.arg)
         #the element type
         if self.arg.type.partial_decl_string=='::size_t *':
@@ -821,6 +794,71 @@ class output_type1_t( transformer.transformer_t ):
 def output_type1( *args, **keywd ):
     def creator( function ):
         return output_type1_t( function, *args, **keywd )
+    return creator
+
+
+# arg_output_t
+class arg_output_t( transformer.transformer_t ):
+    """Handles a single output variable.
+
+    The specified variable is removed from the argument list and is turned
+    into a return value.
+
+    void getValue(data_type v) -> v2 = getValue()
+
+    where v2 is of type 'data_type'.
+    """
+
+    def __init__(self, function, arg_ref, ignore_call_policies=True):
+        transformer.transformer_t.__init__( self, function )
+        """Constructor.
+
+        The specified argument must be a reference or a pointer.
+
+        :param arg_ref: Index of the argument that is an output value.
+        :type arg_ref: int
+        """
+        self.arg = self.get_argument( arg_ref )
+        self.arg_index = self.function.arguments.index( self.arg )
+        self.ignore_call_policies = ignore_call_policies
+
+    def __str__(self):
+        return "arg_output(%d)"%(self.arg.name)
+
+    def required_headers( self ):
+        """Returns list of header files that transformer generated code depends on."""
+        return []
+
+    def __configure_sealed( self, controller ):
+        # removing arg from the function wrapper definition
+        controller.remove_wrapper_arg( self.arg.name )
+        # documentation
+        elem_type = _D.remove_const(_D.remove_reference(self.arg.type))
+        doc_common(self.function, self.arg, common.get_registered_decl_name(elem_type.partial_decl_string))
+        doc_output(self.function, self.arg)
+        # declaring new variable, which will keep result
+        elem_type = _D.dummy_type_t(common.unique_pds(elem_type.partial_decl_string))
+        var_name = controller.declare_variable(elem_type, self.arg.name)
+        # adding just declared variable to the original function call expression
+        controller.modify_arg_expression( self.arg_index, var_name )
+        # adding the variable to return variables list
+        controller.return_variable(var_name)
+
+    def __configure_v_mem_fun_default( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_mem_fun( self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_free_fun(self, controller ):
+        self.__configure_sealed( controller )
+
+    def configure_virtual_mem_fun( self, controller ):
+        self.__configure_v_mem_fun_default( controller.default_controller )
+
+def arg_output( *args, **keywd ):
+    def creator( function ):
+        return arg_output_t( function, *args, **keywd )
     return creator
 
 
@@ -1379,10 +1417,8 @@ class input_as_FixType_t(transformer_t):
 
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg(self.arg.name)
-        if self.arg.default_value is None:
-            w_arg.type = _D.dummy_type_t(self.dst_type_pds+" const &")
-        else:
-            w_arg.type = _D.dummy_type_t(self.dst_type_pds)
+        w_arg.type = _D.dummy_type_t(self.dst_type_pds+" const &")
+        if self.arg.default_value is not None:
             s = self.arg.default_value
             repl_dict = {
                 'cvPoint': 'cv::Point',
@@ -1394,9 +1430,13 @@ class input_as_FixType_t(transformer_t):
             w_arg.default_value = s
             
         if self.by_ref:
-            controller.modify_arg_expression( self.arg_index, "*(%s *)(&%s)" % (self.src_type_pds, w_arg.name) )
+            if _D.is_reference(self.arg.type):
+                src_pds = common.unique_pds(self.arg.type.partial_decl_string)
+            else:
+                src_pds = self.src_type_pds+" const &"
         else:
-            controller.modify_arg_expression( self.arg_index, "(%s)(%s)" % (self.src_type_pds, w_arg.name) )
+            src_pds = self.src_type_pds
+        controller.modify_arg_expression( self.arg_index, "(%s)%s" % (src_pds, w_arg.name) )
 
         # documentation
         doc_common(self.function, self.arg, common.get_decl_equivname(self.dst_type_pds))            
@@ -1543,284 +1583,6 @@ class input_as_Mat_t(transformer_t):
 def input_as_Mat( *args, **keywd ):
     def creator( function ):
         return input_as_Mat_t( function, *args, **keywd )
-    return creator
-    
-    
-# input_as_list_of_Mat_t
-class input_as_list_of_Mat_t(transformer_t):
-    """Converts an input/inout argument type into a sequence of cv::Mat."""
-
-    def __init__(self, function, arg_ref, arg_size_ref=None):
-        transformer.transformer_t.__init__( self, function )
-        self.arg = self.get_argument( arg_ref )
-        self.arg_index = self.function.arguments.index( self.arg )
-        
-        self.is_vector = 'std::vector' in self.arg.type.partial_decl_string
-        if arg_size_ref is not None:
-            self.arg_size = self.get_argument( arg_size_ref )
-            self.arg_size_index = self.function.arguments.index( self.arg_size )
-        else:
-            self.arg_size = None
-
-        elem_type_dict = {
-            "::IplImage *": "::IplImage",
-            "::IplImage const *": "::IplImage",
-            "::IplImage * *": "::IplImage *",
-            "::IplImage const * *": "::IplImage *",
-            "::CvMat *": "::CvMat",
-            "::CvMat const *": "::CvMat",
-            "::CvArr *": "::CvMat",
-            "::CvArr const *": "::CvMat",
-            "::CvMat * *": "::CvMat *",
-            "::CvMat const * *": "::CvMat *",
-            "::CvArr * *": "::CvMat *",
-            "::CvArr const * *": "::CvMat *",
-            "::cv::Mat *": "::cv::Mat",
-            "::cv::Mat const *": "::cv::Mat",
-            "::cv::Mat * *": "::cv::Mat *",
-            "::cv::Mat const * *": "::cv::Mat *",
-        }
-        self.elem_type_str = elem_type_dict[self.arg.type.partial_decl_string]
-
-    def __str__(self):
-        return "input_as_list_of_Mat(%s)" % self.arg.name
-
-    def __configure_sealed( self, controller ):
-        w_arg = controller.find_wrapper_arg(self.arg.name)
-        w_arg.type = _D.dummy_type_t( "sdcpp::sequence" )
-        
-        # intermediate variable
-        vec = controller.declare_variable(_D.dummy_type_t("std::vector< %s >" % self.elem_type_str), self.arg.name)
-        
-        # pre_call
-        controller.add_pre_call_code("convert_from_seq_of_Mat_to_vector_of_T(%s, %s);" % (w_arg.name, vec))
-            
-        if self.is_vector:
-            # code
-            controller.modify_arg_expression(self.arg_index, vec)
-        else:
-            # code
-            controller.modify_arg_expression(self.arg_index, "(%s)&%s[0]" \
-                % (self.arg.type.partial_decl_string, vec))
-            if self.arg_size is not None:
-                controller.modify_arg_expression(self.arg_size_index, "%s.size()" % vec)
-                #removing arg_size from the function wrapper definition
-                controller.remove_wrapper_arg( self.arg_size.name )
-                doc_dependent(self.function, self.arg_size, self.arg)
-
-
-        # documentation
-        doc_list_of_Mat(self.function, self.arg)
-
-    def __configure_v_mem_fun_default( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_mem_fun( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_free_fun(self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_default( controller.default_controller )
-
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_converters.hpp"]
-
-def input_as_list_of_Mat( *args, **keywd ):
-    def creator( function ):
-        return input_as_list_of_Mat_t( function, *args, **keywd )
-    return creator
-    
-
-# input_as_list_of_MatND_t
-class input_as_list_of_MatND_t(transformer_t):
-    """Converts an input/inout argument type into a sequence of cv::MatND."""
-
-    def __init__(self, function, arg_ref, arg_size_ref=None):
-        transformer.transformer_t.__init__( self, function )
-        self.arg = self.get_argument( arg_ref )
-        self.arg_index = self.function.arguments.index( self.arg )
-        
-        self.is_vector = 'std::vector' in self.arg.type.partial_decl_string
-        if arg_size_ref is not None:
-            self.arg_size = self.get_argument( arg_size_ref )
-            self.arg_size_index = self.function.arguments.index( self.arg_size )
-        else:
-            self.arg_size = None
-
-        elem_type_dict = {
-            "::CvMatND *": "::CvMatND",
-            "::CvMatND const *": "::CvMatND",
-            "::CvMatND * *": "::CvMatND *",
-            "::CvMatND const * *": "::CvMatND *",
-            "::cv::MatND *": "::cv::MatND",
-            "::cv::MatND const *": "::cv::MatND",
-            "::cv::MatND * *": "::cv::MatND *",
-            "::cv::MatND const * *": "::cv::MatND *",
-        }
-        self.elem_type_str = elem_type_dict[self.arg.type.partial_decl_string]
-
-    def __str__(self):
-        return "input_as_list_of_MatND(%s)" % self.arg.name
-
-    def __configure_sealed( self, controller ):
-        w_arg = controller.find_wrapper_arg(self.arg.name)
-        w_arg.type = _D.dummy_type_t( "sdcpp::sequence" )
-        
-        # intermediate variable
-        vec = controller.declare_variable(_D.dummy_type_t("std::vector< %s >" % self.elem_type_str), self.arg.name)
-        
-        # pre_call
-        controller.add_pre_call_code("convert_from_seq_of_MatND_to_vector_of_T(%s, %s);" % (w_arg.name, vec))
-            
-        if self.is_vector:
-            # code
-            controller.modify_arg_expression(self.arg_index, vec)
-        else:
-            # code
-            controller.modify_arg_expression(self.arg_index, "(%s)&%s[0]" \
-                % (self.arg.type.partial_decl_string, vec))
-            if self.arg_size is not None:
-                controller.modify_arg_expression(self.arg_size_index, "%s.size()" % vec)
-                #removing arg_size from the function wrapper definition
-                controller.remove_wrapper_arg( self.arg_size.name )
-                doc_dependent(self.function, self.arg_size, self.arg)
-
-
-        # documentation
-        doc_list_of_MatND(self.function, self.arg)
-
-    def __configure_v_mem_fun_default( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_mem_fun( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_free_fun(self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_default( controller.default_controller )
-
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_converters.hpp"]
-
-def input_as_list_of_MatND( *args, **keywd ):
-    def creator( function ):
-        return input_as_list_of_MatND_t( function, *args, **keywd )
-    return creator
-    
-    
-# arg_std_vector_t
-class arg_std_vector_t(transformer_t):
-    """Converts a 1D std::vector into a Python object.
-    
-    arg_kind specifies the kind of function argument:
-        0 = auto-detect (default)
-        1 = input
-        2 = output
-        3 = input and output
-    """
-
-    def __init__(self, function, arg_ref, arg_kind=0):
-        transformer.transformer_t.__init__( self, function )
-        self.arg = self.get_argument( arg_ref )
-        self.arg_index = self.function.arguments.index( self.arg )
-        self.elem_type = get_vector_elem_type(self.arg.type)
-        
-        # detect arg_kind
-        if arg_kind == 0:
-            arg_type = _D.remove_reference(self.arg.type)
-            arg_kind = 1 if _D.is_const(arg_type) else 3
-        self.arg_kind = arg_kind
-
-    def __str__(self):
-        return "arg_std_vector(%s)" % self.arg.name
-
-    def __configure_sealed( self, controller ):
-        # intermediate variable
-        vect_str = _D.remove_const(_D.remove_reference(self.arg.type)).partial_decl_string
-        v = controller.declare_variable( vect_str, self.arg.name )
-        
-        # conversion code
-        if is_elem_type_fixed_size(self.elem_type): # cv::Mat-equivalent
-            str_pyobj_type = "cv::Mat"
-            str_cvt_to_pyobj = "convert_from_vector_of_T_to_Mat"
-            str_cvt_from_pyobj = "convert_from_Mat_to_vector_of_T"
-            doc_Mat(self.function, self.arg, True)
-
-        else: # vector
-            str_pyobj_type = "bp::list"
-            str_cvt_to_pyobj = "convert_from_T_to_object"
-            str_cvt_from_pyobj = "convert_from_object_to_T"
-            if 'std::vector' in self.elem_type.decl_string: # workaround, assume 2D vectors as list of Mats
-                doc_list_of_Mat(self.function, self.arg)
-                common.add_func_arg_doc(self.function, self.arg, "Invoke asMat() to convert every 1D Python sequence into a Mat, e.g. [asMat([0,1,2]), asMat((0,1,2)].")
-            else:
-                if 'MatND' in self.elem_type.decl_string: # workaround, assume list of MatND
-                    doc_list_of_MatND(self.function, self.arg)
-                elif 'Mat' in self.elem_type.decl_string: # workaround, assume list of Mat
-                    doc_list_of_Mat(self.function, self.arg)
-                else:
-                    doc_list(self.function, self.arg)
-
-        
-        # check argument kind
-        if self.arg_kind == 1: # input
-            w_arg = controller.find_wrapper_arg(self.arg.name)        
-            # default value
-            if self.arg.default_value is not None:
-                w_arg.default_value = '%s(%s)' % (str_cvt_to_pyobj, self.arg.default_value)
-            w_arg.type = _D.dummy_type_t(str_pyobj_type+" const &")
-            w = w_arg.name
-        elif self.arg_kind == 2: # output
-            controller.remove_wrapper_arg( self.arg.name )
-            w = controller.declare_variable( _D.dummy_type_t(str_pyobj_type), self.arg.name )
-            controller.return_variable(w)
-            doc_output(self.function, self.arg)
-        elif self.arg_kind == 3: # inout
-            w_arg = controller.find_wrapper_arg(self.arg.name)
-            if self.arg.default_value is not None:
-                w_arg.default_value = '%s(%s)' % (str_cvt_to_pyobj, self.arg.default_value)
-            w_arg.type = _D.dummy_type_t(str_pyobj_type+" &")
-            w = w_arg.name
-        else:
-            raise ValueError("Unsupported arg_kind=%d." % self.arg_kind)
-        
-        # pre_call
-        if self.arg_kind & 1 != 0:
-            controller.add_pre_call_code("%s(%s, %s);" % (str_cvt_from_pyobj, w, v))
-        
-        # call
-        controller.modify_arg_expression( self.arg_index, v)
-        
-        # post-call
-        if self.arg_kind & 2 != 0:
-            controller.add_post_call_code("%s(%s, %s);" % (str_cvt_to_pyobj, v, w))
-                    
-
-    def __configure_v_mem_fun_default( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_mem_fun( self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_free_fun(self, controller ):
-        self.__configure_sealed( controller )
-
-    def configure_virtual_mem_fun( self, controller ):
-        self.__configure_v_mem_fun_default( controller.default_controller )
-
-    def required_headers( self ):
-        """Returns list of header files that transformer generated code depends on."""
-        return ["opencv_converters.hpp"]
-
-def arg_std_vector( *args, **keywd ):
-    def creator( function ):
-        return arg_std_vector_t( function, *args, **keywd )
     return creator
     
     

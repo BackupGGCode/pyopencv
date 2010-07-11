@@ -625,7 +625,7 @@ if Vec4w.from_ndarray.__doc__ is None:
 else:
     Vec4w.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec4w that shares the same data with an ndarray instance, use:\n        'Vec4w.from_ndarray(a)' or 'asVec4w(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec4w that shares the same data with an ndarray instance, use:\n        'Vec4w.from_ndarray(a)' or 'asVec4w(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4w.__doc__ is None:
     Vec4w.__doc__ = _str
 else:
@@ -661,7 +661,7 @@ if Vec6f.from_ndarray.__doc__ is None:
 else:
     Vec6f.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec6f that shares the same data with an ndarray instance, use:\n        'Vec6f.from_ndarray(a)' or 'asVec6f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec6f that shares the same data with an ndarray instance, use:\n        'Vec6f.from_ndarray(a)' or 'asVec6f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec6f.__doc__ is None:
     Vec6f.__doc__ = _str
 else:
@@ -697,7 +697,7 @@ if Vec3f.from_ndarray.__doc__ is None:
 else:
     Vec3f.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec3f that shares the same data with an ndarray instance, use:\n        'Vec3f.from_ndarray(a)' or 'asVec3f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec3f that shares the same data with an ndarray instance, use:\n        'Vec3f.from_ndarray(a)' or 'asVec3f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec3f.__doc__ is None:
     Vec3f.__doc__ = _str
 else:
@@ -733,7 +733,7 @@ if Vec3b.from_ndarray.__doc__ is None:
 else:
     Vec3b.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec3b that shares the same data with an ndarray instance, use:\n        'Vec3b.from_ndarray(a)' or 'asVec3b(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec3b that shares the same data with an ndarray instance, use:\n        'Vec3b.from_ndarray(a)' or 'asVec3b(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec3b.__doc__ is None:
     Vec3b.__doc__ = _str
 else:
@@ -769,7 +769,7 @@ if Vec2s.from_ndarray.__doc__ is None:
 else:
     Vec2s.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2s that shares the same data with an ndarray instance, use:\n        'Vec2s.from_ndarray(a)' or 'asVec2s(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec2s that shares the same data with an ndarray instance, use:\n        'Vec2s.from_ndarray(a)' or 'asVec2s(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec2s.__doc__ is None:
     Vec2s.__doc__ = _str
 else:
@@ -805,7 +805,7 @@ if Vec4s.from_ndarray.__doc__ is None:
 else:
     Vec4s.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec4s that shares the same data with an ndarray instance, use:\n        'Vec4s.from_ndarray(a)' or 'asVec4s(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec4s that shares the same data with an ndarray instance, use:\n        'Vec4s.from_ndarray(a)' or 'asVec4s(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4s.__doc__ is None:
     Vec4s.__doc__ = _str
 else:
@@ -841,7 +841,7 @@ if Vec6d.from_ndarray.__doc__ is None:
 else:
     Vec6d.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec6d that shares the same data with an ndarray instance, use:\n        'Vec6d.from_ndarray(a)' or 'asVec6d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec6d that shares the same data with an ndarray instance, use:\n        'Vec6d.from_ndarray(a)' or 'asVec6d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec6d.__doc__ is None:
     Vec6d.__doc__ = _str
 else:
@@ -877,7 +877,7 @@ if Vec4i.from_ndarray.__doc__ is None:
 else:
     Vec4i.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec4i that shares the same data with an ndarray instance, use:\n        'Vec4i.from_ndarray(a)' or 'asVec4i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec4i that shares the same data with an ndarray instance, use:\n        'Vec4i.from_ndarray(a)' or 'asVec4i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4i.__doc__ is None:
     Vec4i.__doc__ = _str
 else:
@@ -913,7 +913,7 @@ if Vec4d.from_ndarray.__doc__ is None:
 else:
     Vec4d.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec4d that shares the same data with an ndarray instance, use:\n        'Vec4d.from_ndarray(a)' or 'asVec4d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec4d that shares the same data with an ndarray instance, use:\n        'Vec4d.from_ndarray(a)' or 'asVec4d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4d.__doc__ is None:
     Vec4d.__doc__ = _str
 else:
@@ -949,7 +949,7 @@ if Vec4f.from_ndarray.__doc__ is None:
 else:
     Vec4f.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec4f that shares the same data with an ndarray instance, use:\n        'Vec4f.from_ndarray(a)' or 'asVec4f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec4f that shares the same data with an ndarray instance, use:\n        'Vec4f.from_ndarray(a)' or 'asVec4f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4f.__doc__ is None:
     Vec4f.__doc__ = _str
 else:
@@ -979,13 +979,49 @@ def _Vec4f__repr__(self):
     return "Vec4f(" + self.ndarray.__str__() + ")"
 Vec4f.__repr__ = _Vec4f__repr__
         
+_str = "\n    Creates a Vec2b view on an ndarray instance."
+if Vec2b.from_ndarray.__doc__ is None:
+    Vec2b.from_ndarray.__doc__ = _str
+else:
+    Vec2b.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec2b that shares the same data with an ndarray instance, use:\n        'Vec2b.from_ndarray(a)' or 'asVec2b(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Vec2b.__doc__ is None:
+    Vec2b.__doc__ = _str
+else:
+    Vec2b.__doc__ += _str
+
+def _Vec2b__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Vec2b.__getitem__ = _Vec2b__getitem__
+        
+def _Vec2b__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Vec2b.__setitem__ = _Vec2b__setitem__
+        
+def _Vec2b__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Vec2b.__getslice__ = _Vec2b__getslice__
+        
+def _Vec2b__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Vec2b.__setslice__ = _Vec2b__setslice__
+        
+def _Vec2b__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec2b.__iter__ = _Vec2b__iter__
+        
+def _Vec2b__repr__(self):
+    return "Vec2b(" + self.ndarray.__str__() + ")"
+Vec2b.__repr__ = _Vec2b__repr__
+        
 _str = "\n    Creates a Vec2w view on an ndarray instance."
 if Vec2w.from_ndarray.__doc__ is None:
     Vec2w.from_ndarray.__doc__ = _str
 else:
     Vec2w.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2w that shares the same data with an ndarray instance, use:\n        'Vec2w.from_ndarray(a)' or 'asVec2w(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec2w that shares the same data with an ndarray instance, use:\n        'Vec2w.from_ndarray(a)' or 'asVec2w(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec2w.__doc__ is None:
     Vec2w.__doc__ = _str
 else:
@@ -1021,7 +1057,7 @@ if Vec2i.from_ndarray.__doc__ is None:
 else:
     Vec2i.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2i that shares the same data with an ndarray instance, use:\n        'Vec2i.from_ndarray(a)' or 'asVec2i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec2i that shares the same data with an ndarray instance, use:\n        'Vec2i.from_ndarray(a)' or 'asVec2i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec2i.__doc__ is None:
     Vec2i.__doc__ = _str
 else:
@@ -1057,7 +1093,7 @@ if Vec3i.from_ndarray.__doc__ is None:
 else:
     Vec3i.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec3i that shares the same data with an ndarray instance, use:\n        'Vec3i.from_ndarray(a)' or 'asVec3i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec3i that shares the same data with an ndarray instance, use:\n        'Vec3i.from_ndarray(a)' or 'asVec3i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec3i.__doc__ is None:
     Vec3i.__doc__ = _str
 else:
@@ -1093,7 +1129,7 @@ if Vec4b.from_ndarray.__doc__ is None:
 else:
     Vec4b.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec4b that shares the same data with an ndarray instance, use:\n        'Vec4b.from_ndarray(a)' or 'asVec4b(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec4b that shares the same data with an ndarray instance, use:\n        'Vec4b.from_ndarray(a)' or 'asVec4b(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec4b.__doc__ is None:
     Vec4b.__doc__ = _str
 else:
@@ -1129,7 +1165,7 @@ if Vec2f.from_ndarray.__doc__ is None:
 else:
     Vec2f.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2f that shares the same data with an ndarray instance, use:\n        'Vec2f.from_ndarray(a)' or 'asVec2f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec2f that shares the same data with an ndarray instance, use:\n        'Vec2f.from_ndarray(a)' or 'asVec2f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec2f.__doc__ is None:
     Vec2f.__doc__ = _str
 else:
@@ -1159,49 +1195,13 @@ def _Vec2f__repr__(self):
     return "Vec2f(" + self.ndarray.__str__() + ")"
 Vec2f.__repr__ = _Vec2f__repr__
         
-_str = "\n    Creates a Vec2b view on an ndarray instance."
-if Vec2b.from_ndarray.__doc__ is None:
-    Vec2b.from_ndarray.__doc__ = _str
-else:
-    Vec2b.from_ndarray.__doc__ += _str
-
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2b that shares the same data with an ndarray instance, use:\n        'Vec2b.from_ndarray(a)' or 'asVec2b(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Vec2b.__doc__ is None:
-    Vec2b.__doc__ = _str
-else:
-    Vec2b.__doc__ += _str
-
-def _Vec2b__getitem__(self, *args, **kwds):
-    return self.ndarray.__getitem__(*args, **kwds)
-Vec2b.__getitem__ = _Vec2b__getitem__
-        
-def _Vec2b__setitem__(self, *args, **kwds):
-    return self.ndarray.__setitem__(*args, **kwds)
-Vec2b.__setitem__ = _Vec2b__setitem__
-        
-def _Vec2b__getslice__(self, *args, **kwds):
-    return self.ndarray.__getslice__(*args, **kwds)
-Vec2b.__getslice__ = _Vec2b__getslice__
-        
-def _Vec2b__setslice__(self, *args, **kwds):
-    return self.ndarray.__setslice__(*args, **kwds)
-Vec2b.__setslice__ = _Vec2b__setslice__
-        
-def _Vec2b__iter__(self, *args, **kwds):
-    return self.ndarray.__iter__(*args, **kwds)
-Vec2b.__iter__ = _Vec2b__iter__
-        
-def _Vec2b__repr__(self):
-    return "Vec2b(" + self.ndarray.__str__() + ")"
-Vec2b.__repr__ = _Vec2b__repr__
-        
 _str = "\n    Creates a Vec3d view on an ndarray instance."
 if Vec3d.from_ndarray.__doc__ is None:
     Vec3d.from_ndarray.__doc__ = _str
 else:
     Vec3d.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec3d that shares the same data with an ndarray instance, use:\n        'Vec3d.from_ndarray(a)' or 'asVec3d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec3d that shares the same data with an ndarray instance, use:\n        'Vec3d.from_ndarray(a)' or 'asVec3d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec3d.__doc__ is None:
     Vec3d.__doc__ = _str
 else:
@@ -1237,7 +1237,7 @@ if Vec3s.from_ndarray.__doc__ is None:
 else:
     Vec3s.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec3s that shares the same data with an ndarray instance, use:\n        'Vec3s.from_ndarray(a)' or 'asVec3s(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec3s that shares the same data with an ndarray instance, use:\n        'Vec3s.from_ndarray(a)' or 'asVec3s(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec3s.__doc__ is None:
     Vec3s.__doc__ = _str
 else:
@@ -1267,49 +1267,13 @@ def _Vec3s__repr__(self):
     return "Vec3s(" + self.ndarray.__str__() + ")"
 Vec3s.__repr__ = _Vec3s__repr__
         
-_str = "\n    Creates a Vec3w view on an ndarray instance."
-if Vec3w.from_ndarray.__doc__ is None:
-    Vec3w.from_ndarray.__doc__ = _str
-else:
-    Vec3w.from_ndarray.__doc__ += _str
-
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec3w that shares the same data with an ndarray instance, use:\n        'Vec3w.from_ndarray(a)' or 'asVec3w(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
-if Vec3w.__doc__ is None:
-    Vec3w.__doc__ = _str
-else:
-    Vec3w.__doc__ += _str
-
-def _Vec3w__getitem__(self, *args, **kwds):
-    return self.ndarray.__getitem__(*args, **kwds)
-Vec3w.__getitem__ = _Vec3w__getitem__
-        
-def _Vec3w__setitem__(self, *args, **kwds):
-    return self.ndarray.__setitem__(*args, **kwds)
-Vec3w.__setitem__ = _Vec3w__setitem__
-        
-def _Vec3w__getslice__(self, *args, **kwds):
-    return self.ndarray.__getslice__(*args, **kwds)
-Vec3w.__getslice__ = _Vec3w__getslice__
-        
-def _Vec3w__setslice__(self, *args, **kwds):
-    return self.ndarray.__setslice__(*args, **kwds)
-Vec3w.__setslice__ = _Vec3w__setslice__
-        
-def _Vec3w__iter__(self, *args, **kwds):
-    return self.ndarray.__iter__(*args, **kwds)
-Vec3w.__iter__ = _Vec3w__iter__
-        
-def _Vec3w__repr__(self):
-    return "Vec3w(" + self.ndarray.__str__() + ")"
-Vec3w.__repr__ = _Vec3w__repr__
-        
 _str = "\n    Creates a Vec2d view on an ndarray instance."
 if Vec2d.from_ndarray.__doc__ is None:
     Vec2d.from_ndarray.__doc__ = _str
 else:
     Vec2d.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Vec2d that shares the same data with an ndarray instance, use:\n        'Vec2d.from_ndarray(a)' or 'asVec2d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec2d that shares the same data with an ndarray instance, use:\n        'Vec2d.from_ndarray(a)' or 'asVec2d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Vec2d.__doc__ is None:
     Vec2d.__doc__ = _str
 else:
@@ -1339,6 +1303,42 @@ def _Vec2d__repr__(self):
     return "Vec2d(" + self.ndarray.__str__() + ")"
 Vec2d.__repr__ = _Vec2d__repr__
         
+_str = "\n    Creates a Vec3w view on an ndarray instance."
+if Vec3w.from_ndarray.__doc__ is None:
+    Vec3w.from_ndarray.__doc__ = _str
+else:
+    Vec3w.from_ndarray.__doc__ += _str
+
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Vec3w that shares the same data with an ndarray instance, use:\n        'Vec3w.from_ndarray(a)' or 'asVec3w(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+if Vec3w.__doc__ is None:
+    Vec3w.__doc__ = _str
+else:
+    Vec3w.__doc__ += _str
+
+def _Vec3w__getitem__(self, *args, **kwds):
+    return self.ndarray.__getitem__(*args, **kwds)
+Vec3w.__getitem__ = _Vec3w__getitem__
+        
+def _Vec3w__setitem__(self, *args, **kwds):
+    return self.ndarray.__setitem__(*args, **kwds)
+Vec3w.__setitem__ = _Vec3w__setitem__
+        
+def _Vec3w__getslice__(self, *args, **kwds):
+    return self.ndarray.__getslice__(*args, **kwds)
+Vec3w.__getslice__ = _Vec3w__getslice__
+        
+def _Vec3w__setslice__(self, *args, **kwds):
+    return self.ndarray.__setslice__(*args, **kwds)
+Vec3w.__setslice__ = _Vec3w__setslice__
+        
+def _Vec3w__iter__(self, *args, **kwds):
+    return self.ndarray.__iter__(*args, **kwds)
+Vec3w.__iter__ = _Vec3w__iter__
+        
+def _Vec3w__repr__(self):
+    return "Vec3w(" + self.ndarray.__str__() + ")"
+Vec3w.__repr__ = _Vec3w__repr__
+        
 def _Complexd__repr__(self):
     return "Complexd(re=" + repr(self.re) + ", im=" + repr(self.im) + ")"
 Complexd.__repr__ = _Complexd__repr__
@@ -1358,7 +1358,7 @@ if Point2i.from_ndarray.__doc__ is None:
 else:
     Point2i.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point2i that shares the same data with an ndarray instance, use:\n        'Point2i.from_ndarray(a)' or 'asPoint2i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Point2i that shares the same data with an ndarray instance, use:\n        'Point2i.from_ndarray(a)' or 'asPoint2i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point2i.__doc__ is None:
     Point2i.__doc__ = _str
 else:
@@ -1395,7 +1395,7 @@ if Point2f.from_ndarray.__doc__ is None:
 else:
     Point2f.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point2f that shares the same data with an ndarray instance, use:\n        'Point2f.from_ndarray(a)' or 'asPoint2f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Point2f that shares the same data with an ndarray instance, use:\n        'Point2f.from_ndarray(a)' or 'asPoint2f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point2f.__doc__ is None:
     Point2f.__doc__ = _str
 else:
@@ -1432,7 +1432,7 @@ if Point2d.from_ndarray.__doc__ is None:
 else:
     Point2d.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point2d that shares the same data with an ndarray instance, use:\n        'Point2d.from_ndarray(a)' or 'asPoint2d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Point2d that shares the same data with an ndarray instance, use:\n        'Point2d.from_ndarray(a)' or 'asPoint2d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point2d.__doc__ is None:
     Point2d.__doc__ = _str
 else:
@@ -1467,7 +1467,7 @@ if Point3i.from_ndarray.__doc__ is None:
 else:
     Point3i.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point3i that shares the same data with an ndarray instance, use:\n        'Point3i.from_ndarray(a)' or 'asPoint3i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Point3i that shares the same data with an ndarray instance, use:\n        'Point3i.from_ndarray(a)' or 'asPoint3i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point3i.__doc__ is None:
     Point3i.__doc__ = _str
 else:
@@ -1504,7 +1504,7 @@ if Point3f.from_ndarray.__doc__ is None:
 else:
     Point3f.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point3f that shares the same data with an ndarray instance, use:\n        'Point3f.from_ndarray(a)' or 'asPoint3f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Point3f that shares the same data with an ndarray instance, use:\n        'Point3f.from_ndarray(a)' or 'asPoint3f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point3f.__doc__ is None:
     Point3f.__doc__ = _str
 else:
@@ -1541,7 +1541,7 @@ if Point3d.from_ndarray.__doc__ is None:
 else:
     Point3d.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Point3d that shares the same data with an ndarray instance, use:\n        'Point3d.from_ndarray(a)' or 'asPoint3d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Point3d that shares the same data with an ndarray instance, use:\n        'Point3d.from_ndarray(a)' or 'asPoint3d(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point3d.__doc__ is None:
     Point3d.__doc__ = _str
 else:
@@ -1578,7 +1578,7 @@ if Size2i.from_ndarray.__doc__ is None:
 else:
     Size2i.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Size2i that shares the same data with an ndarray instance, use:\n        'Size2i.from_ndarray(a)' or 'asSize2i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Size2i that shares the same data with an ndarray instance, use:\n        'Size2i.from_ndarray(a)' or 'asSize2i(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Size2i.__doc__ is None:
     Size2i.__doc__ = _str
 else:
@@ -1615,7 +1615,7 @@ if Size2f.from_ndarray.__doc__ is None:
 else:
     Size2f.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Size2f that shares the same data with an ndarray instance, use:\n        'Size2f.from_ndarray(a)' or 'asSize2f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Size2f that shares the same data with an ndarray instance, use:\n        'Size2f.from_ndarray(a)' or 'asSize2f(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Size2f.__doc__ is None:
     Size2f.__doc__ = _str
 else:
@@ -1654,7 +1654,7 @@ if Rect.from_ndarray.__doc__ is None:
 else:
     Rect.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Rect that shares the same data with an ndarray instance, use:\n        'Rect.from_ndarray(a)' or 'asRect(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Rect that shares the same data with an ndarray instance, use:\n        'Rect.from_ndarray(a)' or 'asRect(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Rect.__doc__ is None:
     Rect.__doc__ = _str
 else:
@@ -1692,7 +1692,7 @@ if RotatedRect.from_ndarray.__doc__ is None:
 else:
     RotatedRect.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of RotatedRect that shares the same data with an ndarray instance, use:\n        'RotatedRect.from_ndarray(a)' or 'asRotatedRect(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of RotatedRect that shares the same data with an ndarray instance, use:\n        'RotatedRect.from_ndarray(a)' or 'asRotatedRect(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if RotatedRect.__doc__ is None:
     RotatedRect.__doc__ = _str
 else:
@@ -1730,7 +1730,7 @@ if Scalar.from_ndarray.__doc__ is None:
 else:
     Scalar.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Scalar that shares the same data with an ndarray instance, use:\n        'Scalar.from_ndarray(a)' or 'asScalar(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Scalar that shares the same data with an ndarray instance, use:\n        'Scalar.from_ndarray(a)' or 'asScalar(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Scalar.__doc__ is None:
     Scalar.__doc__ = _str
 else:
@@ -1766,7 +1766,7 @@ if Range.from_ndarray.__doc__ is None:
 else:
     Range.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Range that shares the same data with an ndarray instance, use:\n        'Range.from_ndarray(a)' or 'asRange(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Range that shares the same data with an ndarray instance, use:\n        'Range.from_ndarray(a)' or 'asRange(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Range.__doc__ is None:
     Range.__doc__ = _str
 else:
@@ -1803,7 +1803,7 @@ if Mat.from_ndarray.__doc__ is None:
 else:
     Mat.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of Mat that shares the same data with an ndarray instance, use:\n        'Mat.from_ndarray(a)' or 'asMat(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Mat that shares the same data with an ndarray instance, use:\n        'Mat.from_ndarray(a)' or 'asMat(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Mat.__doc__ is None:
     Mat.__doc__ = _str
 else:
@@ -1910,7 +1910,7 @@ if MatND.from_ndarray.__doc__ is None:
 else:
     MatND.from_ndarray.__doc__ += _str
 
-_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    \n    To create an instance of MatND that shares the same data with an ndarray instance, use:\n        'MatND.from_ndarray(a)' or 'asMatND(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
+_str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of MatND that shares the same data with an ndarray instance, use:\n        'MatND.from_ndarray(a)' or 'asMatND(a)\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if MatND.__doc__ is None:
     MatND.__doc__ = _str
 else:
@@ -1973,6 +1973,8 @@ CV_HAAR_MAGIC_VAL    = 0x42500000
 CV_TYPE_NAME_HAAR    = "opencv-haar-classifier"
 CV_HAAR_FEATURE_MAX  = 3
 
+def CV_IS_HAAR_CLASSIFIER(haar_cascade):
+    return isinstance(haar_cascade, CvHaarClassifierCascade) and         haar_cascade.flags&CV_MAGIC_MASK==CV_HAAR_MAGIC_VAL
 
     
 CvContourScanner._ownershiplevel = 0
@@ -2620,6 +2622,23 @@ else:
 
 
     
+def asndarray(obj):
+    """Converts a Python object into a numpy.ndarray object.
+    
+    This function basically invokes:
+    
+        _PE.asndarray(inst_<type of 'obj'>=obj)
+    
+    where _PE.asndarray is the internal asndarray() function of the Python
+    extension, and the type of the given Python object, 'obj', is determined
+    by looking at 'obj.__class__'.
+    """
+    return eval("_PE.asndarray(inst_%s=obj)" % obj.__class__.__name__)
+asndarray.__doc__ = asndarray.__doc__ + """
+Docstring of the internal asndarray function:
+
+""" + _PE.asndarray.__doc__
+
 def __vector__repr__(self):
     n = len(self)
     s = "%s(len=%d, [" % (self.__class__.__name__, n)
@@ -2639,6 +2658,21 @@ def __vector__repr__(self):
 def is_vector(cls):
     """Returns whether class 'cls' is a std::vector class."""
     return cls.__name__.startswith('vector_')
+    
+def __vector_create(self, obj):
+    """Creates the vector from a Python sequence.
+    
+    Argument 'obj':
+        a Python sequence
+    """
+    N = len(obj)
+    self.resize(N)
+    if is_vector(self.elem_type):
+        for i in xrange(N):
+            self[i] = self.elem_type.fromlist(obj[i])
+    else:
+        for i in xrange(N):
+            self[i] = obj[i]
 
 def __vector_tolist(self):
     if is_vector(self.elem_type):
@@ -2646,15 +2680,33 @@ def __vector_tolist(self):
     return [self[i] for i in xrange(len(self))]
 
 def __vector_fromlist(cls, obj):
+    """Creates a vector from a Python sequence.
+    
+    Argument 'obj':
+        a Python sequence
+    """
     z = cls()
-    if is_vector(cls.elem_type):
-        for x in obj:
-            z.append(cls.elem_type.fromlist(x))
-    else:
-        for x in obj:
-            z.append(x)
+    z.create(obj)
     return z
+    
+def __vector__init__(self, obj=None):
+    """Initializes the vector.
+    
+    Argument 'obj':
+        If 'obj' is an integecd r, the vector is initialized as a vector of 
+        'obj' elements. If 'obj' is a Python sequence. The vector is
+        initialized as an equivalence of 'obj' by invoking self.fromlist().
+    """
+    self.__old_init__()
+    if isinstance(obj, int):
+        self.resize(obj)
+    elif not obj is None:
+        self.create(obj)
+    
 
+vector_vector_Point3f.__old_init__ = vector_vector_Point3f.__init__
+vector_vector_Point3f.__init__ = __vector__init__
+vector_vector_Point3f.create = __vector_create
 vector_vector_Point3f.__repr__ = __vector__repr__
 vector_vector_Point3f.tolist = __vector_tolist
 vector_vector_Point3f.fromlist = classmethod(__vector_fromlist)
@@ -2663,6 +2715,9 @@ _z.resize(1)
 vector_vector_Point3f.elem_type = _z[0].__class__
 del(_z)
     
+vector_Point3f.__old_init__ = vector_Point3f.__init__
+vector_Point3f.__init__ = __vector__init__
+vector_Point3f.create = __vector_create
 vector_Point3f.__repr__ = __vector__repr__
 vector_Point3f.tolist = __vector_tolist
 vector_Point3f.fromlist = classmethod(__vector_fromlist)
@@ -2671,6 +2726,9 @@ _z.resize(1)
 vector_Point3f.elem_type = _z[0].__class__
 del(_z)
     
+vector_vector_Point2i.__old_init__ = vector_vector_Point2i.__init__
+vector_vector_Point2i.__init__ = __vector__init__
+vector_vector_Point2i.create = __vector_create
 vector_vector_Point2i.__repr__ = __vector__repr__
 vector_vector_Point2i.tolist = __vector_tolist
 vector_vector_Point2i.fromlist = classmethod(__vector_fromlist)
@@ -2679,6 +2737,9 @@ _z.resize(1)
 vector_vector_Point2i.elem_type = _z[0].__class__
 del(_z)
     
+vector_Point2i.__old_init__ = vector_Point2i.__init__
+vector_Point2i.__init__ = __vector__init__
+vector_Point2i.create = __vector_create
 vector_Point2i.__repr__ = __vector__repr__
 vector_Point2i.tolist = __vector_tolist
 vector_Point2i.fromlist = classmethod(__vector_fromlist)
@@ -2687,6 +2748,9 @@ _z.resize(1)
 vector_Point2i.elem_type = _z[0].__class__
 del(_z)
     
+vector_CascadeClassifier_DTree.__old_init__ = vector_CascadeClassifier_DTree.__init__
+vector_CascadeClassifier_DTree.__init__ = __vector__init__
+vector_CascadeClassifier_DTree.create = __vector_create
 vector_CascadeClassifier_DTree.__repr__ = __vector__repr__
 vector_CascadeClassifier_DTree.tolist = __vector_tolist
 vector_CascadeClassifier_DTree.fromlist = classmethod(__vector_fromlist)
@@ -2695,6 +2759,9 @@ _z.resize(1)
 vector_CascadeClassifier_DTree.elem_type = _z[0].__class__
 del(_z)
     
+vector_Point2d.__old_init__ = vector_Point2d.__init__
+vector_Point2d.__init__ = __vector__init__
+vector_Point2d.create = __vector_create
 vector_Point2d.__repr__ = __vector__repr__
 vector_Point2d.tolist = __vector_tolist
 vector_Point2d.fromlist = classmethod(__vector_fromlist)
@@ -2703,6 +2770,9 @@ _z.resize(1)
 vector_Point2d.elem_type = _z[0].__class__
 del(_z)
     
+vector_Range.__old_init__ = vector_Range.__init__
+vector_Range.__init__ = __vector__init__
+vector_Range.create = __vector_create
 vector_Range.__repr__ = __vector__repr__
 vector_Range.tolist = __vector_tolist
 vector_Range.fromlist = classmethod(__vector_fromlist)
@@ -2711,6 +2781,9 @@ _z.resize(1)
 vector_Range.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec3b.__old_init__ = vector_Vec3b.__init__
+vector_Vec3b.__init__ = __vector__init__
+vector_Vec3b.create = __vector_create
 vector_Vec3b.__repr__ = __vector__repr__
 vector_Vec3b.tolist = __vector_tolist
 vector_Vec3b.fromlist = classmethod(__vector_fromlist)
@@ -2719,14 +2792,9 @@ _z.resize(1)
 vector_Vec3b.elem_type = _z[0].__class__
 del(_z)
     
-vector_int64.__repr__ = __vector__repr__
-vector_int64.tolist = __vector_tolist
-vector_int64.fromlist = classmethod(__vector_fromlist)
-_z = vector_int64()
-_z.resize(1)
-vector_int64.elem_type = _z[0].__class__
-del(_z)
-    
+vector_MatND.__old_init__ = vector_MatND.__init__
+vector_MatND.__init__ = __vector__init__
+vector_MatND.create = __vector_create
 vector_MatND.__repr__ = __vector__repr__
 vector_MatND.tolist = __vector_tolist
 vector_MatND.fromlist = classmethod(__vector_fromlist)
@@ -2735,6 +2803,9 @@ _z.resize(1)
 vector_MatND.elem_type = _z[0].__class__
 del(_z)
     
+vector_Scalar.__old_init__ = vector_Scalar.__init__
+vector_Scalar.__init__ = __vector__init__
+vector_Scalar.create = __vector_create
 vector_Scalar.__repr__ = __vector__repr__
 vector_Scalar.tolist = __vector_tolist
 vector_Scalar.fromlist = classmethod(__vector_fromlist)
@@ -2743,6 +2814,9 @@ _z.resize(1)
 vector_Scalar.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec2s.__old_init__ = vector_Vec2s.__init__
+vector_Vec2s.__init__ = __vector__init__
+vector_Vec2s.create = __vector_create
 vector_Vec2s.__repr__ = __vector__repr__
 vector_Vec2s.tolist = __vector_tolist
 vector_Vec2s.fromlist = classmethod(__vector_fromlist)
@@ -2751,6 +2825,9 @@ _z.resize(1)
 vector_Vec2s.elem_type = _z[0].__class__
 del(_z)
     
+vector_Mat.__old_init__ = vector_Mat.__init__
+vector_Mat.__init__ = __vector__init__
+vector_Mat.create = __vector_create
 vector_Mat.__repr__ = __vector__repr__
 vector_Mat.tolist = __vector_tolist
 vector_Mat.fromlist = classmethod(__vector_fromlist)
@@ -2759,6 +2836,9 @@ _z.resize(1)
 vector_Mat.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec4s.__old_init__ = vector_Vec4s.__init__
+vector_Vec4s.__init__ = __vector__init__
+vector_Vec4s.create = __vector_create
 vector_Vec4s.__repr__ = __vector__repr__
 vector_Vec4s.tolist = __vector_tolist
 vector_Vec4s.fromlist = classmethod(__vector_fromlist)
@@ -2767,6 +2847,9 @@ _z.resize(1)
 vector_Vec4s.elem_type = _z[0].__class__
 del(_z)
     
+vector_KeyPoint.__old_init__ = vector_KeyPoint.__init__
+vector_KeyPoint.__init__ = __vector__init__
+vector_KeyPoint.create = __vector_create
 vector_KeyPoint.__repr__ = __vector__repr__
 vector_KeyPoint.tolist = __vector_tolist
 vector_KeyPoint.fromlist = classmethod(__vector_fromlist)
@@ -2775,6 +2858,9 @@ _z.resize(1)
 vector_KeyPoint.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec6d.__old_init__ = vector_Vec6d.__init__
+vector_Vec6d.__init__ = __vector__init__
+vector_Vec6d.create = __vector_create
 vector_Vec6d.__repr__ = __vector__repr__
 vector_Vec6d.tolist = __vector_tolist
 vector_Vec6d.fromlist = classmethod(__vector_fromlist)
@@ -2783,6 +2869,9 @@ _z.resize(1)
 vector_Vec6d.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec4i.__old_init__ = vector_Vec4i.__init__
+vector_Vec4i.__init__ = __vector__init__
+vector_Vec4i.create = __vector_create
 vector_Vec4i.__repr__ = __vector__repr__
 vector_Vec4i.tolist = __vector_tolist
 vector_Vec4i.fromlist = classmethod(__vector_fromlist)
@@ -2791,6 +2880,9 @@ _z.resize(1)
 vector_Vec4i.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec4d.__old_init__ = vector_Vec4d.__init__
+vector_Vec4d.__init__ = __vector__init__
+vector_Vec4d.create = __vector_create
 vector_Vec4d.__repr__ = __vector__repr__
 vector_Vec4d.tolist = __vector_tolist
 vector_Vec4d.fromlist = classmethod(__vector_fromlist)
@@ -2799,6 +2891,9 @@ _z.resize(1)
 vector_Vec4d.elem_type = _z[0].__class__
 del(_z)
     
+vector_Ptr_Mat.__old_init__ = vector_Ptr_Mat.__init__
+vector_Ptr_Mat.__init__ = __vector__init__
+vector_Ptr_Mat.create = __vector_create
 vector_Ptr_Mat.__repr__ = __vector__repr__
 vector_Ptr_Mat.tolist = __vector_tolist
 vector_Ptr_Mat.fromlist = classmethod(__vector_fromlist)
@@ -2807,6 +2902,9 @@ _z.resize(1)
 vector_Ptr_Mat.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec3f.__old_init__ = vector_Vec3f.__init__
+vector_Vec3f.__init__ = __vector__init__
+vector_Vec3f.create = __vector_create
 vector_Vec3f.__repr__ = __vector__repr__
 vector_Vec3f.tolist = __vector_tolist
 vector_Vec3f.fromlist = classmethod(__vector_fromlist)
@@ -2815,14 +2913,9 @@ _z.resize(1)
 vector_Vec3f.elem_type = _z[0].__class__
 del(_z)
     
-vector_int16.__repr__ = __vector__repr__
-vector_int16.tolist = __vector_tolist
-vector_int16.fromlist = classmethod(__vector_fromlist)
-_z = vector_int16()
-_z.resize(1)
-vector_int16.elem_type = _z[0].__class__
-del(_z)
-    
+vector_vector_Point3d.__old_init__ = vector_vector_Point3d.__init__
+vector_vector_Point3d.__init__ = __vector__init__
+vector_vector_Point3d.create = __vector_create
 vector_vector_Point3d.__repr__ = __vector__repr__
 vector_vector_Point3d.tolist = __vector_tolist
 vector_vector_Point3d.fromlist = classmethod(__vector_fromlist)
@@ -2831,6 +2924,9 @@ _z.resize(1)
 vector_vector_Point3d.elem_type = _z[0].__class__
 del(_z)
     
+vector_Point3d.__old_init__ = vector_Point3d.__init__
+vector_Point3d.__init__ = __vector__init__
+vector_Point3d.create = __vector_create
 vector_Point3d.__repr__ = __vector__repr__
 vector_Point3d.tolist = __vector_tolist
 vector_Point3d.fromlist = classmethod(__vector_fromlist)
@@ -2839,6 +2935,9 @@ _z.resize(1)
 vector_Point3d.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec2w.__old_init__ = vector_Vec2w.__init__
+vector_Vec2w.__init__ = __vector__init__
+vector_Vec2w.create = __vector_create
 vector_Vec2w.__repr__ = __vector__repr__
 vector_Vec2w.tolist = __vector_tolist
 vector_Vec2w.fromlist = classmethod(__vector_fromlist)
@@ -2847,6 +2946,9 @@ _z.resize(1)
 vector_Vec2w.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec2i.__old_init__ = vector_Vec2i.__init__
+vector_Vec2i.__init__ = __vector__init__
+vector_Vec2i.create = __vector_create
 vector_Vec2i.__repr__ = __vector__repr__
 vector_Vec2i.tolist = __vector_tolist
 vector_Vec2i.fromlist = classmethod(__vector_fromlist)
@@ -2855,6 +2957,9 @@ _z.resize(1)
 vector_Vec2i.elem_type = _z[0].__class__
 del(_z)
     
+vector_Rect.__old_init__ = vector_Rect.__init__
+vector_Rect.__init__ = __vector__init__
+vector_Rect.create = __vector_create
 vector_Rect.__repr__ = __vector__repr__
 vector_Rect.tolist = __vector_tolist
 vector_Rect.fromlist = classmethod(__vector_fromlist)
@@ -2863,6 +2968,9 @@ _z.resize(1)
 vector_Rect.elem_type = _z[0].__class__
 del(_z)
     
+vector_int8.__old_init__ = vector_int8.__init__
+vector_int8.__init__ = __vector__init__
+vector_int8.create = __vector_create
 vector_int8.__repr__ = __vector__repr__
 vector_int8.tolist = __vector_tolist
 vector_int8.fromlist = classmethod(__vector_fromlist)
@@ -2871,6 +2979,9 @@ _z.resize(1)
 vector_int8.elem_type = _z[0].__class__
 del(_z)
     
+vector_vector_Point2d.__old_init__ = vector_vector_Point2d.__init__
+vector_vector_Point2d.__init__ = __vector__init__
+vector_vector_Point2d.create = __vector_create
 vector_vector_Point2d.__repr__ = __vector__repr__
 vector_vector_Point2d.tolist = __vector_tolist
 vector_vector_Point2d.fromlist = classmethod(__vector_fromlist)
@@ -2879,6 +2990,9 @@ _z.resize(1)
 vector_vector_Point2d.elem_type = _z[0].__class__
 del(_z)
     
+vector_CascadeClassifier_DTreeNode.__old_init__ = vector_CascadeClassifier_DTreeNode.__init__
+vector_CascadeClassifier_DTreeNode.__init__ = __vector__init__
+vector_CascadeClassifier_DTreeNode.create = __vector_create
 vector_CascadeClassifier_DTreeNode.__repr__ = __vector__repr__
 vector_CascadeClassifier_DTreeNode.tolist = __vector_tolist
 vector_CascadeClassifier_DTreeNode.fromlist = classmethod(__vector_fromlist)
@@ -2887,6 +3001,9 @@ _z.resize(1)
 vector_CascadeClassifier_DTreeNode.elem_type = _z[0].__class__
 del(_z)
     
+vector_vector_float32.__old_init__ = vector_vector_float32.__init__
+vector_vector_float32.__init__ = __vector__init__
+vector_vector_float32.create = __vector_create
 vector_vector_float32.__repr__ = __vector__repr__
 vector_vector_float32.tolist = __vector_tolist
 vector_vector_float32.fromlist = classmethod(__vector_fromlist)
@@ -2895,6 +3012,9 @@ _z.resize(1)
 vector_vector_float32.elem_type = _z[0].__class__
 del(_z)
     
+vector_float32.__old_init__ = vector_float32.__init__
+vector_float32.__init__ = __vector__init__
+vector_float32.create = __vector_create
 vector_float32.__repr__ = __vector__repr__
 vector_float32.tolist = __vector_tolist
 vector_float32.fromlist = classmethod(__vector_fromlist)
@@ -2903,6 +3023,9 @@ _z.resize(1)
 vector_float32.elem_type = _z[0].__class__
 del(_z)
     
+vector_Size2i.__old_init__ = vector_Size2i.__init__
+vector_Size2i.__init__ = __vector__init__
+vector_Size2i.create = __vector_create
 vector_Size2i.__repr__ = __vector__repr__
 vector_Size2i.tolist = __vector_tolist
 vector_Size2i.fromlist = classmethod(__vector_fromlist)
@@ -2911,6 +3034,9 @@ _z.resize(1)
 vector_Size2i.elem_type = _z[0].__class__
 del(_z)
     
+vector_vector_Point3i.__old_init__ = vector_vector_Point3i.__init__
+vector_vector_Point3i.__init__ = __vector__init__
+vector_vector_Point3i.create = __vector_create
 vector_vector_Point3i.__repr__ = __vector__repr__
 vector_vector_Point3i.tolist = __vector_tolist
 vector_vector_Point3i.fromlist = classmethod(__vector_fromlist)
@@ -2919,6 +3045,9 @@ _z.resize(1)
 vector_vector_Point3i.elem_type = _z[0].__class__
 del(_z)
     
+vector_Point3i.__old_init__ = vector_Point3i.__init__
+vector_Point3i.__init__ = __vector__init__
+vector_Point3i.create = __vector_create
 vector_Point3i.__repr__ = __vector__repr__
 vector_Point3i.tolist = __vector_tolist
 vector_Point3i.fromlist = classmethod(__vector_fromlist)
@@ -2927,6 +3056,9 @@ _z.resize(1)
 vector_Point3i.elem_type = _z[0].__class__
 del(_z)
     
+vector_vector_Vec2i.__old_init__ = vector_vector_Vec2i.__init__
+vector_vector_Vec2i.__init__ = __vector__init__
+vector_vector_Vec2i.create = __vector_create
 vector_vector_Vec2i.__repr__ = __vector__repr__
 vector_vector_Vec2i.tolist = __vector_tolist
 vector_vector_Vec2i.fromlist = classmethod(__vector_fromlist)
@@ -2935,6 +3067,9 @@ _z.resize(1)
 vector_vector_Vec2i.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec6f.__old_init__ = vector_Vec6f.__init__
+vector_Vec6f.__init__ = __vector__init__
+vector_Vec6f.create = __vector_create
 vector_Vec6f.__repr__ = __vector__repr__
 vector_Vec6f.tolist = __vector_tolist
 vector_Vec6f.fromlist = classmethod(__vector_fromlist)
@@ -2943,6 +3078,9 @@ _z.resize(1)
 vector_Vec6f.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec2b.__old_init__ = vector_Vec2b.__init__
+vector_Vec2b.__init__ = __vector__init__
+vector_Vec2b.create = __vector_create
 vector_Vec2b.__repr__ = __vector__repr__
 vector_Vec2b.tolist = __vector_tolist
 vector_Vec2b.fromlist = classmethod(__vector_fromlist)
@@ -2951,6 +3089,9 @@ _z.resize(1)
 vector_Vec2b.elem_type = _z[0].__class__
 del(_z)
     
+vector_ulong.__old_init__ = vector_ulong.__init__
+vector_ulong.__init__ = __vector__init__
+vector_ulong.create = __vector_create
 vector_ulong.__repr__ = __vector__repr__
 vector_ulong.tolist = __vector_tolist
 vector_ulong.fromlist = classmethod(__vector_fromlist)
@@ -2959,6 +3100,20 @@ _z.resize(1)
 vector_ulong.elem_type = _z[0].__class__
 del(_z)
     
+vector_int16.__old_init__ = vector_int16.__init__
+vector_int16.__init__ = __vector__init__
+vector_int16.create = __vector_create
+vector_int16.__repr__ = __vector__repr__
+vector_int16.tolist = __vector_tolist
+vector_int16.fromlist = classmethod(__vector_fromlist)
+_z = vector_int16()
+_z.resize(1)
+vector_int16.elem_type = _z[0].__class__
+del(_z)
+    
+vector_Vec3s.__old_init__ = vector_Vec3s.__init__
+vector_Vec3s.__init__ = __vector__init__
+vector_Vec3s.create = __vector_create
 vector_Vec3s.__repr__ = __vector__repr__
 vector_Vec3s.tolist = __vector_tolist
 vector_Vec3s.fromlist = classmethod(__vector_fromlist)
@@ -2967,6 +3122,9 @@ _z.resize(1)
 vector_Vec3s.elem_type = _z[0].__class__
 del(_z)
     
+vector_vector_Point2f.__old_init__ = vector_vector_Point2f.__init__
+vector_vector_Point2f.__init__ = __vector__init__
+vector_vector_Point2f.create = __vector_create
 vector_vector_Point2f.__repr__ = __vector__repr__
 vector_vector_Point2f.tolist = __vector_tolist
 vector_vector_Point2f.fromlist = classmethod(__vector_fromlist)
@@ -2975,6 +3133,9 @@ _z.resize(1)
 vector_vector_Point2f.elem_type = _z[0].__class__
 del(_z)
     
+vector_Point2f.__old_init__ = vector_Point2f.__init__
+vector_Point2f.__init__ = __vector__init__
+vector_Point2f.create = __vector_create
 vector_Point2f.__repr__ = __vector__repr__
 vector_Point2f.tolist = __vector_tolist
 vector_Point2f.fromlist = classmethod(__vector_fromlist)
@@ -2983,6 +3144,9 @@ _z.resize(1)
 vector_Point2f.elem_type = _z[0].__class__
 del(_z)
     
+vector_RotatedRect.__old_init__ = vector_RotatedRect.__init__
+vector_RotatedRect.__init__ = __vector__init__
+vector_RotatedRect.create = __vector_create
 vector_RotatedRect.__repr__ = __vector__repr__
 vector_RotatedRect.tolist = __vector_tolist
 vector_RotatedRect.fromlist = classmethod(__vector_fromlist)
@@ -2991,6 +3155,9 @@ _z.resize(1)
 vector_RotatedRect.elem_type = _z[0].__class__
 del(_z)
     
+vector_uint8.__old_init__ = vector_uint8.__init__
+vector_uint8.__init__ = __vector__init__
+vector_uint8.create = __vector_create
 vector_uint8.__repr__ = __vector__repr__
 vector_uint8.tolist = __vector_tolist
 vector_uint8.fromlist = classmethod(__vector_fromlist)
@@ -2999,6 +3166,9 @@ _z.resize(1)
 vector_uint8.elem_type = _z[0].__class__
 del(_z)
     
+vector_vector_int.__old_init__ = vector_vector_int.__init__
+vector_vector_int.__init__ = __vector__init__
+vector_vector_int.create = __vector_create
 vector_vector_int.__repr__ = __vector__repr__
 vector_vector_int.tolist = __vector_tolist
 vector_vector_int.fromlist = classmethod(__vector_fromlist)
@@ -3007,6 +3177,9 @@ _z.resize(1)
 vector_vector_int.elem_type = _z[0].__class__
 del(_z)
     
+vector_int.__old_init__ = vector_int.__init__
+vector_int.__init__ = __vector__init__
+vector_int.create = __vector_create
 vector_int.__repr__ = __vector__repr__
 vector_int.tolist = __vector_tolist
 vector_int.fromlist = classmethod(__vector_fromlist)
@@ -3015,6 +3188,9 @@ _z.resize(1)
 vector_int.elem_type = _z[0].__class__
 del(_z)
     
+vector_CvFuzzyCurve.__old_init__ = vector_CvFuzzyCurve.__init__
+vector_CvFuzzyCurve.__init__ = __vector__init__
+vector_CvFuzzyCurve.create = __vector_create
 vector_CvFuzzyCurve.__repr__ = __vector__repr__
 vector_CvFuzzyCurve.tolist = __vector_tolist
 vector_CvFuzzyCurve.fromlist = classmethod(__vector_fromlist)
@@ -3023,6 +3199,9 @@ _z.resize(1)
 vector_CvFuzzyCurve.elem_type = _z[0].__class__
 del(_z)
     
+vector_uint.__old_init__ = vector_uint.__init__
+vector_uint.__init__ = __vector__init__
+vector_uint.create = __vector_create
 vector_uint.__repr__ = __vector__repr__
 vector_uint.tolist = __vector_tolist
 vector_uint.fromlist = classmethod(__vector_fromlist)
@@ -3031,6 +3210,9 @@ _z.resize(1)
 vector_uint.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec3d.__old_init__ = vector_Vec3d.__init__
+vector_Vec3d.__init__ = __vector__init__
+vector_Vec3d.create = __vector_create
 vector_Vec3d.__repr__ = __vector__repr__
 vector_Vec3d.tolist = __vector_tolist
 vector_Vec3d.fromlist = classmethod(__vector_fromlist)
@@ -3039,14 +3221,9 @@ _z.resize(1)
 vector_Vec3d.elem_type = _z[0].__class__
 del(_z)
     
-vector_uint64.__repr__ = __vector__repr__
-vector_uint64.tolist = __vector_tolist
-vector_uint64.fromlist = classmethod(__vector_fromlist)
-_z = vector_uint64()
-_z.resize(1)
-vector_uint64.elem_type = _z[0].__class__
-del(_z)
-    
+vector_FernClassifier_Feature.__old_init__ = vector_FernClassifier_Feature.__init__
+vector_FernClassifier_Feature.__init__ = __vector__init__
+vector_FernClassifier_Feature.create = __vector_create
 vector_FernClassifier_Feature.__repr__ = __vector__repr__
 vector_FernClassifier_Feature.tolist = __vector_tolist
 vector_FernClassifier_Feature.fromlist = classmethod(__vector_fromlist)
@@ -3055,6 +3232,9 @@ _z.resize(1)
 vector_FernClassifier_Feature.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec4w.__old_init__ = vector_Vec4w.__init__
+vector_Vec4w.__init__ = __vector__init__
+vector_Vec4w.create = __vector_create
 vector_Vec4w.__repr__ = __vector__repr__
 vector_Vec4w.tolist = __vector_tolist
 vector_Vec4w.fromlist = classmethod(__vector_fromlist)
@@ -3063,6 +3243,9 @@ _z.resize(1)
 vector_Vec4w.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec4f.__old_init__ = vector_Vec4f.__init__
+vector_Vec4f.__init__ = __vector__init__
+vector_Vec4f.create = __vector_create
 vector_Vec4f.__repr__ = __vector__repr__
 vector_Vec4f.tolist = __vector_tolist
 vector_Vec4f.fromlist = classmethod(__vector_fromlist)
@@ -3071,6 +3254,9 @@ _z.resize(1)
 vector_Vec4f.elem_type = _z[0].__class__
 del(_z)
     
+vector_uint16.__old_init__ = vector_uint16.__init__
+vector_uint16.__init__ = __vector__init__
+vector_uint16.create = __vector_create
 vector_uint16.__repr__ = __vector__repr__
 vector_uint16.tolist = __vector_tolist
 vector_uint16.fromlist = classmethod(__vector_fromlist)
@@ -3079,6 +3265,9 @@ _z.resize(1)
 vector_uint16.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec2d.__old_init__ = vector_Vec2d.__init__
+vector_Vec2d.__init__ = __vector__init__
+vector_Vec2d.create = __vector_create
 vector_Vec2d.__repr__ = __vector__repr__
 vector_Vec2d.tolist = __vector_tolist
 vector_Vec2d.fromlist = classmethod(__vector_fromlist)
@@ -3087,6 +3276,9 @@ _z.resize(1)
 vector_Vec2d.elem_type = _z[0].__class__
 del(_z)
     
+vector_CascadeClassifier_Stage.__old_init__ = vector_CascadeClassifier_Stage.__init__
+vector_CascadeClassifier_Stage.__init__ = __vector__init__
+vector_CascadeClassifier_Stage.create = __vector_create
 vector_CascadeClassifier_Stage.__repr__ = __vector__repr__
 vector_CascadeClassifier_Stage.tolist = __vector_tolist
 vector_CascadeClassifier_Stage.fromlist = classmethod(__vector_fromlist)
@@ -3095,6 +3287,9 @@ _z.resize(1)
 vector_CascadeClassifier_Stage.elem_type = _z[0].__class__
 del(_z)
     
+vector_Size2f.__old_init__ = vector_Size2f.__init__
+vector_Size2f.__init__ = __vector__init__
+vector_Size2f.create = __vector_create
 vector_Size2f.__repr__ = __vector__repr__
 vector_Size2f.tolist = __vector_tolist
 vector_Size2f.fromlist = classmethod(__vector_fromlist)
@@ -3103,6 +3298,9 @@ _z.resize(1)
 vector_Size2f.elem_type = _z[0].__class__
 del(_z)
     
+vector_float64.__old_init__ = vector_float64.__init__
+vector_float64.__init__ = __vector__init__
+vector_float64.create = __vector_create
 vector_float64.__repr__ = __vector__repr__
 vector_float64.tolist = __vector_tolist
 vector_float64.fromlist = classmethod(__vector_fromlist)
@@ -3111,6 +3309,9 @@ _z.resize(1)
 vector_float64.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec3w.__old_init__ = vector_Vec3w.__init__
+vector_Vec3w.__init__ = __vector__init__
+vector_Vec3w.create = __vector_create
 vector_Vec3w.__repr__ = __vector__repr__
 vector_Vec3w.tolist = __vector_tolist
 vector_Vec3w.fromlist = classmethod(__vector_fromlist)
@@ -3119,6 +3320,9 @@ _z.resize(1)
 vector_Vec3w.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec4b.__old_init__ = vector_Vec4b.__init__
+vector_Vec4b.__init__ = __vector__init__
+vector_Vec4b.create = __vector_create
 vector_Vec4b.__repr__ = __vector__repr__
 vector_Vec4b.tolist = __vector_tolist
 vector_Vec4b.fromlist = classmethod(__vector_fromlist)
@@ -3127,6 +3331,9 @@ _z.resize(1)
 vector_Vec4b.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec2f.__old_init__ = vector_Vec2f.__init__
+vector_Vec2f.__init__ = __vector__init__
+vector_Vec2f.create = __vector_create
 vector_Vec2f.__repr__ = __vector__repr__
 vector_Vec2f.tolist = __vector_tolist
 vector_Vec2f.fromlist = classmethod(__vector_fromlist)
@@ -3135,6 +3342,9 @@ _z.resize(1)
 vector_Vec2f.elem_type = _z[0].__class__
 del(_z)
     
+vector_Vec3i.__old_init__ = vector_Vec3i.__init__
+vector_Vec3i.__init__ = __vector__init__
+vector_Vec3i.create = __vector_create
 vector_Vec3i.__repr__ = __vector__repr__
 vector_Vec3i.tolist = __vector_tolist
 vector_Vec3i.fromlist = classmethod(__vector_fromlist)
@@ -3143,6 +3353,9 @@ _z.resize(1)
 vector_Vec3i.elem_type = _z[0].__class__
 del(_z)
     
+vector_Octree_Node.__old_init__ = vector_Octree_Node.__init__
+vector_Octree_Node.__init__ = __vector__init__
+vector_Octree_Node.create = __vector_create
 vector_Octree_Node.__repr__ = __vector__repr__
 vector_Octree_Node.tolist = __vector_tolist
 vector_Octree_Node.fromlist = classmethod(__vector_fromlist)
@@ -3151,6 +3364,9 @@ _z.resize(1)
 vector_Octree_Node.elem_type = _z[0].__class__
 del(_z)
     
+vector_long.__old_init__ = vector_long.__init__
+vector_long.__init__ = __vector__init__
+vector_long.create = __vector_create
 vector_long.__repr__ = __vector__repr__
 vector_long.tolist = __vector_tolist
 vector_long.fromlist = classmethod(__vector_fromlist)

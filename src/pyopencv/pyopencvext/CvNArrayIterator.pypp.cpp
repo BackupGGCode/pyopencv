@@ -25,7 +25,7 @@ struct CvNArrayIterator_wrapper : CvNArrayIterator, bp::wrapper< CvNArrayIterato
     }
 
     static pyplusplus::containers::static_sized::array_1_t< int, 32>
-    pyplusplus_stack_wrapper( ::CvNArrayIterator & inst ){
+    pyplusplus_stack_wrapper( CvNArrayIterator & inst ){
         return pyplusplus::containers::static_sized::array_1_t< int, 32>( inst.stack );
     }
 
@@ -44,7 +44,7 @@ void register_CvNArrayIterator_class(){
         pyplusplus::containers::static_sized::register_array_1< int, 32 >( "__array_1_int_32" );
         { //CvNArrayIterator::stack [variable], type=int[32]
         
-            typedef pyplusplus::containers::static_sized::array_1_t< int, 32> ( *array_wrapper_creator )( ::CvNArrayIterator & );
+            typedef pyplusplus::containers::static_sized::array_1_t< int, 32> ( *array_wrapper_creator )( CvNArrayIterator & );
             
             CvNArrayIterator_exposer.add_property( "stack"
                 , bp::make_function( array_wrapper_creator(&CvNArrayIterator_wrapper::pyplusplus_stack_wrapper)

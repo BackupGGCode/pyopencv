@@ -15,7 +15,7 @@ void register_vector_CascadeClassifier_DTree_class(){
         typedef bp::class_< std::vector< cv::CascadeClassifier::DTree > > vector_CascadeClassifier_DTree_exposer_t;
         vector_CascadeClassifier_DTree_exposer_t vector_CascadeClassifier_DTree_exposer = vector_CascadeClassifier_DTree_exposer_t( "vector_CascadeClassifier_DTree" );
         bp::scope vector_CascadeClassifier_DTree_scope( vector_CascadeClassifier_DTree_exposer );
-        //WARNING: the next line of code will not compile, because "::cv::CascadeClassifier::DTree" does not have operator== !
+        //WARNING: the next line of code will not compile, because "cv::CascadeClassifier::DTree" does not have operator== !
         vector_CascadeClassifier_DTree_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::CascadeClassifier::DTree > >() );
         vector_CascadeClassifier_DTree_exposer.def("resize", &::resize, ( bp::arg("num") ));
     }
