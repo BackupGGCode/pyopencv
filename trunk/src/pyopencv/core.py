@@ -2693,7 +2693,7 @@ def __vector__init__(self, obj=None):
     """Initializes the vector.
     
     Argument 'obj':
-        If 'obj' is an integecd r, the vector is initialized as a vector of 
+        If 'obj' is an integer, the vector is initialized as a vector of 
         'obj' elements. If 'obj' is a Python sequence. The vector is
         initialized as an equivalence of 'obj' by invoking self.fromlist().
     """

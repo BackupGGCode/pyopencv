@@ -75,13 +75,17 @@ int ndarray::cvrank() const { return ndim()-last_dim_as_cvchannel(); }
 
 ndarray simplenew_ndarray(int len, const int *shape, int dtype)
 {
-    return ndarray(get_new_object(PyArray_SimpleNew(len, (npy_intp *)shape, dtype)));
+    std::vector<npy_intp> shape2(len);
+    for(int i = 0; i < len; ++i) shape2[i] = shape[i];
+    return ndarray(get_new_object(PyArray_SimpleNew(len, &shape2[0], dtype)));
 }
 
 ndarray new_ndarray(int len, const int *shape, int dtype, const int *strides, void *data, int flags)
 {
+    std::vector<npy_intp> shape2(len), strides2(len);
+    for(int i = 0; i < len; ++i) { shape2[i] = shape[i]; strides2[i] = strides[i]; }
     return ndarray(get_new_object(PyArray_New(&PyArray_Type, len, 
-        (npy_intp *)shape, dtype, (npy_intp *)strides, data, 0, flags, NULL)));
+        &shape2[0], dtype, &strides2[0], data, 0, flags, NULL)));
 }
 
 // ================================================================================================
@@ -299,8 +303,7 @@ NDARRAY_TO_VECTOR_IMPL(cv::Range);
 template<typename T>
 void vector_to_ndarray_impl( const std::vector<T> &in_arr, ndarray &out_arr )
 {
-    int len = in_arr.size();
-    int arr[2]; arr[0] = len; arr[1] = n_elems_of<T>();
+    int len = in_arr.size(), arr[2]; arr[0] = len; arr[1] = n_elems_of<T>();
     out_arr = simplenew_ndarray(arr[1] > 1? 2: 1, arr, dtypeof<typename elem_type<T>::type>());
     T *data = (T *)out_arr.data();
     for(int i = 0; i < len; ++i) data[i] = in_arr[i];
