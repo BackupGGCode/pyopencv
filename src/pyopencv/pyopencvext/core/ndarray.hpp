@@ -53,7 +53,7 @@ template<> PyTypeObject const *get_pytype<ndarray>();
 
 
 // ================================================================================================
-
+// fix to support 64-bit by Newmann, Thomas -- jun 09, 2010
 ndarray simplenew_ndarray(int len, const int *shape, int dtype);
 
 // be careful with the new_() function. you must keep the data alive until the ndarray is deleted.
