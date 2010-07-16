@@ -1981,7 +1981,7 @@ def CV_IS_HAAR_CLASSIFIER(haar_cascade):
 
     
 Seq_CvConnectedComp.__old_init__ = Seq_CvConnectedComp.__init__
-def Seq_CvConnectedComp__init__(self, *args, **kwds):
+def _Seq_CvConnectedComp__init__(self, *args, **kwds):
     Seq_CvConnectedComp.__old_init__(self, *args, **kwds)
     if args:
         self.depends = [args[0]]
@@ -1989,8 +1989,8 @@ def Seq_CvConnectedComp__init__(self, *args, **kwds):
         self.depends = [kwds.values()[0]]
     else:
         self.depends = []
-Seq_CvConnectedComp__init__.__doc__ = Seq_CvConnectedComp.__old_init__.__doc__    
-Seq_CvConnectedComp.__init__ = Seq_CvConnectedComp__init__
+_Seq_CvConnectedComp__init__.__doc__ = Seq_CvConnectedComp.__old_init__.__doc__    
+Seq_CvConnectedComp.__init__ = _Seq_CvConnectedComp__init__
     
 Seq_CvConnectedComp.__iter__ = __sd_iter__;
     
@@ -2229,7 +2229,7 @@ def _CvLSH__del__(self):
 CvLSH.__del__ = _CvLSH__del__
 
 Seq_CvSURFPoint.__old_init__ = Seq_CvSURFPoint.__init__
-def Seq_CvSURFPoint__init__(self, *args, **kwds):
+def _Seq_CvSURFPoint__init__(self, *args, **kwds):
     Seq_CvSURFPoint.__old_init__(self, *args, **kwds)
     if args:
         self.depends = [args[0]]
@@ -2237,8 +2237,8 @@ def Seq_CvSURFPoint__init__(self, *args, **kwds):
         self.depends = [kwds.values()[0]]
     else:
         self.depends = []
-Seq_CvSURFPoint__init__.__doc__ = Seq_CvSURFPoint.__old_init__.__doc__    
-Seq_CvSURFPoint.__init__ = Seq_CvSURFPoint__init__
+_Seq_CvSURFPoint__init__.__doc__ = Seq_CvSURFPoint.__old_init__.__doc__    
+Seq_CvSURFPoint.__init__ = _Seq_CvSURFPoint__init__
     
 Seq_CvSURFPoint.__iter__ = __sd_iter__;
     
@@ -2779,6 +2779,17 @@ _z.resize(1)
 vector_Point2i.elem_type = _z[0].__class__
 del(_z)
     
+vector_CvSURFPoint.__old_init__ = vector_CvSURFPoint.__init__
+vector_CvSURFPoint.__init__ = __vector__init__
+vector_CvSURFPoint.create = __vector_create
+vector_CvSURFPoint.__repr__ = __vector__repr__
+vector_CvSURFPoint.tolist = __vector_tolist
+vector_CvSURFPoint.fromlist = classmethod(__vector_fromlist)
+_z = vector_CvSURFPoint()
+_z.resize(1)
+vector_CvSURFPoint.elem_type = _z[0].__class__
+del(_z)
+    
 vector_CascadeClassifier_DTree.__old_init__ = vector_CascadeClassifier_DTree.__init__
 vector_CascadeClassifier_DTree.__init__ = __vector__init__
 vector_CascadeClassifier_DTree.create = __vector_create
@@ -3219,15 +3230,15 @@ _z.resize(1)
 vector_int.elem_type = _z[0].__class__
 del(_z)
     
-vector_CvFuzzyCurve.__old_init__ = vector_CvFuzzyCurve.__init__
-vector_CvFuzzyCurve.__init__ = __vector__init__
-vector_CvFuzzyCurve.create = __vector_create
-vector_CvFuzzyCurve.__repr__ = __vector__repr__
-vector_CvFuzzyCurve.tolist = __vector_tolist
-vector_CvFuzzyCurve.fromlist = classmethod(__vector_fromlist)
-_z = vector_CvFuzzyCurve()
+vector_CvConnectedComp.__old_init__ = vector_CvConnectedComp.__init__
+vector_CvConnectedComp.__init__ = __vector__init__
+vector_CvConnectedComp.create = __vector_create
+vector_CvConnectedComp.__repr__ = __vector__repr__
+vector_CvConnectedComp.tolist = __vector_tolist
+vector_CvConnectedComp.fromlist = classmethod(__vector_fromlist)
+_z = vector_CvConnectedComp()
 _z.resize(1)
-vector_CvFuzzyCurve.elem_type = _z[0].__class__
+vector_CvConnectedComp.elem_type = _z[0].__class__
 del(_z)
     
 vector_uint.__old_init__ = vector_uint.__init__
@@ -3261,6 +3272,17 @@ vector_FernClassifier_Feature.fromlist = classmethod(__vector_fromlist)
 _z = vector_FernClassifier_Feature()
 _z.resize(1)
 vector_FernClassifier_Feature.elem_type = _z[0].__class__
+del(_z)
+    
+vector_CvFuzzyCurve.__old_init__ = vector_CvFuzzyCurve.__init__
+vector_CvFuzzyCurve.__init__ = __vector__init__
+vector_CvFuzzyCurve.create = __vector_create
+vector_CvFuzzyCurve.__repr__ = __vector__repr__
+vector_CvFuzzyCurve.tolist = __vector_tolist
+vector_CvFuzzyCurve.fromlist = classmethod(__vector_fromlist)
+_z = vector_CvFuzzyCurve()
+_z.resize(1)
+vector_CvFuzzyCurve.elem_type = _z[0].__class__
 del(_z)
     
 vector_Vec4w.__old_init__ = vector_Vec4w.__init__

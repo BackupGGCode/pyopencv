@@ -487,6 +487,7 @@ static void sdSnakeImage( cv::Mat const & image, cv::Mat const & points, bp::obj
     # CvSURFPoint
     z = mb.class_('CvSURFPoint')
     mb.init_class(z)
+    common.register_vec('std::vector', 'CvSURFPoint', 'vector_CvSURFPoint')
     mb.finalize_class(z)
     mb.expose_class_Seq('CvSURFPoint')
 

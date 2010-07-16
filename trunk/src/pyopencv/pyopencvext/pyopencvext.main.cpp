@@ -568,7 +568,11 @@
 
 #include "pyopencvext/vector_CascadeClassifier_Stage.pypp.hpp"
 
+#include "pyopencvext/vector_CvConnectedComp.pypp.hpp"
+
 #include "pyopencvext/vector_CvFuzzyCurve.pypp.hpp"
+
+#include "pyopencvext/vector_CvSURFPoint.pypp.hpp"
 
 #include "pyopencvext/vector_FernClassifier_Feature.pypp.hpp"
 
@@ -1710,7 +1714,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_vector_int8_class();
 
+    register_vector_CvSURFPoint_class();
+
     register_vector_CvFuzzyCurve_class();
+
+    register_vector_CvConnectedComp_class();
 
     register_CvANN_MLP_TrainParams_class();
 
@@ -2092,7 +2100,11 @@ BOOST_PYTHON_MODULE(pyopencvext){
 
     register_Seq_CvConnectedComp_class();
 
+    bp::implicitly_convertible< cv::Seq< CvConnectedComp >, std::vector< CvConnectedComp > >();
+
     register_Seq_CvSURFPoint_class();
+
+    bp::implicitly_convertible< cv::Seq< CvSURFPoint >, std::vector< CvSURFPoint > >();
 
     register_Size2f_class();
 

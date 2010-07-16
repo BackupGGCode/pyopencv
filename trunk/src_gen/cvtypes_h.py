@@ -15,6 +15,7 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
+import common
 import cxtypes_h
 
 def generate_code(mb, cc, D, FT, CP):
@@ -49,6 +50,7 @@ def CV_IS_HAAR_CLASSIFIER(haar_cascade):
 
     z = mb.class_('CvConnectedComp')
     mb.init_class(z)
+    common.register_vec('std::vector', 'CvConnectedComp', 'vector_CvConnectedComp')
     mb.finalize_class(z)
     mb.expose_class_Seq('CvConnectedComp')
 

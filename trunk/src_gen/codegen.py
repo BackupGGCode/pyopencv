@@ -310,7 +310,7 @@ def expose_class_Seq(self, elem_type_pds, pyName=None):
     # I'm using an old trick to circumvent the problem.
     cc.write('''
 CLASS_NAME.__old_init__ = CLASS_NAME.__init__
-def CLASS_NAME__init__(self, *args, **kwds):
+def _CLASS_NAME__init__(self, *args, **kwds):
     CLASS_NAME.__old_init__(self, *args, **kwds)
     if args:
         self.depends = [args[0]]
@@ -318,17 +318,21 @@ def CLASS_NAME__init__(self, *args, **kwds):
         self.depends = [kwds.values()[0]]
     else:
         self.depends = []
-CLASS_NAME__init__.__doc__ = CLASS_NAME.__old_init__.__doc__    
-CLASS_NAME.__init__ = CLASS_NAME__init__
+_CLASS_NAME__init__.__doc__ = CLASS_NAME.__old_init__.__doc__    
+CLASS_NAME.__init__ = _CLASS_NAME__init__
     '''.replace("CLASS_NAME", z.alias))
     z.add_declaration_code('''
 static size_t CLASS_NAME_len(CLASS_TYPE const &inst) { return inst.size(); }
     '''.replace("CLASS_NAME", z.alias).replace('CLASS_TYPE', z.pds))
     z.add_registration_code('def("__len__", &::CLASS_NAME_len)'.replace("CLASS_NAME", z.alias))
-    for t in ('begin', 'end', 'front', 'back', 'copyTo'): # TODO
+    for t in ('begin', 'end', 'front', 'back'): # TODO
         z.decls(t).exclude()
-    z.mem_funs(lambda x: len(x.arguments)>0 and x.arguments[-1].name=='count').exclude() # TODO
-    z.operators(lambda x: 'std::vector' in x.name).exclude() # TODO
+    # OpenCV has a bug at function insert()
+    # for t in z.mem_funs(lambda x: len(x.arguments)>0 and x.arguments[-1].name=='count'):
+        # t._transformer_creators.append(FT.input_array1d(t.arguments[-2].name, 'count'))
+        # t._transformer_kwds['alias'] = t.alias
+    z.mem_funs(lambda x: len(x.arguments)>0 and x.arguments[-1].name=='count').exclude()
+    mb.asClass(z, common.find_class('std::vector< %s >' % elem_type_pds))
     mb.finalize_class(z)
     mb.add_iterator_interface(z.alias)
 module_builder.module_builder_t.expose_class_Seq = expose_class_Seq
