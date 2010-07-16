@@ -25,6 +25,10 @@ bool get_array_data_arrangement(IplImage const *inst, sdcpp::array_data_arrangem
 bool get_array_data_arrangement(CvMat const *inst, sdcpp::array_data_arrangement &result);
 bool get_array_data_arrangement(CvMatND const *inst, sdcpp::array_data_arrangement &result);
 
+// OpenCV's MatND's shape and strides arrays are assumed little-endian
+void convert_array_data_arrangement_to_opencv(const sdcpp::array_data_arrangement &arr, 
+    std::vector<int> &shape, std::vector<int> &strides, int &nchannels, std::vector<bool> &contiguous);
+
 // ================================================================================================
 // Useful template functions that deal with fixed-size array-like data types
 
