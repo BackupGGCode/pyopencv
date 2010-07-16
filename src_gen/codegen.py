@@ -254,7 +254,9 @@ def __sd_iter__(self):
 ''')
 
 def add_iterator_interface(self, klass_name):
-    cc.write('%s.__iter__ = __sd_iter__; ' % klass_name)
+    cc.write('''
+%s.__iter__ = __sd_iter__;
+    ''' % klass_name)
 module_builder.module_builder_t.add_iterator_interface = add_iterator_interface
 
 def expose_class_Ptr(self, klass_name, ns=None):
@@ -304,30 +306,25 @@ def expose_class_Seq(self, elem_type_pds, pyName=None):
         print "Cannot determine class with pds='%s'." % seq_pds
         return
     mb.init_class(z)
-    z.constructors(lambda x: len(x.arguments) > 1).exclude() # turn off the MemStorage constructor because I need custodian_ward
-    z.include_files.append('boost/python/object/life_support.hpp')
+    # Main problem is that fake constructors don't work with with_custodian_and_ward.
+    # I'm using an old trick to circumvent the problem.
+    cc.write('''
+CLASS_NAME.__old_init__ = CLASS_NAME.__init__
+def CLASS_NAME__init__(self, *args, **kwds):
+    CLASS_NAME.__old_init__(self, *args, **kwds)
+    if args:
+        self.depends = [args[0]]
+    elif kwds:
+        self.depends = [kwds.values()[0]]
+    else:
+        self.depends = []
+CLASS_NAME__init__.__doc__ = CLASS_NAME.__old_init__.__doc__    
+CLASS_NAME.__init__ = CLASS_NAME__init__
+    '''.replace("CLASS_NAME", z.alias))
     z.add_declaration_code('''
-static bp::object from_MemStorage(bp::object const &inst_MemStorage, int headerSize)
-{
-    bp::extract<cv::MemStorage &> elem(inst_MemStorage);
-    if(!elem.check())
-    {
-        char s[300];
-        sprintf( s, "Argument 'inst_MemStorage' must contain an object of type MemStorage." );
-        PyErr_SetString(PyExc_TypeError, s);
-        throw bp::error_already_set();
-    }
-
-    bp::object result = bp::object(CLASS_TYPE(elem(), headerSize));
-    bp::objects::make_nurse_and_patient(result.ptr(), inst_MemStorage.ptr());
-    return result;
-}
-
-static size_t len(CLASS_TYPE const &inst) { return inst.size(); }
-    '''.replace('CLASS_TYPE', z.pds))
-    z.add_registration_code('def("fromMemStorage", &::from_MemStorage, (bp::arg("inst_MemStorage"), bp::arg("headerSize")=bp::object(sizeof(CvSeq))))')
-    z.add_registration_code('staticmethod("fromMemStorage")')
-    z.add_registration_code('def("__len__", &::len)')
+static size_t CLASS_NAME_len(CLASS_TYPE const &inst) { return inst.size(); }
+    '''.replace("CLASS_NAME", z.alias).replace('CLASS_TYPE', z.pds))
+    z.add_registration_code('def("__len__", &::CLASS_NAME_len)'.replace("CLASS_NAME", z.alias))
     for t in ('begin', 'end', 'front', 'back', 'copyTo'): # TODO
         z.decls(t).exclude()
     z.mem_funs(lambda x: len(x.arguments)>0 and x.arguments[-1].name=='count').exclude() # TODO

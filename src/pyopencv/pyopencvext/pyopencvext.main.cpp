@@ -374,6 +374,8 @@
 
 #include "pyopencvext/SelfSimDescriptor.pypp.hpp"
 
+#include "pyopencvext/Seq_CvConnectedComp.pypp.hpp"
+
 #include "pyopencvext/Seq_CvSURFPoint.pypp.hpp"
 
 #include "pyopencvext/Size2f.pypp.hpp"
@@ -2087,6 +2089,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_SVD_class();
 
     register_SelfSimDescriptor_class();
+
+    register_Seq_CvConnectedComp_class();
 
     register_Seq_CvSURFPoint_class();
 

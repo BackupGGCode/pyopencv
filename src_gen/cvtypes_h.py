@@ -50,6 +50,7 @@ def CV_IS_HAAR_CLASSIFIER(haar_cascade):
     z = mb.class_('CvConnectedComp')
     mb.init_class(z)
     mb.finalize_class(z)
+    mb.expose_class_Seq('CvConnectedComp')
 
     # CvContourScanner
     z = mb.class_('_CvContourScanner')

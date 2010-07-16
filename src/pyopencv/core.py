@@ -1855,8 +1855,8 @@ def asMat(obj, force_single_channel=False):
     
     This general-purpose meta-function uses a simple heuristic method to
     identify the type of the given Python object in order to convert it into
-    a Mat object. First, it tries to invoke the internal asMat() function of 
-    the Python extension to convert. If not successful, it assumes the 
+    a Mat object. First, it invokes the internal asMat() function of the
+    Python extension to try to convert. If not successful, it assumes the 
     object is a Python sequence, and converts the object into a std::vector 
     object whose element type is the type of the first element of the Python 
     sequence. After that, it converts the std::vector object into a Mat 
@@ -1866,7 +1866,7 @@ def asMat(obj, force_single_channel=False):
     object with your intended type and depth, use one of the asvector_...()
     functions to convert your object into a vector before invoking asMat().
     
-    If 'force_single_channel' is True, the returing Mat is single-channel (by
+    If 'force_single_channel' is True, the returning Mat is single-channel (by
     invoking reshapeSingleChannel()). Otherwise, PyOpenCV tries to return a 
     multi-channel Mat whenever possible.
     """
@@ -1876,7 +1876,10 @@ def asMat(obj, force_single_channel=False):
         
     try:
         out_mat = eval("_PE.asMat(inst_%s=obj)" % obj.__class__.__name__)
-    except TypeError: # Boost.Python.ArgumentError is an unexposed subclass
+    except TypeError as e: # Boost.Python.ArgumentError is an unexposed subclass
+        if not e.message.startswith('Python argument types in'):
+            raise e
+            
         z = obj[0]
         if isinstance(z, int):
             out_mat = _PE.asMat(inst_vector_int=vector_int.fromlist(obj))
@@ -1976,6 +1979,20 @@ CV_HAAR_FEATURE_MAX  = 3
 def CV_IS_HAAR_CLASSIFIER(haar_cascade):
     return isinstance(haar_cascade, CvHaarClassifierCascade) and         haar_cascade.flags&CV_MAGIC_MASK==CV_HAAR_MAGIC_VAL
 
+    
+Seq_CvConnectedComp.__old_init__ = Seq_CvConnectedComp.__init__
+def Seq_CvConnectedComp__init__(self, *args, **kwds):
+    Seq_CvConnectedComp.__old_init__(self, *args, **kwds)
+    if args:
+        self.depends = [args[0]]
+    elif kwds:
+        self.depends = [kwds.values()[0]]
+    else:
+        self.depends = []
+Seq_CvConnectedComp__init__.__doc__ = Seq_CvConnectedComp.__old_init__.__doc__    
+Seq_CvConnectedComp.__init__ = Seq_CvConnectedComp__init__
+    
+Seq_CvConnectedComp.__iter__ = __sd_iter__;
     
 CvContourScanner._ownershiplevel = 0
 
@@ -2210,7 +2227,21 @@ def _CvLSH__del__(self):
     if self._ownershiplevel==1:
         _PE._cvReleaseLSH(self)
 CvLSH.__del__ = _CvLSH__del__
-Seq_CvSURFPoint.__iter__ = __sd_iter__; 
+
+Seq_CvSURFPoint.__old_init__ = Seq_CvSURFPoint.__init__
+def Seq_CvSURFPoint__init__(self, *args, **kwds):
+    Seq_CvSURFPoint.__old_init__(self, *args, **kwds)
+    if args:
+        self.depends = [args[0]]
+    elif kwds:
+        self.depends = [kwds.values()[0]]
+    else:
+        self.depends = []
+Seq_CvSURFPoint__init__.__doc__ = Seq_CvSURFPoint.__old_init__.__doc__    
+Seq_CvSURFPoint.__init__ = Seq_CvSURFPoint__init__
+    
+Seq_CvSURFPoint.__iter__ = __sd_iter__;
+    
 #-----------------------------------------------------------------------------
 # POSIT (POSe from ITeration)
 #-----------------------------------------------------------------------------
