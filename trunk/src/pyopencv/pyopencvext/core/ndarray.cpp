@@ -88,6 +88,32 @@ ndarray new_ndarray(int len, const int *shape, int dtype, const int *strides, vo
         &shape2[0], dtype, &strides2[0], data, 0, flags, NULL)));
 }
 
+ndarray new_ndarray(sdcpp::array_data_arrangement &ada, int dtype, void *data, int flags)
+{
+    return ndarray(get_new_object(PyArray_New(&PyArray_Type, ada.ndim, &ada.size[0],
+        dtype, &ada.stride[0], data, 0, flags, NULL)));
+}
+
+// ================================================================================================
+
+// ndarray uses the big-endian dimension order, dim=0: highest dimension, dim=nd-1: lowest dimension
+void get_array_data_arrangement(ndarray const &inst, array_data_arrangement &result)
+{
+    int nd = inst.ndim();
+    result.ndim = nd;
+    result.size.resize(nd);
+    result.stride.resize(nd);
+    result.total_size = inst.size();
+    
+    const Py_intptr_t *ndsize = inst.shape();
+    const Py_intptr_t *ndstride = inst.strides();
+    for(int i = 0; i < nd; ++i)
+    {
+        result.size[i] = ndsize[i];
+        result.stride[i] = ndstride[i];
+    }
+}
+
 // ================================================================================================
 
 #define DEFVEC(VEC_NAME, ELEM_TYPE, N_ELEM) \
@@ -436,34 +462,21 @@ AS_NDARRAY_IMPL(cv::Range);
 // Mat
 AS_NDARRAY(cv::Mat)
 {
-    int nd, shape[CV_MAX_DIM], strides[CV_MAX_DIM];
     if(obj.ptr() == Py_None)
     {
         PyErr_SetString(PyExc_TypeError, "'None' cannot be converted into ndarray.");
         throw bp::error_already_set();
     }
 
-    cv::Mat mat = extract<const cv::Mat &>(obj);
+    cv::Mat const &mat = extract<const cv::Mat &>(obj);
     if(!mat.flags)
     {
         PyErr_SetString(PyExc_TypeError, "Empty Mat cannot be converted into ndarray.");
         throw bp::error_already_set();
     }
     
-    if(mat.channels() > 1)
-    {
-        nd = 3;
-        shape[0] = mat.rows; shape[1] = mat.cols; shape[2] = mat.channels();
-        strides[0] = mat.step; strides[1] = mat.elemSize(); strides[2] = mat.elemSize1();
-    }
-    else
-    {
-        nd = 2;
-        shape[0] = mat.rows; shape[1] = mat.cols; 
-        strides[0] = mat.step; strides[1] = mat.elemSize();
-    }
-    ndarray result = new_ndarray(nd, shape, convert_cvdepth_to_dtype(mat.depth()), 
-        strides, mat.data, NPY_WRITEABLE);
+    sdcpp::array_data_arrangement ada; ::get_array_data_arrangement(mat, ada);
+    ndarray result = new_ndarray(ada, convert_cvdepth_to_dtype(mat.depth()), mat.data, NPY_WRITEABLE);
     objects::make_nurse_and_patient(result.get_obj().ptr(), obj.ptr());
     return result;
 }
@@ -471,7 +484,6 @@ AS_NDARRAY(cv::Mat)
 // MatND
 AS_NDARRAY(cv::MatND)
 {
-    int i, nd, shape[CV_MAX_DIM], strides[CV_MAX_DIM];
     if(obj.ptr() == Py_None)
     {
         PyErr_SetString(PyExc_TypeError, "'None' cannot be converted into ndarray.");
@@ -485,20 +497,8 @@ AS_NDARRAY(cv::MatND)
         throw bp::error_already_set();
     }
     
-    nd = matnd.dims;
-    for(i = 0; i < nd; ++i)
-    {
-        shape[i] = matnd.size[nd-1-i];
-        strides[i] = matnd.step[nd-1-i];
-    }
-            
-    if(matnd.channels() > 1)
-    {
-        shape[nd] = matnd.channels();
-        strides[nd++] = matnd.elemSize1();
-    }
-    ndarray result = new_ndarray(nd, shape, convert_cvdepth_to_dtype(matnd.depth()), 
-        strides, matnd.data, NPY_WRITEABLE);
+    sdcpp::array_data_arrangement ada; ::get_array_data_arrangement(matnd, ada);
+    ndarray result = new_ndarray(ada, convert_cvdepth_to_dtype(matnd.depth()), matnd.data, NPY_WRITEABLE);
     objects::make_nurse_and_patient(result.get_obj().ptr(), obj.ptr());
     return result;
 }

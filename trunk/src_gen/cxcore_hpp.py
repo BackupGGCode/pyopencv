@@ -574,7 +574,7 @@ static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
     
     z.decls(lambda x: 'CvMatND' in x.decl_string).exclude()
     z.mem_funs('setTo').call_policies = CP.return_self()
-    FT.add_data_interface(z, 'inst.data', 'inst.size[inst.dims-1]*inst.step[inst.dims-1]', 
+    FT.add_data_interface(z, 'inst.data', 'inst.size[inst.dims-1]*inst.step[inst.dims-1]',  # TODO: not correct, LSB, MSB
         ['ptr', 'data', 'refcount', 'datastart', 'dataend'])
     mb.finalize_class(z)
     mb.add_ndarray_interface(z)
