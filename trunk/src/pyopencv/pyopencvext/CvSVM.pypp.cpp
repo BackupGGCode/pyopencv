@@ -235,16 +235,17 @@ struct CvSVM_wrapper : CvSVM, bp::wrapper< CvSVM > {
         // constructor
         train( _train_data, _responses, _var_idx, _sample_idx, _params );        
     }
-      
-    bp::object get_support_vector_(int i) {
-        int len = get_var_count();
-        bp::object result = sdcpp::new_ndarray(1, &len, NPY_FLOAT, 0, 
-            (void *)get_support_vector(i), NPY_C_CONTIGUOUS).get_obj();
-        bp::objects::make_nurse_and_patient(result.ptr(), bp::object(bp::ptr(this)).ptr());
-        return result;
-    }
 
 };
+
+bp::object CvSVM_get_support_vector(PyObject *pyinst, int i) {
+    CvSVM const &inst = bp::extract<CvSVM const &>(pyinst);
+    int len = inst.get_var_count();
+    bp::object result = sdcpp::new_ndarray(1, &len, NPY_FLOAT, 0, 
+        (void *)inst.get_support_vector(i), NPY_C_CONTIGUOUS).get_obj();
+    bp::objects::make_nurse_and_patient(result.ptr(), pyinst);
+    return result;
+}
 
 void register_CvSVM_class(){
 
@@ -468,7 +469,7 @@ void register_CvSVM_class(){
         }
         CvSVM_exposer.staticmethod( "get_default_grid" );
         CvSVM_exposer.def( bp::init< cv::Mat const &, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const &, CvSVMParams > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) );
-        CvSVM_exposer.def( "get_support_vector", &CvSVM_wrapper::get_support_vector_, (bp::arg("i")) );
+        CvSVM_exposer.def( "get_support_vector", &CvSVM_get_support_vector, (bp::arg("i")) );
     }
 
 }

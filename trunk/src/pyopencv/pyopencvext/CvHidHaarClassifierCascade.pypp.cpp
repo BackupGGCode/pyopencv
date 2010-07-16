@@ -10,7 +10,7 @@
 
 namespace bp = boost::python;
 
-static bp::object get_stage_classifier( ::CvHidHaarClassifierCascade const & inst ){
+static bp::object get_stage_classifier( CvHidHaarClassifierCascade const & inst ){
     bp::list l;
     for(int i = 0; i < inst.count; ++i)
         l.append(inst.stage_classifier[i]);

@@ -10,14 +10,14 @@
 
 namespace bp = boost::python;
 
-static bp::object get_next( ::CvGraphEdge const & inst ){
+static bp::object get_next( CvGraphEdge const & inst ){
     bp::list l;
     for(int i = 0; i < 2; ++i)
         l.append(inst.next[i]);
     return bp::tuple(l);
 }
 
-static bp::object get_vtx( ::CvGraphEdge const & inst ){
+static bp::object get_vtx( CvGraphEdge const & inst ){
     bp::list l;
     for(int i = 0; i < 2; ++i)
         l.append(inst.vtx[i]);

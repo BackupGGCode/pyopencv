@@ -82,10 +82,12 @@ static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
     return inst(ranges2);
 }
 
-static bp::object get_data(cv::MatND const &inst)
+static bp::object MatND_get_data(cv::MatND const &inst)
 {
-    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory(
-        (void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1])));
+    return sdcpp::get_new_object(
+        PyBuffer_FromReadWriteMemory(
+            (void*)(inst.data), 
+            (size_t)(inst.size[inst.dims-1]*inst.step[inst.dims-1])));
 }
 
 void register_MatND_class(){
@@ -327,7 +329,7 @@ void register_MatND_class(){
         MatND_exposer.def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )), "Use asMat() to convert '_sizes' from a Python sequence to a Mat.");
         MatND_exposer.def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )), "Use asMat() to convert '_ranges' from a Python sequence to a Mat.");
         MatND_exposer.def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))), "Use asMat() to convert 'ranges' from a Python sequence to a Mat.");
-        MatND_exposer.add_property("data", ::get_data);
+        MatND_exposer.add_property("data", &::MatND_get_data);
         MatND_exposer.def("from_ndarray", &sdcpp::from_ndarray< cv::MatND >, (bp::arg("inst_ndarray")) );
         MatND_exposer.staticmethod("from_ndarray");
         MatND_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::MatND >);

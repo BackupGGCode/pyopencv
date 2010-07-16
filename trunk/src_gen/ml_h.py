@@ -229,6 +229,7 @@ KLASS.__repr__ = _KLASS__repr__
     for t in ('train', 'train_auto', 'predict'):
         for t2 in z.mem_funs(t):
             t2._transformer_kwds['alias'] = t
+    # workaround for the long constructor (their code not yet implemented)
     z.add_wrapper_code('''    
     CvSVM_wrapper(::cv::Mat const & _train_data, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::CvSVMParams _params=::CvSVMParams( ) )
     : CvSVM()
@@ -236,20 +237,21 @@ KLASS.__repr__ = _KLASS__repr__
         // constructor
         train( _train_data, _responses, _var_idx, _sample_idx, _params );        
     }
-      
-    bp::object get_support_vector_(int i) {
-        int len = get_var_count();
-        bp::object result = sdcpp::new_ndarray(1, &len, NPY_FLOAT, 0, 
-            (void *)get_support_vector(i), NPY_C_CONTIGUOUS).get_obj();
-        bp::objects::make_nurse_and_patient(result.ptr(), bp::object(bp::ptr(this)).ptr());
-        return result;
-    }
     ''')
-    # workaround for the long constructor (their code not yet implemented)
     z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const &, CvSVMParams > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) )')
     # get_support_vector
+    z.add_declaration_code('''
+bp::object CvSVM_get_support_vector(PyObject *pyinst, int i) {
+    CvSVM const &inst = bp::extract<CvSVM const &>(pyinst);
+    int len = inst.get_var_count();
+    bp::object result = sdcpp::new_ndarray(1, &len, NPY_FLOAT, 0, 
+        (void *)inst.get_support_vector(i), NPY_C_CONTIGUOUS).get_obj();
+    bp::objects::make_nurse_and_patient(result.ptr(), pyinst);
+    return result;
+}
+    ''')
     z.mem_fun('get_support_vector').exclude()
-    z.add_registration_code('def( "get_support_vector", &CvSVM_wrapper::get_support_vector_, (bp::arg("i")) )')
+    z.add_registration_code('def( "get_support_vector", &CvSVM_get_support_vector, (bp::arg("i")) )')
     mb.finalize_class(z)
 
     # CvEMParams 
