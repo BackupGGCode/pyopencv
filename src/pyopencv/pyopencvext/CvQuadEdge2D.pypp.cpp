@@ -34,7 +34,7 @@ struct CvQuadEdge2D_wrapper : CvQuadEdge2D, bp::wrapper< CvQuadEdge2D > {
 
 };
 
-static bp::object get_pt( ::CvQuadEdge2D const & inst ){
+static bp::object get_pt( CvQuadEdge2D const & inst ){
     bp::list l;
     for(int i = 0; i < 4; ++i)
         l.append(inst.pt[i]);

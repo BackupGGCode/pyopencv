@@ -160,12 +160,37 @@ static bp::object get_MEMBER_NAME( CLASS_TYPE const & inst ){
 }
 
     '''.replace("MEMBER_NAME", member_name) \
-        .replace("CLASS_TYPE", klass.partial_decl_string) \
+        .replace("CLASS_TYPE", klass.pds) \
         .replace("ARRAY_SIZE", str(array_size)))
     klass.add_registration_code('add_property( "MEMBER_NAME", &::get_MEMBER_NAME )' \
         .replace("MEMBER_NAME", member_name))
     
 
+# Note: buffer does not support weak references -> no lifetime management
+# URL: http://mail.python.org/pipermail/cplusplus-sig/2009-January/014184.html
+# "Actually, this isn't all that useful.  The problem is, you want to use 
+# with_custodian_and_ward_postcall<0,1> on this.  But you can't because buffer 
+# object doesn't support weak references.  So while the above can provide a 
+# buffer interface, it has no idea of lifetime management."
+def add_data_interface(klass, data_pointer_code, data_size_code, members_to_exclude=[]):
+    klass.include_files.append( "opencv_converters.hpp" )
+    for z in members_to_exclude:
+        klass.decls(z).exclude()
+    klass.add_declaration_code('''
+static bp::object CLASS_NAME_get_data(CLASS_TYPE const &inst)
+{
+    return sdcpp::get_new_object(
+        PyBuffer_FromReadWriteMemory(
+            (void*)(DATA_POINTER_CODE), 
+            (size_t)(DATA_SIZE_CODE)));
+}
+
+    '''.replace("CLASS_NAME", klass.name).replace("CLASS_TYPE", klass.pds)\
+        .replace("DATA_POINTER_CODE", data_pointer_code)\
+        .replace("DATA_SIZE_CODE", data_size_code))
+    klass.add_registration_code('add_property("data", &::CLASS_NAME_get_data)'.replace("CLASS_NAME", klass.name))
+    
+    
     
 # -----------------------------------------------------------------------------------------------
 # Beautify all member variables of a class

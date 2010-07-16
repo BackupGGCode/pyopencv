@@ -250,17 +250,7 @@ KLASS.__repr__ = _KLASS__repr__
         z.decls(lambda x: t in x.decl_string).exclude()
     z.mem_funs('setTo').call_policies = CP.return_self()
     z.mem_funs('adjustROI').call_policies = CP.return_self()
-    for t in ('ptr', 'data', 'refcount', 'datastart', 'dataend'):
-        z.decls(t).exclude()
-    z.add_declaration_code('''
-static bp::object get_data(cv::Mat const &inst)
-{
-    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory(
-        (void*)inst.data, inst.rows*inst.step)));
-}
-
-    ''')
-    z.add_registration_code('add_property("data", &::get_data)')
+    FT.add_data_interface(z, 'inst.data', 'inst.rows*inst.step', ['ptr', 'data', 'refcount', 'datastart', 'dataend'])
     mb.add_ndarray_interface(z)
     cc.write('''
 def _Mat__repr__(self):
@@ -582,31 +572,10 @@ static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
     z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )), "Use asMat() to convert \'_ranges\' from a Python sequence to a Mat.")')
     z.add_registration_code('def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))), "Use asMat() to convert \'ranges\' from a Python sequence to a Mat.")')
     
-    # mb.add_declaration_code('''
-# struct CvMatND_to_python
-# {
-    # static PyObject* convert(CvMatND const& x)
-    # {
-        # return bp::incref(bp::object(cv::MatND(&x)).ptr());
-    # }
-# };
-
-    # ''')
-    # mb.add_registration_code('bp::to_python_converter<CvMatND, CvMatND_to_python, false>();')
-
     z.decls(lambda x: 'CvMatND' in x.decl_string).exclude()
     z.mem_funs('setTo').call_policies = CP.return_self()
-    for t in ('ptr', 'data', 'refcount', 'datastart', 'dataend'):
-        z.decls(t).exclude()
-    z.add_declaration_code('''
-static bp::object get_data(cv::MatND const &inst)
-{
-    return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory(
-        (void*)inst.data, inst.size[inst.dims-1]*inst.step[inst.dims-1])));
-}
-
-    ''')
-    z.add_registration_code('add_property("data", ::get_data)')
+    FT.add_data_interface(z, 'inst.data', 'inst.size[inst.dims-1]*inst.step[inst.dims-1]', 
+        ['ptr', 'data', 'refcount', 'datastart', 'dataend'])
     mb.finalize_class(z)
     mb.add_ndarray_interface(z)
     cc.write('''

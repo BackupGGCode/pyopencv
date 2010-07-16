@@ -11,7 +11,7 @@
 
 namespace bp = boost::python;
 
-static bp::object get_node( ::CvHidHaarClassifier const & inst ){
+static bp::object get_node( CvHidHaarClassifier const & inst ){
     bp::list l;
     for(int i = 0; i < inst.count; ++i)
         l.append(inst.node[i]);
