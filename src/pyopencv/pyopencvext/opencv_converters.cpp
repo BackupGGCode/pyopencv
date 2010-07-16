@@ -39,6 +39,100 @@ IplImage * get_IplImage_ptr(cv::Mat const &mat)
     return result;
 }
 
+// ================================================================================================
+
+// Mat
+bool get_array_data_arrangement(cv::Mat const &inst, sdcpp::array_data_arrangement &result)
+{
+    if(inst.empty()) return false;
+    result.total_size = inst.rows*inst.step;
+    if(inst.channels() > 1)
+    {
+        result.ndim = 3;
+        result.size.resize(3);
+        result.stride.resize(3);
+        result.size[2] = inst.channels();
+        result.stride[2] = inst.elemSize1();
+    }
+    else
+    {
+        result.ndim = 2;
+        result.size.resize(2);
+        result.stride.resize(2);
+    }
+    result.size[1] = inst.cols;
+    result.stride[1] = inst.elemSize();
+    result.size[0] = inst.rows;
+    result.stride[0] = inst.step;
+    return true;
+}
+
+// We don't know if MatND uses the little-endian dimension order (i.e. dim=0: lowest dimension, dim=nd-1: highest dimension) or the big-endian order. Therefore we will detect the order from the instance.
+// Note: http://code.google.com/p/pyopencv/issues/detail?id=18
+// "After digging PyOpenCV's code and OpenCV's code, I found what had gone wrong. The problem is, OpenCV's code is inconsistent in choosing between the little-endian format and the big-endian format to represent a CvMatND. 
+// - At cxmat.hpp:3707, when a Mat is converted into a MatND, the big-endian format is used.
+// - At cxarray.cpp:249, when a CvMatND is created from an array, the little-endian format is used."
+bool get_array_data_arrangement(cv::MatND const &inst, sdcpp::array_data_arrangement &result)
+{
+    if(!inst.flags) return false;
+
+    bool endianness = (inst.dims >= 2) && (inst.step[0] > inst.step[1]);
+    bool multichannel = inst.channels() > 1;
+    int i;
+    
+    result.ndim = inst.dims + multichannel;
+    result.size.resize(result.ndim);    
+    result.stride.resize(result.ndim);
+    
+    if(multichannel)
+    {
+        result.size[inst.dims] = inst.channels();
+        result.stride[inst.dims] = inst.elemSize1();
+    }
+    
+    if(endianness)
+    {
+        result.total_size = inst.size[0]*inst.step[0];
+        for(i = 0; i < inst.dims; ++i)
+        {
+            result.size[i] = inst.size[i];
+            result.stride[i] = inst.step[i];
+        }
+    }
+    else
+    {
+        result.total_size = inst.size[inst.dims-1]*inst.step[inst.dims-1];
+        for(i = 0; i < inst.dims; ++i)
+        {
+            result.size[i] = inst.size[inst.dims-1-i];
+            result.stride[i] = inst.step[inst.dims-1-i];
+        }
+    }
+    
+    return true;
+}
+
+// IplImage
+bool get_array_data_arrangement(IplImage const *inst, sdcpp::array_data_arrangement &result)
+{
+    return get_array_data_arrangement(cv::Mat(inst), result);
+}
+
+// CvMat
+bool get_array_data_arrangement(CvMat const *inst, sdcpp::array_data_arrangement &result)
+{
+    return get_array_data_arrangement(cv::Mat(inst), result);
+}
+
+// CvMatND
+bool get_array_data_arrangement(CvMatND const *inst, sdcpp::array_data_arrangement &result)
+{
+    return get_array_data_arrangement(cv::MatND(inst), result);
+}
+
+
+// ================================================================================================
+
 // ------------------------------------------------------------------------------------------------
 // convert from a sequence of Mat to vector of Mat-equivalent type
 // i.e. IplImage, CvMat, IplImage *, CvMat *, cv::Mat, cv::Mat *

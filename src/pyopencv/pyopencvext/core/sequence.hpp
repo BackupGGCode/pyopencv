@@ -17,10 +17,13 @@
 # include <boost/preprocessor/repetition/enum_params.hpp>
 # include <boost/preprocessor/repetition/enum_binary_params.hpp>
 
+# include <vector>
+
 namespace sdcpp {
 
 using namespace boost::python;
 
+// ----------------------------------------------------------------------------------------------
 // get an object which is a _borrowed_ reference to py_obj
 // borrowed vs new: http://docs.python.org/release/2.5.2/ext/refcountsInPython.html
 inline object get_borrowed_object(PyObject *py_obj) { return object(handle<>(borrowed(py_obj))); }
@@ -29,6 +32,21 @@ inline object get_borrowed_object(PyObject *py_obj) { return object(handle<>(bor
 // borrowed vs new: http://docs.python.org/release/2.5.2/ext/refcountsInPython.html
 inline object get_new_object(PyObject *py_obj) { return object(handle<>(py_obj)); }
 
+// ----------------------------------------------------------------------------------------------
+// structure describing how data are arranged in a dense array
+// dimension 0 corresponds to the highest dimension
+// dimension ndim-1 corresponds to the lowest dimension
+// This big-endian arrangement is chosen so that it matches with that of numpy
+struct array_data_arrangement
+{
+    int ndim; // number of dimensions
+    Py_intptr_t total_size; // size of the data, in byte
+    std::vector<Py_intptr_t> size; // number of elements per dimension
+    std::vector<Py_intptr_t> stride; // element size per dimension, in byte
+};
+
+
+// ----------------------------------------------------------------------------------------------
 template<typename T> inline bool check(object const &obj) { return true; }
 template<typename T> inline PyTypeObject const *get_pytype() { return 0; }
 

@@ -18,6 +18,14 @@
 #include "sequence.hpp"
 
 // ================================================================================================
+
+bool get_array_data_arrangement(cv::Mat const &inst, sdcpp::array_data_arrangement &result);
+bool get_array_data_arrangement(cv::MatND const &inst, sdcpp::array_data_arrangement &result);
+bool get_array_data_arrangement(IplImage const *inst, sdcpp::array_data_arrangement &result);
+bool get_array_data_arrangement(CvMat const *inst, sdcpp::array_data_arrangement &result);
+bool get_array_data_arrangement(CvMatND const *inst, sdcpp::array_data_arrangement &result);
+
+// ================================================================================================
 // Useful template functions that deal with fixed-size array-like data types
 
 // ------------------------------------------------------------------------------------------------
