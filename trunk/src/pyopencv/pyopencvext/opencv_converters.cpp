@@ -45,6 +45,7 @@ IplImage * get_IplImage_ptr(cv::Mat const &mat)
 bool get_array_data_arrangement(cv::Mat const &inst, sdcpp::array_data_arrangement &result)
 {
     if(inst.empty()) return false;
+    result.item_size = inst.elemSize1();
     result.total_size = inst.rows*inst.step;
     if(inst.channels() > 1)
     {
@@ -69,9 +70,6 @@ bool get_array_data_arrangement(cv::Mat const &inst, sdcpp::array_data_arrangeme
 
 // We don't know if MatND uses the little-endian dimension order (i.e. dim=0: lowest dimension, dim=nd-1: highest dimension) or the big-endian order. Therefore we will detect the order from the instance.
 // Note: http://code.google.com/p/pyopencv/issues/detail?id=18
-// "After digging PyOpenCV's code and OpenCV's code, I found what had gone wrong. The problem is, OpenCV's code is inconsistent in choosing between the little-endian format and the big-endian format to represent a CvMatND. 
-// - At cxmat.hpp:3707, when a Mat is converted into a MatND, the big-endian format is used.
-// - At cxarray.cpp:249, when a CvMatND is created from an array, the little-endian format is used."
 bool get_array_data_arrangement(cv::MatND const &inst, sdcpp::array_data_arrangement &result)
 {
     if(!inst.flags) return false;
@@ -80,6 +78,7 @@ bool get_array_data_arrangement(cv::MatND const &inst, sdcpp::array_data_arrange
     bool multichannel = inst.channels() > 1;
     int i;
     
+    result.item_size = inst.elemSize1();
     result.ndim = inst.dims + multichannel;
     result.size.resize(result.ndim);    
     result.stride.resize(result.ndim);
@@ -129,6 +128,73 @@ bool get_array_data_arrangement(CvMatND const *inst, sdcpp::array_data_arrangeme
 {
     return get_array_data_arrangement(cv::MatND(inst), result);
 }
+
+// OpenCV's MatND's shape and strides arrays are assumed big-endian
+void convert_array_data_arrangement_to_opencv(const sdcpp::array_data_arrangement &arr, 
+    std::vector<int> &shape, std::vector<int> &strides, int &nchannels, std::vector<bool> &contiguous)
+{
+    int nd = arr.ndim;
+    int arr_itemsize = arr.item_size;
+    if(!nd)
+    {
+        shape.clear();
+        strides.clear();
+        contiguous.clear();
+        nchannels = 0; // no element at all
+        return;
+    }
+    
+    if(nd==1)
+    {
+        if(arr.stride[0] == arr_itemsize // is contiguous
+            && 1 <= arr.size[0] && arr.size[0] <= 4) // with number of items between 1 and 4
+        { // this only dimension is a multi-channel
+            shape.clear();
+            strides.clear();
+            contiguous.clear();
+            nchannels = arr.size[0];
+            return;
+        }
+
+        // non-contiguous or number of items > 4
+        shape.resize(1);
+        shape[0] = arr.size[0];
+        strides.resize(1);
+        strides[0] = arr.stride[0];
+        contiguous.resize(1);
+        contiguous[0] = (arr.stride[0] == arr_itemsize);
+        nchannels = 1;
+        return;
+    }
+    
+    // nd >= 2
+    if(arr.stride[nd-1] == arr_itemsize // lowest dimension is contiguous
+        && 1 <= arr.size[nd-1] && arr.size[nd-1] <= 4 // with number of items between 1 and 4
+        && arr.stride[nd-2] == arr_itemsize*arr.size[nd-1]) // second lowest dimension is also contiguous
+    { // then lowest dimension is a multi-channel
+        nchannels = arr.size[--nd];
+        arr_itemsize *= arr.size[nd];
+    }
+    else
+        nchannels = 1;
+    
+    // prepare shape and strides
+    int i;
+    shape.resize(nd);
+    strides.resize(nd);
+    for(i = 0; i < nd; ++i)
+    {
+        shape[i] = arr.size[i];
+        strides[i] = arr.stride[i];
+    }
+    
+    // prepare contiguous
+    contiguous.resize(nd);
+    i = nd-1;
+    contiguous[i] = (strides[i] == arr_itemsize);
+    while(--i >= 0) contiguous[i] = (strides[i] == strides[i+1]*shape[i+1]);
+}
+
 
 
 // ================================================================================================

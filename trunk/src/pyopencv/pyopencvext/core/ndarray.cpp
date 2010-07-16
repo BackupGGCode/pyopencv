@@ -103,6 +103,7 @@ void get_array_data_arrangement(ndarray const &inst, array_data_arrangement &res
     result.ndim = nd;
     result.size.resize(nd);
     result.stride.resize(nd);
+    result.item_size = inst.itemsize();
     result.total_size = inst.size();
     
     const Py_intptr_t *ndsize = inst.shape();
@@ -597,91 +598,21 @@ FROM_NDARRAY_IMPL(cv::Scalar);
 // Range
 FROM_NDARRAY_IMPL(cv::Range);
 
-// ndarray's shape and strides arrays are big-endian
-// OpenCV's MatND's shape and strides arrays are little-endian
-void convert_shape_from_ndarray_to_opencv(const ndarray &arr, std::vector<int> &shape, 
-    std::vector<int> &strides, int &nchannels, std::vector<bool> &contiguous)
-{
-    int nd = arr.ndim();
-    
-    if(!nd)
-    {
-        shape.clear();
-        strides.clear();
-        contiguous.clear();
-        nchannels = 0; // no element at all
-        return;
-    }
-    
-    const Py_intptr_t *arr_shape = arr.shape();
-    const Py_intptr_t *arr_strides = arr.strides();
-    int arr_itemsize = arr.itemsize();
-    
-    if(nd==1)
-    {
-        if(arr_strides[0] == arr_itemsize // is contiguous
-            && 1 <= arr_shape[0] && arr_shape[0] <= 4) // with number of items between 1 and 4
-        { // this only dimension is a mutil-channel
-            shape.clear();
-            strides.clear();
-            contiguous.clear();
-            nchannels = arr_shape[0];
-            return;
-        }
-
-        // non-contiguous or number of items > 4
-        shape.resize(1);
-        shape[0] = arr_shape[0];
-        strides.resize(1);
-        strides[0] = arr_strides[0];
-        contiguous.resize(1);
-        contiguous[0] = (arr_strides[0] == arr_itemsize);
-        nchannels = 1;
-        return;
-    }
-    
-    // n >= 2
-    if(arr_strides[nd-1] == arr_itemsize // lowest dimension is contiguous
-        && 1 <= arr_shape[nd-1] && arr_shape[nd-1] <= 4 // with number of items between 1 and 4
-        && arr_strides[nd-2] == arr_itemsize*arr_shape[nd-1]) // second lowest dimension is also contiguous
-    { // then lowest dimension is a multi-channel
-        nchannels = arr_shape[--nd];
-        arr_itemsize *= arr_shape[nd];
-    }
-    else
-        nchannels = 1;
-    
-    // prepare shape and strides
-    int i;
-    shape.resize(nd);
-    strides.resize(nd);
-    for(i = 0; i < nd; ++i)
-    {
-        shape[i] = arr_shape[nd-1-i];
-        strides[i] = arr_strides[nd-1-i];
-    }
-    
-    // prepare contiguous
-    contiguous.resize(nd);
-    contiguous[0] = (strides[0] == arr_itemsize);
-    for(i = 1; i < nd; ++i) contiguous[i] = (strides[i] == strides[i-1]*shape[i-1]);
-}
-
-
 // Mat
 FROM_NDARRAY(cv::Mat)
 {
     std::vector<int> shape, strides;
     int nd, nchannels;
     std::vector<bool> contiguous;
-    convert_shape_from_ndarray_to_opencv(arr, shape, strides, nchannels, contiguous);
+    sdcpp::array_data_arrangement ada; get_array_data_arrangement(arr, ada);
+    convert_array_data_arrangement_to_opencv(ada, shape, strides, nchannels, contiguous);
     nd = shape.size();
     
     // checking
-    for(int i = 0; i < nd; ++i) if(i != 1 && !contiguous[i])
+    for(int i = nd-1; i >= 0; --i) if(i != nd-2 && !contiguous[i])
     {
-        char s[1000];    
-        sprintf(s, "Cannot convert from ndarray to Mat because the dimension %d is not contiguous.", i);
+        char s[1000];
+        sprintf(s, "Cannot convert from ndarray to Mat because dimension %d is not contiguous.", i);
         PyErr_SetString(PyExc_TypeError, s);
         throw bp::error_already_set();
     }
@@ -692,7 +623,7 @@ FROM_NDARRAY(cv::Mat)
     cv::Mat mat;
     if(!nd) mat = cv::Mat(1, 1, cvdepth, data);
     else if(nd == 1) mat = cv::Mat(1, shape[0], cvdepth, data);
-    else mat = cv::Mat(shape[nd-1]*strides[nd-1]/strides[1], shape[0], cvdepth, data, strides[1]);
+    else mat = cv::Mat(shape[0]*strides[0]/strides[nd-2], shape[nd-1], cvdepth, data, strides[nd-2]);
     
     object result(mat);
     objects::make_nurse_and_patient(result.ptr(), arr.get_obj().ptr());
@@ -715,7 +646,8 @@ FROM_NDARRAY(cv::MatND)
     std::vector<int> shape, strides;
     int nd, nchannels;
     std::vector<bool> contiguous;
-    convert_shape_from_ndarray_to_opencv(arr, shape, strides, nchannels, contiguous);
+    sdcpp::array_data_arrangement ada; get_array_data_arrangement(arr, ada);
+    convert_array_data_arrangement_to_opencv(ada, shape, strides, nchannels, contiguous);
     
     if(!shape.size()) { shape.resize(1); shape[0] = 1; }
     nd = shape.size();

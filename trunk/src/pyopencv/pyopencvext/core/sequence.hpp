@@ -40,6 +40,7 @@ inline object get_new_object(PyObject *py_obj) { return object(handle<>(py_obj))
 struct array_data_arrangement
 {
     int ndim; // number of dimensions
+    Py_intptr_t item_size; // size of one item/element, in byte
     Py_intptr_t total_size; // size of the data, in byte
     std::vector<Py_intptr_t> size; // number of elements per dimension
     std::vector<Py_intptr_t> stride; // element size per dimension, in byte
