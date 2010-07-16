@@ -185,10 +185,10 @@ static bp::object CLASS_NAME_get_data(CLASS_TYPE const &inst)
             (size_t)(DATA_SIZE_CODE)));
 }
 
-    '''.replace("CLASS_NAME", klass.name).replace("CLASS_TYPE", klass.pds)\
+    '''.replace("CLASS_NAME", klass.alias).replace("CLASS_TYPE", klass.pds)\
         .replace("DATA_POINTER_CODE", data_pointer_code)\
         .replace("DATA_SIZE_CODE", data_size_code))
-    klass.add_registration_code('add_property("data", &::CLASS_NAME_get_data)'.replace("CLASS_NAME", klass.name))
+    klass.add_registration_code('add_property("data", &::CLASS_NAME_get_data)'.replace("CLASS_NAME", klass.alias))
     
     
     

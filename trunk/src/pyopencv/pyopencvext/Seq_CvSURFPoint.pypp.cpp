@@ -3,29 +3,12 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
-#include "boost/python/object/life_support.hpp"
 #include "boost/python/object.hpp"
 #include "Seq_CvSURFPoint.pypp.hpp"
 
 namespace bp = boost::python;
 
-static bp::object from_MemStorage(bp::object const &inst_MemStorage, int headerSize)
-{
-    bp::extract<cv::MemStorage &> elem(inst_MemStorage);
-    if(!elem.check())
-    {
-        char s[300];
-        sprintf( s, "Argument 'inst_MemStorage' must contain an object of type MemStorage." );
-        PyErr_SetString(PyExc_TypeError, s);
-        throw bp::error_already_set();
-    }
-
-    bp::object result = bp::object(cv::Seq<CvSURFPoint>(elem(), headerSize));
-    bp::objects::make_nurse_and_patient(result.ptr(), inst_MemStorage.ptr());
-    return result;
-}
-
-static size_t len(cv::Seq<CvSURFPoint> const &inst) { return inst.size(); }
+static size_t Seq_CvSURFPoint_len(cv::Seq<CvSURFPoint> const &inst) { return inst.size(); }
 
 static ::CvSeq * get_seq( ::cv::Seq<CvSURFPoint> const & inst ) { return inst.seq; }
 
@@ -38,6 +21,8 @@ void register_Seq_CvSURFPoint_class(){
         Seq_CvSURFPoint_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Seq< CvSURFPoint > >() );
         Seq_CvSURFPoint_exposer.def( bp::init< CvSeq const * >(( bp::arg("_seq") )) );
         bp::implicitly_convertible< CvSeq const *, cv::Seq< CvSURFPoint > >();
+        Seq_CvSURFPoint_exposer.def( bp::init< cv::Ptr< CvMemStorage > &, bp::optional< int > >(( bp::arg("storage"), bp::arg("headerSize")=(int)(56u) )) );
+        bp::implicitly_convertible< cv::Ptr< CvMemStorage > &, cv::Seq< CvSURFPoint > >();
         { //::cv::Seq< CvSURFPoint >::channels
         
             typedef cv::Seq< CvSURFPoint > exported_class_t;
@@ -222,9 +207,7 @@ void register_Seq_CvSURFPoint_class(){
                 , type_function_type( &::cv::Seq< CvSURFPoint >::type ) );
         
         }
-        Seq_CvSURFPoint_exposer.def("fromMemStorage", &::from_MemStorage, (bp::arg("inst_MemStorage"), bp::arg("headerSize")=bp::object(sizeof(CvSeq))));
-        Seq_CvSURFPoint_exposer.staticmethod("fromMemStorage");
-        Seq_CvSURFPoint_exposer.def("__len__", &::len);
+        Seq_CvSURFPoint_exposer.def("__len__", &::Seq_CvSURFPoint_len);
         Seq_CvSURFPoint_exposer.add_property( "seq", bp::make_function(&::get_seq, bp::return_internal_reference<>()) );
     }
 
