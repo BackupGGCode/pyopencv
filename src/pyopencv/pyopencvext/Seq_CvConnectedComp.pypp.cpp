@@ -43,6 +43,17 @@ void register_Seq_CvConnectedComp_class(){
                 , clear_function_type( &::cv::Seq< CvConnectedComp >::clear ) );
         
         }
+        { //::cv::Seq< CvConnectedComp >::copyTo
+        
+            typedef cv::Seq< CvConnectedComp > exported_class_t;
+            typedef void ( exported_class_t::*copyTo_function_type )( ::std::vector< CvConnectedComp > &,::cv::Range const & ) const;
+            
+            Seq_CvConnectedComp_exposer.def( 
+                "copyTo"
+                , copyTo_function_type( &::cv::Seq< CvConnectedComp >::copyTo )
+                , ( bp::arg("vec"), bp::arg("range")=cv::Range::all() ) );
+        
+        }
         { //::cv::Seq< CvConnectedComp >::depth
         
             typedef cv::Seq< CvConnectedComp > exported_class_t;
@@ -95,6 +106,9 @@ void register_Seq_CvConnectedComp_class(){
                 , ( bp::arg("idx"), bp::arg("elem") ) );
         
         }
+        Seq_CvConnectedComp_exposer.def( "__temp_func", &cv::Seq< CvConnectedComp >::operator ::std::vector< CvConnectedComp > , "\nWrapped function:"
+    "\n    operator ::std::vector<CvConnectedComp, "
+    "\n    std::allocator<CvConnectedComp> >" );
         { //::cv::Seq< CvConnectedComp >::operator[]
         
             typedef cv::Seq< CvConnectedComp > exported_class_t;

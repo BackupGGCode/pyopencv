@@ -43,6 +43,17 @@ void register_Seq_CvSURFPoint_class(){
                 , clear_function_type( &::cv::Seq< CvSURFPoint >::clear ) );
         
         }
+        { //::cv::Seq< CvSURFPoint >::copyTo
+        
+            typedef cv::Seq< CvSURFPoint > exported_class_t;
+            typedef void ( exported_class_t::*copyTo_function_type )( ::std::vector< CvSURFPoint > &,::cv::Range const & ) const;
+            
+            Seq_CvSURFPoint_exposer.def( 
+                "copyTo"
+                , copyTo_function_type( &::cv::Seq< CvSURFPoint >::copyTo )
+                , ( bp::arg("vec"), bp::arg("range")=cv::Range::all() ) );
+        
+        }
         { //::cv::Seq< CvSURFPoint >::depth
         
             typedef cv::Seq< CvSURFPoint > exported_class_t;
@@ -95,6 +106,8 @@ void register_Seq_CvSURFPoint_class(){
                 , ( bp::arg("idx"), bp::arg("elem") ) );
         
         }
+        Seq_CvSURFPoint_exposer.def( "__temp_func", &cv::Seq< CvSURFPoint >::operator ::std::vector< CvSURFPoint > , "\nWrapped function:"
+    "\n    operator ::std::vector<CvSURFPoint, std::allocator<CvSURFPoint> >" );
         { //::cv::Seq< CvSURFPoint >::operator[]
         
             typedef cv::Seq< CvSURFPoint > exported_class_t;
