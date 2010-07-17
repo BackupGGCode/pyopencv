@@ -57,7 +57,7 @@ template<> PyTypeObject const *get_pytype<ndarray>();
 ndarray simplenew_ndarray(int len, const int *shape, int dtype);
 
 // be careful with the new_() function. you must keep the data alive until the ndarray is deleted.
-ndarray new_ndarray(int len, const int *shape, int dtype, const int *strides, void *data, int flags);
+ndarray new_ndarray(int len, const int *shape, int dtype, void *data, int flags);
 
 // be careful with the new_() function. you must keep the data alive until the ndarray is deleted.
 ndarray new_ndarray(sdcpp::array_data_arrangement const &ada, int dtype, void *data, int flags);
