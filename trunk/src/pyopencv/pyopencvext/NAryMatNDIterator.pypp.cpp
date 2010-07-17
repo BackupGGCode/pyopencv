@@ -18,6 +18,15 @@ static void init_7fe56bf20c87d279d051169d318b592c( ::cv::NAryMatNDIterator & ins
     inst.init((cv::MatND const * *)(&buf_arrays[0]), arrays.size());
 }
 
+static boost::shared_ptr<cv::NAryMatNDIterator> NAryMatNDIterator__init1__(std::vector<cv::MatND> const &arrays)
+{
+    std::vector<cv::MatND const *> buf_arrays(arrays.size());
+    for(int i_arrays = 0; i_arrays<arrays.size(); ++i_arrays)
+        buf_arrays[i_arrays] = (cv::MatND const *)&(arrays[i_arrays]);
+        
+    return boost::shared_ptr<cv::NAryMatNDIterator>(new cv::NAryMatNDIterator((cv::MatND const * *)(&buf_arrays[0]), arrays.size()));
+}
+
 void register_NAryMatNDIterator_class(){
 
     { //::cv::NAryMatNDIterator
@@ -51,6 +60,7 @@ void register_NAryMatNDIterator_class(){
         NAryMatNDIterator_exposer.def_readwrite( "arrays", &cv::NAryMatNDIterator::arrays );
         NAryMatNDIterator_exposer.def_readwrite( "nplanes", &cv::NAryMatNDIterator::nplanes );
         NAryMatNDIterator_exposer.def_readwrite( "planes", &cv::NAryMatNDIterator::planes );
+        NAryMatNDIterator_exposer.def("__init__", bp::make_constructor(&NAryMatNDIterator__init1__, bp::default_call_policies(), (bp::arg("arrays"))));
     }
 
 }
