@@ -40,10 +40,9 @@ static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::Sparse
     return bp::object( result );
 }
 
-static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(cv::Mat const &_sizes, int _type)
+static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(std::vector<int> const &_sizes, int _type)
 {
-    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
-    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(_sizes3, _sizes2, _type));
+    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(_sizes.size(), &_sizes[0], _type));
 }
 
 static bp::object my_size(cv::SparseMat const &inst, int i = -1)
@@ -72,15 +71,6 @@ void register_SparseMat_class(){
         bp::implicitly_convertible< cv::MatND const &, cv::SparseMat >();
         SparseMat_exposer.def( bp::init< >() );
         SparseMat_exposer.def( bp::init< cv::SparseMat const & >(( bp::arg("m") )) );
-        { //::cv::SparseMat::addref
-        
-            typedef void ( ::cv::SparseMat::*addref_function_type )(  ) ;
-            
-            SparseMat_exposer.def( 
-                "addref"
-                , addref_function_type( &::cv::SparseMat::addref ) );
-        
-        }
         { //::cv::SparseMat::assignTo
         
             typedef void ( ::cv::SparseMat::*assignTo_function_type )( ::cv::SparseMat &,int ) const;
@@ -378,15 +368,6 @@ void register_SparseMat_class(){
                 , bp::return_self< >()
                 , "\nWrapped function:"
     "\n    operator=" );
-        
-        }
-        { //::cv::SparseMat::release
-        
-            typedef void ( ::cv::SparseMat::*release_function_type )(  ) ;
-            
-            SparseMat_exposer.def( 
-                "release"
-                , release_function_type( &::cv::SparseMat::release ) );
         
         }
         { //::cv::SparseMat::resizeHashTab

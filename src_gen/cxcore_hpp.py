@@ -250,7 +250,7 @@ KLASS.__repr__ = _KLASS__repr__
         z.decls(lambda x: t in x.decl_string).exclude()
     z.mem_funs('setTo').call_policies = CP.return_self()
     z.mem_funs('adjustROI').call_policies = CP.return_self()
-    FT.add_data_interface(z, 'inst.data', 'inst.rows*inst.step', ['ptr', 'data', 'refcount', 'datastart', 'dataend'])
+    FT.add_data_interface(z, 'inst.data', 'inst.rows*inst.step', ['ptr', 'data', 'refcount', 'datastart', 'dataend', 'addref', 'release'])
     mb.add_ndarray_interface(z)
     cc.write('''
 def _Mat__repr__(self):
@@ -543,42 +543,41 @@ KLASS.__repr__ = _KLASS__repr__
     common.register_vec('std::vector', 'cv::MatND')
     
     z.constructors(lambda x: 'const *' in x.decl_string).exclude()
-    z.operator('()').exclude() # list of ranges, use ndarray instead
     z.add_declaration_code('''
-static boost::shared_ptr<cv::MatND> MatND__init1__(cv::Mat const &_sizes, int _type)
+static boost::shared_ptr<cv::MatND> MatND__init1__(std::vector<int> const &_sizes, int _type)
 {
-    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes3, _sizes2, _type));
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes.size(), &_sizes[0], _type));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init2__(cv::Mat const &_sizes, int _type, const cv::Scalar& _s)
+static boost::shared_ptr<cv::MatND> MatND__init2__(std::vector<int> const &_sizes, int _type, const cv::Scalar& _s)
 {
-    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes3, _sizes2, _type, _s));
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(_sizes.size(), &_sizes[0], _type, _s));
 }
 
-static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, cv::Mat const &_ranges)
+static boost::shared_ptr<cv::MatND> MatND__init3__(const cv::MatND& m, std::vector<cv::Range> const &ranges)
 {
-    cv::Range* _ranges2; int _ranges3; convert_from_Mat_to_array_of_T(_ranges, _ranges2, _ranges3);
-    return boost::shared_ptr<cv::MatND>(new cv::MatND(m, _ranges2));
+    return boost::shared_ptr<cv::MatND>(new cv::MatND(m, &ranges[0]));
 }
-
-static cv::MatND MatND__call__(const cv::MatND& inst, cv::Mat const &ranges)
+    ''')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )))')
+    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("ranges") )))')
+    
+    z.operator('()').exclude() # list of ranges, use std::vector<cv::Range> instead
+    z.add_declaration_code('''
+static cv::MatND MatND__call__(const cv::MatND& inst, std::vector<cv::Range> const &ranges)
 {
-    cv::Range* ranges2; int ranges3; convert_from_Mat_to_array_of_T(ranges, ranges2, ranges3);
-    return inst(ranges2);
+    return inst(&ranges[0]);
 }
 
     ''')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )), "Use asMat() to convert \'_sizes\' from a Python sequence to a Mat.")')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init2__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type"), bp::arg("s") )), "Use asMat() to convert \'_sizes\' from a Python sequence to a Mat.")')
-    z.add_registration_code('def("__init__", bp::make_constructor(&MatND__init3__, bp::default_call_policies(), ( bp::arg("m"), bp::arg("_ranges") )), "Use asMat() to convert \'_ranges\' from a Python sequence to a Mat.")')
-    z.add_registration_code('def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))), "Use asMat() to convert \'ranges\' from a Python sequence to a Mat.")')
+    z.add_registration_code('def("__call__", bp::make_function(&MatND__call__, bp::default_call_policies(), (bp::arg("ranges"))))')
     
     z.decls(lambda x: 'CvMatND' in x.decl_string).exclude()
+    mb.asClass(z, mb.class_('Mat'))
     z.mem_funs('setTo').call_policies = CP.return_self()
-    FT.add_data_interface(z, 'inst.data', 'inst.size[inst.dims-1]*inst.step[inst.dims-1]',  # TODO: not correct, LSB, MSB
-        ['ptr', 'data', 'refcount', 'datastart', 'dataend'])
+    FT.add_data_interface(z, 'inst.data', 'inst.size[0]*inst.step[0]',
+        ['ptr', 'data', 'refcount', 'datastart', 'dataend', 'addref', 'release'])
     mb.finalize_class(z)
     mb.add_ndarray_interface(z)
     cc.write('''
@@ -592,7 +591,19 @@ MatND.__repr__ = _MatND__repr__
     # NAryMatNDIterator
     z = mb.class_('NAryMatNDIterator')
     mb.init_class(z)
-    z.constructors(lambda x: "MatND const *" in x.partial_decl_string).exclude() # TODO: fix these constructors
+    z.constructors(lambda x: "MatND const *" in x.partial_decl_string).exclude() # don't need them
+    z.add_declaration_code('''
+static boost::shared_ptr<cv::NAryMatNDIterator> NAryMatNDIterator__init1__(std::vector<cv::MatND> const &arrays)
+{
+    std::vector<cv::MatND const *> buf_arrays(arrays.size());
+    for(int i_arrays = 0; i_arrays<arrays.size(); ++i_arrays)
+        buf_arrays[i_arrays] = (cv::MatND const *)&(arrays[i_arrays]);
+        
+    return boost::shared_ptr<cv::NAryMatNDIterator>(new cv::NAryMatNDIterator((cv::MatND const * *)(&buf_arrays[0]), arrays.size()));
+}
+
+    ''')
+    z.add_registration_code('def("__init__", bp::make_constructor(&NAryMatNDIterator__init1__, bp::default_call_policies(), (bp::arg("arrays"))))')
     z.mem_fun('init')._transformer_creators.append(FT.input_as_list_of_Matlike('arrays', 'count'))
     mb.finalize_class(z)
     
@@ -603,13 +614,14 @@ MatND.__repr__ = _MatND__repr__
     z.include_files.append("boost/python/make_function.hpp")
     mb.init_class(z)    
     z.constructors(lambda x: 'int const *' in x.decl_string).exclude()
+    for t in ('addref', 'release'):
+        z.decls(t).exclude()
     for t in ('CvSparseMat', 'Node', 'Hdr'):
         z.decls(lambda x: t in x.decl_string).exclude()
     z.add_declaration_code('''
-static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(cv::Mat const &_sizes, int _type)
+static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(std::vector<int> const &_sizes, int _type)
 {
-    int* _sizes2; int _sizes3; convert_from_Mat_to_array_of_T(_sizes, _sizes2, _sizes3);
-    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(_sizes3, _sizes2, _type));
+    return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(_sizes.size(), &_sizes[0], _type));
 }
 
     ''')

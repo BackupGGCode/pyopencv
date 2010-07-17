@@ -93,15 +93,6 @@ void register_Mat_class(){
         Mat_exposer.def( bp::init< cv::Mat const & >(( bp::arg("m") )) );
         Mat_exposer.def( bp::init< cv::Mat const &, cv::Range const &, cv::Range const & >(( bp::arg("m"), bp::arg("rowRange"), bp::arg("colRange") )) );
         Mat_exposer.def( bp::init< cv::Mat const &, cv::Rect const & >(( bp::arg("m"), bp::arg("roi") )) );
-        { //::cv::Mat::addref
-        
-            typedef void ( ::cv::Mat::*addref_function_type )(  ) ;
-            
-            Mat_exposer.def( 
-                "addref"
-                , addref_function_type( &::cv::Mat::addref ) );
-        
-        }
         { //::cv::Mat::adjustROI
         
             typedef ::cv::Mat & ( ::cv::Mat::*adjustROI_function_type )( int,int,int,int ) ;
@@ -364,15 +355,6 @@ void register_Mat_class(){
                 , bp::return_self< >()
                 , "\nWrapped function:"
     "\n    operator=" );
-        
-        }
-        { //::cv::Mat::release
-        
-            typedef void ( ::cv::Mat::*release_function_type )(  ) ;
-            
-            Mat_exposer.def( 
-                "release"
-                , release_function_type( &::cv::Mat::release ) );
         
         }
         { //::cv::Mat::reshape
