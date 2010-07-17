@@ -628,17 +628,19 @@ static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(std::vector<int> cons
     z.add_registration_code('def("__init__", bp::make_constructor(&SparseMat__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )))')    
     z.mem_funs('size').exclude()
     z.add_declaration_code('''
-static bp::object my_size(cv::SparseMat const &inst, int i = -1)
+static bp::object SparseMat_size(cv::SparseMat const &inst, int i = -1)
 {
     if(i >= 0) return bp::object(inst.size(i));
     
-    bp::list l;
     const int *sz = inst.size();
-    for(i = 0; i < inst.dims(); ++i) l.append(bp::object(sz[i]));
-    return bp::tuple(l);
+    if(!sz) return bp::object();
+    
+    std::vector<int> result(inst.dims());
+    for(i = 0; i < inst.dims(); ++i) result[i] = sz[i];
+    return bp::object(result);
 }
     ''')
-    z.add_registration_code('def("size", (void (*)(int))(&my_size), (bp::arg("i")=bp::object(-1)))')
+    z.add_registration_code('def("size", (void (*)(int))(&SparseMat_size), (bp::arg("i")=bp::object(-1)))')
     z.mem_fun(lambda x: x.name == 'hash' and 'int const *' in x.arguments[0].type.decl_string) \
         ._transformer_creators.append(FT.input_array1d('idx'))
     for z2 in z.mem_funs('erase'):
@@ -661,12 +663,12 @@ static bp::object my_size(cv::SparseMat const &inst, int i = -1)
     z.include()
     z.decls().exclude()
     
-    # KDTree
-    # TODO: fix the rest of the member declarations
+    # KDTree -- member functions not yet exposed by OpenCV, not my fault
     z = mb.class_('KDTree')
     mb.init_class(z)
     common.register_vec('std::vector', 'cv::KDTree::Node', 'vector_KDTree_Node')
-    z.decls().exclude()
+    for t in ('dims', 'findNearest', 'findOrthoRange', 'getPoints', 'getPoint'):
+        z.decls(t).exclude()
     mb.finalize_class(z)
     
     # FileStorage

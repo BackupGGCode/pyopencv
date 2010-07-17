@@ -45,14 +45,16 @@ static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(std::vector<int> cons
     return boost::shared_ptr<cv::SparseMat>(new cv::SparseMat(_sizes.size(), &_sizes[0], _type));
 }
 
-static bp::object my_size(cv::SparseMat const &inst, int i = -1)
+static bp::object SparseMat_size(cv::SparseMat const &inst, int i = -1)
 {
     if(i >= 0) return bp::object(inst.size(i));
     
-    bp::list l;
     const int *sz = inst.size();
-    for(i = 0; i < inst.dims(); ++i) l.append(bp::object(sz[i]));
-    return bp::tuple(l);
+    if(!sz) return bp::object();
+    
+    std::vector<int> result(inst.dims());
+    for(i = 0; i < inst.dims(); ++i) result[i] = sz[i];
+    return bp::object(result);
 }
 
 void register_SparseMat_class(){
@@ -391,7 +393,7 @@ void register_SparseMat_class(){
         }
         SparseMat_exposer.def_readwrite( "flags", &cv::SparseMat::flags );
         SparseMat_exposer.def("__init__", bp::make_constructor(&SparseMat__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )));
-        SparseMat_exposer.def("size", (void (*)(int))(&my_size), (bp::arg("i")=bp::object(-1)));
+        SparseMat_exposer.def("size", (void (*)(int))(&SparseMat_size), (bp::arg("i")=bp::object(-1)));
     }
 
 }
