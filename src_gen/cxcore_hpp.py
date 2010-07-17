@@ -663,12 +663,49 @@ static bp::object SparseMat_size(cv::SparseMat const &inst, int i = -1)
     z.include()
     z.decls().exclude()
     
-    # KDTree -- member functions not yet exposed by OpenCV, not my fault
+    # KDTree
     z = mb.class_('KDTree')
+    z.include_files.append( "boost/python/object/life_support.hpp" )
+    z.include_files.append( "arrayobject.h" ) # to get NumPy's flags
+    z.include_files.append( "ndarray.hpp" )
     mb.init_class(z)
     common.register_vec('std::vector', 'cv::KDTree::Node', 'vector_KDTree_Node')
-    for t in ('dims', 'findNearest', 'findOrthoRange', 'getPoints', 'getPoint'):
-        z.decls(t).exclude()
+    # dims -- OpenCV 2.1 does not have this function implemented!
+    z.add_declaration_code('''
+inline int cv::KDTree::dims() const { return points.cols; }
+    ''')
+    # findNearest
+    for t in z.mem_funs('findNearest'):
+        if not 'vector' in t.partial_decl_string:
+            t.exclude()
+        t._transformer_creators.extend([FT.input_array1d('vec'), FT.output_type1('neighborsIdx'),
+            FT.output_type1('neighbors'), FT.output_type1('dist')])
+        t._transformer_kwds['alias'] = 'findNearest'
+    # findOrthoRange
+    z.mem_fun('findOrthoRange')._transformer_creators.extend([
+        FT.input_array1d('minBounds'), FT.input_array1d('maxBounds'),
+        FT.output_type1('neighborsIdx'), FT.output_type1('neighbors')])
+    # getPoints
+    for t in z.mem_funs('getPoints'):
+        if t.arguments[0].name=='idx':
+            t._transformer_creators.append(FT.input_array1d('idx', 'nidx'))
+        t._transformer_creators.append(FT.arg_output('pts'))
+        t._transformer_kwds['alias'] = 'getPoints'
+    # getPoint
+    z.mem_fun('getPoint').exclude()
+    # get_support_vector
+    z.add_declaration_code('''
+bp::object KDTree_getPoint(PyObject *pyinst, int i) {
+    cv::KDTree const &inst = bp::extract<cv::KDTree const &>(pyinst);
+    int len = inst.points.cols; // number of dimensions
+    bp::object result = sdcpp::new_ndarray(1, &len, NPY_FLOAT,
+        (void *)inst.getPoint(i), NPY_C_CONTIGUOUS).get_obj();
+    bp::objects::make_nurse_and_patient(result.ptr(), pyinst);
+    return result;
+}
+    ''')
+    z.mem_fun('getPoint').exclude()
+    z.add_registration_code('def( "getPoint", &KDTree_getPoint, (bp::arg("ptidx")) )')
     mb.finalize_class(z)
     
     # FileStorage
