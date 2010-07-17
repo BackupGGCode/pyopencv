@@ -210,7 +210,7 @@ void register_MatND_class(){
                 , isContinuous_function_type( &::cv::MatND::isContinuous ) );
         
         }
-        MatND_exposer.def( "as__scope_cv_scope_Mat", &cv::MatND::operator ::cv::Mat , "\nWrapped function:"
+        MatND_exposer.def( "__temp_func", &cv::MatND::operator ::cv::Mat , "\nWrapped function:"
     "\n    operator ::cv::Mat" );
         { //::cv::MatND::operator=
         

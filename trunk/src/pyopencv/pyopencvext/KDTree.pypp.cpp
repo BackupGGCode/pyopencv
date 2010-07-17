@@ -9,7 +9,34 @@ namespace bp = boost::python;
 
 void register_KDTree_class(){
 
-    bp::class_< cv::KDTree >( "KDTree" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::KDTree >() );
+    { //::cv::KDTree
+        typedef bp::class_< cv::KDTree > KDTree_exposer_t;
+        KDTree_exposer_t KDTree_exposer = KDTree_exposer_t( "KDTree", bp::init< >() );
+        bp::scope KDTree_scope( KDTree_exposer );
+        KDTree_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::KDTree >() );
+        bp::class_< cv::KDTree::Node >( "Node", bp::init< >() )    
+            .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::KDTree::Node >() )    
+            .def( bp::init< int, int, int, float >(( bp::arg("_idx"), bp::arg("_left"), bp::arg("_right"), bp::arg("_boundary") )) )    
+            .def_readwrite( "boundary", &cv::KDTree::Node::boundary )    
+            .def_readwrite( "idx", &cv::KDTree::Node::idx )    
+            .def_readwrite( "left", &cv::KDTree::Node::left )    
+            .def_readwrite( "right", &cv::KDTree::Node::right );
+        KDTree_exposer.def( bp::init< cv::Mat const &, bp::optional< bool > >(( bp::arg("_points"), bp::arg("copyAndReorderPoints")=(bool)(false) )) );
+        bp::implicitly_convertible< cv::Mat const &, cv::KDTree >();
+        { //::cv::KDTree::build
+        
+            typedef void ( ::cv::KDTree::*build_function_type )( ::cv::Mat const &,bool ) ;
+            
+            KDTree_exposer.def( 
+                "build"
+                , build_function_type( &::cv::KDTree::build )
+                , ( bp::arg("_points"), bp::arg("copyAndReorderPoints")=(bool)(false) ) );
+        
+        }
+        KDTree_exposer.def_readwrite( "maxDepth", &cv::KDTree::maxDepth );
+        KDTree_exposer.def_readwrite( "nodes", &cv::KDTree::nodes );
+        KDTree_exposer.def_readwrite( "normType", &cv::KDTree::normType );
+        KDTree_exposer.def_readwrite( "points", &cv::KDTree::points );
+    }
 
 }
