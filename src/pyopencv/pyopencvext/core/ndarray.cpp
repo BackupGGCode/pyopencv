@@ -80,12 +80,12 @@ ndarray simplenew_ndarray(int len, const int *shape, int dtype)
     return ndarray(get_new_object(PyArray_SimpleNew(len, &shape2[0], dtype)));
 }
 
-ndarray new_ndarray(int len, const int *shape, int dtype, const int *strides, void *data, int flags)
+ndarray new_ndarray(int len, const int *shape, int dtype, void *data, int flags)
 {
-    std::vector<npy_intp> shape2(len), strides2(len);
-    for(int i = 0; i < len; ++i) { shape2[i] = shape[i]; strides2[i] = strides[i]; }
+    std::vector<npy_intp> shape2(len);
+    for(int i = 0; i < len; ++i) shape2[i] = shape[i];
     return ndarray(get_new_object(PyArray_New(&PyArray_Type, len, 
-        &shape2[0], dtype, &strides2[0], data, 0, flags, NULL)));
+        &shape2[0], dtype, 0, data, 0, flags, NULL)));
 }
 
 ndarray new_ndarray(sdcpp::array_data_arrangement &ada, int dtype, void *data, int flags)
@@ -406,7 +406,7 @@ ndarray as_ndarray_impl(const object &obj)
 {
     int nd = n_elems_of<T>();
     ndarray result = new_ndarray(1, &nd, dtypeof<typename elem_type<T>::type>(), 
-        0, (void *)&(extract<const T &>(obj)()), NPY_C_CONTIGUOUS | NPY_WRITEABLE);
+        (void *)&(extract<const T &>(obj)()), NPY_C_CONTIGUOUS | NPY_WRITEABLE);
     objects::make_nurse_and_patient(result.get_obj().ptr(), obj.ptr());
     return result;
 }
