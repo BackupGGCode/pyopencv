@@ -2631,8 +2631,8 @@ atexit.register(destroyAllWindows)
 
     
 def createTrackbar(trackbar_name, window_name, value, count, on_change=None, userdata=None):
-    if not isinstance(value, _CT.c_long):
-        value = _CT.c_long(value)
+    if not isinstance(value, _CT.c_int):
+        value = _CT.c_int(value)
 
     result, z = _PE._createTrackbar(trackbar_name, window_name, _CT.addressof(value), count, on_change, userdata=userdata)
     if result:
@@ -2641,7 +2641,7 @@ def createTrackbar(trackbar_name, window_name, value, count, on_change=None, use
     return result
 createTrackbar.__doc__ = _PE._createTrackbar.__doc__
     
-_str = "\n    'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_long, it holds the current position of the trackbar at any time."
+_str = "\n    'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_int, it holds the current position of the trackbar at any time."
 if createTrackbar.__doc__ is None:
     createTrackbar.__doc__ = _str
 else:
