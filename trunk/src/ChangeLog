@@ -8,14 +8,28 @@ Change Log
 pyopencv-2.1.0.wr1.1.0 transition release
 -----------------------------------------
 
-This release mainly reverted arguments/member variables representing arrays 
+Overview:
+This release mainly reverts arguments/member variables representing arrays 
 in C/C++ but were replaced as Python list in previous versions back to 
 std::vector instances. This step is important as it will allow PyOpenCV to
 operate consistently with future versions of OpenCV. However, the reversion
 implies that some function calls and some member variables accesses are
 incompatible with previous versions. Therefore, you may receive a few run
-time errors complaining that the function calls are not correct.
+time errors complaining that the function calls are not correct. Just adjust
+your code to the correct calling sequences and it will be just fine.
 
+News:
+- this release has been tested on a 64-bit Ubuntu 10.4 platform and
+  it has appeared to work properly -- thanks Thomas Neumann
+- facedetect.py now uses my own face detection cascade which runs 3 
+  times faster than OpenCV's cascade
+
+Future plan:
+- to migrate the build system from bjam to CMake -- thanks Dat Chu
+- to improve the docstrings
+- to modularise the code so that it can support OpenCV 2.1.1 and later
+
+Bug fixes:
 - improved some default values
 - improved class CascadeClassifier
 - shorten the source code significantly, no more std::allocator
@@ -26,8 +40,24 @@ time errors complaining that the function calls are not correct.
 - sorted function arguments in docstrings
 - improved the initialization of vector classes
 - fixed a bug with reference counting in class sdobject
-- fixed a bug that risks using freed memory in get_data() of Mat, MatND and CvMat
+- fixed a bug that risks using freed memory in get_data() of Mat, MatND and 
+  CvMat
 - fixed a memory leak in creating an ndarray view
+- added Thomas Newmann's patch in creating an ndarray view on 64-bit platforms
+- improved CvMat.data and CvMatND.data, and fixed a bug in 
+  CvSVM.get_support_vector()
+- fixed i18, conversion from MatND to ndarray
+- added Seq_CvConnectedComp and improved the Seq_XXXXX interface
+- added vector_CvSURFPoint and vector_CvConnectedComp
+- improved the constructors of MatND and SparseMat
+- removed addref() and release() from Mat, MatND, and SparseMat
+- improved SparseMat.size()
+- exposed member functions of class KDTree
+- fixed demo/kmeans.py so that it works on 64-bit platforms
+- added svn:exectuable property to morphology.py
+- fixed morphology.py
+- fixed a bug at createTrackbar() so that it is now 64-bit compatible
+  
 
 pyopencv-2.1.0.wr1.0.2 bug-fix release
 --------------------------------------
