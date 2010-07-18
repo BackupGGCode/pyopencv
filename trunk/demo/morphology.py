@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 # OpenCV's Python demo
-# -- adapted by Minh-Tri Pham to work with PyOpenCV
+# -- adapted by Minh-Tri Pham to work with pyopencv
 import sys
 import pyopencv as cv
 import numpy as np
@@ -48,3 +48,4 @@ if __name__ == "__main__":
     cv.createTrackbar("Dilate","Erosion&Dilation window",0,10,Dilation)
     cv.createTrackbar("Erode","Erosion&Dilation window",0,10,Erosion)
     cv.waitKey(0)
+    
