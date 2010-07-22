@@ -513,8 +513,6 @@ object from_ndarray_impl(const ndarray &arr)
     char s[200];
     
     // checking
-    PyObject *obj = arr.get_obj().ptr();
-    
     int nd = arr.ndim();
     if(nd != 1)
     {
@@ -545,7 +543,7 @@ object from_ndarray_impl(const ndarray &arr)
     
     // wrapping
     object result(ptr((T *)arr.data()));
-    objects::make_nurse_and_patient(result.ptr(), obj);
+    result.attr("_depends") = arr.get_obj();
     return result;
 }
 
@@ -626,7 +624,7 @@ FROM_NDARRAY(cv::Mat)
     else mat = cv::Mat(shape[0]*strides[0]/strides[nd-2], shape[nd-1], cvdepth, data, strides[nd-2]);
     
     object result(mat);
-    std::cout << "linking=" << objects::make_nurse_and_patient(result.ptr(), arr.get_obj().ptr()) << std::endl;
+    result.attr("_depends") = arr.get_obj();
     return result;
 }
 
@@ -657,7 +655,7 @@ FROM_NDARRAY(cv::MatND)
     cvInitMatNDHeader(&cvmatnd, nd, &shape[0], CV_MAKETYPE(convert_dtype_to_cvdepth(arr.dtype()), nchannels), 
         (void *)arr.data());
     object result(cv::MatND(&cvmatnd, false));
-    objects::make_nurse_and_patient(result.ptr(), arr.get_obj().ptr());
+    result.attr("_depends") = arr.get_obj();
     return result;
 }
 
