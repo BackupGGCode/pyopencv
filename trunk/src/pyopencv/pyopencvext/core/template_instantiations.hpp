@@ -6,6 +6,7 @@ public:
     struct dummy_struct2 {};
     static const int total_size = 0
         + sizeof(std::vector<long>)
+        + sizeof(cv::Seq<cv::Point_<int> >)
         + sizeof(cv::Ptr<cv::FeatureEvaluator>)
         + sizeof(std::vector<cv::Octree::Node>)
         + sizeof(std::vector<cv::Vec<int,3> >)
@@ -39,6 +40,7 @@ public:
         + sizeof(cv::Seq<CvConnectedComp>)
         + sizeof(cv::Point_<double>)
         + sizeof(cv::Point3_<double>)
+        + sizeof(cv::Seq<int>)
         + sizeof(cv::Vec<double,2>)
         + sizeof(cv::Vec<short,3>)
         + sizeof(cv::Vec<double,6>)

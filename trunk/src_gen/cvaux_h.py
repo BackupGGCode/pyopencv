@@ -105,10 +105,19 @@ CV_DISPARITY_BIRCHFIELD  = 0
 
     
     ''')
-
+    
     # functions -- not in cvaux200.dll.a!!!
-    # FT.expose_func(mb.free_fun('cvCalcContoursCorrespondence'), ward_indices=(3,))
-    # FT.expose_func(mb.free_fun('cvMorphContours'), ward_indices=(5,))
+    # FT.expose_func(mb.free_fun('cvCalcContoursCorrespondence'), 
+        # ward_indices=(1,), return_pointee=False, transformer_creators=[
+        # FT.input_as_Seq('cv::Point_<int>', 'countour1', 'storage'),
+        # FT.input_as_Seq('cv::Point_<int>', 'contour2')])
+
+    # FT.expose_func(mb.free_fun('cvMorphContours'), 
+        # ward_indices=(1,), return_pointee=False, transformer_creators=[
+        # FT.input_as_Seq('cv::Point_<int>', 'countour1', 'storage'),
+        # FT.input_as_Seq('cv::Point_<int>', 'contour2'),
+        # FT.input_as_Seq('int', 'corr')])
+
 
 
     # Texture Descriptors -- TODO

@@ -303,6 +303,7 @@ void register___dummy_struct_class(){
         bp::def("asCvPoint", &::normal_cast< ::cv::Point_< double >, ::CvPoint >, (bp::arg("inst_Point2d")));
         bp::def("asCvPoint2D32f", &::normal_cast< ::cv::Point_< double >, ::CvPoint2D32f >, (bp::arg("inst_Point2d")));
         bp::def("asVec2d", &::normal_cast< ::cv::Point_< double >, ::cv::Vec< double, 2 > >, (bp::arg("inst_Point2d")));
+        bp::def("asvector_Point2i", &::normal_cast< ::cv::Seq< cv::Point_< int > >, ::std::vector< cv::Point_<int> > >, (bp::arg("inst_Seq_Point2i")));
         bp::def("asPoint2f", &::normal_cast< ::cv::Point_<int>, ::cv::Point_<float> >, (bp::arg("inst_Point2i")));
         bp::def("asPoint2d", &::normal_cast< ::cv::Point_<int>, ::cv::Point_<double> >, (bp::arg("inst_Point2i")));
         bp::def("asPoint2i", &::normal_cast< ::cv::Point_<float>, ::cv::Point_<int> >, (bp::arg("inst_Point2f")));
@@ -413,6 +414,7 @@ void register___dummy_struct_class(){
         bp::def("asvector_Vec3i", &::normal_cast< ::cv::Mat, ::std::vector< cv::Vec<int, 3> > >, (bp::arg("inst_Mat")));
         bp::def("asMat", &::normal_cast< ::std::vector< cv::Vec<int, 3> >, ::cv::Mat >, (bp::arg("inst_vector_Vec3i")));
         bp::def("asMat", &::normal_cast< ::cv::MatND, ::cv::Mat >, (bp::arg("inst_MatND")));
+        bp::def("asvector_int", &::normal_cast< ::cv::Seq< int >, ::std::vector< int > >, (bp::arg("inst_Seq_int")));
         bp::def("asvector_CvConnectedComp", &::normal_cast< ::cv::Seq< CvConnectedComp >, ::std::vector< CvConnectedComp > >, (bp::arg("inst_Seq_CvConnectedComp")));
         bp::def("asvector_CvSURFPoint", &::normal_cast< ::cv::Seq< CvSURFPoint >, ::std::vector< CvSURFPoint > >, (bp::arg("inst_Seq_CvSURFPoint")));
         bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Point3_<float> >, (bp::arg("inst_vector_Point3f")) );

@@ -121,11 +121,15 @@ KLASS.__repr__ = _KLASS__repr__
         mb.add_ndarray_interface(z)
         mb.finalize_class(z)
     
+    mb.expose_class_Seq('cv::Point_<int>')
+
     cc.write('''
 Point = Point2i
 asPoint = asPoint2i
+Seq_Point = Seq_Point2i
     ''')
     mb.dtypecast(['::cv::Point_<%s>' % dtype_dict[suffix] for suffix in Point_dict])
+    
     
     # Point3 et al
     for suffix in Point_dict:
@@ -858,6 +862,8 @@ static cv::Mat readRaw(cv::FileNode const &inst, std::string const &fmt, int len
     
     # Seq
     # to expose a template class Seq<T>, use expose_class_Seq('T')
+    mb.expose_class_Seq('int')
+
 
     # MatExpr
     mb.decls(lambda x: 'MatExpr' in x.decl_string).exclude()
