@@ -380,6 +380,10 @@
 
 #include "pyopencvext/Seq_CvSURFPoint.pypp.hpp"
 
+#include "pyopencvext/Seq_Point2i.pypp.hpp"
+
+#include "pyopencvext/Seq_int.pypp.hpp"
+
 #include "pyopencvext/Size2f.pypp.hpp"
 
 #include "pyopencvext/Size2i.pypp.hpp"
@@ -2109,6 +2113,14 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_Seq_CvSURFPoint_class();
 
     bp::implicitly_convertible< cv::Seq< CvSURFPoint >, std::vector< CvSURFPoint > >();
+
+    register_Seq_Point2i_class();
+
+    bp::implicitly_convertible< cv::Seq< cv::Point_< int > >, std::vector< cv::Point_<int> > >();
+
+    register_Seq_int_class();
+
+    bp::implicitly_convertible< cv::Seq< int >, std::vector< int > >();
 
     register_Size2f_class();
 

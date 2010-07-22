@@ -1458,8 +1458,23 @@ def _Point2d__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Point2d.__iter__ = _Point2d__iter__
         
+Seq_Point2i.__old_init__ = Seq_Point2i.__init__
+def _Seq_Point2i__init__(self, *args, **kwds):
+    Seq_Point2i.__old_init__(self, *args, **kwds)
+    if args:
+        self.depends = [args[0]]
+    elif kwds:
+        self.depends = [kwds.values()[0]]
+    else:
+        self.depends = []
+_Seq_Point2i__init__.__doc__ = Seq_Point2i.__old_init__.__doc__    
+Seq_Point2i.__init__ = _Seq_Point2i__init__
+    
+Seq_Point2i.__iter__ = __sd_iter__;
+    
 Point = Point2i
 asPoint = asPoint2i
+Seq_Point = Seq_Point2i
     
 _str = "\n    Creates a Point3i view on an ndarray instance."
 if Point3i.from_ndarray.__doc__ is None:
@@ -1942,6 +1957,20 @@ MatND.__iter__ = _MatND__iter__
 def _MatND__repr__(self):
     return "MatND(shape=" + repr(self.ndarray.shape) + ", nchannels=" + repr(self.channels())         + ", depth=" + repr(self.depth()) + "):\n" + repr(self.ndarray)
 MatND.__repr__ = _MatND__repr__
+    
+Seq_int.__old_init__ = Seq_int.__init__
+def _Seq_int__init__(self, *args, **kwds):
+    Seq_int.__old_init__(self, *args, **kwds)
+    if args:
+        self.depends = [args[0]]
+    elif kwds:
+        self.depends = [kwds.values()[0]]
+    else:
+        self.depends = []
+_Seq_int__init__.__doc__ = Seq_int.__old_init__.__doc__    
+Seq_int.__init__ = _Seq_int__init__
+    
+Seq_int.__iter__ = __sd_iter__;
     
 #=============================================================================
 # cxoperations.hpp
