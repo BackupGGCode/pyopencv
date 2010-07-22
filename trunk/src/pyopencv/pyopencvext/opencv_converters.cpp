@@ -169,7 +169,7 @@ void convert_array_data_arrangement_to_opencv(const sdcpp::array_data_arrangemen
     
     // nd >= 2
     if(arr.stride[nd-1] == arr_itemsize // lowest dimension is contiguous
-        && 1 <= arr.size[nd-1] && arr.size[nd-1] <= 4 // with number of items between 1 and 4
+        && 2 <= arr.size[nd-1] && arr.size[nd-1] <= 4 // with number of items between 2 and 4
         && arr.stride[nd-2] == arr_itemsize*arr.size[nd-1]) // second lowest dimension is also contiguous
     { // then lowest dimension is a multi-channel
         nchannels = arr.size[--nd];
