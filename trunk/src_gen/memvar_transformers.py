@@ -166,6 +166,24 @@ static bp::object get_MEMBER_NAME( CLASS_TYPE const & inst ){
         .replace("MEMBER_NAME", member_name))
     
 
+def expose_member_as_ndarray1d(klass, member_name, array_size):
+    klass.include_files.append( "ndarray.hpp")
+    z = klass.var(member_name)
+    z.exclude()
+    klass.add_declaration_code('''
+static sdcpp::ndarray CLASS_NAME_get_MEMBER_NAME( CLASS_TYPE const & inst ){
+    return sdcpp::new_ndarray1d(ARRAY_SIZE, sdcpp::dtypeof< ELEM_TYPE >(), (void *)(inst.MEMBER_NAME));
+}
+
+    '''.replace("MEMBER_NAME", member_name) \
+        .replace("CLASS_NAME", klass.alias) \
+        .replace("CLASS_TYPE", klass.pds) \
+        .replace("ELEM_TYPE", _D.remove_pointer(z.type).partial_decl_string) \
+        .replace("ARRAY_SIZE", str(array_size)))
+    klass.add_registration_code('add_property( "MEMBER_NAME", &::CLASS_NAME_get_MEMBER_NAME )' \
+        .replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias))
+    
+
 # Note: buffer does not support weak references -> no lifetime management
 # URL: http://mail.python.org/pipermail/cplusplus-sig/2009-January/014184.html
 # "Actually, this isn't all that useful.  The problem is, you want to use 
