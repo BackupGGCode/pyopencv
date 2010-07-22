@@ -60,9 +60,9 @@ public:
     object const & get_obj() const { return obj; }
     sdobject &operator=(sdobject const &inst)
     {
+        incref(inst.obj.ptr());
         decref(obj.ptr());
         obj = inst.obj;
-        incref(obj.ptr());
         return *this;
     }
 
