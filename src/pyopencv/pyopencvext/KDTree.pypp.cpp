@@ -43,12 +43,11 @@ static boost::python::object getPoints_dfa4c20a74f0aaa501985d64a11da238( ::cv::K
 
 inline int cv::KDTree::dims() const { return points.cols; }
 
-bp::object KDTree_getPoint(PyObject *pyinst, int i) {
+sdcpp::ndarray KDTree_getPoint(PyObject *pyinst, int i) {
     cv::KDTree const &inst = bp::extract<cv::KDTree const &>(pyinst);
-    int len = inst.points.cols; // number of dimensions
-    bp::object result = sdcpp::new_ndarray(1, &len, NPY_FLOAT,
-        (void *)inst.getPoint(i), NPY_C_CONTIGUOUS).get_obj();
-    bp::objects::make_nurse_and_patient(result.ptr(), pyinst);
+    sdcpp::ndarray result = sdcpp::new_ndarray1d(inst.points.cols, NPY_FLOAT, 
+        (void *)inst.getPoint(i));
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), pyinst);
     return result;
 }
 

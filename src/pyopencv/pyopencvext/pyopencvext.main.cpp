@@ -220,6 +220,8 @@
 
 #include "pyopencvext/CvSVM.pypp.hpp"
 
+#include "pyopencvext/CvSVMDecisionFunc.pypp.hpp"
+
 #include "pyopencvext/CvSVMParams.pypp.hpp"
 
 #include "pyopencvext/CvSeq.pypp.hpp"
@@ -1891,6 +1893,8 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_CvSVMParams_class();
 
     register_CvSVM_class();
+
+    register_CvSVMDecisionFunc_class();
 
     register_CvSeq_class();
 

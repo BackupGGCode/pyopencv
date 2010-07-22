@@ -213,11 +213,12 @@ KLASS.__repr__ = _KLASS__repr__
 
     # CvSVMSolver -- too low-level, wait until requested
 
-    # CvSVMDecisionFunc -- too low-level, wait until requested
-    # z = mb.class_('CvSVMDecisionFunc')
-    # z.include()
-    # for t in ('alpha', 'sv_index'):
-        # FT.expose_member_as_pointee(z, t)
+    # CvSVMDecisionFunc
+    z = mb.class_('CvSVMDecisionFunc')
+    mb.init_class(z)
+    FT.expose_member_as_ndarray1d(z, 'alpha', 'inst.sv_count')
+    FT.expose_member_as_ndarray1d(z, 'sv_index', 'inst.sv_count')
+    mb.finalize_class(z)
 
     # CvSVM
     z = mb.class_('CvSVM')
@@ -237,18 +238,21 @@ KLASS.__repr__ = _KLASS__repr__
         // constructor
         train( _train_data, _responses, _var_idx, _sample_idx, _params );        
     }
+    
+    CvSVMDecisionFunc* get_decision_func() { return decision_func; }
     ''')
     z.add_registration_code('def( bp::init< cv::Mat const &, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const &, CvSVMParams > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) )')
+    z.add_registration_code('add_property("decision_func", bp::make_function(&CvSVM_wrapper::get_decision_func, bp::return_internal_reference<>()))')
     # get_support_vector
     z.add_declaration_code('''
-bp::object CvSVM_get_support_vector(PyObject *pyinst, int i) {
+sdcpp::ndarray CvSVM_get_support_vector(PyObject *pyinst, int i) {
     CvSVM const &inst = bp::extract<CvSVM const &>(pyinst);
-    int len = inst.get_var_count();
-    bp::object result = sdcpp::new_ndarray(1, &len, NPY_FLOAT,
-        (void *)inst.get_support_vector(i), NPY_C_CONTIGUOUS).get_obj();
-    bp::objects::make_nurse_and_patient(result.ptr(), pyinst);
+    sdcpp::ndarray result = sdcpp::new_ndarray1d(inst.get_var_count(), NPY_FLOAT,
+        (void *)inst.get_support_vector(i));
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), pyinst);
     return result;
 }
+
     ''')
     z.mem_fun('get_support_vector').exclude()
     z.add_registration_code('def( "get_support_vector", &CvSVM_get_support_vector, (bp::arg("i")) )')
