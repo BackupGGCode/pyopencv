@@ -240,11 +240,11 @@ struct CvSVM_wrapper : CvSVM, bp::wrapper< CvSVM > {
 
 };
 
-sdcpp::ndarray CvSVM_get_support_vector(PyObject *pyinst, int i) {
-    CvSVM const &inst = bp::extract<CvSVM const &>(pyinst);
+sdcpp::ndarray CvSVM_get_support_vector(bp::object const &bpinst, int i) {
+    CvSVM const &inst = bp::extract<CvSVM const &>(bpinst);
     sdcpp::ndarray result = sdcpp::new_ndarray1d(inst.get_var_count(), NPY_FLOAT,
         (void *)inst.get_support_vector(i));
-    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), pyinst);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
     return result;
 }
 

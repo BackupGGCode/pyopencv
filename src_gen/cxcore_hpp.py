@@ -699,11 +699,11 @@ inline int cv::KDTree::dims() const { return points.cols; }
     z.mem_fun('getPoint').exclude()
     # get_support_vector
     z.add_declaration_code('''
-sdcpp::ndarray KDTree_getPoint(PyObject *pyinst, int i) {
-    cv::KDTree const &inst = bp::extract<cv::KDTree const &>(pyinst);
+sdcpp::ndarray KDTree_getPoint(bp::object const &bpinst, int i) {
+    cv::KDTree const &inst = bp::extract<cv::KDTree const &>(bpinst);
     sdcpp::ndarray result = sdcpp::new_ndarray1d(inst.points.cols, NPY_FLOAT, 
         (void *)inst.getPoint(i));
-    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), pyinst);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
     return result;
 }
     ''')
