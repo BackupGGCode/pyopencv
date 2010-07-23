@@ -2515,6 +2515,11 @@ def _CvParamGrid__repr__(self):
 CvParamGrid.__repr__ = _CvParamGrid__repr__
         
     
+def __CvSVM_get_support_vectors(self):
+    """Returns all support vectors as a 2D ndarray, each vector per row."""
+    return _NP.array([self.get_support_vector(i) for i in range(self.get_support_vector_count())])
+CvSVM.get_support_vectors = __CvSVM_get_support_vectors
+    
 #=============================================================================
 # highgui.h
 #=============================================================================
