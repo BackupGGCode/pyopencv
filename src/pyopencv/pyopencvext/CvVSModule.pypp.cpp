@@ -75,6 +75,8 @@ struct CvVSModule_wrapper : CvVSModule, bp::wrapper< CvVSModule > {
 
 };
 
+inline bp::str CvVSModule_GetModuleName(CvVSModule &inst) {  return bp::str(inst.GetModuleName()); }
+
 void register_CvVSModule_class(){
 
     bp::class_< CvVSModule_wrapper, boost::noncopyable >( "CvVSModule", bp::init< >() )    
@@ -152,6 +154,7 @@ void register_CvVSModule_class(){
         .def( 
             "TransferParamsToChild"
             , (void ( CvVSModule::* )( ::CvVSModule *,char * ) )( &::CvVSModule::TransferParamsToChild )
-            , ( bp::arg("pM"), bp::arg("prefix")=bp::object() ) );
+            , ( bp::arg("pM"), bp::arg("prefix")=bp::object() ) )    
+        .def("GetModuleName", &::CvVSModule_GetModuleName);
 
 }

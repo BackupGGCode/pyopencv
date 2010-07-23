@@ -44,7 +44,12 @@ CV_BLOB_MINH = 5
     # CvVSModule
     z = mb.class_('CvVSModule')
     mb.init_class(z)
-    z.mem_fun('GetModuleName').exclude() # TODO: enable this function
+    z.mem_fun('GetModuleName').exclude()
+    z.add_declaration_code('''    
+inline bp::str CvVSModule_GetModuleName(CvVSModule &inst) {  return bp::str(inst.GetModuleName()); }
+
+    ''')
+    z.add_registration_code('def("GetModuleName", &::CvVSModule_GetModuleName)')
     mb.finalize_class(z)
     
     # CvFGDetector
