@@ -20,7 +20,7 @@ static bp::object from_BaseRowFilter(bp::object const &inst_BaseRowFilter)
     }
 
     bp::object result = bp::object(::cv::Ptr< cv::BaseRowFilter >(elem()));
-    bp::objects::make_nurse_and_patient(result.ptr(), inst_BaseRowFilter.ptr());
+    result.attr("_depends") = inst_BaseRowFilter;
     return result;
 }
 

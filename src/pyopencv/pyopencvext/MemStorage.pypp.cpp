@@ -20,7 +20,7 @@ static bp::object from_CvMemStorage(bp::object const &inst_CvMemStorage)
     }
 
     bp::object result = bp::object(::cv::Ptr< CvMemStorage >(elem()));
-    bp::objects::make_nurse_and_patient(result.ptr(), inst_CvMemStorage.ptr());
+    result.attr("_depends") = inst_CvMemStorage;
     return result;
 }
 

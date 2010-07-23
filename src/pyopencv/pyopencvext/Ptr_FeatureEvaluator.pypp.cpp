@@ -20,7 +20,7 @@ static bp::object from_FeatureEvaluator(bp::object const &inst_FeatureEvaluator)
     }
 
     bp::object result = bp::object(::cv::Ptr< cv::FeatureEvaluator >(elem()));
-    bp::objects::make_nurse_and_patient(result.ptr(), inst_FeatureEvaluator.ptr());
+    result.attr("_depends") = inst_FeatureEvaluator;
     return result;
 }
 

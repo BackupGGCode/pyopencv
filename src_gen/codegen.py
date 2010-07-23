@@ -284,7 +284,7 @@ static bp::object from_ELEM_NAME(bp::object const &inst_ELEM_NAME)
     }
 
     bp::object result = bp::object(CLASS_TYPE(elem()));
-    bp::objects::make_nurse_and_patient(result.ptr(), inst_ELEM_NAME.ptr());
+    result.attr("_depends") = inst_ELEM_NAME;
     return result;
 }
 
