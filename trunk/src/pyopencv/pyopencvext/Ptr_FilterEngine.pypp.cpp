@@ -20,7 +20,7 @@ static bp::object from_FilterEngine(bp::object const &inst_FilterEngine)
     }
 
     bp::object result = bp::object(::cv::Ptr< cv::FilterEngine >(elem()));
-    bp::objects::make_nurse_and_patient(result.ptr(), inst_FilterEngine.ptr());
+    result.attr("_depends") = inst_FilterEngine;
     return result;
 }
 

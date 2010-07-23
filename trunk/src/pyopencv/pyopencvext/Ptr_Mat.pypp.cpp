@@ -20,7 +20,7 @@ static bp::object from_Mat(bp::object const &inst_Mat)
     }
 
     bp::object result = bp::object(::cv::Ptr< cv::Mat >(elem()));
-    bp::objects::make_nurse_and_patient(result.ptr(), inst_Mat.ptr());
+    result.attr("_depends") = inst_Mat;
     return result;
 }
 

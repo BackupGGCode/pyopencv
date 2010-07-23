@@ -20,7 +20,7 @@ static bp::object from_CvStereoBMState(bp::object const &inst_CvStereoBMState)
     }
 
     bp::object result = bp::object(::cv::Ptr< CvStereoBMState >(elem()));
-    bp::objects::make_nurse_and_patient(result.ptr(), inst_CvStereoBMState.ptr());
+    result.attr("_depends") = inst_CvStereoBMState;
     return result;
 }
 

@@ -20,7 +20,7 @@ static bp::object from_CvHaarClassifierCascade(bp::object const &inst_CvHaarClas
     }
 
     bp::object result = bp::object(::cv::Ptr< CvHaarClassifierCascade >(elem()));
-    bp::objects::make_nurse_and_patient(result.ptr(), inst_CvHaarClassifierCascade.ptr());
+    result.attr("_depends") = inst_CvHaarClassifierCascade;
     return result;
 }
 
