@@ -178,6 +178,30 @@ namespace sdopencv
     }
     
 
+    // compute the undirected gradient orientation per pixel
+    // Requirement:
+    //   max_order >= 1
+    void DifferentialImage::undirected_gradient_orientation(cv::Mat &output)
+    {
+        output.create(image_size, CV_64FC1);
+
+        double *dIx, *dIy;
+        double *ddst, v;
+        for(int y = 0; y < image_size.height; ++y)
+        {
+            dIx = (double *)Ix.ptr(y);
+            dIy = (double *)Iy.ptr(y);
+            ddst = (double *)output.ptr(y);
+
+            int x = image_size.width; while(--x >= 0)
+            {
+                v = atan2(dIy[x], dIx[x]);
+                ddst[x] = v < 0? v+M_PI: v;
+            }
+        }
+    }
+    
+
     // compute the gradient vector per pixel
     // Requirement:
     //   max_order >= 1

@@ -52,6 +52,11 @@ namespace sdopencv
             //   max_order >= 1
             void gradient_orientation(cv::Mat &output);
 
+            // compute the undirected gradient orientation per pixel
+            // Requirement:
+            //   max_order >= 1
+            void undirected_gradient_orientation(cv::Mat &output);
+
             // compute the gradient vector per pixel
             // Requirement:
             //   max_order >= 1

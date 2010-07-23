@@ -107,6 +107,16 @@ void register_DifferentialImage_class(){
     "\n    operator()" );
         
         }
+        { //::sdopencv::DifferentialImage::undirected_gradient_orientation
+        
+            typedef void ( ::sdopencv::DifferentialImage::*undirected_gradient_orientation_function_type )( ::cv::Mat & ) ;
+            
+            DifferentialImage_exposer.def( 
+                "undirected_gradient_orientation"
+                , undirected_gradient_orientation_function_type( &::sdopencv::DifferentialImage::undirected_gradient_orientation )
+                , ( bp::arg("output") ) );
+        
+        }
         DifferentialImage_exposer.def_readwrite( "Ix", &sdopencv::DifferentialImage::Ix );
         DifferentialImage_exposer.def_readwrite( "Ixx", &sdopencv::DifferentialImage::Ixx );
         DifferentialImage_exposer.def_readwrite( "Ixy", &sdopencv::DifferentialImage::Ixy );
