@@ -620,7 +620,7 @@ static boost::shared_ptr<cv::NAryMatNDIterator> NAryMatNDIterator__init1__(std::
     z.constructors(lambda x: 'int const *' in x.decl_string).exclude()
     for t in ('addref', 'release'):
         z.decls(t).exclude()
-    for t in ('CvSparseMat', 'Node', 'Hdr'):
+    for t in ('CvSparseMat', 'Node'):
         z.decls(lambda x: t in x.decl_string).exclude()
     z.add_declaration_code('''
 static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(std::vector<int> const &_sizes, int _type)
@@ -651,8 +651,21 @@ static bp::object SparseMat_size(cv::SparseMat const &inst, int i = -1)
         z2._transformer_creators.append(FT.output_type1('hashval'))
         if z2.arguments[0].name == 'idx':
             z2._transformer_creators.append(FT.input_array1d('idx'))
-    for t in ('node', 'newNode', 'removeNode', 'hdr', 'ptr', 'begin', 'end'):
-        z.decls(t).exclude()                
+    for t in ('node', 'newNode', 'removeNode', 'ptr', 'begin', 'end'):
+        z.decls(t).exclude()
+    # Hdr
+    z1 = z.class_('Hdr')
+    mb.init_class(z1)
+    z1.constructor(lambda x: len(x.arguments) > 1).exclude()
+    z1.add_declaration_code('''
+static boost::shared_ptr<cv::SparseMat::Hdr> SparseMat_Hdr__init1__(std::vector<int> const &_sizes, int _type)
+{
+    return boost::shared_ptr<cv::SparseMat::Hdr>(new cv::SparseMat::Hdr(_sizes.size(), &_sizes[0], _type));
+}
+
+    ''')
+    z1.add_registration_code('def("__init__", bp::make_constructor(&SparseMat_Hdr__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )))')    
+    mb.finalize_class(z1)
     mb.finalize_class(z)
     
     # SparseMatConstIterator

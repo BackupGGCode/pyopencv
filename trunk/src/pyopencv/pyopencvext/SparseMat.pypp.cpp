@@ -5,6 +5,7 @@
 #include "__convenience.pypp.hpp"
 #include "opencv_converters.hpp"
 #include "ndarray.hpp"
+#include "__array_1.pypp.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "opencv_headers.hpp"
 #include "opencv_converters.hpp"
@@ -13,32 +14,88 @@
 
 namespace bp = boost::python;
 
-static void create_4e9dc46b2911de920c7af1dfbb19412a( ::cv::SparseMat & inst, std::vector<int> const & _sizes, int _type ){
-    inst.create((int)(_sizes.size()), (int const *)(&_sizes[0]), _type);
-}
+struct SparseMat_wrapper : cv::SparseMat, bp::wrapper< cv::SparseMat > {
 
-static boost::python::object erase_ce64effe5fbeb3e9588310d12240ddce( ::cv::SparseMat & inst, int i0, int i1 ){
-    size_t hashval2;
-    inst.erase(i0, i1, &hashval2);
-    return bp::object( hashval2 );
-}
+    struct Hdr_wrapper : cv::SparseMat::Hdr, bp::wrapper< cv::SparseMat::Hdr > {
+    
+        Hdr_wrapper(cv::SparseMat::Hdr const & arg )
+        : cv::SparseMat::Hdr( arg )
+          , bp::wrapper< cv::SparseMat::Hdr >(){
+            // copy constructor
+            
+        }
+    
+        static pyplusplus::containers::static_sized::array_1_t< int, 32>
+        pyplusplus_size_wrapper( cv::SparseMat::Hdr & inst ){
+            return pyplusplus::containers::static_sized::array_1_t< int, 32>( inst.size );
+        }
+    
+    };
 
-static boost::python::object erase_ca8730dab3cfc35be7d8c7cfc84bf06f( ::cv::SparseMat & inst, int i0, int i1, int i2 ){
-    size_t hashval2;
-    inst.erase(i0, i1, i2, &hashval2);
-    return bp::object( hashval2 );
-}
+    SparseMat_wrapper(::cv::Mat const & m, bool try1d=false )
+    : cv::SparseMat( boost::ref(m), try1d )
+      , bp::wrapper< cv::SparseMat >(){
+        // constructor
+    
+    }
 
-static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::SparseMat & inst, std::vector<int> const & idx ){
-    size_t hashval2;
-    inst.erase((int const *)(&idx[0]), &hashval2);
-    return bp::object( hashval2 );
-}
+    SparseMat_wrapper(::cv::MatND const & m )
+    : cv::SparseMat( boost::ref(m) )
+      , bp::wrapper< cv::SparseMat >(){
+        // constructor
+    
+    }
 
-static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::SparseMat const & inst, std::vector<int> const & idx ){
-    ::size_t result = inst.hash((int const *)(&idx[0]));
-    return bp::object( result );
-}
+    SparseMat_wrapper( )
+    : cv::SparseMat( )
+      , bp::wrapper< cv::SparseMat >(){
+        // null constructor
+    
+    }
+
+    SparseMat_wrapper(::cv::SparseMat const & m )
+    : cv::SparseMat( boost::ref(m) )
+      , bp::wrapper< cv::SparseMat >(){
+        // copy constructor
+    
+    }
+
+    static void create( ::cv::SparseMat & inst, std::vector<int> const & _sizes, int _type ){
+        inst.create((int)(_sizes.size()), (int const *)(&_sizes[0]), _type);
+    }
+
+    static boost::python::object erase_ce64effe5fbeb3e9588310d12240ddce( ::cv::SparseMat & inst, int i0, int i1 ){
+        size_t hashval2;
+        inst.erase(i0, i1, &hashval2);
+        return bp::object( hashval2 );
+    }
+
+    static boost::python::object erase_ca8730dab3cfc35be7d8c7cfc84bf06f( ::cv::SparseMat & inst, int i0, int i1, int i2 ){
+        size_t hashval2;
+        inst.erase(i0, i1, i2, &hashval2);
+        return bp::object( hashval2 );
+    }
+
+    static boost::python::object erase_7ee4e9a1250db62333754bd289edbba8( ::cv::SparseMat & inst, std::vector<int> const & idx ){
+        size_t hashval2;
+        inst.erase((int const *)(&idx[0]), &hashval2);
+        return bp::object( hashval2 );
+    }
+
+    static boost::python::object hash_19477be6a05d6299f1601326adc61332( ::cv::SparseMat const & inst, std::vector<int> const & idx ){
+        ::size_t result = inst.hash((int const *)(&idx[0]));
+        return bp::object( result );
+    }
+
+    static cv::SparseMat::Hdr * get_hdr(cv::SparseMat const & inst ){
+        return inst.hdr;
+    }
+    
+    static void set_hdr( cv::SparseMat & inst, cv::SparseMat::Hdr * new_value ){ 
+        inst.hdr = new_value;
+    }
+
+};
 
 static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(std::vector<int> const &_sizes, int _type)
 {
@@ -57,10 +114,15 @@ static bp::object SparseMat_size(cv::SparseMat const &inst, int i = -1)
     return bp::object(result);
 }
 
+static boost::shared_ptr<cv::SparseMat::Hdr> SparseMat_Hdr__init1__(std::vector<int> const &_sizes, int _type)
+{
+    return boost::shared_ptr<cv::SparseMat::Hdr>(new cv::SparseMat::Hdr(_sizes.size(), &_sizes[0], _type));
+}
+
 void register_SparseMat_class(){
 
     { //::cv::SparseMat
-        typedef bp::class_< cv::SparseMat > SparseMat_exposer_t;
+        typedef bp::class_< SparseMat_wrapper > SparseMat_exposer_t;
         SparseMat_exposer_t SparseMat_exposer = SparseMat_exposer_t( "SparseMat", bp::init< cv::Mat const &, bp::optional< bool > >(( bp::arg("m"), bp::arg("try1d")=(bool)(false) )) );
         bp::scope SparseMat_scope( SparseMat_exposer );
         SparseMat_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::SparseMat >() );
@@ -68,6 +130,38 @@ void register_SparseMat_class(){
         bp::scope().attr("MAX_DIM") = (int)cv::SparseMat::MAX_DIM;
         bp::scope().attr("HASH_SCALE") = (int)cv::SparseMat::HASH_SCALE;
         bp::scope().attr("HASH_BIT") = (int)cv::SparseMat::HASH_BIT;
+        { //::cv::SparseMat::Hdr
+            typedef bp::class_< SparseMat_wrapper::Hdr_wrapper > Hdr_exposer_t;
+            Hdr_exposer_t Hdr_exposer = Hdr_exposer_t( "Hdr", bp::no_init );
+            bp::scope Hdr_scope( Hdr_exposer );
+            Hdr_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::SparseMat::Hdr >() );
+            { //::cv::SparseMat::Hdr::clear
+            
+                typedef void ( ::cv::SparseMat::Hdr::*clear_function_type )(  ) ;
+                
+                Hdr_exposer.def( 
+                    "clear"
+                    , clear_function_type( &::cv::SparseMat::Hdr::clear ) );
+            
+            }
+            Hdr_exposer.def_readwrite( "dims", &cv::SparseMat::Hdr::dims );
+            Hdr_exposer.def_readwrite( "freeList", &cv::SparseMat::Hdr::freeList );
+            Hdr_exposer.def_readwrite( "hashtab", &cv::SparseMat::Hdr::hashtab );
+            Hdr_exposer.def_readwrite( "nodeCount", &cv::SparseMat::Hdr::nodeCount );
+            Hdr_exposer.def_readwrite( "nodeSize", &cv::SparseMat::Hdr::nodeSize );
+            Hdr_exposer.def_readwrite( "pool", &cv::SparseMat::Hdr::pool );
+            Hdr_exposer.def_readwrite( "refcount", &cv::SparseMat::Hdr::refcount );
+            { //cv::SparseMat::Hdr::size [variable], type=int[32]
+            
+                typedef pyplusplus::containers::static_sized::array_1_t< int, 32> ( *array_wrapper_creator )( cv::SparseMat::Hdr & );
+                
+                Hdr_exposer.add_property( "size"
+                    , bp::make_function( array_wrapper_creator(&SparseMat_wrapper::Hdr_wrapper::pyplusplus_size_wrapper)
+                                        , bp::with_custodian_and_ward_postcall< 0, 1 >() ) );
+            }
+            Hdr_exposer.def_readwrite( "valueOffset", &cv::SparseMat::Hdr::valueOffset );
+            Hdr_exposer.def("__init__", bp::make_constructor(&SparseMat_Hdr__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )));
+        }
         bp::implicitly_convertible< cv::Mat const &, cv::SparseMat >();
         SparseMat_exposer.def( bp::init< cv::MatND const & >(( bp::arg("m") )) );
         bp::implicitly_convertible< cv::MatND const &, cv::SparseMat >();
@@ -176,7 +270,7 @@ void register_SparseMat_class(){
             
             SparseMat_exposer.def( 
                 "create"
-                , create_function_type( &create_4e9dc46b2911de920c7af1dfbb19412a )
+                , create_function_type( &SparseMat_wrapper::create )
                 , ( bp::arg("inst"), bp::arg("_sizes"), bp::arg("_type") )
                 , "\nArgument 'dims':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
@@ -228,7 +322,7 @@ void register_SparseMat_class(){
             
             SparseMat_exposer.def( 
                 "erase_ce64effe5fbeb3e9588310d12240ddce"
-                , erase_ce64effe5fbeb3e9588310d12240ddce_function_type( &erase_ce64effe5fbeb3e9588310d12240ddce )
+                , erase_ce64effe5fbeb3e9588310d12240ddce_function_type( &SparseMat_wrapper::erase_ce64effe5fbeb3e9588310d12240ddce )
                 , ( bp::arg("inst"), bp::arg("i0"), bp::arg("i1") )
                 , "\nWrapped function:"
     "\n    erase"
@@ -246,7 +340,7 @@ void register_SparseMat_class(){
             
             SparseMat_exposer.def( 
                 "erase_ca8730dab3cfc35be7d8c7cfc84bf06f"
-                , erase_ca8730dab3cfc35be7d8c7cfc84bf06f_function_type( &erase_ca8730dab3cfc35be7d8c7cfc84bf06f )
+                , erase_ca8730dab3cfc35be7d8c7cfc84bf06f_function_type( &SparseMat_wrapper::erase_ca8730dab3cfc35be7d8c7cfc84bf06f )
                 , ( bp::arg("inst"), bp::arg("i0"), bp::arg("i1"), bp::arg("i2") )
                 , "\nWrapped function:"
     "\n    erase"
@@ -264,7 +358,7 @@ void register_SparseMat_class(){
             
             SparseMat_exposer.def( 
                 "erase_7ee4e9a1250db62333754bd289edbba8"
-                , erase_7ee4e9a1250db62333754bd289edbba8_function_type( &erase_7ee4e9a1250db62333754bd289edbba8 )
+                , erase_7ee4e9a1250db62333754bd289edbba8_function_type( &SparseMat_wrapper::erase_7ee4e9a1250db62333754bd289edbba8 )
                 , ( bp::arg("inst"), bp::arg("idx") )
                 , "\nWrapped function:"
     "\n    erase"
@@ -315,7 +409,7 @@ void register_SparseMat_class(){
             
             SparseMat_exposer.def( 
                 "hash_19477be6a05d6299f1601326adc61332"
-                , hash_19477be6a05d6299f1601326adc61332_function_type( &hash_19477be6a05d6299f1601326adc61332 )
+                , hash_19477be6a05d6299f1601326adc61332_function_type( &SparseMat_wrapper::hash_19477be6a05d6299f1601326adc61332 )
                 , ( bp::arg("inst"), bp::arg("idx") )
                 , "\nWrapped function:"
     "\n    hash"
@@ -392,6 +486,9 @@ void register_SparseMat_class(){
         
         }
         SparseMat_exposer.def_readwrite( "flags", &cv::SparseMat::flags );
+        SparseMat_exposer.add_property( "hdr"
+                    , bp::make_function( (::cv::SparseMat::Hdr * (*)( ::cv::SparseMat const & ))(&SparseMat_wrapper::get_hdr), bp::return_internal_reference< >() )
+                    , bp::make_function( (void (*)( ::cv::SparseMat &,::cv::SparseMat::Hdr * ))(&SparseMat_wrapper::set_hdr), bp::with_custodian_and_ward_postcall< 1, 2 >() ) );
         SparseMat_exposer.def("__init__", bp::make_constructor(&SparseMat__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )));
         SparseMat_exposer.def("size", (void (*)(int))(&SparseMat_size), (bp::arg("i")=bp::object(-1)));
     }
