@@ -279,4 +279,15 @@ void register_free_functions_r(){
     
     }
 
+    { //::sdopencv::rotateHistToMode
+    
+        typedef void ( *rotateHistToMode_function_type )( ::std::vector< int > const &,::std::vector< int > & );
+        
+        bp::def( 
+            "rotateHistToMode"
+            , rotateHistToMode_function_type( &::sdopencv::rotateHistToMode )
+            , ( bp::arg("in_hist"), bp::arg("out_hist") ) );
+    
+    }
+
 }

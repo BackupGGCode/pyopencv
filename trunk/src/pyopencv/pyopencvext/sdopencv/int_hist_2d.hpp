@@ -44,6 +44,8 @@ namespace sdopencv
                 while(--n >= 0) indices[n] = get_index((float)values[n]);
             }
     };
+    
+    void rotateHistToMode(std::vector<int> const &in_hist, std::vector<int> &out_hist);
 }
 
 #endif // SDOPENCV_INTERGAL_HISTOGRAM_2D_HPP

@@ -100,4 +100,14 @@ namespace sdopencv
         else
             for(i = 0; i < histSize; ++i) out_hist[i] = 0;
     }
+    
+    void rotateHistToMode(std::vector<int> const &in_hist, std::vector<int> &out_hist)
+    {
+        int i, i0 = 0, n = in_hist.size();
+        out_hist.resize(n+1);
+        for(i = 1; i < n; ++i) if(in_hist[i] > in_hist[i0]) i0 = i; // find mode
+        out_hist[n] = i0;
+        for(i = i0; i < n; ++i) out_hist[i-i0] = in_hist[i];
+        for(i = 0; i < i0; ++i) out_hist[n-i0+i] = in_hist[i];
+    }
 }
