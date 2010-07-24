@@ -476,7 +476,7 @@ class input_as_list_of_Matlike_t(transformer_t):
         # pre_call
         controller.add_pre_call_code('''
     std::vector<IN_ELEM_TYPE> buf_ARG(ARG.size());
-    for(int i_ARG = 0; i_ARG<ARG.size(); ++i_ARG)
+    for(size_t i_ARG = 0; i_ARG<ARG.size(); ++i_ARG)
         buf_ARG[i_ARG] = (IN_ELEM_TYPE)CONVERSION_FUNC(ARG[i_ARG]);
         '''.replace("ARG", w_arg.name).replace("IN_ELEM_TYPE", self.in_elem_pds)\
         .replace("CONVERSION_FUNC", self.conversion_func))
@@ -678,10 +678,10 @@ class input_array2d_t(transformer.transformer_t):
             doc_dependent(self.function, self.arg_ncnts, self.arg)
 
         # precall_code
-        precall_code = """int n0_ARRAY = ARRAY.size();
+        precall_code = """size_t n0_ARRAY = ARRAY.size();
     std::vector< ITEM_TYPE * > buf_ARRAY(n0_ARRAY);
-    std::vector<int> n1_ARRAY(n0_ARRAY);
-    for(int i_ARRAY = 0; i_ARRAY<n0_ARRAY; ++i_ARRAY)
+    std::vector<size_t> n1_ARRAY(n0_ARRAY);
+    for(size_t i_ARRAY = 0; i_ARRAY<n0_ARRAY; ++i_ARRAY)
     {
         buf_ARRAY[i_ARRAY] = (ITEM_TYPE *)(&ARRAY[i_ARRAY][0]);
         n1_ARRAY[i_ARRAY] = ARRAY[i_ARRAY].size();

@@ -741,10 +741,10 @@ static boost::python::object approxPolyDP_d6c85380d14cce99fc92c414781ada55( ::cv
 }
 
 static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( std::vector<cv::Mat> const & images, std::vector<int> const & channels, ::cv::SparseMat const & hist, ::cv::Mat & backProject, std::vector<std::vector<float> > const & ranges, double scale=1, bool uniform=true ){
-    int n0_ranges = ranges.size();
+    size_t n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
-    std::vector<int> n1_ranges(n0_ranges);
-    for(int i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
+    std::vector<size_t> n1_ranges(n0_ranges);
+    for(size_t i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
     {
         buf_ranges[i_ranges] = (float *)(&ranges[i_ranges][0]);
         n1_ranges[i_ranges] = ranges[i_ranges].size();
@@ -754,10 +754,10 @@ static void calcBackProject_fe6cdc6fffc26e8d864a094a2b14971b( std::vector<cv::Ma
 }
 
 static void calcBackProject_84908d355b9d9fa6b6e1e0115efb65f8( std::vector<cv::Mat> const & images, std::vector<int> const & channels, ::cv::MatND const & hist, ::cv::Mat & backProject, std::vector<std::vector<float> > const & ranges, double scale=1, bool uniform=true ){
-    int n0_ranges = ranges.size();
+    size_t n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
-    std::vector<int> n1_ranges(n0_ranges);
-    for(int i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
+    std::vector<size_t> n1_ranges(n0_ranges);
+    for(size_t i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
     {
         buf_ranges[i_ranges] = (float *)(&ranges[i_ranges][0]);
         n1_ranges[i_ranges] = ranges[i_ranges].size();
@@ -771,10 +771,10 @@ static void calcCovarMatrix_e8cf288956f6478b98045989198e81f5( std::vector<cv::Ma
 }
 
 static void calcHist_8e436c4da97e1e09468541e1bed60274( std::vector<cv::Mat> const & images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::SparseMat & hist, std::vector<int> const & histSize, std::vector<std::vector<float> > const & ranges, bool uniform=true, bool accumulate=false ){
-    int n0_ranges = ranges.size();
+    size_t n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
-    std::vector<int> n1_ranges(n0_ranges);
-    for(int i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
+    std::vector<size_t> n1_ranges(n0_ranges);
+    for(size_t i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
     {
         buf_ranges[i_ranges] = (float *)(&ranges[i_ranges][0]);
         n1_ranges[i_ranges] = ranges[i_ranges].size();
@@ -784,10 +784,10 @@ static void calcHist_8e436c4da97e1e09468541e1bed60274( std::vector<cv::Mat> cons
 }
 
 static void calcHist_a4cce9bdd9689d0fb0adf901f467bfa0( std::vector<cv::Mat> const & images, std::vector<int> const & channels, ::cv::Mat const & mask, ::cv::MatND & hist, std::vector<int> const & histSize, std::vector<std::vector<float> > const & ranges, bool uniform=true, bool accumulate=false ){
-    int n0_ranges = ranges.size();
+    size_t n0_ranges = ranges.size();
     std::vector< float * > buf_ranges(n0_ranges);
-    std::vector<int> n1_ranges(n0_ranges);
-    for(int i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
+    std::vector<size_t> n1_ranges(n0_ranges);
+    for(size_t i_ranges = 0; i_ranges<n0_ranges; ++i_ranges)
     {
         buf_ranges[i_ranges] = (float *)(&ranges[i_ranges][0]);
         n1_ranges[i_ranges] = ranges[i_ranges].size();
@@ -1084,7 +1084,7 @@ static void cvGetQuadrangleSubPix_fe2b1a5028fa8b02301dc960cdfbc131( ::cv::Mat & 
 static boost::python::object cvInitNArrayIterator_4c1924434c279d42b088754762acc53b( std::vector<cv::Mat> const & arrs, ::cv::Mat & mask, ::CvMatND * stubs, ::CvNArrayIterator * array_iterator, int flags=0 ){
     
     std::vector<void *> buf_arrs(arrs.size());
-    for(int i_arrs = 0; i_arrs<arrs.size(); ++i_arrs)
+    for(size_t i_arrs = 0; i_arrs<arrs.size(); ++i_arrs)
         buf_arrs[i_arrs] = (void *)get_CvMat_ptr(arrs[i_arrs]);
         
     int result = ::cvInitNArrayIterator(arrs.size(), (CvArr * *)(&buf_arrs[0]), get_CvMat_ptr(mask), stubs, array_iterator, flags);
@@ -1313,10 +1313,10 @@ static void fillConvexPoly_1312287b0cded13c02c57cc3d8ebf4b4( ::cv::Mat & img, st
 }
 
 static void fillPoly_e862cfcf1208f193efcd2bec59b744ec( ::cv::Mat & img, std::vector<std::vector<cv::Point_<int> > > const & pts, ::cv::Scalar const & color, int lineType=8, int shift=0, ::cv::Point offset=cv::Point_<int>() ){
-    int n0_pts = pts.size();
+    size_t n0_pts = pts.size();
     std::vector< cv::Point_<int> * > buf_pts(n0_pts);
-    std::vector<int> n1_pts(n0_pts);
-    for(int i_pts = 0; i_pts<n0_pts; ++i_pts)
+    std::vector<size_t> n1_pts(n0_pts);
+    for(size_t i_pts = 0; i_pts<n0_pts; ++i_pts)
     {
         buf_pts[i_pts] = (cv::Point_<int> *)(&pts[i_pts][0]);
         n1_pts[i_pts] = pts[i_pts].size();
@@ -1444,10 +1444,10 @@ static void mixChannels_269d2fa250748779c49641b632451e5f( ::std::vector< cv::Mat
 }
 
 static void polylines_4b2b9aca4a0ee1864678eae6b982fcc0( ::cv::Mat & img, std::vector<std::vector<cv::Point_<int> > > const & pts, bool isClosed, ::cv::Scalar const & color, int thickness=1, int lineType=8, int shift=0 ){
-    int n0_pts = pts.size();
+    size_t n0_pts = pts.size();
     std::vector< cv::Point_<int> * > buf_pts(n0_pts);
-    std::vector<int> n1_pts(n0_pts);
-    for(int i_pts = 0; i_pts<n0_pts; ++i_pts)
+    std::vector<size_t> n1_pts(n0_pts);
+    for(size_t i_pts = 0; i_pts<n0_pts; ++i_pts)
     {
         buf_pts[i_pts] = (cv::Point_<int> *)(&pts[i_pts][0]);
         n1_pts[i_pts] = pts[i_pts].size();
