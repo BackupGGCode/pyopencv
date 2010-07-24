@@ -9,19 +9,94 @@
 
 namespace bp = boost::python;
 
-static void init_7fe56bf20c87d279d051169d318b592c( ::cv::NAryMatNDIterator & inst, std::vector<cv::MatND> const & arrays ){
+struct NAryMatNDIterator_wrapper : cv::NAryMatNDIterator, bp::wrapper< cv::NAryMatNDIterator > {
+
+    NAryMatNDIterator_wrapper(cv::NAryMatNDIterator const & arg )
+    : cv::NAryMatNDIterator( arg )
+      , bp::wrapper< cv::NAryMatNDIterator >(){
+        // copy constructor
+        
+    }
+
+    NAryMatNDIterator_wrapper(::cv::MatND const & m1 )
+    : cv::NAryMatNDIterator( boost::ref(m1) )
+      , bp::wrapper< cv::NAryMatNDIterator >(){
+        // constructor
     
+    }
+
+    NAryMatNDIterator_wrapper(::cv::MatND const & m1, ::cv::MatND const & m2 )
+    : cv::NAryMatNDIterator( boost::ref(m1), boost::ref(m2) )
+      , bp::wrapper< cv::NAryMatNDIterator >(){
+        // constructor
+    
+    }
+
+    NAryMatNDIterator_wrapper(::cv::MatND const & m1, ::cv::MatND const & m2, ::cv::MatND const & m3 )
+    : cv::NAryMatNDIterator( boost::ref(m1), boost::ref(m2), boost::ref(m3) )
+      , bp::wrapper< cv::NAryMatNDIterator >(){
+        // constructor
+    
+    }
+
+    NAryMatNDIterator_wrapper(::cv::MatND const & m1, ::cv::MatND const & m2, ::cv::MatND const & m3, ::cv::MatND const & m4 )
+    : cv::NAryMatNDIterator( boost::ref(m1), boost::ref(m2), boost::ref(m3), boost::ref(m4) )
+      , bp::wrapper< cv::NAryMatNDIterator >(){
+        // constructor
+    
+    }
+
+    NAryMatNDIterator_wrapper(::cv::MatND const & m1, ::cv::MatND const & m2, ::cv::MatND const & m3, ::cv::MatND const & m4, ::cv::MatND const & m5 )
+    : cv::NAryMatNDIterator( boost::ref(m1), boost::ref(m2), boost::ref(m3), boost::ref(m4), boost::ref(m5) )
+      , bp::wrapper< cv::NAryMatNDIterator >(){
+        // constructor
+    
+    }
+
+    NAryMatNDIterator_wrapper(::cv::MatND const & m1, ::cv::MatND const & m2, ::cv::MatND const & m3, ::cv::MatND const & m4, ::cv::MatND const & m5, ::cv::MatND const & m6 )
+    : cv::NAryMatNDIterator( boost::ref(m1), boost::ref(m2), boost::ref(m3), boost::ref(m4), boost::ref(m5), boost::ref(m6) )
+      , bp::wrapper< cv::NAryMatNDIterator >(){
+        // constructor
+    
+    }
+
+    NAryMatNDIterator_wrapper( )
+    : cv::NAryMatNDIterator( )
+      , bp::wrapper< cv::NAryMatNDIterator >(){
+        // null constructor
+    
+    }
+
+    static void init( ::cv::NAryMatNDIterator & inst, std::vector<cv::MatND> const & arrays ){
+        
     std::vector<cv::MatND const *> buf_arrays(arrays.size());
-    for(int i_arrays = 0; i_arrays<arrays.size(); ++i_arrays)
+    for(size_t i_arrays = 0; i_arrays<arrays.size(); ++i_arrays)
         buf_arrays[i_arrays] = (cv::MatND const *)&(arrays[i_arrays]);
         
-    inst.init((cv::MatND const * *)(&buf_arrays[0]), arrays.size());
-}
+        inst.init((cv::MatND const * *)(&buf_arrays[0]), arrays.size());
+    }
+
+    NAryMatNDIterator_wrapper const &iter() { return *this; }
+    
+    bp::object next()
+    {
+        if(idx >= nplanes)
+        {
+            PyErr_SetString(PyExc_StopIteration, "No more plane.");
+            throw bp::error_already_set(); 
+        }
+        bp::object result(planes);
+        if(idx >= nplanes-1) ++idx;
+        else ++(*this);
+        return result;
+    }
+
+};
 
 static boost::shared_ptr<cv::NAryMatNDIterator> NAryMatNDIterator__init1__(std::vector<cv::MatND> const &arrays)
 {
     std::vector<cv::MatND const *> buf_arrays(arrays.size());
-    for(int i_arrays = 0; i_arrays<arrays.size(); ++i_arrays)
+    for(size_t i_arrays = 0; i_arrays<arrays.size(); ++i_arrays)
         buf_arrays[i_arrays] = (cv::MatND const *)&(arrays[i_arrays]);
         
     return boost::shared_ptr<cv::NAryMatNDIterator>(new cv::NAryMatNDIterator((cv::MatND const * *)(&buf_arrays[0]), arrays.size()));
@@ -30,7 +105,7 @@ static boost::shared_ptr<cv::NAryMatNDIterator> NAryMatNDIterator__init1__(std::
 void register_NAryMatNDIterator_class(){
 
     { //::cv::NAryMatNDIterator
-        typedef bp::class_< cv::NAryMatNDIterator > NAryMatNDIterator_exposer_t;
+        typedef bp::class_< NAryMatNDIterator_wrapper > NAryMatNDIterator_exposer_t;
         NAryMatNDIterator_exposer_t NAryMatNDIterator_exposer = NAryMatNDIterator_exposer_t( "NAryMatNDIterator", bp::init< cv::MatND const & >(( bp::arg("m1") )) );
         bp::scope NAryMatNDIterator_scope( NAryMatNDIterator_exposer );
         NAryMatNDIterator_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::NAryMatNDIterator >() );
@@ -47,7 +122,7 @@ void register_NAryMatNDIterator_class(){
             
             NAryMatNDIterator_exposer.def( 
                 "init"
-                , init_function_type( &init_7fe56bf20c87d279d051169d318b592c )
+                , init_function_type( &NAryMatNDIterator_wrapper::init )
                 , ( bp::arg("inst"), bp::arg("arrays") )
                 , "\nArgument 'arrays':"\
     "\n    C++ type: ::cv::MatND const * *."\
@@ -61,6 +136,8 @@ void register_NAryMatNDIterator_class(){
         NAryMatNDIterator_exposer.def_readwrite( "nplanes", &cv::NAryMatNDIterator::nplanes );
         NAryMatNDIterator_exposer.def_readwrite( "planes", &cv::NAryMatNDIterator::planes );
         NAryMatNDIterator_exposer.def("__init__", bp::make_constructor(&NAryMatNDIterator__init1__, bp::default_call_policies(), (bp::arg("arrays"))));
+        NAryMatNDIterator_exposer.def("__iter__", &NAryMatNDIterator_wrapper::iter, bp::return_self<>());
+        NAryMatNDIterator_exposer.def("next", &NAryMatNDIterator_wrapper::next);
     }
 
 }

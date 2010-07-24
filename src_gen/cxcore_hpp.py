@@ -600,15 +600,34 @@ MatND.__repr__ = _MatND__repr__
 static boost::shared_ptr<cv::NAryMatNDIterator> NAryMatNDIterator__init1__(std::vector<cv::MatND> const &arrays)
 {
     std::vector<cv::MatND const *> buf_arrays(arrays.size());
-    for(int i_arrays = 0; i_arrays<arrays.size(); ++i_arrays)
+    for(size_t i_arrays = 0; i_arrays<arrays.size(); ++i_arrays)
         buf_arrays[i_arrays] = (cv::MatND const *)&(arrays[i_arrays]);
         
     return boost::shared_ptr<cv::NAryMatNDIterator>(new cv::NAryMatNDIterator((cv::MatND const * *)(&buf_arrays[0]), arrays.size()));
 }
 
-    ''')
+    ''')    
     z.add_registration_code('def("__init__", bp::make_constructor(&NAryMatNDIterator__init1__, bp::default_call_policies(), (bp::arg("arrays"))))')
     z.mem_fun('init')._transformer_creators.append(FT.input_as_list_of_Matlike('arrays', 'count'))
+    z.add_wrapper_code('''    
+    NAryMatNDIterator_wrapper const &iter() { return *this; }
+    
+    bp::object next()
+    {
+        if(idx >= nplanes)
+        {
+            PyErr_SetString(PyExc_StopIteration, "No more plane.");
+            throw bp::error_already_set(); 
+        }
+        bp::object result(planes);
+        if(idx >= nplanes-1) ++idx;
+        else ++(*this);
+        return result;
+    }
+
+    ''')    
+    z.add_registration_code('def("__iter__", &NAryMatNDIterator_wrapper::iter, bp::return_self<>())')
+    z.add_registration_code('def("next", &NAryMatNDIterator_wrapper::next)')
     mb.finalize_class(z)
     
     # SparseMat
