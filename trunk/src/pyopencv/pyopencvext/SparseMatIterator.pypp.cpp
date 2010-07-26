@@ -7,13 +7,81 @@
 
 namespace bp = boost::python;
 
+struct SparseMatIterator_wrapper : cv::SparseMatIterator, bp::wrapper< cv::SparseMatIterator > {
+
+    SparseMatIterator_wrapper( )
+    : cv::SparseMatIterator( )
+      , bp::wrapper< cv::SparseMatIterator >(){
+        // null constructor
+    
+    }
+
+    SparseMatIterator_wrapper(::cv::SparseMat * _m )
+    : cv::SparseMatIterator( boost::python::ptr(_m) )
+      , bp::wrapper< cv::SparseMatIterator >(){
+        // constructor
+    
+    }
+
+    SparseMatIterator_wrapper(::cv::SparseMatIterator const & it )
+    : cv::SparseMatIterator( boost::ref(it) )
+      , bp::wrapper< cv::SparseMatIterator >(){
+        // copy constructor
+    
+    }
+
+    SparseMatIterator_wrapper const &iter() { return *this; }
+    
+    cv::SparseMat::Node *next()
+    {
+        if(!m || !ptr || !m->hdr)
+        {
+            PyErr_SetString(PyExc_StopIteration, "No more node.");
+            throw bp::error_already_set(); 
+        }
+        
+        cv::SparseMat::Node *result = node();
+        ++(*this);
+        return result;
+    }
+
+};
+
 void register_SparseMatIterator_class(){
 
     { //::cv::SparseMatIterator
-        typedef bp::class_< cv::SparseMatIterator, bp::bases< cv::SparseMatConstIterator > > SparseMatIterator_exposer_t;
-        SparseMatIterator_exposer_t SparseMatIterator_exposer = SparseMatIterator_exposer_t( "SparseMatIterator" );
+        typedef bp::class_< SparseMatIterator_wrapper > SparseMatIterator_exposer_t;
+        SparseMatIterator_exposer_t SparseMatIterator_exposer = SparseMatIterator_exposer_t( "SparseMatIterator", bp::init< >() );
         bp::scope SparseMatIterator_scope( SparseMatIterator_exposer );
         SparseMatIterator_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::SparseMatIterator >() );
+        SparseMatIterator_exposer.def( bp::init< cv::SparseMat * >(( bp::arg("_m") )) );
+        bp::implicitly_convertible< cv::SparseMat *, cv::SparseMatIterator >();
+        SparseMatIterator_exposer.def( bp::init< cv::SparseMatIterator const & >(( bp::arg("it") )) );
+        { //::cv::SparseMatIterator::node
+        
+            typedef ::cv::SparseMat::Node * ( ::cv::SparseMatIterator::*node_function_type )(  ) const;
+            
+            SparseMatIterator_exposer.def( 
+                "node"
+                , node_function_type( &::cv::SparseMatIterator::node )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::cv::SparseMatIterator::operator=
+        
+            typedef ::cv::SparseMatIterator & ( ::cv::SparseMatIterator::*assign_function_type )( ::cv::SparseMatIterator const & ) ;
+            
+            SparseMatIterator_exposer.def( 
+                "assign"
+                , assign_function_type( &::cv::SparseMatIterator::operator= )
+                , ( bp::arg("it") )
+                , bp::return_self< >()
+                , "\nWrapped function:"
+    "\n    operator=" );
+        
+        }
+        SparseMatIterator_exposer.def("__iter__", &SparseMatIterator_wrapper::iter, bp::return_self<>());
+        SparseMatIterator_exposer.def("next", &SparseMatIterator_wrapper::next, bp::return_internal_reference<>());
     }
 
 }

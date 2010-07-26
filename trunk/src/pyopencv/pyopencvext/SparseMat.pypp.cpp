@@ -216,6 +216,17 @@ void register_SparseMat_class(){
                 , ( bp::arg("m"), bp::arg("type")=(int)(-0x000000001) ) );
         
         }
+        { //::cv::SparseMat::begin
+        
+            typedef ::cv::SparseMatIterator ( ::cv::SparseMat::*__iter___function_type )(  ) ;
+            
+            SparseMat_exposer.def( 
+                "__iter__"
+                , __iter___function_type( &::cv::SparseMat::begin )
+                , "\nWrapped function:"
+    "\n    begin" );
+        
+        }
         { //::cv::SparseMat::channels
         
             typedef int ( ::cv::SparseMat::*channels_function_type )(  ) const;
@@ -561,7 +572,7 @@ void register_SparseMat_class(){
                     , bp::make_function( (::cv::SparseMat::Hdr * (*)( ::cv::SparseMat const & ))(&SparseMat_wrapper::get_hdr), bp::return_internal_reference< >() )
                     , bp::make_function( (void (*)( ::cv::SparseMat &,::cv::SparseMat::Hdr * ))(&SparseMat_wrapper::set_hdr), bp::with_custodian_and_ward_postcall< 1, 2 >() ) );
         SparseMat_exposer.def("__init__", bp::make_constructor(&SparseMat__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )));
-        SparseMat_exposer.def("size", (void (*)(int))(&SparseMat_size), (bp::arg("i")=bp::object(-1)));
+        SparseMat_exposer.def("size", &::SparseMat_size, (bp::arg("i")=bp::object(-1)));
     }
 
 }

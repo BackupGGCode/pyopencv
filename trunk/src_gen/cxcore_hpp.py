@@ -631,7 +631,6 @@ static boost::shared_ptr<cv::NAryMatNDIterator> NAryMatNDIterator__init1__(std::
     mb.finalize_class(z)
     
     # SparseMat
-    # wait until requested: fix the rest of the member declarations
     z = mb.class_('SparseMat')
     z.include_files.append("opencv_converters.hpp")
     z.include_files.append("boost/python/make_function.hpp")
@@ -664,7 +663,10 @@ static bp::object SparseMat_size(cv::SparseMat const &inst, int i = -1)
     return bp::object(result);
 }
     ''')
-    z.add_registration_code('def("size", (void (*)(int))(&SparseMat_size), (bp::arg("i")=bp::object(-1)))')
+    z.add_registration_code('def("size", &::SparseMat_size, (bp::arg("i")=bp::object(-1)))')
+    z1 = z.mem_fun(lambda x: x.name=="begin" and "const" not in x.partial_decl_string)
+    z1.include()
+    z1.rename("__iter__")
     z.mem_fun(lambda x: x.name == 'hash' and 'int const *' in x.arguments[0].type.decl_string) \
         ._transformer_creators.append(FT.input_array1d('idx'))
     for z2 in z.mem_funs('erase'):
@@ -687,16 +689,32 @@ static boost::shared_ptr<cv::SparseMat::Hdr> SparseMat_Hdr__init1__(std::vector<
     mb.finalize_class(z)
     
     # SparseMatConstIterator
-    # TODO: fix the rest of the member declarations
-    z = mb.class_('SparseMatConstIterator')
-    z.include()
-    z.decls().exclude()
+    mb.class_('SparseMatConstIterator').exclude() # we don't want this class exposed
     
     # SparseMatIterator
-    # TODO: fix the rest of the member declarations
     z = mb.class_('SparseMatIterator')
-    z.include()
-    z.decls().exclude()
+    mb.init_class(z)
+    z.constructors(lambda x: len(x.arguments) > 1).exclude()
+    z.add_wrapper_code('''    
+    SparseMatIterator_wrapper const &iter() { return *this; }
+    
+    cv::SparseMat::Node *next()
+    {
+        if(!m || !ptr || !m->hdr)
+        {
+            PyErr_SetString(PyExc_StopIteration, "No more node.");
+            throw bp::error_already_set(); 
+        }
+        
+        cv::SparseMat::Node *result = node();
+        ++(*this);
+        return result;
+    }
+
+    ''')    
+    z.add_registration_code('def("__iter__", &SparseMatIterator_wrapper::iter, bp::return_self<>())')
+    z.add_registration_code('def("next", &SparseMatIterator_wrapper::next, bp::return_internal_reference<>())')
+    mb.finalize_class(z)
     
     # KDTree
     z = mb.class_('KDTree')
