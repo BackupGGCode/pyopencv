@@ -390,8 +390,6 @@
 
 #include "pyopencvext/SparseMat.pypp.hpp"
 
-#include "pyopencvext/SparseMatConstIterator.pypp.hpp"
-
 #include "pyopencvext/SparseMatIterator.pypp.hpp"
 
 #include "pyopencvext/SpinImageModel.pypp.hpp"
@@ -2125,8 +2123,6 @@ BOOST_PYTHON_MODULE(pyopencvext){
     register_Size2f_class();
 
     register_SparseMat_class();
-
-    register_SparseMatConstIterator_class();
 
     register_SparseMatIterator_class();
 
