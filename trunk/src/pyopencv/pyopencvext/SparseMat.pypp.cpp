@@ -32,6 +32,29 @@ struct SparseMat_wrapper : cv::SparseMat, bp::wrapper< cv::SparseMat > {
     
     };
 
+    struct Node_wrapper : cv::SparseMat::Node, bp::wrapper< cv::SparseMat::Node > {
+    
+        Node_wrapper(cv::SparseMat::Node const & arg )
+        : cv::SparseMat::Node( arg )
+          , bp::wrapper< cv::SparseMat::Node >(){
+            // copy constructor
+            
+        }
+    
+        Node_wrapper()
+        : cv::SparseMat::Node()
+          , bp::wrapper< cv::SparseMat::Node >(){
+            // null constructor
+            
+        }
+    
+        static pyplusplus::containers::static_sized::array_1_t< int, 32>
+        pyplusplus_idx_wrapper( cv::SparseMat::Node & inst ){
+            return pyplusplus::containers::static_sized::array_1_t< int, 32>( inst.idx );
+        }
+    
+    };
+
     SparseMat_wrapper(::cv::Mat const & m, bool try1d=false )
     : cv::SparseMat( boost::ref(m), try1d )
       , bp::wrapper< cv::SparseMat >(){
@@ -161,6 +184,22 @@ void register_SparseMat_class(){
             }
             Hdr_exposer.def_readwrite( "valueOffset", &cv::SparseMat::Hdr::valueOffset );
             Hdr_exposer.def("__init__", bp::make_constructor(&SparseMat_Hdr__init1__, bp::default_call_policies(), ( bp::arg("_sizes"), bp::arg("_type") )));
+        }
+        { //::cv::SparseMat::Node
+            typedef bp::class_< SparseMat_wrapper::Node_wrapper > Node_exposer_t;
+            Node_exposer_t Node_exposer = Node_exposer_t( "Node" );
+            bp::scope Node_scope( Node_exposer );
+            Node_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::SparseMat::Node >() );
+            Node_exposer.def_readwrite( "hashval", &cv::SparseMat::Node::hashval );
+            { //cv::SparseMat::Node::idx [variable], type=int[32]
+            
+                typedef pyplusplus::containers::static_sized::array_1_t< int, 32> ( *array_wrapper_creator )( cv::SparseMat::Node & );
+                
+                Node_exposer.add_property( "idx"
+                    , bp::make_function( array_wrapper_creator(&SparseMat_wrapper::Node_wrapper::pyplusplus_idx_wrapper)
+                                        , bp::with_custodian_and_ward_postcall< 0, 1 >() ) );
+            }
+            Node_exposer.def_readwrite( "next", &cv::SparseMat::Node::next );
         }
         bp::implicitly_convertible< cv::Mat const &, cv::SparseMat >();
         SparseMat_exposer.def( bp::init< cv::MatND const & >(( bp::arg("m") )) );
@@ -418,6 +457,28 @@ void register_SparseMat_class(){
     "\n    Python type: vector_int." );
         
         }
+        { //::cv::SparseMat::node
+        
+            typedef ::cv::SparseMat::Node * ( ::cv::SparseMat::*node_function_type )( ::size_t ) ;
+            
+            SparseMat_exposer.def( 
+                "node"
+                , node_function_type( &::cv::SparseMat::node )
+                , ( bp::arg("nidx") )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::cv::SparseMat::node
+        
+            typedef ::cv::SparseMat::Node const * ( ::cv::SparseMat::*node_function_type )( ::size_t ) const;
+            
+            SparseMat_exposer.def( 
+                "node"
+                , node_function_type( &::cv::SparseMat::node )
+                , ( bp::arg("nidx") )
+                , bp::return_internal_reference< >() );
+        
+        }
         { //::cv::SparseMat::nzcount
         
             typedef ::size_t ( ::cv::SparseMat::*nzcount_function_type )(  ) const;
@@ -464,6 +525,16 @@ void register_SparseMat_class(){
                 , bp::return_self< >()
                 , "\nWrapped function:"
     "\n    operator=" );
+        
+        }
+        { //::cv::SparseMat::removeNode
+        
+            typedef void ( ::cv::SparseMat::*removeNode_function_type )( ::size_t,::size_t,::size_t ) ;
+            
+            SparseMat_exposer.def( 
+                "removeNode"
+                , removeNode_function_type( &::cv::SparseMat::removeNode )
+                , ( bp::arg("hidx"), bp::arg("nidx"), bp::arg("previdx") ) );
         
         }
         { //::cv::SparseMat::resizeHashTab

@@ -637,9 +637,10 @@ static boost::shared_ptr<cv::NAryMatNDIterator> NAryMatNDIterator__init1__(std::
     z.include_files.append("boost/python/make_function.hpp")
     mb.init_class(z)    
     z.constructors(lambda x: 'int const *' in x.decl_string).exclude()
-    for t in ('addref', 'release'):
+    # TODO: don't know how to expose the output value of newNode()
+    for t in ('addref', 'release', 'newNode', 'ptr', 'begin', 'end'):
         z.decls(t).exclude()
-    for t in ('CvSparseMat', 'Node'):
+    for t in ('CvSparseMat',):
         z.decls(lambda x: t in x.decl_string).exclude()
     z.add_declaration_code('''
 static boost::shared_ptr<cv::SparseMat> SparseMat__init1__(std::vector<int> const &_sizes, int _type)
@@ -670,8 +671,6 @@ static bp::object SparseMat_size(cv::SparseMat const &inst, int i = -1)
         z2._transformer_creators.append(FT.output_type1('hashval'))
         if z2.arguments[0].name == 'idx':
             z2._transformer_creators.append(FT.input_array1d('idx'))
-    for t in ('node', 'newNode', 'removeNode', 'ptr', 'begin', 'end'):
-        z.decls(t).exclude()
     # Hdr
     z1 = z.class_('Hdr')
     mb.init_class(z1)
