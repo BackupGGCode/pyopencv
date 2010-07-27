@@ -22,7 +22,11 @@ if(COMMAND cmake_policy)
     cmake_policy(SET CMP0003 NEW)
 endif()
 
+# Don't try the Debug mode, it's too long to compile.
+SET(CMAKE_BUILD_TYPE "Release")
+
 # Need Python
+# set(Boost_USE_STATIC_LIBS OFF)
 find_package(PythonLibs REQUIRED)
 find_package(PythonInterp REQUIRED)
 if(NOT PYTHONLIBS_FOUND OR NOT PYTHON_EXECUTABLE)
@@ -44,7 +48,7 @@ find_package(Boost COMPONENTS python REQUIRED)
 
 find_package(OpenCV REQUIRED CMAKE_FIND_ROOT_PATH_BOTH)
 
-file(GLOB SRCS pyopencv/pyopencvext/*)
+file(GLOB_RECURSE SRCS pyopencv/pyopencvext/*)
 
 include_directories(
 	${Boost_INCLUDE_DIRS}
