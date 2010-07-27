@@ -19,3 +19,68 @@ def __sd_iter__(self):
     for i in xrange(len(self)):
         yield self[i]
 
+
+def __vector__repr__(self):
+    n = len(self)
+    s = "%s(len=%d, [" % (self.__class__.__name__, n)
+    if n==1:
+        s += repr(self[0])
+    elif n==2:
+        s += repr(self[0])+", "+repr(self[1])
+    elif n==3:
+        s += repr(self[0])+", "+repr(self[1])+", "+repr(self[2])
+    elif n==4:
+        s += repr(self[0])+", "+repr(self[1])+", "+repr(self[2])+", "+repr(self[3])
+    elif n > 4:
+        s += repr(self[0])+", "+repr(self[1])+", ..., "+repr(self[n-2])+", "+repr(self[n-1])
+    s += "])"
+    return s
+
+def is_vector(cls):
+    """Returns whether class 'cls' is a std::vector class."""
+    return cls.__name__.startswith('vector_')
+    
+def __vector_create(self, obj):
+    """Creates the vector from a Python sequence.
+    
+    Argument 'obj':
+        a Python sequence
+    """
+    N = len(obj)
+    self.resize(N)
+    if is_vector(self.elem_type):
+        for i in xrange(N):
+            self[i] = self.elem_type.fromlist(obj[i])
+    else:
+        for i in xrange(N):
+            self[i] = obj[i]
+
+def __vector_tolist(self):
+    if is_vector(self.elem_type):
+        return [self[i].tolist() for i in xrange(len(self))]
+    return [self[i] for i in xrange(len(self))]
+
+def __vector_fromlist(cls, obj):
+    """Creates a vector from a Python sequence.
+    
+    Argument 'obj':
+        a Python sequence
+    """
+    z = cls()
+    z.create(obj)
+    return z
+    
+def __vector__init__(self, obj=None):
+    """Initializes the vector.
+    
+    Argument 'obj':
+        If 'obj' is an integer, the vector is initialized as a vector of 
+        'obj' elements. If 'obj' is a Python sequence. The vector is
+        initialized as an equivalence of 'obj' by invoking self.fromlist().
+    """
+    self.__old_init__()
+    if isinstance(obj, int):
+        self.resize(obj)
+    elif not obj is None:
+        self.create(obj)
+    
