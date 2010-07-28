@@ -1,51 +1,38 @@
 #ifndef SDOPENCV_HEADERS_H
 #define SDOPENCV_HEADERS_H
 
-#define __OPENCV_MATRIX_OPERATIONS_H__ // to turn off cxmat.hpp and turn on sdcxmat.hpp -- there's a bug
 #include "cxcore.h"
-#undef __OPENCV_MATRIX_OPERATIONS_H__
-#include "sdcxmat.hpp"
 
-#define __OPENCV_CV_HPP__ // to turn off cv.hpp and turn on sdcv.hpp -- there's a bug
-#include "cv.h"
-#undef __OPENCV_CV_HPP__
-#include "sdcv.hpp"
-
-#include "highgui.h"
-#include "highgui.hpp"
-
-#include "cxflann.h"
-
-#include "ml.h"
-
-
-#include "cvaux.hpp"
-#include "cvvidsurv.hpp"
-#include "cvaux.h"
-
-
-struct CvGenericHash {};
-struct CvFileStorage {};
-
-struct _CvContourScanner {};
-// struct CvHidHaarClassifierCascade {};
-struct CvFeatureTree {};
-struct CvLSH {};
-// struct CvLSHOperations {}; // if cv.hpp is not included
-struct CvPOSITObject {};
-
-
-struct CvCapture {};
-struct CvVideoWriter {};
-
-namespace flann {
-    class Index {};
+namespace cv // missing classes in OpenCV 2.1
+{
+typedef Size_<double> Size2d;
+typedef Rect_<float> Rectf;
+typedef Rect_<double> Rectd;
 }
 
+template<typename T> inline int _cmp(T const &inst1, T const &inst2)
+    { return std::strncmp((char const *)&inst1, (char const *)&inst2, sizeof(T)); }
 
-// sdopencv stuff
-#include "sdopencv.hpp"
+#define DEFINE_CMP_OPERATORS(T) \
+inline bool operator<(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)<0; } \
+inline bool operator<=(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)<=0; } \
+inline bool operator==(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)==0; } \
+inline bool operator!=(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)!=0; } \
+inline bool operator>=(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)>=0; } \
+inline bool operator>(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)>0; }
 
-#include "template_instantiations.hpp"
+#define DEFINE_EQUAL_OPERATOR(T) \
+inline bool operator==(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)==0; }
+
+namespace cv {
+
+template<typename T>
+inline bool operator==(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)==0; }
+
+}
+
+template<typename T>
+inline bool operator==(T const &inst1, T const &inst2) { return _cmp<T>(inst1, inst2)==0; }
+
 
 #endif

@@ -97,3 +97,5 @@ install(TARGETS stl_ext DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)
 
 file(GLOB PY_SRCS package/*.py)
 install(FILES ${PY_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)
+
+include(CPack)
