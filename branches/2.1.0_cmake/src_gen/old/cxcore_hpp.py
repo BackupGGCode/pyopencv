@@ -222,6 +222,9 @@ def _KLASS__repr__(self):
     return "KLASS(start=" + repr(self.start) + ", end=" + repr(self.end) + ")"
 KLASS.__repr__ = _KLASS__repr__
         
+CV_WHOLE_SEQ = Range(0, CV_WHOLE_SEQ_END_INDEX)
+CV_WHOLE_ARR  = Range( 0, 0x3fffffff )
+
     '''.replace("KLASS", z.alias))
     mb.finalize_class(z)
     

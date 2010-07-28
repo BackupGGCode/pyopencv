@@ -28,7 +28,7 @@ void register_Index_class(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::flann::Index >() )    
         .def( 
             "knnSearch"
-            , (boost::python::tuple (*)( cv::flann::Index &,::std::vector<float,std::allocator<float> > const &,int,cv::flann::SearchParams const & ))( &knnSearch_b27556db8034853ef4327f12b2570dc5 )
+            , (boost::python::tuple (*)( cv::flann::Index &,std::vector<float> const &,int,cv::flann::SearchParams const & ))( &knnSearch_b27556db8034853ef4327f12b2570dc5 )
             , ( bp::arg("inst"), bp::arg("queries"), bp::arg("knn"), bp::arg("params") )
             , "\nArgument 'indices':"\
     "\n    C++ type: ::std::vector< int > &."\
@@ -46,7 +46,7 @@ void register_Index_class(){
             , ( bp::arg("queries"), bp::arg("indices"), bp::arg("dists"), bp::arg("knn"), bp::arg("params") ) )    
         .def( 
             "radiusSearch"
-            , (boost::python::tuple (*)( cv::flann::Index &,::std::vector<float,std::allocator<float> > const &,float,cv::flann::SearchParams const & ))( &radiusSearch_9595058c6922b247b15bed6a4e25038c )
+            , (boost::python::tuple (*)( cv::flann::Index &,std::vector<float> const &,float,cv::flann::SearchParams const & ))( &radiusSearch_9595058c6922b247b15bed6a4e25038c )
             , ( bp::arg("inst"), bp::arg("query"), bp::arg("radius"), bp::arg("params") )
             , "\nArgument 'indices':"\
     "\n    C++ type: ::std::vector< int > &."\

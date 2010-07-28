@@ -99,25 +99,25 @@ from MODULE_NAME_ext import *
             pass
 
         # expose all enumerations
-        try:
-            self.mb.enums().include()
-        except RuntimeError:
-            pass
+        # try:
+            # self.mb.enums().include()
+        # except RuntimeError:
+            # pass
 
         # except some weird enums
-        for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
-            'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
-            'STUB_PHASE',
-            ):
-            try:
-                self.mb.enums(lambda x: x.name.startswith(z)).exclude()
-            except RuntimeError:
-                pass
-        for z in ('::std', '::tag'):
-            try:
-                self.mb.enums(lambda x: x.decl_string.startswith(z)).exclude()
-            except RuntimeError:
-                pass
+        # for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
+            # 'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
+            # 'STUB_PHASE',
+            # ):
+            # try:
+                # self.mb.enums(lambda x: x.name.startswith(z)).exclude()
+            # except RuntimeError:
+                # pass
+        # for z in ('::std', '::tag'):
+            # try:
+                # self.mb.enums(lambda x: x.decl_string.startswith(z)).exclude()
+            # except RuntimeError:
+                # pass
 
         # add 'pds' attribute to every class
         for z in self.mb.classes():
@@ -179,6 +179,8 @@ from MODULE_NAME_ext import *
             # check if the class has been registered
             try:
                 t = self.get_registered_decl(z.partial_decl_string)
+                if t[0][0]=='_':
+                    raise ValueError() # got underscore, exclude it
                 elem_type = t[1]
                 t = self.get_registered_decl(elem_type) # to make sure element type is also registered
             except:

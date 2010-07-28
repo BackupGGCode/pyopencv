@@ -4,8 +4,6 @@
 
 #include "__call_policies.pypp.hpp"
 
-#include "boost/python/suite/indexing/vector_indexing_suite.hpp"
-
 #include "__ctypes_integration.pypp.hpp"
 
 #include "cxflann_h_wrapper.hpp"
@@ -36,18 +34,12 @@
 
 #include "cxflann_h_ext/cxflann_h_ext_free_functions.pypp.hpp"
 
-#include "cxflann_h_ext/cxflann_h_ext_global_variables.pypp.hpp"
-
 #include "cxflann_h_ext/flann_Index.pypp.hpp"
-
-#include "cxflann_h_ext/vector_less__float__greater_.pypp.hpp"
 
 namespace bp = boost::python;
 
 BOOST_PYTHON_MODULE(cxflann_h_ext){
     register_enumerations();
-
-    register_vector_less__float__greater__class();
 
     register_IndexFactory_class();
 
@@ -72,8 +64,6 @@ BOOST_PYTHON_MODULE(cxflann_h_ext){
     register___cxflann_h_dummy_struct_class();
 
     register_flann_Index_class();
-
-    register_global_variables();
 
     register_free_functions();
 }

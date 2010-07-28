@@ -4,7 +4,8 @@
 class cxflann_h_dummy_struct {
 public:
     struct dummy_struct2 {};
-    static const int total_size = 0;
+    static const int total_size = 0
+        + sizeof(std::vector<float>);
 };
 
 #endif

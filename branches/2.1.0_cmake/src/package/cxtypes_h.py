@@ -20,6 +20,7 @@ import cxtypes_h_ext as _ext
 from cxtypes_h_ext import *
         
 import math as _m
+import ctypes as _CT
 
 #=============================================================================
 # cxtypes.h
@@ -99,7 +100,6 @@ CV_64FC3 = CV_MAKETYPE(CV_64F,3)
 CV_64FC4 = CV_MAKETYPE(CV_64F,4)
 
 CV_AUTOSTEP = 0x7fffffff
-CV_WHOLE_ARR  = _PE.Range( 0, 0x3fffffff )
 
 CV_MAT_CN_MASK = ((CV_CN_MAX - 1) << CV_CN_SHIFT)
 def CV_MAT_CN(flags):
@@ -155,8 +155,6 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 # CV_TERMCRIT_EPS     = 2
 
 CV_WHOLE_SEQ_END_INDEX = 0x3fffffff
-CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
-
 
 
 def _CvPoint__repr__(self):
