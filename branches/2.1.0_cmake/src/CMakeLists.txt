@@ -106,6 +106,7 @@ endmacro(ADD_PYTHON_MODULE)
 # 'stl' module
 add_python_module(stl)
 add_python_module(cxtypes_h)
+add_python_module(cxflann_h)
 
 file(GLOB PY_SRCS package/*.py)
 install(FILES ${PY_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)

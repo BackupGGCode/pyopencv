@@ -44,6 +44,7 @@ class SdModuleBuilder:
 
     def __init__(self, module_name, include_paths=[]):
         self.module_name = module_name
+        _c.current_sb = self
 
         # package directory
         self.pkg_dir = _op.join(_op.split(_op.abspath(__file__))[0], '..', 'src', 'package')

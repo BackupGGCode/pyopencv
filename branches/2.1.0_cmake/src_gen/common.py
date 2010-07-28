@@ -40,7 +40,7 @@ class_t.create_decl_string = create_decl_string
 # Some useful common-ground sub-routines
 # -----------------------------------------------------------------------------------------------
 
-mb = None
+current_sb = None
 
 def init_transformers(func_list):
     for fun in func_list:
@@ -358,7 +358,7 @@ def add_decl_desc(decl):
             if decl.return_type.partial_decl_string!='void':
                 return_type = _D.remove_const(_D.remove_reference(decl.return_type))
                 pds = unique_pds(return_type.partial_decl_string)
-                pds = get_registered_decl_name(pds)
+                pds = current_sb.get_registered_decl_name(pds)
                 return_list.append("(%s)" % pds)
             return_list.extend([x.name for x in decl._output_args])
                 

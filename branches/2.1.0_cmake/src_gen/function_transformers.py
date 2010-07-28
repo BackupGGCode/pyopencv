@@ -131,7 +131,7 @@ def doc_common(func, func_arg, type_str=None):
     common.add_func_arg_doc(func, func_arg, "C++ type: %s." % func_arg.type.partial_decl_string)
     if type_str is None:
         new_type = _D.remove_const(_D.remove_reference(func_arg.type))
-        type_str = common.get_decl_equivname(new_type.partial_decl_string[2:])
+        type_str = common.current_sb.get_decl_equivname(new_type.partial_decl_string[2:])
     common.add_func_arg_doc(func, func_arg, "Python type: %s." % type_str)
 
 
@@ -239,7 +239,7 @@ class input_double_pointee_t(transformer_t):
             controller.modify_arg_expression(self.arg_index, casting_code)
         # documentation
         doc_common(self.function, self.arg, 
-            common.get_decl_equivname(_D.remove_const(w_arg.type.partial_decl_string[2:])))
+            common.current_sb.get_decl_equivname(_D.remove_const(w_arg.type.partial_decl_string[2:])))
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -371,7 +371,7 @@ class input_array1d_t(transformer.transformer_t):
         # input array
         controller.modify_arg_expression( self.arg_index, "(%s)(&%s[0])" \
             % (self.arg.type.partial_decl_string, w_arg.name) )
-        doc_common(self.function, self.arg, common.get_registered_decl_name(vec_pds))
+        doc_common(self.function, self.arg, common.current_sb.get_registered_decl_name(vec_pds))
 
         # number of elements
         if self.remove_arg_size or self.arg_size is None:
@@ -395,7 +395,7 @@ class input_array1d_t(transformer.transformer_t):
             oo_vec_pds = get_vector_pds(oo_elem_pds)
             oa_init = ("(%s)" % l_arr) if scale=='1' else ("(%s*%s)" % (l_arr, scale))
             oa_arg = controller.declare_variable(_D.dummy_type_t(oo_vec_pds), key, oa_init)
-            doc_common(self.function, oo_arg, common.get_registered_decl_name(oo_vec_pds))
+            doc_common(self.function, oo_arg, common.current_sb.get_registered_decl_name(oo_vec_pds))
             controller.modify_arg_expression(oo_idx, "(%s)(&%s[0])" \
                 % (oo_arg.type.partial_decl_string, oa_arg))
             controller.remove_wrapper_arg(key)
@@ -492,7 +492,7 @@ class input_as_list_of_Matlike_t(transformer_t):
             doc_dependent(self.function, self.arg_size, self.arg)
 
         # documentation
-        doc_common(self.function, self.arg, common.get_registered_decl_name(self.vec_pds))
+        doc_common(self.function, self.arg, common.current_sb.get_registered_decl_name(self.vec_pds))
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )
@@ -665,7 +665,7 @@ class input_array2d_t(transformer.transformer_t):
 
         if self.arg.default_value == '0' or self.arg.default_value == 'NULL':
             w_arg.default_value = vec_pds+"()"
-        doc_common(self.function, self.arg, common.get_registered_decl_name(vec_pds))
+        doc_common(self.function, self.arg, common.current_sb.get_registered_decl_name(vec_pds))
         
         if self.remove_arg_size and self.arg_size is not None:
             #removing arg_size from the function wrapper definition
@@ -762,7 +762,7 @@ class output_type1_t( transformer.transformer_t ):
         controller.remove_wrapper_arg( self.arg.name )
         # documentation
         pds = _D.remove_const(_D.remove_pointer(self.arg.type)).partial_decl_string
-        doc_common(self.function, self.arg, common.get_registered_decl_name(pds))
+        doc_common(self.function, self.arg, common.current_sb.get_registered_decl_name(pds))
         doc_output(self.function, self.arg)
         #the element type
         if self.arg.type.partial_decl_string=='::size_t *':
@@ -834,7 +834,7 @@ class arg_output_t( transformer.transformer_t ):
         controller.remove_wrapper_arg( self.arg.name )
         # documentation
         elem_type = _D.remove_const(_D.remove_reference(self.arg.type))
-        doc_common(self.function, self.arg, common.get_registered_decl_name(elem_type.partial_decl_string))
+        doc_common(self.function, self.arg, common.current_sb.get_registered_decl_name(elem_type.partial_decl_string))
         doc_output(self.function, self.arg)
         # declaring new variable, which will keep result
         elem_type = _D.dummy_type_t(common.unique_pds(elem_type.partial_decl_string))
@@ -1122,7 +1122,7 @@ class input_as_Seq_t(transformer.transformer_t):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         seq_pds = common.unique_pds("cv::Seq< %s > &" % self.elem_type_pds)
         w_arg.type = _D.dummy_type_t(seq_pds)
-        doc_common(self.function, self.arg, common.get_decl_equivname(seq_pds[:-2]))
+        doc_common(self.function, self.arg, common.current_sb.get_decl_equivname(seq_pds[:-2]))
         
         if '* *' in self.arg.type.partial_decl_string:
             controller.modify_arg_expression(self.arg_index, "&%s.seq" % w_arg.name)
@@ -1439,7 +1439,7 @@ class input_as_FixType_t(transformer_t):
         controller.modify_arg_expression( self.arg_index, "(%s)%s" % (src_pds, w_arg.name) )
 
         # documentation
-        doc_common(self.function, self.arg, common.get_decl_equivname(self.dst_type_pds))            
+        doc_common(self.function, self.arg, common.current_sb.get_decl_equivname(self.dst_type_pds))            
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )

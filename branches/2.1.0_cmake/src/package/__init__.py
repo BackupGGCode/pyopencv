@@ -4,4 +4,5 @@ from cvver_h import *
 from cxerror_h import *
 from stl import *
 from cxtypes_h import *
+from cxflann_h import *
 # from interfaces import *

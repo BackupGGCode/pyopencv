@@ -15,51 +15,55 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
-def generate_code(mb, cc, D, FT, CP):
-    cc.write('''
+import function_transformers as FT
+import sdpypp
+sb = sdpypp.SdModuleBuilder('cxflann_h')
+
+sb.cc.write('''
 #=============================================================================
 # cxflann.h
 #=============================================================================
 
 
-    ''')
-       
-    # Index: there are two classes, one from namespace 'flann', the other from namespace 'cv::flann'
-    flanns = mb.classes('Index')
-    flanns.include()
-    if flanns[0].decl_string == '::flann::Index':
-        flann_Index = flanns[0]
-        cvflann_Index = flanns[1]
-    else:
-        flann_Index = flanns[1]
-        cvflann_Index = flanns[0]
-    flann_Index.rename('flann_Index')
-    
-    mb.init_class(cvflann_Index)
-    for t in ('knnSearch', 'radiusSearch'):
-        for z in cvflann_Index.mem_funs(t):
-            z._transformer_kwds['alias'] = t
-        z = cvflann_Index.mem_fun(lambda x: x.name==t and 'vector' in x.decl_string)
-        z._transformer_creators.append(FT.arg_output('indices'))
-        z._transformer_creators.append(FT.arg_output('dists'))
-    mb.finalize_class(cvflann_Index)
-    
-    # IndexParams
-    mb.class_('IndexParams').include()
-    
-    # IndexFactory classes
-    for name in (
-        'IndexFactory',
-        'LinearIndexParams', 'KDTreeIndexParams', 'KMeansIndexParams',
-        'CompositeIndexParams', 'AutotunedIndexParams', 'SavedIndexParams', 
-        ):
-        z = mb.class_(name)
-        mb.init_class(z)
-        FT.expose_func(z.mem_fun('createIndex'))
-        mb.finalize_class(z)
+''')
+   
+# Index: there are two classes, one from namespace 'flann', the other from namespace 'cv::flann'
+flanns = sb.mb.classes('Index')
+flanns.include()
+if flanns[0].decl_string == '::flann::Index':
+    flann_Index = flanns[0]
+    cvflann_Index = flanns[1]
+else:
+    flann_Index = flanns[1]
+    cvflann_Index = flanns[0]
+flann_Index.rename('flann_Index')
 
-    # SearchParams
-    mb.class_('SearchParams').include()
+sb.init_class(cvflann_Index)
+for t in ('knnSearch', 'radiusSearch'):
+    for z in cvflann_Index.mem_funs(t):
+        z._transformer_kwds['alias'] = t
+    z = cvflann_Index.mem_fun(lambda x: x.name==t and 'vector' in x.decl_string)
+    z._transformer_creators.append(FT.arg_output('indices'))
+    z._transformer_creators.append(FT.arg_output('dists'))
+sb.finalize_class(cvflann_Index)
 
-    mb.free_fun('hierarchicalClustering').include()
+# IndexParams
+sb.mb.class_('IndexParams').include()
 
+# IndexFactory classes
+for name in (
+    'IndexFactory',
+    'LinearIndexParams', 'KDTreeIndexParams', 'KMeansIndexParams',
+    'CompositeIndexParams', 'AutotunedIndexParams', 'SavedIndexParams', 
+    ):
+    z = sb.mb.class_(name)
+    sb.init_class(z)
+    FT.expose_func(z.mem_fun('createIndex'))
+    sb.finalize_class(z)
+
+# SearchParams
+sb.mb.class_('SearchParams').include()
+
+sb.mb.free_fun('hierarchicalClustering').include()
+
+sb.done()
