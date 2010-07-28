@@ -10,6 +10,13 @@
 #
 # ----------------------------------------------------------------------------
 
+# python site-packages folder
+execute_process ( COMMAND python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"
+    OUTPUT_VARIABLE PYTHON_SITE_PACKAGES OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+# it _must_ go before PROJECT(PyOpenCV) in order to work
+set(CMAKE_INSTALL_PREFIX "${PYTHON_SITE_PACKAGES}/pyopencv" CACHE PATH "PyOpenCV's installation path")
+
 project(pyopencv)
 cmake_minimum_required(VERSION 2.4)
 
@@ -26,7 +33,6 @@ endif()
 SET(CMAKE_BUILD_TYPE "Release")
 
 # Need Python
-# set(Boost_USE_STATIC_LIBS OFF)
 find_package(PythonLibs REQUIRED)
 find_package(PythonInterp REQUIRED)
 if(NOT PYTHONLIBS_FOUND OR NOT PYTHON_EXECUTABLE)
@@ -38,29 +44,56 @@ if(NOT PYTHONLIBS_FOUND AND PYTHON_INCLUDE_PATH)
     set(PYTHONLIBS_FOUND ON)
 endif(NOT PYTHONLIBS_FOUND AND PYTHON_INCLUDE_PATH)
 
+# python version
 execute_process(COMMAND ${PYTHON_EXECUTABLE} --version ERROR_VARIABLE 
     PYTHON_VERSION_FULL OUTPUT_STRIP_TRAILING_WHITESPACE)
     
-execute_process ( COMMAND python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"
-    OUTPUT_VARIABLE PYTHON_SITE_PACKAGES OUTPUT_STRIP_TRAILING_WHITESPACE)
+# The code below prints the Python extension for the current system
+FILE(WRITE "${CMAKE_BINARY_DIR}/getmodsuffix.py"
+"import imp
+for s in imp.get_suffixes():
+    if s[1] == 'rb' and s[0][0] == '.':
+        break
+print s[0],
+")
+# Now execute it and remove any newlines from output
+EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_BINARY_DIR}/getmodsuffix.py
+    OUTPUT_VARIABLE _modsuffix)
+STRING(REPLACE "\n" "" _modsuffix ${_modsuffix}) # Setup specific properties of the Python target
 
+
+set(Boost_USE_STATIC_LIBS OFF) # need dynamic linking
+set(Boost_python_DYN_LINK ON)
 find_package(Boost COMPONENTS python REQUIRED)
 
 find_package(OpenCV REQUIRED CMAKE_FIND_ROOT_PATH_BOTH)
 
-file(GLOB_RECURSE SRCS pyopencv/pyopencvext/*)
-
 include_directories(
 	${Boost_INCLUDE_DIRS}
 	${OpenCV_INCLUDE_DIRS}
-	${PROJECT_SOURCE_DIR}/pyopencv
-	${PROJECT_SOURCE_DIR}/pyopencv/pyopencvext
-	${PROJECT_SOURCE_DIR}/pyopencv/pyopencvext/core
-	${PROJECT_SOURCE_DIR}/pyopencv/pyopencvext/sdopencv
-	${PROJECT_SOURCE_DIR}/pyopencv/pyopencvext/numpy_include
+	${PROJECT_SOURCE_DIR}/package
+	${PROJECT_SOURCE_DIR}/package/extras
+	${PROJECT_SOURCE_DIR}/package/extras/core
+	${PROJECT_SOURCE_DIR}/package/extras/sdopencv
+	${PROJECT_SOURCE_DIR}/package/extras/numpy_include
+	${PROJECT_SOURCE_DIR}/package/stl_ext
 	${PYTHON_INCLUDE_PATH}
 )
 
-add_library(pyopencvext SHARED ${SRCS})
+# 'extras' library
+file(GLOB_RECURSE EXTRA_SRCS package/extras/*)
+add_library(pyopencv_extras SHARED ${EXTRA_SRCS})
+target_link_libraries(pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
+install(TARGETS pyopencv_extras DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)
 
-target_link_libraries(pyopencvext ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
+# 'stl' module
+file(GLOB STL_SRCS package/stl_ext/*)
+add_library(stl_ext SHARED ${STL_SRCS})
+target_link_libraries(stl_ext pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
+set_target_properties(stl_ext PROPERTIES 
+    PREFIX "" # There is no prefix even on UNIXes
+    SUFFIX "${_modsuffix}") # The extension got from Python libraries
+install(TARGETS stl_ext DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)
+
+file(GLOB PY_SRCS package/*.py)
+install(FILES ${PY_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)

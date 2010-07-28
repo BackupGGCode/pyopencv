@@ -15,8 +15,8 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
-import os as _os
 import os.path as _op
+import os as _os
 import sys as _sys
 from pygccxml import declarations as _D
 import pyplusplus as _pp
@@ -27,30 +27,37 @@ import memvar_transformers as _MT
 
 
 class SdModuleBuilder:
-    mb = None
-    cc = None
     FT = _FT
     MT = _MT
     D = _D
     CP = _CP
-    
-    
-    def __init__(self, header_file_name, include_paths=[]):
-        # module name
-        self.module_name = header_file_name.replace(".", "_")
-    
+
+    mb = None
+    cc = None
+    funs = None
+
+    dummy_struct = None
+    def add_reg_code(self, s):
+        if self.dummy_struct:
+            self.dummy_struct._reg_code += "\n        "+s
+
+
+    def __init__(self, module_name, include_paths=[]):
+        self.module_name = module_name
+
         # package directory
         self.pkg_dir = _op.join(_op.split(_op.abspath(__file__))[0], '..', 'src', 'package')
-    
+
         # create an instance of class that will help you to expose your declarations
-        self.mb = _pp.module_builder.module_builder_t([header_file_name],
+        self.mb = _pp.module_builder.module_builder_t([module_name+"_wrapper.hpp"],
             gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe",
             include_paths=include_paths+[
+                self.pkg_dir+"/"+module_name+"_ext",
                 r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++",
                 r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++\mingw32",
                 r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include",
             ])
-            
+
         # create a Python file
         self.cc = open(_op.join(self.pkg_dir, self.module_name+'.py'), 'w')
         self.cc.write('''#!/usr/bin/env python
@@ -71,7 +78,9 @@ class SdModuleBuilder:
 # ----------------------------------------------------------------------------
 
 import common as _c
-        ''')
+import MODULE_NAME_ext as _ext
+from MODULE_NAME_ext import *
+        '''.replace("MODULE_NAME", module_name))
 
         # Well, don't you want to see what is going on?
         # self.mb.print_declarations() -- too many declarations
@@ -88,309 +97,375 @@ import common as _c
         # expose all enumerations
         self.mb.enums().include()
 
+        # except some weird enums
+        for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
+            'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
+            'STUB_PHASE',
+            ):
+            try:
+                self.mb.enums(lambda x: x.name.startswith(z)).exclude()
+            except RuntimeError:
+                pass
+        for z in ('::std', '::tag'):
+            try:
+                self.mb.enums(lambda x: x.decl_string.startswith(z)).exclude()
+            except RuntimeError:
+                pass
+
         # add 'pds' attribute to every class
         for z in self.mb.classes():
-            z.pds = common.unique_pds(z.partial_decl_string)
-            
-        # dummy struct # TODO: here
-        z = mb.class_("dummy_struct")
-        z.include_files.append("opencv_converters.hpp")
-        z.include_files.append("sequence.hpp")
-        mb.dummy_struct = z
+            z.pds = unique_pds(z.partial_decl_string)
+
+        # dummy struct
+        z = self.mb.class_(module_name+"_dummy_struct")
+        self.dummy_struct = z
         z.include()
         z.decls().exclude()
         z.class_('dummy_struct2').include()
-        z.rename("__dummy_struct")
+        z.rename("__"+z.name)
         z._reg_code = ""
-        def add_dummy_reg_code(s):
-            mb.dummy_struct._reg_code += "\n        "+s
-        z.add_reg_code = add_dummy_reg_code
-
-        z.add_reg_code("sdcpp::register_sdobject<sdcpp::sequence>();")
-
-        # get the list of OpenCV functions
-        opencv_funs = mb.free_funs() # mb.free_funs(lambda decl: decl.name.startswith('cv'))
-
-        # initialize list of transformer creators for each function
-        common.init_transformers(opencv_funs)
 
         # turn on 'most' of the constants
         for z in ('IPL_', 'CV_'):
             try:
-                mb.decls(lambda decl: decl.name.startswith(z)).include()
+                self.mb.decls(lambda decl: decl.name.startswith(z)).include()
             except RuntimeError:
                 pass
 
+        # initialise the list of free functions
+        try:
+            self.funs = self.mb.free_funs()
+        except RuntimeError:
+            self.funs = []
+        _c.init_transformers(self.funs)
         
-    def write(self):
+        # make sure size_t is still size_t -- for 64-bit support
+        z = self.mb.decl('size_t')
+        z.type = _FT.size_t_t()
 
 
-#=============================================================================
-# Wrappers for different headers
-#=============================================================================
-
-# cxerror.h
-print "Generating code for cxerror.h..."
-cxerror_h.generate_code(mb, cc, D, FT, CP)
-
-# cxtypes.h
-print "Generating code for cxtype.h..."
-cxtypes_h.generate_code(mb, cc, D, FT, CP)
-
-# cxcore.h
-print "Generating code for cxcore.h..."
-cxcore_h.generate_code(mb, cc, D, FT, CP)
-
-# cxcore.hpp
-print "Generating code for cxcore.hpp..."
-cxcore_hpp.generate_code(mb, cc, D, FT, CP)
-
-# cxoperations.hpp
-print "Generating code for cxoperations.hpp..."
-cxoperations_hpp.generate_code(mb, cc, D, FT, CP)
-
-# cxflann.h
-print "Generating code for cxflann.h..."
-cxflann_h.generate_code(mb, cc, D, FT, CP)
-
-# cxmat.hpp
-# cxmat_hpp.generate_code(mb, cc, D, FT, CP)
-
-# cvtypes.h
-print "Generating code for cvtypes.h..."
-cvtypes_h.generate_code(mb, cc, D, FT, CP)
-
-# cv.h
-print "Generating code for cv.h..."
-cv_h.generate_code(mb, cc, D, FT, CP)
-
-# cv.hpp
-print "Generating code for cv.hpp..."
-cv_hpp.generate_code(mb, cc, D, FT, CP)
-
-# cvcompat.h
-# cvcompat_h.generate_code(mb, cc, D, FT, CP)
-
-# cvaux.h
-print "Generating code for cvaux.h..."
-cvaux_h.generate_code(mb, cc, D, FT, CP)
-
-# cvaux.hpp
-print "Generating code for cvaux.hpp..."
-cvaux_hpp.generate_code(mb, cc, D, FT, CP)
-
-# cvvidsurv.hpp
-print "Generating code for cvvidsurf.hpp..."
-cvvidsurv_hpp.generate_code(mb, cc, D, FT, CP)
-
-# ml.h
-print "Generating code for ml.h..."
-ml_h.generate_code(mb, cc, D, FT, CP)
-
-# highgui.h
-print "Generating code for highgui.h..."
-highgui_h.generate_code(mb, cc, D, FT, CP)
-
-# highgui.hpp
-print "Generating code for highgui.hpp..."
-highgui_hpp.generate_code(mb, cc, D, FT, CP)
-
-# sdopencv
-print "Generating code for sdopencv..."
-sdopencv.generate_code(mb, cc, D, FT, CP)
 
 
-#=============================================================================
-# Final tasks
-#=============================================================================
+    def done(self):
+        # update registration code
+        self.prepare_decls_registration_code()
 
+        # rename functions that starts with 'cv'
+        for z in self.funs:
+            if z.alias[:2] == 'cv'and z.alias[2].isupper():
+                zz = z.alias[2:]
+                if len(zz) > 1 and zz[1].islower():
+                    zz = zz[0].lower()+zz[1:]
+                # print "Old name=", z.alias, " new name=", zz
+                z.rename(zz)
 
-# rewrite the asndarray function
-cc.write('''
-def asndarray(obj):
-    """Converts a Python object into a numpy.ndarray object.
-    
-    This function basically invokes:
-    
-        _PE.asndarray(inst_<type of 'obj'>=obj)
-    
-    where _PE.asndarray is the internal asndarray() function of the Python
-    extension, and the type of the given Python object, 'obj', is determined
-    by looking at 'obj.__class__'.
-    """
-    return eval("_PE.asndarray(inst_%s=obj)" % obj.__class__.__name__)
-asndarray.__doc__ = asndarray.__doc__ + """
-Docstring of the internal asndarray function:
+        # beautify free functions
+        beautify_func_list(self.funs)
 
-""" + _PE.asndarray.__doc__
-''')
-    
-for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
-    'PROPSETFLAG', 'PROXY_PHASE', 'PROXY_PHASE', 'SYS', 'XLAT_SIDE',
-    'STUB_PHASE',
-    ):
-    mb.enums(lambda x: x.name.startswith(z)).exclude()
-mb.enums(lambda x: x.decl_string.startswith('::std')).exclude()
-mb.enums(lambda x: x.decl_string.startswith('::tag')).exclude()
-
-# rename functions that starts with 'cv'
-for z in mb.free_funs():
-    if z.alias[:2] == 'cv'and z.alias[2].isupper():
-        zz = z.alias[2:]
-        if len(zz) > 1 and zz[1].islower():
-            zz = zz[0].lower()+zz[1:]
-        # print "Old name=", z.alias, " new name=", zz
-        z.rename(zz)
-
-mb.beautify_func_list(opencv_funs)
-
-cc.write('''
-def __vector__repr__(self):
-    n = len(self)
-    s = "%s(len=%d, [" % (self.__class__.__name__, n)
-    if n==1:
-        s += repr(self[0])
-    elif n==2:
-        s += repr(self[0])+", "+repr(self[1])
-    elif n==3:
-        s += repr(self[0])+", "+repr(self[1])+", "+repr(self[2])
-    elif n==4:
-        s += repr(self[0])+", "+repr(self[1])+", "+repr(self[2])+", "+repr(self[3])
-    elif n > 4:
-        s += repr(self[0])+", "+repr(self[1])+", ..., "+repr(self[n-2])+", "+repr(self[n-1])
-    s += "])"
-    return s
-
-def is_vector(cls):
-    """Returns whether class 'cls' is a std::vector class."""
-    return cls.__name__.startswith('vector_')
-    
-def __vector_create(self, obj):
-    """Creates the vector from a Python sequence.
-    
-    Argument 'obj':
-        a Python sequence
-    """
-    N = len(obj)
-    self.resize(N)
-    if is_vector(self.elem_type):
-        for i in xrange(N):
-            self[i] = self.elem_type.fromlist(obj[i])
-    else:
-        for i in xrange(N):
-            self[i] = obj[i]
-
-def __vector_tolist(self):
-    if is_vector(self.elem_type):
-        return [self[i].tolist() for i in xrange(len(self))]
-    return [self[i] for i in xrange(len(self))]
-
-def __vector_fromlist(cls, obj):
-    """Creates a vector from a Python sequence.
-    
-    Argument 'obj':
-        a Python sequence
-    """
-    z = cls()
-    z.create(obj)
-    return z
-    
-def __vector__init__(self, obj=None):
-    """Initializes the vector.
-    
-    Argument 'obj':
-        If 'obj' is an integer, the vector is initialized as a vector of 
-        'obj' elements. If 'obj' is a Python sequence. The vector is
-        initialized as an equivalence of 'obj' by invoking self.fromlist().
-    """
-    self.__old_init__()
-    if isinstance(obj, int):
-        self.resize(obj)
-    elif not obj is None:
-        self.create(obj)
-    
-''')
-
-
-# expose std::vector, only those with alias starting with 'vector_'
-# remember to create operator==() for each element type
-for z in mb.classes(lambda x: x.pds.startswith('std::vector<')):
-    # check if the class has been registered
-    try:
-        t = common.get_registered_decl(z.partial_decl_string)
-        elem_type = t[1]
-        t = common.get_registered_decl(elem_type) # to make sure element type is also registered
-    except:
-        z.exclude()
-        z.set_already_exposed(True)
-        continue
-    z.include()
-    z.add_declaration_code('static inline void resize(%s &inst, size_t num) { inst.resize(num); }' \
-        % z.partial_decl_string)
-    z.add_registration_code('def("resize", &::resize, ( bp::arg("num") ))')
-    cc.write('''
+        # expose std::vector, only those with alias starting with 'vector_'
+        # remember to create operator==() for each element type
+        for z in self.mb.classes(lambda x: x.pds.startswith('std::vector<')):
+            # check if the class has been registered
+            try:
+                t = self.get_registered_decl(z.partial_decl_string)
+                elem_type = t[1]
+                t = self.get_registered_decl(elem_type) # to make sure element type is also registered
+            except:
+                z.exclude()
+                z.set_already_exposed(True)
+                continue
+            z.include()
+            z.add_declaration_code('static inline void resize(%s &inst, size_t num) { inst.resize(num); }' \
+                % z.partial_decl_string)
+            z.add_registration_code('def("resize", &::resize, ( bp::arg("num") ))')
+            self.cc.write('''
 CLASS_NAME.__old_init__ = CLASS_NAME.__init__
-CLASS_NAME.__init__ = __vector__init__
-CLASS_NAME.create = __vector_create
-CLASS_NAME.__repr__ = __vector__repr__
-CLASS_NAME.tolist = __vector_tolist
-CLASS_NAME.fromlist = classmethod(__vector_fromlist)
+CLASS_NAME.__init__ = _c.__vector__init__
+CLASS_NAME.create = _c.__vector_create
+CLASS_NAME.__repr__ = _c.__vector__repr__
+CLASS_NAME.tolist = _c.__vector_tolist
+CLASS_NAME.fromlist = classmethod(_c.__vector_fromlist)
 _z = CLASS_NAME()
 _z.resize(1)
 CLASS_NAME.elem_type = _z[0].__class__
 del(_z)
-    '''.replace('CLASS_NAME', z.alias))
-    # add conversion between vector and ndarray
-    if FT.is_elem_type_fixed_size(elem_type):
-        ds = mb.dummy_struct
-        ds.include_files.append('ndarray.hpp')
-        ds.add_reg_code('bp::def("asndarray", &sdcpp::vector_to_ndarray2< ELEM_TYPE >, (bp::arg("inst_CLASS_NAME")) );' \
-            .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type))
-        ds.add_reg_code('bp::def("asCLASS_NAME", &sdcpp::ndarray_to_vector2< ELEM_TYPE >, (bp::arg("inst_ndarray")) );' \
-            .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type))
+            '''.replace('CLASS_NAME', z.alias))
+            # add conversion between vector and ndarray
+            if _FT.is_elem_type_fixed_size(elem_type):
+                self.dummy_struct.include_files.append('ndarray.hpp')
+                self.add_reg_code('bp::def("asndarray", &sdcpp::vector_to_ndarray2< ELEM_TYPE >, (bp::arg("inst_CLASS_NAME")) );' \
+                    .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type))
+                self.add_reg_code('bp::def("asCLASS_NAME", &sdcpp::ndarray_to_vector2< ELEM_TYPE >, (bp::arg("inst_ndarray")) );' \
+                    .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type))
 
-    
-# dummy struct
-mb.dummy_struct.add_registration_code('''setattr("v0", 0);
+        # dummy struct
+        self.dummy_struct.add_registration_code('''setattr("v0", 0);
     }
     {
-        %s''' % mb.dummy_struct._reg_code)
+        %s''' % self.dummy_struct._reg_code)
 
 
-# hack class_t so that py++ uses attribute 'pds' as declaration string
-from pyplusplus.decl_wrappers.class_wrapper import class_t
-class_t.old_create_decl_string = class_t.create_decl_string
-def create_decl_string(self, with_defaults=True):
-    if with_defaults and 'pds' in self.__dict__:
-        return self.pds
-    return self.old_create_decl_string(with_defaults)
-class_t.create_decl_string = create_decl_string
-    
+        # ----------
+        # BUILD CODE
+        # ----------
+
+        self.mb.build_code_creator(self.module_name+"_ext")
+
+        # hack os.path.normcase
+        _old_normcase = _op.normcase
+        def _new_normcase(s):
+            return s
+        _op.normcase = _new_normcase
+
+        # change current directory
+        _cwd = _os.getcwd()
+        _os.chdir(self.pkg_dir)
+
+        # write code to file.
+        self.mb.split_module(self.module_name+"_ext")
+
+        # return current directory
+        _os.chdir(_cwd)
+
+        # return old normcase
+        _op.normcase = _old_normcase
 
 
-#=============================================================================
-# Build code
-#=============================================================================
+    # ==================
+    # class registration
+    # ==================
+    decls_reg = {}
+
+    def prepare_decls_registration_code(self):
+        str = '''#ifndef SD_MODULE_NAME_TEMPLATE_INSTANTIATIONS_HPP
+#define SD_SD_MODULE_NAME_TEMPLATE_INSTANTIATIONS_HPP
+
+class MODULE_NAME_dummy_struct {
+public:
+    struct dummy_struct2 {};
+    static const int total_size = 0'''.replace("MODULE_NAME", self.module_name)
+
+        pdss = self.decls_reg.keys()
+        for i in xrange(len(pdss)):
+            if '<' in pdss[i]: # only instantiate those that need to
+                str += '\n        + sizeof(%s)' % pdss[i]
+
+        str += ''';
+};
+
+#endif
+'''
+        filename = self.module_name+'_template_instantiations.hpp'
+        if _c.update_file(_op.join(self.pkg_dir, self.module_name+"_ext", filename), str):
+            print "Warning: File '%s' has been modified. Re-run the generator." % filename
+            _sys.exit(0)
+
+    # get information of a registered class
+    def get_registered_decl(self, pds):
+        upds = unique_pds(pds)
+        try:
+            return self.decls_reg[upds]
+        except KeyError:
+            raise ValueError("Class of pds '%s' has not been registered." % pds)
+
+    def get_registered_decl_name(self, pds):
+        upds = unique_pds(pds)
+        try:
+            return self.decls_reg[upds][0]
+        except KeyError:
+            return "(C++)"+upds
+
+    def find_classes(self, pds):
+        pds = unique_pds(pds)
+        return self.mb.classes(lambda x: x.pds==pds)
+
+    def find_class(self, pds):
+        pds = unique_pds(pds)
+        return self.mb.class_(lambda x: x.pds==pds)
+
+    # pds = partial_decl_string without the preceeding '::'
+    def register_decl(self, pyName, pds, cChildName_pds=None, pyEquivName=None):
+        upds = unique_pds(pds)
+        if upds in self.decls_reg:
+            # print "Declaration %s already registered." % pds
+            return upds
+        if '::' in pds: # assume it is a class
+            print "Registration: %s ==> %s..." % (upds, pyName)
+            try:
+                self.find_class(upds).rename(pyName)
+            except RuntimeError:
+                # print "Class %s does not exist." % pds
+                pass
+        self.decls_reg[upds] = (pyName, unique_pds(cChildName_pds), pyEquivName)
+        return upds
+
+    # vector template instantiation
+    # cName_pds : C name of the class without template element(s)
+    # cChildName_pds : C name of the class without template element(s)
+    # e.g. if partial_decl_string is '::std::vector<int>' then
+    #    cName_pds='std::vector'
+    #    cChildName_pds='int'
+    def register_vec(self, cName_pds, cChildName_pds, pyName=None, pds=None, pyEquivName=None):
+        cupds = unique_pds(cChildName_pds)
+        if pyName is None:
+            pyName = cName_pds[cName_pds.rfind(':')+1:] + '_' + self.decls_reg[cupds][0]
+        if pds is None:
+            pds = cName_pds + '< ' + cChildName_pds + ' >'
+        return self.register_decl(pyName, pds, cupds, pyEquivName)
+
+    # non-vector template instantiation
+    # cName_pds : C name of the class without template element(s)
+    # cElemNames_pds : list of the C names of the template element(s)
+    # numbers are represented as int, not as str
+    # e.g. if partial_decl_string is '::cv::Vec<int, 4>' then
+    #    cName_pds='cv::Vec'
+    #    cChildName_pds=['int', 4]
+    def register_ti(self, cName_pds, cElemNames_pds=[], pyName=None, pds=None):
+        if pyName is None:
+            pyName = cName_pds[cName_pds.rfind(':')+1:]
+            for elem in cElemNames_pds:
+                pyName += '_' + (str(elem) if isinstance(elem, int) else self.decls_reg[unique_pds(elem)][0])
+        if pds is None:
+            pds = cName_pds
+            if len(cElemNames_pds)>0:
+                pds += '< '
+                for elem in cElemNames_pds:
+                    pds += (str(elem) if isinstance(elem, int) else elem) + ', '
+                pds = pds[:-2] + ' >'
+        return self.register_decl(pyName, pds)
+
+    def get_decl_equivname(self, pds):
+        z = self.decls_reg[unique_pds(pds)]
+        if z[2] is not None:
+            return z[2]
+        if z[1] is not None:
+            return "list of "+get_decl_equivname(z[1])
+        return z[0]
 
 
-#Creating code creator. After this step you should not modify/customize declarations.
-mb.build_code_creator( module_name='pyopencvext' )
 
-#Hack os.path.normcase
-_old_normcase = OP.normcase
-def _new_normcase(s):
-    return s
-OP.normcase = _new_normcase
+def beautify_func_list(func_list):
+    func_list = [f for f in func_list if not f.ignore]
 
-#Writing code to file.
-mb.split_module('pyopencvext')
+    # fix default values
+    # don't remove std::vector default values, old compilers _need_ std::allocator removed
+    for f in func_list:
+        for arg in f.arguments:
+            if isinstance(arg.default_value, str):
+                repl_list = {
+                    'std::basic_string<char, std::char_traits<char>, std::allocator<char> >': 'std::string',
+                    'std::vector<cv::Point_<int>, std::allocator<cv::Point_<int> > >': 'std::vector<cv::Point>',
+                    'std::vector<cv::Scalar_<double>, std::allocator<cv::Scalar_<double> > >': 'std::vector<cv::Scalar>',
+                    'std::vector<int, std::allocator<int> >': 'std::vector<int>',
+                    'std::vector<cv::Vec<int, 4>, std::allocator<cv::Vec<int, 4> > >': 'std::vector<cv::Vec4i>',
+                }
+                for z in repl_list:
+                    arg.default_value = arg.default_value.replace(z, repl_list[z])
 
-common.prepare_decls_registration_code()
+    # one-to-one function argument
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            pds = common.unique_pds(arg.type.partial_decl_string)
+            if pds in common.c2cpp:
+                f._transformer_creators.append(FT.input_as_FixType(pds, common.c2cpp[pds], arg.name))
+            elif pds in ['CvRNG *', 'CvRNG &', 'CvRNG cosnt *', 'CvRNG const &']:
+                f._transformer_creators.append(FT.input_asRNG(arg.name))
+            elif pds in ['CvFileStorage *', 'CvFileStorage const *']:
+                f._transformer_creators.append(FT.input_as_FileStorage(arg.name))
+            elif pds in ['CvFileNode *', 'CvFileNode const *']:
+                f._transformer_creators.append(FT.input_as_FileNode(arg.name))
+            elif pds in ['CvMemStorage *', 'CvMemStorage const *']:
+                f._transformer_creators.append(FT.input_as_MemStorage(arg.name))
+            elif pds in ['CvSparseMat *', 'CvSparseMat &', 'CvSparseMat const *', 'CvSparseMat const &']:
+                f._transformer_creators.append(FT.input_asSparseMat(arg.name))
+            elif pds in ["IplImage *", "IplImage const *", "CvArr *", "CvArr const *",
+                "CvMat *", "CvMat const *", "cv::Range const *"]:
+                f._transformer_creators.append(FT.input_as_Mat(arg.name))
 
-#Return old normcase
-OP.normcase = _old_normcase
+    # function argument int *sizes and int dims
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            if arg.name == 'sizes' and D.is_pointer(arg.type):
+                for arg2 in f.arguments:
+                    if arg2.name == 'dims' and D.is_integral(arg2.type):
+                        f._transformer_creators.append(FT.input_array1d('sizes', 'dims'))
+                        break
+            if arg.name == '_sizes' and D.is_pointer(arg.type):
+                for arg2 in f.arguments:
+                    if arg2.name == '_ndims' and D.is_integral(arg2.type):
+                        f._transformer_creators.append(FT.input_array1d('_sizes', '_ndims'))
+                        break
+                    if arg2.name == 'dims' and D.is_integral(arg2.type):
+                        f._transformer_creators.append(FT.input_array1d('_sizes', 'dims'))
+                        break
+            if arg.name == '_newsz' and D.is_pointer(arg.type):
+                for arg2 in f.arguments:
+                    if arg2.name == '_newndims' and D.is_integral(arg2.type):
+                        f._transformer_creators.append(FT.input_array1d('_newsz', '_newndims'))
+                        break
 
-#Write the remaining files
-# copyfile('opencv_headers.hpp', 'code/opencv_headers.hpp')
+    # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            if arg.name == 'src' and D.is_pointer(arg.type) and 'CvPoint2D32f' in arg.type.decl_string:
+                for arg2 in f.arguments:
+                    if arg2.name == 'dst' and D.is_pointer(arg2.type) and 'CvPoint2D32f' in arg2.type.decl_string:
+                        f._transformer_creators.append(FT.input_array1d('src'))
+                        f._transformer_creators.append(FT.input_array1d('dst'))
+                        break
 
-chdir(_cwd)
+    #  argument 'void *data'
+    for f in func_list:
+        for arg in f.arguments:
+            if is_arg_touched(f, arg.name):
+                continue
+            if arg.name == 'data' and D.is_void_pointer(arg.type):
+                f._transformer_creators.append(FT.input_string(arg.name))
+                mb.add_doc(f.name, "'data' is represented by a string")
+
+    # final step: apply all the function transformations
+    for f in func_list:
+        if len(f._transformer_creators) > 0:
+            sort_transformers(f)
+
+            f.add_transformation(*f._transformer_creators, **f._transformer_kwds)
+            if 'unique_function_name' in f._transformer_kwds:
+                f.transformations[0].unique_name = f._transformer_kwds['unique_function_name']
+            else:
+                s = f.transformations[0].unique_name
+                repl_dict = {
+                    'operator()': '__call__',
+                }
+                for t in repl_dict:
+                    if t in s:
+                        s = s.replace(t, repl_dict[t])
+                        f.transformations[0].unique_name = s
+                        f.transformations[0].alias = repl_dict[t]
+                        break
+
+        common.add_decl_desc(f)
+
+
+# get a unique pds
+def unique_pds(pds):
+    if pds is None:
+        return None
+    if pds.startswith('::'):
+        pds = pds[2:]
+    pds = pds.replace('< ', '<').replace(', ', ',')
+    while True:
+        i = pds.find(' >')
+        if i<0:
+            break
+        if i>0 and pds[i-1]=='>':
+            pds = pds[:i-1]+'>SDSD>'+pds[i+2:]
+        else:
+            pds = pds[:i]+'>'+pds[i+2:]
+    return pds.replace('SDSD', ' ')
+

@@ -19,6 +19,23 @@ import re as _re
 import os.path as OP
 from pygccxml import declarations as _D
 
+
+# -----------------------------------------------------------------------------------------------
+# Some pyplusplus hacks
+# -----------------------------------------------------------------------------------------------
+
+# hack class_t so that py++ uses attribute 'pds' as declaration string
+from pyplusplus.decl_wrappers.class_wrapper import class_t
+class_t.old_create_decl_string = class_t.create_decl_string
+def create_decl_string(self, with_defaults=True):
+    if with_defaults and 'pds' in self.__dict__:
+        return self.pds
+    return self.old_create_decl_string(with_defaults)
+class_t.create_decl_string = create_decl_string
+    
+
+
+
 # -----------------------------------------------------------------------------------------------
 # Some useful common-ground sub-routines
 # -----------------------------------------------------------------------------------------------
@@ -407,127 +424,3 @@ c2cpp = {
 }
 
         
-_decls_reg = {}
-
-# get a unique pds
-def unique_pds(pds):
-    if pds is None:
-        return None
-    if pds.startswith('::'):
-        pds = pds[2:]
-    pds = pds.replace('< ', '<').replace(', ', ',')
-    while True:
-        i = pds.find(' >')
-        if i<0:
-            break
-        if i>0 and pds[i-1]=='>':
-            pds = pds[:i-1]+'>SDSD>'+pds[i+2:]
-        else:
-            pds = pds[:i]+'>'+pds[i+2:]
-    return pds.replace('SDSD', ' ')
-
-# get information of a registered class
-def get_registered_decl(pds):
-    upds = unique_pds(pds)
-    try:
-        return _decls_reg[upds]
-    except KeyError:
-        raise ValueError("Class of pds '%s' has not been registered." % pds)
-        
-def get_registered_decl_name(pds):
-    upds = unique_pds(pds)
-    try:
-        return _decls_reg[upds][0]
-    except KeyError:
-        return "(C++)"+upds
-    
-        
-def find_classes(pds):
-    pds = unique_pds(pds)
-    return mb.classes(lambda x: x.pds==pds)
-        
-def find_class(pds):
-    pds = unique_pds(pds)
-    return mb.class_(lambda x: x.pds==pds)
-        
-# pds = partial_decl_string without the preceeding '::'
-def register_decl(pyName, pds, cChildName_pds=None, pyEquivName=None):
-    upds = unique_pds(pds)
-    if upds in _decls_reg:
-        # print "Declaration %s already registered." % pds
-        return upds
-    if '::' in pds: # assume it is a class
-        print "Registration: %s ==> %s..." % (upds, pyName)
-        try:
-            find_class(upds).rename(pyName)
-        except RuntimeError:
-            # print "Class %s does not exist." % pds
-            pass
-    _decls_reg[upds] = (pyName, unique_pds(cChildName_pds), pyEquivName)
-    return upds
-
-# vector template instantiation
-# cName_pds : C name of the class without template element(s)
-# cChildName_pds : C name of the class without template element(s)
-# e.g. if partial_decl_string is '::std::vector<int>' then 
-#    cName_pds='std::vector'
-#    cChildName_pds='int'
-def register_vec(cName_pds, cChildName_pds, pyName=None, pds=None, pyEquivName=None):
-    cupds = unique_pds(cChildName_pds)
-    if pyName is None:
-        pyName = cName_pds[cName_pds.rfind(':')+1:] + '_' + _decls_reg[cupds][0]
-    if pds is None:
-        pds = cName_pds + '< ' + cChildName_pds + ' >'
-    return register_decl(pyName, pds, cupds, pyEquivName)
-
-# non-vector template instantiation
-# cName_pds : C name of the class without template element(s)
-# cElemNames_pds : list of the C names of the template element(s)
-# numbers are represented as int, not as str
-# e.g. if partial_decl_string is '::cv::Vec<int, 4>' then 
-#    cName_pds='cv::Vec'
-#    cChildName_pds=['int', 4]
-def register_ti(cName_pds, cElemNames_pds=[], pyName=None, pds=None):
-    if pyName is None:
-        pyName = cName_pds[cName_pds.rfind(':')+1:]
-        for elem in cElemNames_pds:
-            pyName += '_' + (str(elem) if isinstance(elem, int) else _decls_reg[unique_pds(elem)][0])
-    if pds is None:
-        pds = cName_pds
-        if len(cElemNames_pds)>0:
-            pds += '< '            
-            for elem in cElemNames_pds:
-                pds += (str(elem) if isinstance(elem, int) else elem) + ', '
-            pds = pds[:-2] + ' >'
-    return register_decl(pyName, pds)
-
-def get_decl_equivname(pds):
-    z = _decls_reg[unique_pds(pds)]
-    if z[2] is not None:
-        return z[2]
-    if z[1] is not None:
-        return "list of "+get_decl_equivname(z[1])
-    return z[0]
-
-def prepare_decls_registration_code():
-    str = '''#ifndef SD_TEMPLATE_INSTANTIATIONS_HPP
-#define SD_TEMPLATE_INSTANTIATIONS_HPP
-
-class dummy_struct {
-public:
-    struct dummy_struct2 {};
-    static const int total_size = 0'''
-
-    pdss = _decls_reg.keys()
-    for i in xrange(len(pdss)):
-        if '<' in pdss[i]: # only instantiate those that need to
-            str += '\n        + sizeof(%s)' % pdss[i]
-
-    str += ''';
-};
-
-#endif
-'''
-    if update_file(OP.join('pyopencvext', 'core', 'template_instantiations.hpp'), str):
-        print "Warning: File 'template_instantiations.hpp' has been modified. Run 'codegen.py' again."
-

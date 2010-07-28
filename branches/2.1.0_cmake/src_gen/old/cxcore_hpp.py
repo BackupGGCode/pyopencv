@@ -48,21 +48,6 @@ def generate_code(mb, cc, D, FT, CP):
     Point_dict = 'ifd'
     
     common.register_ti('cv::Mat')
-    common.register_vec('std::vector', 'char', 'vector_int8', pyEquivName='Mat')
-    common.register_vec('std::vector', 'unsigned char', 'vector_uint8', pyEquivName='Mat')
-    common.register_vec('std::vector', 'short', 'vector_int16', pyEquivName='Mat')
-    common.register_vec('std::vector', 'unsigned short', 'vector_uint16', pyEquivName='Mat')
-    common.register_vec('std::vector', 'int', 'vector_int', pyEquivName='Mat')
-    common.register_vec('std::vector', 'unsigned int', 'vector_uint', pyEquivName='Mat')
-    common.register_vec('std::vector', 'long', 'vector_long', pyEquivName='Mat')
-    common.register_vec('std::vector', 'unsigned long', 'vector_ulong', pyEquivName='Mat')
-    common.register_vec('std::vector', 'long long', 'vector_int64', pyEquivName='Mat')
-    common.register_vec('std::vector', 'unsigned long long', 'vector_uint64', pyEquivName='Mat')
-    common.register_vec('std::vector', 'float', 'vector_float32', pyEquivName='Mat')
-    common.register_vec('std::vector', 'double', 'vector_float64', pyEquivName='Mat')
-    common.register_vec('std::vector', 'unsigned char *', 'vector_string')
-    common.register_vec('std::vector', 'std::vector< int >', 'vector_vector_int')
-    common.register_vec('std::vector', 'std::vector< float >', 'vector_vector_float32')
     
     # Vec et al
     for i in Vec_dict.keys():
