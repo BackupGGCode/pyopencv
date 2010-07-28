@@ -92,10 +92,16 @@ from MODULE_NAME_ext import *
         # self.mb.decls().disable_warnings(messages.W1027, messages.W1025)
 
         # expose 'this'
-        self.mb.classes().expose_this = True
+        try:
+            self.mb.classes().expose_this = True
+        except RuntimeError:
+            pass
 
         # expose all enumerations
-        self.mb.enums().include()
+        try:
+            self.mb.enums().include()
+        except RuntimeError:
+            pass
 
         # except some weird enums
         for z in ('_', 'VARENUM', 'GUARANTEE', 'NLS_FUNCTION', 'POWER_ACTION',
@@ -114,7 +120,7 @@ from MODULE_NAME_ext import *
 
         # add 'pds' attribute to every class
         for z in self.mb.classes():
-            z.pds = unique_pds(z.partial_decl_string)
+            z.pds = _c.unique_pds(z.partial_decl_string)
 
         # dummy struct
         z = self.mb.class_(module_name+"_dummy_struct")
@@ -164,7 +170,11 @@ from MODULE_NAME_ext import *
 
         # expose std::vector, only those with alias starting with 'vector_'
         # remember to create operator==() for each element type
-        for z in self.mb.classes(lambda x: x.pds.startswith('std::vector<')):
+        try:
+            zz = self.mb.classes(lambda x: x.pds.startswith('std::vector<'))
+        except RuntimeError:
+            zz = []
+        for z in zz:
             # check if the class has been registered
             try:
                 t = self.get_registered_decl(z.partial_decl_string)
@@ -262,30 +272,30 @@ public:
 
     # get information of a registered class
     def get_registered_decl(self, pds):
-        upds = unique_pds(pds)
+        upds = _c.unique_pds(pds)
         try:
             return self.decls_reg[upds]
         except KeyError:
             raise ValueError("Class of pds '%s' has not been registered." % pds)
 
     def get_registered_decl_name(self, pds):
-        upds = unique_pds(pds)
+        upds = _c.unique_pds(pds)
         try:
             return self.decls_reg[upds][0]
         except KeyError:
             return "(C++)"+upds
 
     def find_classes(self, pds):
-        pds = unique_pds(pds)
+        pds = _c.unique_pds(pds)
         return self.mb.classes(lambda x: x.pds==pds)
 
     def find_class(self, pds):
-        pds = unique_pds(pds)
+        pds = _c.unique_pds(pds)
         return self.mb.class_(lambda x: x.pds==pds)
 
     # pds = partial_decl_string without the preceeding '::'
     def register_decl(self, pyName, pds, cChildName_pds=None, pyEquivName=None):
-        upds = unique_pds(pds)
+        upds = _c.unique_pds(pds)
         if upds in self.decls_reg:
             # print "Declaration %s already registered." % pds
             return upds
@@ -296,7 +306,7 @@ public:
             except RuntimeError:
                 # print "Class %s does not exist." % pds
                 pass
-        self.decls_reg[upds] = (pyName, unique_pds(cChildName_pds), pyEquivName)
+        self.decls_reg[upds] = (pyName, _c.unique_pds(cChildName_pds), pyEquivName)
         return upds
 
     # vector template instantiation
@@ -306,7 +316,7 @@ public:
     #    cName_pds='std::vector'
     #    cChildName_pds='int'
     def register_vec(self, cName_pds, cChildName_pds, pyName=None, pds=None, pyEquivName=None):
-        cupds = unique_pds(cChildName_pds)
+        cupds = _c.unique_pds(cChildName_pds)
         if pyName is None:
             pyName = cName_pds[cName_pds.rfind(':')+1:] + '_' + self.decls_reg[cupds][0]
         if pds is None:
@@ -324,7 +334,7 @@ public:
         if pyName is None:
             pyName = cName_pds[cName_pds.rfind(':')+1:]
             for elem in cElemNames_pds:
-                pyName += '_' + (str(elem) if isinstance(elem, int) else self.decls_reg[unique_pds(elem)][0])
+                pyName += '_' + (str(elem) if isinstance(elem, int) else self.decls_reg[_c.unique_pds(elem)][0])
         if pds is None:
             pds = cName_pds
             if len(cElemNames_pds)>0:
@@ -335,14 +345,129 @@ public:
         return self.register_decl(pyName, pds)
 
     def get_decl_equivname(self, pds):
-        z = self.decls_reg[unique_pds(pds)]
+        z = self.decls_reg[_c.unique_pds(pds)]
         if z[2] is not None:
             return z[2]
         if z[1] is not None:
             return "list of "+get_decl_equivname(z[1])
         return z[0]
 
+        
+        
+        
+    def add_doc(self, decl_name, *strings):
+        """Adds a few strings to the docstring of declaration f"""
+        if len(strings) == 0:
+            return
+        s = reduce(lambda x, y: x+y, ["\\n    "+x for x in strings])
+        self.cc.write('''
+_str = "STR"
+if DECL.__doc__ is None:
+    DECL.__doc__ = _str
+else:
+    DECL.__doc__ += _str
+    '''.replace("DECL", decl_name).replace("STR", str(s)))
 
+    def init_class(self, z):
+        """Initializes a class z"""
+        if not z.pds in self.decls_reg:
+            self.register_ti(z.pds) # register the class if not done so
+        z.include()
+        funs = []
+        try:
+            funs.extend(z.constructors())
+        except RuntimeError:
+            pass
+        try:
+            funs.extend(z.mem_funs())
+        except RuntimeError:
+            pass
+        try:
+            funs.extend(z.operators())
+        except RuntimeError:
+            pass
+        _c.init_transformers(funs)
+        z._funs = funs
+        _c.add_decl_desc(z)
+
+    def finalize_class(self, z):
+        """Finalizes a class z"""
+        beautify_func_list(z._funs)
+        _FT.beautify_memvars(z)
+
+        # ignore all non-public members
+        for t in z.decls():
+            try:
+                if t.access_type != 'public' or t.name.startswith('~'):
+                    t.exclude()
+            except:
+                pass
+
+        # if a function returns a pointer and does not have a call policy, create a default one for it
+        for f in z._funs:
+            if not f.ignore and f.call_policies is None and \
+                _FT._T.is_ref_or_ptr(f.return_type) and not _FT._T.is_ref_or_ptr(_FT._T.remove_ref_or_ptr(f.return_type)):
+                f.call_policies = CP.return_internal_reference()
+
+    def asClass2(self, src_class_Pname, src_class_Cname, dst_class_Pname, dst_class_Cname):
+        self.dummy_struct.add_reg_code(\
+            'bp::def("asKLASS2", &::normal_cast< CLASS1, CLASS2 >, (bp::arg("inst_KLASS1")));'\
+            .replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname)\
+            .replace('CLASS1', src_class_Cname).replace('CLASS2', dst_class_Cname))
+                
+    def dtypecast(self, casting_list):
+        for t1 in casting_list:
+            z1 = self.class_(t1).alias
+            for t2 in casting_list:
+                if t1 == t2:
+                    continue
+                z2 = self.class_(t2).alias
+                asClass2(self, z1, t1, z2, t2)
+
+    def asClass(self, src_class, dst_class, normal_cast_code=None):
+        src_type = src_class.partial_decl_string
+        dst_type = dst_class.partial_decl_string
+        if normal_cast_code is None:
+            for z in src_class.operators(lambda x: dst_class.name in x.name):
+                z.rename('__temp_func')
+        else:
+            self.dummy_struct.add_declaration_code(\
+                'template<> inline DstType normal_cast( SrcType const &inst ) { normal_cast_code; }'\
+                .replace('normal_cast_code', normal_cast_code)\
+                .replace('SrcType', src_type).replace('DstType', dst_type))
+        asClass2(self, src_class.alias, src_type, dst_class.alias, dst_type)
+        
+        
+
+def is_arg_touched(f, arg_name):
+    for tr in f._transformer_creators:
+        for cell in tr.func_closure:
+            if arg_name in cell.cell_contents:
+                return True
+    return False
+        
+def sort_transformers(f):
+    # list of function arguments
+    f_args = [x.name for x in f.arguments]
+
+    arg_idx = {}
+    for idx in xrange(len(f._transformer_creators)):
+        t = f._transformer_creators[idx]
+        # get the argument index
+        t_args = t.func_closure[0].cell_contents
+        if not isinstance(t_args, tuple):
+            t_args = t.func_closure[1].cell_contents        
+        for ta in t_args:
+            if ta in f_args:
+                arg_idx[f_args.index(ta)] = idx
+                break
+        else:
+            arg_idx[1000+idx] = idx
+    
+    # rewrite
+    ids = arg_idx.keys()
+    ids.sort()
+    f._transformer_creators = [f._transformer_creators[arg_idx[id]] for id in ids]
 
 def beautify_func_list(func_list):
     func_list = [f for f in func_list if not f.ignore]
@@ -367,9 +492,9 @@ def beautify_func_list(func_list):
         for arg in f.arguments:
             if is_arg_touched(f, arg.name):
                 continue
-            pds = common.unique_pds(arg.type.partial_decl_string)
-            if pds in common.c2cpp:
-                f._transformer_creators.append(FT.input_as_FixType(pds, common.c2cpp[pds], arg.name))
+            pds = _c.unique_pds(arg.type.partial_decl_string)
+            if pds in _c.c2cpp:
+                f._transformer_creators.append(FT.input_as_FixType(pds, _c.c2cpp[pds], arg.name))
             elif pds in ['CvRNG *', 'CvRNG &', 'CvRNG cosnt *', 'CvRNG const &']:
                 f._transformer_creators.append(FT.input_asRNG(arg.name))
             elif pds in ['CvFileStorage *', 'CvFileStorage const *']:
@@ -427,7 +552,7 @@ def beautify_func_list(func_list):
                 continue
             if arg.name == 'data' and D.is_void_pointer(arg.type):
                 f._transformer_creators.append(FT.input_string(arg.name))
-                mb.add_doc(f.name, "'data' is represented by a string")
+                self.add_doc(f.name, "'data' is represented by a string")
 
     # final step: apply all the function transformations
     for f in func_list:
@@ -449,23 +574,6 @@ def beautify_func_list(func_list):
                         f.transformations[0].alias = repl_dict[t]
                         break
 
-        common.add_decl_desc(f)
+        _c.add_decl_desc(f)
 
-
-# get a unique pds
-def unique_pds(pds):
-    if pds is None:
-        return None
-    if pds.startswith('::'):
-        pds = pds[2:]
-    pds = pds.replace('< ', '<').replace(', ', ',')
-    while True:
-        i = pds.find(' >')
-        if i<0:
-            break
-        if i>0 and pds[i-1]=='>':
-            pds = pds[:i-1]+'>SDSD>'+pds[i+2:]
-        else:
-            pds = pds[:i]+'>'+pds[i+2:]
-    return pds.replace('SDSD', ' ')
 

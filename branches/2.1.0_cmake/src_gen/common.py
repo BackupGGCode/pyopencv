@@ -424,3 +424,20 @@ c2cpp = {
 }
 
         
+# get a unique pds
+def unique_pds(pds):
+    if pds is None:
+        return None
+    if pds.startswith('::'):
+        pds = pds[2:]
+    pds = pds.replace('< ', '<').replace(', ', ',')
+    while True:
+        i = pds.find(' >')
+        if i<0:
+            break
+        if i>0 and pds[i-1]=='>':
+            pds = pds[:i-1]+'>SDSD>'+pds[i+2:]
+        else:
+            pds = pds[:i]+'>'+pds[i+2:]
+    return pds.replace('SDSD', ' ')
+

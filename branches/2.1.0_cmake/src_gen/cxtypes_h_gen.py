@@ -15,7 +15,9 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
-import common
+import function_transformers as FT
+import sdpypp
+sb = sdpypp.SdModuleBuilder('cxtypes_h')
 
 def expose_CvSeq_members(z, FT):
     for t in ('h_prev', 'h_next', 'v_prev', 'v_next', 'free_blocks', 'first'):
@@ -38,41 +40,42 @@ def expose_CvGraph_members(z, FT):
     FT.expose_member_as_pointee(z, 'edges')
     
 
-def generate_code(mb, cc, D, FT, CP):
-    cc.write('''
+sb.cc.write('''
+import math as _m
+
 #=============================================================================
 # cxtypes.h
 #=============================================================================
 
 
-    ''')
+''')
 
-    # CvArr
-    # mb.class_('CvArr').include()
+# CvArr
+# sb.mb.class_('CvArr').include()
 
-    cc.write('''
+sb.cc.write('''
 #-----------------------------------------------------------------------------
 # Common macros and inline functions
 #-----------------------------------------------------------------------------
 
-CV_PI = _Math.pi
+CV_PI = _m.pi
 CV_LOG2 = 0.69314718055994530941723212145818
 
-    ''')
+''')
 
-    # functions
-    for z in ('cvRound', 'cvFloor', 'cvCeil', 'cvIsNaN', 'cvIsInf'):
-        mb.free_fun(z).include()
+# functions
+for z in ('cvRound', 'cvFloor', 'cvCeil', 'cvIsNaN', 'cvIsInf'):
+    sb.mb.free_fun(z).include()
 
-    cc.write('''
+sb.cc.write('''
 #-----------------------------------------------------------------------------
 # Random number generation
 #-----------------------------------------------------------------------------
 
     
-    ''')
-    
-    mb.add_declaration_code('''
+''')
+
+sb.mb.add_declaration_code('''
 struct CvRNG_to_python
 {
     static PyObject* convert(CvRNG const& x)
@@ -81,12 +84,12 @@ struct CvRNG_to_python
     }
 };
 
-    ''')
-    mb.add_registration_code('bp::to_python_converter<CvRNG, CvRNG_to_python, false>();')
+''')
+sb.mb.add_registration_code('bp::to_python_converter<CvRNG, CvRNG_to_python, false>();')
 
 
-    # CvMat
-    cc.write('''
+# CvMat
+sb.cc.write('''
 #-----------------------------------------------------------------------------
 # Matrix type (CvMat) 
 #-----------------------------------------------------------------------------
@@ -171,33 +174,33 @@ CV_MAT_MAGIC_VAL = 0x42420000
 CV_TYPE_NAME_MAT = "opencv-matrix"
 
 
-    ''')
-    
-    # CvMat -- for backward compatibility, mainly for ml.h
-    z = mb.class_('CvMat')
-    mb.init_class(z)
-    for t in z.classes(''):
-        try:
-            t2 = t.var('ptr')
-            t.exclude()
-        except:
-            pass
-    for t in ('refcount', 'hdr_refcount'):
-        z.var(t).exclude()
-    z.add_declaration_code('''
+''')
+
+# CvMat -- for backward compatibility, mainly for ml.h
+z = sb.mb.class_('CvMat')
+sb.init_class(z)
+for t in z.classes(''):
+    try:
+        t2 = t.var('ptr')
+        t.exclude()
+    except:
+        pass
+for t in ('refcount', 'hdr_refcount'):
+    z.var(t).exclude()
+z.add_declaration_code('''
 static bp::object get_data(CvMat const &inst)
 {
     return bp::object(bp::handle<>(PyBuffer_FromReadWriteMemory(
         (void*)inst.data.ptr, inst.rows*inst.step)));
 }
 
-    ''')
-    z.add_registration_code('add_property("data", &::get_data)')
-    mb.finalize_class(z)
-    
+''')
+z.add_registration_code('add_property("data", &::get_data)')
+sb.finalize_class(z)
 
-    # CvMatND
-    cc.write('''
+
+# CvMatND
+sb.cc.write('''
 #-----------------------------------------------------------------------------
 # Multi-dimensional dense array (CvMatND)
 #-----------------------------------------------------------------------------
@@ -217,15 +220,15 @@ CV_SPARSE_MAT_MAGIC_VAL    = 0x42440000
 CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 
 
-    ''')
+''')
 
-    # CvHistogram -- disabled by Minh-Tri Pham
-    # cvhistogram = mb.class_('CvHistogram')
-    # cvhistogram.include()
-    # for z in ('bins', 'thresh', 'thresh2'): # wait until requested
-        # cvhistogram.var(z).exclude()
-    # mb.decl('CvHistType').include()
-    # cc.write('''
+# CvHistogram -- disabled by Minh-Tri Pham
+# cvhistogram = sb.mb.class_('CvHistogram')
+# cvhistogram.include()
+# for z in ('bins', 'thresh', 'thresh2'): # wait until requested
+    # cvhistogram.var(z).exclude()
+# sb.mb.decl('CvHistType').include()
+# sb.cc.write('''
 #-----------------------------------------------------------------------------
 # Histogram
 #-----------------------------------------------------------------------------
@@ -242,12 +245,12 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 # CV_HIST_UNIFORM       = 1
 
 
-    # ''')
-    # mb.insert_del_interface('CvHistogram', '_PE._cvReleaseHist')
+# ''')
+# sb.mb.insert_del_interface('CvHistogram', '_PE._cvReleaseHist')
 
 
-    # Other supplementary data type definitions
-    cc.write('''
+# Other supplementary data type definitions
+sb.cc.write('''
 #-----------------------------------------------------------------------------
 # Other supplementary data type definitions
 #-----------------------------------------------------------------------------
@@ -260,13 +263,13 @@ CV_WHOLE_SEQ_END_INDEX = 0x3fffffff
 CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
 
 
-    ''')
-    
-    # CvRect -- now represented by cv::Rect
-    # z = mb.class_('CvRect')
-    # mb.init_class(z)
-    # mb.finalize_class(z)
-    # cc.write('''
+''')
+
+# CvRect -- now represented by cv::Rect
+# z = sb.mb.class_('CvRect')
+# sb.init_class(z)
+# sb.finalize_class(z)
+# sb.cc.write('''
 # def _KLASS__repr__(self):
     # return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + \\
         # ", width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
@@ -277,10 +280,10 @@ CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
     # CvSize -- now represented by cv::Size2i
     # CvSize2D32f -- now represented by cv::Size2f
     # for t in ('CvSize', 'CvSize2D32f'):
-        # z = mb.class_(t)
-        # mb.init_class(z)
-        # mb.finalize_class(z)
-        # cc.write('''
+        # z = sb.mb.class_(t)
+        # sb.init_class(z)
+        # sb.finalize_class(z)
+        # sb.cc.write('''
 # def _KLASS__repr__(self):
     # return "KLASS(width=" + repr(self.width) + ", height=" + repr(self.height) + ")"
 # KLASS.__repr__ = _KLASS__repr__
@@ -288,46 +291,46 @@ CV_WHOLE_SEQ = _PE.Range(0, CV_WHOLE_SEQ_END_INDEX)
         # '''.replace("KLASS", z.alias))
 
     # CvScalar -- use cv::Scalar instead
-    # z = mb.class_('CvScalar')
-    # mb.init_class(z)
-    # mb.finalize_class(z)
-    # mb.finalize_class(z)
-    # cc.write('''
+    # z = sb.mb.class_('CvScalar')
+    # sb.init_class(z)
+    # sb.finalize_class(z)
+    # sb.finalize_class(z)
+    # sb.cc.write('''
 # def _KLASS__repr__(self):
     # return "KLASS(" + self.ndarray.__str__() + ")"
 # KLASS.__repr__ = _KLASS__repr__
         
-    # '''.replace("KLASS", z.alias))
+# '''.replace("KLASS", z.alias))
 
-    # CvPoint, CvPoint2D32f, CvPoint2D64f  -- for backward compatibility
-    for t in ('CvPoint', 'CvPoint2D32f', 'CvPoint2D64f'):
-        z = mb.class_(t)
-        mb.init_class(z)
-        mb.finalize_class(z)
-        cc.write('''
+# CvPoint, CvPoint2D32f, CvPoint2D64f  -- for backward compatibility
+for t in ('CvPoint', 'CvPoint2D32f', 'CvPoint2D64f'):
+    z = sb.mb.class_(t)
+    sb.init_class(z)
+    sb.finalize_class(z)
+    sb.cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
 KLASS.__repr__ = _KLASS__repr__
         
-        '''.replace("KLASS", z.alias))
+'''.replace("KLASS", z.alias))
 
-    # CvPoint3D32f, CvPoint3D64f  -- for backward compatibility
-    for t in ('CvPoint3D32f', 'CvPoint3D64f'):
-        z = mb.class_(t)
-        mb.init_class(z)
-        mb.finalize_class(z)
-        cc.write('''
+# CvPoint3D32f, CvPoint3D64f  -- for backward compatibility
+for t in ('CvPoint3D32f', 'CvPoint3D64f'):
+    z = sb.mb.class_(t)
+    sb.init_class(z)
+    sb.finalize_class(z)
+    sb.cc.write('''
 def _KLASS__repr__(self):
     return "KLASS(x=" + repr(self.x) + ", y=" + repr(self.y) + ", z=" + repr(self.z) + ")"
 KLASS.__repr__ = _KLASS__repr__
         
-        '''.replace("KLASS", z.alias))
+'''.replace("KLASS", z.alias))
 
-    # CvBox2D -- now represented by cv::RotatedRect
-    # z = mb.class_('CvBox2D')
-    # mb.init_class(z)
-    # mb.finalize_class(z)
-    # cc.write('''
+# CvBox2D -- now represented by cv::RotatedRect
+# z = sb.mb.class_('CvBox2D')
+# sb.init_class(z)
+# sb.finalize_class(z)
+# sb.cc.write('''
 # def _KLASS__repr__(self):
     # return "KLASS(center=" + repr(self.center) + ", size=" + repr(self.size) + \\
         # ", angle=" + repr(self.angle) + ")"
@@ -336,10 +339,10 @@ KLASS.__repr__ = _KLASS__repr__
     # '''.replace("KLASS", z.alias))
 
     # CvTermCriteria -- now represented by cv::TermCriteria
-    # z = mb.class_('CvTermCriteria')
-    # mb.init_class(z)
-    # mb.finalize_class(z)
-    # cc.write('''
+    # z = sb.mb.class_('CvTermCriteria')
+    # sb.init_class(z)
+    # sb.finalize_class(z)
+    # sb.cc.write('''
 # def _KLASS__repr__(self):
     # return "KLASS(type=" + repr(self.type) + ", max_iter=" + repr(self.max_iter) + \\
         # ", epsilon=" + repr(self.epsilon) + ")"
@@ -348,19 +351,19 @@ KLASS.__repr__ = _KLASS__repr__
     # '''.replace("KLASS", z.alias))
 
     # CvSlice -- now represented by cv::Range
-    # z = mb.class_('CvSlice')
-    # mb.init_class(z)
-    # mb.finalize_class(z)
-    # cc.write('''
+    # z = sb.mb.class_('CvSlice')
+    # sb.init_class(z)
+    # sb.finalize_class(z)
+    # sb.cc.write('''
 # def _KLASS__repr__(self):
     # return "KLASS(start=" + repr(self.start_index) + ", end=" + repr(self.end_index) + ")"
 # KLASS.__repr__ = _KLASS__repr__
         
-    # '''.replace("KLASS", z.alias))
-    
+# '''.replace("KLASS", z.alias))
 
-    # Dynamic Data structures
-    cc.write('''
+
+# Dynamic Data structures
+sb.cc.write('''
 #-----------------------------------------------------------------------------
 # Dynamic Data structures
 #-----------------------------------------------------------------------------
@@ -380,98 +383,98 @@ def CV_IS_SET_ELEM(ptr):
 CV_TYPE_NAME_GRAPH = "opencv-graph"
 
 
-    ''')
+''')
 
-    # CvMemBlock
-    z = mb.class_('CvMemBlock')
-    mb.init_class(z)
-    for t in ('prev', 'next'):
-        FT.expose_member_as_pointee(z, t)
-    mb.finalize_class(z)
+# CvMemBlock
+z = sb.mb.class_('CvMemBlock')
+sb.init_class(z)
+for t in ('prev', 'next'):
+    FT.expose_member_as_pointee(z, t)
+sb.finalize_class(z)
 
-    # CvMemStorage -- now managed by cv::MemStorage
-    # this class is enabled only to let cv::MemStorage function properly
-    z = mb.class_('CvMemStorage')
-    mb.init_class(z)
-    for t in ('bottom', 'top'):
-        FT.expose_member_as_pointee(z, t)
-    mb.finalize_class(z)
+# CvMemStorage -- now managed by cv::MemStorage
+# this class is enabled only to let cv::MemStorage function properly
+z = sb.mb.class_('CvMemStorage')
+sb.init_class(z)
+for t in ('bottom', 'top'):
+    FT.expose_member_as_pointee(z, t)
+sb.finalize_class(z)
 
-    # CvMemStoragePos
-    z = mb.class_('CvMemStoragePos')
-    mb.init_class(z)
-    FT.expose_member_as_pointee(z, 'top')
-    mb.finalize_class(z)
+# CvMemStoragePos
+z = sb.mb.class_('CvMemStoragePos')
+sb.init_class(z)
+FT.expose_member_as_pointee(z, 'top')
+sb.finalize_class(z)
 
-    # CvSeqBlock
-    z = mb.class_('CvSeqBlock')
-    mb.init_class(z)
-    for t in ('prev', 'next'):
-        FT.expose_member_as_pointee(z, t)
-    FT.expose_member_as_str(z, 'data')
-    mb.finalize_class(z)
+# CvSeqBlock
+z = sb.mb.class_('CvSeqBlock')
+sb.init_class(z)
+for t in ('prev', 'next'):
+    FT.expose_member_as_pointee(z, t)
+FT.expose_member_as_str(z, 'data')
+sb.finalize_class(z)
 
-    # CvSeq
-    z = mb.class_('CvSeq')
-    mb.init_class(z)
-    expose_CvSeq_members(z, FT)
-    mb.finalize_class(z)
-            
-    # CvSetElem
-    z = mb.class_('CvSetElem')
-    mb.init_class(z)
-    FT.expose_member_as_pointee(z, 'next_free')
-    mb.finalize_class(z)
-
-    # CvSet
-    z = mb.class_('CvSet')
-    mb.init_class(z)
-    expose_CvSet_members(z, FT)
-    mb.finalize_class(z)
-
-
-    # CvGraphEdge
-    z = mb.class_('CvGraphEdge')
-    mb.init_class(z)
-    for t in ('next', 'vtx'):
-        FT.expose_member_as_array_of_pointees(z, t, 2)
-    mb.finalize_class(z)
+# CvSeq
+z = sb.mb.class_('CvSeq')
+sb.init_class(z)
+expose_CvSeq_members(z, FT)
+sb.finalize_class(z)
         
-    # CvGraphVtx    
-    z = mb.class_('CvGraphVtx')
-    mb.init_class(z)
-    FT.expose_member_as_pointee(z, 'first')
-    mb.finalize_class(z)
+# CvSetElem
+z = sb.mb.class_('CvSetElem')
+sb.init_class(z)
+FT.expose_member_as_pointee(z, 'next_free')
+sb.finalize_class(z)
 
-    # CvGraphVtx2D
-    z = mb.class_('CvGraphVtx2D')
-    mb.init_class(z)
-    FT.expose_member_as_pointee(z, 'first')
-    FT.expose_member_as_pointee(z, 'ptr')
-    mb.finalize_class(z)
-
-    # CvGraph
-    z = mb.class_('CvGraph')
-    mb.init_class(z)
-    expose_CvGraph_members(z, FT)
-    mb.finalize_class(z)
-
-    # CvChain
-    z = mb.class_('CvChain')
-    mb.init_class(z)
-    expose_CvSeq_members(z, FT)
-    mb.finalize_class(z)
-
-    # CvContour
-    z = mb.class_('CvContour')
-    mb.init_class(z)
-    expose_CvSeq_members(z, FT)
-    mb.decl('CvPoint2DSeq').include()
-    mb.finalize_class(z)
+# CvSet
+z = sb.mb.class_('CvSet')
+sb.init_class(z)
+expose_CvSet_members(z, FT)
+sb.finalize_class(z)
 
 
-    # Sequence types
-    cc.write('''
+# CvGraphEdge
+z = sb.mb.class_('CvGraphEdge')
+sb.init_class(z)
+for t in ('next', 'vtx'):
+    FT.expose_member_as_array_of_pointees(z, t, 2)
+sb.finalize_class(z)
+    
+# CvGraphVtx    
+z = sb.mb.class_('CvGraphVtx')
+sb.init_class(z)
+FT.expose_member_as_pointee(z, 'first')
+sb.finalize_class(z)
+
+# CvGraphVtx2D
+z = sb.mb.class_('CvGraphVtx2D')
+sb.init_class(z)
+FT.expose_member_as_pointee(z, 'first')
+FT.expose_member_as_pointee(z, 'ptr')
+sb.finalize_class(z)
+
+# CvGraph
+z = sb.mb.class_('CvGraph')
+sb.init_class(z)
+expose_CvGraph_members(z, FT)
+sb.finalize_class(z)
+
+# CvChain
+z = sb.mb.class_('CvChain')
+sb.init_class(z)
+expose_CvSeq_members(z, FT)
+sb.finalize_class(z)
+
+# CvContour
+z = sb.mb.class_('CvContour')
+sb.init_class(z)
+expose_CvSeq_members(z, FT)
+sb.mb.decl('CvPoint2DSeq').include()
+sb.finalize_class(z)
+
+
+# Sequence types
+sb.cc.write('''
 #-----------------------------------------------------------------------------
 # Sequence types
 #-----------------------------------------------------------------------------
@@ -559,26 +562,26 @@ def CV_GET_SEQ_ELEM(TYPE, seq, index):
     return cast(result, POINTER(TYPE))
 
 
-    ''')
+''')
 
-    # CvSeqWriter -- obsolete, use Seq<T> instead
-    # z = mb.class_('CvSeqWriter')
-    # mb.init_class(z)
-    # for t in ('seq', 'block'):
-        # FT.expose_member_as_pointee(z, t)
-    # for t in ('ptr', 'block_min', 'block_max'):
-        # FT.expose_member_as_str(z, t)
-    # mb.finalize_class(z)
+# CvSeqWriter -- obsolete, use Seq<T> instead
+# z = sb.mb.class_('CvSeqWriter')
+# sb.init_class(z)
+# for t in ('seq', 'block'):
+    # FT.expose_member_as_pointee(z, t)
+# for t in ('ptr', 'block_min', 'block_max'):
+    # FT.expose_member_as_str(z, t)
+# sb.finalize_class(z)
 
-    # CvSeqReader -- obsolete, use Seq<T> instead
-    # z = mb.class_('CvSeqReader')
-    # mb.init_class(z)
-    # expose_CvSeqReader_members(z, FT)
-    # mb.finalize_class(z)
+# CvSeqReader -- obsolete, use Seq<T> instead
+# z = sb.mb.class_('CvSeqReader')
+# sb.init_class(z)
+# expose_CvSeqReader_members(z, FT)
+# sb.finalize_class(z)
 
 
-    # Data structures for persistence (a.k.a serialization) functionality
-    cc.write('''
+# Data structures for persistence (a.k.a serialization) functionality
+sb.cc.write('''
 #-----------------------------------------------------------------------------
 # Data structures for persistence (a.k.a serialization) functionality
 #-----------------------------------------------------------------------------
@@ -645,97 +648,98 @@ def CV_NODE_SEQ_IS_SIMPLE(seq):
     return bool(seq[0].flags & CV_NODE_SEQ_SIMPLE)
 
 
-    ''')
+''')
 
-    # CvFileStorage
-    common.register_ti('CvFileStorage')
-    # z = mb.class_('CvFileStorage')
-    # z.include()
-    # mb.insert_del_interface('CvFileStorage', '_PE._cvReleaseFileStorage')
+# CvFileStorage
+sb.register_ti('CvFileStorage')
+# z = sb.mb.class_('CvFileStorage')
+# z.include()
+# sb.mb.insert_del_interface('CvFileStorage', '_PE._cvReleaseFileStorage')
 
-    # CvAttrList
-    z = mb.class_('CvAttrList')
-    mb.init_class(z)
-    z.var('attr').exclude()
-    # deal with 'attr'
-    z.include_files.append( "boost/python/object.hpp" )
-    z.include_files.append( "boost/python/str.hpp" )
-    z.include_files.append( "boost/python/list.hpp" )
-    z.include_files.append( "boost/python/tuple.hpp" )
-    z.add_wrapper_code('''
+# CvAttrList
+z = sb.mb.class_('CvAttrList')
+sb.init_class(z)
+z.var('attr').exclude()
+# deal with 'attr'
+z.include_files.append( "boost/python/object.hpp" )
+z.include_files.append( "boost/python/str.hpp" )
+z.include_files.append( "boost/python/list.hpp" )
+z.include_files.append( "boost/python/tuple.hpp" )
+z.add_wrapper_code('''
 static bp::object get_attr( CvString const & inst ){
     if(!inst.ptr) return bp::object();
     bp::list l;
     for(int i = 0; inst.ptr[i]; ++i) l.append(inst.ptr[i]);
     return bp::tuple(l);
 }
-    ''')
-    z.add_registration_code('''
+''')
+z.add_registration_code('''
 add_property( "attr", bp::make_function(&CvAttrList_wrapper::get_attr) )
-    ''')
-    mb.finalize_class(z)
+''')
+sb.finalize_class(z)
 
-    # CvTypeInfo
-    z = mb.class_('CvTypeInfo')
-    mb.init_class(z)
-    for t in ('prev', 'next'):
-        FT.expose_member_as_pointee(z, t)
-    FT.expose_member_as_str(z, 'type_name')
-    mb.finalize_class(z)
+# CvTypeInfo
+z = sb.mb.class_('CvTypeInfo')
+sb.init_class(z)
+for t in ('prev', 'next'):
+    FT.expose_member_as_pointee(z, t)
+FT.expose_member_as_str(z, 'type_name')
+sb.finalize_class(z)
 
-    # CvString
-    z = mb.class_('CvString')
-    mb.init_class(z)
-    for t in ('len', 'ptr'):
-        z.var(t).exclude()
-    # deal with 'data'
-    z.include_files.append( "boost/python/object.hpp" )
-    z.include_files.append( "boost/python/str.hpp" )
-    z.add_wrapper_code('''
+# CvString
+z = sb.mb.class_('CvString')
+sb.init_class(z)
+for t in ('len', 'ptr'):
+    z.var(t).exclude()
+# deal with 'data'
+z.include_files.append( "boost/python/object.hpp" )
+z.include_files.append( "boost/python/str.hpp" )
+z.add_wrapper_code('''
 static bp::object get_data( CvString const & inst ){        
     return inst.ptr? bp::str((const char *)inst.ptr, inst.len) : bp::object();
 }
-    ''')
-    z.add_registration_code('''
+''')
+z.add_registration_code('''
 add_property( "data", bp::make_function(&CvString_wrapper::get_data) )
-    ''')
-    mb.finalize_class(z)
+''')
+sb.finalize_class(z)
 
 
-    # CvStringHashNode
-    z = mb.class_('CvStringHashNode')
-    z.include()
-    FT.expose_member_as_pointee(z, 'next')
+# CvStringHashNode
+z = sb.mb.class_('CvStringHashNode')
+z.include()
+FT.expose_member_as_pointee(z, 'next')
 
-    # CvGenericHash
-    z = mb.class_('CvGenericHash')
-    mb.init_class(z)
-    mb.finalize_class(z)
+# CvGenericHash
+z = sb.mb.class_('CvGenericHash')
+sb.init_class(z)
+sb.finalize_class(z)
 
-    # CvFileNode -- now managed by cv::FileNode
-    # z = mb.class_('CvFileNode')
-    # z.include()
-    # FT.expose_member_as_pointee(z, 'info')
-    # deal with 'data' -- wait until requested
-    # z.var('data').expose_address = True
-    # for t in ('f', 'i', 'str', 'seq', 'map'):
-        # z.var(t).exclude()
-        
-    # CvPluginFuncInfo
-    z = mb.class_('CvPluginFuncInfo')
-    mb.init_class(z)
-    for t in ('func_addr', 'default_func_addr'):
-        z.var(t).expose_address = True
-    FT.expose_member_as_str(z, 'func_names')    
-    mb.finalize_class(z)
-        
-    # CvModuleInfo    
-    z = mb.class_('CvModuleInfo')
-    mb.init_class(z)
-    for t in ('next', 'func_tab'):
-        FT.expose_member_as_pointee(z, t)
-    for t in ('name', 'version'):
-        FT.expose_member_as_str(z, t)
-    mb.finalize_class(z)
+# CvFileNode -- now managed by cv::FileNode
+# z = sb.mb.class_('CvFileNode')
+# z.include()
+# FT.expose_member_as_pointee(z, 'info')
+# deal with 'data' -- wait until requested
+# z.var('data').expose_address = True
+# for t in ('f', 'i', 'str', 'seq', 'map'):
+    # z.var(t).exclude()
+    
+# CvPluginFuncInfo
+z = sb.mb.class_('CvPluginFuncInfo')
+sb.init_class(z)
+for t in ('func_addr', 'default_func_addr'):
+    z.var(t).expose_address = True
+FT.expose_member_as_str(z, 'func_names')    
+sb.finalize_class(z)
+    
+# CvModuleInfo    
+z = sb.mb.class_('CvModuleInfo')
+sb.init_class(z)
+for t in ('next', 'func_tab'):
+    FT.expose_member_as_pointee(z, t)
+for t in ('name', 'version'):
+    FT.expose_member_as_str(z, t)
+sb.finalize_class(z)
 
     
+sb.done()

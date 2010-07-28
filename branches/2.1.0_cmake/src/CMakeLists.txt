@@ -86,14 +86,26 @@ add_library(pyopencv_extras SHARED ${EXTRA_SRCS})
 target_link_libraries(pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
 install(TARGETS pyopencv_extras DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)
 
+# 'add_python_module' macro
+macro(ADD_PYTHON_MODULE _NAME)
+    # option(MODULE_${_NAME}_ENABLE "Add module ${_NAME}" TRUE)
+    set(MODULE_${_NAME}_ENABLE TRUE)
+
+    if(MODULE_${_NAME}_ENABLE)
+        file(GLOB ${_NAME}_SRCS package/${_NAME}_ext/*)
+        add_library(${_NAME}_ext SHARED ${${_NAME}_SRCS})
+        target_link_libraries(${_NAME}_ext pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
+        set_target_properties(${_NAME}_ext PROPERTIES 
+            PREFIX "" # There is no prefix even on UNIXes
+            SUFFIX "${_modsuffix}") # The extension got from Python libraries
+        install(TARGETS ${_NAME}_ext DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)
+    endif(MODULE_${_NAME}_ENABLE)
+endmacro(ADD_PYTHON_MODULE)
+
+
 # 'stl' module
-file(GLOB STL_SRCS package/stl_ext/*)
-add_library(stl_ext SHARED ${STL_SRCS})
-target_link_libraries(stl_ext pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
-set_target_properties(stl_ext PROPERTIES 
-    PREFIX "" # There is no prefix even on UNIXes
-    SUFFIX "${_modsuffix}") # The extension got from Python libraries
-install(TARGETS stl_ext DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)
+add_python_module(stl)
+add_python_module(cxtypes_h)
 
 file(GLOB PY_SRCS package/*.py)
 install(FILES ${PY_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)
