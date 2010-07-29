@@ -19,127 +19,6 @@ import common as _c
 import stl_ext as _ext
 from stl_ext import *
         
-vector_uint16.__old_init__ = vector_uint16.__init__
-vector_uint16.__init__ = _c.__vector__init__
-vector_uint16.create = _c.__vector_create
-vector_uint16.__repr__ = _c.__vector__repr__
-vector_uint16.tolist = _c.__vector_tolist
-vector_uint16.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_uint16()
-_z.resize(1)
-vector_uint16.elem_type = _z[0].__class__
-del(_z)
-            
-vector_ulong.__old_init__ = vector_ulong.__init__
-vector_ulong.__init__ = _c.__vector__init__
-vector_ulong.create = _c.__vector_create
-vector_ulong.__repr__ = _c.__vector__repr__
-vector_ulong.tolist = _c.__vector_tolist
-vector_ulong.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_ulong()
-_z.resize(1)
-vector_ulong.elem_type = _z[0].__class__
-del(_z)
-            
-vector_uint.__old_init__ = vector_uint.__init__
-vector_uint.__init__ = _c.__vector__init__
-vector_uint.create = _c.__vector_create
-vector_uint.__repr__ = _c.__vector__repr__
-vector_uint.tolist = _c.__vector_tolist
-vector_uint.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_uint()
-_z.resize(1)
-vector_uint.elem_type = _z[0].__class__
-del(_z)
-            
-vector_uint8.__old_init__ = vector_uint8.__init__
-vector_uint8.__init__ = _c.__vector__init__
-vector_uint8.create = _c.__vector_create
-vector_uint8.__repr__ = _c.__vector__repr__
-vector_uint8.tolist = _c.__vector_tolist
-vector_uint8.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_uint8()
-_z.resize(1)
-vector_uint8.elem_type = _z[0].__class__
-del(_z)
-            
-vector_vector_int.__old_init__ = vector_vector_int.__init__
-vector_vector_int.__init__ = _c.__vector__init__
-vector_vector_int.create = _c.__vector_create
-vector_vector_int.__repr__ = _c.__vector__repr__
-vector_vector_int.tolist = _c.__vector_tolist
-vector_vector_int.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_vector_int()
-_z.resize(1)
-vector_vector_int.elem_type = _z[0].__class__
-del(_z)
-            
-vector_int.__old_init__ = vector_int.__init__
-vector_int.__init__ = _c.__vector__init__
-vector_int.create = _c.__vector_create
-vector_int.__repr__ = _c.__vector__repr__
-vector_int.tolist = _c.__vector_tolist
-vector_int.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_int()
-_z.resize(1)
-vector_int.elem_type = _z[0].__class__
-del(_z)
-            
-vector_vector_float32.__old_init__ = vector_vector_float32.__init__
-vector_vector_float32.__init__ = _c.__vector__init__
-vector_vector_float32.create = _c.__vector_create
-vector_vector_float32.__repr__ = _c.__vector__repr__
-vector_vector_float32.tolist = _c.__vector_tolist
-vector_vector_float32.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_vector_float32()
-_z.resize(1)
-vector_vector_float32.elem_type = _z[0].__class__
-del(_z)
-            
-vector_float32.__old_init__ = vector_float32.__init__
-vector_float32.__init__ = _c.__vector__init__
-vector_float32.create = _c.__vector_create
-vector_float32.__repr__ = _c.__vector__repr__
-vector_float32.tolist = _c.__vector_tolist
-vector_float32.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_float32()
-_z.resize(1)
-vector_float32.elem_type = _z[0].__class__
-del(_z)
-            
-vector_int16.__old_init__ = vector_int16.__init__
-vector_int16.__init__ = _c.__vector__init__
-vector_int16.create = _c.__vector_create
-vector_int16.__repr__ = _c.__vector__repr__
-vector_int16.tolist = _c.__vector_tolist
-vector_int16.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_int16()
-_z.resize(1)
-vector_int16.elem_type = _z[0].__class__
-del(_z)
-            
-vector_long.__old_init__ = vector_long.__init__
-vector_long.__init__ = _c.__vector__init__
-vector_long.create = _c.__vector_create
-vector_long.__repr__ = _c.__vector__repr__
-vector_long.tolist = _c.__vector_tolist
-vector_long.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_long()
-_z.resize(1)
-vector_long.elem_type = _z[0].__class__
-del(_z)
-            
-vector_float64.__old_init__ = vector_float64.__init__
-vector_float64.__init__ = _c.__vector__init__
-vector_float64.create = _c.__vector_create
-vector_float64.__repr__ = _c.__vector__repr__
-vector_float64.tolist = _c.__vector_tolist
-vector_float64.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_float64()
-_z.resize(1)
-vector_float64.elem_type = _z[0].__class__
-del(_z)
-            
 vector_int8.__old_init__ = vector_int8.__init__
 vector_int8.__init__ = _c.__vector__init__
 vector_int8.create = _c.__vector_create
@@ -150,4 +29,147 @@ _z = vector_int8()
 _z.resize(1)
 vector_int8.elem_type = _z[0].__class__
 del(_z)
-            
+        
+vector_uint8.__old_init__ = vector_uint8.__init__
+vector_uint8.__init__ = _c.__vector__init__
+vector_uint8.create = _c.__vector_create
+vector_uint8.__repr__ = _c.__vector__repr__
+vector_uint8.tolist = _c.__vector_tolist
+vector_uint8.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_uint8()
+_z.resize(1)
+vector_uint8.elem_type = _z[0].__class__
+del(_z)
+        
+vector_int16.__old_init__ = vector_int16.__init__
+vector_int16.__init__ = _c.__vector__init__
+vector_int16.create = _c.__vector_create
+vector_int16.__repr__ = _c.__vector__repr__
+vector_int16.tolist = _c.__vector_tolist
+vector_int16.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_int16()
+_z.resize(1)
+vector_int16.elem_type = _z[0].__class__
+del(_z)
+        
+vector_uint16.__old_init__ = vector_uint16.__init__
+vector_uint16.__init__ = _c.__vector__init__
+vector_uint16.create = _c.__vector_create
+vector_uint16.__repr__ = _c.__vector__repr__
+vector_uint16.tolist = _c.__vector_tolist
+vector_uint16.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_uint16()
+_z.resize(1)
+vector_uint16.elem_type = _z[0].__class__
+del(_z)
+        
+vector_int.__old_init__ = vector_int.__init__
+vector_int.__init__ = _c.__vector__init__
+vector_int.create = _c.__vector_create
+vector_int.__repr__ = _c.__vector__repr__
+vector_int.tolist = _c.__vector_tolist
+vector_int.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_int()
+_z.resize(1)
+vector_int.elem_type = _z[0].__class__
+del(_z)
+        
+vector_uint.__old_init__ = vector_uint.__init__
+vector_uint.__init__ = _c.__vector__init__
+vector_uint.create = _c.__vector_create
+vector_uint.__repr__ = _c.__vector__repr__
+vector_uint.tolist = _c.__vector_tolist
+vector_uint.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_uint()
+_z.resize(1)
+vector_uint.elem_type = _z[0].__class__
+del(_z)
+        
+vector_long.__old_init__ = vector_long.__init__
+vector_long.__init__ = _c.__vector__init__
+vector_long.create = _c.__vector_create
+vector_long.__repr__ = _c.__vector__repr__
+vector_long.tolist = _c.__vector_tolist
+vector_long.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_long()
+_z.resize(1)
+vector_long.elem_type = _z[0].__class__
+del(_z)
+        
+vector_ulong.__old_init__ = vector_ulong.__init__
+vector_ulong.__init__ = _c.__vector__init__
+vector_ulong.create = _c.__vector_create
+vector_ulong.__repr__ = _c.__vector__repr__
+vector_ulong.tolist = _c.__vector_tolist
+vector_ulong.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_ulong()
+_z.resize(1)
+vector_ulong.elem_type = _z[0].__class__
+del(_z)
+        
+vector_int64.__old_init__ = vector_int64.__init__
+vector_int64.__init__ = _c.__vector__init__
+vector_int64.create = _c.__vector_create
+vector_int64.__repr__ = _c.__vector__repr__
+vector_int64.tolist = _c.__vector_tolist
+vector_int64.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_int64()
+_z.resize(1)
+vector_int64.elem_type = _z[0].__class__
+del(_z)
+        
+vector_uint64.__old_init__ = vector_uint64.__init__
+vector_uint64.__init__ = _c.__vector__init__
+vector_uint64.create = _c.__vector_create
+vector_uint64.__repr__ = _c.__vector__repr__
+vector_uint64.tolist = _c.__vector_tolist
+vector_uint64.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_uint64()
+_z.resize(1)
+vector_uint64.elem_type = _z[0].__class__
+del(_z)
+        
+vector_float32.__old_init__ = vector_float32.__init__
+vector_float32.__init__ = _c.__vector__init__
+vector_float32.create = _c.__vector_create
+vector_float32.__repr__ = _c.__vector__repr__
+vector_float32.tolist = _c.__vector_tolist
+vector_float32.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_float32()
+_z.resize(1)
+vector_float32.elem_type = _z[0].__class__
+del(_z)
+        
+vector_float64.__old_init__ = vector_float64.__init__
+vector_float64.__init__ = _c.__vector__init__
+vector_float64.create = _c.__vector_create
+vector_float64.__repr__ = _c.__vector__repr__
+vector_float64.tolist = _c.__vector_tolist
+vector_float64.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_float64()
+_z.resize(1)
+vector_float64.elem_type = _z[0].__class__
+del(_z)
+        
+vector_vector_int.__old_init__ = vector_vector_int.__init__
+vector_vector_int.__init__ = _c.__vector__init__
+vector_vector_int.create = _c.__vector_create
+vector_vector_int.__repr__ = _c.__vector__repr__
+vector_vector_int.tolist = _c.__vector_tolist
+vector_vector_int.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_vector_int()
+_z.resize(1)
+vector_vector_int.elem_type = _z[0].__class__
+del(_z)
+        
+vector_vector_float32.__old_init__ = vector_vector_float32.__init__
+vector_vector_float32.__init__ = _c.__vector__init__
+vector_vector_float32.create = _c.__vector_create
+vector_vector_float32.__repr__ = _c.__vector__repr__
+vector_vector_float32.tolist = _c.__vector_tolist
+vector_vector_float32.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_vector_float32()
+_z.resize(1)
+vector_vector_float32.elem_type = _z[0].__class__
+del(_z)
+        

@@ -24,6 +24,17 @@ from cxcore_hpp_ext import *
 #=============================================================================
 
 
+vector_Size2i.__old_init__ = vector_Size2i.__init__
+vector_Size2i.__init__ = _c.__vector__init__
+vector_Size2i.create = _c.__vector_create
+vector_Size2i.__repr__ = _c.__vector__repr__
+vector_Size2i.tolist = _c.__vector_tolist
+vector_Size2i.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Size2i()
+_z.resize(1)
+vector_Size2i.elem_type = _z[0].__class__
+del(_z)
+        
 _str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Size2i that shares the same data with an ndarray instance, use: 'asSize2i(a),\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Size2i.__doc__ is None:
     Size2i.__doc__ = _str
@@ -55,6 +66,17 @@ def _Size2i__repr__(self):
 Size2i.__repr__ = _Size2i__repr__
         
     
+vector_Size2f.__old_init__ = vector_Size2f.__init__
+vector_Size2f.__init__ = _c.__vector__init__
+vector_Size2f.create = _c.__vector_create
+vector_Size2f.__repr__ = _c.__vector__repr__
+vector_Size2f.tolist = _c.__vector_tolist
+vector_Size2f.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Size2f()
+_z.resize(1)
+vector_Size2f.elem_type = _z[0].__class__
+del(_z)
+        
 _str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Size2f that shares the same data with an ndarray instance, use: 'asSize2f(a),\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Size2f.__doc__ is None:
     Size2f.__doc__ = _str
@@ -88,6 +110,17 @@ Size2f.__repr__ = _Size2f__repr__
     
 Size = Size2i
 
+vector_Rect.__old_init__ = vector_Rect.__init__
+vector_Rect.__init__ = _c.__vector__init__
+vector_Rect.create = _c.__vector_create
+vector_Rect.__repr__ = _c.__vector__repr__
+vector_Rect.tolist = _c.__vector_tolist
+vector_Rect.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Rect()
+_z.resize(1)
+vector_Rect.elem_type = _z[0].__class__
+del(_z)
+        
 _str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Rect that shares the same data with an ndarray instance, use: 'asRect(a),\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Rect.__doc__ is None:
     Rect.__doc__ = _str
@@ -120,6 +153,17 @@ def _Rect__repr__(self):
 Rect.__repr__ = _Rect__repr__
         
     
+vector_RotatedRect.__old_init__ = vector_RotatedRect.__init__
+vector_RotatedRect.__init__ = _c.__vector__init__
+vector_RotatedRect.create = _c.__vector_create
+vector_RotatedRect.__repr__ = _c.__vector__repr__
+vector_RotatedRect.tolist = _c.__vector_tolist
+vector_RotatedRect.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_RotatedRect()
+_z.resize(1)
+vector_RotatedRect.elem_type = _z[0].__class__
+del(_z)
+        
 _str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of RotatedRect that shares the same data with an ndarray instance, use: 'asRotatedRect(a),\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if RotatedRect.__doc__ is None:
     RotatedRect.__doc__ = _str
@@ -163,6 +207,17 @@ def _TermCriteria__repr__(self):
 TermCriteria.__repr__ = _TermCriteria__repr__
     
 
+vector_KDTree_Node.__old_init__ = vector_KDTree_Node.__init__
+vector_KDTree_Node.__init__ = _c.__vector__init__
+vector_KDTree_Node.create = _c.__vector_create
+vector_KDTree_Node.__repr__ = _c.__vector__repr__
+vector_KDTree_Node.tolist = _c.__vector_tolist
+vector_KDTree_Node.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_KDTree_Node()
+_z.resize(1)
+vector_KDTree_Node.elem_type = _z[0].__class__
+del(_z)
+        
 Seq_int.__old_init__ = Seq_int.__init__
 def _Seq_int__init__(self, *args, **kwds):
     Seq_int.__old_init__(self, *args, **kwds)
@@ -177,47 +232,3 @@ Seq_int.__init__ = _Seq_int__init__
         
 Seq_int.__iter__ = _c.__sd_iter__;
         
-vector_Size2i.__old_init__ = vector_Size2i.__init__
-vector_Size2i.__init__ = _c.__vector__init__
-vector_Size2i.create = _c.__vector_create
-vector_Size2i.__repr__ = _c.__vector__repr__
-vector_Size2i.tolist = _c.__vector_tolist
-vector_Size2i.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_Size2i()
-_z.resize(1)
-vector_Size2i.elem_type = _z[0].__class__
-del(_z)
-            
-vector_Size2f.__old_init__ = vector_Size2f.__init__
-vector_Size2f.__init__ = _c.__vector__init__
-vector_Size2f.create = _c.__vector_create
-vector_Size2f.__repr__ = _c.__vector__repr__
-vector_Size2f.tolist = _c.__vector_tolist
-vector_Size2f.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_Size2f()
-_z.resize(1)
-vector_Size2f.elem_type = _z[0].__class__
-del(_z)
-            
-vector_RotatedRect.__old_init__ = vector_RotatedRect.__init__
-vector_RotatedRect.__init__ = _c.__vector__init__
-vector_RotatedRect.create = _c.__vector_create
-vector_RotatedRect.__repr__ = _c.__vector__repr__
-vector_RotatedRect.tolist = _c.__vector_tolist
-vector_RotatedRect.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_RotatedRect()
-_z.resize(1)
-vector_RotatedRect.elem_type = _z[0].__class__
-del(_z)
-            
-vector_Rect.__old_init__ = vector_Rect.__init__
-vector_Rect.__init__ = _c.__vector__init__
-vector_Rect.create = _c.__vector_create
-vector_Rect.__repr__ = _c.__vector__repr__
-vector_Rect.tolist = _c.__vector_tolist
-vector_Rect.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_Rect()
-_z.resize(1)
-vector_Rect.elem_type = _z[0].__class__
-del(_z)
-            

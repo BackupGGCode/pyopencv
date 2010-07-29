@@ -44,6 +44,17 @@ def CV_IS_HAAR_CLASSIFIER(haar_cascade):
     return isinstance(haar_cascade, CvHaarClassifierCascade) and         haar_cascade.flags&CV_MAGIC_MASK==CV_HAAR_MAGIC_VAL
 
 
+vector_CvConnectedComp.__old_init__ = vector_CvConnectedComp.__init__
+vector_CvConnectedComp.__init__ = _c.__vector__init__
+vector_CvConnectedComp.create = _c.__vector_create
+vector_CvConnectedComp.__repr__ = _c.__vector__repr__
+vector_CvConnectedComp.tolist = _c.__vector_tolist
+vector_CvConnectedComp.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_CvConnectedComp()
+_z.resize(1)
+vector_CvConnectedComp.elem_type = _z[0].__class__
+del(_z)
+        
 Seq_CvConnectedComp.__old_init__ = Seq_CvConnectedComp.__init__
 def _Seq_CvConnectedComp__init__(self, *args, **kwds):
     Seq_CvConnectedComp.__old_init__(self, *args, **kwds)
@@ -292,6 +303,17 @@ def _CvLSH__del__(self):
         _ext._cvReleaseLSH(self)
 CvLSH.__del__ = _CvLSH__del__
 
+vector_CvSURFPoint.__old_init__ = vector_CvSURFPoint.__init__
+vector_CvSURFPoint.__init__ = _c.__vector__init__
+vector_CvSURFPoint.create = _c.__vector_create
+vector_CvSURFPoint.__repr__ = _c.__vector__repr__
+vector_CvSURFPoint.tolist = _c.__vector_tolist
+vector_CvSURFPoint.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_CvSURFPoint()
+_z.resize(1)
+vector_CvSURFPoint.elem_type = _z[0].__class__
+del(_z)
+        
 Seq_CvSURFPoint.__old_init__ = Seq_CvSURFPoint.__init__
 def _Seq_CvSURFPoint__init__(self, *args, **kwds):
     Seq_CvSURFPoint.__old_init__(self, *args, **kwds)
@@ -337,26 +359,3 @@ def _CvStereoGCState__del__(self):
     if self._ownershiplevel==1:
         _ext._cvReleaseStereoGCState(self)
 CvStereoGCState.__del__ = _CvStereoGCState__del__
-
-vector_CvSURFPoint.__old_init__ = vector_CvSURFPoint.__init__
-vector_CvSURFPoint.__init__ = _c.__vector__init__
-vector_CvSURFPoint.create = _c.__vector_create
-vector_CvSURFPoint.__repr__ = _c.__vector__repr__
-vector_CvSURFPoint.tolist = _c.__vector_tolist
-vector_CvSURFPoint.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_CvSURFPoint()
-_z.resize(1)
-vector_CvSURFPoint.elem_type = _z[0].__class__
-del(_z)
-            
-vector_CvConnectedComp.__old_init__ = vector_CvConnectedComp.__init__
-vector_CvConnectedComp.__init__ = _c.__vector__init__
-vector_CvConnectedComp.create = _c.__vector_create
-vector_CvConnectedComp.__repr__ = _c.__vector__repr__
-vector_CvConnectedComp.tolist = _c.__vector_tolist
-vector_CvConnectedComp.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_CvConnectedComp()
-_z.resize(1)
-vector_CvConnectedComp.elem_type = _z[0].__class__
-del(_z)
-            

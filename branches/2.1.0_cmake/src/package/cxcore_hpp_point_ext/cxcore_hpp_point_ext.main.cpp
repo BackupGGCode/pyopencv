@@ -59,37 +59,37 @@ BOOST_PYTHON_MODULE(cxcore_hpp_point_ext){
 
     bp::implicitly_convertible< cv::Seq< cv::Point_< int > >, std::vector< cv::Point_<int> > >();
 
-    bp::def("asPoint2i", &sdcpp::from_ndarray< cv::Point_<int> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Point2i", &sdcpp::from_ndarray< cv::Point_<int> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point_<int> >, (bp::arg("inst_Point2i")) );
+    bp::def("convert_Point2i_to_ndarray", &sdcpp::as_ndarray< cv::Point_<int> >, (bp::arg("inst_Point2i")) );
 
-    bp::def("asPoint2f", &sdcpp::from_ndarray< cv::Point_<float> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Point2f", &sdcpp::from_ndarray< cv::Point_<float> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point_<float> >, (bp::arg("inst_Point2f")) );
+    bp::def("convert_Point2f_to_ndarray", &sdcpp::as_ndarray< cv::Point_<float> >, (bp::arg("inst_Point2f")) );
 
-    bp::def("asPoint2d", &sdcpp::from_ndarray< cv::Point_<double> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Point2d", &sdcpp::from_ndarray< cv::Point_<double> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point_<double> >, (bp::arg("inst_Point2d")) );
+    bp::def("convert_Point2d_to_ndarray", &sdcpp::as_ndarray< cv::Point_<double> >, (bp::arg("inst_Point2d")) );
 
-    bp::def("asPoint3i", &sdcpp::from_ndarray< cv::Point3_<int> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Point3i", &sdcpp::from_ndarray< cv::Point3_<int> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point3_<int> >, (bp::arg("inst_Point3i")) );
+    bp::def("convert_Point3i_to_ndarray", &sdcpp::as_ndarray< cv::Point3_<int> >, (bp::arg("inst_Point3i")) );
 
-    bp::def("asPoint3f", &sdcpp::from_ndarray< cv::Point3_<float> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Point3f", &sdcpp::from_ndarray< cv::Point3_<float> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point3_<float> >, (bp::arg("inst_Point3f")) );
+    bp::def("convert_Point3f_to_ndarray", &sdcpp::as_ndarray< cv::Point3_<float> >, (bp::arg("inst_Point3f")) );
 
-    bp::def("asPoint3d", &sdcpp::from_ndarray< cv::Point3_<double> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Point3d", &sdcpp::from_ndarray< cv::Point3_<double> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Point3_<double> >, (bp::arg("inst_Point3d")) );
+    bp::def("convert_Point3d_to_ndarray", &sdcpp::as_ndarray< cv::Point3_<double> >, (bp::arg("inst_Point3d")) );
 
-    bp::def("asMat", &sdcpp::from_ndarray< cv::Mat >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Mat", &sdcpp::from_ndarray< cv::Mat >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Mat >, (bp::arg("inst_Mat")) );
+    bp::def("convert_Mat_to_ndarray", &sdcpp::as_ndarray< cv::Mat >, (bp::arg("inst_Mat")) );
 
-    bp::def("asMatND", &sdcpp::from_ndarray< cv::MatND >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_MatND", &sdcpp::from_ndarray< cv::MatND >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::MatND >, (bp::arg("inst_MatND")) );
+    bp::def("convert_MatND_to_ndarray", &sdcpp::as_ndarray< cv::MatND >, (bp::arg("inst_MatND")) );
 
     register_classes_1();
 

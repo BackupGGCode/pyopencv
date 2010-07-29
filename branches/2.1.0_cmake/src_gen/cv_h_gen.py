@@ -26,6 +26,16 @@ sb = sdpypp.SdModuleBuilder('cv_h', number_of_files=3)
 for t in ('CvSubdiv2DPointLocation', 'CvNextEdgeType', 'CvFilter'):
     sb.mb.enums(t).include()
 
+
+sb.register_ti('cv::Point_', ['int'], 'Point2i')
+sb.register_ti('cv::Point_', ['float'], 'Point2f')
+sb.register_ti('cv::Rect_', ['int'], 'Rect')
+sb.register_ti('cv::Size_', ['int'], 'Size')
+sb.register_ti('cv::TermCriteria')
+sb.register_ti('cv::RotatedRect')
+
+
+    
 sb.cc.write('''
 #=============================================================================
 # cvtypes.h
@@ -57,7 +67,8 @@ def CV_IS_HAAR_CLASSIFIER(haar_cascade):
 
 z = sb.mb.class_('CvConnectedComp')
 sb.init_class(z)
-sb.register_vec('std::vector', 'CvConnectedComp', 'vector_CvConnectedComp')
+sb.register_ti('CvConnectedComp')
+sb.expose_class_vector('CvConnectedComp')
 sb.finalize_class(z)
 sb.expose_class_Seq('CvConnectedComp')
 
@@ -697,7 +708,8 @@ FT.add_underscore(sb.mb.free_fun('cvReleaseLSH'))
 # CvSURFPoint
 z = sb.mb.class_('CvSURFPoint')
 sb.init_class(z)
-sb.register_vec('std::vector', 'CvSURFPoint', 'vector_CvSURFPoint')
+sb.register_ti('CvSURFPoint')
+sb.expose_class_vector('CvSURFPoint')
 sb.finalize_class(z)
 sb.expose_class_Seq('CvSURFPoint')
 
@@ -782,15 +794,6 @@ FT.expose_func(sb.mb.free_fun('cvCreateStereoGCState'), ownershiplevel=1)
 for t in ('cvFindStereoCorrespondenceGC', 'cvReprojectImageTo3D'):
     sb.mb.free_fun(t).include()
 
-
-
-
-sb.register_ti('cv::Point_', ['int'], '_')
-sb.register_ti('cv::Point_', ['float'], '_')
-sb.register_ti('cv::Rect_', ['int'], '_')
-sb.register_ti('cv::Size_', ['int'], '_')
-sb.register_ti('cv::TermCriteria')
-sb.register_ti('cv::RotatedRect')
 
 
 

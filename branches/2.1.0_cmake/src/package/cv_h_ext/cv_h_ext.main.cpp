@@ -442,7 +442,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    argument 'prev_features'."\
     "\nArgument 'win_size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: _."\
+    "\n    Python type: Size."\
     "\nArgument 'status':"\
     "\n    C++ type: char *."\
     "\n    Python type: (C++)std::vector<char>."\
@@ -546,13 +546,13 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'block_size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: _."\
+    "\n    Python type: Size."\
     "\nArgument 'shift_size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: _."\
+    "\n    Python type: Size."\
     "\nArgument 'max_range':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: _."\
+    "\n    Python type: Size."\
     "\nArgument 'velx':"\
     "\n    C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
@@ -630,7 +630,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'win_size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: _."\
+    "\n    Python type: Size."\
     "\nArgument 'velx':"\
     "\n    C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
@@ -674,7 +674,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    argument 'prev_features'."\
     "\nArgument 'win_size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: _."\
+    "\n    Python type: Size."\
     "\nArgument 'status':"\
     "\n    C++ type: char *."\
     "\n    Python type: (C++)std::vector<char>."\
@@ -706,7 +706,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: _." );
+    "\n    Python type: Size." );
     
     }
 
@@ -855,7 +855,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    cvCreateSubdivDelaunay2D"
     "\nArgument 'rect':"\
     "\n    C++ type: ::CvRect."\
-    "\n    Python type: _."\
+    "\n    Python type: Rect."\
     "\nArgument 'storage':"\
     "\n    C++ type: ::CvMemStorage *."\
     "\n    Python type: MemStorage." );
@@ -999,7 +999,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    cvFindNearestPoint2D"
     "\nArgument 'pt':"\
     "\n    C++ type: ::CvPoint2D32f."\
-    "\n    Python type: _." );
+    "\n    Python type: Point2f." );
     
     }
 
@@ -1062,7 +1062,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    cvInitSubdivDelaunay2D"
     "\nArgument 'rect':"\
     "\n    C++ type: ::CvRect."\
-    "\n    Python type: _." );
+    "\n    Python type: Rect." );
     
     }
 
@@ -1141,7 +1141,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'center':"\
     "\n    C++ type: ::CvPoint2D32f."\
-    "\n    Python type: _." );
+    "\n    Python type: Point2f." );
     
     }
 
@@ -1163,7 +1163,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'center':"\
     "\n    C++ type: ::CvPoint2D32f."\
-    "\n    Python type: _." );
+    "\n    Python type: Point2f." );
     
     }
 
@@ -1365,10 +1365,10 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'pt1':"\
     "\n    C++ type: ::CvPoint."\
-    "\n    Python type: _."\
+    "\n    Python type: Point2i."\
     "\nArgument 'pt2':"\
     "\n    C++ type: ::CvPoint."\
-    "\n    Python type: _." );
+    "\n    Python type: Point2i." );
     
     }
 
@@ -1447,7 +1447,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    cvStarKeypoint"
     "\nArgument 'pt':"\
     "\n    C++ type: ::CvPoint."\
-    "\n    Python type: _." );
+    "\n    Python type: Point2i." );
     
     }
 
@@ -1469,7 +1469,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: MemStorage."\
     "\nArgument 'offset':"\
     "\n    C++ type: ::CvPoint."\
-    "\n    Python type: _." );
+    "\n    Python type: Point2i." );
     
     }
 
@@ -1485,7 +1485,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    cvSubdiv2DLocate"
     "\nArgument 'pt':"\
     "\n    C++ type: ::CvPoint2D32f."\
-    "\n    Python type: _."\
+    "\n    Python type: Point2f."\
     "\nArgument 'vertex':"\
     "\n    C++ type: ::CvSubdiv2DPoint * *."\
     "\n    Python type: (C++)CvSubdiv2DPoint *."\
@@ -1507,7 +1507,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    cvSubdivDelaunay2DInsert"
     "\nArgument 'pt':"\
     "\n    C++ type: ::CvPoint2D32f."\
-    "\n    Python type: _." );
+    "\n    Python type: Point2f." );
     
     }
 
@@ -1523,13 +1523,13 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    cvTriangleArea"
     "\nArgument 'a':"\
     "\n    C++ type: ::CvPoint2D32f."\
-    "\n    Python type: _."\
+    "\n    Python type: Point2f."\
     "\nArgument 'b':"\
     "\n    C++ type: ::CvPoint2D32f."\
-    "\n    Python type: _."\
+    "\n    Python type: Point2f."\
     "\nArgument 'c':"\
     "\n    C++ type: ::CvPoint2D32f."\
-    "\n    Python type: _." );
+    "\n    Python type: Point2f." );
     
     }
 

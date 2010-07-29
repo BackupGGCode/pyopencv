@@ -361,7 +361,7 @@ void register_classes_2(){
                 , ( bp::arg("inst"), bp::arg("image"), bp::arg("scaleFactor")=1.10000000000000008881784197001252323389053344727e+0, bp::arg("minNeighbors")=(int)(3), bp::arg("flags")=(int)(0), bp::arg("minSize")=cv::Size_<int>() )
                 , "\nArgument 'objects':"\
     "\n    C++ type: ::std::vector< cv::Rect_<int> > &."\
-    "\n    Python type: (C++)std::vector<cv::Rect_<int> >."\
+    "\n    Python type: vector_Rect."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    objects" );
@@ -629,7 +629,7 @@ void register_classes_2(){
     "\n    operator()"
     "\nArgument 'msers':"\
     "\n    C++ type: ::std::vector< std::vector< cv::Point_<int> > > &."\
-    "\n    Python type: (C++)std::vector<std::vector<cv::Point_<int> > >."\
+    "\n    Python type: vector_vector_Point2i."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    msers" );

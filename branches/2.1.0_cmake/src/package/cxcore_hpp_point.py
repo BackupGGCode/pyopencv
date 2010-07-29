@@ -24,6 +24,28 @@ from cxcore_hpp_point_ext import *
 #=============================================================================
 
 
+vector_Point2i.__old_init__ = vector_Point2i.__init__
+vector_Point2i.__init__ = _c.__vector__init__
+vector_Point2i.create = _c.__vector_create
+vector_Point2i.__repr__ = _c.__vector__repr__
+vector_Point2i.tolist = _c.__vector_tolist
+vector_Point2i.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Point2i()
+_z.resize(1)
+vector_Point2i.elem_type = _z[0].__class__
+del(_z)
+        
+vector_vector_Point2i.__old_init__ = vector_vector_Point2i.__init__
+vector_vector_Point2i.__init__ = _c.__vector__init__
+vector_vector_Point2i.create = _c.__vector_create
+vector_vector_Point2i.__repr__ = _c.__vector__repr__
+vector_vector_Point2i.tolist = _c.__vector_tolist
+vector_vector_Point2i.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_vector_Point2i()
+_z.resize(1)
+vector_vector_Point2i.elem_type = _z[0].__class__
+del(_z)
+        
 def _Point2i__repr__(self):
     return "Point2i(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
 Point2i.__repr__ = _Point2i__repr__
@@ -55,6 +77,28 @@ def _Point2i__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Point2i.__iter__ = _Point2i__iter__
             
+vector_Point2f.__old_init__ = vector_Point2f.__init__
+vector_Point2f.__init__ = _c.__vector__init__
+vector_Point2f.create = _c.__vector_create
+vector_Point2f.__repr__ = _c.__vector__repr__
+vector_Point2f.tolist = _c.__vector_tolist
+vector_Point2f.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Point2f()
+_z.resize(1)
+vector_Point2f.elem_type = _z[0].__class__
+del(_z)
+        
+vector_vector_Point2f.__old_init__ = vector_vector_Point2f.__init__
+vector_vector_Point2f.__init__ = _c.__vector__init__
+vector_vector_Point2f.create = _c.__vector_create
+vector_vector_Point2f.__repr__ = _c.__vector__repr__
+vector_vector_Point2f.tolist = _c.__vector_tolist
+vector_vector_Point2f.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_vector_Point2f()
+_z.resize(1)
+vector_vector_Point2f.elem_type = _z[0].__class__
+del(_z)
+        
 def _Point2f__repr__(self):
     return "Point2f(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
 Point2f.__repr__ = _Point2f__repr__
@@ -86,6 +130,28 @@ def _Point2f__iter__(self, *args, **kwds):
     return self.ndarray.__iter__(*args, **kwds)
 Point2f.__iter__ = _Point2f__iter__
             
+vector_Point2d.__old_init__ = vector_Point2d.__init__
+vector_Point2d.__init__ = _c.__vector__init__
+vector_Point2d.create = _c.__vector_create
+vector_Point2d.__repr__ = _c.__vector__repr__
+vector_Point2d.tolist = _c.__vector_tolist
+vector_Point2d.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Point2d()
+_z.resize(1)
+vector_Point2d.elem_type = _z[0].__class__
+del(_z)
+        
+vector_vector_Point2d.__old_init__ = vector_vector_Point2d.__init__
+vector_vector_Point2d.__init__ = _c.__vector__init__
+vector_vector_Point2d.create = _c.__vector_create
+vector_vector_Point2d.__repr__ = _c.__vector__repr__
+vector_vector_Point2d.tolist = _c.__vector_tolist
+vector_vector_Point2d.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_vector_Point2d()
+_z.resize(1)
+vector_vector_Point2d.elem_type = _z[0].__class__
+del(_z)
+        
 def _Point2d__repr__(self):
     return "Point2d(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"
 Point2d.__repr__ = _Point2d__repr__
@@ -132,9 +198,30 @@ Seq_Point2i.__init__ = _Seq_Point2i__init__
 Seq_Point2i.__iter__ = _c.__sd_iter__;
         
 Point = Point2i
-asPoint = asPoint2i
 Seq_Point = Seq_Point2i
 
+vector_Point3i.__old_init__ = vector_Point3i.__init__
+vector_Point3i.__init__ = _c.__vector__init__
+vector_Point3i.create = _c.__vector_create
+vector_Point3i.__repr__ = _c.__vector__repr__
+vector_Point3i.tolist = _c.__vector_tolist
+vector_Point3i.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Point3i()
+_z.resize(1)
+vector_Point3i.elem_type = _z[0].__class__
+del(_z)
+        
+vector_vector_Point3i.__old_init__ = vector_vector_Point3i.__init__
+vector_vector_Point3i.__init__ = _c.__vector__init__
+vector_vector_Point3i.create = _c.__vector_create
+vector_vector_Point3i.__repr__ = _c.__vector__repr__
+vector_vector_Point3i.tolist = _c.__vector_tolist
+vector_vector_Point3i.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_vector_Point3i()
+_z.resize(1)
+vector_vector_Point3i.elem_type = _z[0].__class__
+del(_z)
+        
 _str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Point3i that shares the same data with an ndarray instance, use: 'asPoint3i(a),\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point3i.__doc__ is None:
     Point3i.__doc__ = _str
@@ -166,6 +253,28 @@ def _Point3i__repr__(self):
 Point3i.__repr__ = _Point3i__repr__
         
     
+vector_Point3f.__old_init__ = vector_Point3f.__init__
+vector_Point3f.__init__ = _c.__vector__init__
+vector_Point3f.create = _c.__vector_create
+vector_Point3f.__repr__ = _c.__vector__repr__
+vector_Point3f.tolist = _c.__vector_tolist
+vector_Point3f.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Point3f()
+_z.resize(1)
+vector_Point3f.elem_type = _z[0].__class__
+del(_z)
+        
+vector_vector_Point3f.__old_init__ = vector_vector_Point3f.__init__
+vector_vector_Point3f.__init__ = _c.__vector__init__
+vector_vector_Point3f.create = _c.__vector_create
+vector_vector_Point3f.__repr__ = _c.__vector__repr__
+vector_vector_Point3f.tolist = _c.__vector_tolist
+vector_vector_Point3f.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_vector_Point3f()
+_z.resize(1)
+vector_vector_Point3f.elem_type = _z[0].__class__
+del(_z)
+        
 _str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Point3f that shares the same data with an ndarray instance, use: 'asPoint3f(a),\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point3f.__doc__ is None:
     Point3f.__doc__ = _str
@@ -197,6 +306,28 @@ def _Point3f__repr__(self):
 Point3f.__repr__ = _Point3f__repr__
         
     
+vector_Point3d.__old_init__ = vector_Point3d.__init__
+vector_Point3d.__init__ = _c.__vector__init__
+vector_Point3d.create = _c.__vector_create
+vector_Point3d.__repr__ = _c.__vector__repr__
+vector_Point3d.tolist = _c.__vector_tolist
+vector_Point3d.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Point3d()
+_z.resize(1)
+vector_Point3d.elem_type = _z[0].__class__
+del(_z)
+        
+vector_vector_Point3d.__old_init__ = vector_vector_Point3d.__init__
+vector_vector_Point3d.__init__ = _c.__vector__init__
+vector_vector_Point3d.create = _c.__vector_create
+vector_vector_Point3d.__repr__ = _c.__vector__repr__
+vector_vector_Point3d.tolist = _c.__vector_tolist
+vector_vector_Point3d.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_vector_Point3d()
+_z.resize(1)
+vector_vector_Point3d.elem_type = _z[0].__class__
+del(_z)
+        
 _str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Point3d that shares the same data with an ndarray instance, use: 'asPoint3d(a),\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Point3d.__doc__ is None:
     Point3d.__doc__ = _str
@@ -228,6 +359,17 @@ def _Point3d__repr__(self):
 Point3d.__repr__ = _Point3d__repr__
         
     
+vector_Mat.__old_init__ = vector_Mat.__init__
+vector_Mat.__init__ = _c.__vector__init__
+vector_Mat.create = _c.__vector_create
+vector_Mat.__repr__ = _c.__vector__repr__
+vector_Mat.tolist = _c.__vector_tolist
+vector_Mat.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Mat()
+_z.resize(1)
+vector_Mat.elem_type = _z[0].__class__
+del(_z)
+        
 _str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of Mat that shares the same data with an ndarray instance, use: 'asMat(a),\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if Mat.__doc__ is None:
     Mat.__doc__ = _str
@@ -258,69 +400,28 @@ def _Mat__repr__(self):
     return "Mat()" if self.empty() else "Mat(rows=" + repr(self.rows)         + ", cols=" + repr(self.cols) + ", nchannels=" + repr(self.channels())         + ", depth=" + repr(self.depth()) + "):\n" + repr(self.ndarray)
 Mat.__repr__ = _Mat__repr__
 
-def reshapeSingleChannel(mat):
-    """Reshapes a Mat object into one that has a single channel.
-    
-    The function returns mat itself if it is single-channel.
-
-    If it is multi-channel, the function invokes mat.reshape() to reshape
-    the object. If the object has a single row, the returning object has
-    rows=mat.cols and cols=mat.channels(). Otherwise, the returning object
-    has rows=mat.rows and cols=mat.cols*mat.channels().    
-    """
-    if mat.channels() != 1:
-        new_mat = mat.reshape(1, mat.cols if mat.rows==1 else mat.rows)
-        if '_depends' in mat.__dict__:
-            new_mat._depends = mat._depends
-        return new_mat
-    return mat
-    
-def asMat(obj, force_single_channel=False):
-    """Converts a Python object into a Mat object.
-    
-    This general-purpose meta-function uses a simple heuristic method to
-    identify the type of the given Python object in order to convert it into
-    a Mat object. First, it invokes the internal asMat() function of the
-    Python extension to try to convert. If not successful, it assumes the 
-    object is a Python sequence, and converts the object into a std::vector 
-    object whose element type is the type of the first element of the Python 
-    sequence. After that, it converts the std::vector object into a Mat 
-    object by invoking the internal asMat() function again.
-    
-    In the case that the above heuristic method does not convert into a Mat
-    object with your intended type and depth, use one of the asvector_...()
-    functions to convert your object into a vector before invoking asMat().
-    
-    If 'force_single_channel' is True, the returning Mat is single-channel (by
-    invoking reshapeSingleChannel()). Otherwise, PyOpenCV tries to return a 
-    multi-channel Mat whenever possible.
-    """
-    
-    if obj is None:
-        return Mat()
+vector_Ptr_Mat.__old_init__ = vector_Ptr_Mat.__init__
+vector_Ptr_Mat.__init__ = _c.__vector__init__
+vector_Ptr_Mat.create = _c.__vector_create
+vector_Ptr_Mat.__repr__ = _c.__vector__repr__
+vector_Ptr_Mat.tolist = _c.__vector_tolist
+vector_Ptr_Mat.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Ptr_Mat()
+_z.resize(1)
+vector_Ptr_Mat.elem_type = _z[0].__class__
+del(_z)
         
-    try:
-        out_mat = eval("_ext.asMat(inst_%s=obj)" % obj.__class__.__name__)
-    except TypeError as e: # Boost.Python.ArgumentError is an unexposed subclass
-        if not e.message.startswith('Python argument types in'):
-            raise e
-            
-        z = obj[0]
-        if isinstance(z, int):
-            out_mat = _ext.asMat(inst_vector_int=vector_int.fromlist(obj))
-        elif isinstance(z, float):
-            out_mat = _ext.asMat(inst_vector_float64=vector_float64.fromlist(obj))
-        else:
-            out_mat = eval("_ext.asMat(inst_vector_Type=vector_Type.fromlist(obj))"                .replace("Type", z.__class__.__name__))
-    
-    if force_single_channel:
-        return reshapeSingleChannel(out_mat)
-    return out_mat
-asMat.__doc__ = asMat.__doc__ + """
-Docstring of the internal asMat function:
-
-""" + _ext.asMat.__doc__
-
+vector_MatND.__old_init__ = vector_MatND.__init__
+vector_MatND.__init__ = _c.__vector__init__
+vector_MatND.create = _c.__vector_create
+vector_MatND.__repr__ = _c.__vector__repr__
+vector_MatND.tolist = _c.__vector_tolist
+vector_MatND.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_MatND()
+_z.resize(1)
+vector_MatND.elem_type = _z[0].__class__
+del(_z)
+        
 _str = "\n    Property 'ndarray' provides a numpy.ndarray view on the object.\n    If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!\n    Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.\n    \n    To create an instance of MatND that shares the same data with an ndarray instance, use: 'asMatND(a),\n    where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted."
 if MatND.__doc__ is None:
     MatND.__doc__ = _str
@@ -350,169 +451,3 @@ MatND.__iter__ = _MatND__iter__
 def _MatND__repr__(self):
     return "MatND(shape=" + repr(self.ndarray.shape) + ", nchannels=" + repr(self.channels())         + ", depth=" + repr(self.depth()) + "):\n" + repr(self.ndarray)
 MatND.__repr__ = _MatND__repr__
-
-vector_vector_Point2i.__old_init__ = vector_vector_Point2i.__init__
-vector_vector_Point2i.__init__ = _c.__vector__init__
-vector_vector_Point2i.create = _c.__vector_create
-vector_vector_Point2i.__repr__ = _c.__vector__repr__
-vector_vector_Point2i.tolist = _c.__vector_tolist
-vector_vector_Point2i.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_vector_Point2i()
-_z.resize(1)
-vector_vector_Point2i.elem_type = _z[0].__class__
-del(_z)
-            
-vector_Point2i.__old_init__ = vector_Point2i.__init__
-vector_Point2i.__init__ = _c.__vector__init__
-vector_Point2i.create = _c.__vector_create
-vector_Point2i.__repr__ = _c.__vector__repr__
-vector_Point2i.tolist = _c.__vector_tolist
-vector_Point2i.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_Point2i()
-_z.resize(1)
-vector_Point2i.elem_type = _z[0].__class__
-del(_z)
-            
-vector_vector_Point2f.__old_init__ = vector_vector_Point2f.__init__
-vector_vector_Point2f.__init__ = _c.__vector__init__
-vector_vector_Point2f.create = _c.__vector_create
-vector_vector_Point2f.__repr__ = _c.__vector__repr__
-vector_vector_Point2f.tolist = _c.__vector_tolist
-vector_vector_Point2f.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_vector_Point2f()
-_z.resize(1)
-vector_vector_Point2f.elem_type = _z[0].__class__
-del(_z)
-            
-vector_Point2f.__old_init__ = vector_Point2f.__init__
-vector_Point2f.__init__ = _c.__vector__init__
-vector_Point2f.create = _c.__vector_create
-vector_Point2f.__repr__ = _c.__vector__repr__
-vector_Point2f.tolist = _c.__vector_tolist
-vector_Point2f.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_Point2f()
-_z.resize(1)
-vector_Point2f.elem_type = _z[0].__class__
-del(_z)
-            
-vector_vector_Point2d.__old_init__ = vector_vector_Point2d.__init__
-vector_vector_Point2d.__init__ = _c.__vector__init__
-vector_vector_Point2d.create = _c.__vector_create
-vector_vector_Point2d.__repr__ = _c.__vector__repr__
-vector_vector_Point2d.tolist = _c.__vector_tolist
-vector_vector_Point2d.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_vector_Point2d()
-_z.resize(1)
-vector_vector_Point2d.elem_type = _z[0].__class__
-del(_z)
-            
-vector_Point2d.__old_init__ = vector_Point2d.__init__
-vector_Point2d.__init__ = _c.__vector__init__
-vector_Point2d.create = _c.__vector_create
-vector_Point2d.__repr__ = _c.__vector__repr__
-vector_Point2d.tolist = _c.__vector_tolist
-vector_Point2d.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_Point2d()
-_z.resize(1)
-vector_Point2d.elem_type = _z[0].__class__
-del(_z)
-            
-vector_vector_Point3i.__old_init__ = vector_vector_Point3i.__init__
-vector_vector_Point3i.__init__ = _c.__vector__init__
-vector_vector_Point3i.create = _c.__vector_create
-vector_vector_Point3i.__repr__ = _c.__vector__repr__
-vector_vector_Point3i.tolist = _c.__vector_tolist
-vector_vector_Point3i.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_vector_Point3i()
-_z.resize(1)
-vector_vector_Point3i.elem_type = _z[0].__class__
-del(_z)
-            
-vector_Point3i.__old_init__ = vector_Point3i.__init__
-vector_Point3i.__init__ = _c.__vector__init__
-vector_Point3i.create = _c.__vector_create
-vector_Point3i.__repr__ = _c.__vector__repr__
-vector_Point3i.tolist = _c.__vector_tolist
-vector_Point3i.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_Point3i()
-_z.resize(1)
-vector_Point3i.elem_type = _z[0].__class__
-del(_z)
-            
-vector_vector_Point3f.__old_init__ = vector_vector_Point3f.__init__
-vector_vector_Point3f.__init__ = _c.__vector__init__
-vector_vector_Point3f.create = _c.__vector_create
-vector_vector_Point3f.__repr__ = _c.__vector__repr__
-vector_vector_Point3f.tolist = _c.__vector_tolist
-vector_vector_Point3f.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_vector_Point3f()
-_z.resize(1)
-vector_vector_Point3f.elem_type = _z[0].__class__
-del(_z)
-            
-vector_Point3f.__old_init__ = vector_Point3f.__init__
-vector_Point3f.__init__ = _c.__vector__init__
-vector_Point3f.create = _c.__vector_create
-vector_Point3f.__repr__ = _c.__vector__repr__
-vector_Point3f.tolist = _c.__vector_tolist
-vector_Point3f.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_Point3f()
-_z.resize(1)
-vector_Point3f.elem_type = _z[0].__class__
-del(_z)
-            
-vector_vector_Point3d.__old_init__ = vector_vector_Point3d.__init__
-vector_vector_Point3d.__init__ = _c.__vector__init__
-vector_vector_Point3d.create = _c.__vector_create
-vector_vector_Point3d.__repr__ = _c.__vector__repr__
-vector_vector_Point3d.tolist = _c.__vector_tolist
-vector_vector_Point3d.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_vector_Point3d()
-_z.resize(1)
-vector_vector_Point3d.elem_type = _z[0].__class__
-del(_z)
-            
-vector_Point3d.__old_init__ = vector_Point3d.__init__
-vector_Point3d.__init__ = _c.__vector__init__
-vector_Point3d.create = _c.__vector_create
-vector_Point3d.__repr__ = _c.__vector__repr__
-vector_Point3d.tolist = _c.__vector_tolist
-vector_Point3d.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_Point3d()
-_z.resize(1)
-vector_Point3d.elem_type = _z[0].__class__
-del(_z)
-            
-vector_Ptr_Mat.__old_init__ = vector_Ptr_Mat.__init__
-vector_Ptr_Mat.__init__ = _c.__vector__init__
-vector_Ptr_Mat.create = _c.__vector_create
-vector_Ptr_Mat.__repr__ = _c.__vector__repr__
-vector_Ptr_Mat.tolist = _c.__vector_tolist
-vector_Ptr_Mat.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_Ptr_Mat()
-_z.resize(1)
-vector_Ptr_Mat.elem_type = _z[0].__class__
-del(_z)
-            
-vector_MatND.__old_init__ = vector_MatND.__init__
-vector_MatND.__init__ = _c.__vector__init__
-vector_MatND.create = _c.__vector_create
-vector_MatND.__repr__ = _c.__vector__repr__
-vector_MatND.tolist = _c.__vector_tolist
-vector_MatND.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_MatND()
-_z.resize(1)
-vector_MatND.elem_type = _z[0].__class__
-del(_z)
-            
-vector_Mat.__old_init__ = vector_Mat.__init__
-vector_Mat.__init__ = _c.__vector__init__
-vector_Mat.create = _c.__vector_create
-vector_Mat.__repr__ = _c.__vector__repr__
-vector_Mat.tolist = _c.__vector_tolist
-vector_Mat.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_Mat()
-_z.resize(1)
-vector_Mat.elem_type = _z[0].__class__
-del(_z)
-            

@@ -40,6 +40,8 @@ public:
         + sizeof(cv::Vec<unsigned short,3>)
         + sizeof(cv::Vec<unsigned short,4>)
         + sizeof(std::vector<cv::KDTree::Node>)
+        + sizeof(std::vector<cv::Mat>)
+        + sizeof(std::vector<cv::MatND>)
         + sizeof(std::vector<cv::Point3_<double> >)
         + sizeof(std::vector<cv::Point3_<float> >)
         + sizeof(std::vector<cv::Point3_<int> >)
@@ -73,12 +75,15 @@ public:
         + sizeof(std::vector<cv::Vec<unsigned short,3> >)
         + sizeof(std::vector<cv::Vec<unsigned short,4> >)
         + sizeof(std::vector<float>)
+        + sizeof(std::vector<int>)
         + sizeof(std::vector<std::vector<cv::Point3_<double> > >)
         + sizeof(std::vector<std::vector<cv::Point3_<float> > >)
         + sizeof(std::vector<std::vector<cv::Point3_<int> > >)
         + sizeof(std::vector<std::vector<cv::Point_<double> > >)
         + sizeof(std::vector<std::vector<cv::Point_<float> > >)
-        + sizeof(std::vector<std::vector<cv::Point_<int> > >);
+        + sizeof(std::vector<std::vector<cv::Point_<int> > >)
+        + sizeof(std::vector<unsigned char>)
+        + sizeof(std::vector<unsigned int>);
 };
 
 #endif

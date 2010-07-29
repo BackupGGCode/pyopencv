@@ -5,16 +5,66 @@
 #include "cxcore_hpp_wrapper.hpp"
 #include "ndarray.hpp"
 #include "opencv_converters.hpp"
-#include "boost/python/object.hpp"
 #include "cxcore_hpp_ext_classes_3.pypp.hpp"
 
 namespace bp = boost::python;
 
-static size_t Seq_int_len(cv::Seq<int> const &inst) { return inst.size(); }
-
-static ::CvSeq * get_Seq_int_seq( cv::Seq<int> const & inst ) { return inst.seq; }
-
 void register_classes_3(){
+
+    bp::class_< cv::PCA >( "PCA", "\nClass for Principal Component Analysis."
+    "\n"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#pca", bp::init< >("\nPCA constructors."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-pca") )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::PCA >(), "\nClass for Principal Component Analysis."
+    "\n"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#pca" )    
+        .def( bp::init< cv::Mat const &, cv::Mat const &, int, bp::optional< int > >(( bp::arg("data"), bp::arg("mean"), bp::arg("flags"), bp::arg("maxComponents")=(int)(0) ), "\nPCA constructors."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-pca") )    
+        .def( 
+            "backProject"
+            , (::cv::Mat ( cv::PCA::* )( ::cv::Mat const & ) const)( &::cv::PCA::backProject )
+            , ( bp::arg("vec") )
+            , "\nReconstruct vectors from their PC projections."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-backproject" )    
+        .def( 
+            "backProject"
+            , (void ( cv::PCA::* )( ::cv::Mat const &,::cv::Mat & ) const)( &::cv::PCA::backProject )
+            , ( bp::arg("vec"), bp::arg("result") )
+            , "\nReconstruct vectors from their PC projections."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-backproject" )    
+        .def( 
+            "__call__"
+            , (::cv::PCA & ( cv::PCA::* )( ::cv::Mat const &,::cv::Mat const &,int,int ) )( &::cv::PCA::operator() )
+            , ( bp::arg("data"), bp::arg("mean"), bp::arg("flags"), bp::arg("maxComponents")=(int)(0) )
+            , bp::return_self< >()
+            , "\nPerforms Principal Component Analysis of the supplied dataset."
+    "\nWrapped function:"
+    "\n    operator()"
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-operator" )    
+        .def( 
+            "project"
+            , (::cv::Mat ( cv::PCA::* )( ::cv::Mat const & ) const)( &::cv::PCA::project )
+            , ( bp::arg("vec") )
+            , "\nProject vector(s) to the principal component subspace."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-project" )    
+        .def( 
+            "project"
+            , (void ( cv::PCA::* )( ::cv::Mat const &,::cv::Mat & ) const)( &::cv::PCA::project )
+            , ( bp::arg("vec"), bp::arg("result") )
+            , "\nProject vector(s) to the principal component subspace."
+    "\nReference:"
+    "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-pca-project" )    
+        .def_readwrite( "eigenvalues", &cv::PCA::eigenvalues )    
+        .def_readwrite( "eigenvectors", &cv::PCA::eigenvectors )    
+        .def_readwrite( "mean", &cv::PCA::mean );
 
     { //::cv::RNG
         typedef bp::class_< cv::RNG > RNG_exposer_t;
@@ -366,216 +416,6 @@ void register_classes_3(){
         SVD_exposer.def_readwrite( "vt", &cv::SVD::vt );
         SVD_exposer.def_readwrite( "w", &cv::SVD::w );
         SVD_exposer.staticmethod( "solveZ" );
-    }
-
-    { //::cv::Seq< int >
-        typedef bp::class_< cv::Seq< int > > Seq_int_exposer_t;
-        Seq_int_exposer_t Seq_int_exposer = Seq_int_exposer_t( "Seq_int", bp::init< >() );
-        bp::scope Seq_int_scope( Seq_int_exposer );
-        Seq_int_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Seq< int > >() );
-        Seq_int_exposer.def( bp::init< CvSeq const * >(( bp::arg("_seq") )) );
-        bp::implicitly_convertible< CvSeq const *, cv::Seq< int > >();
-        Seq_int_exposer.def( bp::init< cv::Ptr< CvMemStorage > &, bp::optional< int > >(( bp::arg("storage"), bp::arg("headerSize")=(int)(56u) )) );
-        bp::implicitly_convertible< cv::Ptr< CvMemStorage > &, cv::Seq< int > >();
-        { //::cv::Seq< int >::channels
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef int ( exported_class_t::*channels_function_type )(  ) const;
-            
-            Seq_int_exposer.def( 
-                "channels"
-                , channels_function_type( &::cv::Seq< int >::channels ) );
-        
-        }
-        { //::cv::Seq< int >::clear
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef void ( exported_class_t::*clear_function_type )(  ) ;
-            
-            Seq_int_exposer.def( 
-                "clear"
-                , clear_function_type( &::cv::Seq< int >::clear ) );
-        
-        }
-        { //::cv::Seq< int >::copyTo
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef void ( exported_class_t::*copyTo_function_type )( ::std::vector< int > &,::cv::Range const & ) const;
-            
-            Seq_int_exposer.def( 
-                "copyTo"
-                , copyTo_function_type( &::cv::Seq< int >::copyTo )
-                , ( bp::arg("vec"), bp::arg("range")=cv::Range::all() ) );
-        
-        }
-        { //::cv::Seq< int >::depth
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef int ( exported_class_t::*depth_function_type )(  ) const;
-            
-            Seq_int_exposer.def( 
-                "depth"
-                , depth_function_type( &::cv::Seq< int >::depth ) );
-        
-        }
-        { //::cv::Seq< int >::elemSize
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef ::size_t ( exported_class_t::*elemSize_function_type )(  ) const;
-            
-            Seq_int_exposer.def( 
-                "elemSize"
-                , elemSize_function_type( &::cv::Seq< int >::elemSize ) );
-        
-        }
-        { //::cv::Seq< int >::empty
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef bool ( exported_class_t::*empty_function_type )(  ) const;
-            
-            Seq_int_exposer.def( 
-                "empty"
-                , empty_function_type( &::cv::Seq< int >::empty ) );
-        
-        }
-        { //::cv::Seq< int >::index
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef ::size_t ( exported_class_t::*index_function_type )( int const & ) const;
-            
-            Seq_int_exposer.def( 
-                "index"
-                , index_function_type( &::cv::Seq< int >::index )
-                , ( bp::arg("elem") ) );
-        
-        }
-        { //::cv::Seq< int >::insert
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef void ( exported_class_t::*insert_function_type )( int,int const & ) ;
-            
-            Seq_int_exposer.def( 
-                "insert"
-                , insert_function_type( &::cv::Seq< int >::insert )
-                , ( bp::arg("idx"), bp::arg("elem") ) );
-        
-        }
-        Seq_int_exposer.def( "__temp_func", &cv::Seq< int >::operator ::std::vector< int > , "\nWrapped function:"
-    "\n    operator ::std::vector<int, std::allocator<int> >" );
-        { //::cv::Seq< int >::operator[]
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef int & ( exported_class_t::*__getitem___function_type )( int ) ;
-            
-            Seq_int_exposer.def( 
-                "__getitem__"
-                , __getitem___function_type( &::cv::Seq< int >::operator[] )
-                , ( bp::arg("idx") )
-                , bp::return_value_policy< bp::copy_non_const_reference >()
-                , "\nWrapped function:"
-    "\n    operator[]" );
-        
-        }
-        { //::cv::Seq< int >::operator[]
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef int const & ( exported_class_t::*__getitem___function_type )( int ) const;
-            
-            Seq_int_exposer.def( 
-                "__getitem__"
-                , __getitem___function_type( &::cv::Seq< int >::operator[] )
-                , ( bp::arg("idx") )
-                , bp::return_value_policy< bp::copy_const_reference >()
-                , "\nWrapped function:"
-    "\n    operator[]" );
-        
-        }
-        { //::cv::Seq< int >::pop_back
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef void ( exported_class_t::*pop_back_function_type )(  ) ;
-            
-            Seq_int_exposer.def( 
-                "pop_back"
-                , pop_back_function_type( &::cv::Seq< int >::pop_back ) );
-        
-        }
-        { //::cv::Seq< int >::pop_front
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef void ( exported_class_t::*pop_front_function_type )(  ) ;
-            
-            Seq_int_exposer.def( 
-                "pop_front"
-                , pop_front_function_type( &::cv::Seq< int >::pop_front ) );
-        
-        }
-        { //::cv::Seq< int >::push_back
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef void ( exported_class_t::*push_back_function_type )( int const & ) ;
-            
-            Seq_int_exposer.def( 
-                "push_back"
-                , push_back_function_type( &::cv::Seq< int >::push_back )
-                , ( bp::arg("elem") ) );
-        
-        }
-        { //::cv::Seq< int >::push_front
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef void ( exported_class_t::*push_front_function_type )( int const & ) ;
-            
-            Seq_int_exposer.def( 
-                "push_front"
-                , push_front_function_type( &::cv::Seq< int >::push_front )
-                , ( bp::arg("elem") ) );
-        
-        }
-        { //::cv::Seq< int >::remove
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef void ( exported_class_t::*remove_function_type )( int ) ;
-            
-            Seq_int_exposer.def( 
-                "remove"
-                , remove_function_type( &::cv::Seq< int >::remove )
-                , ( bp::arg("idx") ) );
-        
-        }
-        { //::cv::Seq< int >::remove
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef void ( exported_class_t::*remove_function_type )( ::cv::Range const & ) ;
-            
-            Seq_int_exposer.def( 
-                "remove"
-                , remove_function_type( &::cv::Seq< int >::remove )
-                , ( bp::arg("r") ) );
-        
-        }
-        { //::cv::Seq< int >::size
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef ::size_t ( exported_class_t::*size_function_type )(  ) const;
-            
-            Seq_int_exposer.def( 
-                "size"
-                , size_function_type( &::cv::Seq< int >::size ) );
-        
-        }
-        { //::cv::Seq< int >::type
-        
-            typedef cv::Seq< int > exported_class_t;
-            typedef int ( exported_class_t::*type_function_type )(  ) const;
-            
-            Seq_int_exposer.def( 
-                "type"
-                , type_function_type( &::cv::Seq< int >::type ) );
-        
-        }
-        Seq_int_exposer.def("__len__", &::Seq_int_len);
-        Seq_int_exposer.add_property( "seq", bp::make_function(&::get_Seq_int_seq, bp::return_internal_reference<>()) );
     }
 
 }

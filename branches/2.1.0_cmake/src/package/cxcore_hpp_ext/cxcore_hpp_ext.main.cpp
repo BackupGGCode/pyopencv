@@ -211,7 +211,7 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillconvexpoly"
     "\nArgument 'pts':"\
     "\n    C++ type: ::cv::Point const *."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2i."\
     "\nArgument 'npts':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'pts'." );
@@ -231,7 +231,7 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillpoly"
     "\nArgument 'pts':"\
     "\n    C++ type: ::cv::Point const * *."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_vector_Point2i."\
     "\nArgument 'npts':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'pts'."\
@@ -388,7 +388,7 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
     "\nArgument 'fromTo':"\
     "\n    C++ type: int const *."\
-    "\n    Python type: (C++)std::vector<int>." );
+    "\n    Python type: vector_int." );
     
     }
 
@@ -406,7 +406,7 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
     "\nArgument 'fromTo':"\
     "\n    C++ type: int const *."\
-    "\n    Python type: (C++)std::vector<int>." );
+    "\n    Python type: vector_int." );
     
     }
 
@@ -423,7 +423,7 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-polylines"
     "\nArgument 'pts':"\
     "\n    C++ type: ::cv::Point const * *."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_vector_Point2i."\
     "\nArgument 'npts':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'pts'."\
@@ -433,21 +433,21 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     
     }
 
-    bp::def("asSize2i", &sdcpp::from_ndarray< cv::Size_<int> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Size2i", &sdcpp::from_ndarray< cv::Size_<int> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Size_<int> >, (bp::arg("inst_Size2i")) );
+    bp::def("convert_Size2i_to_ndarray", &sdcpp::as_ndarray< cv::Size_<int> >, (bp::arg("inst_Size2i")) );
 
-    bp::def("asSize2f", &sdcpp::from_ndarray< cv::Size_<float> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Size2f", &sdcpp::from_ndarray< cv::Size_<float> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Size_<float> >, (bp::arg("inst_Size2f")) );
+    bp::def("convert_Size2f_to_ndarray", &sdcpp::as_ndarray< cv::Size_<float> >, (bp::arg("inst_Size2f")) );
 
-    bp::def("asRect", &sdcpp::from_ndarray< cv::Rect_<int> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Rect", &sdcpp::from_ndarray< cv::Rect_<int> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Rect_<int> >, (bp::arg("inst_Rect")) );
+    bp::def("convert_Rect_to_ndarray", &sdcpp::as_ndarray< cv::Rect_<int> >, (bp::arg("inst_Rect")) );
 
-    bp::def("asRotatedRect", &sdcpp::from_ndarray< cv::RotatedRect >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_RotatedRect", &sdcpp::from_ndarray< cv::RotatedRect >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::RotatedRect >, (bp::arg("inst_RotatedRect")) );
+    bp::def("convert_RotatedRect_to_ndarray", &sdcpp::as_ndarray< cv::RotatedRect >, (bp::arg("inst_RotatedRect")) );
 
     bp::def("createMemStorage", &::createMemStorage);
 

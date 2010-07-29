@@ -25,6 +25,65 @@ sb = sdpypp.SdModuleBuilder('cv_hpp', number_of_files=3)
 
 sb.mb.enums(lambda x: x.parent.name=="cv").include()
 
+
+
+
+    
+sb.register_vec('std::vector', 'unsigned char', excluded=True)
+sb.register_vec('std::vector', 'int', excluded=True)
+sb.register_vec('std::vector', 'unsigned int', excluded=True)
+sb.register_vec('std::vector', 'float', excluded=True)
+sb.register_ti('cv::Mat')
+sb.register_vec('std::vector', 'cv::Mat', excluded=True)
+sb.register_ti('cv::MatND')
+sb.register_vec('std::vector', 'cv::MatND', excluded=True)
+
+z = sb.register_ti('cv::Rect_', ['int'], 'Rect')
+sb.register_vec('std::vector', z, excluded=True)
+sb.register_ti('cv::Size_', ['int'], 'Size')
+sb.register_ti('cv::TermCriteria')
+sb.register_ti('cv::RotatedRect')
+
+dtype_dict = {
+    'b': 'unsigned char',
+    's': 'short',
+    'w': 'unsigned short',
+    'i': 'int',
+    'f': 'float',
+    'd': 'double',
+}
+
+Vec_dict = {
+    2: 'bswifd',
+    3: 'bswifd',
+    4: 'bswifd',
+    6: 'fd',
+}
+
+Point_dict = 'ifd'
+
+# Vec et al
+for i in Vec_dict.keys():
+    for suffix in Vec_dict[i]:
+        z = sb.register_ti('cv::Vec', [dtype_dict[suffix], i], 'Vec%d%s' % (i, suffix))
+        sb.register_vec('std::vector', z, excluded=True)
+
+# Point et al
+for suffix in Point_dict:
+    alias = 'Point2%s' % suffix
+    z = sb.register_ti('cv::Point_', [dtype_dict[suffix]], alias)
+    sb.register_vec('std::vector', z, excluded=True)
+    sb.register_vec('std::vector', 'std::vector< %s >' % z, excluded=True)
+
+# Point3 et al
+for suffix in Point_dict:
+    alias = 'Point3%s' % suffix
+    z = sb.register_ti('cv::Point3_', [dtype_dict[suffix]], alias)
+    sb.register_vec('std::vector', z, excluded=True)
+    sb.register_vec('std::vector', 'std::vector< %s >' % z, excluded=True)
+
+
+
 sb.cc.write('''
 #=============================================================================
 # cv.hpp
@@ -151,8 +210,9 @@ sb.finalize_class(z)
 for t in ('DTreeNode', 'DTree', 'Stage'):
     z2 = z.class_(t)
     sb.init_class(z2)
+    sb.register_decl('CascadeClassifier_'+t, 'cv::CascadeClassifier::'+t)
+    sb.expose_class_vector('cv::CascadeClassifier::'+t)
     sb.finalize_class(z2)
-    sb.register_vec('std::vector', 'cv::CascadeClassifier::'+t, 'vector_CascadeClassifier_'+t)
 
 
 # StereoBM
@@ -171,7 +231,8 @@ sb.finalize_class(z)
 # KeyPoint
 z = sb.mb.class_('KeyPoint')
 sb.init_class(z)
-sb.register_vec('std::vector', 'cv::KeyPoint')    
+sb.register_ti('cv::KeyPoint')
+sb.expose_class_vector('cv::KeyPoint')    
 sb.finalize_class(z)
 
 # SURF
@@ -445,55 +506,6 @@ for z in sb.mb.free_funs('findFundamentalMat'):
 # computeCorrespondEpilines
 FT.expose_func(sb.mb.free_fun('computeCorrespondEpilines'), return_pointee=False,
     transformer_creators=[FT.arg_output('lines')])
-
-
-
-    
-sb.register_ti('cv::Point_', ['int'], '_')
-sb.register_ti('cv::Point_', ['float'], '_')
-z = sb.register_ti('cv::Rect_', ['int'], '_')
-sb.register_vec('std::vector', z, '_')
-sb.register_ti('cv::Size_', ['int'], '_')
-sb.register_ti('cv::TermCriteria')
-sb.register_ti('cv::RotatedRect')
-
-dtype_dict = {
-    'b': 'unsigned char',
-    's': 'short',
-    'w': 'unsigned short',
-    'i': 'int',
-    'f': 'float',
-    'd': 'double',
-}
-
-Vec_dict = {
-    2: 'bswifd',
-    3: 'bswifd',
-    4: 'bswifd',
-    6: 'fd',
-}
-
-Point_dict = 'ifd'
-
-# Vec et al
-for i in Vec_dict.keys():
-    for suffix in Vec_dict[i]:
-        z = sb.register_ti('cv::Vec', [dtype_dict[suffix], i], 'Vec%d%s' % (i, suffix))
-        sb.register_vec('std::vector', z, '_')
-
-# Point et al
-for suffix in Point_dict:
-    alias = 'Point2%s' % suffix
-    z = sb.register_ti('cv::Point_', [dtype_dict[suffix]], alias)
-    sb.register_vec('std::vector', z, '_')
-    sb.register_vec('std::vector', 'std::vector< %s >' % z, '_')
-
-# Point3 et al
-for suffix in Point_dict:
-    alias = 'Point3%s' % suffix
-    z = sb.register_ti('cv::Point3_', [dtype_dict[suffix]], alias)
-    sb.register_vec('std::vector', z, '_')
-    sb.register_vec('std::vector', 'std::vector< %s >' % z, '_')
 
 
 

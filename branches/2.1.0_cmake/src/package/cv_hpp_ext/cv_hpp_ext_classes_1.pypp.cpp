@@ -11,11 +11,11 @@ namespace bp = boost::python;
 
 static inline void vector_KeyPoint_resize(::std::vector< cv::KeyPoint > &inst, size_t num) { inst.resize(num); }
 
-static inline void vector_CascadeClassifier_Stage_resize(::std::vector< cv::CascadeClassifier::Stage > &inst, size_t num) { inst.resize(num); }
+static inline void vector_Stage_resize(::std::vector< cv::CascadeClassifier::Stage > &inst, size_t num) { inst.resize(num); }
 
-static inline void vector_CascadeClassifier_DTreeNode_resize(::std::vector< cv::CascadeClassifier::DTreeNode > &inst, size_t num) { inst.resize(num); }
+static inline void vector_DTreeNode_resize(::std::vector< cv::CascadeClassifier::DTreeNode > &inst, size_t num) { inst.resize(num); }
 
-static inline void vector_CascadeClassifier_DTree_resize(::std::vector< cv::CascadeClassifier::DTree > &inst, size_t num) { inst.resize(num); }
+static inline void vector_DTree_resize(::std::vector< cv::CascadeClassifier::DTree > &inst, size_t num) { inst.resize(num); }
 
 struct BaseColumnFilter_wrapper : cv::BaseColumnFilter, bp::wrapper< cv::BaseColumnFilter > {
 
@@ -89,30 +89,30 @@ void register_classes_1(){
     }
 
     { //::std::vector< cv::CascadeClassifier::Stage >
-        typedef bp::class_< std::vector< cv::CascadeClassifier::Stage > > vector_CascadeClassifier_Stage_exposer_t;
-        vector_CascadeClassifier_Stage_exposer_t vector_CascadeClassifier_Stage_exposer = vector_CascadeClassifier_Stage_exposer_t( "vector_CascadeClassifier_Stage" );
-        bp::scope vector_CascadeClassifier_Stage_scope( vector_CascadeClassifier_Stage_exposer );
+        typedef bp::class_< std::vector< cv::CascadeClassifier::Stage > > vector_Stage_exposer_t;
+        vector_Stage_exposer_t vector_Stage_exposer = vector_Stage_exposer_t( "vector_Stage" );
+        bp::scope vector_Stage_scope( vector_Stage_exposer );
         //WARNING: the next line of code will not compile, because "cv::CascadeClassifier::Stage" does not have operator== !
-        vector_CascadeClassifier_Stage_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::CascadeClassifier::Stage > >() );
-        vector_CascadeClassifier_Stage_exposer.def("resize", &::vector_CascadeClassifier_Stage_resize, ( bp::arg("num") ));
+        vector_Stage_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::CascadeClassifier::Stage > >() );
+        vector_Stage_exposer.def("resize", &::vector_Stage_resize, ( bp::arg("num") ));
     }
 
     { //::std::vector< cv::CascadeClassifier::DTreeNode >
-        typedef bp::class_< std::vector< cv::CascadeClassifier::DTreeNode > > vector_CascadeClassifier_DTreeNode_exposer_t;
-        vector_CascadeClassifier_DTreeNode_exposer_t vector_CascadeClassifier_DTreeNode_exposer = vector_CascadeClassifier_DTreeNode_exposer_t( "vector_CascadeClassifier_DTreeNode" );
-        bp::scope vector_CascadeClassifier_DTreeNode_scope( vector_CascadeClassifier_DTreeNode_exposer );
+        typedef bp::class_< std::vector< cv::CascadeClassifier::DTreeNode > > vector_DTreeNode_exposer_t;
+        vector_DTreeNode_exposer_t vector_DTreeNode_exposer = vector_DTreeNode_exposer_t( "vector_DTreeNode" );
+        bp::scope vector_DTreeNode_scope( vector_DTreeNode_exposer );
         //WARNING: the next line of code will not compile, because "cv::CascadeClassifier::DTreeNode" does not have operator== !
-        vector_CascadeClassifier_DTreeNode_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::CascadeClassifier::DTreeNode > >() );
-        vector_CascadeClassifier_DTreeNode_exposer.def("resize", &::vector_CascadeClassifier_DTreeNode_resize, ( bp::arg("num") ));
+        vector_DTreeNode_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::CascadeClassifier::DTreeNode > >() );
+        vector_DTreeNode_exposer.def("resize", &::vector_DTreeNode_resize, ( bp::arg("num") ));
     }
 
     { //::std::vector< cv::CascadeClassifier::DTree >
-        typedef bp::class_< std::vector< cv::CascadeClassifier::DTree > > vector_CascadeClassifier_DTree_exposer_t;
-        vector_CascadeClassifier_DTree_exposer_t vector_CascadeClassifier_DTree_exposer = vector_CascadeClassifier_DTree_exposer_t( "vector_CascadeClassifier_DTree" );
-        bp::scope vector_CascadeClassifier_DTree_scope( vector_CascadeClassifier_DTree_exposer );
+        typedef bp::class_< std::vector< cv::CascadeClassifier::DTree > > vector_DTree_exposer_t;
+        vector_DTree_exposer_t vector_DTree_exposer = vector_DTree_exposer_t( "vector_DTree" );
+        bp::scope vector_DTree_scope( vector_DTree_exposer );
         //WARNING: the next line of code will not compile, because "cv::CascadeClassifier::DTree" does not have operator== !
-        vector_CascadeClassifier_DTree_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::CascadeClassifier::DTree > >() );
-        vector_CascadeClassifier_DTree_exposer.def("resize", &::vector_CascadeClassifier_DTree_resize, ( bp::arg("num") ));
+        vector_DTree_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::CascadeClassifier::DTree > >() );
+        vector_DTree_exposer.def("resize", &::vector_DTree_resize, ( bp::arg("num") ));
     }
 
     bp::class_< CvLSHOperations, boost::noncopyable >( "CvLSHOperations", bp::no_init )    

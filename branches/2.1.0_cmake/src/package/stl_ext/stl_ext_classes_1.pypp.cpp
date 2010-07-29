@@ -5,9 +5,9 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "stl_wrapper.hpp"
 #include "opencv_headers.hpp"
+#include "ndarray.hpp"
 #include "opencv_converters.hpp"
 #include "sequence.hpp"
-#include "ndarray.hpp"
 #include "stl_ext_classes_1.pypp.hpp"
 
 namespace bp = boost::python;
@@ -15,6 +15,8 @@ namespace bp = boost::python;
 static inline void vector_uint16_resize(::std::vector< unsigned short > &inst, size_t num) { inst.resize(num); }
 
 static inline void vector_ulong_resize(::std::vector< unsigned long > &inst, size_t num) { inst.resize(num); }
+
+static inline void vector_uint64_resize(::std::vector< unsigned long long > &inst, size_t num) { inst.resize(num); }
 
 static inline void vector_uint_resize(::std::vector< unsigned int > &inst, size_t num) { inst.resize(num); }
 
@@ -27,6 +29,8 @@ static inline void vector_vector_float32_resize(::std::vector< std::vector< floa
 static inline void vector_int16_resize(::std::vector< short > &inst, size_t num) { inst.resize(num); }
 
 static inline void vector_long_resize(::std::vector< long > &inst, size_t num) { inst.resize(num); }
+
+static inline void vector_int64_resize(::std::vector< long long > &inst, size_t num) { inst.resize(num); }
 
 static inline void vector_int_resize(::std::vector< int > &inst, size_t num) { inst.resize(num); }
 
@@ -52,6 +56,14 @@ void register_classes_1(){
         bp::scope vector_ulong_scope( vector_ulong_exposer );
         vector_ulong_exposer.def( bp::vector_indexing_suite< ::std::vector< unsigned long >, true >() );
         vector_ulong_exposer.def("resize", &::vector_ulong_resize, ( bp::arg("num") ));
+    }
+
+    { //::std::vector< unsigned long long >
+        typedef bp::class_< std::vector< unsigned long long > > vector_uint64_exposer_t;
+        vector_uint64_exposer_t vector_uint64_exposer = vector_uint64_exposer_t( "vector_uint64" );
+        bp::scope vector_uint64_scope( vector_uint64_exposer );
+        vector_uint64_exposer.def( bp::vector_indexing_suite< ::std::vector< unsigned long long >, true >() );
+        vector_uint64_exposer.def("resize", &::vector_uint64_resize, ( bp::arg("num") ));
     }
 
     { //::std::vector< unsigned int >
@@ -104,6 +116,14 @@ void register_classes_1(){
         vector_long_exposer.def("resize", &::vector_long_resize, ( bp::arg("num") ));
     }
 
+    { //::std::vector< long long >
+        typedef bp::class_< std::vector< long long > > vector_int64_exposer_t;
+        vector_int64_exposer_t vector_int64_exposer = vector_int64_exposer_t( "vector_int64" );
+        bp::scope vector_int64_scope( vector_int64_exposer );
+        vector_int64_exposer.def( bp::vector_indexing_suite< ::std::vector< long long >, true >() );
+        vector_int64_exposer.def("resize", &::vector_int64_resize, ( bp::arg("num") ));
+    }
+
     { //::std::vector< int >
         typedef bp::class_< std::vector< int > > vector_int_exposer_t;
         vector_int_exposer_t vector_int_exposer = vector_int_exposer_t( "vector_int" );
@@ -147,27 +167,31 @@ void register_classes_1(){
     }
     {
         
-        sdcpp::register_sdobject<sdcpp::sequence>();
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< unsigned short >, (bp::arg("inst_vector_uint16")) );
-        bp::def("asvector_uint16", &sdcpp::ndarray_to_vector2< unsigned short >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< unsigned long >, (bp::arg("inst_vector_ulong")) );
-        bp::def("asvector_ulong", &sdcpp::ndarray_to_vector2< unsigned long >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< unsigned int >, (bp::arg("inst_vector_uint")) );
-        bp::def("asvector_uint", &sdcpp::ndarray_to_vector2< unsigned int >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< unsigned char >, (bp::arg("inst_vector_uint8")) );
-        bp::def("asvector_uint8", &sdcpp::ndarray_to_vector2< unsigned char >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< int >, (bp::arg("inst_vector_int")) );
-        bp::def("asvector_int", &sdcpp::ndarray_to_vector2< int >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< float >, (bp::arg("inst_vector_float32")) );
-        bp::def("asvector_float32", &sdcpp::ndarray_to_vector2< float >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< short >, (bp::arg("inst_vector_int16")) );
-        bp::def("asvector_int16", &sdcpp::ndarray_to_vector2< short >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< long >, (bp::arg("inst_vector_long")) );
-        bp::def("asvector_long", &sdcpp::ndarray_to_vector2< long >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< double >, (bp::arg("inst_vector_float64")) );
-        bp::def("asvector_float64", &sdcpp::ndarray_to_vector2< double >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< char >, (bp::arg("inst_vector_int8")) );
-        bp::def("asvector_int8", &sdcpp::ndarray_to_vector2< char >, (bp::arg("inst_ndarray")) );;
+        bp::def("convert_vector_int8_to_ndarray", &sdcpp::vector_to_ndarray2< char >, (bp::arg("inst_vector_int8")) );
+        bp::def("convert_ndarray_to_vector_int8", &sdcpp::ndarray_to_vector2< char >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_uint8_to_ndarray", &sdcpp::vector_to_ndarray2< unsigned char >, (bp::arg("inst_vector_uint8")) );
+        bp::def("convert_ndarray_to_vector_uint8", &sdcpp::ndarray_to_vector2< unsigned char >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_int16_to_ndarray", &sdcpp::vector_to_ndarray2< short >, (bp::arg("inst_vector_int16")) );
+        bp::def("convert_ndarray_to_vector_int16", &sdcpp::ndarray_to_vector2< short >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_uint16_to_ndarray", &sdcpp::vector_to_ndarray2< unsigned short >, (bp::arg("inst_vector_uint16")) );
+        bp::def("convert_ndarray_to_vector_uint16", &sdcpp::ndarray_to_vector2< unsigned short >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_int_to_ndarray", &sdcpp::vector_to_ndarray2< int >, (bp::arg("inst_vector_int")) );
+        bp::def("convert_ndarray_to_vector_int", &sdcpp::ndarray_to_vector2< int >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_uint_to_ndarray", &sdcpp::vector_to_ndarray2< unsigned int >, (bp::arg("inst_vector_uint")) );
+        bp::def("convert_ndarray_to_vector_uint", &sdcpp::ndarray_to_vector2< unsigned int >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_long_to_ndarray", &sdcpp::vector_to_ndarray2< long >, (bp::arg("inst_vector_long")) );
+        bp::def("convert_ndarray_to_vector_long", &sdcpp::ndarray_to_vector2< long >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_ulong_to_ndarray", &sdcpp::vector_to_ndarray2< unsigned long >, (bp::arg("inst_vector_ulong")) );
+        bp::def("convert_ndarray_to_vector_ulong", &sdcpp::ndarray_to_vector2< unsigned long >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_int64_to_ndarray", &sdcpp::vector_to_ndarray2< long long >, (bp::arg("inst_vector_int64")) );
+        bp::def("convert_ndarray_to_vector_int64", &sdcpp::ndarray_to_vector2< long long >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_uint64_to_ndarray", &sdcpp::vector_to_ndarray2< unsigned long long >, (bp::arg("inst_vector_uint64")) );
+        bp::def("convert_ndarray_to_vector_uint64", &sdcpp::ndarray_to_vector2< unsigned long long >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_float32_to_ndarray", &sdcpp::vector_to_ndarray2< float >, (bp::arg("inst_vector_float32")) );
+        bp::def("convert_ndarray_to_vector_float32", &sdcpp::ndarray_to_vector2< float >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_float64_to_ndarray", &sdcpp::vector_to_ndarray2< double >, (bp::arg("inst_vector_float64")) );
+        bp::def("convert_ndarray_to_vector_float64", &sdcpp::ndarray_to_vector2< double >, (bp::arg("inst_ndarray")) );
+        sdcpp::register_sdobject<sdcpp::sequence>();;
     }
 
 }

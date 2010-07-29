@@ -31,93 +31,93 @@ namespace bp = boost::python;
 #include "ndarray.hpp"
 
 BOOST_PYTHON_MODULE(cxcore_hpp_vec_ext){
-    bp::def("asVec6d", &sdcpp::from_ndarray< cv::Vec<double,6> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec6d", &sdcpp::from_ndarray< cv::Vec<double,6> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<double,6> >, (bp::arg("inst_Vec6d")) );
+    bp::def("convert_Vec6d_to_ndarray", &sdcpp::as_ndarray< cv::Vec<double,6> >, (bp::arg("inst_Vec6d")) );
 
-    bp::def("asVec2w", &sdcpp::from_ndarray< cv::Vec<unsigned short,2> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec2w", &sdcpp::from_ndarray< cv::Vec<unsigned short,2> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned short,2> >, (bp::arg("inst_Vec2w")) );
+    bp::def("convert_Vec2w_to_ndarray", &sdcpp::as_ndarray< cv::Vec<unsigned short,2> >, (bp::arg("inst_Vec2w")) );
 
-    bp::def("asVec3s", &sdcpp::from_ndarray< cv::Vec<short,3> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec3s", &sdcpp::from_ndarray< cv::Vec<short,3> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<short,3> >, (bp::arg("inst_Vec3s")) );
+    bp::def("convert_Vec3s_to_ndarray", &sdcpp::as_ndarray< cv::Vec<short,3> >, (bp::arg("inst_Vec3s")) );
 
-    bp::def("asVec2i", &sdcpp::from_ndarray< cv::Vec<int,2> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec2i", &sdcpp::from_ndarray< cv::Vec<int,2> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<int,2> >, (bp::arg("inst_Vec2i")) );
+    bp::def("convert_Vec2i_to_ndarray", &sdcpp::as_ndarray< cv::Vec<int,2> >, (bp::arg("inst_Vec2i")) );
 
-    bp::def("asVec4w", &sdcpp::from_ndarray< cv::Vec<unsigned short,4> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec4w", &sdcpp::from_ndarray< cv::Vec<unsigned short,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned short,4> >, (bp::arg("inst_Vec4w")) );
+    bp::def("convert_Vec4w_to_ndarray", &sdcpp::as_ndarray< cv::Vec<unsigned short,4> >, (bp::arg("inst_Vec4w")) );
 
-    bp::def("asVec3w", &sdcpp::from_ndarray< cv::Vec<unsigned short,3> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec3w", &sdcpp::from_ndarray< cv::Vec<unsigned short,3> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned short,3> >, (bp::arg("inst_Vec3w")) );
+    bp::def("convert_Vec3w_to_ndarray", &sdcpp::as_ndarray< cv::Vec<unsigned short,3> >, (bp::arg("inst_Vec3w")) );
 
-    bp::def("asVec4b", &sdcpp::from_ndarray< cv::Vec<unsigned char,4> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec4b", &sdcpp::from_ndarray< cv::Vec<unsigned char,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned char,4> >, (bp::arg("inst_Vec4b")) );
+    bp::def("convert_Vec4b_to_ndarray", &sdcpp::as_ndarray< cv::Vec<unsigned char,4> >, (bp::arg("inst_Vec4b")) );
 
-    bp::def("asVec3b", &sdcpp::from_ndarray< cv::Vec<unsigned char,3> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec3b", &sdcpp::from_ndarray< cv::Vec<unsigned char,3> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned char,3> >, (bp::arg("inst_Vec3b")) );
+    bp::def("convert_Vec3b_to_ndarray", &sdcpp::as_ndarray< cv::Vec<unsigned char,3> >, (bp::arg("inst_Vec3b")) );
 
-    bp::def("asVec2b", &sdcpp::from_ndarray< cv::Vec<unsigned char,2> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec2b", &sdcpp::from_ndarray< cv::Vec<unsigned char,2> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<unsigned char,2> >, (bp::arg("inst_Vec2b")) );
+    bp::def("convert_Vec2b_to_ndarray", &sdcpp::as_ndarray< cv::Vec<unsigned char,2> >, (bp::arg("inst_Vec2b")) );
 
-    bp::def("asVec4s", &sdcpp::from_ndarray< cv::Vec<short,4> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec4s", &sdcpp::from_ndarray< cv::Vec<short,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<short,4> >, (bp::arg("inst_Vec4s")) );
+    bp::def("convert_Vec4s_to_ndarray", &sdcpp::as_ndarray< cv::Vec<short,4> >, (bp::arg("inst_Vec4s")) );
 
-    bp::def("asVec2s", &sdcpp::from_ndarray< cv::Vec<short,2> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec2s", &sdcpp::from_ndarray< cv::Vec<short,2> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<short,2> >, (bp::arg("inst_Vec2s")) );
+    bp::def("convert_Vec2s_to_ndarray", &sdcpp::as_ndarray< cv::Vec<short,2> >, (bp::arg("inst_Vec2s")) );
 
-    bp::def("asVec4i", &sdcpp::from_ndarray< cv::Vec<int,4> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec4i", &sdcpp::from_ndarray< cv::Vec<int,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<int,4> >, (bp::arg("inst_Vec4i")) );
+    bp::def("convert_Vec4i_to_ndarray", &sdcpp::as_ndarray< cv::Vec<int,4> >, (bp::arg("inst_Vec4i")) );
 
-    bp::def("asVec3i", &sdcpp::from_ndarray< cv::Vec<int,3> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec3i", &sdcpp::from_ndarray< cv::Vec<int,3> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<int,3> >, (bp::arg("inst_Vec3i")) );
+    bp::def("convert_Vec3i_to_ndarray", &sdcpp::as_ndarray< cv::Vec<int,3> >, (bp::arg("inst_Vec3i")) );
 
-    bp::def("asVec6f", &sdcpp::from_ndarray< cv::Vec<float,6> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec6f", &sdcpp::from_ndarray< cv::Vec<float,6> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<float,6> >, (bp::arg("inst_Vec6f")) );
+    bp::def("convert_Vec6f_to_ndarray", &sdcpp::as_ndarray< cv::Vec<float,6> >, (bp::arg("inst_Vec6f")) );
 
-    bp::def("asVec4f", &sdcpp::from_ndarray< cv::Vec<float,4> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec4f", &sdcpp::from_ndarray< cv::Vec<float,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<float,4> >, (bp::arg("inst_Vec4f")) );
+    bp::def("convert_Vec4f_to_ndarray", &sdcpp::as_ndarray< cv::Vec<float,4> >, (bp::arg("inst_Vec4f")) );
 
-    bp::def("asVec3f", &sdcpp::from_ndarray< cv::Vec<float,3> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec3f", &sdcpp::from_ndarray< cv::Vec<float,3> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<float,3> >, (bp::arg("inst_Vec3f")) );
+    bp::def("convert_Vec3f_to_ndarray", &sdcpp::as_ndarray< cv::Vec<float,3> >, (bp::arg("inst_Vec3f")) );
 
-    bp::def("asVec2f", &sdcpp::from_ndarray< cv::Vec<float,2> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec2f", &sdcpp::from_ndarray< cv::Vec<float,2> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<float,2> >, (bp::arg("inst_Vec2f")) );
+    bp::def("convert_Vec2f_to_ndarray", &sdcpp::as_ndarray< cv::Vec<float,2> >, (bp::arg("inst_Vec2f")) );
 
-    bp::def("asVec4d", &sdcpp::from_ndarray< cv::Vec<double,4> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec4d", &sdcpp::from_ndarray< cv::Vec<double,4> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<double,4> >, (bp::arg("inst_Vec4d")) );
+    bp::def("convert_Vec4d_to_ndarray", &sdcpp::as_ndarray< cv::Vec<double,4> >, (bp::arg("inst_Vec4d")) );
 
-    bp::def("asVec3d", &sdcpp::from_ndarray< cv::Vec<double,3> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec3d", &sdcpp::from_ndarray< cv::Vec<double,3> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<double,3> >, (bp::arg("inst_Vec3d")) );
+    bp::def("convert_Vec3d_to_ndarray", &sdcpp::as_ndarray< cv::Vec<double,3> >, (bp::arg("inst_Vec3d")) );
 
-    bp::def("asVec2d", &sdcpp::from_ndarray< cv::Vec<double,2> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Vec2d", &sdcpp::from_ndarray< cv::Vec<double,2> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Vec<double,2> >, (bp::arg("inst_Vec2d")) );
+    bp::def("convert_Vec2d_to_ndarray", &sdcpp::as_ndarray< cv::Vec<double,2> >, (bp::arg("inst_Vec2d")) );
 
-    bp::def("asScalar", &sdcpp::from_ndarray< cv::Scalar_<double> >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Scalar", &sdcpp::from_ndarray< cv::Scalar_<double> >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Scalar_<double> >, (bp::arg("inst_Scalar")) );
+    bp::def("convert_Scalar_to_ndarray", &sdcpp::as_ndarray< cv::Scalar_<double> >, (bp::arg("inst_Scalar")) );
 
-    bp::def("asRange", &sdcpp::from_ndarray< cv::Range >, (bp::arg("inst_ndarray")) );
+    bp::def("convert_ndarray_to_Range", &sdcpp::from_ndarray< cv::Range >, (bp::arg("inst_ndarray")) );
 
-    bp::def("asndarray", &sdcpp::as_ndarray< cv::Range >, (bp::arg("inst_Range")) );
+    bp::def("convert_Range_to_ndarray", &sdcpp::as_ndarray< cv::Range >, (bp::arg("inst_Range")) );
 
     register_classes_1();
 

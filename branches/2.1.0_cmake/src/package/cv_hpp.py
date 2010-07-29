@@ -25,6 +25,39 @@ from cv_hpp_ext import *
 
 
 
+vector_DTreeNode.__old_init__ = vector_DTreeNode.__init__
+vector_DTreeNode.__init__ = _c.__vector__init__
+vector_DTreeNode.create = _c.__vector_create
+vector_DTreeNode.__repr__ = _c.__vector__repr__
+vector_DTreeNode.tolist = _c.__vector_tolist
+vector_DTreeNode.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_DTreeNode()
+_z.resize(1)
+vector_DTreeNode.elem_type = _z[0].__class__
+del(_z)
+        
+vector_DTree.__old_init__ = vector_DTree.__init__
+vector_DTree.__init__ = _c.__vector__init__
+vector_DTree.create = _c.__vector_create
+vector_DTree.__repr__ = _c.__vector__repr__
+vector_DTree.tolist = _c.__vector_tolist
+vector_DTree.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_DTree()
+_z.resize(1)
+vector_DTree.elem_type = _z[0].__class__
+del(_z)
+        
+vector_Stage.__old_init__ = vector_Stage.__init__
+vector_Stage.__init__ = _c.__vector__init__
+vector_Stage.create = _c.__vector_create
+vector_Stage.__repr__ = _c.__vector__repr__
+vector_Stage.tolist = _c.__vector_tolist
+vector_Stage.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Stage()
+_z.resize(1)
+vector_Stage.elem_type = _z[0].__class__
+del(_z)
+        
 vector_KeyPoint.__old_init__ = vector_KeyPoint.__init__
 vector_KeyPoint.__init__ = _c.__vector__init__
 vector_KeyPoint.create = _c.__vector_create
@@ -35,37 +68,4 @@ _z = vector_KeyPoint()
 _z.resize(1)
 vector_KeyPoint.elem_type = _z[0].__class__
 del(_z)
-            
-vector_CascadeClassifier_Stage.__old_init__ = vector_CascadeClassifier_Stage.__init__
-vector_CascadeClassifier_Stage.__init__ = _c.__vector__init__
-vector_CascadeClassifier_Stage.create = _c.__vector_create
-vector_CascadeClassifier_Stage.__repr__ = _c.__vector__repr__
-vector_CascadeClassifier_Stage.tolist = _c.__vector_tolist
-vector_CascadeClassifier_Stage.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_CascadeClassifier_Stage()
-_z.resize(1)
-vector_CascadeClassifier_Stage.elem_type = _z[0].__class__
-del(_z)
-            
-vector_CascadeClassifier_DTreeNode.__old_init__ = vector_CascadeClassifier_DTreeNode.__init__
-vector_CascadeClassifier_DTreeNode.__init__ = _c.__vector__init__
-vector_CascadeClassifier_DTreeNode.create = _c.__vector_create
-vector_CascadeClassifier_DTreeNode.__repr__ = _c.__vector__repr__
-vector_CascadeClassifier_DTreeNode.tolist = _c.__vector_tolist
-vector_CascadeClassifier_DTreeNode.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_CascadeClassifier_DTreeNode()
-_z.resize(1)
-vector_CascadeClassifier_DTreeNode.elem_type = _z[0].__class__
-del(_z)
-            
-vector_CascadeClassifier_DTree.__old_init__ = vector_CascadeClassifier_DTree.__init__
-vector_CascadeClassifier_DTree.__init__ = _c.__vector__init__
-vector_CascadeClassifier_DTree.create = _c.__vector_create
-vector_CascadeClassifier_DTree.__repr__ = _c.__vector__repr__
-vector_CascadeClassifier_DTree.tolist = _c.__vector_tolist
-vector_CascadeClassifier_DTree.fromlist = classmethod(_c.__vector_fromlist)
-_z = vector_CascadeClassifier_DTree()
-_z.resize(1)
-vector_CascadeClassifier_DTree.elem_type = _z[0].__class__
-del(_z)
-            
+        

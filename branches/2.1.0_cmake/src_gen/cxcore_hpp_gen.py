@@ -21,16 +21,14 @@ from pyplusplus.module_builder import call_policies as CP
 import sdpypp
 sb = sdpypp.SdModuleBuilder('cxcore_hpp', number_of_files=4)
 
-sb.cc.write('''
-#=============================================================================
-# cxcore.hpp
-#=============================================================================
-
-''')
-
-#=============================================================================
-# Structures
-#=============================================================================
+sb.register_vec('std::vector', 'unsigned char', excluded=True)
+sb.register_vec('std::vector', 'int', excluded=True)
+sb.register_vec('std::vector', 'unsigned int', excluded=True)
+sb.register_vec('std::vector', 'float', excluded=True)
+sb.register_ti('cv::Mat')
+sb.register_vec('std::vector', 'cv::Mat', excluded=True)
+sb.register_ti('cv::MatND')
+sb.register_vec('std::vector', 'cv::MatND', excluded=True)
 
 dtype_dict = {
     'b': 'unsigned char',
@@ -54,7 +52,7 @@ Point_dict = 'ifd'
 for i in Vec_dict.keys():
     for suffix in Vec_dict[i]:
         z = sb.register_ti('cv::Vec', [dtype_dict[suffix], i], 'Vec%d%s' % (i, suffix))
-        sb.register_vec('std::vector', z, '_')
+        sb.register_vec('std::vector', z, excluded=True)
 
 # Complex et al
 for suffix in Vec_dict[6]:
@@ -64,15 +62,27 @@ for suffix in Vec_dict[6]:
 for suffix in Point_dict:
     alias = 'Point2%s' % suffix
     z = sb.register_ti('cv::Point_', [dtype_dict[suffix]], alias)
-    sb.register_vec('std::vector', z, '_')
-    sb.register_vec('std::vector', 'std::vector< %s >' % z, '_')
+    sb.register_vec('std::vector', z, excluded=True)
+    sb.register_vec('std::vector', 'std::vector< %s >' % z, excluded=True)
 
 # Point3 et al
 for suffix in Point_dict:
     alias = 'Point3%s' % suffix
     z = sb.register_ti('cv::Point3_', [dtype_dict[suffix]], alias)
-    sb.register_vec('std::vector', z, '_')
-    sb.register_vec('std::vector', 'std::vector< %s >' % z, '_')
+    sb.register_vec('std::vector', z, excluded=True)
+    sb.register_vec('std::vector', 'std::vector< %s >' % z, excluded=True)
+
+
+sb.cc.write('''
+#=============================================================================
+# cxcore.hpp
+#=============================================================================
+
+''')
+
+#=============================================================================
+# Structures
+#=============================================================================
 
 # Size et al
 Size_dict = 'if'
@@ -84,7 +94,7 @@ for suffix in Size_dict:
     except RuntimeError:
         continue
     sb.init_class(z)
-    sb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+    sb.expose_class_vector(z.partial_decl_string[2:])
     z.decls(lambda x: 'CvSize' in x.partial_decl_string).exclude()
     # sb.asClass(z, sb.mb.class_('CvSize'))
     # sb.asClass(z, sb.mb.class_('CvSize2D32f'))
@@ -121,7 +131,7 @@ Size = Size2i
 sb.register_ti('cv::Rect_', ['int'], 'Rect')
 z = sb.mb.class_(lambda x: x.alias=='Rect')
 sb.init_class(z)
-sb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+sb.expose_class_vector(z.partial_decl_string[2:])
 z.decls(lambda x: 'CvRect' in x.partial_decl_string).exclude()
 # sb.asClass(z, sb.mb.class_('CvRect'))
 sb.add_ndarray_interface(z)
@@ -166,7 +176,7 @@ c.add_registration_code('def("__add__", &__add__<CLASS, cv::Size_<DTYPE> > )' \
 # RotatedRect
 z = sb.mb.class_('RotatedRect')
 sb.init_class(z)
-sb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+sb.expose_class_vector(z.partial_decl_string[2:])
 sb.mb.decls(lambda x: 'CvBox2D' in x.partial_decl_string).exclude()
 # sb.asClass(z, sb.mb.class_('CvBox2D'))
 sb.add_ndarray_interface(z)
@@ -184,7 +194,7 @@ sb.register_ti('cv::Scalar_', ['double'], 'Scalar')
 
 # Range
 sb.register_ti('cv::Range')
-sb.register_vec('std::vector', 'cv::Range', '_')
+sb.register_vec('std::vector', 'cv::Range')
 
 
 # Ptr -- already exposed by sb.expose_class_Ptr
@@ -194,7 +204,7 @@ sb.register_ti('cv::Mat')
 
 # Ptr<Mat>
 sb.register_ti('cv::Ptr', ['cv::Mat'], 'Ptr_Mat')
-sb.register_vec('std::vector', 'cv::Ptr< cv::Mat >', '_')
+sb.register_vec('std::vector', 'cv::Ptr< cv::Mat >')
 
 # RNG
 z = sb.mb.class_('RNG')
@@ -416,7 +426,8 @@ z.include_files.append( "boost/python/object/life_support.hpp" )
 z.include_files.append( "arrayobject.h" ) # to get NumPy's flags
 z.include_files.append( "ndarray.hpp" )
 sb.init_class(z)
-sb.register_vec('std::vector', 'cv::KDTree::Node', 'vector_KDTree_Node')
+sb.register_decl('KDTree_Node', 'cv::KDTree::Node')
+sb.expose_class_vector('cv::KDTree::Node')
 # dims -- OpenCV 2.1 does not have this function implemented!
 z.add_declaration_code('''
 inline int cv::KDTree::dims() const { return points.cols; }
@@ -631,8 +642,5 @@ sb.expose_class_Seq('int')
 
 # MatExpr
 sb.mb.decls(lambda x: 'MatExpr' in x.decl_string).exclude()
-
-sb.register_ti('float')
-sb.register_vec('std::vector', 'float', '_vector_float')
 
 sb.done()

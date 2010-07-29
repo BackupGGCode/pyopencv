@@ -990,8 +990,8 @@ void register_classes_3(){
     }
     {
         
-        bp::def("asvector_CvConnectedComp", &::normal_cast< ::cv::Seq< CvConnectedComp >, ::std::vector< CvConnectedComp > >, (bp::arg("inst_Seq_CvConnectedComp")));
-        bp::def("asvector_CvSURFPoint", &::normal_cast< ::cv::Seq< CvSURFPoint >, ::std::vector< CvSURFPoint > >, (bp::arg("inst_Seq_CvSURFPoint")));;
+        bp::def("convert_Seq_CvConnectedComp_to_vector_CvConnectedComp", &::normal_cast< ::cv::Seq< CvConnectedComp >, ::std::vector< CvConnectedComp > >, (bp::arg("inst_Seq_CvConnectedComp")));
+        bp::def("convert_Seq_CvSURFPoint_to_vector_CvSURFPoint", &::normal_cast< ::cv::Seq< CvSURFPoint >, ::std::vector< CvSURFPoint > >, (bp::arg("inst_Seq_CvSURFPoint")));;
     }
 
 }

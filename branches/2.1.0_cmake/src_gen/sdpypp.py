@@ -172,48 +172,6 @@ from MODULE_NAME_ext import *
         # beautify free functions
         beautify_func_list(self.funs)
 
-        # expose std::vector, only those with alias starting with 'vector_'
-        try:
-            zz = self.mb.classes(lambda x: x.pds.startswith('std::vector<'))
-        except RuntimeError:
-            zz = []
-        for z in zz:
-            # check if the class has been registered
-            try:
-                t = self.get_registered_decl(z.partial_decl_string)
-                if t[0][0]=='_':
-                    raise ValueError() # got underscore, exclude it
-                elem_type = t[1]
-                t = self.get_registered_decl(elem_type) # to make sure element type is also registered
-            except:
-                z.exclude()
-                z.set_already_exposed(True)
-                continue
-            z.include()
-            # remember to create operator==() for each element type
-            z.include_files.append("opencv_headers.hpp")
-            z.add_declaration_code('static inline void CLASS_NAME_resize(CLASS_TYPE &inst, size_t num) { inst.resize(num); }'.replace("CLASS_NAME", z.alias).replace("CLASS_TYPE", z.partial_decl_string))
-            z.add_registration_code('def("resize", &::CLASS_NAME_resize, ( bp::arg("num") ))'.replace("CLASS_NAME", z.alias))
-            self.cc.write('''
-CLASS_NAME.__old_init__ = CLASS_NAME.__init__
-CLASS_NAME.__init__ = _c.__vector__init__
-CLASS_NAME.create = _c.__vector_create
-CLASS_NAME.__repr__ = _c.__vector__repr__
-CLASS_NAME.tolist = _c.__vector_tolist
-CLASS_NAME.fromlist = classmethod(_c.__vector_fromlist)
-_z = CLASS_NAME()
-_z.resize(1)
-CLASS_NAME.elem_type = _z[0].__class__
-del(_z)
-            '''.replace('CLASS_NAME', z.alias))
-            # add conversion between vector and ndarray
-            if _FT.is_elem_type_fixed_size(elem_type):
-                self.dummy_struct.include_files.append('ndarray.hpp')
-                self.add_reg_code('bp::def("asndarray", &sdcpp::vector_to_ndarray2< ELEM_TYPE >, (bp::arg("inst_CLASS_NAME")) );' \
-                    .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type))
-                self.add_reg_code('bp::def("asCLASS_NAME", &sdcpp::ndarray_to_vector2< ELEM_TYPE >, (bp::arg("inst_ndarray")) );' \
-                    .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type))
-
         # dummy struct
         self.dummy_struct.add_registration_code('''setattr("v0", 0);
     }
@@ -273,6 +231,8 @@ del(_z)
         self.register_decl('uint', 'unsigned int')
         self.register_decl('long', 'long')
         self.register_decl('ulong', 'unsigned long')
+        self.register_decl('int64', 'long long')
+        self.register_decl('uint64', 'unsigned long long')
         self.register_decl('float32', 'float')
         self.register_decl('float64', 'double')
 
@@ -348,12 +308,19 @@ public:
     # e.g. if partial_decl_string is '::std::vector<int>' then
     #    cName_pds='std::vector'
     #    cChildName_pds='int'
-    def register_vec(self, cName_pds, cChildName_pds, pyName=None, pds=None, pyEquivName=None):
+    def register_vec(self, cName_pds, cChildName_pds, pyName=None, pds=None, pyEquivName=None, excluded=False):
         cupds = _c.unique_pds(cChildName_pds)
         if pyName is None:
             pyName = cName_pds[cName_pds.rfind(':')+1:] + '_' + self.decls_reg[cupds][0]
         if pds is None:
             pds = cName_pds + '< ' + cChildName_pds + ' >'
+        if excluded:
+            try:
+                z = self.find_class(pds)
+                z.set_already_exposed(True)
+                z.exclude()
+            except RuntimeError:
+                pass
         return self.register_decl(pyName, pds, cupds, pyEquivName)
 
     # non-vector template instantiation
@@ -400,18 +367,17 @@ public:
             self.mb.add_declaration_code('''
 #include "ndarray.hpp"
 ''')
-        self.mb.add_registration_code('bp::def("as%s", &sdcpp::from_ndarray< %s >, (bp::arg("inst_ndarray")) );' % (klass.alias, klass.pds))
+        self.mb.add_registration_code('bp::def("convert_ndarray_to_%s", &sdcpp::from_ndarray< %s >, (bp::arg("inst_ndarray")) );' % (klass.alias, klass.pds))
         # klass.add_registration_code('staticmethod("from_ndarray")')
         # self.add_doc(klass.alias+".from_ndarray", "Creates a %s view on an ndarray instance." % klass.alias)
         klass.add_registration_code('add_property("ndarray", &sdcpp::as_ndarray< %s >)' % klass.pds)
-        self.mb.add_registration_code('bp::def("asndarray", &sdcpp::as_ndarray< %s >, (bp::arg("inst_%s")) );' % (klass.pds, klass.alias))
+        self.mb.add_registration_code('bp::def("convert_CLASS_NAME_to_ndarray", &sdcpp::as_ndarray< CLASS_TYPE >, (bp::arg("inst_CLASS_NAME")) );'.replace("CLASS_NAME", klass.alias).replace("CLASS_TYPE", klass.pds))
         self.add_doc(klass.alias,
             "Property 'ndarray' provides a numpy.ndarray view on the object.",
             "If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!",
             "Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.",
             "",
             "To create an instance of KLASS that shares the same data with an ndarray instance, use: 'asKLASS(a),".replace("KLASS", klass.alias),
-            # "    '%s.from_ndarray(a)' or 'as%s(a)" % (klass.alias, klass.alias),
             "where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted.")
         for t in ('getitem', 'setitem', 'getslice', 'setslice', 'iter'):
             self.cc.write('''
@@ -425,6 +391,41 @@ KLASS.__FUNC__ = _KLASS__FUNC__
 %s.__iter__ = _c.__sd_iter__;
         ''' % klass_name)
 
+    def expose_class_vector(self, elem_type_pds, pyName=None):
+        # check if the class has been registered
+        seq_pds = self.register_vec('std::vector', elem_type_pds, pyName=pyName)
+        try:
+            z = self.find_class(seq_pds)
+        except RuntimeError, e:
+            print "Cannot determine class with pds='%s'." % seq_pds
+            return
+            
+        z.include()
+        # remember to create operator==() for each element type
+        z.include_files.append("opencv_headers.hpp")
+        z.add_declaration_code('static inline void CLASS_NAME_resize(CLASS_TYPE &inst, size_t num) { inst.resize(num); }'.replace("CLASS_NAME", z.alias).replace("CLASS_TYPE", z.partial_decl_string))
+        z.add_registration_code('def("resize", &::CLASS_NAME_resize, ( bp::arg("num") ))'.replace("CLASS_NAME", z.alias))
+        self.cc.write('''
+CLASS_NAME.__old_init__ = CLASS_NAME.__init__
+CLASS_NAME.__init__ = _c.__vector__init__
+CLASS_NAME.create = _c.__vector_create
+CLASS_NAME.__repr__ = _c.__vector__repr__
+CLASS_NAME.tolist = _c.__vector_tolist
+CLASS_NAME.fromlist = classmethod(_c.__vector_fromlist)
+_z = CLASS_NAME()
+_z.resize(1)
+CLASS_NAME.elem_type = _z[0].__class__
+del(_z)
+        '''.replace('CLASS_NAME', z.alias))
+        # add conversion between vector and ndarray
+        if _FT.is_elem_type_fixed_size(elem_type_pds):
+            self.dummy_struct.include_files.append('ndarray.hpp')
+            self.add_reg_code('bp::def("convert_CLASS_NAME_to_ndarray", &sdcpp::vector_to_ndarray2< ELEM_TYPE >, (bp::arg("inst_CLASS_NAME")) );' \
+                .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type_pds))
+            self.add_reg_code('bp::def("convert_ndarray_to_CLASS_NAME", &sdcpp::ndarray_to_vector2< ELEM_TYPE >, (bp::arg("inst_ndarray")) );' \
+                .replace('CLASS_NAME', z.alias).replace('ELEM_TYPE', elem_type_pds))
+
+        
     def expose_class_Ptr(self, klass_name, ns=None):
         if ns is None:
             full_klass_name = klass_name
@@ -575,7 +576,7 @@ CLASS_NAME.__del__ = _CLASS_NAME__del__
     def asClass2(self, src_class_Pname, src_class_Cname, dst_class_Pname, dst_class_Cname):
         self.dummy_struct.include_files.append("opencv_converters.hpp")
         self.add_reg_code(\
-            'bp::def("asKLASS2", &::normal_cast< CLASS1, CLASS2 >, (bp::arg("inst_KLASS1")));'\
+            'bp::def("convert_KLASS1_to_KLASS2", &::normal_cast< CLASS1, CLASS2 >, (bp::arg("inst_KLASS1")));'\
             .replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname)\
             .replace('CLASS1', src_class_Cname).replace('CLASS2', dst_class_Cname))
                 

@@ -8,12 +8,17 @@
 #include "__array_1.pypp.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "cxcore_hpp_wrapper.hpp"
+#include "boost/python/object.hpp"
 #include "ndarray.hpp"
 #include "opencv_converters.hpp"
 #include "boost/python/make_function.hpp"
 #include "cxcore_hpp_ext_classes_4.pypp.hpp"
 
 namespace bp = boost::python;
+
+static size_t Seq_int_len(cv::Seq<int> const &inst) { return inst.size(); }
+
+static ::CvSeq * get_Seq_int_seq( cv::Seq<int> const & inst ) { return inst.seq; }
 
 struct SparseMat_wrapper : cv::SparseMat, bp::wrapper< cv::SparseMat > {
 
@@ -184,6 +189,216 @@ struct SparseMatIterator_wrapper : cv::SparseMatIterator, bp::wrapper< cv::Spars
 };
 
 void register_classes_4(){
+
+    { //::cv::Seq< int >
+        typedef bp::class_< cv::Seq< int > > Seq_int_exposer_t;
+        Seq_int_exposer_t Seq_int_exposer = Seq_int_exposer_t( "Seq_int", bp::init< >() );
+        bp::scope Seq_int_scope( Seq_int_exposer );
+        Seq_int_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Seq< int > >() );
+        Seq_int_exposer.def( bp::init< CvSeq const * >(( bp::arg("_seq") )) );
+        bp::implicitly_convertible< CvSeq const *, cv::Seq< int > >();
+        Seq_int_exposer.def( bp::init< cv::Ptr< CvMemStorage > &, bp::optional< int > >(( bp::arg("storage"), bp::arg("headerSize")=(int)(56u) )) );
+        bp::implicitly_convertible< cv::Ptr< CvMemStorage > &, cv::Seq< int > >();
+        { //::cv::Seq< int >::channels
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef int ( exported_class_t::*channels_function_type )(  ) const;
+            
+            Seq_int_exposer.def( 
+                "channels"
+                , channels_function_type( &::cv::Seq< int >::channels ) );
+        
+        }
+        { //::cv::Seq< int >::clear
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef void ( exported_class_t::*clear_function_type )(  ) ;
+            
+            Seq_int_exposer.def( 
+                "clear"
+                , clear_function_type( &::cv::Seq< int >::clear ) );
+        
+        }
+        { //::cv::Seq< int >::copyTo
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef void ( exported_class_t::*copyTo_function_type )( ::std::vector< int > &,::cv::Range const & ) const;
+            
+            Seq_int_exposer.def( 
+                "copyTo"
+                , copyTo_function_type( &::cv::Seq< int >::copyTo )
+                , ( bp::arg("vec"), bp::arg("range")=cv::Range::all() ) );
+        
+        }
+        { //::cv::Seq< int >::depth
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef int ( exported_class_t::*depth_function_type )(  ) const;
+            
+            Seq_int_exposer.def( 
+                "depth"
+                , depth_function_type( &::cv::Seq< int >::depth ) );
+        
+        }
+        { //::cv::Seq< int >::elemSize
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef ::size_t ( exported_class_t::*elemSize_function_type )(  ) const;
+            
+            Seq_int_exposer.def( 
+                "elemSize"
+                , elemSize_function_type( &::cv::Seq< int >::elemSize ) );
+        
+        }
+        { //::cv::Seq< int >::empty
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef bool ( exported_class_t::*empty_function_type )(  ) const;
+            
+            Seq_int_exposer.def( 
+                "empty"
+                , empty_function_type( &::cv::Seq< int >::empty ) );
+        
+        }
+        { //::cv::Seq< int >::index
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef ::size_t ( exported_class_t::*index_function_type )( int const & ) const;
+            
+            Seq_int_exposer.def( 
+                "index"
+                , index_function_type( &::cv::Seq< int >::index )
+                , ( bp::arg("elem") ) );
+        
+        }
+        { //::cv::Seq< int >::insert
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef void ( exported_class_t::*insert_function_type )( int,int const & ) ;
+            
+            Seq_int_exposer.def( 
+                "insert"
+                , insert_function_type( &::cv::Seq< int >::insert )
+                , ( bp::arg("idx"), bp::arg("elem") ) );
+        
+        }
+        Seq_int_exposer.def( "__temp_func", &cv::Seq< int >::operator ::std::vector< int > , "\nWrapped function:"
+    "\n    operator ::std::vector<int, std::allocator<int> >" );
+        { //::cv::Seq< int >::operator[]
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef int & ( exported_class_t::*__getitem___function_type )( int ) ;
+            
+            Seq_int_exposer.def( 
+                "__getitem__"
+                , __getitem___function_type( &::cv::Seq< int >::operator[] )
+                , ( bp::arg("idx") )
+                , bp::return_value_policy< bp::copy_non_const_reference >()
+                , "\nWrapped function:"
+    "\n    operator[]" );
+        
+        }
+        { //::cv::Seq< int >::operator[]
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef int const & ( exported_class_t::*__getitem___function_type )( int ) const;
+            
+            Seq_int_exposer.def( 
+                "__getitem__"
+                , __getitem___function_type( &::cv::Seq< int >::operator[] )
+                , ( bp::arg("idx") )
+                , bp::return_value_policy< bp::copy_const_reference >()
+                , "\nWrapped function:"
+    "\n    operator[]" );
+        
+        }
+        { //::cv::Seq< int >::pop_back
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef void ( exported_class_t::*pop_back_function_type )(  ) ;
+            
+            Seq_int_exposer.def( 
+                "pop_back"
+                , pop_back_function_type( &::cv::Seq< int >::pop_back ) );
+        
+        }
+        { //::cv::Seq< int >::pop_front
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef void ( exported_class_t::*pop_front_function_type )(  ) ;
+            
+            Seq_int_exposer.def( 
+                "pop_front"
+                , pop_front_function_type( &::cv::Seq< int >::pop_front ) );
+        
+        }
+        { //::cv::Seq< int >::push_back
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef void ( exported_class_t::*push_back_function_type )( int const & ) ;
+            
+            Seq_int_exposer.def( 
+                "push_back"
+                , push_back_function_type( &::cv::Seq< int >::push_back )
+                , ( bp::arg("elem") ) );
+        
+        }
+        { //::cv::Seq< int >::push_front
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef void ( exported_class_t::*push_front_function_type )( int const & ) ;
+            
+            Seq_int_exposer.def( 
+                "push_front"
+                , push_front_function_type( &::cv::Seq< int >::push_front )
+                , ( bp::arg("elem") ) );
+        
+        }
+        { //::cv::Seq< int >::remove
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef void ( exported_class_t::*remove_function_type )( int ) ;
+            
+            Seq_int_exposer.def( 
+                "remove"
+                , remove_function_type( &::cv::Seq< int >::remove )
+                , ( bp::arg("idx") ) );
+        
+        }
+        { //::cv::Seq< int >::remove
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef void ( exported_class_t::*remove_function_type )( ::cv::Range const & ) ;
+            
+            Seq_int_exposer.def( 
+                "remove"
+                , remove_function_type( &::cv::Seq< int >::remove )
+                , ( bp::arg("r") ) );
+        
+        }
+        { //::cv::Seq< int >::size
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef ::size_t ( exported_class_t::*size_function_type )(  ) const;
+            
+            Seq_int_exposer.def( 
+                "size"
+                , size_function_type( &::cv::Seq< int >::size ) );
+        
+        }
+        { //::cv::Seq< int >::type
+        
+            typedef cv::Seq< int > exported_class_t;
+            typedef int ( exported_class_t::*type_function_type )(  ) const;
+            
+            Seq_int_exposer.def( 
+                "type"
+                , type_function_type( &::cv::Seq< int >::type ) );
+        
+        }
+        Seq_int_exposer.def("__len__", &::Seq_int_len);
+        Seq_int_exposer.add_property( "seq", bp::make_function(&::get_Seq_int_seq, bp::return_internal_reference<>()) );
+    }
 
     { //::cv::Size_< float >
         typedef bp::class_< cv::Size_< float > > Size2f_exposer_t;
@@ -459,7 +674,7 @@ void register_classes_4(){
     "\n    argument '_sizes'."\
     "\nArgument '_sizes':"\
     "\n    C++ type: int const *."\
-    "\n    Python type: (C++)std::vector<int>." );
+    "\n    Python type: vector_int." );
         
         }
         { //::cv::SparseMat::depth
@@ -546,7 +761,7 @@ void register_classes_4(){
     "\n    erase"
     "\nArgument 'idx':"\
     "\n    C++ type: int const *."\
-    "\n    Python type: (C++)std::vector<int>."\
+    "\n    Python type: vector_int."\
     "\nArgument 'hashval':"\
     "\n    C++ type: ::size_t *."\
     "\n    Python type: uint."\
@@ -597,7 +812,7 @@ void register_classes_4(){
     "\n    hash"
     "\nArgument 'idx':"\
     "\n    C++ type: int const *."\
-    "\n    Python type: (C++)std::vector<int>." );
+    "\n    Python type: vector_int." );
         
         }
         { //::cv::SparseMat::node
@@ -767,13 +982,13 @@ void register_classes_4(){
     }
     {
         
-        bp::def("asSize2f", &::normal_cast< ::cv::Size_<int>, ::cv::Size_<float> >, (bp::arg("inst_Size2i")));
-        bp::def("asSize2i", &::normal_cast< ::cv::Size_<float>, ::cv::Size_<int> >, (bp::arg("inst_Size2f")));
-        bp::def("asvector_less__int__greater_", &::normal_cast< ::cv::Seq< int >, ::std::vector< int > >, (bp::arg("inst_Seq_int")));
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::RotatedRect >, (bp::arg("inst_vector_RotatedRect")) );
-        bp::def("asvector_RotatedRect", &sdcpp::ndarray_to_vector2< cv::RotatedRect >, (bp::arg("inst_ndarray")) );
-        bp::def("asndarray", &sdcpp::vector_to_ndarray2< cv::Rect_<int> >, (bp::arg("inst_vector_Rect")) );
-        bp::def("asvector_Rect", &sdcpp::ndarray_to_vector2< cv::Rect_<int> >, (bp::arg("inst_ndarray")) );;
+        bp::def("convert_Size2i_to_Size2f", &::normal_cast< ::cv::Size_<int>, ::cv::Size_<float> >, (bp::arg("inst_Size2i")));
+        bp::def("convert_Size2f_to_Size2i", &::normal_cast< ::cv::Size_<float>, ::cv::Size_<int> >, (bp::arg("inst_Size2f")));
+        bp::def("convert_vector_Rect_to_ndarray", &sdcpp::vector_to_ndarray2< cv::Rect_< int > >, (bp::arg("inst_vector_Rect")) );
+        bp::def("convert_ndarray_to_vector_Rect", &sdcpp::ndarray_to_vector2< cv::Rect_< int > >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_vector_RotatedRect_to_ndarray", &sdcpp::vector_to_ndarray2< cv::RotatedRect >, (bp::arg("inst_vector_RotatedRect")) );
+        bp::def("convert_ndarray_to_vector_RotatedRect", &sdcpp::ndarray_to_vector2< cv::RotatedRect >, (bp::arg("inst_ndarray")) );
+        bp::def("convert_Seq_int_to_vector_int", &::normal_cast< ::cv::Seq< int >, ::std::vector< int > >, (bp::arg("inst_Seq_int")));;
     }
 
 }

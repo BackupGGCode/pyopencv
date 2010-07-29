@@ -340,7 +340,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("image"), bp::arg("method"), bp::arg("dp"), bp::arg("minDist"), bp::arg("param1")=100, bp::arg("param2")=100, bp::arg("minRadius")=(int)(0), bp::arg("maxRadius")=(int)(0) )
             , "\nArgument 'circles':"\
     "\n    C++ type: ::std::vector< cv::Vec<float, 3> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Vec3f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    circles" );
@@ -357,7 +357,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("image"), bp::arg("rho"), bp::arg("theta"), bp::arg("threshold"), bp::arg("srn")=0, bp::arg("stn")=0 )
             , "\nArgument 'lines':"\
     "\n    C++ type: ::std::vector< cv::Vec<float, 2> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Vec2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    lines" );
@@ -374,7 +374,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("image"), bp::arg("rho"), bp::arg("theta"), bp::arg("threshold"), bp::arg("minLineLength")=0, bp::arg("maxLineGap")=0 )
             , "\nArgument 'lines':"\
     "\n    C++ type: ::std::vector< cv::Vec<int, 4> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Vec4i."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    lines" );
@@ -404,7 +404,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    approxPolyDP"
     "\nArgument 'approxCurve':"\
     "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    approxCurve" );
@@ -423,7 +423,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    approxPolyDP"
     "\nArgument 'approxCurve':"\
     "\n    C++ type: ::std::vector< cv::Point_<int> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2i."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    approxCurve" );
@@ -440,13 +440,13 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("hist"), bp::arg("backProject"), bp::arg("ranges"), bp::arg("scale")=1, bp::arg("uniform")=(bool)(true) )
             , "\nArgument 'images':"\
     "\n    C++ type: ::cv::Mat const *."\
-    "\n    Python type: (C++)std::vector<cv::Mat>."\
+    "\n    Python type: vector_Mat."\
     "\nArgument 'nimages':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'images'."\
     "\nArgument 'channels':"\
     "\n    C++ type: int const *."\
-    "\n    Python type: (C++)std::vector<int>."\
+    "\n    Python type: vector_int."\
     "\nArgument 'ranges':"\
     "\n    C++ type: float const * *."\
     "\n    Python type: (C++)std::vector<std::vector<float> >." );
@@ -463,13 +463,13 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("hist"), bp::arg("backProject"), bp::arg("ranges"), bp::arg("scale")=1, bp::arg("uniform")=(bool)(true) )
             , "\nArgument 'images':"\
     "\n    C++ type: ::cv::Mat const *."\
-    "\n    Python type: (C++)std::vector<cv::Mat>."\
+    "\n    Python type: vector_Mat."\
     "\nArgument 'nimages':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'images'."\
     "\nArgument 'channels':"\
     "\n    C++ type: int const *."\
-    "\n    Python type: (C++)std::vector<int>."\
+    "\n    Python type: vector_int."\
     "\nArgument 'ranges':"\
     "\n    C++ type: float const * *."\
     "\n    Python type: (C++)std::vector<std::vector<float> >." );
@@ -486,19 +486,19 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), bp::arg("hist"), bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=(bool)(true), bp::arg("accumulate")=(bool)(false) )
             , "\nArgument 'images':"\
     "\n    C++ type: ::cv::Mat const *."\
-    "\n    Python type: (C++)std::vector<cv::Mat>."\
+    "\n    Python type: vector_Mat."\
     "\nArgument 'nimages':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'images'."\
     "\nArgument 'channels':"\
     "\n    C++ type: int const *."\
-    "\n    Python type: (C++)std::vector<int>."\
+    "\n    Python type: vector_int."\
     "\nArgument 'dims':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'histSize'."\
     "\nArgument 'histSize':"\
     "\n    C++ type: int const *."\
-    "\n    Python type: (C++)std::vector<int>."\
+    "\n    Python type: vector_int."\
     "\nArgument 'ranges':"\
     "\n    C++ type: float const * *."\
     "\n    Python type: (C++)std::vector<std::vector<float> >." );
@@ -515,19 +515,19 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("images"), bp::arg("channels"), bp::arg("mask"), bp::arg("hist"), bp::arg("histSize"), bp::arg("ranges"), bp::arg("uniform")=(bool)(true), bp::arg("accumulate")=(bool)(false) )
             , "\nArgument 'images':"\
     "\n    C++ type: ::cv::Mat const *."\
-    "\n    Python type: (C++)std::vector<cv::Mat>."\
+    "\n    Python type: vector_Mat."\
     "\nArgument 'nimages':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'images'."\
     "\nArgument 'channels':"\
     "\n    C++ type: int const *."\
-    "\n    Python type: (C++)std::vector<int>."\
+    "\n    Python type: vector_int."\
     "\nArgument 'dims':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'histSize'."\
     "\nArgument 'histSize':"\
     "\n    C++ type: int const *."\
-    "\n    Python type: (C++)std::vector<int>."\
+    "\n    Python type: vector_int."\
     "\nArgument 'ranges':"\
     "\n    C++ type: float const * *."\
     "\n    Python type: (C++)std::vector<std::vector<float> >." );
@@ -544,11 +544,11 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("objectPoints"), bp::arg("imagePoints"), bp::arg("imageSize"), bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("flags")=(int)(0) )
             , "\nArgument 'rvecs':"\
     "\n    C++ type: ::std::vector< cv::Mat > &."\
-    "\n    Python type: (C++)std::vector<cv::Mat>."\
+    "\n    Python type: vector_Mat."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'tvecs':"\
     "\n    C++ type: ::std::vector< cv::Mat > &."\
-    "\n    Python type: (C++)std::vector<cv::Mat>."\
+    "\n    Python type: vector_Mat."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((float64), rvecs, tvecs)" );
@@ -565,7 +565,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("points1"), bp::arg("whichImage"), bp::arg("F") )
             , "\nArgument 'lines':"\
     "\n    C++ type: ::std::vector< cv::Vec<float, 3> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Vec3f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    lines" );
@@ -584,7 +584,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    convertPointsHomogeneous"
     "\nArgument 'dst':"\
     "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    dst" );
@@ -603,7 +603,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    convertPointsHomogeneous"
     "\nArgument 'dst':"\
     "\n    C++ type: ::std::vector< cv::Point3_<float> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point3f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    dst" );
@@ -622,7 +622,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    convexHull"
     "\nArgument 'hull':"\
     "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    hull" );
@@ -641,7 +641,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    convexHull"
     "\nArgument 'hull':"\
     "\n    C++ type: ::std::vector< cv::Point_<int> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2i."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    hull" );
@@ -660,7 +660,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    convexHull"
     "\nArgument 'hull':"\
     "\n    C++ type: ::std::vector< int > &."\
-    "\n    Python type: (C++)std::vector<int>."\
+    "\n    Python type: vector_int."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    hull" );
@@ -677,7 +677,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("image"), bp::arg("patternSize"), bp::arg("flags")=(int)(3) )
             , "\nArgument 'corners':"\
     "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((bool), corners)" );
@@ -694,7 +694,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("image"), bp::arg("mode"), bp::arg("method"), bp::arg("offset")=cv::Point_<int>() )
             , "\nArgument 'contours':"\
     "\n    C++ type: ::std::vector< std::vector< cv::Point_<int> > > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_vector_Point2i."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    contours" );
@@ -711,11 +711,11 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("image"), bp::arg("mode"), bp::arg("method"), bp::arg("offset")=cv::Point_<int>() )
             , "\nArgument 'contours':"\
     "\n    C++ type: ::std::vector< std::vector< cv::Point_<int> > > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_vector_Point2i."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'hierarchy':"\
     "\n    C++ type: ::std::vector< cv::Vec<int, 4> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Vec4i."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    (contours, hierarchy)" );
@@ -734,10 +734,10 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    findFundamentalMat"
     "\nArgument 'mask':"\
     "\n    C++ type: ::std::vector< unsigned char > &."\
-    "\n    Python type: (C++)std::vector<unsigned char>."\
+    "\n    Python type: vector_uint8."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
-    "\n    (((C++)cv::Mat), mask)" );
+    "\n    ((Mat), mask)" );
     
     }
 
@@ -753,10 +753,10 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    findHomography"
     "\nArgument 'mask':"\
     "\n    C++ type: ::std::vector< unsigned char > &."\
-    "\n    Python type: (C++)std::vector<unsigned char>."\
+    "\n    Python type: vector_uint8."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
-    "\n    (((C++)cv::Mat), mask)" );
+    "\n    ((Mat), mask)" );
     
     }
 
@@ -770,7 +770,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("image"), bp::arg("mask"), bp::arg("seedPoint"), bp::arg("newVal"), bp::arg("loDiff")=cv::Scalar_<double>(), bp::arg("upDiff")=cv::Scalar_<double>(), bp::arg("flags")=(int)(4) )
             , "\nArgument 'rect':"\
     "\n    C++ type: ::cv::Rect *."\
-    "\n    Python type: _."\
+    "\n    Python type: Rect."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((int), rect)" );
@@ -787,7 +787,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("image"), bp::arg("seedPoint"), bp::arg("newVal"), bp::arg("loDiff")=cv::Scalar_<double>(), bp::arg("upDiff")=cv::Scalar_<double>(), bp::arg("flags")=(int)(4) )
             , "\nArgument 'rect':"\
     "\n    C++ type: ::cv::Rect *."\
-    "\n    Python type: _."\
+    "\n    Python type: Rect."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((int), rect)" );
@@ -804,10 +804,10 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("src"), bp::arg("dst") )
             , "\nArgument 'src':"\
     "\n    C++ type: ::cv::Point2f const *."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2f."\
     "\nArgument 'dst':"\
     "\n    C++ type: ::cv::Point2f const *."\
-    "\n    Python type: _." );
+    "\n    Python type: vector_Point2f." );
     
     }
 
@@ -821,10 +821,10 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("cameraMatrix"), bp::arg("distCoeffs"), bp::arg("imageSize"), bp::arg("alpha"), bp::arg("newImgSize")=cv::Size_<int>() )
             , "\nArgument 'validPixROI':"\
     "\n    C++ type: ::cv::Rect *."\
-    "\n    Python type: _."\
+    "\n    Python type: Rect."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
-    "\n    (((C++)cv::Mat), validPixROI)" );
+    "\n    ((Mat), validPixROI)" );
     
     }
 
@@ -838,10 +838,10 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("src"), bp::arg("dst") )
             , "\nArgument 'src':"\
     "\n    C++ type: ::cv::Point2f const *."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2f."\
     "\nArgument 'dst':"\
     "\n    C++ type: ::cv::Point2f const *."\
-    "\n    Python type: _." );
+    "\n    Python type: vector_Point2f." );
     
     }
 
@@ -855,7 +855,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("image"), bp::arg("maxCorners"), bp::arg("qualityLevel"), bp::arg("minDistance"), bp::arg("mask")=cv::Mat(), bp::arg("blockSize")=(int)(3), bp::arg("useHarrisDetector")=(bool)(false), bp::arg("k")=4.00000000000000008326672684688674053177237510681e-2 )
             , "\nArgument 'corners':"\
     "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    corners" );
@@ -874,7 +874,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    projectPoints"
     "\nArgument 'imagePoints':"\
     "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    imagePoints" );
@@ -891,7 +891,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
             , ( bp::arg("objectPoints"), bp::arg("rvec"), bp::arg("tvec"), bp::arg("cameraMatrix"), bp::arg("distCoeffs") )
             , "\nArgument 'imagePoints':"\
     "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    imagePoints" );
@@ -1133,11 +1133,11 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    stereoRectify"
     "\nArgument 'validPixROI1':"\
     "\n    C++ type: ::cv::Rect *."\
-    "\n    Python type: _."\
+    "\n    Python type: Rect."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'validPixROI2':"\
     "\n    C++ type: ::cv::Rect *."\
-    "\n    Python type: _."\
+    "\n    Python type: Rect."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    (validPixROI1, validPixROI2)" );
@@ -1156,7 +1156,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    undistortPoints"
     "\nArgument 'dst':"\
     "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: _."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    dst" );

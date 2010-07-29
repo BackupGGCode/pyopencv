@@ -19,6 +19,9 @@ import function_transformers as FT
 import sdpypp
 sb = sdpypp.SdModuleBuilder('cxflann_h')
 
+sb.register_vec('std::vector', 'int', excluded=True)
+sb.register_vec('std::vector', 'float', excluded=True)
+
 sb.cc.write('''
 #=============================================================================
 # cxflann.h
@@ -68,8 +71,5 @@ for name in (
 sb.mb.class_('SearchParams').include()
 
 sb.mb.free_fun('hierarchicalClustering').include()
-
-sb.register_ti('float')
-sb.register_vec('std::vector', 'float', '_vector_float')
 
 sb.done()

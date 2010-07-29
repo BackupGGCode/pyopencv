@@ -58,9 +58,9 @@ except RuntimeError:
     zz = []
 for z in zz:
     sb.init_class(z)
-    sb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+    sb.expose_class_vector(z.partial_decl_string[2:])
     if z.alias=='Vec2i':
-        sb.register_vec('std::vector', 'std::vector< '+z.partial_decl_string[2:]+' >')
+        sb.expose_class_vector('std::vector< '+z.partial_decl_string[2:]+' >')
     z.decls(lambda x: 'CvScalar' in x.partial_decl_string).exclude()
     # sb.asClass(z, sb.mb.class_('CvScalar'))
     z.decl('val').exclude() # use operator[] instead
@@ -125,7 +125,7 @@ sb.dtypecast(['::cv::Complex<%s>' % dtype_dict[suffix] for suffix in Vec_dict[6]
 sb.register_ti('cv::Scalar_', ['double'], 'Scalar')
 z = sb.mb.class_('::cv::Scalar_<double>')
 sb.init_class(z)
-sb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+sb.expose_class_vector(z.partial_decl_string[2:])
 z.decls(lambda x: 'CvScalar' in x.partial_decl_string).exclude()
 # sb.asClass(z, sb.mb.class_('CvScalar'))
 sb.finalize_class(z)
@@ -160,7 +160,7 @@ c.add_registration_code('def("__neg__", &__neg__<CLASS> )' \
 # Range
 z = sb.mb.class_('Range')
 sb.init_class(z)
-sb.register_vec('std::vector', z.partial_decl_string[2:], pyEquivName='Mat')
+sb.expose_class_vector(z.partial_decl_string[2:])
 z.decls(lambda x: 'CvSlice' in x.partial_decl_string).exclude()
 # sb.asClass(z, sb.mb.class_('CvSlice'))
 sb.add_ndarray_interface(z)

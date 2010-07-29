@@ -384,7 +384,7 @@ void register_classes_3(){
     "\n    operator()"
     "\nArgument 'descriptors':"\
     "\n    C++ type: ::std::vector< float > &."\
-    "\n    Python type: (C++)std::vector<float>."\
+    "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    descriptors" );
