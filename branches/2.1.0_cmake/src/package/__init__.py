@@ -11,4 +11,5 @@ from cv_h import *
 from cv_hpp import *
 from highgui import *
 from ml import *
+from cvaux import *
 # from interfaces import *

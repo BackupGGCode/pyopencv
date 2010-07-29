@@ -115,6 +115,8 @@ add_python_module(cv_h)
 add_python_module(cv_hpp)
 add_python_module(highgui)
 add_python_module(ml)
+add_python_module(cvaux)
+
 
 file(GLOB PY_SRCS package/*.py)
 install(FILES ${PY_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)

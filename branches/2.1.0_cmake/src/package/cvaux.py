@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# PyOpencv - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
+# PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 
 # Copyright (c) 2009, Minh-Tri Pham
 # All rights reserved.
@@ -15,74 +15,48 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
-def generate_code(mb, cc, D, FT, CP):
-    cc.write('''
+import common as _c
+import cvaux_ext as _ext
+from cvaux_ext import *
+        
 #=============================================================================
 # cvaux.h
 #=============================================================================
 
 
-    ''')
 
-    FT.expose_func(mb.free_fun('cvSegmentImage'), ward_indices=(5,))
-
-    # Eigen Objects -- TODO
-    cc.write('''
 #-----------------------------------------------------------------------------
 # Eigen Objects
 #-----------------------------------------------------------------------------
 
-    
-    ''')
 
-    # 1D/2D HMM - TODO
-    cc.write('''
+
 #-----------------------------------------------------------------------------
 # 1D/2D HMM
 #-----------------------------------------------------------------------------
 
-    
-    ''')
 
-    # A few functions from old stereo gesture recognition demosions - TODO
-    cc.write('''
+
 #-----------------------------------------------------------------------------
 # A few functions from old stereo gesture recognition demosions
 #-----------------------------------------------------------------------------
 
-    
-    ''')
 
-    # cvCalcImageHomography
-    FT.expose_func(mb.free_fun('cvCalcImageHomography'), return_pointee=False, transformer_creators=[
-        FT.input_static_array('line', 3), FT.input_static_array('intrinsic', 9), FT.output_static_array('homography', 9)])
 
-    # Additional operations on Subdivisions -- TODO
-    cc.write('''
 #-----------------------------------------------------------------------------
 # Additional operations on Subdivisions
 #-----------------------------------------------------------------------------
 
-    
-    ''')
 
-    # More operations on sequences -- TODO
-    cc.write('''
+
 #-----------------------------------------------------------------------------
 # More operations on sequences
 #-----------------------------------------------------------------------------
 
 
 CV_DOMINANT_IPAN = 1
-    
-    ''')
 
-    # cvFindDominantPoints
-    FT.expose_func(sb.mb.free_fun('cvFindDominantPoints'), ward_indices=(2,))
 
-    # subsections:
-    # Stereo correspondence -- TODO
-    cc.write('''
 CV_UNDEF_SC_PARAM = 12345
 
 CV_IDP_BIRCHFIELD_PARAM1  = 25    
@@ -94,120 +68,75 @@ CV_IDP_BIRCHFIELD_PARAM5  = 25
 CV_DISPARITY_BIRCHFIELD  = 0    
 
 
-    ''')
-    
-    mb.free_fun('cvFindStereoCorrespondence').include()
-    
-    # Epiline functions -- TODO
 
-    # Contour Morphing -- TODO
-    cc.write('''
 #-----------------------------------------------------------------------------
 # Contour Morphing
 #-----------------------------------------------------------------------------
 
-    
-    ''')
-    
-    # functions -- not in cvaux200.dll.a!!!
-    # FT.expose_func(mb.free_fun('cvCalcContoursCorrespondence'), 
-        # ward_indices=(1,), return_pointee=False, transformer_creators=[
-        # FT.input_as_Seq('cv::Point_<int>', 'countour1', 'storage'),
-        # FT.input_as_Seq('cv::Point_<int>', 'contour2')])
-
-    # FT.expose_func(mb.free_fun('cvMorphContours'), 
-        # ward_indices=(1,), return_pointee=False, transformer_creators=[
-        # FT.input_as_Seq('cv::Point_<int>', 'countour1', 'storage'),
-        # FT.input_as_Seq('cv::Point_<int>', 'contour2'),
-        # FT.input_as_Seq('int', 'corr')])
 
 
-
-    # Texture Descriptors -- TODO
-    cc.write('''
 #-----------------------------------------------------------------------------
 # Texture Descriptors
 #-----------------------------------------------------------------------------
 
-    
-    ''')
 
-    # Face eyes&mouth tracking -- TODO
-    cc.write('''
+
 #-----------------------------------------------------------------------------
 # Face eyes&mouth tracking
 #-----------------------------------------------------------------------------
 
-    
-    ''')
 
-    # 3D Tracker -- TODO
-    cc.write('''
+
 #-----------------------------------------------------------------------------
 # 3D Tracker
 #-----------------------------------------------------------------------------
 
-    
-    ''')
 
-    # Skeletons and Linear-Contour Models -- TODO
-    cc.write('''
+
 #-----------------------------------------------------------------------------
 # Skeletons and Linear-Contour Models
 #-----------------------------------------------------------------------------
 
-    
-    ''')
 
-    # Background/foreground segmentation -- TODO
-    cc.write('''
+
 #-----------------------------------------------------------------------------
 # Background/foreground segmentation
 #-----------------------------------------------------------------------------
 
-    
-    ''')
 
-    # Calibration engine -- TODO
-    cc.write('''
+
 #-----------------------------------------------------------------------------
 # Calibration engine
 #-----------------------------------------------------------------------------
 
-    
-    ''')
 
 
-    # Object Tracking
-    cc.write('''
 #-----------------------------------------------------------------------------
 # Object Tracking
 #-----------------------------------------------------------------------------
 
 
-    ''')
 
-    # CvConDensation
-    z = mb.class_('CvConDensation')
-    mb.init_class(z)
-    for arg in z.vars():
-        if D.is_pointer(arg.type):
-            arg.exclude() # wait until requested
-    mb.finalize_class(z)
-    mb.insert_del_interface('CvConDensation', '_PE._cvReleaseConDensation')
+CvConDensation._ownershiplevel = 0
 
-    for z in (
-        'cvConDensUpdateByTime', 'cvConDensInitSampleSet',
-        ):
-        mb.free_fun(z).include()
+def _CvConDensation__del__(self):
+    if self._ownershiplevel==1:
+        _ext._cvReleaseConDensation(self)
+CvConDensation.__del__ = _CvConDensation__del__
+
+#=============================================================================
+# cvaux.hpp
+#=============================================================================
 
 
-    # cvCreateConDensation
-    FT.expose_func(mb.free_fun('cvCreateConDensation'), ownershiplevel=1)
-    
-    # cvReleaseConDensation
-    z = mb.free_fun('cvReleaseConDensation')
-    FT.add_underscore(z)
-    z._transformer_creators.append(FT.input_double_pointee('condens'))
+
+YAPE = LDetector
+
+#=============================================================================
+# cvvidsurf.hpp
+#=============================================================================
+
+CV_BLOB_MINW = 5
+CV_BLOB_MINH = 5
 
 
