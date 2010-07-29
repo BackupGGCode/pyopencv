@@ -12,4 +12,5 @@ from cxcore_hpp import *
 from cv_h import *
 from cv_hpp import *
 from highgui import *
+from ml import *
 # from interfaces import *
