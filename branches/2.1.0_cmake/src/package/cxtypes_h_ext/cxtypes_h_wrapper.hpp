@@ -1,7 +1,10 @@
 #ifndef SD_CXTYPES_H_WRAPPER_H
 #define SD_CXTYPES_H_WRAPPER_H
 
-#include <cxcore.h>
+#include <vector>
+
+#include "opencv_headers.hpp"
+
 #include "cxtypes_h_template_instantiations.hpp"
 
 

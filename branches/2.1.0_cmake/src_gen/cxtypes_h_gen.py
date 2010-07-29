@@ -18,7 +18,38 @@
 import function_transformers as FT
 import memvar_transformers as MT
 import sdpypp
-sb = sdpypp.SdModuleBuilder('cxtypes_h')
+sb = sdpypp.SdModuleBuilder('cxtypes_h', number_of_files=3)
+
+
+
+# register std::vector<std::string>
+# sb.expose_class_vector('std::string')
+# sb.register_decl('str', 'std::string')
+
+# register vectors of basic data types
+sb.expose_class_vector('char')
+sb.expose_class_vector('unsigned char')
+sb.expose_class_vector('short')
+sb.expose_class_vector('unsigned short')
+sb.expose_class_vector('int')
+sb.expose_class_vector('unsigned int')
+sb.expose_class_vector('long')
+sb.expose_class_vector('unsigned long')
+sb.expose_class_vector('long long')
+sb.expose_class_vector('unsigned long long')
+sb.expose_class_vector('float')
+sb.expose_class_vector('double')
+sb.expose_class_vector('unsigned char *', 'vector_string')
+sb.expose_class_vector('std::vector< int >')
+sb.expose_class_vector('std::vector< float >')
+
+z = sb.dummy_struct
+z.include_files.append("opencv_converters.hpp")
+z.include_files.append("sequence.hpp")
+sb.add_reg_code("sdcpp::register_sdobject<sdcpp::sequence>();")
+
+
+
 
 # expose some enumerations
 sb.mb.enums(lambda x: x.name.startswith("Cv") or x.parent.name=="cv").include()    

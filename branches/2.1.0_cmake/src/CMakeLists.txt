@@ -106,7 +106,6 @@ endmacro(ADD_PYTHON_MODULE)
 
 
 # modules
-add_python_module(stl)
 add_python_module(cxtypes_h)
 add_python_module(cxcore_h)
 add_python_module(cxcore_hpp_vec)
