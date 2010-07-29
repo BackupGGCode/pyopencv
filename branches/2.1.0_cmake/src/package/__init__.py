@@ -4,7 +4,6 @@ from cvver_h import *
 from cxerror_h import *
 from stl import *
 from cxtypes_h import *
-from cxflann_h import *
 from cxcore_h import *
 from cxcore_hpp_vec import *
 from cxcore_hpp_point import *
