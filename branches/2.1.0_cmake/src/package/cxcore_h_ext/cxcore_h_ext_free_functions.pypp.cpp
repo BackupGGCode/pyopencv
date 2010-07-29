@@ -316,4 +316,15 @@ void register_free_functions(){
     
     }
 
+    { //::cv::flann::hierarchicalClustering
+    
+        typedef int ( *hierarchicalClustering_function_type )( ::cv::Mat const &,::cv::Mat &,::cv::flann::KMeansIndexParams const & );
+        
+        bp::def( 
+            "hierarchicalClustering"
+            , hierarchicalClustering_function_type( &::cv::flann::hierarchicalClustering )
+            , ( bp::arg("features"), bp::arg("centers"), bp::arg("params") ) );
+    
+    }
+
 }

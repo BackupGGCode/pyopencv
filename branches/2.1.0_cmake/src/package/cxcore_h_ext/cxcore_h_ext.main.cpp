@@ -20,6 +20,12 @@
 
 #include "cxcore_h_ext/cxcore_h_ext_classes_1.pypp.hpp"
 
+#include "cxcore_h_ext/cxcore_h_ext_classes_2.pypp.hpp"
+
+#include "cxcore_h_ext/cxcore_h_ext_classes_3.pypp.hpp"
+
+#include "cxcore_h_ext/cxcore_h_ext_enumerations.pypp.hpp"
+
 #include "cxcore_h_ext/cxcore_h_ext_free_functions.pypp.hpp"
 
 namespace bp = boost::python;
@@ -136,6 +142,8 @@ static void cvWriteFileNode_4df1ea107367e738fdd6f88f15146fb9( ::cv::FileStorage 
 }
 
 BOOST_PYTHON_MODULE(cxcore_h_ext){
+    register_enumerations();
+
     { //::cvClearMemStorage
     
         typedef void ( *clearMemStorage_function_type )( ::cv::MemStorage & );
@@ -493,10 +501,6 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
     
     }
 
-    register_classes_1();
-
-    register_free_functions();
-
     { //::cvWriteFileNode
     
         typedef void ( *writeFileNode_function_type )( ::cv::FileStorage &,char const *,::cv::FileNode const &,int );
@@ -515,5 +519,13 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
     "\n    Python type: FileNode." );
     
     }
+
+    register_classes_1();
+
+    register_classes_2();
+
+    register_classes_3();
+
+    register_free_functions();
 }
 

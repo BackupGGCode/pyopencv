@@ -3,6 +3,10 @@
 
 #include <cxcore.h>
 
+namespace flann {
+    class Index {};
+}
+
 #include "cxcore_h_template_instantiations.hpp"
 
 #endif

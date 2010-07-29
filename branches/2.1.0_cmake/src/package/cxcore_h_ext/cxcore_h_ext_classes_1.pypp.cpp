@@ -128,16 +128,4 @@ void register_classes_1(){
         .add_property( "first", bp::make_function(&::get_CvType_first, bp::return_internal_reference<>()) )    
         .add_property( "last", bp::make_function(&::get_CvType_last, bp::return_internal_reference<>()) );
 
-    { //::cxcore_h_dummy_struct
-        typedef bp::class_< cxcore_h_dummy_struct > __cxcore_h_dummy_struct_exposer_t;
-        __cxcore_h_dummy_struct_exposer_t __cxcore_h_dummy_struct_exposer = __cxcore_h_dummy_struct_exposer_t( "__cxcore_h_dummy_struct" );
-        bp::scope __cxcore_h_dummy_struct_scope( __cxcore_h_dummy_struct_exposer );
-        __cxcore_h_dummy_struct_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cxcore_h_dummy_struct >() );
-        bp::class_< cxcore_h_dummy_struct::dummy_struct2 >( "dummy_struct2" )    
-            .add_property( "this", pyplus_conv::make_addressof_inst_getter< cxcore_h_dummy_struct::dummy_struct2 >() );
-        __cxcore_h_dummy_struct_exposer.setattr("v0", 0);
-    }
-    {;
-    }
-
 }

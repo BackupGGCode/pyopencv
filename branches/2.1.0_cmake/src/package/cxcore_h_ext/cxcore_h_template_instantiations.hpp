@@ -5,7 +5,9 @@ class cxcore_h_dummy_struct {
 public:
     struct dummy_struct2 {};
     static const int total_size = 0
-        + sizeof(cv::Scalar_<double>);
+        + sizeof(cv::Scalar_<double>)
+        + sizeof(std::vector<float>)
+        + sizeof(std::vector<int>);
 };
 
 #endif
