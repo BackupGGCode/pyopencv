@@ -115,6 +115,7 @@ add_python_module(cxcore_hpp_point)
 add_python_module(cxcore_hpp)
 add_python_module(cv_h)
 add_python_module(cv_hpp)
+add_python_module(highgui)
 
 file(GLOB PY_SRCS package/*.py)
 install(FILES ${PY_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)

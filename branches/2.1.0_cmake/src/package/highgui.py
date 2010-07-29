@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# PyOpencv - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
+# PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 
 # Copyright (c) 2009, Minh-Tri Pham
 # All rights reserved.
@@ -15,18 +15,16 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
-def generate_code(mb, cc, D, FT, CP):
-    cc.write('''
+import common as _c
+import highgui_ext as _ext
+from highgui_ext import *
+        
 #=============================================================================
 # highgui.h
 #=============================================================================
 
 
-    ''')
 
-
-    # Basic GUI functions 
-    cc.write('''
 #-----------------------------------------------------------------------------
 # Basic GUI functions 
 #-----------------------------------------------------------------------------
@@ -129,64 +127,23 @@ def CV_FOURCC(c1,c2,c3,c4):
 CV_FOURCC_PROMPT = -1 # Windows only
 CV_FOURCC_DEFAULT = CV_FOURCC('I', 'Y', 'U', 'V') # Linux only
 
-    ''')
 
-    # functions
-    for z in (
-        'cvStartWindowThread', 'cvResizeWindow', 'cvMoveWindow', 
-        'cvGetWindowName', 
-        'cvConvertImage', 
-        # 'cvWaitKey', 'cvGrabFrame', 'cvGetCaptureProperty', 'cvSetCaptureProperty', 'cvGetCaptureDomain',
-        # 'cvWriteFrame',
-        ):
-        mb.free_fun(z).include()
-        
-    # CV_FOURCC -- turn it off, we've got ctypes code for it
-    try:
-        mb.free_fun('CV_FOURCC').exclude()
-    except:
-        pass
-        
-    # cvInitSystem
-    FT.expose_func(mb.free_fun('cvInitSystem'), return_pointee=False, transformer_creators=[
-        FT.input_list_of_string('argv', 'argc')])
-
-    # cvGetWindowHandle, wait until requested
-
-    # setMouseCallback
-    z = mb.free_fun('cvSetMouseCallback')
-    FT.expose_func(z, transformer_creators=[FT.mouse_callback_func('on_mouse', 'param')])
-    FT.add_underscore(z)
-    cc.write('''
 def setMouseCallback(window_name, on_mouse, param=None):
-    _windows_callbacks.setdefault(window_name,{})["mouse"] = _PE._cvSetMouseCallback(window_name, on_mouse, param=param)
-setMouseCallback.__doc__ = _PE._cvSetMouseCallback.__doc__
-    ''')
+    _windows_callbacks.setdefault(window_name,{})["mouse"] = _ext._cvSetMouseCallback(window_name, on_mouse, param=param)
+setMouseCallback.__doc__ = _ext._cvSetMouseCallback.__doc__
 
-    # destroyWindow
-    z = mb.free_fun('cvDestroyWindow')
-    FT.add_underscore(z)
-    cc.write('''
 def destroyWindow(name):
-    _PE._cvDestroyWindow(name)
+    _ext._cvDestroyWindow(name)
     if name in _windows_callbacks:
         _windows_callbacks.pop(name)
-destroyWindow.__doc__ = _PE._cvDestroyWindow.__doc__        
-    ''')
+destroyWindow.__doc__ = _ext._cvDestroyWindow.__doc__        
 
-    # destroyAllWindows
-    z = mb.free_fun('cvDestroyAllWindows')
-    FT.add_underscore(z)
-    cc.write('''
 def destroyAllWindows():
-    _PE._cvDestroyAllWindows()
+    _ext._cvDestroyAllWindows()
     _windows_callbacks.clear()
-destroyAllWindows.__doc__ = _PE._cvDestroyAllWindows.__doc__        
-
-    ''')
+destroyAllWindows.__doc__ = _ext._cvDestroyAllWindows.__doc__        
 
 
-    cc.write('''
 # Automatically destroy any remaining tracked windows at process exit,
 # otherwise our references to ctypes objects may be destroyed by the normal
 # interpreter cleanup before the highgui library cleans up fully, leaving us
@@ -194,5 +151,32 @@ destroyAllWindows.__doc__ = _PE._cvDestroyAllWindows.__doc__
 
 import atexit
 atexit.register(destroyAllWindows)
-    ''')
 
+#=============================================================================
+# highgui.hpp
+#=============================================================================
+
+
+
+#-----------------------------------------------------------------------------
+# C++ Interface
+#-----------------------------------------------------------------------------
+
+
+def createTrackbar(trackbar_name, window_name, value, count, on_change=None, userdata=None):
+    if not isinstance(value, _CT.c_int):
+        value = _CT.c_int(value)
+
+    result, z = _ext._createTrackbar(trackbar_name, window_name, _CT.addressof(value), count, on_change, userdata=userdata)
+    if result:
+        cb_key = 'tracker-' + trackbar_name
+        _windows_callbacks.setdefault(window_name,{})[cb_key] = z
+    return result
+createTrackbar.__doc__ = _ext._createTrackbar.__doc__
+
+_str = "\n    'value' is the initial position of the trackbar. Also, if 'value' is an instance of ctypes.c_int, it holds the current position of the trackbar at any time."
+if createTrackbar.__doc__ is None:
+    createTrackbar.__doc__ = _str
+else:
+    createTrackbar.__doc__ += _str
+    
