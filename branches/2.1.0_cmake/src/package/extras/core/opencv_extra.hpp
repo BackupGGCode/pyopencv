@@ -18,8 +18,6 @@
 
 namespace bp = boost::python;
 
-#define BOOST_PYTHON_MAX_ARITY 30
-
 void CV_CDECL sdTrackbarCallback2(int pos, void* userdata);
 void CV_CDECL sdMouseCallback(int event, int x, int y, int flags, void* param);
 float CV_CDECL sdDistanceFunction( const float* a, const float*b, void* user_param );

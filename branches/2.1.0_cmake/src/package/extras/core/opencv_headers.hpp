@@ -1,7 +1,12 @@
 #ifndef SDOPENCV_HEADERS_H
 #define SDOPENCV_HEADERS_H
 
+#include <cstring>
+
+#define __OPENCV_MATRIX_OPERATIONS_H__ // to turn off cxmat.hpp and turn on sdcxmat.hpp -- there's a bug
 #include "cxcore.h"
+#undef __OPENCV_MATRIX_OPERATIONS_H__
+#include "sdcxmat.hpp"
 
 namespace cv // missing classes in OpenCV 2.1
 {

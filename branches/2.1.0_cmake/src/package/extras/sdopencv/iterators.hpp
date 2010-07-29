@@ -8,31 +8,6 @@
 namespace sdopencv
 {
 
-inline cv::MemStorage createMemStorage(int block_size CV_DEFAULT(0))
-{
-    return cv::MemStorage(cvCreateMemStorage(block_size));
-}
-
-inline cv::MemStorage createChildMemStorage(cv::MemStorage &parent)
-{
-    return cv::MemStorage(cvCreateChildMemStorage((CvMemStorage *)parent));
-}
-
-class CV_EXPORTS LineIterator : public cv::LineIterator
-{
-public:
-    LineIterator(const cv::Mat& img, cv::Point const &pt1, cv::Point const &pt2,
-        int connectivity=8, bool leftToRight=false);
-        
-    LineIterator const &iter() { return *this; }
-    cv::Point next();
-    
-private:
-    int iteration;
-    int ws, es;
-    uchar *ptr0;
-};
-
 template<typename T>
 struct unbounded_array
 {
@@ -266,72 +241,6 @@ dot(const SdVector<_Tp>& v1, const SdVector<_Tp>& v2)
 }
 
 }
-
-
-
-typedef int sumtype;
-typedef double sqsumtype;
-
-typedef struct CvHidHaarFeature
-{
-    struct
-    {
-        sumtype *p0, *p1, *p2, *p3;
-        float weight;
-    }
-    rect[CV_HAAR_FEATURE_MAX];
-}
-CvHidHaarFeature;
-
-
-typedef struct CvHidHaarTreeNode
-{
-    CvHidHaarFeature feature;
-    float threshold;
-    int left;
-    int right;
-}
-CvHidHaarTreeNode;
-
-
-typedef struct CvHidHaarClassifier
-{
-    int count;
-    //CvHaarFeature* orig_feature;
-    CvHidHaarTreeNode* node;
-    float* alpha;
-}
-CvHidHaarClassifier;
-
-
-typedef struct CvHidHaarStageClassifier
-{
-    int  count;
-    float threshold;
-    CvHidHaarClassifier* classifier;
-    int two_rects;
-
-    struct CvHidHaarStageClassifier* next;
-    struct CvHidHaarStageClassifier* child;
-    struct CvHidHaarStageClassifier* parent;
-}
-CvHidHaarStageClassifier;
-
-
-struct CvHidHaarClassifierCascade
-{
-    int  count;
-    int  is_stump_based;
-    int  has_tilted_features;
-    int  is_tree;
-    double inv_window_area;
-    CvMat sum, sqsum, tilted;
-    CvHidHaarStageClassifier* stage_classifier;
-    sqsumtype *pq0, *pq1, *pq2, *pq3;
-    sumtype *p0, *p1, *p2, *p3;
-
-    void** ipp_stages;
-};
 
 
 #endif // SDOPENCV_ITERATORS_HPP

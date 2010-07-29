@@ -8,59 +8,11 @@
 
 #include "stl_wrapper.hpp"
 
-#include "stl_ext/__stl_dummy_struct.pypp.hpp"
-
-#include "stl_ext/vector_float32.pypp.hpp"
-
-#include "stl_ext/vector_float64.pypp.hpp"
-
-#include "stl_ext/vector_int.pypp.hpp"
-
-#include "stl_ext/vector_int16.pypp.hpp"
-
-#include "stl_ext/vector_int8.pypp.hpp"
-
-#include "stl_ext/vector_long.pypp.hpp"
-
-#include "stl_ext/vector_uint.pypp.hpp"
-
-#include "stl_ext/vector_uint16.pypp.hpp"
-
-#include "stl_ext/vector_uint8.pypp.hpp"
-
-#include "stl_ext/vector_ulong.pypp.hpp"
-
-#include "stl_ext/vector_vector_float32.pypp.hpp"
-
-#include "stl_ext/vector_vector_int.pypp.hpp"
+#include "stl_ext/stl_ext_classes_1.pypp.hpp"
 
 namespace bp = boost::python;
 
 BOOST_PYTHON_MODULE(stl_ext){
-    register_vector_uint16_class();
-
-    register_vector_ulong_class();
-
-    register_vector_uint_class();
-
-    register_vector_uint8_class();
-
-    register_vector_vector_int_class();
-
-    register_vector_vector_float32_class();
-
-    register_vector_int16_class();
-
-    register_vector_long_class();
-
-    register_vector_int_class();
-
-    register_vector_float32_class();
-
-    register_vector_float64_class();
-
-    register_vector_int8_class();
-
-    register___stl_dummy_struct_class();
+    register_classes_1();
 }
 

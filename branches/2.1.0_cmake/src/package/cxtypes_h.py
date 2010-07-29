@@ -154,8 +154,6 @@ CV_TYPE_NAME_SPARSE_MAT    = "opencv-sparse-matrix"
 # CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
 # CV_TERMCRIT_EPS     = 2
 
-CV_WHOLE_SEQ_END_INDEX = 0x3fffffff
-
 
 def _CvPoint__repr__(self):
     return "CvPoint(x=" + repr(self.x) + ", y=" + repr(self.y) + ")"

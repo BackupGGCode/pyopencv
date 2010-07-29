@@ -8,62 +8,18 @@
 
 #include "cxflann_h_wrapper.hpp"
 
-#include "cxflann_h_ext/AutotunedIndexParams.pypp.hpp"
-
-#include "cxflann_h_ext/CompositeIndexParams.pypp.hpp"
-
-#include "cxflann_h_ext/Index.pypp.hpp"
-
-#include "cxflann_h_ext/IndexFactory.pypp.hpp"
-
-#include "cxflann_h_ext/IndexParams.pypp.hpp"
-
-#include "cxflann_h_ext/KDTreeIndexParams.pypp.hpp"
-
-#include "cxflann_h_ext/KMeansIndexParams.pypp.hpp"
-
-#include "cxflann_h_ext/LinearIndexParams.pypp.hpp"
-
-#include "cxflann_h_ext/SavedIndexParams.pypp.hpp"
-
-#include "cxflann_h_ext/SearchParams.pypp.hpp"
-
-#include "cxflann_h_ext/__cxflann_h_dummy_struct.pypp.hpp"
+#include "cxflann_h_ext/cxflann_h_ext_classes_1.pypp.hpp"
 
 #include "cxflann_h_ext/cxflann_h_ext_enumerations.pypp.hpp"
 
 #include "cxflann_h_ext/cxflann_h_ext_free_functions.pypp.hpp"
-
-#include "cxflann_h_ext/flann_Index.pypp.hpp"
 
 namespace bp = boost::python;
 
 BOOST_PYTHON_MODULE(cxflann_h_ext){
     register_enumerations();
 
-    register_IndexFactory_class();
-
-    register_IndexParams_class();
-
-    register_AutotunedIndexParams_class();
-
-    register_CompositeIndexParams_class();
-
-    register_Index_class();
-
-    register_KDTreeIndexParams_class();
-
-    register_KMeansIndexParams_class();
-
-    register_LinearIndexParams_class();
-
-    register_SavedIndexParams_class();
-
-    register_SearchParams_class();
-
-    register___cxflann_h_dummy_struct_class();
-
-    register_flann_Index_class();
+    register_classes_1();
 
     register_free_functions();
 }

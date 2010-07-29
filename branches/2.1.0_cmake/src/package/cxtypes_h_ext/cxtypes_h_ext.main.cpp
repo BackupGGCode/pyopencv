@@ -8,59 +8,7 @@
 
 #include "cxtypes_h_wrapper.hpp"
 
-#include "cxtypes_h_ext/CvAttrList.pypp.hpp"
-
-#include "cxtypes_h_ext/CvChain.pypp.hpp"
-
-#include "cxtypes_h_ext/CvContour.pypp.hpp"
-
-#include "cxtypes_h_ext/CvGenericHash.pypp.hpp"
-
-#include "cxtypes_h_ext/CvGraph.pypp.hpp"
-
-#include "cxtypes_h_ext/CvGraphEdge.pypp.hpp"
-
-#include "cxtypes_h_ext/CvGraphVtx.pypp.hpp"
-
-#include "cxtypes_h_ext/CvGraphVtx2D.pypp.hpp"
-
-#include "cxtypes_h_ext/CvMat.pypp.hpp"
-
-#include "cxtypes_h_ext/CvMemBlock.pypp.hpp"
-
-#include "cxtypes_h_ext/CvMemStorage.pypp.hpp"
-
-#include "cxtypes_h_ext/CvMemStoragePos.pypp.hpp"
-
-#include "cxtypes_h_ext/CvModuleInfo.pypp.hpp"
-
-#include "cxtypes_h_ext/CvPluginFuncInfo.pypp.hpp"
-
-#include "cxtypes_h_ext/CvPoint.pypp.hpp"
-
-#include "cxtypes_h_ext/CvPoint2D32f.pypp.hpp"
-
-#include "cxtypes_h_ext/CvPoint2D64f.pypp.hpp"
-
-#include "cxtypes_h_ext/CvPoint3D32f.pypp.hpp"
-
-#include "cxtypes_h_ext/CvPoint3D64f.pypp.hpp"
-
-#include "cxtypes_h_ext/CvSeq.pypp.hpp"
-
-#include "cxtypes_h_ext/CvSeqBlock.pypp.hpp"
-
-#include "cxtypes_h_ext/CvSet.pypp.hpp"
-
-#include "cxtypes_h_ext/CvSetElem.pypp.hpp"
-
-#include "cxtypes_h_ext/CvString.pypp.hpp"
-
-#include "cxtypes_h_ext/CvStringHashNode.pypp.hpp"
-
-#include "cxtypes_h_ext/CvTypeInfo.pypp.hpp"
-
-#include "cxtypes_h_ext/__cxtypes_h_dummy_struct.pypp.hpp"
+#include "cxtypes_h_ext/cxtypes_h_ext_classes_1.pypp.hpp"
 
 #include "cxtypes_h_ext/cxtypes_h_ext_enumerations.pypp.hpp"
 
@@ -81,61 +29,9 @@ struct CvRNG_to_python
 BOOST_PYTHON_MODULE(cxtypes_h_ext){
     register_enumerations();
 
-    register_CvAttrList_class();
-
-    register_CvChain_class();
-
-    register_CvContour_class();
-
-    register_CvGenericHash_class();
-
-    register_CvGraph_class();
-
-    register_CvGraphEdge_class();
-
-    register_CvGraphVtx_class();
-
-    register_CvGraphVtx2D_class();
-
-    register_CvMat_class();
-
-    register_CvMemBlock_class();
-
-    register_CvMemStorage_class();
-
-    register_CvMemStoragePos_class();
-
-    register_CvModuleInfo_class();
-
-    register_CvPluginFuncInfo_class();
-
-    register_CvPoint_class();
-
-    register_CvPoint2D32f_class();
-
-    register_CvPoint2D64f_class();
-
-    register_CvPoint3D32f_class();
-
-    register_CvPoint3D64f_class();
-
-    register_CvSeq_class();
-
-    register_CvSeqBlock_class();
-
-    register_CvSet_class();
-
-    register_CvSetElem_class();
-
-    register_CvString_class();
-
-    register_CvStringHashNode_class();
-
-    register_CvTypeInfo_class();
-
-    register___cxtypes_h_dummy_struct_class();
-
     bp::to_python_converter<CvRNG, CvRNG_to_python, false>();
+
+    register_classes_1();
 
     register_global_variables();
 
