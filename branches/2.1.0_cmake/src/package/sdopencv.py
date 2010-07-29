@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# PyOpencv - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
+# PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 
 # Copyright (c) 2009, Minh-Tri Pham
 # All rights reserved.
@@ -15,22 +15,12 @@
 # For further inquiries, please contact Minh-Tri Pham at pmtri80@gmail.com.
 # ----------------------------------------------------------------------------
 
-import common
-
-def generate_code(mb, cc, D, FT, CP):
-    cc.write('''
+import common as _c
+import sdopencv_ext as _ext
+from sdopencv_ext import *
+        
 #=============================================================================
 # sdopencv
 #=============================================================================
 
-
-    ''')
-
-    sdopencv = mb.namespace('sdopencv')
-    sdopencv.include()
-    
-    for t in ('DifferentialImage', 'IntegralImage', 'IntegralHistogram'):
-        z = sdopencv.class_(t)
-        mb.init_class(z)
-        mb.finalize_class(z)
 

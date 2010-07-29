@@ -116,6 +116,7 @@ add_python_module(cv_hpp)
 add_python_module(highgui)
 add_python_module(ml)
 add_python_module(cvaux)
+add_python_module(sdopencv)
 
 
 file(GLOB PY_SRCS package/*.py)

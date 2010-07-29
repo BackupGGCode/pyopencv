@@ -12,4 +12,5 @@ from cv_hpp import *
 from highgui import *
 from ml import *
 from cvaux import *
+from sdopencv import *
 # from interfaces import *
