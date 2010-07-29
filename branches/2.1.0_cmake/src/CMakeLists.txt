@@ -10,8 +10,11 @@
 #
 # ----------------------------------------------------------------------------
 
+# Need Python
+find_package(PythonInterp REQUIRED)
+
 # python site-packages folder
-execute_process ( COMMAND python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"
+execute_process ( COMMAND ${PYTHON_EXECUTABLE} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()"
     OUTPUT_VARIABLE PYTHON_SITE_PACKAGES OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 # it _must_ go before PROJECT(PyOpenCV) in order to work
@@ -20,21 +23,8 @@ set(CMAKE_INSTALL_PREFIX "${PYTHON_SITE_PACKAGES}/pyopencv" CACHE PATH "PyOpenCV
 project(pyopencv)
 cmake_minimum_required(VERSION 2.4)
 
-# --------------------------------------------------------------
-# Indicate CMake 2.7 and above that we don't want to mix relative
-#  and absolute paths in linker lib lists.
-# Run "cmake --help-policy CMP0003" for more information.
-# --------------------------------------------------------------
-if(COMMAND cmake_policy)
-    cmake_policy(SET CMP0003 NEW)
-endif()
-
-# Don't try the Debug mode, it's too long to compile.
-SET(CMAKE_BUILD_TYPE "Release")
-
-# Need Python
+# Need Python-dev
 find_package(PythonLibs REQUIRED)
-find_package(PythonInterp REQUIRED)
 if(NOT PYTHONLIBS_FOUND OR NOT PYTHON_EXECUTABLE)
 message(SEND_ERROR "You need Python to build a Python extension")
 endif(NOT PYTHONLIBS_FOUND OR NOT PYTHON_EXECUTABLE)
@@ -61,6 +51,18 @@ EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_BINARY_DIR}/getmodsuffix.py
     OUTPUT_VARIABLE _modsuffix)
 STRING(REPLACE "\n" "" _modsuffix ${_modsuffix}) # Setup specific properties of the Python target
 
+
+# --------------------------------------------------------------
+# Indicate CMake 2.7 and above that we don't want to mix relative
+#  and absolute paths in linker lib lists.
+# Run "cmake --help-policy CMP0003" for more information.
+# --------------------------------------------------------------
+if(COMMAND cmake_policy)
+    cmake_policy(SET CMP0003 NEW)
+endif()
+
+# Don't try the Debug mode, it's too long to compile.
+SET(CMAKE_BUILD_TYPE "Release")
 
 set(Boost_USE_STATIC_LIBS OFF) # need dynamic linking
 set(Boost_python_DYN_LINK ON)
@@ -107,6 +109,12 @@ endmacro(ADD_PYTHON_MODULE)
 add_python_module(stl)
 add_python_module(cxtypes_h)
 add_python_module(cxflann_h)
+add_python_module(cxcore_h)
+add_python_module(cxcore_hpp_vec)
+add_python_module(cxcore_hpp_point)
+add_python_module(cxcore_hpp)
+add_python_module(cv_h)
+add_python_module(cv_hpp)
 
 file(GLOB PY_SRCS package/*.py)
 install(FILES ${PY_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)

@@ -16,28 +16,9 @@
 # ----------------------------------------------------------------------------
 
 import function_transformers as FT
+import memvar_transformers as MT
 import sdpypp
 sb = sdpypp.SdModuleBuilder('cxtypes_h')
-
-def expose_CvSeq_members(z, FT):
-    for t in ('h_prev', 'h_next', 'v_prev', 'v_next', 'free_blocks', 'first'):
-        FT.expose_member_as_pointee(z, t)
-    for t in ('block_max', 'ptr'):
-        FT.expose_member_as_str(z, t)
-
-def expose_CvSet_members(z, FT):
-    expose_CvSeq_members(z, FT)
-    FT.expose_member_as_pointee(z, 'free_elems')
-
-def expose_CvSeqReader_members(z, FT):
-    for t in ('seq', 'block'):
-        FT.expose_member_as_pointee(z, t)
-    for t in ('ptr', 'block_min', 'block_max', 'prev_elem'):
-        FT.expose_member_as_str(z, t)
-
-def expose_CvGraph_members(z, FT):
-    expose_CvSet_members(z, FT)
-    FT.expose_member_as_pointee(z, 'edges')
 
 # expose some enumerations
 sb.mb.enums(lambda x: x.name.startswith("Cv") or x.parent.name=="cv").include()    
@@ -261,8 +242,6 @@ sb.cc.write('''
 # CV_TERMCRIT_NUMBER  = CV_TERMCRIT_ITER
 # CV_TERMCRIT_EPS     = 2
 
-CV_WHOLE_SEQ_END_INDEX = 0x3fffffff
-
 ''')
 
 # CvRect -- now represented by cv::Rect
@@ -400,6 +379,11 @@ for t in ('bottom', 'top'):
     FT.expose_member_as_pointee(z, t)
 sb.finalize_class(z)
 
+# cv::MemStorage
+sb.register_ti('cv::Ptr', ['CvMemStorage'], 'MemStorage')
+sb.expose_class_Ptr('CvMemStorage')
+
+
 # CvMemStoragePos
 z = sb.mb.class_('CvMemStoragePos')
 sb.init_class(z)
@@ -417,7 +401,7 @@ sb.finalize_class(z)
 # CvSeq
 z = sb.mb.class_('CvSeq')
 sb.init_class(z)
-expose_CvSeq_members(z, FT)
+MT.expose_CvSeq_members(z, FT)
 sb.finalize_class(z)
         
 # CvSetElem
@@ -429,7 +413,7 @@ sb.finalize_class(z)
 # CvSet
 z = sb.mb.class_('CvSet')
 sb.init_class(z)
-expose_CvSet_members(z, FT)
+MT.expose_CvSet_members(z, FT)
 sb.finalize_class(z)
 
 
@@ -456,19 +440,19 @@ sb.finalize_class(z)
 # CvGraph
 z = sb.mb.class_('CvGraph')
 sb.init_class(z)
-expose_CvGraph_members(z, FT)
+MT.expose_CvGraph_members(z, FT)
 sb.finalize_class(z)
 
 # CvChain
 z = sb.mb.class_('CvChain')
 sb.init_class(z)
-expose_CvSeq_members(z, FT)
+MT.expose_CvSeq_members(z, FT)
 sb.finalize_class(z)
 
 # CvContour
 z = sb.mb.class_('CvContour')
 sb.init_class(z)
-expose_CvSeq_members(z, FT)
+MT.expose_CvSeq_members(z, FT)
 sb.mb.decl('CvPoint2DSeq').include()
 sb.finalize_class(z)
 
@@ -576,7 +560,7 @@ def CV_GET_SEQ_ELEM(TYPE, seq, index):
 # CvSeqReader -- obsolete, use Seq<T> instead
 # z = sb.mb.class_('CvSeqReader')
 # sb.init_class(z)
-# expose_CvSeqReader_members(z, FT)
+# MT.expose_CvSeqReader_members(z, FT)
 # sb.finalize_class(z)
 
 

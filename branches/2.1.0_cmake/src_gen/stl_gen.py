@@ -18,26 +18,6 @@
 import sdpypp
 sb = sdpypp.SdModuleBuilder('stl')
 
-# basic data types
-sb.register_decl('None', 'void')
-sb.register_decl('bool', 'bool')
-sb.register_decl('int8', 'char')
-sb.register_decl('int8', 'signed char')
-sb.register_decl('int8', 'schar')
-sb.register_decl('uint8', 'unsigned char')
-sb.register_decl('uint8', 'uchar')
-sb.register_decl('int16', 'short')
-sb.register_decl('int16', 'short int')
-sb.register_decl('uint16', 'unsigned short')
-sb.register_decl('uint16', 'short unsigned int')
-sb.register_decl('uint16', 'ushort')
-sb.register_decl('int', 'int')
-sb.register_decl('uint', 'unsigned int')
-sb.register_decl('long', 'long')
-sb.register_decl('ulong', 'unsigned long')
-sb.register_decl('float32', 'float')
-sb.register_decl('float64', 'double')
-
 # register std::vector<std::string>
 # sb.register_vec('std::vector', 'std::string')
 # sb.register_decl('str', 'std::string')

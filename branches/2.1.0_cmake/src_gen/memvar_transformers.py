@@ -38,20 +38,42 @@ class size_t_t( _D.fundamental_t ):
 def set_array_item_type_as_size_t(klass, member_name):
     _D.remove_cv(_D.remove_alias(klass.var(member_name).type)).base = size_t_t()
 
+    
+def expose_CvSeq_members(z, FT):
+    for t in ('h_prev', 'h_next', 'v_prev', 'v_next', 'free_blocks', 'first'):
+        FT.expose_member_as_pointee(z, t)
+    for t in ('block_max', 'ptr'):
+        FT.expose_member_as_str(z, t)
+
+def expose_CvSet_members(z, FT):
+    expose_CvSeq_members(z, FT)
+    FT.expose_member_as_pointee(z, 'free_elems')
+
+def expose_CvSeqReader_members(z, FT):
+    for t in ('seq', 'block'):
+        FT.expose_member_as_pointee(z, t)
+    for t in ('ptr', 'block_min', 'block_max', 'prev_elem'):
+        FT.expose_member_as_str(z, t)
+
+def expose_CvGraph_members(z, FT):
+    expose_CvSet_members(z, FT)
+    FT.expose_member_as_pointee(z, 'edges')    
+    
 def expose_member_as_MemStorage(klass, member_name):
     klass.var(member_name).exclude()
     klass.add_declaration_code('''
-static cv::MemStorage get_MEMBER_NAME(CLASS_TYPE const &inst) { return cv::MemStorage(inst.MEMBER_NAME); }
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.pds))
-    klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&::get_MEMBER_NAME, bp::with_custodian_and_ward_postcall<0, 1>()) )'''.replace("MEMBER_NAME", member_name))
+static cv::MemStorage get_CLASS_NAME_MEMBER_NAME(CLASS_TYPE const &inst) { return cv::MemStorage(inst.MEMBER_NAME); }
+    '''.replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias).replace("CLASS_TYPE", klass.pds))
+    klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&::get_CLASS_NAME_MEMBER_NAME, bp::with_custodian_and_ward_postcall<0, 1>()) )'''.replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias))
         
 def expose_member_as_FixType(dst_type_pds, klass, member_name):
     klass.var(member_name).exclude()
     klass.add_declaration_code('''
-static DST_TYPE *get_MEMBER_NAME(CLASS_TYPE const &inst) { return (DST_TYPE *)(&inst.MEMBER_NAME); }
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.pds).replace("DST_TYPE", dst_type_pds))
-    klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&::get_MEMBER_NAME, bp::return_internal_reference<>()) )'''\
-        .replace("MEMBER_NAME", member_name))
+static DST_TYPE *get_CLASS_NAME_MEMBER_NAME(CLASS_TYPE const &inst) { return (DST_TYPE *)(&inst.MEMBER_NAME); }
+    '''.replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias)\
+        .replace("CLASS_TYPE", klass.pds).replace("DST_TYPE", dst_type_pds))
+    klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&::get_CLASS_NAME_MEMBER_NAME, bp::return_internal_reference<>()) )'''\
+        .replace("CLASS_NAME", klass.alias).replace("MEMBER_NAME", member_name))
         
 def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True, header_management_policy=0):
     """Expose a member as a cv::Mat.
@@ -91,60 +113,66 @@ def expose_member_as_Mat(klass, member_name, is_CvMat_ptr=True, header_managemen
         MEMBER_NAME_as_Mat = new_MEMBER_NAME; // to keep a reference to MEMBER_NAME
         update_MEMBER_NAME();
     }
-    cv::Mat & get_MEMBER_NAME()
+    cv::Mat & get_CLASS_NAME_MEMBER_NAME()
     {
         update_MEMBER_NAME();
         return MEMBER_NAME_as_Mat;
     }
 
-        '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string).replace("CVMAT", CvMat))
-        klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_MEMBER_NAME, bp::return_internal_reference<>()),
-            &CLASS_TYPE_wrapper::set_MEMBER_NAME)'''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
+        '''.replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias)\
+            .replace("CLASS_TYPE", klass.decl_string).replace("CVMAT", CvMat))
+        klass.add_registration_code('''add_property( "MEMBER_NAME", bp::make_function(&CLASS_TYPE_wrapper::get_CLASS_NAME_MEMBER_NAME, bp::return_internal_reference<>()),
+            &CLASS_TYPE_wrapper::set_MEMBER_NAME)'''.replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias)\
+            .replace("CLASS_TYPE", klass.decl_string))
         klass.add_registration_code('''def( "validate_MEMBER_NAME", &CLASS_TYPE_wrapper::update_MEMBER_NAME, "Updates the internal C pointer that represents 'MEMBER_NAME'. The function should be called every time the header of 'MEMBER_NAME' is modified by the user." )'''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
     else:
         klass.add_declaration_code('''
-static cv::Mat get_MEMBER_NAME(CLASS_TYPE const &inst) { return inst.MEMBER_NAME? cv::Mat(inst.MEMBER_NAME): cv::Mat(); }
-        '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string).replace("CVMAT", CvMat))
-        klass.add_registration_code('''add_property( "MEMBER_NAME", &::get_MEMBER_NAME )'''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
+static cv::Mat get_CLASS_NAME_MEMBER_NAME(CLASS_TYPE const &inst) { return inst.MEMBER_NAME? cv::Mat(inst.MEMBER_NAME): cv::Mat(); }
+        '''.replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias)\
+            .replace("CLASS_TYPE", klass.decl_string).replace("CVMAT", CvMat))
+        klass.add_registration_code('''add_property( "MEMBER_NAME", &::get_CLASS_NAME_MEMBER_NAME )'''.replace("MEMBER_NAME", member_name)\
+            .replace("CLASS_NAME", klass.alias).replace("CLASS_TYPE", klass.decl_string))
         
 def expose_array_member_as_Mat(klass, member_name, member_size_name, extra="0"):
     klass.include_files.append( "opencv_converters.hpp" )
     klass.var(member_name).exclude()
     # klass.var(member_size_name).exclude()
     klass.add_declaration_code('''
-static cv::Mat get_MEMBER_NAME(CLASS_TYPE const &inst)
+static cv::Mat get_CLASS_NAME_MEMBER_NAME(CLASS_TYPE const &inst)
 {
     cv::Mat MEMBER_NAME2;
     convert_from_array_of_T_to_Mat(inst.MEMBER_NAME, inst.MEMBER_SIZE_NAME+EXTRA, MEMBER_NAME2);
     return MEMBER_NAME2;
 }
 
-    '''.replace("MEMBER_NAME", member_name).replace("MEMBER_SIZE_NAME", member_size_name).replace("CLASS_TYPE", klass.decl_string).replace("EXTRA", extra))
-    klass.add_registration_code('''add_property( "MEMBER_NAME", &::get_MEMBER_NAME)'''.replace("MEMBER_NAME", member_name)) # TODO: make MEMBER dependent on KLASS
+    '''.replace("MEMBER_NAME", member_name).replace("MEMBER_SIZE_NAME", member_size_name)\
+        .replace("CLASS_NAME", klass.alias).replace("CLASS_TYPE", klass.decl_string).replace("EXTRA", extra))
+    klass.add_registration_code('''add_property( "MEMBER_NAME", &::get_CLASS_NAME_MEMBER_NAME)'''.replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias)) # TODO: make MEMBER dependent on KLASS
     
 def expose_member_as_str(klass, member_name):
     klass.include_files.append( "boost/python/object.hpp" )
     klass.include_files.append( "boost/python/str.hpp" )
     klass.var(member_name).exclude()
     klass.add_declaration_code('''
-static bp::object get_MEMBER_NAME( CLASS_TYPE const & inst ){        
+static bp::object get_CLASS_NAME_MEMBER_NAME( CLASS_TYPE const & inst ){        
     return inst.MEMBER_NAME? bp::str(inst.MEMBER_NAME): bp::object();
 }
 
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
-    klass.add_registration_code('add_property( "MEMBER_NAME", &::get_MEMBER_NAME )' \
-        .replace("MEMBER_NAME", member_name))
+    '''.replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias)\
+        .replace("CLASS_TYPE", klass.decl_string))
+    klass.add_registration_code('add_property( "MEMBER_NAME", &::get_CLASS_NAME_MEMBER_NAME )' \
+        .replace("CLASS_NAME", klass.alias).replace("MEMBER_NAME", member_name))
     
 def expose_member_as_pointee(klass, member_name):
     klass.include_files.append( "boost/python/object.hpp" )
     z = klass.var(member_name)
     z.exclude()
-    klass.add_declaration_code("static MEMBER_TYPE get_MEMBER_NAME( CLASS_TYPE const & inst ) { return inst.MEMBER_NAME; }"\
+    klass.add_declaration_code("static MEMBER_TYPE get_CLASS_NAME_MEMBER_NAME( CLASS_TYPE const & inst ) { return inst.MEMBER_NAME; }"\
         .replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string)\
-        .replace("MEMBER_TYPE", z.type.decl_string))
+        .replace("MEMBER_TYPE", z.type.decl_string).replace("CLASS_NAME", klass.alias))
     klass.add_registration_code('''
-    add_property( "MEMBER_NAME", bp::make_function(&::get_MEMBER_NAME, bp::return_internal_reference<>()) )
-    '''.replace("MEMBER_NAME", member_name).replace("CLASS_TYPE", klass.decl_string))
+    add_property( "MEMBER_NAME", bp::make_function(&::get_CLASS_NAME_MEMBER_NAME, bp::return_internal_reference<>()) )
+    '''.replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias).replace("CLASS_TYPE", klass.decl_string))
     
 def expose_member_as_array_of_pointees(klass, member_name, array_size):
     klass.include_files.append( "boost/python/object.hpp")
@@ -152,7 +180,7 @@ def expose_member_as_array_of_pointees(klass, member_name, array_size):
     klass.include_files.append( "boost/python/tuple.hpp")
     klass.var(member_name).exclude() # TODO: with_custodian_and_ward for each pointee of the array
     klass.add_declaration_code('''
-static bp::object get_MEMBER_NAME( CLASS_TYPE const & inst ){
+static bp::object get_CLASS_NAME_MEMBER_NAME( CLASS_TYPE const & inst ){
     bp::list l;
     for(int i = 0; i < ARRAY_SIZE; ++i)
         l.append(inst.MEMBER_NAME[i]);
@@ -160,10 +188,10 @@ static bp::object get_MEMBER_NAME( CLASS_TYPE const & inst ){
 }
 
     '''.replace("MEMBER_NAME", member_name) \
-        .replace("CLASS_TYPE", klass.pds) \
+        .replace("CLASS_NAME", klass.alias).replace("CLASS_TYPE", klass.pds) \
         .replace("ARRAY_SIZE", str(array_size)))
-    klass.add_registration_code('add_property( "MEMBER_NAME", &::get_MEMBER_NAME )' \
-        .replace("MEMBER_NAME", member_name))
+    klass.add_registration_code('add_property( "MEMBER_NAME", &::get_CLASS_NAME_MEMBER_NAME )' \
+        .replace("CLASS_NAME", klass.alias).replace("MEMBER_NAME", member_name))
     
 
 def expose_member_as_ndarray1d(klass, member_name, array_size):
@@ -171,7 +199,7 @@ def expose_member_as_ndarray1d(klass, member_name, array_size):
     z = klass.var(member_name)
     z.exclude()
     klass.add_declaration_code('''
-static sdcpp::ndarray CLASS_NAME_get_MEMBER_NAME( CLASS_TYPE const & inst ){
+static sdcpp::ndarray CLASS_NAME_get_CLASS_NAME_MEMBER_NAME( CLASS_TYPE const & inst ){
     return sdcpp::new_ndarray1d(ARRAY_SIZE, sdcpp::dtypeof< ELEM_TYPE >(), (void *)(inst.MEMBER_NAME));
 }
 
@@ -180,7 +208,7 @@ static sdcpp::ndarray CLASS_NAME_get_MEMBER_NAME( CLASS_TYPE const & inst ){
         .replace("CLASS_TYPE", klass.pds) \
         .replace("ELEM_TYPE", _D.remove_pointer(z.type).partial_decl_string) \
         .replace("ARRAY_SIZE", str(array_size)))
-    klass.add_registration_code('add_property( "MEMBER_NAME", &::CLASS_NAME_get_MEMBER_NAME )' \
+    klass.add_registration_code('add_property( "MEMBER_NAME", &::CLASS_NAME_get_CLASS_NAME_MEMBER_NAME )' \
         .replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias))
     
 

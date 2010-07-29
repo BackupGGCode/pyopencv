@@ -77,6 +77,9 @@ CV_DOMINANT_IPAN = 1
     
     ''')
 
+    # cvFindDominantPoints
+    FT.expose_func(sb.mb.free_fun('cvFindDominantPoints'), ward_indices=(2,))
+
     # subsections:
     # Stereo correspondence -- TODO
     cc.write('''

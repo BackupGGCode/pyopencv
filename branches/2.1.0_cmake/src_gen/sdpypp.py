@@ -27,10 +27,10 @@ import memvar_transformers as _MT
 
 
 class SdModuleBuilder:
-    FT = _FT
-    MT = _MT
-    D = _D
-    CP = _CP
+    # FT = _FT
+    # MT = _MT
+    # _D = _D
+    # CP = _CP
 
     mb = None
     cc = None
@@ -42,8 +42,9 @@ class SdModuleBuilder:
             self.dummy_struct._reg_code += "\n        "+s
 
 
-    def __init__(self, module_name, include_paths=[]):
+    def __init__(self, module_name, include_paths=[], number_of_files=1):
         self.module_name = module_name
+        self.number_of_files = number_of_files
         _c.current_sb = self
 
         # package directory
@@ -53,7 +54,9 @@ class SdModuleBuilder:
         self.mb = _pp.module_builder.module_builder_t([module_name+"_wrapper.hpp"],
             gccxml_path=r"M:/utils/gccxml/bin/gccxml.exe",
             include_paths=include_paths+[
-                self.pkg_dir+"/"+module_name+"_ext",
+                _op.join(self.pkg_dir, "extras", "core"),
+                _op.join(self.pkg_dir, "extras", "sdopencv"),
+                _op.join(self.pkg_dir, module_name+"_ext"),
                 r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++",
                 r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include\c++\mingw32",
                 r"M:\programming\builders\MinGW\gcc\gcc-4.4.0-mingw\lib\gcc\mingw32\4.4.0\include",
@@ -150,7 +153,7 @@ from MODULE_NAME_ext import *
         z = self.mb.decl('size_t')
         z.type = _FT.size_t_t()
 
-
+        self.register_basic_data_types()
 
 
     def done(self):
@@ -170,7 +173,6 @@ from MODULE_NAME_ext import *
         beautify_func_list(self.funs)
 
         # expose std::vector, only those with alias starting with 'vector_'
-        # remember to create operator==() for each element type
         try:
             zz = self.mb.classes(lambda x: x.pds.startswith('std::vector<'))
         except RuntimeError:
@@ -188,9 +190,10 @@ from MODULE_NAME_ext import *
                 z.set_already_exposed(True)
                 continue
             z.include()
-            z.add_declaration_code('static inline void resize(%s &inst, size_t num) { inst.resize(num); }' \
-                % z.partial_decl_string)
-            z.add_registration_code('def("resize", &::resize, ( bp::arg("num") ))')
+            # remember to create operator==() for each element type
+            z.include_files.append("opencv_headers.hpp")
+            z.add_declaration_code('static inline void CLASS_NAME_resize(CLASS_TYPE &inst, size_t num) { inst.resize(num); }'.replace("CLASS_NAME", z.alias).replace("CLASS_TYPE", z.partial_decl_string))
+            z.add_registration_code('def("resize", &::CLASS_NAME_resize, ( bp::arg("num") ))'.replace("CLASS_NAME", z.alias))
             self.cc.write('''
 CLASS_NAME.__old_init__ = CLASS_NAME.__init__
 CLASS_NAME.__init__ = _c.__vector__init__
@@ -234,8 +237,11 @@ del(_z)
         _cwd = _os.getcwd()
         _os.chdir(self.pkg_dir)
 
-        # write code to file.
-        self.mb.split_module(self.module_name+"_ext")
+        # write code to file
+        if self.number_of_files > 0:
+            self.mb.balanced_split_module(self.module_name+"_ext", self.number_of_files)
+        else:
+            self.mb.split_module(self.module_name+"_ext")
 
         # return current directory
         _os.chdir(_cwd)
@@ -248,10 +254,33 @@ del(_z)
     # class registration
     # ==================
     decls_reg = {}
+    
+    def register_basic_data_types(self):
+        # basic data types
+        self.register_decl('None', 'void')
+        self.register_decl('bool', 'bool')
+        self.register_decl('int8', 'char')
+        self.register_decl('int8', 'signed char')
+        self.register_decl('int8', 'schar')
+        self.register_decl('uint8', 'unsigned char')
+        self.register_decl('uint8', 'uchar')
+        self.register_decl('int16', 'short')
+        self.register_decl('int16', 'short int')
+        self.register_decl('uint16', 'unsigned short')
+        self.register_decl('uint16', 'short unsigned int')
+        self.register_decl('uint16', 'ushort')
+        self.register_decl('int', 'int')
+        self.register_decl('uint', 'unsigned int')
+        self.register_decl('long', 'long')
+        self.register_decl('ulong', 'unsigned long')
+        self.register_decl('float32', 'float')
+        self.register_decl('float64', 'double')
+
+    
 
     def prepare_decls_registration_code(self):
         str = '''#ifndef SD_MODULE_NAME_TEMPLATE_INSTANTIATIONS_HPP
-#define SD_SD_MODULE_NAME_TEMPLATE_INSTANTIATIONS_HPP
+#define SD_MODULE_NAME_TEMPLATE_INSTANTIATIONS_HPP
 
 class MODULE_NAME_dummy_struct {
 public:
@@ -259,6 +288,7 @@ public:
     static const int total_size = 0'''.replace("MODULE_NAME", self.module_name)
 
         pdss = self.decls_reg.keys()
+        pdss.sort()
         for i in xrange(len(pdss)):
             if '<' in pdss[i]: # only instantiate those that need to
                 str += '\n        + sizeof(%s)' % pdss[i]
@@ -356,6 +386,125 @@ public:
         return z[0]
 
         
+    # -----------------------------------------------------------------------------------------------
+    # Subroutines related to exposing a class or an interface
+    # -----------------------------------------------------------------------------------------------
+        
+    def add_ndarray_interface(self, klass):
+        klass.include_files.append("ndarray.hpp")
+        # klass.add_registration_code('def("from_ndarray", &sdcpp::from_ndarray< %s >, (bp::arg("inst_ndarray")) )' % klass.pds)
+        try:
+            self.mb.included_ndarray += 1
+        except AttributeError:
+            self.mb.included_ndarray = 1
+            self.mb.add_declaration_code('''
+#include "ndarray.hpp"
+''')
+        self.mb.add_registration_code('bp::def("as%s", &sdcpp::from_ndarray< %s >, (bp::arg("inst_ndarray")) );' % (klass.alias, klass.pds))
+        # klass.add_registration_code('staticmethod("from_ndarray")')
+        # self.add_doc(klass.alias+".from_ndarray", "Creates a %s view on an ndarray instance." % klass.alias)
+        klass.add_registration_code('add_property("ndarray", &sdcpp::as_ndarray< %s >)' % klass.pds)
+        self.mb.add_registration_code('bp::def("asndarray", &sdcpp::as_ndarray< %s >, (bp::arg("inst_%s")) );' % (klass.pds, klass.alias))
+        self.add_doc(klass.alias,
+            "Property 'ndarray' provides a numpy.ndarray view on the object.",
+            "If you create a reference to 'ndarray', you must keep the object unchanged until your reference is deleted, or Python may crash!",
+            "Alternatively, you could create a reference to 'ndarray' by using 'asndarray(obj)', where 'obj' is an instance of this class.",
+            "",
+            "To create an instance of KLASS that shares the same data with an ndarray instance, use: 'asKLASS(a),".replace("KLASS", klass.alias),
+            # "    '%s.from_ndarray(a)' or 'as%s(a)" % (klass.alias, klass.alias),
+            "where 'a' is an ndarray instance. Similarly, to avoid a potential Python crash, you must keep the current instance unchanged until the reference is deleted.")
+        for t in ('getitem', 'setitem', 'getslice', 'setslice', 'iter'):
+            self.cc.write('''
+def _KLASS__FUNC__(self, *args, **kwds):
+    return self.ndarray.__FUNC__(*args, **kwds)
+KLASS.__FUNC__ = _KLASS__FUNC__
+            '''.replace('KLASS', klass.alias).replace('FUNC', t))
+
+    def add_iterator_interface(self, klass_name):
+        self.cc.write('''
+%s.__iter__ = _c.__sd_iter__;
+        ''' % klass_name)
+
+    def expose_class_Ptr(self, klass_name, ns=None):
+        if ns is None:
+            full_klass_name = klass_name
+        else:
+            full_klass_name = '%s::%s' % (ns, klass_name)
+        self.register_ti('cv::Ptr', [full_klass_name])
+        try:
+            z = self.mb.class_('Ptr<%s>' % full_klass_name)
+        except RuntimeError:
+            print "Error: Cannot expose class 'Ptr<%s>' because it does not exist." % klass_name
+            return
+        self.init_class(z)
+        # constructor Ptr(_obj) needs to keep a reference of '_obj'
+        z.constructors(lambda x: len(x.arguments) > 0).exclude()
+        z.operators().exclude()
+        z.include_files.append('boost/python/object/life_support.hpp')
+        z.add_declaration_code('''
+static bp::object CLASS_NAME_from_ELEM_NAME(bp::object const &inst_ELEM_NAME)
+{
+    bp::extract<ELEM_TYPE *> elem(inst_ELEM_NAME);
+    if(!elem.check())
+    {
+        char s[300];
+        sprintf( s, "Argument 'inst_ELEM_NAME' must contain an object of type ELEM_NAME." );
+        PyErr_SetString(PyExc_TypeError, s);
+        throw bp::error_already_set();
+    }
+
+    bp::object result = bp::object(CLASS_TYPE(elem()));
+    result.attr("_depends") = inst_ELEM_NAME;
+    return result;
+}
+
+static ELEM_TYPE const &CLASS_NAME_pointee(CLASS_TYPE const &inst) { return *((ELEM_TYPE const *)inst); }
+        '''.replace('ELEM_TYPE', full_klass_name).replace('CLASS_TYPE', z.partial_decl_string)\
+        .replace('CLASS_NAME', z.alias).replace('ELEM_NAME', klass_name))
+        z.add_registration_code('def("fromELEM_NAME", &::CLASS_NAME_from_ELEM_NAME, (bp::arg("inst_ELEM_NAME")))'\
+            .replace('ELEM_NAME', klass_name).replace('CLASS_NAME', z.alias))
+        z.add_registration_code('staticmethod("fromELEM_NAME")'.replace('ELEM_NAME', klass_name))
+        z.add_registration_code('add_property("pointee", bp::make_function(&::CLASS_NAME_pointee, bp::return_internal_reference<>()))'.replace('CLASS_NAME', z.alias))
+        self.finalize_class(z)
+
+    def expose_class_Seq(self, elem_type_pds, pyName=None):
+        seq_pds = self.register_ti('cv::Seq', [elem_type_pds], pyName)
+        try:
+            z = self.find_class(seq_pds)
+        except RuntimeError, e:
+            print "Cannot determine class with pds='%s'." % seq_pds
+            return
+        self.init_class(z)
+        # Main problem is that fake constructors don't work with with_custodian_and_ward.
+        # I'm using an old trick to circumvent the problem.
+        self.cc.write('''
+CLASS_NAME.__old_init__ = CLASS_NAME.__init__
+def _CLASS_NAME__init__(self, *args, **kwds):
+    CLASS_NAME.__old_init__(self, *args, **kwds)
+    if args:
+        self.depends = [args[0]]
+    elif kwds:
+        self.depends = [kwds.values()[0]]
+    else:
+        self.depends = []
+_CLASS_NAME__init__.__doc__ = CLASS_NAME.__old_init__.__doc__    
+CLASS_NAME.__init__ = _CLASS_NAME__init__
+        '''.replace("CLASS_NAME", z.alias))
+        z.add_declaration_code('''
+static size_t CLASS_NAME_len(CLASS_TYPE const &inst) { return inst.size(); }
+        '''.replace("CLASS_NAME", z.alias).replace('CLASS_TYPE', z.pds))
+        z.add_registration_code('def("__len__", &::CLASS_NAME_len)'.replace("CLASS_NAME", z.alias))
+        for t in ('begin', 'end', 'front', 'back'): # TODO
+            z.decls(t).exclude()
+        # OpenCV has a bug at function insert()
+        # for t in z.mem_funs(lambda x: len(x.arguments)>0 and x.arguments[-1].name=='count'):
+            # t._transformer_creators.append(FT.input_array1d(t.arguments[-2].name, 'count'))
+            # t._transformer_kwds['alias'] = t.alias
+        z.mem_funs(lambda x: len(x.arguments)>0 and x.arguments[-1].name=='count').exclude()
+        self.asClass(z, self.find_class('std::vector< %s >' % elem_type_pds))
+        self.finalize_class(z)
+        self.add_iterator_interface(z.alias)
+
         
         
     def add_doc(self, decl_name, *strings):
@@ -370,6 +519,17 @@ if DECL.__doc__ is None:
 else:
     DECL.__doc__ += _str
     '''.replace("DECL", decl_name).replace("STR", str(s)))
+
+    def insert_del_interface(self, class_name, del_func_name):
+        """Insert an interface to delete the self instance"""
+        self.cc.write('''
+CLASS_NAME._ownershiplevel = 0
+
+def _CLASS_NAME__del__(self):
+    if self._ownershiplevel==1:
+        DEL_FUNC_NAME(self)
+CLASS_NAME.__del__ = _CLASS_NAME__del__
+'''.replace("CLASS_NAME", class_name).replace("DEL_FUNC_NAME", del_func_name))
 
     def init_class(self, z):
         """Initializes a class z"""
@@ -410,22 +570,29 @@ else:
         for f in z._funs:
             if not f.ignore and f.call_policies is None and \
                 _FT._T.is_ref_or_ptr(f.return_type) and not _FT._T.is_ref_or_ptr(_FT._T.remove_ref_or_ptr(f.return_type)):
-                f.call_policies = CP.return_internal_reference()
+                f.call_policies = _CP.return_internal_reference()
 
     def asClass2(self, src_class_Pname, src_class_Cname, dst_class_Pname, dst_class_Cname):
-        self.dummy_struct.add_reg_code(\
+        self.dummy_struct.include_files.append("opencv_converters.hpp")
+        self.add_reg_code(\
             'bp::def("asKLASS2", &::normal_cast< CLASS1, CLASS2 >, (bp::arg("inst_KLASS1")));'\
             .replace('KLASS1', src_class_Pname).replace('KLASS2', dst_class_Pname)\
             .replace('CLASS1', src_class_Cname).replace('CLASS2', dst_class_Cname))
                 
     def dtypecast(self, casting_list):
         for t1 in casting_list:
-            z1 = self.class_(t1).alias
+            try:
+                z1 = self.mb.class_(t1).alias
+            except RuntimeError:
+                continue
             for t2 in casting_list:
                 if t1 == t2:
                     continue
-                z2 = self.class_(t2).alias
-                asClass2(self, z1, t1, z2, t2)
+                try:
+                    z2 = self.mb.class_(t2).alias
+                except RuntimeError:
+                    continue
+                self.asClass2(z1, t1, z2, t2)
 
     def asClass(self, src_class, dst_class, normal_cast_code=None):
         src_type = src_class.partial_decl_string
@@ -438,7 +605,7 @@ else:
                 'template<> inline DstType normal_cast( SrcType const &inst ) { normal_cast_code; }'\
                 .replace('normal_cast_code', normal_cast_code)\
                 .replace('SrcType', src_type).replace('DstType', dst_type))
-        asClass2(self, src_class.alias, src_type, dst_class.alias, dst_type)
+        self.asClass2(src_class.alias, src_type, dst_class.alias, dst_type)
         
         
 
@@ -497,43 +664,43 @@ def beautify_func_list(func_list):
                 continue
             pds = _c.unique_pds(arg.type.partial_decl_string)
             if pds in _c.c2cpp:
-                f._transformer_creators.append(FT.input_as_FixType(pds, _c.c2cpp[pds], arg.name))
+                f._transformer_creators.append(_FT.input_as_FixType(pds, _c.c2cpp[pds], arg.name))
             elif pds in ['CvRNG *', 'CvRNG &', 'CvRNG cosnt *', 'CvRNG const &']:
-                f._transformer_creators.append(FT.input_asRNG(arg.name))
+                f._transformer_creators.append(_FT.input_asRNG(arg.name))
             elif pds in ['CvFileStorage *', 'CvFileStorage const *']:
-                f._transformer_creators.append(FT.input_as_FileStorage(arg.name))
+                f._transformer_creators.append(_FT.input_as_FileStorage(arg.name))
             elif pds in ['CvFileNode *', 'CvFileNode const *']:
-                f._transformer_creators.append(FT.input_as_FileNode(arg.name))
+                f._transformer_creators.append(_FT.input_as_FileNode(arg.name))
             elif pds in ['CvMemStorage *', 'CvMemStorage const *']:
-                f._transformer_creators.append(FT.input_as_MemStorage(arg.name))
+                f._transformer_creators.append(_FT.input_as_MemStorage(arg.name))
             elif pds in ['CvSparseMat *', 'CvSparseMat &', 'CvSparseMat const *', 'CvSparseMat const &']:
-                f._transformer_creators.append(FT.input_asSparseMat(arg.name))
+                f._transformer_creators.append(_FT.input_asSparseMat(arg.name))
             elif pds in ["IplImage *", "IplImage const *", "CvArr *", "CvArr const *",
                 "CvMat *", "CvMat const *", "cv::Range const *"]:
-                f._transformer_creators.append(FT.input_as_Mat(arg.name))
+                f._transformer_creators.append(_FT.input_as_Mat(arg.name))
 
     # function argument int *sizes and int dims
     for f in func_list:
         for arg in f.arguments:
             if is_arg_touched(f, arg.name):
                 continue
-            if arg.name == 'sizes' and D.is_pointer(arg.type):
+            if arg.name == 'sizes' and _D.is_pointer(arg.type):
                 for arg2 in f.arguments:
-                    if arg2.name == 'dims' and D.is_integral(arg2.type):
-                        f._transformer_creators.append(FT.input_array1d('sizes', 'dims'))
+                    if arg2.name == 'dims' and _D.is_integral(arg2.type):
+                        f._transformer_creators.append(_FT.input_array1d('sizes', 'dims'))
                         break
-            if arg.name == '_sizes' and D.is_pointer(arg.type):
+            if arg.name == '_sizes' and _D.is_pointer(arg.type):
                 for arg2 in f.arguments:
-                    if arg2.name == '_ndims' and D.is_integral(arg2.type):
-                        f._transformer_creators.append(FT.input_array1d('_sizes', '_ndims'))
+                    if arg2.name == '_ndims' and _D.is_integral(arg2.type):
+                        f._transformer_creators.append(_FT.input_array1d('_sizes', '_ndims'))
                         break
-                    if arg2.name == 'dims' and D.is_integral(arg2.type):
-                        f._transformer_creators.append(FT.input_array1d('_sizes', 'dims'))
+                    if arg2.name == 'dims' and _D.is_integral(arg2.type):
+                        f._transformer_creators.append(_FT.input_array1d('_sizes', 'dims'))
                         break
-            if arg.name == '_newsz' and D.is_pointer(arg.type):
+            if arg.name == '_newsz' and _D.is_pointer(arg.type):
                 for arg2 in f.arguments:
-                    if arg2.name == '_newndims' and D.is_integral(arg2.type):
-                        f._transformer_creators.append(FT.input_array1d('_newsz', '_newndims'))
+                    if arg2.name == '_newndims' and _D.is_integral(arg2.type):
+                        f._transformer_creators.append(_FT.input_array1d('_newsz', '_newndims'))
                         break
 
     # function argument const CvPoint2D32f * src and const CvPoint2D32f * dst
@@ -541,11 +708,11 @@ def beautify_func_list(func_list):
         for arg in f.arguments:
             if is_arg_touched(f, arg.name):
                 continue
-            if arg.name == 'src' and D.is_pointer(arg.type) and 'CvPoint2D32f' in arg.type.decl_string:
+            if arg.name == 'src' and _D.is_pointer(arg.type) and 'CvPoint2D32f' in arg.type.decl_string:
                 for arg2 in f.arguments:
-                    if arg2.name == 'dst' and D.is_pointer(arg2.type) and 'CvPoint2D32f' in arg2.type.decl_string:
-                        f._transformer_creators.append(FT.input_array1d('src'))
-                        f._transformer_creators.append(FT.input_array1d('dst'))
+                    if arg2.name == 'dst' and _D.is_pointer(arg2.type) and 'CvPoint2D32f' in arg2.type.decl_string:
+                        f._transformer_creators.append(_FT.input_array1d('src'))
+                        f._transformer_creators.append(_FT.input_array1d('dst'))
                         break
 
     #  argument 'void *data'
@@ -553,8 +720,8 @@ def beautify_func_list(func_list):
         for arg in f.arguments:
             if is_arg_touched(f, arg.name):
                 continue
-            if arg.name == 'data' and D.is_void_pointer(arg.type):
-                f._transformer_creators.append(FT.input_string(arg.name))
+            if arg.name == 'data' and _D.is_void_pointer(arg.type):
+                f._transformer_creators.append(_FT.input_string(arg.name))
                 self.add_doc(f.name, "'data' is represented by a string")
 
     # final step: apply all the function transformations
@@ -578,5 +745,4 @@ def beautify_func_list(func_list):
                         break
 
         _c.add_decl_desc(f)
-
 

@@ -26,7 +26,6 @@ def generate_code(mb, cc, D, FT, CP):
 
     ''')
 
-
     sdopencv = mb.namespace('sdopencv')
     sdopencv.include()
     
