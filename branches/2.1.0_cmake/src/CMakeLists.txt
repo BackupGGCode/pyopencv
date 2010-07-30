@@ -2,14 +2,17 @@
 #  Root CMake file for PyOpenCV
 #
 #    From the off-tree build directory, invoke:
-#      $ cmake <PATH_TO_OPENCV_ROOT>
+#      $ cmake <PATH_TO_PYOPENCV_ROOT>
 #
 #
 #   - JUN-2010: Initial version, by Dat Chu
-#   - JUL-2010: Revision 1, by Minh-Tri Pham
+#   - JUL-2010: Revision 1, by Minh-Tri Pham, adapted from OpenCV's CMakeLists.txt -- thanks WG people
 #
 # ----------------------------------------------------------------------------
 
+# --------------------------------------------------------------
+# Detect Python at set up the installation path:
+# --------------------------------------------------------------
 # Need Python
 find_package(PythonInterp REQUIRED)
 
@@ -18,7 +21,7 @@ execute_process ( COMMAND ${PYTHON_EXECUTABLE} -c "from distutils.sysconfig impo
     OUTPUT_VARIABLE PYTHON_SITE_PACKAGES OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 # it _must_ go before PROJECT(PyOpenCV) in order to work
-set(CMAKE_INSTALL_PREFIX "${PYTHON_SITE_PACKAGES}/pyopencv" CACHE PATH "PyOpenCV's installation path")
+set(CMAKE_INSTALL_PREFIX ${PYTHON_SITE_PACKAGES}/pyopencv CACHE PATH "PyOpenCV's installation path")
 
 project(pyopencv)
 cmake_minimum_required(VERSION 2.4)
@@ -51,7 +54,6 @@ EXECUTE_PROCESS(COMMAND ${PYTHON_EXECUTABLE} ${CMAKE_BINARY_DIR}/getmodsuffix.py
     OUTPUT_VARIABLE _modsuffix)
 STRING(REPLACE "\n" "" _modsuffix ${_modsuffix}) # Setup specific properties of the Python target
 
-
 # --------------------------------------------------------------
 # Indicate CMake 2.7 and above that we don't want to mix relative
 #  and absolute paths in linker lib lists.
@@ -61,65 +63,384 @@ if(COMMAND cmake_policy)
     cmake_policy(SET CMP0003 NEW)
 endif()
 
-# Don't try the Debug mode, it's too long to compile.
-SET(CMAKE_BUILD_TYPE "Release")
+# ----------------------------------------------------------------------------
+#  Current version number:
+# ----------------------------------------------------------------------------
+set(PYOPENCV_VERSION_MAJOR "2.1.0_wr1")
+set(PYOPENCV_VERSION_MINOR "1")
+set(PYOPENCV_VERSION_PATCH "1")
+set(PYOPENCV_VERSION "${PYOPENCV_VERSION_MAJOR}.${PYOPENCV_VERSION_MINOR}.${PYOPENCV_VERSION_PATCH}")
 
+# ----------------------------------------------------------------------------
+#  Variables for cvconfig.h.cmake
+# ----------------------------------------------------------------------------
+set(PACKAGE "pyopencv")
+set(PACKAGE_BUGREPORT "pmtri80@gmail.com")
+set(PACKAGE_NAME "pyopencv")
+set(PACKAGE_STRING "${PACKAGE} ${PYOPENCV_VERSION}")
+set(PACKAGE_TARNAME "${PACKAGE}")
+set(PACKAGE_VERSION "${PYOPENCV_VERSION}")
+
+# ----------------------------------------------------------------------------
+#  Autodetect if we are in a SVN repository
+# ----------------------------------------------------------------------------
+find_program(SVNVERSION_PATH svnversion)
+mark_as_advanced(force SVNVERSION_PATH)
+if(SVNVERSION_PATH)
+    message(STATUS "Extracting svn version, please wait...")
+    execute_process(COMMAND ${SVNVERSION_PATH} -n ${CMAKE_SOURCE_DIR} OUTPUT_VARIABLE SVNVERSION_RESULT)
+
+    if(SVNVERSION_RESULT MATCHES "exported")
+       # This is NOT a svn repository:
+       set(PYOPENCV_SVNVERSION "")
+    else()
+        set(PYOPENCV_SVNVERSION " svn:${SVNVERSION_RESULT}")
+    endif()
+
+    message(STATUS "SVNVERSION: ${PYOPENCV_SVNVERSION}")
+else()
+    # We don't have svnversion:
+    set(PYOPENCV_SVNVERSION "")
+endif()
+
+
+# ----------------------------------------------------------------------------
+# Detect GNU version:
+# ----------------------------------------------------------------------------
+if(CMAKE_COMPILER_IS_GNUCXX)
+    execute_process(COMMAND ${CMAKE_CXX_COMPILER} --version
+                  OUTPUT_VARIABLE CMAKE_PYOPENCV_GCC_VERSION_FULL
+                  OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+    # Typical output in CMAKE_PYOPENCV_GCC_VERSION_FULL: "c+//0 (whatever) 4.2.3 (...)"
+    #  Look for the version number
+    string(REGEX MATCH "[0-9].[0-9].[0-9]" CMAKE_GCC_REGEX_VERSION "${CMAKE_PYOPENCV_GCC_VERSION_FULL}")
+
+    # Split the three parts:
+    string(REGEX MATCHALL "[0-9]" CMAKE_PYOPENCV_GCC_VERSIONS "${CMAKE_GCC_REGEX_VERSION}")
+
+    list(GET CMAKE_PYOPENCV_GCC_VERSIONS 0 CMAKE_PYOPENCV_GCC_VERSION_MAJOR)
+    list(GET CMAKE_PYOPENCV_GCC_VERSIONS 1 CMAKE_PYOPENCV_GCC_VERSION_MINOR)
+    
+    set(CMAKE_PYOPENCV_GCC_VERSION ${CMAKE_PYOPENCV_GCC_VERSION_MAJOR}${CMAKE_PYOPENCV_GCC_VERSION_MINOR})
+    math(EXPR CMAKE_PYOPENCV_GCC_VERSION_NUM "${CMAKE_PYOPENCV_GCC_VERSION_MAJOR}*100 + ${CMAKE_PYOPENCV_GCC_VERSION_MINOR}")
+    message(STATUS "Detected version of GNU GCC: ${CMAKE_PYOPENCV_GCC_VERSION} (${CMAKE_PYOPENCV_GCC_VERSION_NUM})")
+endif()
+
+if(CMAKE_COMPILER_IS_GNUCXX)
+    set(ENABLE_PROFILING OFF CACHE BOOL "Enable profiling in the GCC compiler (Add flags: -g -pg)")
+    set(USE_OMIT_FRAME_POINTER ON CACHE BOOL "Enable -fomit-frame-pointer for GCC")
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm*)
+        # We can use only -O2 because the -O3 causes gcc crash
+        set(USE_O2 ON CACHE BOOL "Enable -O2 for GCC")
+        set(USE_FAST_MATH ON CACHE BOOL "Enable -ffast-math for GCC")
+    endif()
+    
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES amd64*)
+        set(X86_64 1)
+    endif()
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES x86_64*)
+        set(X86_64 1)
+    endif()
+    
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES i686*)
+        set(X86 1)
+    endif()
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES i386*)
+        set(X86 1)
+    endif()
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES x86*)
+        set(X86 1)
+    endif()
+        
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES powerpc*)
+        set(USE_O3 ON CACHE BOOL "Enable -O3 for GCC")
+        set(ENABLE_POWERPC ON CACHE BOOL "Enable PowerPC for GCC")
+    endif ()
+    
+    if(X86 OR X86_64)
+        # enable everything, since the available set of instructions is checked at runtime
+        set(USE_O3 ON CACHE BOOL "Enable -O3 for GCC")
+        set(USE_FAST_MATH ON CACHE BOOL "Enable -ffast-math for GCC")
+        # disable SSE stuff to avoid any runtime segfault issues -- by Minh-Tri
+        # set(ENABLE_SSE ON CACHE BOOL "Enable SSE for GCC")
+        # set(ENABLE_SSE2 ON CACHE BOOL "Enable SSE2 for GCC")
+        # set(ENABLE_SSE3 OFF CACHE BOOL "Enable SSE3 for GCC")
+        # set(ENABLE_SSSE3 OFF CACHE BOOL "Enable SSSE3 for GCC")
+        #set(ENABLE_SSE4_1 OFF CACHE BOOL "Enable SSE4.1 for GCC")
+    endif()
+endif()
+
+
+
+# ----------------------------------------------------------------------------
+#       CHECK FOR SYSTEM LIBRARIES, OPTIONS, ETC..
+# ----------------------------------------------------------------------------
+
+# Boost.Python
 set(Boost_USE_STATIC_LIBS OFF) # need dynamic linking
 set(Boost_python_DYN_LINK ON)
 find_package(Boost COMPONENTS python REQUIRED)
 
+# OpenCV
 find_package(OpenCV REQUIRED CMAKE_FIND_ROOT_PATH_BOTH)
 
+# include directories
 include_directories(
+	${PYTHON_INCLUDE_PATH}
 	${Boost_INCLUDE_DIRS}
 	${OpenCV_INCLUDE_DIRS}
 	${PROJECT_SOURCE_DIR}/package
 	${PROJECT_SOURCE_DIR}/package/extras
 	${PROJECT_SOURCE_DIR}/package/extras/core
 	${PROJECT_SOURCE_DIR}/package/extras/sdopencv
-	${PROJECT_SOURCE_DIR}/package/extras/numpy_include
-	${PROJECT_SOURCE_DIR}/package/stl_ext
-	${PYTHON_INCLUDE_PATH}
 )
 
-# 'extras' library
+# Detect NumPy include dirs. If not found, use our copy of NumPy 1.4.0 include dir
+execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import numpy.distutils; print numpy.distutils.misc_util.get_numpy_include_dirs()[0]"
+    RESULT_VARIABLE PYTHON_NUMPY_PROCESS
+    OUTPUT_VARIABLE PYTHON_NUMPY_INCLUDE_DIRS
+    OUTPUT_STRIP_TRAILING_WHITESPACE)
+if(PYTHON_NUMPY_PROCESS EQUAL 0)
+    set(PYTHON_NUMPY_INCLUDE_DIRS ${PYTHON_NUMPY_INCLUDE_DIRS}/numpy)
+    message(STATUS "NumPy include dirs detected at: ${PYTHON_NUMPY_INCLUDE_DIRS}")
+else()
+    set(PYTHON_NUMPY_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/package/extras/numpy_include)
+    message(STATUS "NumPy include dirs not detected. Use our copy at: ${PYTHON_NUMPY_INCLUDE_DIRS}")
+endif()
+include_directories(AFTER ${PYTHON_NUMPY_INCLUDE_DIRS})
+
+# ----------------------------------------------------------------------------
+#           Set the maximum level of warnings:
+# ----------------------------------------------------------------------------
+# Should be set to true for development
+set(PYOPENCV_WARNINGS_ARE_ERRORS OFF CACHE BOOL "Treat warnings as errors")
+
+set(EXTRA_C_FLAGS "")
+set(EXTRA_C_FLAGS_RELEASE "")
+set(EXTRA_C_FLAGS_DEBUG "")
+set(EXTRA_EXE_LINKER_FLAGS "")
+set(EXTRA_EXE_LINKER_FLAGS_RELEASE "")
+set(EXTRA_EXE_LINKER_FLAGS_DEBUG "")
+
+if(MSVC)
+    set(EXTRA_C_FLAGS "${EXTRA_C_FLAGS} /D _CRT_SECURE_NO_DEPRECATE /D _CRT_NONSTDC_NO_DEPRECATE /D _SCL_SECURE_NO_WARNINGS")
+    # 64-bit portability warnings, in MSVC8
+    if(MSVC80)
+        set(EXTRA_C_FLAGS "${EXTRA_C_FLAGS} /Wp64")
+    endif()
+    #if(MSVC90)
+    #    set(EXTRA_C_FLAGS "${EXTRA_C_FLAGS} /D _BIND_TO_CURRENT_CRT_VERSION=1 /D _BIND_TO_CURRENT_VCLIBS_VERSION=1")
+    #endif()
+
+    set(EXTRA_EXE_LINKER_FLAGS_RELEASE "${EXTRA_EXE_LINKER_FLAGS_RELEASE} /debug")
+
+    # Remove unreferenced functions: function level linking
+    set(EXTRA_C_FLAGS "${EXTRA_C_FLAGS} /Gy")
+    set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} /Zi")
+endif()
+
+if(CMAKE_COMPILER_IS_GNUCXX)
+
+    if(WIN32)
+        if(CMAKE_CXX_COMPILER MATCHES "64")
+            set(MINGW64 1)
+        endif()
+    endif()
+
+    # High level of warnings.
+    set(EXTRA_C_FLAGS "${EXTRA_C_FLAGS} -Wall")
+
+    # The -Wno-long-long is required in 64bit systems when including sytem headers.
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES x86_64*)
+    set(EXTRA_C_FLAGS "${EXTRA_C_FLAGS} -Wno-long-long")
+    endif()
+    if(${CMAKE_SYSTEM_PROCESSOR} MATCHES amd64*)
+    set(EXTRA_C_FLAGS "${EXTRA_C_FLAGS} -Wno-long-long")
+    endif()
+
+    if(PYOPENCV_WARNINGS_ARE_ERRORS)
+        set(EXTRA_C_FLAGS "${EXTRA_C_FLAGS} -Werror")
+    endif()
+
+    if(X86)
+        if(NOT X86_64)
+            if(NOT APPLE)
+                set(EXTRA_C_FLAGS "${EXTRA_C_FLAGS} -march=i686")
+            endif()
+        endif()
+    endif()
+
+    # Other optimizations
+    if(USE_OMIT_FRAME_POINTER)
+       set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -fomit-frame-pointer")
+    endif()
+    if(USE_O2)
+       set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -O2")
+    endif()
+    if(USE_O3)
+       set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -O3")
+    endif()
+    if(USE_FAST_MATH)
+       set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -ffast-math")
+    endif()
+    if(ENABLE_POWERPC)
+       set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -mcpu=G3 -mtune=G5")
+    endif()
+    if(ENABLE_SSE)
+       set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -msse")
+    endif()
+    if(ENABLE_SSE2)
+       set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -msse2")
+    endif()
+    # SSE3 and further should be disabled under MingW because it generates compiler errors
+    if(NOT MINGW)
+       if(ENABLE_SSE3)
+          set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -msse3")
+       endif()
+       if(${CMAKE_PYOPENCV_GCC_VERSION_NUM} GREATER 402)
+          set(HAVE_GCC43_OR_NEWER 1)
+       endif()
+       if(HAVE_GCC43_OR_NEWER OR APPLE)
+          if(ENABLE_SSSE3)
+             set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -mssse3")
+          endif()
+          #if(ENABLE_SSE4_1)
+          #   set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -msse4.1")
+          #endif()
+       endif()
+    endif()
+    
+    if(X86 OR X86_64)
+        if(NOT APPLE)
+            if(${CMAKE_SIZEOF_VOID_P} EQUAL 4)
+                set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -mfpmath=387")
+            endif()
+        endif()
+    endif()
+
+    # Profiling?
+    if(ENABLE_PROFILING)
+        set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -pg -g")
+    else()
+        # Remove unreferenced functions: function level linking
+        if(NOT APPLE)
+            set(EXTRA_C_FLAGS "${EXTRA_C_FLAGS} -ffunction-sections")
+        endif()
+    endif()
+
+    set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -DNDEBUG")
+    set(EXTRA_C_FLAGS_DEBUG "${EXTRA_C_FLAGS_DEBUG} -O0 -DDEBUG -D_DEBUG")
+endif()
+
+# Add user supplied extra options (optimization, etc...)
+# ==========================================================
+set(PYOPENCV_EXTRA_C_FLAGS "" CACHE STRING "Extra compiler options")
+set(PYOPENCV_EXTRA_C_FLAGS_RELEASE "" CACHE STRING "Extra compiler options for Release build")
+set(PYOPENCV_EXTRA_C_FLAGS_DEBUG "" CACHE STRING "Extra compiler options for Debug build")
+set(PYOPENCV_EXTRA_EXE_LINKER_FLAGS "" CACHE STRING "Extra linker flags")
+set(PYOPENCV_EXTRA_EXE_LINKER_FLAGS_RELEASE "" CACHE STRING "Extra linker flags for Release build")
+set(PYOPENCV_EXTRA_EXE_LINKER_FLAGS_DEBUG "" CACHE STRING "Extra linker flags for Debug build")
+
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_C_FLAGS} ${PYOPENCV_EXTRA_C_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EXTRA_C_FLAGS} ${PYOPENCV_EXTRA_C_FLAGS}")
+set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${EXTRA_C_FLAGS_RELEASE} ${PYOPENCV_EXTRA_C_FLAGS_RELEASE}")
+set(CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE} ${EXTRA_C_FLAGS_RELEASE} ${PYOPENCV_EXTRA_C_FLAGS_RELEASE}")
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} ${EXTRA_C_FLAGS_DEBUG} ${PYOPENCV_EXTRA_C_FLAGS_DEBUG}")
+set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} ${EXTRA_C_FLAGS_DEBUG} ${PYOPENCV_EXTRA_C_FLAGS_DEBUG}")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${EXTRA_EXE_LINKER_FLAGS} ${PYOPENCV_EXTRA_EXE_LINKER_FLAGS}")
+set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} ${EXTRA_EXE_LINKER_FLAGS_RELEASE} ${PYOPENCV_EXTRA_EXE_LINKER_FLAGS_RELEASE}")
+set(CMAKE_EXE_LINKER_FLAGS_DEBUG "${CMAKE_EXE_LINKER_FLAGS_DEBUG} ${EXTRA_EXE_LINKER_FLAGS_DEBUG} ${PYOPENCV_EXTRA_EXE_LINKER_FLAGS_DEBUG}")
+
+# Use the Release build type.
+SET(CMAKE_BUILD_TYPE Release)
+
+if (WIN32 AND MSVC)
+    # avoid warnings from MSVC about overriding the /W* option
+    # we replace /W3 with /W4 only for C++ files,
+    # since all the 3rd-party libraries OpenCV uses are in C,
+    # and we do not care about their warnings.
+    string(REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    string(REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+    string(REPLACE "/W3" "/W4" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+
+    # allow extern "C" functions throw exceptions
+    string(REPLACE "/EHsc" "/EHsc-" CMAKE_C_FLAGS "${CMAKE_C_FLAGS}")
+    string(REPLACE "/EHsc" "/EHsc-" CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
+    string(REPLACE "/EHsc" "/EHsc-" CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG}")
+    string(REPLACE "/EHsc" "/EHsc-" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
+    string(REPLACE "/EHsc" "/EHsc-" CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE}")
+    string(REPLACE "/EHsc" "/EHsc-" CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG}")
+endif()
+
+if("${CMAKE_CONFIGURE_LDFLAGS}")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${CMAKE_CONFIGURE_LDFLAGS}")
+endif("${CMAKE_CONFIGURE_LDFLAGS}")
+
+
+
+# ----------------------------------------------------------------------------
+#                       REAL PYOPENCV STUFF
+# ----------------------------------------------------------------------------
+
+# PyOpenCV's "extras" library
 file(GLOB_RECURSE EXTRA_SRCS package/extras/*)
 add_library(pyopencv_extras SHARED ${EXTRA_SRCS})
 target_link_libraries(pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
-install(TARGETS pyopencv_extras DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)
+install(TARGETS pyopencv_extras RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
 
 # 'add_python_module' macro
 macro(ADD_PYTHON_MODULE _NAME)
-    # option(MODULE_${_NAME}_ENABLE "Add module ${_NAME}" TRUE)
-    set(MODULE_${_NAME}_ENABLE TRUE)
-
-    if(MODULE_${_NAME}_ENABLE)
-        file(GLOB ${_NAME}_SRCS package/${_NAME}_ext/*)
-        add_library(${_NAME}_ext SHARED ${${_NAME}_SRCS})
-        target_link_libraries(${_NAME}_ext pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
-        set_target_properties(${_NAME}_ext PROPERTIES 
-            PREFIX "" # There is no prefix even on UNIXes
-            SUFFIX "${_modsuffix}") # The extension got from Python libraries
-        install(TARGETS ${_NAME}_ext DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)
-    endif(MODULE_${_NAME}_ENABLE)
+    file(GLOB ${_NAME}_SRCS package/${_NAME}_ext/*)
+    add_library(${_NAME}_ext SHARED ${${_NAME}_SRCS})
+    target_link_libraries(${_NAME}_ext pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
+    set_target_properties(${_NAME}_ext PROPERTIES 
+        PREFIX "" # There is no prefix even on UNIXes
+        SUFFIX ${_modsuffix}) # The extension got from Python libraries
+    install(TARGETS ${_NAME}_ext RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install(FILES package/${_NAME}.py DESTINATION ${CMAKE_INSTALL_PREFIX})
 endmacro(ADD_PYTHON_MODULE)
 
+# CxCORE
+set(WRAP_CXCORE ON CACHE BOOL "Wrap the CxCORE component of OpenCV -- mandatory" FORCE)
+if(WRAP_CXCORE)
+    add_python_module(cxtypes_h)
+    add_python_module(cxcore_h)
+    add_python_module(cxcore_hpp_vec)
+    add_python_module(cxcore_hpp_point)
+    add_python_module(cxcore_hpp)
+endif(WRAP_CXCORE)
 
-# modules
-add_python_module(cxtypes_h)
-add_python_module(cxcore_h)
-add_python_module(cxcore_hpp_vec)
-add_python_module(cxcore_hpp_point)
-add_python_module(cxcore_hpp)
-add_python_module(cv_h)
-add_python_module(cv_hpp)
-add_python_module(highgui)
-add_python_module(ml)
-add_python_module(cvaux)
-add_python_module(sdopencv)
+# CV
+set(WRAP_CV ON CACHE BOOL "Wrap the CV component of OpenCV")
+if(WRAP_CV)
+    add_python_module(cv_h)
+    add_python_module(cv_hpp)
+endif(WRAP_CV)
+
+# CVAUX
+set(WRAP_CVAUX ON CACHE BOOL "Wrap the CVAUX component of OpenCV")
+if(WRAP_CVAUX)
+    add_python_module(cvaux)
+endif(WRAP_CVAUX)
+
+# HighGUI
+set(WRAP_HIGHGUI ON CACHE BOOL "Wrap the HighGUI component of OpenCV")
+if(WRAP_HIGHGUI)
+    add_python_module(highgui)
+endif(WRAP_HIGHGUI)
+
+# ML
+set(WRAP_ML ON CACHE BOOL "Wrap the ML component of OpenCV")
+if(WRAP_ML)
+    add_python_module(ml)
+endif(WRAP_ML)
+
+# sdopencv
+set(WRAP_SDOPENCV ON CACHE BOOL "Include extra code developed by Minh-Tri Pham, including classes like DifferentialImage, IntegralImage, and IntegralHistogram")
+if(WRAP_SDOPENCV)
+    add_python_module(sdopencv)
+endif(WRAP_SDOPENCV)
 
 
-file(GLOB PY_SRCS package/*.py)
-install(FILES ${PY_SRCS} DESTINATION ${CMAKE_INSTALL_PREFIX} COMPONENT main)
-
-include(CPack)
+install(FILES package/__init__.py package/common.py package/info.py package/cxerror_h.py package/cvver_h.py DESTINATION ${CMAKE_INSTALL_PREFIX})
