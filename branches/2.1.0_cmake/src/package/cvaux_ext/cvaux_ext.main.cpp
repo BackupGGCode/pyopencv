@@ -28,6 +28,8 @@
 
 #include "cvaux_ext/cvaux_ext_classes_4.pypp.hpp"
 
+#include "cvaux_ext/cvaux_ext_classes_5.pypp.hpp"
+
 #include "cvaux_ext/cvaux_ext_enumerations.pypp.hpp"
 
 #include "cvaux_ext/cvaux_ext_free_functions.pypp.hpp"
@@ -76,6 +78,16 @@ static void cvReleaseBlobDetector_6236e43a6c59f60e3b3bdb05e8a157ca( ::CvBlobDete
 static void cvReleaseBlobTrackGen_845d29f2145ea8e3c36112e731b5b64c( ::CvBlobTrackGen & pBTGen ){
     CvBlobTrackGen * pBTGen2=(::CvBlobTrackGen *)&pBTGen;
     ::cvReleaseBlobTrackGen((::CvBlobTrackGen * *)&pBTGen2);
+}
+
+static void cvReleaseBlobTracker_1ee273fd4b3d76209efed8f1b3e4169a( ::CvBlobTracker & ppT ){
+    CvBlobTracker * ppT2=(::CvBlobTracker *)&ppT;
+    ::cvReleaseBlobTracker((::CvBlobTracker * *)&ppT2);
+}
+
+static void cvReleaseBlobTrackerOne_2ae261829ef4db99d354311707e9dad3( ::CvBlobTrackerOne & ppT ){
+    CvBlobTrackerOne * ppT2=(::CvBlobTrackerOne *)&ppT;
+    ::cvReleaseBlobTrackerOne((::CvBlobTrackerOne * *)&ppT2);
 }
 
 static void cvReleaseConDensation_f998e5f5422410bd74b2ba960fd05e2c( ::CvConDensation & condens ){
@@ -211,6 +223,38 @@ BOOST_PYTHON_MODULE(cvaux_ext){
     
     }
 
+    { //::cvReleaseBlobTracker
+    
+        typedef void ( *_cvReleaseBlobTracker_function_type )( CvBlobTracker & );
+        
+        bp::def( 
+            "_cvReleaseBlobTracker"
+            , _cvReleaseBlobTracker_function_type( &cvReleaseBlobTracker_1ee273fd4b3d76209efed8f1b3e4169a )
+            , ( bp::arg("ppT") )
+            , "\nWrapped function:"
+    "\n    cvReleaseBlobTracker"
+    "\nArgument 'ppT':"\
+    "\n    C++ type: ::CvBlobTracker * *"\
+    "\n    Python type: CvBlobTracker" );
+    
+    }
+
+    { //::cvReleaseBlobTrackerOne
+    
+        typedef void ( *_cvReleaseBlobTrackerOne_function_type )( CvBlobTrackerOne & );
+        
+        bp::def( 
+            "_cvReleaseBlobTrackerOne"
+            , _cvReleaseBlobTrackerOne_function_type( &cvReleaseBlobTrackerOne_2ae261829ef4db99d354311707e9dad3 )
+            , ( bp::arg("ppT") )
+            , "\nWrapped function:"
+    "\n    cvReleaseBlobTrackerOne"
+    "\nArgument 'ppT':"\
+    "\n    C++ type: ::CvBlobTrackerOne * *"\
+    "\n    Python type: CvBlobTrackerOne" );
+    
+    }
+
     { //::cvReleaseConDensation
     
         typedef void ( *_cvReleaseConDensation_function_type )( CvConDensation & );
@@ -256,6 +300,8 @@ BOOST_PYTHON_MODULE(cvaux_ext){
     register_classes_3();
 
     register_classes_4();
+
+    register_classes_5();
 
     register_free_functions();
 }

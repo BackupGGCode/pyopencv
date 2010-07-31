@@ -21,7 +21,7 @@ import memvar_transformers as MT
 from pygccxml import declarations as D
 from pyplusplus.module_builder import call_policies as CP
 import sdpypp
-sb = sdpypp.SdModuleBuilder('cvaux', number_of_files=4)
+sb = sdpypp.SdModuleBuilder('cvaux', number_of_files=5)
 sb.load_regs('cv_hpp_reg.sdd')
 
 
@@ -557,7 +557,58 @@ z._transformer_creators.append(FT.input_double_pointee('pBTGen'))
 for t in ('cvCreateModuleBlobTrackGen1', 'cvCreateModuleBlobTrackGenYML'):
     FT.expose_func(sb.mb.free_fun(t), ownershiplevel=1)
 
+# CvBlobTracker
+z = sb.mb.class_('CvBlobTracker')
+sb.init_class(z)
+sb.finalize_class(z)
+sb.insert_del_interface('CvBlobTrackGen', '_ext._cvReleaseBlobTracker')
 
+# cvReleaseBlobTracker
+z = sb.mb.free_fun('cvReleaseBlobTracker')
+FT.add_underscore(z)
+z._transformer_creators.append(FT.input_double_pointee('ppT'))
+
+# CvBlobTrackerOne
+z = sb.mb.class_('CvBlobTrackerOne')
+sb.init_class(z)
+sb.finalize_class(z)
+sb.insert_del_interface('CvBlobTrackGen', '_ext._cvReleaseBlobTrackerOne')
+
+# cvReleaseBlobTrackerOne
+z = sb.mb.free_fun('cvReleaseBlobTrackerOne')
+FT.add_underscore(z)
+z._transformer_creators.append(FT.input_double_pointee('ppT'))
+
+# cvCreateBlobTrackerList -- TODO
+
+sb.cc.write('''
+PROFILE_EPANECHNIKOV = 0
+PROFILE_DOG = 1
+
+''')
+
+# CvBlobTrackerParamMS
+z = sb.mb.class_('CvBlobTrackerParamMS')
+sb.init_class(z)
+sb.finalize_class(z)
+
+# not yet implemented
+# cvCreateBlobTrackerMS1, cvCreateBlobTrackerMS2, and cvCreateBlobTrackerMS1ByList
+# for t in ('cvCreateBlobTrackerMS1', 'cvCreateBlobTrackerMS2', 'cvCreateBlobTrackerMS1ByList'):
+    # FT.expose_func(sb.mb.free_fun(t), ownershiplevel=1)
+
+# CvBlobTrackerParamLH
+z = sb.mb.class_('CvBlobTrackerParamLH')
+sb.init_class(z)
+sb.finalize_class(z)
+
+# cvCreateBlobTrackerXXX
+for t in (
+    # 'cvCreateBlobTrackerLHR', 'cvCreateBlobTrackerLHRS', # not yet implemented
+    'cvCreateBlobTrackerCC', 'cvCreateBlobTrackerCCMSPF',
+    'cvCreateBlobTrackerMSFG', 'cvCreateBlobTrackerMSFGS',
+    'cvCreateBlobTrackerMS', 'cvCreateBlobTrackerMSPF'):
+    FT.expose_func(sb.mb.free_fun(t), ownershiplevel=1)
 
 #=============================================================================
 # Free Functions

@@ -61,6 +61,84 @@ void register_free_functions(){
     
     }
 
+    { //::cvCreateBlobTrackerCC
+    
+        typedef ::CvBlobTracker * ( *createBlobTrackerCC_function_type )(  );
+        
+        bp::def( 
+            "createBlobTrackerCC"
+            , createBlobTrackerCC_function_type( &::cvCreateBlobTrackerCC )
+            , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
+            , "\nWrapped function:"
+    "\n    cvCreateBlobTrackerCC" );
+    
+    }
+
+    { //::cvCreateBlobTrackerCCMSPF
+    
+        typedef ::CvBlobTracker * ( *createBlobTrackerCCMSPF_function_type )(  );
+        
+        bp::def( 
+            "createBlobTrackerCCMSPF"
+            , createBlobTrackerCCMSPF_function_type( &::cvCreateBlobTrackerCCMSPF )
+            , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
+            , "\nWrapped function:"
+    "\n    cvCreateBlobTrackerCCMSPF" );
+    
+    }
+
+    { //::cvCreateBlobTrackerMS
+    
+        typedef ::CvBlobTracker * ( *createBlobTrackerMS_function_type )(  );
+        
+        bp::def( 
+            "createBlobTrackerMS"
+            , createBlobTrackerMS_function_type( &::cvCreateBlobTrackerMS )
+            , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
+            , "\nWrapped function:"
+    "\n    cvCreateBlobTrackerMS" );
+    
+    }
+
+    { //::cvCreateBlobTrackerMSFG
+    
+        typedef ::CvBlobTracker * ( *createBlobTrackerMSFG_function_type )(  );
+        
+        bp::def( 
+            "createBlobTrackerMSFG"
+            , createBlobTrackerMSFG_function_type( &::cvCreateBlobTrackerMSFG )
+            , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
+            , "\nWrapped function:"
+    "\n    cvCreateBlobTrackerMSFG" );
+    
+    }
+
+    { //::cvCreateBlobTrackerMSFGS
+    
+        typedef ::CvBlobTracker * ( *createBlobTrackerMSFGS_function_type )(  );
+        
+        bp::def( 
+            "createBlobTrackerMSFGS"
+            , createBlobTrackerMSFGS_function_type( &::cvCreateBlobTrackerMSFGS )
+            , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
+            , "\nWrapped function:"
+    "\n    cvCreateBlobTrackerMSFGS" );
+    
+    }
+
+    { //::cvCreateBlobTrackerMSPF
+    
+        typedef ::CvBlobTracker * ( *createBlobTrackerMSPF_function_type )(  );
+        
+        bp::def( 
+            "createBlobTrackerMSPF"
+            , createBlobTrackerMSPF_function_type( &::cvCreateBlobTrackerMSPF )
+            , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
+            , "\nWrapped function:"
+    "\n    cvCreateBlobTrackerMSPF" );
+    
+    }
+
     { //::cvCreateConDensation
     
         typedef ::CvConDensation * ( *createConDensation_function_type )( int,int,int );

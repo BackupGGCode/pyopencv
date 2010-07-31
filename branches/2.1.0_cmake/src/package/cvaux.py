@@ -198,3 +198,21 @@ def _CvBlobTrackGen__del__(self):
     if self._ownershiplevel==1:
         _ext._cvReleaseBlobTrackGen(self)
 CvBlobTrackGen.__del__ = _CvBlobTrackGen__del__
+
+CvBlobTrackGen._ownershiplevel = 0
+
+def _CvBlobTrackGen__del__(self):
+    if self._ownershiplevel==1:
+        _ext._cvReleaseBlobTracker(self)
+CvBlobTrackGen.__del__ = _CvBlobTrackGen__del__
+
+CvBlobTrackGen._ownershiplevel = 0
+
+def _CvBlobTrackGen__del__(self):
+    if self._ownershiplevel==1:
+        _ext._cvReleaseBlobTrackerOne(self)
+CvBlobTrackGen.__del__ = _CvBlobTrackGen__del__
+
+PROFILE_EPANECHNIKOV = 0
+PROFILE_DOG = 1
+

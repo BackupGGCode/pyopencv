@@ -8,7 +8,6 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "cvaux_wrapper.hpp"
 #include "opencv_headers.hpp"
-#include "boost/python/object.hpp"
 #include "cvaux_ext_classes_1.pypp.hpp"
 
 namespace bp = boost::python;
@@ -319,8 +318,6 @@ struct CvBlobSeq_wrapper : CvBlobSeq, bp::wrapper< CvBlobSeq > {
 
 };
 
-static CvBlobSeq * get_CvBlobTrack_pBlobSeq( CvBlobTrack const & inst ) { return inst.pBlobSeq; }
-
 void register_classes_1(){
 
     { //::std::vector< cv::Octree::Node >
@@ -614,11 +611,5 @@ void register_classes_1(){
         
         }
     }
-
-    bp::class_< CvBlobTrack >( "CvBlobTrack" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrack >() )    
-        .def_readwrite( "StartFrame", &CvBlobTrack::StartFrame )    
-        .def_readwrite( "TrackID", &CvBlobTrack::TrackID )    
-        .add_property( "pBlobSeq", bp::make_function(&::get_CvBlobTrack_pBlobSeq, bp::return_internal_reference<>()) );
 
 }
