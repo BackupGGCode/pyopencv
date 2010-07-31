@@ -18,11 +18,6 @@ Add iterator for SparseMat
 
 - introduce debugging mode so that people know which argument has been converted, which has been not
 
-- to_list_of_... returns vector_....
-- make to_list_of_... obsolete in the future
-- propose to group a major change of representation from 1D array and 2D array back to std::vector
-  arrays. 
-  
 - On Windows, there seems to be a problem when libopencv_ffmpeg210.dll is used --> VideoCapture
   of a video file stops working. Remove the ffmpeg dll file and it appears to work again.
   
@@ -31,10 +26,6 @@ Add iterator for SparseMat
 - wrap CvBlobsLib for info gabor
 
 - make_nurse_and_patient(nurse, patient) = keep 'patient' alive as long as 'nurse' is alive, weird.
-
-- some conversion functions are missing due to lack of registered classes. e.g.
-cxcore_hpp_point exposes Mat, but it doesn't know the existence of vector_int
-therefore, the conversion from vector_int to mat (and vice versa) is not implemented -- damn
 
 ------------------------------------------
 Making a snapshot release using setuptools:
