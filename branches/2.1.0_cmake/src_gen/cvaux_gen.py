@@ -522,16 +522,40 @@ z = sb.mb.class_('CvObjectDetector')
 sb.init_class(z)
 sb.finalize_class(z)
 
+# CvImageDrawer has 2 unimplemented functions, 'Draw' and 'SetShapes'
+# Since CvDrawShape is part of CvImageDrawer, the two classes are unexposed
 # CvDrawShape
-z = sb.mb.class_('CvDrawShape')
-sb.init_class(z)
-z.decl('shape').exclude() # TODO: don't know why I can't expose this enum
-sb.finalize_class(z)
+# z = sb.mb.class_('CvDrawShape')
+# sb.init_class(z)
+# z.decl('shape').exclude() # anonymous enum can't be exposed
+# z.add_declaration_code('''
+# void CvDrawShape_set_shape(CvDrawShape &inst, int shape) { inst.shape = static_cast<typeof(inst.shape)>(shape); }
+# int CvDrawShape_get_shape(CvDrawShape const &inst) { return inst.shape; }
+# ''')
+# z.add_registration_code('add_property("shape", &::CvDrawShape_get_shape, &::CvDrawShape_set_shape)')
+# sb.finalize_class(z)
 
 # CvImageDrawer
 # z = sb.mb.class_('CvImageDrawer')
 # sb.init_class(z)
+# for t in ('Draw', 'GetImage'):
+    # FT.expose_func(z.mem_fun(t))
 # sb.finalize_class(z)
+
+# CvBlobTrackGen
+z = sb.mb.class_('CvBlobTrackGen')
+sb.init_class(z)
+sb.finalize_class(z)
+sb.insert_del_interface('CvBlobTrackGen', '_ext._cvReleaseBlobTrackGen')
+
+# cvReleaseBlobTrackGen
+z = sb.mb.free_fun('cvReleaseBlobTrackGen')
+FT.add_underscore(z)
+z._transformer_creators.append(FT.input_double_pointee('pBTGen'))
+
+# cvCreateModuleBlobTrackGen1, cvCreateModuleBlobTrackGenYML
+for t in ('cvCreateModuleBlobTrackGen1', 'cvCreateModuleBlobTrackGenYML'):
+    FT.expose_func(sb.mb.free_fun(t), ownershiplevel=1)
 
 
 

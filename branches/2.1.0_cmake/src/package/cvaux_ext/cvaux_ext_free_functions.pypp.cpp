@@ -75,6 +75,32 @@ void register_free_functions(){
     
     }
 
+    { //::cvCreateModuleBlobTrackGen1
+    
+        typedef ::CvBlobTrackGen * ( *createModuleBlobTrackGen1_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackGen1"
+            , createModuleBlobTrackGen1_function_type( &::cvCreateModuleBlobTrackGen1 )
+            , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackGen1" );
+    
+    }
+
+    { //::cvCreateModuleBlobTrackGenYML
+    
+        typedef ::CvBlobTrackGen * ( *createModuleBlobTrackGenYML_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackGenYML"
+            , createModuleBlobTrackGenYML_function_type( &::cvCreateModuleBlobTrackGenYML )
+            , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackGenYML" );
+    
+    }
+
     { //::cvDetectedBlob
     
         typedef ::CvDetectedBlob ( *detectedBlob_function_type )( float,float,float,float,int,float );

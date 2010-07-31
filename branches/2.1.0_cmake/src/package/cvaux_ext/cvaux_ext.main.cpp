@@ -73,6 +73,11 @@ static void cvReleaseBlobDetector_6236e43a6c59f60e3b3bdb05e8a157ca( ::CvBlobDete
     ::cvReleaseBlobDetector((::CvBlobDetector * *)&ppBD2);
 }
 
+static void cvReleaseBlobTrackGen_845d29f2145ea8e3c36112e731b5b64c( ::CvBlobTrackGen & pBTGen ){
+    CvBlobTrackGen * pBTGen2=(::CvBlobTrackGen *)&pBTGen;
+    ::cvReleaseBlobTrackGen((::CvBlobTrackGen * *)&pBTGen2);
+}
+
 static void cvReleaseConDensation_f998e5f5422410bd74b2ba960fd05e2c( ::CvConDensation & condens ){
     CvConDensation * condens2=(::CvConDensation *)&condens;
     ::cvReleaseConDensation((::CvConDensation * *)&condens2);
@@ -187,6 +192,22 @@ BOOST_PYTHON_MODULE(cvaux_ext){
     "\nArgument 'ppBD':"\
     "\n    C++ type: ::CvBlobDetector * *"\
     "\n    Python type: CvBlobDetector" );
+    
+    }
+
+    { //::cvReleaseBlobTrackGen
+    
+        typedef void ( *_cvReleaseBlobTrackGen_function_type )( CvBlobTrackGen & );
+        
+        bp::def( 
+            "_cvReleaseBlobTrackGen"
+            , _cvReleaseBlobTrackGen_function_type( &cvReleaseBlobTrackGen_845d29f2145ea8e3c36112e731b5b64c )
+            , ( bp::arg("pBTGen") )
+            , "\nWrapped function:"
+    "\n    cvReleaseBlobTrackGen"
+    "\nArgument 'pBTGen':"\
+    "\n    C++ type: ::CvBlobTrackGen * *"\
+    "\n    Python type: CvBlobTrackGen" );
     
     }
 

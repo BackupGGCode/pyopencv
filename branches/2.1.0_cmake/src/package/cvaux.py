@@ -191,3 +191,10 @@ def _CvBlobDetector__del__(self):
     if self._ownershiplevel==1:
         _ext._cvReleaseBlobDetector(self)
 CvBlobDetector.__del__ = _CvBlobDetector__del__
+
+CvBlobTrackGen._ownershiplevel = 0
+
+def _CvBlobTrackGen__del__(self):
+    if self._ownershiplevel==1:
+        _ext._cvReleaseBlobTrackGen(self)
+CvBlobTrackGen.__del__ = _CvBlobTrackGen__del__
