@@ -6,6 +6,7 @@ public:
     struct dummy_struct2 {};
     static const int total_size = 0
         + sizeof(cv::Ptr<CvMemStorage>)
+        + sizeof(cv::Scalar_<double>)
         + sizeof(std::vector<char>)
         + sizeof(std::vector<double>)
         + sizeof(std::vector<float>)

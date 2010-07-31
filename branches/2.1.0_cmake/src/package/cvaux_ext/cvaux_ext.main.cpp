@@ -68,9 +68,14 @@ static void cvFindStereoCorrespondence_7b07c127d562a5149232dd8cc1bc470d( ::cv::M
     ::cvFindStereoCorrespondence(get_CvMat_ptr(leftImage), get_CvMat_ptr(rightImage), mode, get_CvMat_ptr(dispImage), maxDisparity, param1, param2, param3, param4, param5);
 }
 
-static void cvReleaseConDensation_f998e5f5422410bd74b2ba960fd05e2c( ::CvConDensation condens ){
-    CvConDensation * tmp_condens = reinterpret_cast< CvConDensation * >(& condens);
-    ::cvReleaseConDensation(reinterpret_cast< CvConDensation * * >( & tmp_condens ));
+static void cvReleaseBlobDetector_6236e43a6c59f60e3b3bdb05e8a157ca( ::CvBlobDetector & ppBD ){
+    CvBlobDetector * ppBD2=(::CvBlobDetector *)&ppBD;
+    ::cvReleaseBlobDetector((::CvBlobDetector * *)&ppBD2);
+}
+
+static void cvReleaseConDensation_f998e5f5422410bd74b2ba960fd05e2c( ::CvConDensation & condens ){
+    CvConDensation * condens2=(::CvConDensation *)&condens;
+    ::cvReleaseConDensation((::CvConDensation * *)&condens2);
 }
 
 static boost::python::object cvSegmentImage_7b95313fd97ffe28d678124b5aa0a301( ::cv::Mat & srcarr, ::cv::Mat & dstarr, double canny_threshold, double ffill_threshold, ::cv::MemStorage & storage ){
@@ -169,9 +174,25 @@ BOOST_PYTHON_MODULE(cvaux_ext){
     
     }
 
+    { //::cvReleaseBlobDetector
+    
+        typedef void ( *_cvReleaseBlobDetector_function_type )( CvBlobDetector & );
+        
+        bp::def( 
+            "_cvReleaseBlobDetector"
+            , _cvReleaseBlobDetector_function_type( &cvReleaseBlobDetector_6236e43a6c59f60e3b3bdb05e8a157ca )
+            , ( bp::arg("ppBD") )
+            , "\nWrapped function:"
+    "\n    cvReleaseBlobDetector"
+    "\nArgument 'ppBD':"\
+    "\n    C++ type: ::CvBlobDetector * *."\
+    "\n    Python type: CvBlobDetector." );
+    
+    }
+
     { //::cvReleaseConDensation
     
-        typedef void ( *_cvReleaseConDensation_function_type )( CvConDensation );
+        typedef void ( *_cvReleaseConDensation_function_type )( CvConDensation & );
         
         bp::def( 
             "_cvReleaseConDensation"

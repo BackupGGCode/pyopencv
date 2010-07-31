@@ -72,7 +72,7 @@ z.include_files.append("sequence.hpp")
 sb.add_reg_code("sdcpp::register_sdobject<sdcpp::sequence>();")
 
 
-
+sb.register_ti('cv::Scalar_', ['double'], 'Scalar')
 
 # expose some enumerations
 sb.mb.enums(lambda x: x.name.startswith("Cv") or x.parent.name=="cv").include()    

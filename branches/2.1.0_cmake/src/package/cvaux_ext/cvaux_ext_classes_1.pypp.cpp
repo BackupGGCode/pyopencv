@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
+#include "opencv_converters.hpp"
 #include "boost/python/suite/indexing/vector_indexing_suite.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "cvaux_wrapper.hpp"
@@ -19,6 +20,164 @@ static inline void vector_FernClassifier_Feature_resize(::std::vector< cv::FernC
 static inline void vector_CvFuzzyRule_Ptr_resize(::std::vector< CvFuzzyRule* > &inst, size_t num) { inst.resize(num); }
 
 static inline void vector_CvFuzzyCurve_resize(::std::vector< CvFuzzyCurve > &inst, size_t num) { inst.resize(num); }
+
+struct CvVSModule_wrapper : CvVSModule, bp::wrapper< CvVSModule > {
+
+    CvVSModule_wrapper( )
+    : CvVSModule( )
+      , bp::wrapper< CvVSModule >(){
+        // null constructor
+    
+    }
+
+    virtual void LoadState( ::CvFileStorage * arg0, ::CvFileNode * arg1 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_LoadState = this->get_override( "LoadState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_LoadState.ptr(), arg0, arg1 );
+        }
+        else{
+            CvVSModule::LoadState( boost::python::ptr(arg0), boost::python::ptr(arg1) );
+        }
+    }
+    
+    static void default_LoadState( ::CvVSModule & inst, ::cv::FileStorage & arg0, ::cv::FileNode & arg1 ){
+        if( dynamic_cast< CvVSModule_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::LoadState(arg0.fs, *(arg1));
+        }
+        else{
+            inst.LoadState(arg0.fs, *(arg1));
+        }
+    }
+
+    virtual void ParamUpdate(  ) {
+        if( bp::override func_ParamUpdate = this->get_override( "ParamUpdate" ) )
+            func_ParamUpdate(  );
+        else{
+            this->CvVSModule::ParamUpdate(  );
+        }
+    }
+    
+    void default_ParamUpdate(  ) {
+        CvVSModule::ParamUpdate( );
+    }
+
+    virtual void Release(  ){
+        bp::override func_Release = this->get_override( "Release" );
+        func_Release(  );
+    }
+
+    virtual void SaveState( ::CvFileStorage * arg0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_SaveState = this->get_override( "SaveState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_SaveState.ptr(), arg0 );
+        }
+        else{
+            CvVSModule::SaveState( boost::python::ptr(arg0) );
+        }
+    }
+    
+    static void default_SaveState( ::CvVSModule & inst, ::cv::FileStorage & arg0 ){
+        if( dynamic_cast< CvVSModule_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::SaveState(arg0.fs);
+        }
+        else{
+            inst.SaveState(arg0.fs);
+        }
+    }
+
+};
+
+inline bp::str CvVSModule_GetModuleName(CvVSModule &inst) {  return bp::str(inst.GetModuleName()); }
+
+struct CvBlobDetector_wrapper : CvBlobDetector, bp::wrapper< CvBlobDetector > {
+
+    CvBlobDetector_wrapper( )
+    : CvBlobDetector( )
+      , bp::wrapper< CvBlobDetector >(){
+        // null constructor
+    
+    }
+
+    virtual int DetectNewBlob( ::IplImage * pImg, ::IplImage * pImgFG, ::CvBlobSeq * pNewBlobList, ::CvBlobSeq * pOldBlobList ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_DetectNewBlob = this->get_override( "DetectNewBlob" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_DetectNewBlob.ptr(), pImg, pImgFG, pNewBlobList, pOldBlobList );
+            return bpl::extract< int >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :DetectNewBlob");
+              boost::python::throw_error_already_set();
+        }
+    }
+    
+    static boost::python::object default_DetectNewBlob( ::CvBlobDetector & inst, ::cv::Mat & pImg, ::cv::Mat & pImgFG, ::CvBlobSeq * pNewBlobList, ::CvBlobSeq * pOldBlobList ){
+        int result;
+        if( dynamic_cast< CvBlobDetector_wrapper * >( boost::addressof( inst ) ) ){
+              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :DetectNewBlob");
+              boost::python::throw_error_already_set();
+        }
+        else{
+            result = inst.DetectNewBlob(get_IplImage_ptr(pImg), get_IplImage_ptr(pImgFG), pNewBlobList, pOldBlobList);
+        }
+        return bp::object( result );
+    }
+
+    virtual void Release(  ){
+        bp::override func_Release = this->get_override( "Release" );
+        func_Release(  );
+    }
+
+    virtual void LoadState( ::CvFileStorage * arg0, ::CvFileNode * arg1 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_LoadState = this->get_override( "LoadState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_LoadState.ptr(), arg0, arg1 );
+        }
+        else{
+            CvVSModule::LoadState( boost::python::ptr(arg0), boost::python::ptr(arg1) );
+        }
+    }
+    
+    static void default_LoadState( ::CvVSModule & inst, ::cv::FileStorage & arg0, ::cv::FileNode & arg1 ){
+        if( dynamic_cast< CvBlobDetector_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::LoadState(arg0.fs, *(arg1));
+        }
+        else{
+            inst.LoadState(arg0.fs, *(arg1));
+        }
+    }
+
+    virtual void ParamUpdate(  ) {
+        if( bp::override func_ParamUpdate = this->get_override( "ParamUpdate" ) )
+            func_ParamUpdate(  );
+        else{
+            this->CvVSModule::ParamUpdate(  );
+        }
+    }
+    
+    void default_ParamUpdate(  ) {
+        CvVSModule::ParamUpdate( );
+    }
+
+    virtual void SaveState( ::CvFileStorage * arg0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_SaveState = this->get_override( "SaveState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_SaveState.ptr(), arg0 );
+        }
+        else{
+            CvVSModule::SaveState( boost::python::ptr(arg0) );
+        }
+    }
+    
+    static void default_SaveState( ::CvVSModule & inst, ::cv::FileStorage & arg0 ){
+        if( dynamic_cast< CvBlobDetector_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::SaveState(arg0.fs);
+        }
+        else{
+            inst.SaveState(arg0.fs);
+        }
+    }
+
+};
 
 struct CvBlobSeq_wrapper : CvBlobSeq, bp::wrapper< CvBlobSeq > {
 
@@ -162,108 +321,6 @@ struct CvBlobSeq_wrapper : CvBlobSeq, bp::wrapper< CvBlobSeq > {
 
 static CvBlobSeq * get_CvBlobTrack_pBlobSeq( CvBlobTrack const & inst ) { return inst.pBlobSeq; }
 
-struct CvBlobTrackSeq_wrapper : CvBlobTrackSeq, bp::wrapper< CvBlobTrackSeq > {
-
-    CvBlobTrackSeq_wrapper(CvBlobTrackSeq const & arg )
-    : CvBlobTrackSeq( arg )
-      , bp::wrapper< CvBlobTrackSeq >(){
-        // copy constructor
-        
-    }
-
-    CvBlobTrackSeq_wrapper(int TrackSize=12u )
-    : CvBlobTrackSeq( TrackSize )
-      , bp::wrapper< CvBlobTrackSeq >(){
-        // constructor
-    
-    }
-
-    virtual void AddBlobTrack( int TrackID, int StartFrame=0 ) {
-        if( bp::override func_AddBlobTrack = this->get_override( "AddBlobTrack" ) )
-            func_AddBlobTrack( TrackID, StartFrame );
-        else{
-            this->CvBlobTrackSeq::AddBlobTrack( TrackID, StartFrame );
-        }
-    }
-    
-    void default_AddBlobTrack( int TrackID, int StartFrame=0 ) {
-        CvBlobTrackSeq::AddBlobTrack( TrackID, StartFrame );
-    }
-
-    virtual void Clear(  ) {
-        if( bp::override func_Clear = this->get_override( "Clear" ) )
-            func_Clear(  );
-        else{
-            this->CvBlobTrackSeq::Clear(  );
-        }
-    }
-    
-    void default_Clear(  ) {
-        CvBlobTrackSeq::Clear( );
-    }
-
-    virtual void DelBlobTrack( int TrackIndex ) {
-        if( bp::override func_DelBlobTrack = this->get_override( "DelBlobTrack" ) )
-            func_DelBlobTrack( TrackIndex );
-        else{
-            this->CvBlobTrackSeq::DelBlobTrack( TrackIndex );
-        }
-    }
-    
-    void default_DelBlobTrack( int TrackIndex ) {
-        CvBlobTrackSeq::DelBlobTrack( TrackIndex );
-    }
-
-    virtual void DelBlobTrackByID( int TrackID ) {
-        if( bp::override func_DelBlobTrackByID = this->get_override( "DelBlobTrackByID" ) )
-            func_DelBlobTrackByID( TrackID );
-        else{
-            this->CvBlobTrackSeq::DelBlobTrackByID( TrackID );
-        }
-    }
-    
-    void default_DelBlobTrackByID( int TrackID ) {
-        CvBlobTrackSeq::DelBlobTrackByID( TrackID );
-    }
-
-    virtual ::CvBlobTrack * GetBlobTrack( int TrackIndex ) {
-        if( bp::override func_GetBlobTrack = this->get_override( "GetBlobTrack" ) )
-            return func_GetBlobTrack( TrackIndex );
-        else{
-            return this->CvBlobTrackSeq::GetBlobTrack( TrackIndex );
-        }
-    }
-    
-    ::CvBlobTrack * default_GetBlobTrack( int TrackIndex ) {
-        return CvBlobTrackSeq::GetBlobTrack( TrackIndex );
-    }
-
-    virtual ::CvBlobTrack * GetBlobTrackByID( int TrackID ) {
-        if( bp::override func_GetBlobTrackByID = this->get_override( "GetBlobTrackByID" ) )
-            return func_GetBlobTrackByID( TrackID );
-        else{
-            return this->CvBlobTrackSeq::GetBlobTrackByID( TrackID );
-        }
-    }
-    
-    ::CvBlobTrack * default_GetBlobTrackByID( int TrackID ) {
-        return CvBlobTrackSeq::GetBlobTrackByID( TrackID );
-    }
-
-    virtual int GetBlobTrackNum(  ) {
-        if( bp::override func_GetBlobTrackNum = this->get_override( "GetBlobTrackNum" ) )
-            return func_GetBlobTrackNum(  );
-        else{
-            return this->CvBlobTrackSeq::GetBlobTrackNum(  );
-        }
-    }
-    
-    int default_GetBlobTrackNum(  ) {
-        return CvBlobTrackSeq::GetBlobTrackNum( );
-    }
-
-};
-
 void register_classes_1(){
 
     { //::std::vector< cv::Octree::Node >
@@ -311,6 +368,121 @@ void register_classes_1(){
         .def_readwrite( "w", &CvBlob::w )    
         .def_readwrite( "x", &CvBlob::x )    
         .def_readwrite( "y", &CvBlob::y );
+
+    bp::class_< CvVSModule_wrapper, boost::noncopyable >( "CvVSModule", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvVSModule >() )    
+        .def( 
+            "GetNickName"
+            , (char const * ( CvVSModule::* )(  ) )( &::CvVSModule::GetNickName ) )    
+        .def( 
+            "GetParam"
+            , (double ( CvVSModule::* )( char const * ) )( &::CvVSModule::GetParam )
+            , ( bp::arg("name") ) )    
+        .def( 
+            "GetParamComment"
+            , (char const * ( CvVSModule::* )( char const * ) )( &::CvVSModule::GetParamComment )
+            , ( bp::arg("name") ) )    
+        .def( 
+            "GetParamName"
+            , (char const * ( CvVSModule::* )( int ) )( &::CvVSModule::GetParamName )
+            , ( bp::arg("index") ) )    
+        .def( 
+            "GetParamStr"
+            , (char const * ( CvVSModule::* )( char const * ) )( &::CvVSModule::GetParamStr )
+            , ( bp::arg("name") ) )    
+        .def( 
+            "GetTypeName"
+            , (char const * ( CvVSModule::* )(  ) )( &::CvVSModule::GetTypeName ) )    
+        .def( 
+            "IsModuleName"
+            , (int ( CvVSModule::* )( char const * ) )( &::CvVSModule::IsModuleName )
+            , ( bp::arg("name") ) )    
+        .def( 
+            "IsModuleTypeName"
+            , (int ( CvVSModule::* )( char const * ) )( &::CvVSModule::IsModuleTypeName )
+            , ( bp::arg("name") ) )    
+        .def( 
+            "LoadState"
+            , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvVSModule_wrapper::default_LoadState )
+            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage."\
+    "\nArgument 'arg1':"\
+    "\n    C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." )    
+        .def( 
+            "ParamUpdate"
+            , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
+            , (void ( CvVSModule_wrapper::* )(  ) )(&CvVSModule_wrapper::default_ParamUpdate) )    
+        .def( 
+            "Release"
+            , bp::pure_virtual( (void ( CvVSModule::* )(  ) )(&::CvVSModule::Release) ) )    
+        .def( 
+            "SaveState"
+            , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvVSModule_wrapper::default_SaveState )
+            , ( bp::arg("inst"), bp::arg("arg0") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." )    
+        .def( 
+            "SetNickName"
+            , (void ( CvVSModule::* )( char const * ) )( &::CvVSModule::SetNickName )
+            , ( bp::arg("pStr") ) )    
+        .def( 
+            "SetParam"
+            , (void ( CvVSModule::* )( char const *,double ) )( &::CvVSModule::SetParam )
+            , ( bp::arg("name"), bp::arg("val") ) )    
+        .def( 
+            "SetParamStr"
+            , (void ( CvVSModule::* )( char const *,char const * ) )( &::CvVSModule::SetParamStr )
+            , ( bp::arg("name"), bp::arg("str") ) )    
+        .def( 
+            "TransferParamsFromChild"
+            , (void ( CvVSModule::* )( ::CvVSModule *,char const * ) )( &::CvVSModule::TransferParamsFromChild )
+            , ( bp::arg("pM"), bp::arg("prefix")=bp::object() ) )    
+        .def( 
+            "TransferParamsToChild"
+            , (void ( CvVSModule::* )( ::CvVSModule *,char * ) )( &::CvVSModule::TransferParamsToChild )
+            , ( bp::arg("pM"), bp::arg("prefix")=bp::object() ) )    
+        .def("GetModuleName", &::CvVSModule_GetModuleName);
+
+    bp::class_< CvBlobDetector_wrapper, bp::bases< CvVSModule >, boost::noncopyable >( "CvBlobDetector", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobDetector >() )    
+        .def( 
+            "DetectNewBlob"
+            , (boost::python::object (*)( CvBlobDetector &,::cv::Mat &,::cv::Mat &,CvBlobSeq *,CvBlobSeq * ))( &CvBlobDetector_wrapper::default_DetectNewBlob )
+            , ( bp::arg("inst"), bp::arg("pImg"), bp::arg("pImgFG"), bp::arg("pNewBlobList"), bp::arg("pOldBlobList") )
+            , "\nArgument 'pImg':"\
+    "\n    C++ type: ::IplImage *."\
+    "\n    Python type: Mat."\
+    "\nArgument 'pImgFG':"\
+    "\n    C++ type: ::IplImage *."\
+    "\n    Python type: Mat." )    
+        .def( 
+            "Release"
+            , bp::pure_virtual( (void ( CvBlobDetector::* )(  ) )(&::CvBlobDetector::Release) ) )    
+        .def( 
+            "LoadState"
+            , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvBlobDetector_wrapper::default_LoadState )
+            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage."\
+    "\nArgument 'arg1':"\
+    "\n    C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." )    
+        .def( 
+            "ParamUpdate"
+            , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
+            , (void ( CvBlobDetector_wrapper::* )(  ) )(&CvBlobDetector_wrapper::default_ParamUpdate) )    
+        .def( 
+            "SaveState"
+            , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvBlobDetector_wrapper::default_SaveState )
+            , ( bp::arg("inst"), bp::arg("arg0") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." );
 
     { //::CvBlobSeq
         typedef bp::class_< CvBlobSeq_wrapper > CvBlobSeq_exposer_t;
@@ -448,97 +620,5 @@ void register_classes_1(){
         .def_readwrite( "StartFrame", &CvBlobTrack::StartFrame )    
         .def_readwrite( "TrackID", &CvBlobTrack::TrackID )    
         .add_property( "pBlobSeq", bp::make_function(&::get_CvBlobTrack_pBlobSeq, bp::return_internal_reference<>()) );
-
-    { //::CvBlobTrackSeq
-        typedef bp::class_< CvBlobTrackSeq_wrapper > CvBlobTrackSeq_exposer_t;
-        CvBlobTrackSeq_exposer_t CvBlobTrackSeq_exposer = CvBlobTrackSeq_exposer_t( "CvBlobTrackSeq", bp::init< bp::optional< int > >(( bp::arg("TrackSize")=(int)(12u) )) );
-        bp::scope CvBlobTrackSeq_scope( CvBlobTrackSeq_exposer );
-        CvBlobTrackSeq_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrackSeq >() );
-        bp::implicitly_convertible< int, CvBlobTrackSeq >();
-        { //::CvBlobTrackSeq::AddBlobTrack
-        
-            typedef void ( ::CvBlobTrackSeq::*AddBlobTrack_function_type )( int,int ) ;
-            typedef void ( CvBlobTrackSeq_wrapper::*default_AddBlobTrack_function_type )( int,int ) ;
-            
-            CvBlobTrackSeq_exposer.def( 
-                "AddBlobTrack"
-                , AddBlobTrack_function_type(&::CvBlobTrackSeq::AddBlobTrack)
-                , default_AddBlobTrack_function_type(&CvBlobTrackSeq_wrapper::default_AddBlobTrack)
-                , ( bp::arg("TrackID"), bp::arg("StartFrame")=(int)(0) ) );
-        
-        }
-        { //::CvBlobTrackSeq::Clear
-        
-            typedef void ( ::CvBlobTrackSeq::*Clear_function_type )(  ) ;
-            typedef void ( CvBlobTrackSeq_wrapper::*default_Clear_function_type )(  ) ;
-            
-            CvBlobTrackSeq_exposer.def( 
-                "Clear"
-                , Clear_function_type(&::CvBlobTrackSeq::Clear)
-                , default_Clear_function_type(&CvBlobTrackSeq_wrapper::default_Clear) );
-        
-        }
-        { //::CvBlobTrackSeq::DelBlobTrack
-        
-            typedef void ( ::CvBlobTrackSeq::*DelBlobTrack_function_type )( int ) ;
-            typedef void ( CvBlobTrackSeq_wrapper::*default_DelBlobTrack_function_type )( int ) ;
-            
-            CvBlobTrackSeq_exposer.def( 
-                "DelBlobTrack"
-                , DelBlobTrack_function_type(&::CvBlobTrackSeq::DelBlobTrack)
-                , default_DelBlobTrack_function_type(&CvBlobTrackSeq_wrapper::default_DelBlobTrack)
-                , ( bp::arg("TrackIndex") ) );
-        
-        }
-        { //::CvBlobTrackSeq::DelBlobTrackByID
-        
-            typedef void ( ::CvBlobTrackSeq::*DelBlobTrackByID_function_type )( int ) ;
-            typedef void ( CvBlobTrackSeq_wrapper::*default_DelBlobTrackByID_function_type )( int ) ;
-            
-            CvBlobTrackSeq_exposer.def( 
-                "DelBlobTrackByID"
-                , DelBlobTrackByID_function_type(&::CvBlobTrackSeq::DelBlobTrackByID)
-                , default_DelBlobTrackByID_function_type(&CvBlobTrackSeq_wrapper::default_DelBlobTrackByID)
-                , ( bp::arg("TrackID") ) );
-        
-        }
-        { //::CvBlobTrackSeq::GetBlobTrack
-        
-            typedef ::CvBlobTrack * ( ::CvBlobTrackSeq::*GetBlobTrack_function_type )( int ) ;
-            typedef ::CvBlobTrack * ( CvBlobTrackSeq_wrapper::*default_GetBlobTrack_function_type )( int ) ;
-            
-            CvBlobTrackSeq_exposer.def( 
-                "GetBlobTrack"
-                , GetBlobTrack_function_type(&::CvBlobTrackSeq::GetBlobTrack)
-                , default_GetBlobTrack_function_type(&CvBlobTrackSeq_wrapper::default_GetBlobTrack)
-                , ( bp::arg("TrackIndex") )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::CvBlobTrackSeq::GetBlobTrackByID
-        
-            typedef ::CvBlobTrack * ( ::CvBlobTrackSeq::*GetBlobTrackByID_function_type )( int ) ;
-            typedef ::CvBlobTrack * ( CvBlobTrackSeq_wrapper::*default_GetBlobTrackByID_function_type )( int ) ;
-            
-            CvBlobTrackSeq_exposer.def( 
-                "GetBlobTrackByID"
-                , GetBlobTrackByID_function_type(&::CvBlobTrackSeq::GetBlobTrackByID)
-                , default_GetBlobTrackByID_function_type(&CvBlobTrackSeq_wrapper::default_GetBlobTrackByID)
-                , ( bp::arg("TrackID") )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::CvBlobTrackSeq::GetBlobTrackNum
-        
-            typedef int ( ::CvBlobTrackSeq::*GetBlobTrackNum_function_type )(  ) ;
-            typedef int ( CvBlobTrackSeq_wrapper::*default_GetBlobTrackNum_function_type )(  ) ;
-            
-            CvBlobTrackSeq_exposer.def( 
-                "GetBlobTrackNum"
-                , GetBlobTrackNum_function_type(&::CvBlobTrackSeq::GetBlobTrackNum)
-                , default_GetBlobTrackNum_function_type(&CvBlobTrackSeq_wrapper::default_GetBlobTrackNum) );
-        
-        }
-    }
 
 }

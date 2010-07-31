@@ -331,8 +331,6 @@ for t in ('info', 'first', 'last'):
     FT.expose_member_as_pointee(z, t)
     
 sb.register_ti('cv::Range')
-sb.register_ti('double')
-sb.register_ti('cv::Scalar_', ['double'], 'Scalar')
 
 
 sb.cc.write('''

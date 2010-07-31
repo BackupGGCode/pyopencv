@@ -213,7 +213,7 @@ def fix_type(arg, type_str):
 class input_double_pointee_t(transformer_t):
     """Handles a double pointee input.
     
-    Convert by dereferencing: do_smth(your_type **v) -> do_smth(your_type v)
+    Convert by dereferencing: do_smth(your_type **v) -> do_smth(your_type &v)
 
     Right now compiler should be able to use implicit conversion
     """
@@ -232,14 +232,12 @@ class input_double_pointee_t(transformer_t):
     def __configure_sealed( self, controller ):
         w_arg = controller.find_wrapper_arg( self.arg.name )
         tmp_type = remove_ptr( self.arg.type )
-        w_arg.type = remove_ptr( tmp_type )
-        if not _D.is_convertible( w_arg.type, self.arg.type ):
-            controller.add_pre_call_code("%s tmp_%s = reinterpret_cast< %s >(& %s);" % ( tmp_type, w_arg.name, tmp_type, w_arg.name ))
-            casting_code = 'reinterpret_cast< %s >( & tmp_%s )' % (self.arg.type, w_arg.name)
-            controller.modify_arg_expression(self.arg_index, casting_code)
+        elem_type = _D.remove_const(remove_ptr(tmp_type))
+        w_arg.type = _D.reference_t(elem_type)
+        z = controller.declare_variable(tmp_type, self.arg.name, "=(%s)&%s" % (tmp_type.partial_decl_string, w_arg.name))
+        controller.modify_arg_expression(self.arg_index, "(%s)&%s" % (self.arg.type.partial_decl_string, z))
         # documentation
-        doc_common(self.function, self.arg, 
-            common.current_sb.get_decl_equivname(_D.remove_const(w_arg.type.partial_decl_string[2:])))
+        doc_common(self.function, self.arg, common.current_sb.get_decl_equivname(elem_type.partial_decl_string))
 
     def __configure_v_mem_fun_default( self, controller ):
         self.__configure_sealed( controller )

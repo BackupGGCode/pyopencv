@@ -184,3 +184,10 @@ CV_BLOB_MINW = 5
 CV_BLOB_MINH = 5
 
 
+
+CvBlobDetector._ownershiplevel = 0
+
+def _CvBlobDetector__del__(self):
+    if self._ownershiplevel==1:
+        _ext._cvReleaseBlobDetector(self)
+CvBlobDetector.__del__ = _CvBlobDetector__del__

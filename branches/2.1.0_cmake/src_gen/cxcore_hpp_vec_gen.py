@@ -124,7 +124,7 @@ sb.dtypecast(['::cv::Complex<%s>' % dtype_dict[suffix] for suffix in Vec_dict[6]
 
 # Scalar et al
 sb.register_ti('cv::Scalar_', ['double'], 'Scalar')
-z = sb.mb.class_('::cv::Scalar_<double>')
+z = sb.mb.class_(lambda x: x.alias=='Scalar')
 sb.init_class(z)
 sb.expose_class_vector(z.partial_decl_string[2:])
 z.decls(lambda x: 'CvScalar' in x.partial_decl_string).exclude()
@@ -138,9 +138,9 @@ Scalar.__repr__ = _Scalar__repr__
 ''')
 
 # Scalar operations
-c = sb.mb.class_(lambda x: x.alias=='Scalar')
+c = z
+a = 'cv::'+z.alias
 c.include_files.append("opencv_converters.hpp")
-a = "cv::"+c.alias
 c.add_registration_code('def("__iadd__", &__iadd__<CLASS, CLASS >, bp::return_self<>() )' \
     .replace("CLASS", a))
 c.add_registration_code('def("__isub__", &__isub__<CLASS, CLASS >, bp::return_self<>() )' \

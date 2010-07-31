@@ -28,16 +28,6 @@ import cPickle as _cP
 
 
 class SdModuleBuilder:
-    # FT = _FT
-    # MT = _MT
-    # _D = _D
-    # CP = _CP
-
-    mb = None
-    cc = None
-    funs = None
-
-    dummy_struct = None
     def add_reg_code(self, s):
         if self.dummy_struct:
             self.dummy_struct._reg_code += "\n        "+s
@@ -47,6 +37,13 @@ class SdModuleBuilder:
         self.module_name = module_name
         self.number_of_files = number_of_files
         _c.current_sb = self
+
+        self.mb = None
+        self.cc = None
+        self.funs = None
+
+        self.dummy_struct = None
+        self.decls_reg = {}
 
         # package directory
         self.pkg_dir = _op.join(_op.split(_op.abspath(__file__))[0], '..', 'src', 'package')
@@ -212,7 +209,6 @@ from MODULE_NAME_ext import *
     # ==================
     # class registration
     # ==================
-    decls_reg = {}
     
     def load_regs(self, filename):
         decls = _cP.load(open(filename))
@@ -221,7 +217,7 @@ from MODULE_NAME_ext import *
             self.register_decl(pyName, upds, child_pds, pyEquivName)
         
     def save_regs(self, filename):
-        _cP.dump(self.decls_reg, open(filename, 'w'))    
+        _cP.dump(self.decls_reg, open(filename, 'w'))
 
     def prepare_decls_registration_code(self):
         str = '''#ifndef SD_MODULE_NAME_TEMPLATE_INSTANTIATIONS_HPP
@@ -275,15 +271,15 @@ public:
     def register_decl(self, pyName, pds, cChildName_pds=None, pyEquivName=None):
         upds = _c.unique_pds(pds)
         if upds in self.decls_reg:
-            # print "Declaration %s already registered." % pds
+            print "Declaration %s already registered." % pds
             return upds
         if '::' in pds: # assume it is a class
             print "Registration: %s ==> %s..." % (upds, pyName)
             try:
                 self.find_class(upds).rename(pyName)
             except RuntimeError:
-                # print "Class %s does not exist." % pds
-                pass
+                print "Class %s does not exist." % pds
+                # pass
         self.decls_reg[upds] = (pyName, _c.unique_pds(cChildName_pds), pyEquivName)
         return upds
 

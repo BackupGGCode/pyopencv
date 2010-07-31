@@ -499,10 +499,19 @@ sb.init_class(z)
 sb.finalize_class(z)
 
 # CvBlobDetector
-# TODO: fix this guy
-# z = sb.mb.class_('CvBlobDetector')
-# z.include()
-# z.decls().exclude()
+z = sb.mb.class_('CvBlobDetector')
+sb.init_class(z)
+sb.finalize_class(z)
+sb.insert_del_interface('CvBlobDetector', '_ext._cvReleaseBlobDetector')
+
+# cvReleaseBlobDetector
+z = sb.mb.free_fun('cvReleaseBlobDetector')
+FT.add_underscore(z)
+z._transformer_creators.append(FT.input_double_pointee('ppBD'))
+
+# cvCreateBlobDetectorSimple, cvCreateBlobDetectorCC
+for t in ('cvCreateBlobDetectorSimple', 'cvCreateBlobDetectorCC'):
+    FT.expose_func(sb.mb.free_fun(t), ownershiplevel=1)
 
 # CvBlob
 sb.mb.class_('CvDetectedBlob').include()

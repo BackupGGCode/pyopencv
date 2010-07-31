@@ -35,6 +35,32 @@ void register_free_functions(){
     
     }
 
+    { //::cvCreateBlobDetectorCC
+    
+        typedef ::CvBlobDetector * ( *createBlobDetectorCC_function_type )(  );
+        
+        bp::def( 
+            "createBlobDetectorCC"
+            , createBlobDetectorCC_function_type( &::cvCreateBlobDetectorCC )
+            , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
+            , "\nWrapped function:"
+    "\n    cvCreateBlobDetectorCC" );
+    
+    }
+
+    { //::cvCreateBlobDetectorSimple
+    
+        typedef ::CvBlobDetector * ( *createBlobDetectorSimple_function_type )(  );
+        
+        bp::def( 
+            "createBlobDetectorSimple"
+            , createBlobDetectorSimple_function_type( &::cvCreateBlobDetectorSimple )
+            , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
+            , "\nWrapped function:"
+    "\n    cvCreateBlobDetectorSimple" );
+    
+    }
+
     { //::cvCreateConDensation
     
         typedef ::CvConDensation * ( *createConDensation_function_type )( int,int,int );
