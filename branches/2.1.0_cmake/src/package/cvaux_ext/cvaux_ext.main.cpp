@@ -30,6 +30,8 @@
 
 #include "cvaux_ext/cvaux_ext_classes_5.pypp.hpp"
 
+#include "cvaux_ext/cvaux_ext_classes_6.pypp.hpp"
+
 #include "cvaux_ext/cvaux_ext_enumerations.pypp.hpp"
 
 #include "cvaux_ext/cvaux_ext_free_functions.pypp.hpp"
@@ -75,14 +77,29 @@ static void cvReleaseBlobDetector_6236e43a6c59f60e3b3bdb05e8a157ca( ::CvBlobDete
     ::cvReleaseBlobDetector((::CvBlobDetector * *)&ppBD2);
 }
 
+static void cvReleaseBlobTrackAnalysis_a12d2664ae934ee86c335d11a3f523ed( ::CvBlobTrackAnalysis & pBTPP ){
+    CvBlobTrackAnalysis * pBTPP2=(::CvBlobTrackAnalysis *)&pBTPP;
+    ::cvReleaseBlobTrackAnalysis((::CvBlobTrackAnalysis * *)&pBTPP2);
+}
+
 static void cvReleaseBlobTrackGen_845d29f2145ea8e3c36112e731b5b64c( ::CvBlobTrackGen & pBTGen ){
     CvBlobTrackGen * pBTGen2=(::CvBlobTrackGen *)&pBTGen;
     ::cvReleaseBlobTrackGen((::CvBlobTrackGen * *)&pBTGen2);
 }
 
+static void cvReleaseBlobTrackPostProc_bf7c967b75549abed11dd54f7b462c80( ::CvBlobTrackPostProc & pBTPP ){
+    CvBlobTrackPostProc * pBTPP2=(::CvBlobTrackPostProc *)&pBTPP;
+    ::cvReleaseBlobTrackPostProc((::CvBlobTrackPostProc * *)&pBTPP2);
+}
+
 static void cvReleaseBlobTracker_1ee273fd4b3d76209efed8f1b3e4169a( ::CvBlobTracker & ppT ){
     CvBlobTracker * ppT2=(::CvBlobTracker *)&ppT;
     ::cvReleaseBlobTracker((::CvBlobTracker * *)&ppT2);
+}
+
+static void cvReleaseBlobTrackerAuto_3215f93792aa9bb2403a182b21afad47( ::CvBlobTrackerAuto & ppT ){
+    CvBlobTrackerAuto * ppT2=(::CvBlobTrackerAuto *)&ppT;
+    ::cvReleaseBlobTrackerAuto((::CvBlobTrackerAuto * *)&ppT2);
 }
 
 static void cvReleaseBlobTrackerOne_2ae261829ef4db99d354311707e9dad3( ::CvBlobTrackerOne & ppT ){
@@ -93,6 +110,11 @@ static void cvReleaseBlobTrackerOne_2ae261829ef4db99d354311707e9dad3( ::CvBlobTr
 static void cvReleaseConDensation_f998e5f5422410bd74b2ba960fd05e2c( ::CvConDensation & condens ){
     CvConDensation * condens2=(::CvConDensation *)&condens;
     ::cvReleaseConDensation((::CvConDensation * *)&condens2);
+}
+
+static void cvReleaseFGDetector_b0715ecfb808a5aea097d40b54b6c8a9( ::CvFGDetector & ppT ){
+    CvFGDetector * ppT2=(::CvFGDetector *)&ppT;
+    ::cvReleaseFGDetector((::CvFGDetector * *)&ppT2);
 }
 
 static boost::python::object cvSegmentImage_7b95313fd97ffe28d678124b5aa0a301( ::cv::Mat & srcarr, ::cv::Mat & dstarr, double canny_threshold, double ffill_threshold, ::cv::MemStorage & storage ){
@@ -207,6 +229,22 @@ BOOST_PYTHON_MODULE(cvaux_ext){
     
     }
 
+    { //::cvReleaseBlobTrackAnalysis
+    
+        typedef void ( *_cvReleaseBlobTrackAnalysis_function_type )( CvBlobTrackAnalysis & );
+        
+        bp::def( 
+            "_cvReleaseBlobTrackAnalysis"
+            , _cvReleaseBlobTrackAnalysis_function_type( &cvReleaseBlobTrackAnalysis_a12d2664ae934ee86c335d11a3f523ed )
+            , ( bp::arg("pBTPP") )
+            , "\nWrapped function:"
+    "\n    cvReleaseBlobTrackAnalysis"
+    "\nArgument 'pBTPP':"\
+    "\n    C++ type: ::CvBlobTrackAnalysis * *"\
+    "\n    Python type: CvBlobTrackAnalysis" );
+    
+    }
+
     { //::cvReleaseBlobTrackGen
     
         typedef void ( *_cvReleaseBlobTrackGen_function_type )( CvBlobTrackGen & );
@@ -223,6 +261,22 @@ BOOST_PYTHON_MODULE(cvaux_ext){
     
     }
 
+    { //::cvReleaseBlobTrackPostProc
+    
+        typedef void ( *_cvReleaseBlobTrackPostProc_function_type )( CvBlobTrackPostProc & );
+        
+        bp::def( 
+            "_cvReleaseBlobTrackPostProc"
+            , _cvReleaseBlobTrackPostProc_function_type( &cvReleaseBlobTrackPostProc_bf7c967b75549abed11dd54f7b462c80 )
+            , ( bp::arg("pBTPP") )
+            , "\nWrapped function:"
+    "\n    cvReleaseBlobTrackPostProc"
+    "\nArgument 'pBTPP':"\
+    "\n    C++ type: ::CvBlobTrackPostProc * *"\
+    "\n    Python type: CvBlobTrackPostProc" );
+    
+    }
+
     { //::cvReleaseBlobTracker
     
         typedef void ( *_cvReleaseBlobTracker_function_type )( CvBlobTracker & );
@@ -236,6 +290,22 @@ BOOST_PYTHON_MODULE(cvaux_ext){
     "\nArgument 'ppT':"\
     "\n    C++ type: ::CvBlobTracker * *"\
     "\n    Python type: CvBlobTracker" );
+    
+    }
+
+    { //::cvReleaseBlobTrackerAuto
+    
+        typedef void ( *_cvReleaseBlobTrackerAuto_function_type )( CvBlobTrackerAuto & );
+        
+        bp::def( 
+            "_cvReleaseBlobTrackerAuto"
+            , _cvReleaseBlobTrackerAuto_function_type( &cvReleaseBlobTrackerAuto_3215f93792aa9bb2403a182b21afad47 )
+            , ( bp::arg("ppT") )
+            , "\nWrapped function:"
+    "\n    cvReleaseBlobTrackerAuto"
+    "\nArgument 'ppT':"\
+    "\n    C++ type: ::CvBlobTrackerAuto * *"\
+    "\n    Python type: CvBlobTrackerAuto" );
     
     }
 
@@ -271,6 +341,22 @@ BOOST_PYTHON_MODULE(cvaux_ext){
     
     }
 
+    { //::cvReleaseFGDetector
+    
+        typedef void ( *_cvReleaseFGDetector_function_type )( CvFGDetector & );
+        
+        bp::def( 
+            "_cvReleaseFGDetector"
+            , _cvReleaseFGDetector_function_type( &cvReleaseFGDetector_b0715ecfb808a5aea097d40b54b6c8a9 )
+            , ( bp::arg("ppT") )
+            , "\nWrapped function:"
+    "\n    cvReleaseFGDetector"
+    "\nArgument 'ppT':"\
+    "\n    C++ type: ::CvFGDetector * *"\
+    "\n    Python type: CvFGDetector" );
+    
+    }
+
     { //::cvSegmentImage
     
         typedef boost::python::object ( *segmentImage_function_type )( ::cv::Mat &,::cv::Mat &,double,double,::cv::MemStorage & );
@@ -302,6 +388,8 @@ BOOST_PYTHON_MODULE(cvaux_ext){
     register_classes_4();
 
     register_classes_5();
+
+    register_classes_6();
 
     register_free_functions();
 }

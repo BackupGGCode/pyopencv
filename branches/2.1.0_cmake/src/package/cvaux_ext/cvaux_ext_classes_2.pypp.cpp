@@ -13,6 +13,293 @@ namespace bp = boost::python;
 
 static CvBlobSeq * get_CvBlobTrack_pBlobSeq( CvBlobTrack const & inst ) { return inst.pBlobSeq; }
 
+struct CvBlobTrackAnalysis_wrapper : CvBlobTrackAnalysis, bp::wrapper< CvBlobTrackAnalysis > {
+
+    CvBlobTrackAnalysis_wrapper( )
+    : CvBlobTrackAnalysis( )
+      , bp::wrapper< CvBlobTrackAnalysis >(){
+        // null constructor
+    
+    }
+
+    virtual void AddBlob( ::CvBlob * pBlob ){
+        bp::override func_AddBlob = this->get_override( "AddBlob" );
+        func_AddBlob( boost::python::ptr(pBlob) );
+    }
+
+    virtual float GetState( int BlobID ){
+        bp::override func_GetState = this->get_override( "GetState" );
+        return func_GetState( BlobID );
+    }
+
+    virtual char const * GetStateDesc( int arg0 ) {
+        if( bp::override func_GetStateDesc = this->get_override( "GetStateDesc" ) )
+            return func_GetStateDesc( arg0 );
+        else{
+            return this->CvBlobTrackAnalysis::GetStateDesc( arg0 );
+        }
+    }
+    
+    char const * default_GetStateDesc( int arg0 ) {
+        return CvBlobTrackAnalysis::GetStateDesc( arg0 );
+    }
+
+    virtual void Process( ::IplImage * pImg, ::IplImage * pFG ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_Process = this->get_override( "Process" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_Process.ptr(), pImg, pFG );
+        }
+        else{
+              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Process");
+              boost::python::throw_error_already_set();
+        }
+    }
+    
+    static void default_Process( ::CvBlobTrackAnalysis & inst, ::cv::Mat & pImg, ::cv::Mat & pFG ){
+        if( dynamic_cast< CvBlobTrackAnalysis_wrapper * >( boost::addressof( inst ) ) ){
+              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Process");
+              boost::python::throw_error_already_set();
+        }
+        else{
+            inst.Process(get_IplImage_ptr(pImg), get_IplImage_ptr(pFG));
+        }
+    }
+
+    virtual void Release(  ){
+        bp::override func_Release = this->get_override( "Release" );
+        func_Release(  );
+    }
+
+    virtual void SetFileName( char * arg0 ) {
+        if( bp::override func_SetFileName = this->get_override( "SetFileName" ) )
+            func_SetFileName( arg0 );
+        else{
+            this->CvBlobTrackAnalysis::SetFileName( arg0 );
+        }
+    }
+    
+    void default_SetFileName( char * arg0 ) {
+        CvBlobTrackAnalysis::SetFileName( arg0 );
+    }
+
+    virtual void LoadState( ::CvFileStorage * arg0, ::CvFileNode * arg1 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_LoadState = this->get_override( "LoadState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_LoadState.ptr(), arg0, arg1 );
+        }
+        else{
+            CvVSModule::LoadState( boost::python::ptr(arg0), boost::python::ptr(arg1) );
+        }
+    }
+    
+    static void default_LoadState( ::CvVSModule & inst, ::cv::FileStorage & arg0, ::cv::FileNode & arg1 ){
+        if( dynamic_cast< CvBlobTrackAnalysis_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::LoadState(arg0.fs, *(arg1));
+        }
+        else{
+            inst.LoadState(arg0.fs, *(arg1));
+        }
+    }
+
+    virtual void ParamUpdate(  ) {
+        if( bp::override func_ParamUpdate = this->get_override( "ParamUpdate" ) )
+            func_ParamUpdate(  );
+        else{
+            this->CvVSModule::ParamUpdate(  );
+        }
+    }
+    
+    void default_ParamUpdate(  ) {
+        CvVSModule::ParamUpdate( );
+    }
+
+    virtual void SaveState( ::CvFileStorage * arg0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_SaveState = this->get_override( "SaveState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_SaveState.ptr(), arg0 );
+        }
+        else{
+            CvVSModule::SaveState( boost::python::ptr(arg0) );
+        }
+    }
+    
+    static void default_SaveState( ::CvVSModule & inst, ::cv::FileStorage & arg0 ){
+        if( dynamic_cast< CvBlobTrackAnalysis_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::SaveState(arg0.fs);
+        }
+        else{
+            inst.SaveState(arg0.fs);
+        }
+    }
+
+};
+
+struct CvBlobTrackAnalysisHeight_wrapper : CvBlobTrackAnalysisHeight, bp::wrapper< CvBlobTrackAnalysisHeight > {
+
+    CvBlobTrackAnalysisHeight_wrapper()
+    : CvBlobTrackAnalysisHeight()
+      , bp::wrapper< CvBlobTrackAnalysisHeight >(){
+        // null constructor
+        
+    }
+
+    virtual double GetHeight( ::CvBlob * pB ){
+        bp::override func_GetHeight = this->get_override( "GetHeight" );
+        return func_GetHeight( boost::python::ptr(pB) );
+    }
+
+    virtual void AddBlob( ::CvBlob * pBlob ){
+        bp::override func_AddBlob = this->get_override( "AddBlob" );
+        func_AddBlob( boost::python::ptr(pBlob) );
+    }
+
+    virtual float GetState( int BlobID ){
+        bp::override func_GetState = this->get_override( "GetState" );
+        return func_GetState( BlobID );
+    }
+
+    virtual char const * GetStateDesc( int arg0 ) {
+        if( bp::override func_GetStateDesc = this->get_override( "GetStateDesc" ) )
+            return func_GetStateDesc( arg0 );
+        else{
+            return this->CvBlobTrackAnalysis::GetStateDesc( arg0 );
+        }
+    }
+    
+    char const * default_GetStateDesc( int arg0 ) {
+        return CvBlobTrackAnalysis::GetStateDesc( arg0 );
+    }
+
+    virtual void LoadState( ::CvFileStorage * arg0, ::CvFileNode * arg1 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_LoadState = this->get_override( "LoadState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_LoadState.ptr(), arg0, arg1 );
+        }
+        else{
+            CvVSModule::LoadState( boost::python::ptr(arg0), boost::python::ptr(arg1) );
+        }
+    }
+    
+    static void default_LoadState( ::CvVSModule & inst, ::cv::FileStorage & arg0, ::cv::FileNode & arg1 ){
+        if( dynamic_cast< CvBlobTrackAnalysisHeight_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::LoadState(arg0.fs, *(arg1));
+        }
+        else{
+            inst.LoadState(arg0.fs, *(arg1));
+        }
+    }
+
+    virtual void ParamUpdate(  ) {
+        if( bp::override func_ParamUpdate = this->get_override( "ParamUpdate" ) )
+            func_ParamUpdate(  );
+        else{
+            this->CvVSModule::ParamUpdate(  );
+        }
+    }
+    
+    void default_ParamUpdate(  ) {
+        CvVSModule::ParamUpdate( );
+    }
+
+    virtual void Process( ::IplImage * pImg, ::IplImage * pFG ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_Process = this->get_override( "Process" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_Process.ptr(), pImg, pFG );
+        }
+        else{
+              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Process");
+              boost::python::throw_error_already_set();
+        }
+    }
+    
+    static void default_Process( ::CvBlobTrackAnalysis & inst, ::cv::Mat & pImg, ::cv::Mat & pFG ){
+        if( dynamic_cast< CvBlobTrackAnalysisHeight_wrapper * >( boost::addressof( inst ) ) ){
+              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Process");
+              boost::python::throw_error_already_set();
+        }
+        else{
+            inst.Process(get_IplImage_ptr(pImg), get_IplImage_ptr(pFG));
+        }
+    }
+
+    virtual void Release(  ){
+        bp::override func_Release = this->get_override( "Release" );
+        func_Release(  );
+    }
+
+    virtual void SaveState( ::CvFileStorage * arg0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_SaveState = this->get_override( "SaveState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_SaveState.ptr(), arg0 );
+        }
+        else{
+            CvVSModule::SaveState( boost::python::ptr(arg0) );
+        }
+    }
+    
+    static void default_SaveState( ::CvVSModule & inst, ::cv::FileStorage & arg0 ){
+        if( dynamic_cast< CvBlobTrackAnalysisHeight_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::SaveState(arg0.fs);
+        }
+        else{
+            inst.SaveState(arg0.fs);
+        }
+    }
+
+    virtual void SetFileName( char * arg0 ) {
+        if( bp::override func_SetFileName = this->get_override( "SetFileName" ) )
+            func_SetFileName( arg0 );
+        else{
+            this->CvBlobTrackAnalysis::SetFileName( arg0 );
+        }
+    }
+    
+    void default_SetFileName( char * arg0 ) {
+        CvBlobTrackAnalysis::SetFileName( arg0 );
+    }
+
+};
+
+struct CvBlobTrackAnalysisOne_wrapper : CvBlobTrackAnalysisOne, bp::wrapper< CvBlobTrackAnalysisOne > {
+
+    CvBlobTrackAnalysisOne_wrapper()
+    : CvBlobTrackAnalysisOne()
+      , bp::wrapper< CvBlobTrackAnalysisOne >(){
+        // null constructor
+        
+    }
+
+    virtual int Process( ::CvBlob * pBlob, ::IplImage * pImg, ::IplImage * pFG ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_Process = this->get_override( "Process" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_Process.ptr(), pBlob, pImg, pFG );
+            return bpl::extract< int >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Process");
+              boost::python::throw_error_already_set();
+        }
+    }
+    
+    static boost::python::object default_Process( ::CvBlobTrackAnalysisOne & inst, ::CvBlob * pBlob, ::cv::Mat & pImg, ::cv::Mat & pFG ){
+        int result;
+        if( dynamic_cast< CvBlobTrackAnalysisOne_wrapper * >( boost::addressof( inst ) ) ){
+              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Process");
+              boost::python::throw_error_already_set();
+        }
+        else{
+            result = inst.Process(pBlob, get_IplImage_ptr(pImg), get_IplImage_ptr(pFG));
+        }
+        return bp::object( result );
+    }
+
+    virtual void Release(  ){
+        bp::override func_Release = this->get_override( "Release" );
+        func_Release(  );
+    }
+
+};
+
 struct CvBlobTrackGen_wrapper : CvBlobTrackGen, bp::wrapper< CvBlobTrackGen > {
 
     CvBlobTrackGen_wrapper( )
@@ -101,6 +388,251 @@ struct CvBlobTrackGen_wrapper : CvBlobTrackGen, bp::wrapper< CvBlobTrackGen > {
     
     static void default_SaveState( ::CvVSModule & inst, ::cv::FileStorage & arg0 ){
         if( dynamic_cast< CvBlobTrackGen_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::SaveState(arg0.fs);
+        }
+        else{
+            inst.SaveState(arg0.fs);
+        }
+    }
+
+};
+
+struct CvBlobTrackPostProc_wrapper : CvBlobTrackPostProc, bp::wrapper< CvBlobTrackPostProc > {
+
+    CvBlobTrackPostProc_wrapper( )
+    : CvBlobTrackPostProc( )
+      , bp::wrapper< CvBlobTrackPostProc >(){
+        // null constructor
+    
+    }
+
+    virtual void AddBlob( ::CvBlob * pBlob ){
+        bp::override func_AddBlob = this->get_override( "AddBlob" );
+        func_AddBlob( boost::python::ptr(pBlob) );
+    }
+
+    virtual ::CvBlob * GetBlob( int index ){
+        bp::override func_GetBlob = this->get_override( "GetBlob" );
+        return func_GetBlob( index );
+    }
+
+    virtual ::CvBlob * GetBlobByID( int BlobID ) {
+        if( bp::override func_GetBlobByID = this->get_override( "GetBlobByID" ) )
+            return func_GetBlobByID( BlobID );
+        else{
+            return this->CvBlobTrackPostProc::GetBlobByID( BlobID );
+        }
+    }
+    
+    ::CvBlob * default_GetBlobByID( int BlobID ) {
+        return CvBlobTrackPostProc::GetBlobByID( BlobID );
+    }
+
+    virtual int GetBlobNum(  ){
+        bp::override func_GetBlobNum = this->get_override( "GetBlobNum" );
+        return func_GetBlobNum(  );
+    }
+
+    virtual void Process(  ){
+        bp::override func_Process = this->get_override( "Process" );
+        func_Process(  );
+    }
+
+    virtual void Release(  ){
+        bp::override func_Release = this->get_override( "Release" );
+        func_Release(  );
+    }
+
+    virtual void LoadState( ::CvFileStorage * arg0, ::CvFileNode * arg1 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_LoadState = this->get_override( "LoadState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_LoadState.ptr(), arg0, arg1 );
+        }
+        else{
+            CvVSModule::LoadState( boost::python::ptr(arg0), boost::python::ptr(arg1) );
+        }
+    }
+    
+    static void default_LoadState( ::CvVSModule & inst, ::cv::FileStorage & arg0, ::cv::FileNode & arg1 ){
+        if( dynamic_cast< CvBlobTrackPostProc_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::LoadState(arg0.fs, *(arg1));
+        }
+        else{
+            inst.LoadState(arg0.fs, *(arg1));
+        }
+    }
+
+    virtual void ParamUpdate(  ) {
+        if( bp::override func_ParamUpdate = this->get_override( "ParamUpdate" ) )
+            func_ParamUpdate(  );
+        else{
+            this->CvVSModule::ParamUpdate(  );
+        }
+    }
+    
+    void default_ParamUpdate(  ) {
+        CvVSModule::ParamUpdate( );
+    }
+
+    virtual void SaveState( ::CvFileStorage * arg0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_SaveState = this->get_override( "SaveState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_SaveState.ptr(), arg0 );
+        }
+        else{
+            CvVSModule::SaveState( boost::python::ptr(arg0) );
+        }
+    }
+    
+    static void default_SaveState( ::CvVSModule & inst, ::cv::FileStorage & arg0 ){
+        if( dynamic_cast< CvBlobTrackPostProc_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::SaveState(arg0.fs);
+        }
+        else{
+            inst.SaveState(arg0.fs);
+        }
+    }
+
+};
+
+struct CvBlobTrackPostProcOne_wrapper : CvBlobTrackPostProcOne, bp::wrapper< CvBlobTrackPostProcOne > {
+
+    CvBlobTrackPostProcOne_wrapper( )
+    : CvBlobTrackPostProcOne( )
+      , bp::wrapper< CvBlobTrackPostProcOne >(){
+        // null constructor
+    
+    }
+
+    virtual ::CvBlob * Process( ::CvBlob * pBlob ){
+        bp::override func_Process = this->get_override( "Process" );
+        return func_Process( boost::python::ptr(pBlob) );
+    }
+
+    virtual void Release(  ){
+        bp::override func_Release = this->get_override( "Release" );
+        func_Release(  );
+    }
+
+    virtual void LoadState( ::CvFileStorage * arg0, ::CvFileNode * arg1 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_LoadState = this->get_override( "LoadState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_LoadState.ptr(), arg0, arg1 );
+        }
+        else{
+            CvVSModule::LoadState( boost::python::ptr(arg0), boost::python::ptr(arg1) );
+        }
+    }
+    
+    static void default_LoadState( ::CvVSModule & inst, ::cv::FileStorage & arg0, ::cv::FileNode & arg1 ){
+        if( dynamic_cast< CvBlobTrackPostProcOne_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::LoadState(arg0.fs, *(arg1));
+        }
+        else{
+            inst.LoadState(arg0.fs, *(arg1));
+        }
+    }
+
+    virtual void ParamUpdate(  ) {
+        if( bp::override func_ParamUpdate = this->get_override( "ParamUpdate" ) )
+            func_ParamUpdate(  );
+        else{
+            this->CvVSModule::ParamUpdate(  );
+        }
+    }
+    
+    void default_ParamUpdate(  ) {
+        CvVSModule::ParamUpdate( );
+    }
+
+    virtual void SaveState( ::CvFileStorage * arg0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_SaveState = this->get_override( "SaveState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_SaveState.ptr(), arg0 );
+        }
+        else{
+            CvVSModule::SaveState( boost::python::ptr(arg0) );
+        }
+    }
+    
+    static void default_SaveState( ::CvVSModule & inst, ::cv::FileStorage & arg0 ){
+        if( dynamic_cast< CvBlobTrackPostProcOne_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::SaveState(arg0.fs);
+        }
+        else{
+            inst.SaveState(arg0.fs);
+        }
+    }
+
+};
+
+struct CvBlobTrackPredictor_wrapper : CvBlobTrackPredictor, bp::wrapper< CvBlobTrackPredictor > {
+
+    CvBlobTrackPredictor_wrapper( )
+    : CvBlobTrackPredictor( )
+      , bp::wrapper< CvBlobTrackPredictor >(){
+        // null constructor
+    
+    }
+
+    virtual ::CvBlob * Predict(  ){
+        bp::override func_Predict = this->get_override( "Predict" );
+        return func_Predict(  );
+    }
+
+    virtual void Release(  ){
+        bp::override func_Release = this->get_override( "Release" );
+        func_Release(  );
+    }
+
+    virtual void Update( ::CvBlob * pBlob ){
+        bp::override func_Update = this->get_override( "Update" );
+        func_Update( boost::python::ptr(pBlob) );
+    }
+
+    virtual void LoadState( ::CvFileStorage * arg0, ::CvFileNode * arg1 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_LoadState = this->get_override( "LoadState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_LoadState.ptr(), arg0, arg1 );
+        }
+        else{
+            CvVSModule::LoadState( boost::python::ptr(arg0), boost::python::ptr(arg1) );
+        }
+    }
+    
+    static void default_LoadState( ::CvVSModule & inst, ::cv::FileStorage & arg0, ::cv::FileNode & arg1 ){
+        if( dynamic_cast< CvBlobTrackPredictor_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::LoadState(arg0.fs, *(arg1));
+        }
+        else{
+            inst.LoadState(arg0.fs, *(arg1));
+        }
+    }
+
+    virtual void ParamUpdate(  ) {
+        if( bp::override func_ParamUpdate = this->get_override( "ParamUpdate" ) )
+            func_ParamUpdate(  );
+        else{
+            this->CvVSModule::ParamUpdate(  );
+        }
+    }
+    
+    void default_ParamUpdate(  ) {
+        CvVSModule::ParamUpdate( );
+    }
+
+    virtual void SaveState( ::CvFileStorage * arg0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_SaveState = this->get_override( "SaveState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_SaveState.ptr(), arg0 );
+        }
+        else{
+            CvVSModule::SaveState( boost::python::ptr(arg0) );
+        }
+    }
+    
+    static void default_SaveState( ::CvVSModule & inst, ::cv::FileStorage & arg0 ){
+        if( dynamic_cast< CvBlobTrackPredictor_wrapper * >( boost::addressof( inst ) ) ){
             inst.::CvVSModule::SaveState(arg0.fs);
         }
         else{
@@ -212,514 +744,6 @@ struct CvBlobTrackSeq_wrapper : CvBlobTrackSeq, bp::wrapper< CvBlobTrackSeq > {
 
 };
 
-struct CvBlobTracker_wrapper : CvBlobTracker, bp::wrapper< CvBlobTracker > {
-
-    CvBlobTracker_wrapper( )
-    : CvBlobTracker( )
-      , bp::wrapper< CvBlobTracker >(){
-        // null constructor
-    
-    }
-
-    virtual CvBlob * AddBlob( ::CvBlob * pBlob, ::IplImage * pImg, ::IplImage * pImgFG=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_AddBlob = this->get_override( "AddBlob" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_AddBlob.ptr(), pBlob, pImg, pImgFG );
-            return bpl::extract< CvBlob * >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
-        else{
-              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :AddBlob");
-              boost::python::throw_error_already_set();
-        }
-    }
-    
-    static boost::python::object default_AddBlob( ::CvBlobTracker & inst, ::CvBlob * pBlob, ::cv::Mat & pImg, ::cv::Mat pImgFG=cv::Mat() ){
-        CvBlob * result;
-        if( dynamic_cast< CvBlobTracker_wrapper * >( boost::addressof( inst ) ) ){
-              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :AddBlob");
-              boost::python::throw_error_already_set();
-        }
-        else{
-            result = inst.AddBlob(pBlob, get_IplImage_ptr(pImg), get_IplImage_ptr(pImgFG));
-        }
-        typedef bp::return_internal_reference< > call_policies_t;
-        return bp::object( pyplusplus::call_policies::make_object< call_policies_t, CvBlob * >( result ) );
-    }
-
-    virtual void DelBlob( int BlobIndex ){
-        bp::override func_DelBlob = this->get_override( "DelBlob" );
-        func_DelBlob( BlobIndex );
-    }
-
-    virtual void DelBlobByID( int BlobID ) {
-        if( bp::override func_DelBlobByID = this->get_override( "DelBlobByID" ) )
-            func_DelBlobByID( BlobID );
-        else{
-            this->CvBlobTracker::DelBlobByID( BlobID );
-        }
-    }
-    
-    void default_DelBlobByID( int BlobID ) {
-        CvBlobTracker::DelBlobByID( BlobID );
-    }
-
-    virtual ::CvBlob * GetBlob( int BlobIndex ){
-        bp::override func_GetBlob = this->get_override( "GetBlob" );
-        return func_GetBlob( BlobIndex );
-    }
-
-    virtual ::CvBlob * GetBlobByID( int BlobID ) {
-        if( bp::override func_GetBlobByID = this->get_override( "GetBlobByID" ) )
-            return func_GetBlobByID( BlobID );
-        else{
-            return this->CvBlobTracker::GetBlobByID( BlobID );
-        }
-    }
-    
-    ::CvBlob * default_GetBlobByID( int BlobID ) {
-        return CvBlobTracker::GetBlobByID( BlobID );
-    }
-
-    virtual ::CvBlob * GetBlobHyp( int BlobIndex, int arg1 ) {
-        if( bp::override func_GetBlobHyp = this->get_override( "GetBlobHyp" ) )
-            return func_GetBlobHyp( BlobIndex, arg1 );
-        else{
-            return this->CvBlobTracker::GetBlobHyp( BlobIndex, arg1 );
-        }
-    }
-    
-    ::CvBlob * default_GetBlobHyp( int BlobIndex, int arg1 ) {
-        return CvBlobTracker::GetBlobHyp( BlobIndex, arg1 );
-    }
-
-    virtual int GetBlobHypNum( int arg0 ) {
-        if( bp::override func_GetBlobHypNum = this->get_override( "GetBlobHypNum" ) )
-            return func_GetBlobHypNum( arg0 );
-        else{
-            return this->CvBlobTracker::GetBlobHypNum( arg0 );
-        }
-    }
-    
-    int default_GetBlobHypNum( int arg0 ) {
-        return CvBlobTracker::GetBlobHypNum( arg0 );
-    }
-
-    virtual int GetBlobIndexByID( int BlobID ) {
-        if( bp::override func_GetBlobIndexByID = this->get_override( "GetBlobIndexByID" ) )
-            return func_GetBlobIndexByID( BlobID );
-        else{
-            return this->CvBlobTracker::GetBlobIndexByID( BlobID );
-        }
-    }
-    
-    int default_GetBlobIndexByID( int BlobID ) {
-        return CvBlobTracker::GetBlobIndexByID( BlobID );
-    }
-
-    virtual int GetBlobNum(  ){
-        bp::override func_GetBlobNum = this->get_override( "GetBlobNum" );
-        return func_GetBlobNum(  );
-    }
-
-    virtual double GetConfidence( int arg0, ::CvBlob * arg1, ::IplImage * arg2, ::IplImage * arg3=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_GetConfidence = this->get_override( "GetConfidence" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_GetConfidence.ptr(), arg0, arg1, arg2, arg3 );
-            return bpl::extract< double >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
-        else{
-            return CvBlobTracker::GetConfidence( arg0, boost::python::ptr(arg1), boost::python::ptr(arg2), boost::python::ptr(arg3) );
-        }
-    }
-    
-    static boost::python::object default_GetConfidence( ::CvBlobTracker & inst, int arg0, ::CvBlob * arg1, ::cv::Mat & arg2, ::cv::Mat arg3=cv::Mat() ){
-        double result;
-        if( dynamic_cast< CvBlobTracker_wrapper * >( boost::addressof( inst ) ) ){
-            result = inst.::CvBlobTracker::GetConfidence(arg0, arg1, get_IplImage_ptr(arg2), get_IplImage_ptr(arg3));
-        }
-        else{
-            result = inst.GetConfidence(arg0, arg1, get_IplImage_ptr(arg2), get_IplImage_ptr(arg3));
-        }
-        return bp::object( result );
-    }
-
-    virtual double GetConfidenceList( ::CvBlobSeq * pBlobList, ::IplImage * pImg, ::IplImage * pImgFG=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_GetConfidenceList = this->get_override( "GetConfidenceList" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_GetConfidenceList.ptr(), pBlobList, pImg, pImgFG );
-            return bpl::extract< double >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
-        else{
-            return CvBlobTracker::GetConfidenceList( boost::python::ptr(pBlobList), boost::python::ptr(pImg), boost::python::ptr(pImgFG) );
-        }
-    }
-    
-    static boost::python::object default_GetConfidenceList( ::CvBlobTracker & inst, ::CvBlobSeq * pBlobList, ::cv::Mat & pImg, ::cv::Mat pImgFG=cv::Mat() ){
-        double result;
-        if( dynamic_cast< CvBlobTracker_wrapper * >( boost::addressof( inst ) ) ){
-            result = inst.::CvBlobTracker::GetConfidenceList(pBlobList, get_IplImage_ptr(pImg), get_IplImage_ptr(pImgFG));
-        }
-        else{
-            result = inst.GetConfidenceList(pBlobList, get_IplImage_ptr(pImg), get_IplImage_ptr(pImgFG));
-        }
-        return bp::object( result );
-    }
-
-    virtual void Process( ::IplImage * pImg, ::IplImage * pImgFG=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_Process = this->get_override( "Process" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_Process.ptr(), pImg, pImgFG );
-        }
-        else{
-              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Process");
-              boost::python::throw_error_already_set();
-        }
-    }
-    
-    static void default_Process( ::CvBlobTracker & inst, ::cv::Mat & pImg, ::cv::Mat pImgFG=cv::Mat() ){
-        if( dynamic_cast< CvBlobTracker_wrapper * >( boost::addressof( inst ) ) ){
-              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Process");
-              boost::python::throw_error_already_set();
-        }
-        else{
-            inst.Process(get_IplImage_ptr(pImg), get_IplImage_ptr(pImgFG));
-        }
-    }
-
-    virtual void ProcessBlob( int BlobIndex, ::CvBlob * pBlob, ::IplImage * arg2, ::IplImage * arg3=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_ProcessBlob = this->get_override( "ProcessBlob" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_ProcessBlob.ptr(), BlobIndex, pBlob, arg2, arg3 );
-        }
-        else{
-            CvBlobTracker::ProcessBlob( BlobIndex, boost::python::ptr(pBlob), boost::python::ptr(arg2), boost::python::ptr(arg3) );
-        }
-    }
-    
-    static void default_ProcessBlob( ::CvBlobTracker & inst, int BlobIndex, ::CvBlob * pBlob, ::cv::Mat & arg2, ::cv::Mat arg3=cv::Mat() ){
-        if( dynamic_cast< CvBlobTracker_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvBlobTracker::ProcessBlob(BlobIndex, pBlob, get_IplImage_ptr(arg2), get_IplImage_ptr(arg3));
-        }
-        else{
-            inst.ProcessBlob(BlobIndex, pBlob, get_IplImage_ptr(arg2), get_IplImage_ptr(arg3));
-        }
-    }
-
-    virtual void Release(  ){
-        bp::override func_Release = this->get_override( "Release" );
-        func_Release(  );
-    }
-
-    virtual void SetBlob( int arg0, ::CvBlob * arg1 ) {
-        if( bp::override func_SetBlob = this->get_override( "SetBlob" ) )
-            func_SetBlob( arg0, boost::python::ptr(arg1) );
-        else{
-            this->CvBlobTracker::SetBlob( arg0, boost::python::ptr(arg1) );
-        }
-    }
-    
-    void default_SetBlob( int arg0, ::CvBlob * arg1 ) {
-        CvBlobTracker::SetBlob( arg0, boost::python::ptr(arg1) );
-    }
-
-    virtual void SetBlobByID( int BlobID, ::CvBlob * pBlob ) {
-        if( bp::override func_SetBlobByID = this->get_override( "SetBlobByID" ) )
-            func_SetBlobByID( BlobID, boost::python::ptr(pBlob) );
-        else{
-            this->CvBlobTracker::SetBlobByID( BlobID, boost::python::ptr(pBlob) );
-        }
-    }
-    
-    void default_SetBlobByID( int BlobID, ::CvBlob * pBlob ) {
-        CvBlobTracker::SetBlobByID( BlobID, boost::python::ptr(pBlob) );
-    }
-
-    virtual void SetBlobHyp( int arg0, ::CvBlob * arg1 ) {
-        if( bp::override func_SetBlobHyp = this->get_override( "SetBlobHyp" ) )
-            func_SetBlobHyp( arg0, boost::python::ptr(arg1) );
-        else{
-            this->CvBlobTracker::SetBlobHyp( arg0, boost::python::ptr(arg1) );
-        }
-    }
-    
-    void default_SetBlobHyp( int arg0, ::CvBlob * arg1 ) {
-        CvBlobTracker::SetBlobHyp( arg0, boost::python::ptr(arg1) );
-    }
-
-    virtual void Update( ::IplImage * pImg, ::IplImage * pImgFG=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_Update = this->get_override( "Update" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_Update.ptr(), pImg, pImgFG );
-        }
-        else{
-            CvBlobTracker::Update( boost::python::ptr(pImg), boost::python::ptr(pImgFG) );
-        }
-    }
-    
-    static void default_Update( ::CvBlobTracker & inst, ::cv::Mat & pImg, ::cv::Mat pImgFG=cv::Mat() ){
-        if( dynamic_cast< CvBlobTracker_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvBlobTracker::Update(get_IplImage_ptr(pImg), get_IplImage_ptr(pImgFG));
-        }
-        else{
-            inst.Update(get_IplImage_ptr(pImg), get_IplImage_ptr(pImgFG));
-        }
-    }
-
-    virtual void UpdateBlob( int arg0, ::CvBlob * arg1, ::IplImage * arg2, ::IplImage * arg3=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_UpdateBlob = this->get_override( "UpdateBlob" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_UpdateBlob.ptr(), arg0, arg1, arg2, arg3 );
-        }
-        else{
-            CvBlobTracker::UpdateBlob( arg0, boost::python::ptr(arg1), boost::python::ptr(arg2), boost::python::ptr(arg3) );
-        }
-    }
-    
-    static void default_UpdateBlob( ::CvBlobTracker & inst, int arg0, ::CvBlob * arg1, ::cv::Mat & arg2, ::cv::Mat arg3=cv::Mat() ){
-        if( dynamic_cast< CvBlobTracker_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvBlobTracker::UpdateBlob(arg0, arg1, get_IplImage_ptr(arg2), get_IplImage_ptr(arg3));
-        }
-        else{
-            inst.UpdateBlob(arg0, arg1, get_IplImage_ptr(arg2), get_IplImage_ptr(arg3));
-        }
-    }
-
-    virtual void LoadState( ::CvFileStorage * arg0, ::CvFileNode * arg1 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_LoadState = this->get_override( "LoadState" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_LoadState.ptr(), arg0, arg1 );
-        }
-        else{
-            CvVSModule::LoadState( boost::python::ptr(arg0), boost::python::ptr(arg1) );
-        }
-    }
-    
-    static void default_LoadState( ::CvVSModule & inst, ::cv::FileStorage & arg0, ::cv::FileNode & arg1 ){
-        if( dynamic_cast< CvBlobTracker_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvVSModule::LoadState(arg0.fs, *(arg1));
-        }
-        else{
-            inst.LoadState(arg0.fs, *(arg1));
-        }
-    }
-
-    virtual void ParamUpdate(  ) {
-        if( bp::override func_ParamUpdate = this->get_override( "ParamUpdate" ) )
-            func_ParamUpdate(  );
-        else{
-            this->CvVSModule::ParamUpdate(  );
-        }
-    }
-    
-    void default_ParamUpdate(  ) {
-        CvVSModule::ParamUpdate( );
-    }
-
-    virtual void SaveState( ::CvFileStorage * arg0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_SaveState = this->get_override( "SaveState" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_SaveState.ptr(), arg0 );
-        }
-        else{
-            CvVSModule::SaveState( boost::python::ptr(arg0) );
-        }
-    }
-    
-    static void default_SaveState( ::CvVSModule & inst, ::cv::FileStorage & arg0 ){
-        if( dynamic_cast< CvBlobTracker_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvVSModule::SaveState(arg0.fs);
-        }
-        else{
-            inst.SaveState(arg0.fs);
-        }
-    }
-
-};
-
-struct CvBlobTrackerOne_wrapper : CvBlobTrackerOne, bp::wrapper< CvBlobTrackerOne > {
-
-    CvBlobTrackerOne_wrapper()
-    : CvBlobTrackerOne()
-      , bp::wrapper< CvBlobTrackerOne >(){
-        // null constructor
-        
-    }
-
-    virtual double GetConfidence( ::CvBlob * arg0, ::IplImage * arg1, ::IplImage * arg2=0, ::IplImage * arg3=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_GetConfidence = this->get_override( "GetConfidence" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_GetConfidence.ptr(), arg0, arg1, arg2, arg3 );
-            return bpl::extract< double >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
-        else{
-            return CvBlobTrackerOne::GetConfidence( boost::python::ptr(arg0), boost::python::ptr(arg1), boost::python::ptr(arg2), boost::python::ptr(arg3) );
-        }
-    }
-    
-    static boost::python::object default_GetConfidence( ::CvBlobTrackerOne & inst, ::CvBlob * arg0, ::cv::Mat & arg1, ::cv::Mat arg2=cv::Mat(), ::cv::Mat arg3=cv::Mat() ){
-        double result;
-        if( dynamic_cast< CvBlobTrackerOne_wrapper * >( boost::addressof( inst ) ) ){
-            result = inst.::CvBlobTrackerOne::GetConfidence(arg0, get_IplImage_ptr(arg1), get_IplImage_ptr(arg2), get_IplImage_ptr(arg3));
-        }
-        else{
-            result = inst.GetConfidence(arg0, get_IplImage_ptr(arg1), get_IplImage_ptr(arg2), get_IplImage_ptr(arg3));
-        }
-        return bp::object( result );
-    }
-
-    virtual void Init( ::CvBlob * pBlobInit, ::IplImage * pImg, ::IplImage * pImgFG=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_Init = this->get_override( "Init" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_Init.ptr(), pBlobInit, pImg, pImgFG );
-        }
-        else{
-              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Init");
-              boost::python::throw_error_already_set();
-        }
-    }
-    
-    static void default_Init( ::CvBlobTrackerOne & inst, ::CvBlob * pBlobInit, ::cv::Mat & pImg, ::cv::Mat pImgFG=cv::Mat() ){
-        if( dynamic_cast< CvBlobTrackerOne_wrapper * >( boost::addressof( inst ) ) ){
-              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Init");
-              boost::python::throw_error_already_set();
-        }
-        else{
-            inst.Init(pBlobInit, get_IplImage_ptr(pImg), get_IplImage_ptr(pImgFG));
-        }
-    }
-
-    virtual CvBlob * Process( ::CvBlob * pBlobPrev, ::IplImage * pImg, ::IplImage * pImgFG=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_Process = this->get_override( "Process" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_Process.ptr(), pBlobPrev, pImg, pImgFG );
-            return bpl::extract< CvBlob * >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
-        else{
-              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Process");
-              boost::python::throw_error_already_set();
-        }
-    }
-    
-    static boost::python::object default_Process( ::CvBlobTrackerOne & inst, ::CvBlob * pBlobPrev, ::cv::Mat & pImg, ::cv::Mat pImgFG=cv::Mat() ){
-        CvBlob * result;
-        if( dynamic_cast< CvBlobTrackerOne_wrapper * >( boost::addressof( inst ) ) ){
-              PyErr_SetString(PyExc_NotImplementedError, "Attempted calling Pure Virtual function that is not implemented :Process");
-              boost::python::throw_error_already_set();
-        }
-        else{
-            result = inst.Process(pBlobPrev, get_IplImage_ptr(pImg), get_IplImage_ptr(pImgFG));
-        }
-        typedef bp::return_internal_reference< > call_policies_t;
-        return bp::object( pyplusplus::call_policies::make_object< call_policies_t, CvBlob * >( result ) );
-    }
-
-    virtual void Release(  ){
-        bp::override func_Release = this->get_override( "Release" );
-        func_Release(  );
-    }
-
-    virtual void SetCollision( int arg0 ) {
-        if( bp::override func_SetCollision = this->get_override( "SetCollision" ) )
-            func_SetCollision( arg0 );
-        else{
-            this->CvBlobTrackerOne::SetCollision( arg0 );
-        }
-    }
-    
-    void default_SetCollision( int arg0 ) {
-        CvBlobTrackerOne::SetCollision( arg0 );
-    }
-
-    virtual void SkipProcess( ::CvBlob * arg0, ::IplImage * arg1, ::IplImage * arg2=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_SkipProcess = this->get_override( "SkipProcess" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_SkipProcess.ptr(), arg0, arg1, arg2 );
-        }
-        else{
-            CvBlobTrackerOne::SkipProcess( boost::python::ptr(arg0), boost::python::ptr(arg1), boost::python::ptr(arg2) );
-        }
-    }
-    
-    static void default_SkipProcess( ::CvBlobTrackerOne & inst, ::CvBlob * arg0, ::cv::Mat & arg1, ::cv::Mat arg2=cv::Mat() ){
-        if( dynamic_cast< CvBlobTrackerOne_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvBlobTrackerOne::SkipProcess(arg0, get_IplImage_ptr(arg1), get_IplImage_ptr(arg2));
-        }
-        else{
-            inst.SkipProcess(arg0, get_IplImage_ptr(arg1), get_IplImage_ptr(arg2));
-        }
-    }
-
-    virtual void Update( ::CvBlob * arg0, ::IplImage * arg1, ::IplImage * arg2=0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_Update = this->get_override( "Update" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_Update.ptr(), arg0, arg1, arg2 );
-        }
-        else{
-            CvBlobTrackerOne::Update( boost::python::ptr(arg0), boost::python::ptr(arg1), boost::python::ptr(arg2) );
-        }
-    }
-    
-    static void default_Update( ::CvBlobTrackerOne & inst, ::CvBlob * arg0, ::cv::Mat & arg1, ::cv::Mat arg2=cv::Mat() ){
-        if( dynamic_cast< CvBlobTrackerOne_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvBlobTrackerOne::Update(arg0, get_IplImage_ptr(arg1), get_IplImage_ptr(arg2));
-        }
-        else{
-            inst.Update(arg0, get_IplImage_ptr(arg1), get_IplImage_ptr(arg2));
-        }
-    }
-
-    virtual void LoadState( ::CvFileStorage * arg0, ::CvFileNode * arg1 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_LoadState = this->get_override( "LoadState" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_LoadState.ptr(), arg0, arg1 );
-        }
-        else{
-            CvVSModule::LoadState( boost::python::ptr(arg0), boost::python::ptr(arg1) );
-        }
-    }
-    
-    static void default_LoadState( ::CvVSModule & inst, ::cv::FileStorage & arg0, ::cv::FileNode & arg1 ){
-        if( dynamic_cast< CvBlobTrackerOne_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvVSModule::LoadState(arg0.fs, *(arg1));
-        }
-        else{
-            inst.LoadState(arg0.fs, *(arg1));
-        }
-    }
-
-    virtual void ParamUpdate(  ) {
-        if( bp::override func_ParamUpdate = this->get_override( "ParamUpdate" ) )
-            func_ParamUpdate(  );
-        else{
-            this->CvVSModule::ParamUpdate(  );
-        }
-    }
-    
-    void default_ParamUpdate(  ) {
-        CvVSModule::ParamUpdate( );
-    }
-
-    virtual void SaveState( ::CvFileStorage * arg0 ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_SaveState = this->get_override( "SaveState" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_SaveState.ptr(), arg0 );
-        }
-        else{
-            CvVSModule::SaveState( boost::python::ptr(arg0) );
-        }
-    }
-    
-    static void default_SaveState( ::CvVSModule & inst, ::cv::FileStorage & arg0 ){
-        if( dynamic_cast< CvBlobTrackerOne_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvVSModule::SaveState(arg0.fs);
-        }
-        else{
-            inst.SaveState(arg0.fs);
-        }
-    }
-
-};
-
 void register_classes_2(){
 
     bp::class_< CvBlobTrack >( "CvBlobTrack" )    
@@ -727,6 +751,136 @@ void register_classes_2(){
         .def_readwrite( "StartFrame", &CvBlobTrack::StartFrame )    
         .def_readwrite( "TrackID", &CvBlobTrack::TrackID )    
         .add_property( "pBlobSeq", bp::make_function(&::get_CvBlobTrack_pBlobSeq, bp::return_internal_reference<>()) );
+
+    bp::class_< CvBlobTrackAnalysis_wrapper, bp::bases< CvVSModule >, boost::noncopyable >( "CvBlobTrackAnalysis", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrackAnalysis >() )    
+        .def( 
+            "AddBlob"
+            , bp::pure_virtual( (void ( CvBlobTrackAnalysis::* )( ::CvBlob * ) )(&::CvBlobTrackAnalysis::AddBlob) )
+            , ( bp::arg("pBlob") ) )    
+        .def( 
+            "GetState"
+            , bp::pure_virtual( (float ( CvBlobTrackAnalysis::* )( int ) )(&::CvBlobTrackAnalysis::GetState) )
+            , ( bp::arg("BlobID") ) )    
+        .def( 
+            "GetStateDesc"
+            , (char const * ( CvBlobTrackAnalysis::* )( int ) )(&::CvBlobTrackAnalysis::GetStateDesc)
+            , (char const * ( CvBlobTrackAnalysis_wrapper::* )( int ) )(&CvBlobTrackAnalysis_wrapper::default_GetStateDesc)
+            , ( bp::arg("arg0") ) )    
+        .def( 
+            "Process"
+            , (void (*)( CvBlobTrackAnalysis &,::cv::Mat &,::cv::Mat & ))( &CvBlobTrackAnalysis_wrapper::default_Process )
+            , ( bp::arg("inst"), bp::arg("pImg"), bp::arg("pFG") )
+            , "\nArgument 'pImg':"\
+    "\n    C++ type: ::IplImage *"\
+    "\n    Python type: Mat"\
+    "\nArgument 'pFG':"\
+    "\n    C++ type: ::IplImage *"\
+    "\n    Python type: Mat" )    
+        .def( 
+            "Release"
+            , bp::pure_virtual( (void ( CvBlobTrackAnalysis::* )(  ) )(&::CvBlobTrackAnalysis::Release) ) )    
+        .def( 
+            "SetFileName"
+            , (void ( CvBlobTrackAnalysis::* )( char * ) )(&::CvBlobTrackAnalysis::SetFileName)
+            , (void ( CvBlobTrackAnalysis_wrapper::* )( char * ) )(&CvBlobTrackAnalysis_wrapper::default_SetFileName)
+            , ( bp::arg("arg0") ) )    
+        .def( 
+            "LoadState"
+            , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvBlobTrackAnalysis_wrapper::default_LoadState )
+            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
+    "\nArgument 'arg1':"\
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
+        .def( 
+            "ParamUpdate"
+            , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
+            , (void ( CvBlobTrackAnalysis_wrapper::* )(  ) )(&CvBlobTrackAnalysis_wrapper::default_ParamUpdate) )    
+        .def( 
+            "SaveState"
+            , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvBlobTrackAnalysis_wrapper::default_SaveState )
+            , ( bp::arg("inst"), bp::arg("arg0") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
+
+    bp::class_< CvBlobTrackAnalysisHeight_wrapper, bp::bases< CvBlobTrackAnalysis >, boost::noncopyable >( "CvBlobTrackAnalysisHeight" )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrackAnalysisHeight >() )    
+        .def( 
+            "GetHeight"
+            , bp::pure_virtual( (double ( CvBlobTrackAnalysisHeight::* )( ::CvBlob * ) )(&::CvBlobTrackAnalysisHeight::GetHeight) )
+            , ( bp::arg("pB") ) )    
+        .def( 
+            "AddBlob"
+            , bp::pure_virtual( (void ( CvBlobTrackAnalysis::* )( ::CvBlob * ) )(&::CvBlobTrackAnalysis::AddBlob) )
+            , ( bp::arg("pBlob") ) )    
+        .def( 
+            "GetState"
+            , bp::pure_virtual( (float ( CvBlobTrackAnalysis::* )( int ) )(&::CvBlobTrackAnalysis::GetState) )
+            , ( bp::arg("BlobID") ) )    
+        .def( 
+            "GetStateDesc"
+            , (char const * ( CvBlobTrackAnalysis::* )( int ) )(&::CvBlobTrackAnalysis::GetStateDesc)
+            , (char const * ( CvBlobTrackAnalysisHeight_wrapper::* )( int ) )(&CvBlobTrackAnalysisHeight_wrapper::default_GetStateDesc)
+            , ( bp::arg("arg0") ) )    
+        .def( 
+            "LoadState"
+            , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvBlobTrackAnalysisHeight_wrapper::default_LoadState )
+            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
+    "\nArgument 'arg1':"\
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
+        .def( 
+            "ParamUpdate"
+            , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
+            , (void ( CvBlobTrackAnalysisHeight_wrapper::* )(  ) )(&CvBlobTrackAnalysisHeight_wrapper::default_ParamUpdate) )    
+        .def( 
+            "Process"
+            , (void (*)( CvBlobTrackAnalysis &,::cv::Mat &,::cv::Mat & ))( &CvBlobTrackAnalysisHeight_wrapper::default_Process )
+            , ( bp::arg("inst"), bp::arg("pImg"), bp::arg("pFG") )
+            , "\nArgument 'pImg':"\
+    "\n    C++ type: ::IplImage *"\
+    "\n    Python type: Mat"\
+    "\nArgument 'pFG':"\
+    "\n    C++ type: ::IplImage *"\
+    "\n    Python type: Mat" )    
+        .def( 
+            "Release"
+            , bp::pure_virtual( (void ( CvBlobTrackAnalysis::* )(  ) )(&::CvBlobTrackAnalysis::Release) ) )    
+        .def( 
+            "SaveState"
+            , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvBlobTrackAnalysisHeight_wrapper::default_SaveState )
+            , ( bp::arg("inst"), bp::arg("arg0") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" )    
+        .def( 
+            "SetFileName"
+            , (void ( CvBlobTrackAnalysis::* )( char * ) )(&::CvBlobTrackAnalysis::SetFileName)
+            , (void ( CvBlobTrackAnalysisHeight_wrapper::* )( char * ) )(&CvBlobTrackAnalysisHeight_wrapper::default_SetFileName)
+            , ( bp::arg("arg0") ) );
+
+    bp::class_< CvBlobTrackAnalysisOne_wrapper, boost::noncopyable >( "CvBlobTrackAnalysisOne" )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrackAnalysisOne >() )    
+        .def( 
+            "Process"
+            , (boost::python::object (*)( CvBlobTrackAnalysisOne &,CvBlob *,::cv::Mat &,::cv::Mat & ))( &CvBlobTrackAnalysisOne_wrapper::default_Process )
+            , ( bp::arg("inst"), bp::arg("pBlob"), bp::arg("pImg"), bp::arg("pFG") )
+            , "\nArgument 'pImg':"\
+    "\n    C++ type: ::IplImage *"\
+    "\n    Python type: Mat"\
+    "\nArgument 'pFG':"\
+    "\n    C++ type: ::IplImage *"\
+    "\n    Python type: Mat" )    
+        .def( 
+            "Release"
+            , bp::pure_virtual( (void ( CvBlobTrackAnalysisOne::* )(  ) )(&::CvBlobTrackAnalysisOne::Release) ) );
 
     bp::class_< CvBlobTrackGen_wrapper, bp::bases< CvVSModule >, boost::noncopyable >( "CvBlobTrackGen", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrackGen >() )    
@@ -768,6 +922,121 @@ void register_classes_2(){
         .def( 
             "SaveState"
             , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvBlobTrackGen_wrapper::default_SaveState )
+            , ( bp::arg("inst"), bp::arg("arg0") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
+
+    bp::class_< CvBlobTrackPostProc_wrapper, bp::bases< CvVSModule >, boost::noncopyable >( "CvBlobTrackPostProc", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrackPostProc >() )    
+        .def( 
+            "AddBlob"
+            , bp::pure_virtual( (void ( CvBlobTrackPostProc::* )( ::CvBlob * ) )(&::CvBlobTrackPostProc::AddBlob) )
+            , ( bp::arg("pBlob") ) )    
+        .def( 
+            "GetBlob"
+            , bp::pure_virtual( (::CvBlob * ( CvBlobTrackPostProc::* )( int ) )(&::CvBlobTrackPostProc::GetBlob) )
+            , ( bp::arg("index") )
+            , bp::return_internal_reference< >() )    
+        .def( 
+            "GetBlobByID"
+            , (::CvBlob * ( CvBlobTrackPostProc::* )( int ) )(&::CvBlobTrackPostProc::GetBlobByID)
+            , (::CvBlob * ( CvBlobTrackPostProc_wrapper::* )( int ) )(&CvBlobTrackPostProc_wrapper::default_GetBlobByID)
+            , ( bp::arg("BlobID") )
+            , bp::return_internal_reference< >() )    
+        .def( 
+            "GetBlobNum"
+            , bp::pure_virtual( (int ( CvBlobTrackPostProc::* )(  ) )(&::CvBlobTrackPostProc::GetBlobNum) ) )    
+        .def( 
+            "Process"
+            , bp::pure_virtual( (void ( CvBlobTrackPostProc::* )(  ) )(&::CvBlobTrackPostProc::Process) ) )    
+        .def( 
+            "Release"
+            , bp::pure_virtual( (void ( CvBlobTrackPostProc::* )(  ) )(&::CvBlobTrackPostProc::Release) ) )    
+        .def( 
+            "LoadState"
+            , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvBlobTrackPostProc_wrapper::default_LoadState )
+            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
+    "\nArgument 'arg1':"\
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
+        .def( 
+            "ParamUpdate"
+            , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
+            , (void ( CvBlobTrackPostProc_wrapper::* )(  ) )(&CvBlobTrackPostProc_wrapper::default_ParamUpdate) )    
+        .def( 
+            "SaveState"
+            , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvBlobTrackPostProc_wrapper::default_SaveState )
+            , ( bp::arg("inst"), bp::arg("arg0") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
+
+    bp::class_< CvBlobTrackPostProcOne_wrapper, bp::bases< CvVSModule >, boost::noncopyable >( "CvBlobTrackPostProcOne", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrackPostProcOne >() )    
+        .def( 
+            "Process"
+            , bp::pure_virtual( (::CvBlob * ( CvBlobTrackPostProcOne::* )( ::CvBlob * ) )(&::CvBlobTrackPostProcOne::Process) )
+            , ( bp::arg("pBlob") )
+            , bp::return_internal_reference< >() )    
+        .def( 
+            "Release"
+            , bp::pure_virtual( (void ( CvBlobTrackPostProcOne::* )(  ) )(&::CvBlobTrackPostProcOne::Release) ) )    
+        .def( 
+            "LoadState"
+            , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvBlobTrackPostProcOne_wrapper::default_LoadState )
+            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
+    "\nArgument 'arg1':"\
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
+        .def( 
+            "ParamUpdate"
+            , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
+            , (void ( CvBlobTrackPostProcOne_wrapper::* )(  ) )(&CvBlobTrackPostProcOne_wrapper::default_ParamUpdate) )    
+        .def( 
+            "SaveState"
+            , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvBlobTrackPostProcOne_wrapper::default_SaveState )
+            , ( bp::arg("inst"), bp::arg("arg0") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
+
+    bp::class_< CvBlobTrackPredictor_wrapper, bp::bases< CvVSModule >, boost::noncopyable >( "CvBlobTrackPredictor", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrackPredictor >() )    
+        .def( 
+            "Predict"
+            , bp::pure_virtual( (::CvBlob * ( CvBlobTrackPredictor::* )(  ) )(&::CvBlobTrackPredictor::Predict) )
+            , bp::return_internal_reference< >() )    
+        .def( 
+            "Release"
+            , bp::pure_virtual( (void ( CvBlobTrackPredictor::* )(  ) )(&::CvBlobTrackPredictor::Release) ) )    
+        .def( 
+            "Update"
+            , bp::pure_virtual( (void ( CvBlobTrackPredictor::* )( ::CvBlob * ) )(&::CvBlobTrackPredictor::Update) )
+            , ( bp::arg("pBlob") ) )    
+        .def( 
+            "LoadState"
+            , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvBlobTrackPredictor_wrapper::default_LoadState )
+            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
+    "\nArgument 'arg1':"\
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
+        .def( 
+            "ParamUpdate"
+            , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
+            , (void ( CvBlobTrackPredictor_wrapper::* )(  ) )(&CvBlobTrackPredictor_wrapper::default_ParamUpdate) )    
+        .def( 
+            "SaveState"
+            , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvBlobTrackPredictor_wrapper::default_SaveState )
             , ( bp::arg("inst"), bp::arg("arg0") )
             , "\nArgument 'arg0':"\
     "\n    C++ type: ::CvFileStorage *"\
@@ -864,262 +1133,5 @@ void register_classes_2(){
         
         }
     }
-
-    bp::class_< CvBlobTracker_wrapper, bp::bases< CvVSModule >, boost::noncopyable >( "CvBlobTracker", bp::init< >() )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTracker >() )    
-        .def( 
-            "AddBlob"
-            , (boost::python::object (*)( CvBlobTracker &,CvBlob *,::cv::Mat &,::cv::Mat ))( &CvBlobTracker_wrapper::default_AddBlob )
-            , ( bp::arg("inst"), bp::arg("pBlob"), bp::arg("pImg"), bp::arg("pImgFG")=cv::Mat() )
-            , "\nArgument 'pImg':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'pImgFG':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "DelBlob"
-            , bp::pure_virtual( (void ( CvBlobTracker::* )( int ) )(&::CvBlobTracker::DelBlob) )
-            , ( bp::arg("BlobIndex") ) )    
-        .def( 
-            "DelBlobByID"
-            , (void ( CvBlobTracker::* )( int ) )(&::CvBlobTracker::DelBlobByID)
-            , (void ( CvBlobTracker_wrapper::* )( int ) )(&CvBlobTracker_wrapper::default_DelBlobByID)
-            , ( bp::arg("BlobID") ) )    
-        .def( 
-            "GetBlob"
-            , bp::pure_virtual( (::CvBlob * ( CvBlobTracker::* )( int ) )(&::CvBlobTracker::GetBlob) )
-            , ( bp::arg("BlobIndex") )
-            , bp::return_internal_reference< >() )    
-        .def( 
-            "GetBlobByID"
-            , (::CvBlob * ( CvBlobTracker::* )( int ) )(&::CvBlobTracker::GetBlobByID)
-            , (::CvBlob * ( CvBlobTracker_wrapper::* )( int ) )(&CvBlobTracker_wrapper::default_GetBlobByID)
-            , ( bp::arg("BlobID") )
-            , bp::return_internal_reference< >() )    
-        .def( 
-            "GetBlobHyp"
-            , (::CvBlob * ( CvBlobTracker::* )( int,int ) )(&::CvBlobTracker::GetBlobHyp)
-            , (::CvBlob * ( CvBlobTracker_wrapper::* )( int,int ) )(&CvBlobTracker_wrapper::default_GetBlobHyp)
-            , ( bp::arg("BlobIndex"), bp::arg("arg1") )
-            , bp::return_internal_reference< >() )    
-        .def( 
-            "GetBlobHypNum"
-            , (int ( CvBlobTracker::* )( int ) )(&::CvBlobTracker::GetBlobHypNum)
-            , (int ( CvBlobTracker_wrapper::* )( int ) )(&CvBlobTracker_wrapper::default_GetBlobHypNum)
-            , ( bp::arg("arg0") ) )    
-        .def( 
-            "GetBlobIndexByID"
-            , (int ( CvBlobTracker::* )( int ) )(&::CvBlobTracker::GetBlobIndexByID)
-            , (int ( CvBlobTracker_wrapper::* )( int ) )(&CvBlobTracker_wrapper::default_GetBlobIndexByID)
-            , ( bp::arg("BlobID") ) )    
-        .def( 
-            "GetBlobNum"
-            , bp::pure_virtual( (int ( CvBlobTracker::* )(  ) )(&::CvBlobTracker::GetBlobNum) ) )    
-        .def( 
-            "GetConfidence"
-            , (boost::python::object (*)( CvBlobTracker &,int,CvBlob *,::cv::Mat &,::cv::Mat ))( &CvBlobTracker_wrapper::default_GetConfidence )
-            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3")=cv::Mat() )
-            , "\nArgument 'arg2':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'arg3':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "GetConfidenceList"
-            , (boost::python::object (*)( CvBlobTracker &,CvBlobSeq *,::cv::Mat &,::cv::Mat ))( &CvBlobTracker_wrapper::default_GetConfidenceList )
-            , ( bp::arg("inst"), bp::arg("pBlobList"), bp::arg("pImg"), bp::arg("pImgFG")=cv::Mat() )
-            , "\nArgument 'pImg':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'pImgFG':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "Process"
-            , (void (*)( CvBlobTracker &,::cv::Mat &,::cv::Mat ))( &CvBlobTracker_wrapper::default_Process )
-            , ( bp::arg("inst"), bp::arg("pImg"), bp::arg("pImgFG")=cv::Mat() )
-            , "\nArgument 'pImg':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'pImgFG':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "ProcessBlob"
-            , (void (*)( CvBlobTracker &,int,CvBlob *,::cv::Mat &,::cv::Mat ))( &CvBlobTracker_wrapper::default_ProcessBlob )
-            , ( bp::arg("inst"), bp::arg("BlobIndex"), bp::arg("pBlob"), bp::arg("arg2"), bp::arg("arg3")=cv::Mat() )
-            , "\nArgument 'arg2':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'arg3':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "Release"
-            , bp::pure_virtual( (void ( CvBlobTracker::* )(  ) )(&::CvBlobTracker::Release) ) )    
-        .def( 
-            "SetBlob"
-            , (void ( CvBlobTracker::* )( int,::CvBlob * ) )(&::CvBlobTracker::SetBlob)
-            , (void ( CvBlobTracker_wrapper::* )( int,::CvBlob * ) )(&CvBlobTracker_wrapper::default_SetBlob)
-            , ( bp::arg("arg0"), bp::arg("arg1") ) )    
-        .def( 
-            "SetBlobByID"
-            , (void ( CvBlobTracker::* )( int,::CvBlob * ) )(&::CvBlobTracker::SetBlobByID)
-            , (void ( CvBlobTracker_wrapper::* )( int,::CvBlob * ) )(&CvBlobTracker_wrapper::default_SetBlobByID)
-            , ( bp::arg("BlobID"), bp::arg("pBlob") ) )    
-        .def( 
-            "SetBlobHyp"
-            , (void ( CvBlobTracker::* )( int,::CvBlob * ) )(&::CvBlobTracker::SetBlobHyp)
-            , (void ( CvBlobTracker_wrapper::* )( int,::CvBlob * ) )(&CvBlobTracker_wrapper::default_SetBlobHyp)
-            , ( bp::arg("arg0"), bp::arg("arg1") ) )    
-        .def( 
-            "Update"
-            , (void (*)( CvBlobTracker &,::cv::Mat &,::cv::Mat ))( &CvBlobTracker_wrapper::default_Update )
-            , ( bp::arg("inst"), bp::arg("pImg"), bp::arg("pImgFG")=cv::Mat() )
-            , "\nArgument 'pImg':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'pImgFG':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "UpdateBlob"
-            , (void (*)( CvBlobTracker &,int,CvBlob *,::cv::Mat &,::cv::Mat ))( &CvBlobTracker_wrapper::default_UpdateBlob )
-            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2"), bp::arg("arg3")=cv::Mat() )
-            , "\nArgument 'arg2':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'arg3':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "LoadState"
-            , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvBlobTracker_wrapper::default_LoadState )
-            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
-            , "\nArgument 'arg0':"\
-    "\n    C++ type: ::CvFileStorage *"\
-    "\n    Python type: FileStorage"\
-    "\nArgument 'arg1':"\
-    "\n    C++ type: ::CvFileNode *"\
-    "\n    Python type: FileNode" )    
-        .def( 
-            "ParamUpdate"
-            , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
-            , (void ( CvBlobTracker_wrapper::* )(  ) )(&CvBlobTracker_wrapper::default_ParamUpdate) )    
-        .def( 
-            "SaveState"
-            , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvBlobTracker_wrapper::default_SaveState )
-            , ( bp::arg("inst"), bp::arg("arg0") )
-            , "\nArgument 'arg0':"\
-    "\n    C++ type: ::CvFileStorage *"\
-    "\n    Python type: FileStorage" );
-
-    bp::class_< CvBlobTrackerOne_wrapper, bp::bases< CvVSModule >, boost::noncopyable >( "CvBlobTrackerOne" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrackerOne >() )    
-        .def( 
-            "GetConfidence"
-            , (boost::python::object (*)( CvBlobTrackerOne &,CvBlob *,::cv::Mat &,::cv::Mat,::cv::Mat ))( &CvBlobTrackerOne_wrapper::default_GetConfidence )
-            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2")=cv::Mat(), bp::arg("arg3")=cv::Mat() )
-            , "\nArgument 'arg1':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'arg2':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'arg3':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "Init"
-            , (void (*)( CvBlobTrackerOne &,CvBlob *,::cv::Mat &,::cv::Mat ))( &CvBlobTrackerOne_wrapper::default_Init )
-            , ( bp::arg("inst"), bp::arg("pBlobInit"), bp::arg("pImg"), bp::arg("pImgFG")=cv::Mat() )
-            , "\nArgument 'pImg':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'pImgFG':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "Process"
-            , (boost::python::object (*)( CvBlobTrackerOne &,CvBlob *,::cv::Mat &,::cv::Mat ))( &CvBlobTrackerOne_wrapper::default_Process )
-            , ( bp::arg("inst"), bp::arg("pBlobPrev"), bp::arg("pImg"), bp::arg("pImgFG")=cv::Mat() )
-            , "\nArgument 'pImg':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'pImgFG':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "Release"
-            , bp::pure_virtual( (void ( CvBlobTrackerOne::* )(  ) )(&::CvBlobTrackerOne::Release) ) )    
-        .def( 
-            "SetCollision"
-            , (void ( CvBlobTrackerOne::* )( int ) )(&::CvBlobTrackerOne::SetCollision)
-            , (void ( CvBlobTrackerOne_wrapper::* )( int ) )(&CvBlobTrackerOne_wrapper::default_SetCollision)
-            , ( bp::arg("arg0") ) )    
-        .def( 
-            "SkipProcess"
-            , (void (*)( CvBlobTrackerOne &,CvBlob *,::cv::Mat &,::cv::Mat ))( &CvBlobTrackerOne_wrapper::default_SkipProcess )
-            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2")=cv::Mat() )
-            , "\nArgument 'arg1':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'arg2':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "Update"
-            , (void (*)( CvBlobTrackerOne &,CvBlob *,::cv::Mat &,::cv::Mat ))( &CvBlobTrackerOne_wrapper::default_Update )
-            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1"), bp::arg("arg2")=cv::Mat() )
-            , "\nArgument 'arg1':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'arg2':"\
-    "\n    C++ type: ::IplImage *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "LoadState"
-            , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvBlobTrackerOne_wrapper::default_LoadState )
-            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
-            , "\nArgument 'arg0':"\
-    "\n    C++ type: ::CvFileStorage *"\
-    "\n    Python type: FileStorage"\
-    "\nArgument 'arg1':"\
-    "\n    C++ type: ::CvFileNode *"\
-    "\n    Python type: FileNode" )    
-        .def( 
-            "ParamUpdate"
-            , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
-            , (void ( CvBlobTrackerOne_wrapper::* )(  ) )(&CvBlobTrackerOne_wrapper::default_ParamUpdate) )    
-        .def( 
-            "SaveState"
-            , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvBlobTrackerOne_wrapper::default_SaveState )
-            , ( bp::arg("inst"), bp::arg("arg0") )
-            , "\nArgument 'arg0':"\
-    "\n    C++ type: ::CvFileStorage *"\
-    "\n    Python type: FileStorage" );
-
-    bp::class_< CvBlobTrackerParamLH >( "CvBlobTrackerParamLH" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrackerParamLH >() )    
-        .def_readwrite( "HistType", &CvBlobTrackerParamLH::HistType )    
-        .def_readwrite( "ScaleAfter", &CvBlobTrackerParamLH::ScaleAfter );
-
-    bp::class_< CvBlobTrackerParamMS >( "CvBlobTrackerParamMS" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBlobTrackerParamMS >() )    
-        .def_readwrite( "appearance_profile", &CvBlobTrackerParamMS::appearance_profile )    
-        .def_readwrite( "meanshift_profile", &CvBlobTrackerParamMS::meanshift_profile )    
-        .def_readwrite( "noOfSigBits", &CvBlobTrackerParamMS::noOfSigBits )    
-        .def_readwrite( "sigma", &CvBlobTrackerParamMS::sigma );
-
-    bp::class_< CvCamShiftTracker >( "CvCamShiftTracker" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvCamShiftTracker >() );
-
-    bp::class_< CvConDensation >( "CvConDensation" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvConDensation >() )    
-        .def_readwrite( "DP", &CvConDensation::DP )    
-        .def_readwrite( "MP", &CvConDensation::MP )    
-        .def_readwrite( "SamplesNum", &CvConDensation::SamplesNum );
 
 }

@@ -3,767 +3,863 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
-#include "__array_1.pypp.hpp"
-#include "ndarray.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "cvaux_wrapper.hpp"
+#include "opencv_converters.hpp"
 #include "cvaux_ext_classes_5.pypp.hpp"
 
 namespace bp = boost::python;
 
-struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
+struct BackgroundSubtractor_wrapper : cv::BackgroundSubtractor, bp::wrapper< cv::BackgroundSubtractor > {
 
-    Octree_wrapper(cv::Octree const & arg )
-    : cv::Octree( arg )
-      , bp::wrapper< cv::Octree >(){
+    BackgroundSubtractor_wrapper(cv::BackgroundSubtractor const & arg )
+    : cv::BackgroundSubtractor( arg )
+      , bp::wrapper< cv::BackgroundSubtractor >(){
         // copy constructor
         
     }
 
-    struct Node_wrapper : cv::Octree::Node, bp::wrapper< cv::Octree::Node > {
-    
-        Node_wrapper(cv::Octree::Node const & arg )
-        : cv::Octree::Node( arg )
-          , bp::wrapper< cv::Octree::Node >(){
-            // copy constructor
-            
-        }
-    
-        Node_wrapper( )
-        : cv::Octree::Node( )
-          , bp::wrapper< cv::Octree::Node >(){
-            // null constructor
+    BackgroundSubtractor_wrapper()
+    : cv::BackgroundSubtractor()
+      , bp::wrapper< cv::BackgroundSubtractor >(){
+        // null constructor
         
-        }
-    
-        static pyplusplus::containers::static_sized::array_1_t< int, 8>
-        pyplusplus_children_wrapper( cv::Octree::Node & inst ){
-            return pyplusplus::containers::static_sized::array_1_t< int, 8>( inst.children );
-        }
-    
-    };
+    }
 
-    Octree_wrapper( )
-    : cv::Octree( )
-      , bp::wrapper< cv::Octree >(){
+    virtual void operator()( ::cv::Mat const & image, ::cv::Mat & fgmask, double learningRate=0 ) {
+        if( bp::override func___call__ = this->get_override( "__call__" ) )
+            func___call__( boost::ref(image), boost::ref(fgmask), learningRate );
+        else{
+            this->cv::BackgroundSubtractor::operator()( boost::ref(image), boost::ref(fgmask), learningRate );
+        }
+    }
+    
+    void default___call__( ::cv::Mat const & image, ::cv::Mat & fgmask, double learningRate=0 ) {
+        cv::BackgroundSubtractor::operator()( boost::ref(image), boost::ref(fgmask), learningRate );
+    }
+
+};
+
+struct BackgroundSubtractorMOG_wrapper : cv::BackgroundSubtractorMOG, bp::wrapper< cv::BackgroundSubtractorMOG > {
+
+    BackgroundSubtractorMOG_wrapper(cv::BackgroundSubtractorMOG const & arg )
+    : cv::BackgroundSubtractorMOG( arg )
+      , bp::wrapper< cv::BackgroundSubtractorMOG >(){
+        // copy constructor
+        
+    }
+
+    BackgroundSubtractorMOG_wrapper( )
+    : cv::BackgroundSubtractorMOG( )
+      , bp::wrapper< cv::BackgroundSubtractorMOG >(){
         // null constructor
     
     }
 
-    Octree_wrapper(::std::vector< cv::Point3_<float> > const & points, int maxLevels=10, int minPoints=20 )
-    : cv::Octree( boost::ref(points), maxLevels, minPoints )
-      , bp::wrapper< cv::Octree >(){
+    BackgroundSubtractorMOG_wrapper(int history, int nmixtures, double backgroundRatio, double noiseSigma=0 )
+    : cv::BackgroundSubtractorMOG( history, nmixtures, backgroundRatio, noiseSigma )
+      , bp::wrapper< cv::BackgroundSubtractorMOG >(){
         // constructor
     
     }
 
-    virtual void buildTree( ::std::vector< cv::Point3_<float> > const & points, int maxLevels=10, int minPoints=20 ) {
-        if( bp::override func_buildTree = this->get_override( "buildTree" ) )
-            func_buildTree( boost::ref(points), maxLevels, minPoints );
+    virtual void initialize( ::cv::Size frameSize, int frameType ) {
+        if( bp::override func_initialize = this->get_override( "initialize" ) )
+            func_initialize( frameSize, frameType );
         else{
-            this->cv::Octree::buildTree( boost::ref(points), maxLevels, minPoints );
+            this->cv::BackgroundSubtractorMOG::initialize( frameSize, frameType );
         }
     }
     
-    void default_buildTree( ::std::vector< cv::Point3_<float> > const & points, int maxLevels=10, int minPoints=20 ) {
-        cv::Octree::buildTree( boost::ref(points), maxLevels, minPoints );
+    void default_initialize( ::cv::Size frameSize, int frameType ) {
+        cv::BackgroundSubtractorMOG::initialize( frameSize, frameType );
     }
 
-    virtual void getPointsWithinSphere( ::cv::Point3f const & center, float radius, ::std::vector< cv::Point3_<float> > & points ) const  {
+    virtual void operator()( ::cv::Mat const & image, ::cv::Mat & fgmask, double learningRate=0 ) {
+        if( bp::override func___call__ = this->get_override( "__call__" ) )
+            func___call__( boost::ref(image), boost::ref(fgmask), learningRate );
+        else{
+            this->cv::BackgroundSubtractorMOG::operator()( boost::ref(image), boost::ref(fgmask), learningRate );
+        }
+    }
+    
+    void default___call__( ::cv::Mat const & image, ::cv::Mat & fgmask, double learningRate=0 ) {
+        cv::BackgroundSubtractorMOG::operator()( boost::ref(image), boost::ref(fgmask), learningRate );
+    }
+
+};
+
+struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassifier > {
+
+    FernClassifier_wrapper(cv::FernClassifier const & arg )
+    : cv::FernClassifier( arg )
+      , bp::wrapper< cv::FernClassifier >(){
+        // copy constructor
+        
+    }
+
+    FernClassifier_wrapper( )
+    : cv::FernClassifier( )
+      , bp::wrapper< cv::FernClassifier >(){
+        // null constructor
+    
+    }
+
+    FernClassifier_wrapper(::cv::FileNode const & node )
+    : cv::FernClassifier( boost::ref(node) )
+      , bp::wrapper< cv::FernClassifier >(){
+        // constructor
+    
+    }
+
+    FernClassifier_wrapper(::std::vector< cv::Point_<float> > const & points, ::std::vector< cv::Ptr<cv::Mat> > const & refimgs, ::std::vector< int > const & labels=std::vector<int>(), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() )
+    : cv::FernClassifier( boost::ref(points), boost::ref(refimgs), boost::ref(labels), _nclasses, _patchSize, _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, boost::ref(patchGenerator) )
+      , bp::wrapper< cv::FernClassifier >(){
+        // constructor
+    
+    }
+
+    virtual void clear(  ) {
+        if( bp::override func_clear = this->get_override( "clear" ) )
+            func_clear(  );
+        else{
+            this->cv::FernClassifier::clear(  );
+        }
+    }
+    
+    void default_clear(  ) {
+        cv::FernClassifier::clear( );
+    }
+
+    virtual int operator()( ::cv::Mat const & img, ::cv::Point2f kpt, ::std::vector< float > & signature ) const  {
         namespace bpl = boost::python;
-        if( bpl::override func_getPointsWithinSphere = this->get_override( "getPointsWithinSphere" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_getPointsWithinSphere.ptr(), center, radius, points );
+        if( bpl::override func___call__ = this->get_override( "__call__" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func___call__.ptr(), img, kpt, signature );
+            return bpl::extract< int >( pyplus_conv::get_out_argument( py_result, 0 ) );
         }
         else{
-            cv::Octree::getPointsWithinSphere( boost::ref(center), radius, boost::ref(points) );
+            return cv::FernClassifier::operator()( boost::ref(img), kpt, boost::ref(signature) );
         }
     }
     
-    static boost::python::object default_getPointsWithinSphere( ::cv::Octree const & inst, ::cv::Point3f const & center, float radius ){
-        std::vector<cv::Point3_<float> > points2;
-        if( dynamic_cast< Octree_wrapper const* >( boost::addressof( inst ) ) ){
-            inst.::cv::Octree::getPointsWithinSphere(center, radius, points2);
+    static boost::python::tuple default___call___c4d2198033cf380377bb6f32571c2657( ::cv::FernClassifier const & inst, ::cv::Mat const & img, ::cv::Point2f kpt ){
+        std::vector<float> signature2;
+        int result;
+        if( dynamic_cast< FernClassifier_wrapper const* >( boost::addressof( inst ) ) ){
+            result = inst.::cv::FernClassifier::operator()(img, kpt, signature2);
         }
         else{
-            inst.getPointsWithinSphere(center, radius, points2);
+            result = inst.operator()(img, kpt, signature2);
         }
-        return bp::object( points2 );
+        return bp::make_tuple( result, signature2 );
+    }
+
+    virtual int operator()( ::cv::Mat const & patch, ::std::vector< float > & signature ) const  {
+        namespace bpl = boost::python;
+        if( bpl::override func___call__ = this->get_override( "__call__" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func___call__.ptr(), patch, signature );
+            return bpl::extract< int >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return cv::FernClassifier::operator()( boost::ref(patch), boost::ref(signature) );
+        }
+    }
+    
+    static boost::python::tuple default___call___ddcd7402f4cc50fa35ce4888642630c7( ::cv::FernClassifier const & inst, ::cv::Mat const & patch ){
+        std::vector<float> signature2;
+        int result;
+        if( dynamic_cast< FernClassifier_wrapper const* >( boost::addressof( inst ) ) ){
+            result = inst.::cv::FernClassifier::operator()(patch, signature2);
+        }
+        else{
+            result = inst.operator()(patch, signature2);
+        }
+        return bp::make_tuple( result, signature2 );
+    }
+
+    virtual void read( ::cv::FileNode const & n ) {
+        if( bp::override func_read = this->get_override( "read" ) )
+            func_read( boost::ref(n) );
+        else{
+            this->cv::FernClassifier::read( boost::ref(n) );
+        }
+    }
+    
+    void default_read( ::cv::FileNode const & n ) {
+        cv::FernClassifier::read( boost::ref(n) );
+    }
+
+    virtual void train( ::std::vector< cv::Point_<float> > const & points, ::std::vector< cv::Ptr<cv::Mat> > const & refimgs, ::std::vector< int > const & labels=std::vector<int>(), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
+        if( bp::override func_train = this->get_override( "train" ) )
+            func_train( boost::ref(points), boost::ref(refimgs), boost::ref(labels), _nclasses, _patchSize, _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, boost::ref(patchGenerator) );
+        else{
+            this->cv::FernClassifier::train( boost::ref(points), boost::ref(refimgs), boost::ref(labels), _nclasses, _patchSize, _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, boost::ref(patchGenerator) );
+        }
+    }
+    
+    void default_train( ::std::vector< cv::Point_<float> > const & points, ::std::vector< cv::Ptr<cv::Mat> > const & refimgs, ::std::vector< int > const & labels=std::vector<int>(), int _nclasses=0, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
+        cv::FernClassifier::train( boost::ref(points), boost::ref(refimgs), boost::ref(labels), _nclasses, _patchSize, _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, boost::ref(patchGenerator) );
+    }
+
+    virtual void trainFromSingleView( ::cv::Mat const & image, ::std::vector< cv::KeyPoint > const & keypoints, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
+        if( bp::override func_trainFromSingleView = this->get_override( "trainFromSingleView" ) )
+            func_trainFromSingleView( boost::ref(image), boost::ref(keypoints), _patchSize, _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, boost::ref(patchGenerator) );
+        else{
+            this->cv::FernClassifier::trainFromSingleView( boost::ref(image), boost::ref(keypoints), _patchSize, _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, boost::ref(patchGenerator) );
+        }
+    }
+    
+    void default_trainFromSingleView( ::cv::Mat const & image, ::std::vector< cv::KeyPoint > const & keypoints, int _patchSize=int(::cv::FernClassifier::PATCH_SIZE), int _signatureSize=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), int _nstructs=int(::cv::FernClassifier::DEFAULT_STRUCTS), int _structSize=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), int _nviews=int(::cv::FernClassifier::DEFAULT_VIEWS), int _compressionMethod=int(::cv::FernClassifier::COMPRESSION_NONE), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
+        cv::FernClassifier::trainFromSingleView( boost::ref(image), boost::ref(keypoints), _patchSize, _signatureSize, _nstructs, _structSize, _nviews, _compressionMethod, boost::ref(patchGenerator) );
+    }
+
+    virtual void write( ::cv::FileStorage & fs, ::cv::String const & name=std::string() ) const  {
+        if( bp::override func_write = this->get_override( "write" ) )
+            func_write( boost::ref(fs), boost::ref(name) );
+        else{
+            this->cv::FernClassifier::write( boost::ref(fs), boost::ref(name) );
+        }
+    }
+    
+    void default_write( ::cv::FileStorage & fs, ::cv::String const & name=std::string() ) const  {
+        cv::FernClassifier::write( boost::ref(fs), boost::ref(name) );
     }
 
 };
 
-struct PlanarObjectDetector_wrapper : cv::PlanarObjectDetector, bp::wrapper< cv::PlanarObjectDetector > {
+struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor > {
 
-    PlanarObjectDetector_wrapper(cv::PlanarObjectDetector const & arg )
-    : cv::PlanarObjectDetector( arg )
-      , bp::wrapper< cv::PlanarObjectDetector >(){
+    HOGDescriptor_wrapper(cv::HOGDescriptor const & arg )
+    : cv::HOGDescriptor( arg )
+      , bp::wrapper< cv::HOGDescriptor >(){
         // copy constructor
         
     }
 
-    PlanarObjectDetector_wrapper( )
-    : cv::PlanarObjectDetector( )
-      , bp::wrapper< cv::PlanarObjectDetector >(){
+    HOGDescriptor_wrapper( )
+    : cv::HOGDescriptor( )
+      , bp::wrapper< cv::HOGDescriptor >(){
         // null constructor
     
     }
 
-    PlanarObjectDetector_wrapper(::cv::FileNode const & node )
-    : cv::PlanarObjectDetector( boost::ref(node) )
-      , bp::wrapper< cv::PlanarObjectDetector >(){
+    HOGDescriptor_wrapper(::cv::Size _winSize, ::cv::Size _blockSize, ::cv::Size _blockStride, ::cv::Size _cellSize, int _nbins, int _derivAperture=1, double _winSigma=-0x000000001, int _histogramNormType=int(::cv::HOGDescriptor::L2Hys), double _L2HysThreshold=2.00000000000000011102230246251565404236316680908e-1, bool _gammaCorrection=false )
+    : cv::HOGDescriptor( _winSize, _blockSize, _blockStride, _cellSize, _nbins, _derivAperture, _winSigma, _histogramNormType, _L2HysThreshold, _gammaCorrection )
+      , bp::wrapper< cv::HOGDescriptor >(){
         // constructor
     
     }
 
-    PlanarObjectDetector_wrapper(::std::vector< cv::Mat > const & pyr, int _npoints=300, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() )
-    : cv::PlanarObjectDetector( boost::ref(pyr), _npoints, _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) )
-      , bp::wrapper< cv::PlanarObjectDetector >(){
+    HOGDescriptor_wrapper(::cv::String const & filename )
+    : cv::HOGDescriptor( boost::ref(filename) )
+      , bp::wrapper< cv::HOGDescriptor >(){
         // constructor
     
     }
 
-    static boost::python::tuple __call___4ace94e257458a02821c3e23f229be80( ::cv::PlanarObjectDetector const & inst, ::cv::Mat const & image, ::cv::Mat & H ){
-        std::vector<cv::Point_<float> > corners2;
-        bool result = inst.operator()(image, H, corners2);
-        return bp::make_tuple( result, corners2 );
-    }
-
-    static boost::python::tuple __call___353477db407d578b28250d295a56ae36( ::cv::PlanarObjectDetector const & inst, ::std::vector< cv::Mat > const & pyr, ::std::vector< cv::KeyPoint > const & keypoints, ::cv::Mat & H ){
-        std::vector<cv::Point_<float> > corners2;
-        std::vector<int> pairs2;
-        bool result = inst.operator()(pyr, keypoints, H, corners2, &pairs2);
-        return bp::make_tuple( result, corners2, pairs2 );
-    }
-
-    virtual void train( ::std::vector< cv::Mat > const & pyr, int _npoints=300, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
-        if( bp::override func_train = this->get_override( "train" ) )
-            func_train( boost::ref(pyr), _npoints, _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) );
+    virtual void compute( ::cv::Mat const & img, ::std::vector< float > & descriptors, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point>() ) const  {
+        namespace bpl = boost::python;
+        if( bpl::override func_compute = this->get_override( "compute" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_compute.ptr(), img, descriptors, winStride, padding, locations );
+        }
         else{
-            this->cv::PlanarObjectDetector::train( boost::ref(pyr), _npoints, _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) );
+            cv::HOGDescriptor::compute( boost::ref(img), boost::ref(descriptors), winStride, padding, boost::ref(locations) );
         }
     }
     
-    void default_train( ::std::vector< cv::Mat > const & pyr, int _npoints=300, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
-        cv::PlanarObjectDetector::train( boost::ref(pyr), _npoints, _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) );
+    static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point>() ){
+        std::vector<float> descriptors2;
+        if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
+            inst.::cv::HOGDescriptor::compute(img, descriptors2, winStride, padding, locations);
+        }
+        else{
+            inst.compute(img, descriptors2, winStride, padding, locations);
+        }
+        return bp::object( descriptors2 );
     }
 
-    virtual void train( ::std::vector< cv::Mat > const & pyr, ::std::vector< cv::KeyPoint > const & keypoints, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
-        if( bp::override func_train = this->get_override( "train" ) )
-            func_train( boost::ref(pyr), boost::ref(keypoints), _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) );
+    virtual void computeGradient( ::cv::Mat const & img, ::cv::Mat & grad, ::cv::Mat & angleOfs, ::cv::Size paddingTL=cv::Size_<int>(), ::cv::Size paddingBR=cv::Size_<int>() ) const  {
+        if( bp::override func_computeGradient = this->get_override( "computeGradient" ) )
+            func_computeGradient( boost::ref(img), boost::ref(grad), boost::ref(angleOfs), paddingTL, paddingBR );
         else{
-            this->cv::PlanarObjectDetector::train( boost::ref(pyr), boost::ref(keypoints), _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) );
+            this->cv::HOGDescriptor::computeGradient( boost::ref(img), boost::ref(grad), boost::ref(angleOfs), paddingTL, paddingBR );
         }
     }
     
-    void default_train( ::std::vector< cv::Mat > const & pyr, ::std::vector< cv::KeyPoint > const & keypoints, int _patchSize=cv::FernClassifier::PATCH_SIZE, int _nstructs=cv::FernClassifier::DEFAULT_STRUCTS, int _structSize=cv::FernClassifier::DEFAULT_STRUCT_SIZE, int _nviews=cv::FernClassifier::DEFAULT_VIEWS, ::cv::LDetector const & detector=cv::LDetector(), ::cv::PatchGenerator const & patchGenerator=cv::PatchGenerator() ) {
-        cv::PlanarObjectDetector::train( boost::ref(pyr), boost::ref(keypoints), _patchSize, _nstructs, _structSize, _nviews, boost::ref(detector), boost::ref(patchGenerator) );
+    void default_computeGradient( ::cv::Mat const & img, ::cv::Mat & grad, ::cv::Mat & angleOfs, ::cv::Size paddingTL=cv::Size_<int>(), ::cv::Size paddingBR=cv::Size_<int>() ) const  {
+        cv::HOGDescriptor::computeGradient( boost::ref(img), boost::ref(grad), boost::ref(angleOfs), paddingTL, paddingBR );
+    }
+
+    virtual void detect( ::cv::Mat const & img, ::std::vector< cv::Point_<int> > & foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & searchLocations=std::vector<cv::Point>() ) const  {
+        namespace bpl = boost::python;
+        if( bpl::override func_detect = this->get_override( "detect" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_detect.ptr(), img, foundLocations, hitThreshold, winStride, padding, searchLocations );
+        }
+        else{
+            cv::HOGDescriptor::detect( boost::ref(img), boost::ref(foundLocations), hitThreshold, winStride, padding, boost::ref(searchLocations) );
+        }
+    }
+    
+    static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & searchLocations=std::vector<cv::Point>() ){
+        std::vector<cv::Point_<int> > foundLocations2;
+        if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
+            inst.::cv::HOGDescriptor::detect(img, foundLocations2, hitThreshold, winStride, padding, searchLocations);
+        }
+        else{
+            inst.detect(img, foundLocations2, hitThreshold, winStride, padding, searchLocations);
+        }
+        return bp::object( foundLocations2 );
+    }
+
+    virtual void detectMultiScale( ::cv::Mat const & img, ::std::vector< cv::Rect_<int> > & foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), double scale=1.05000000000000004440892098500626161694526672363e+0, int groupThreshold=2 ) const  {
+        namespace bpl = boost::python;
+        if( bpl::override func_detectMultiScale = this->get_override( "detectMultiScale" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_detectMultiScale.ptr(), img, foundLocations, hitThreshold, winStride, padding, scale, groupThreshold );
+        }
+        else{
+            cv::HOGDescriptor::detectMultiScale( boost::ref(img), boost::ref(foundLocations), hitThreshold, winStride, padding, scale, groupThreshold );
+        }
+    }
+    
+    static boost::python::object default_detectMultiScale( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), double scale=1.05000000000000004440892098500626161694526672363e+0, int groupThreshold=2 ){
+        std::vector<cv::Rect_<int> > foundLocations2;
+        if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
+            inst.::cv::HOGDescriptor::detectMultiScale(img, foundLocations2, hitThreshold, winStride, padding, scale, groupThreshold);
+        }
+        else{
+            inst.detectMultiScale(img, foundLocations2, hitThreshold, winStride, padding, scale, groupThreshold);
+        }
+        return bp::object( foundLocations2 );
+    }
+
+    virtual bool load( ::cv::String const & filename, ::cv::String const & objname=std::string() ) {
+        if( bp::override func_load = this->get_override( "load" ) )
+            return func_load( boost::ref(filename), boost::ref(objname) );
+        else{
+            return this->cv::HOGDescriptor::load( boost::ref(filename), boost::ref(objname) );
+        }
+    }
+    
+    bool default_load( ::cv::String const & filename, ::cv::String const & objname=std::string() ) {
+        return cv::HOGDescriptor::load( boost::ref(filename), boost::ref(objname) );
+    }
+
+    virtual void save( ::cv::String const & filename, ::cv::String const & objname=std::string() ) const  {
+        if( bp::override func_save = this->get_override( "save" ) )
+            func_save( boost::ref(filename), boost::ref(objname) );
+        else{
+            this->cv::HOGDescriptor::save( boost::ref(filename), boost::ref(objname) );
+        }
+    }
+    
+    void default_save( ::cv::String const & filename, ::cv::String const & objname=std::string() ) const  {
+        cv::HOGDescriptor::save( boost::ref(filename), boost::ref(objname) );
+    }
+
+    virtual void setSVMDetector( ::std::vector< float > const & _svmdetector ) {
+        if( bp::override func_setSVMDetector = this->get_override( "setSVMDetector" ) )
+            func_setSVMDetector( boost::ref(_svmdetector) );
+        else{
+            this->cv::HOGDescriptor::setSVMDetector( boost::ref(_svmdetector) );
+        }
+    }
+    
+    void default_setSVMDetector( ::std::vector< float > const & _svmdetector ) {
+        cv::HOGDescriptor::setSVMDetector( boost::ref(_svmdetector) );
     }
 
 };
 
-struct SelfSimDescriptor_wrapper : cv::SelfSimDescriptor, bp::wrapper< cv::SelfSimDescriptor > {
+static boost::python::object __call___14ec982e59fdc13237968e34b82d6fe2( ::cv::LDetector const & inst, ::cv::Mat const & image, int maxCount=0, bool scaleCoords=true ){
+    std::vector<cv::KeyPoint> keypoints2;
+    inst.operator()(image, keypoints2, maxCount, scaleCoords);
+    return bp::object( keypoints2 );
+}
 
-    SelfSimDescriptor_wrapper( )
-    : cv::SelfSimDescriptor( )
-      , bp::wrapper< cv::SelfSimDescriptor >(){
-        // null constructor
-    
-    }
-
-    SelfSimDescriptor_wrapper(int _ssize, int _lsize, int _startDistanceBucket=int(::cv::SelfSimDescriptor::DEFAULT_START_DISTANCE_BUCKET), int _numberOfDistanceBuckets=int(::cv::SelfSimDescriptor::DEFAULT_NUM_DISTANCE_BUCKETS), int _nangles=int(::cv::SelfSimDescriptor::DEFAULT_NUM_ANGLES) )
-    : cv::SelfSimDescriptor( _ssize, _lsize, _startDistanceBucket, _numberOfDistanceBuckets, _nangles )
-      , bp::wrapper< cv::SelfSimDescriptor >(){
-        // constructor
-    
-    }
-
-    SelfSimDescriptor_wrapper(::cv::SelfSimDescriptor const & ss )
-    : cv::SelfSimDescriptor( boost::ref(ss) )
-      , bp::wrapper< cv::SelfSimDescriptor >(){
-        // copy constructor
-    
-    }
-
-    virtual void SSD( ::cv::Mat const & img, ::cv::Point pt, ::cv::Mat & ssd ) const  {
-        if( bp::override func_SSD = this->get_override( "SSD" ) )
-            func_SSD( boost::ref(img), pt, boost::ref(ssd) );
-        else{
-            this->cv::SelfSimDescriptor::SSD( boost::ref(img), pt, boost::ref(ssd) );
-        }
-    }
-    
-    void default_SSD( ::cv::Mat const & img, ::cv::Point pt, ::cv::Mat & ssd ) const  {
-        cv::SelfSimDescriptor::SSD( boost::ref(img), pt, boost::ref(ssd) );
-    }
-
-    virtual void compute( ::cv::Mat const & img, ::std::vector< float > & descriptors, ::cv::Size winStride=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point>() ) const  {
-        if( bp::override func_compute = this->get_override( "compute" ) )
-            func_compute( boost::ref(img), boost::ref(descriptors), winStride, boost::ref(locations) );
-        else{
-            this->cv::SelfSimDescriptor::compute( boost::ref(img), boost::ref(descriptors), winStride, boost::ref(locations) );
-        }
-    }
-    
-    void default_compute( ::cv::Mat const & img, ::std::vector< float > & descriptors, ::cv::Size winStride=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point>() ) const  {
-        cv::SelfSimDescriptor::compute( boost::ref(img), boost::ref(descriptors), winStride, boost::ref(locations) );
-    }
-
-    virtual void computeLogPolarMapping( ::cv::Mat & mappingMask ) const  {
-        if( bp::override func_computeLogPolarMapping = this->get_override( "computeLogPolarMapping" ) )
-            func_computeLogPolarMapping( boost::ref(mappingMask) );
-        else{
-            this->cv::SelfSimDescriptor::computeLogPolarMapping( boost::ref(mappingMask) );
-        }
-    }
-    
-    void default_computeLogPolarMapping( ::cv::Mat & mappingMask ) const  {
-        cv::SelfSimDescriptor::computeLogPolarMapping( boost::ref(mappingMask) );
-    }
-
-};
-
-static boost::python::object match_86773a6b4d89ae97806d1109a2438811( ::cv::SpinImageModel & inst, ::cv::SpinImageModel const & scene ){
-    std::vector<std::vector<cv::Vec<int,2> > > result3;
-    inst.match(scene, result3);
-    return bp::object( result3 );
+static boost::python::object __call___015c5cd98f14b41d0eaab62238a1a6fe( ::cv::LDetector const & inst, ::std::vector< cv::Mat > const & pyr, int maxCount=0, bool scaleCoords=true ){
+    std::vector<cv::KeyPoint> keypoints2;
+    inst.operator()(pyr, keypoints2, maxCount, scaleCoords);
+    return bp::object( keypoints2 );
 }
 
 void register_classes_5(){
 
-    { //::cv::Mesh3D
-        typedef bp::class_< cv::Mesh3D > Mesh3D_exposer_t;
-        Mesh3D_exposer_t Mesh3D_exposer = Mesh3D_exposer_t( "Mesh3D", bp::init< >() );
-        bp::scope Mesh3D_scope( Mesh3D_exposer );
-        Mesh3D_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Mesh3D >() );
-        bp::class_< cv::Mesh3D::EmptyMeshException >( "EmptyMeshException" )    
-            .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Mesh3D::EmptyMeshException >() );
-        Mesh3D_exposer.def( bp::init< std::vector< cv::Point3_<float> > const & >(( bp::arg("vtx") )) );
-        bp::implicitly_convertible< std::vector< cv::Point3_<float> > const &, cv::Mesh3D >();
-        { //::cv::Mesh3D::buildOctree
-        
-            typedef void ( ::cv::Mesh3D::*buildOctree_function_type )(  ) ;
-            
-            Mesh3D_exposer.def( 
-                "buildOctree"
-                , buildOctree_function_type( &::cv::Mesh3D::buildOctree ) );
-        
-        }
-        { //::cv::Mesh3D::clearOctree
-        
-            typedef void ( ::cv::Mesh3D::*clearOctree_function_type )(  ) ;
-            
-            Mesh3D_exposer.def( 
-                "clearOctree"
-                , clearOctree_function_type( &::cv::Mesh3D::clearOctree ) );
-        
-        }
-        { //::cv::Mesh3D::computeNormals
-        
-            typedef void ( ::cv::Mesh3D::*computeNormals_function_type )( float,int ) ;
-            
-            Mesh3D_exposer.def( 
-                "computeNormals"
-                , computeNormals_function_type( &::cv::Mesh3D::computeNormals )
-                , ( bp::arg("normalRadius"), bp::arg("minNeighbors")=(int)(20) ) );
-        
-        }
-        { //::cv::Mesh3D::computeNormals
-        
-            typedef void ( ::cv::Mesh3D::*computeNormals_function_type )( ::std::vector< int > const &,float,int ) ;
-            
-            Mesh3D_exposer.def( 
-                "computeNormals"
-                , computeNormals_function_type( &::cv::Mesh3D::computeNormals )
-                , ( bp::arg("subset"), bp::arg("normalRadius"), bp::arg("minNeighbors")=(int)(20) ) );
-        
-        }
-        { //::cv::Mesh3D::estimateResolution
-        
-            typedef float ( ::cv::Mesh3D::*estimateResolution_function_type )( float ) ;
-            
-            Mesh3D_exposer.def( 
-                "estimateResolution"
-                , estimateResolution_function_type( &::cv::Mesh3D::estimateResolution )
-                , ( bp::arg("tryRatio")=1.00000001490116119384765625e-1f ) );
-        
-        }
-        { //::cv::Mesh3D::writeAsVrml
-        
-            typedef void ( ::cv::Mesh3D::*writeAsVrml_function_type )( ::cv::String const &,::std::vector< cv::Scalar_<double> > const & ) const;
-            
-            Mesh3D_exposer.def( 
-                "writeAsVrml"
-                , writeAsVrml_function_type( &::cv::Mesh3D::writeAsVrml )
-                , ( bp::arg("file"), bp::arg("colors")=std::vector<cv::Scalar>() ) );
-        
-        }
-        Mesh3D_exposer.def_readonly( "allzero", cv::Mesh3D::allzero );
-        Mesh3D_exposer.def_readwrite( "normals", &cv::Mesh3D::normals );
-        Mesh3D_exposer.def_readwrite( "octree", &cv::Mesh3D::octree );
-        Mesh3D_exposer.def_readwrite( "resolution", &cv::Mesh3D::resolution );
-        Mesh3D_exposer.def_readwrite( "vtx", &cv::Mesh3D::vtx );
+    bp::class_< CvTracksTimePos >( "CvTracksTimePos" )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvTracksTimePos >() )    
+        .def_readwrite( "beg1", &CvTracksTimePos::beg1 )    
+        .def_readwrite( "beg2", &CvTracksTimePos::beg2 )    
+        .def_readwrite( "comLen", &CvTracksTimePos::comLen )    
+        .def_readwrite( "end1", &CvTracksTimePos::end1 )    
+        .def_readwrite( "end2", &CvTracksTimePos::end2 )    
+        .def_readwrite( "len1", &CvTracksTimePos::len1 )    
+        .def_readwrite( "len2", &CvTracksTimePos::len2 )    
+        .def_readwrite( "shift1", &CvTracksTimePos::shift1 )    
+        .def_readwrite( "shift2", &CvTracksTimePos::shift2 );
+
+    bp::class_< BackgroundSubtractor_wrapper >( "BackgroundSubtractor" )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::BackgroundSubtractor >() )    
+        .def( 
+            "__call__"
+            , (void ( cv::BackgroundSubtractor::* )( ::cv::Mat const &,::cv::Mat &,double ) )(&::cv::BackgroundSubtractor::operator())
+            , (void ( BackgroundSubtractor_wrapper::* )( ::cv::Mat const &,::cv::Mat &,double ) )(&BackgroundSubtractor_wrapper::default___call__)
+            , ( bp::arg("image"), bp::arg("fgmask"), bp::arg("learningRate")=0 ) );
+
+    bp::class_< BackgroundSubtractorMOG_wrapper, bp::bases< cv::BackgroundSubtractor > >( "BackgroundSubtractorMOG", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::BackgroundSubtractorMOG >() )    
+        .def( bp::init< int, int, double, bp::optional< double > >(( bp::arg("history"), bp::arg("nmixtures"), bp::arg("backgroundRatio"), bp::arg("noiseSigma")=0 )) )    
+        .def( 
+            "initialize"
+            , (void ( cv::BackgroundSubtractorMOG::* )( ::cv::Size,int ) )(&::cv::BackgroundSubtractorMOG::initialize)
+            , (void ( BackgroundSubtractorMOG_wrapper::* )( ::cv::Size,int ) )(&BackgroundSubtractorMOG_wrapper::default_initialize)
+            , ( bp::arg("frameSize"), bp::arg("frameType") ) )    
+        .def( 
+            "__call__"
+            , (void ( cv::BackgroundSubtractorMOG::* )( ::cv::Mat const &,::cv::Mat &,double ) )(&::cv::BackgroundSubtractorMOG::operator())
+            , (void ( BackgroundSubtractorMOG_wrapper::* )( ::cv::Mat const &,::cv::Mat &,double ) )(&BackgroundSubtractorMOG_wrapper::default___call__)
+            , ( bp::arg("image"), bp::arg("fgmask"), bp::arg("learningRate")=0 ) )    
+        .def_readwrite( "backgroundRatio", &cv::BackgroundSubtractorMOG::backgroundRatio )    
+        .def_readwrite( "bgmodel", &cv::BackgroundSubtractorMOG::bgmodel )    
+        .def_readwrite( "frameSize", &cv::BackgroundSubtractorMOG::frameSize )    
+        .def_readwrite( "frameType", &cv::BackgroundSubtractorMOG::frameType )    
+        .def_readwrite( "history", &cv::BackgroundSubtractorMOG::history )    
+        .def_readwrite( "nframes", &cv::BackgroundSubtractorMOG::nframes )    
+        .def_readwrite( "nmixtures", &cv::BackgroundSubtractorMOG::nmixtures )    
+        .def_readwrite( "noiseSigma", &cv::BackgroundSubtractorMOG::noiseSigma )    
+        .def_readwrite( "varThreshold", &cv::BackgroundSubtractorMOG::varThreshold );
+
+    bp::class_< cv::CvAffinePose >( "CvAffinePose" )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::CvAffinePose >() )    
+        .def_readwrite( "lambda1", &cv::CvAffinePose::lambda1 )    
+        .def_readwrite( "lambda2", &cv::CvAffinePose::lambda2 )    
+        .def_readwrite( "phi", &cv::CvAffinePose::phi )    
+        .def_readwrite( "theta", &cv::CvAffinePose::theta );
+
+    { //::cv::DefaultRngAuto
+        typedef bp::class_< cv::DefaultRngAuto, boost::noncopyable > DefaultRngAuto_exposer_t;
+        DefaultRngAuto_exposer_t DefaultRngAuto_exposer = DefaultRngAuto_exposer_t( "DefaultRngAuto", bp::no_init );
+        bp::scope DefaultRngAuto_scope( DefaultRngAuto_exposer );
+        DefaultRngAuto_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::DefaultRngAuto >() );
     }
 
-    { //::cv::Octree
-        typedef bp::class_< Octree_wrapper > Octree_exposer_t;
-        Octree_exposer_t Octree_exposer = Octree_exposer_t( "Octree", bp::init< >() );
-        bp::scope Octree_scope( Octree_exposer );
-        Octree_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Octree >() );
-        { //::cv::Octree::Node
-            typedef bp::class_< Octree_wrapper::Node_wrapper > Node_exposer_t;
-            Node_exposer_t Node_exposer = Node_exposer_t( "Node", bp::init< >() );
-            bp::scope Node_scope( Node_exposer );
-            Node_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::Octree::Node >() );
-            Node_exposer.def_readwrite( "begin", &cv::Octree::Node::begin );
-            pyplusplus::containers::static_sized::register_array_1< int, 8 >( "__array_1_int_8" );
-            { //cv::Octree::Node::children [variable], type=int[8]
-            
-                typedef pyplusplus::containers::static_sized::array_1_t< int, 8> ( *array_wrapper_creator )( cv::Octree::Node & );
-                
-                Node_exposer.add_property( "children"
-                    , bp::make_function( array_wrapper_creator(&Octree_wrapper::Node_wrapper::pyplusplus_children_wrapper)
-                                        , bp::with_custodian_and_ward_postcall< 0, 1 >() ) );
-            }
-            Node_exposer.def_readwrite( "end", &cv::Octree::Node::end );
-            Node_exposer.def_readwrite( "isLeaf", &cv::Octree::Node::isLeaf );
-            Node_exposer.def_readwrite( "maxLevels", &cv::Octree::Node::maxLevels );
-            Node_exposer.def_readwrite( "x_max", &cv::Octree::Node::x_max );
-            Node_exposer.def_readwrite( "x_min", &cv::Octree::Node::x_min );
-            Node_exposer.def_readwrite( "y_max", &cv::Octree::Node::y_max );
-            Node_exposer.def_readwrite( "y_min", &cv::Octree::Node::y_min );
-            Node_exposer.def_readwrite( "z_max", &cv::Octree::Node::z_max );
-            Node_exposer.def_readwrite( "z_min", &cv::Octree::Node::z_min );
-        }
-        Octree_exposer.def( bp::init< std::vector< cv::Point3_<float> > const &, bp::optional< int, int > >(( bp::arg("points"), bp::arg("maxLevels")=(int)(10), bp::arg("minPoints")=(int)(20) )) );
-        bp::implicitly_convertible< std::vector< cv::Point3_<float> > const &, cv::Octree >();
-        { //::cv::Octree::buildTree
-        
-            typedef void ( ::cv::Octree::*buildTree_function_type )( ::std::vector< cv::Point3_<float> > const &,int,int ) ;
-            typedef void ( Octree_wrapper::*default_buildTree_function_type )( ::std::vector< cv::Point3_<float> > const &,int,int ) ;
-            
-            Octree_exposer.def( 
-                "buildTree"
-                , buildTree_function_type(&::cv::Octree::buildTree)
-                , default_buildTree_function_type(&Octree_wrapper::default_buildTree)
-                , ( bp::arg("points"), bp::arg("maxLevels")=(int)(10), bp::arg("minPoints")=(int)(20) ) );
-        
-        }
-        { //::cv::Octree::getNodes
-        
-            typedef ::std::vector< cv::Octree::Node > const & ( ::cv::Octree::*getNodes_function_type )(  ) const;
-            
-            Octree_exposer.def( 
-                "getNodes"
-                , getNodes_function_type( &::cv::Octree::getNodes )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::cv::Octree::getPointsWithinSphere
-        
-            typedef boost::python::object ( *default_getPointsWithinSphere_function_type )( cv::Octree const &,::cv::Point3f const &,float );
-            
-            Octree_exposer.def( 
-                "getPointsWithinSphere"
-                , default_getPointsWithinSphere_function_type( &Octree_wrapper::default_getPointsWithinSphere )
-                , ( bp::arg("inst"), bp::arg("center"), bp::arg("radius") )
-                , "\nArgument 'points':"\
-    "\n    C++ type: ::std::vector< cv::Point3_<float> > &"\
-    "\n    Python type: vector_Point3f"\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nReturns:"\
-    "\n    points" );
-        
-        }
-    }
+    bp::class_< cv::PatchGenerator >( "PatchGenerator", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::PatchGenerator >() )    
+        .def( bp::init< double, double, double, bp::optional< bool, double, double, double, double, double, double > >(( bp::arg("_backgroundMin"), bp::arg("_backgroundMax"), bp::arg("_noiseRange"), bp::arg("_randomBlur")=(bool)(true), bp::arg("_lambdaMin")=5.99999999999999977795539507496869191527366638184e-1, bp::arg("_lambdaMax")=1.5e+0, bp::arg("_thetaMin")=-3.14159265358979311599796346854418516159057617188e+0, bp::arg("_thetaMax")=3.14159265358979311599796346854418516159057617188e+0, bp::arg("_phiMin")=-3.14159265358979311599796346854418516159057617188e+0, bp::arg("_phiMax")=3.14159265358979311599796346854418516159057617188e+0 )) )    
+        .def( 
+            "generateRandomTransform"
+            , (void ( cv::PatchGenerator::* )( ::cv::Point2f,::cv::Point2f,::cv::Mat &,::cv::RNG &,bool ) const)( &::cv::PatchGenerator::generateRandomTransform )
+            , ( bp::arg("srcCenter"), bp::arg("dstCenter"), bp::arg("transform"), bp::arg("rng"), bp::arg("inverse")=(bool)(false) ) )    
+        .def( 
+            "__call__"
+            , (void ( cv::PatchGenerator::* )( ::cv::Mat const &,::cv::Point2f,::cv::Mat &,::cv::Size,::cv::RNG & ) const)( &::cv::PatchGenerator::operator() )
+            , ( bp::arg("image"), bp::arg("pt"), bp::arg("patch"), bp::arg("patchSize"), bp::arg("rng") ) )    
+        .def( 
+            "__call__"
+            , (void ( cv::PatchGenerator::* )( ::cv::Mat const &,::cv::Mat const &,::cv::Mat &,::cv::Size,::cv::RNG & ) const)( &::cv::PatchGenerator::operator() )
+            , ( bp::arg("image"), bp::arg("transform"), bp::arg("patch"), bp::arg("patchSize"), bp::arg("rng") ) )    
+        .def( 
+            "warpWholeImage"
+            , (void ( cv::PatchGenerator::* )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Mat &,int,::cv::RNG & ) const)( &::cv::PatchGenerator::warpWholeImage )
+            , ( bp::arg("image"), bp::arg("matT"), bp::arg("buf"), bp::arg("warped"), bp::arg("border"), bp::arg("rng") ) )    
+        .def_readwrite( "backgroundMax", &cv::PatchGenerator::backgroundMax )    
+        .def_readwrite( "backgroundMin", &cv::PatchGenerator::backgroundMin )    
+        .def_readwrite( "lambdaMax", &cv::PatchGenerator::lambdaMax )    
+        .def_readwrite( "lambdaMin", &cv::PatchGenerator::lambdaMin )    
+        .def_readwrite( "noiseRange", &cv::PatchGenerator::noiseRange )    
+        .def_readwrite( "phiMax", &cv::PatchGenerator::phiMax )    
+        .def_readwrite( "phiMin", &cv::PatchGenerator::phiMin )    
+        .def_readwrite( "randomBlur", &cv::PatchGenerator::randomBlur )    
+        .def_readwrite( "thetaMax", &cv::PatchGenerator::thetaMax )    
+        .def_readwrite( "thetaMin", &cv::PatchGenerator::thetaMin );
 
-    bp::class_< cv::OneWayDescriptor >( "OneWayDescriptor" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::OneWayDescriptor >() );
-
-    bp::class_< cv::OneWayDescriptorBase >( "OneWayDescriptorBase", bp::no_init )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::OneWayDescriptorBase >() );
-
-    { //::cv::PlanarObjectDetector
-        typedef bp::class_< PlanarObjectDetector_wrapper > PlanarObjectDetector_exposer_t;
-        PlanarObjectDetector_exposer_t PlanarObjectDetector_exposer = PlanarObjectDetector_exposer_t( "PlanarObjectDetector", bp::init< >() );
-        bp::scope PlanarObjectDetector_scope( PlanarObjectDetector_exposer );
-        PlanarObjectDetector_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::PlanarObjectDetector >() );
-        PlanarObjectDetector_exposer.def( bp::init< cv::FileNode const & >(( bp::arg("node") )) );
-        bp::implicitly_convertible< cv::FileNode const &, cv::PlanarObjectDetector >();
-        PlanarObjectDetector_exposer.def( bp::init< std::vector< cv::Mat > const &, bp::optional< int, int, int, int, int, cv::LDetector const &, cv::PatchGenerator const & > >(( bp::arg("pyr"), bp::arg("_npoints")=(int)(300), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() )) );
-        bp::implicitly_convertible< std::vector< cv::Mat > const &, cv::PlanarObjectDetector >();
-        { //::cv::PlanarObjectDetector::getModelPoints
+    { //::cv::FernClassifier
+        typedef bp::class_< FernClassifier_wrapper > FernClassifier_exposer_t;
+        FernClassifier_exposer_t FernClassifier_exposer = FernClassifier_exposer_t( "FernClassifier", bp::init< >() );
+        bp::scope FernClassifier_scope( FernClassifier_exposer );
+        FernClassifier_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::FernClassifier >() );
+        bp::scope().attr("PATCH_SIZE") = (int)cv::FernClassifier::PATCH_SIZE;
+        bp::scope().attr("DEFAULT_STRUCTS") = (int)cv::FernClassifier::DEFAULT_STRUCTS;
+        bp::scope().attr("DEFAULT_STRUCT_SIZE") = (int)cv::FernClassifier::DEFAULT_STRUCT_SIZE;
+        bp::scope().attr("DEFAULT_VIEWS") = (int)cv::FernClassifier::DEFAULT_VIEWS;
+        bp::scope().attr("DEFAULT_SIGNATURE_SIZE") = (int)cv::FernClassifier::DEFAULT_SIGNATURE_SIZE;
+        bp::scope().attr("COMPRESSION_NONE") = (int)cv::FernClassifier::COMPRESSION_NONE;
+        bp::scope().attr("COMPRESSION_RANDOM_PROJ") = (int)cv::FernClassifier::COMPRESSION_RANDOM_PROJ;
+        bp::scope().attr("COMPRESSION_PCA") = (int)cv::FernClassifier::COMPRESSION_PCA;
+        bp::scope().attr("DEFAULT_COMPRESSION_METHOD") = (int)cv::FernClassifier::DEFAULT_COMPRESSION_METHOD;
+        bp::class_< cv::FernClassifier::Feature >( "Feature", bp::init< >() )    
+            .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::FernClassifier::Feature >() )    
+            .def( bp::init< int, int, int, int >(( bp::arg("_x1"), bp::arg("_y1"), bp::arg("_x2"), bp::arg("_y2") )) )    
+            .def_readwrite( "x1", &cv::FernClassifier::Feature::x1 )    
+            .def_readwrite( "x2", &cv::FernClassifier::Feature::x2 )    
+            .def_readwrite( "y1", &cv::FernClassifier::Feature::y1 )    
+            .def_readwrite( "y2", &cv::FernClassifier::Feature::y2 );
+        FernClassifier_exposer.def( bp::init< cv::FileNode const & >(( bp::arg("node") )) );
+        bp::implicitly_convertible< cv::FileNode const &, cv::FernClassifier >();
+        FernClassifier_exposer.def( bp::init< std::vector< cv::Point_<float> > const &, std::vector< cv::Ptr<cv::Mat> > const &, bp::optional< std::vector< int > const &, int, int, int, int, int, int, int, cv::PatchGenerator const & > >(( bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=std::vector<int>(), bp::arg("_nclasses")=(int)(0), bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() )) );
+        { //::cv::FernClassifier::clear
         
-            typedef ::std::vector< cv::KeyPoint > ( ::cv::PlanarObjectDetector::*getModelPoints_function_type )(  ) const;
+            typedef void ( ::cv::FernClassifier::*clear_function_type )(  ) ;
+            typedef void ( FernClassifier_wrapper::*default_clear_function_type )(  ) ;
             
-            PlanarObjectDetector_exposer.def( 
-                "getModelPoints"
-                , getModelPoints_function_type( &::cv::PlanarObjectDetector::getModelPoints ) );
+            FernClassifier_exposer.def( 
+                "clear"
+                , clear_function_type(&::cv::FernClassifier::clear)
+                , default_clear_function_type(&FernClassifier_wrapper::default_clear) );
         
         }
-        { //::cv::PlanarObjectDetector::operator()
+        { //::cv::FernClassifier::getClassCount
         
-            typedef boost::python::tuple ( *__call___function_type )( cv::PlanarObjectDetector const &,cv::Mat const &,cv::Mat & );
+            typedef int ( ::cv::FernClassifier::*getClassCount_function_type )(  ) const;
             
-            PlanarObjectDetector_exposer.def( 
+            FernClassifier_exposer.def( 
+                "getClassCount"
+                , getClassCount_function_type( &::cv::FernClassifier::getClassCount ) );
+        
+        }
+        { //::cv::FernClassifier::getCompressionMethod
+        
+            typedef int ( ::cv::FernClassifier::*getCompressionMethod_function_type )(  ) const;
+            
+            FernClassifier_exposer.def( 
+                "getCompressionMethod"
+                , getCompressionMethod_function_type( &::cv::FernClassifier::getCompressionMethod ) );
+        
+        }
+        { //::cv::FernClassifier::getPatchSize
+        
+            typedef ::cv::Size ( ::cv::FernClassifier::*getPatchSize_function_type )(  ) const;
+            
+            FernClassifier_exposer.def( 
+                "getPatchSize"
+                , getPatchSize_function_type( &::cv::FernClassifier::getPatchSize ) );
+        
+        }
+        { //::cv::FernClassifier::getSignatureSize
+        
+            typedef int ( ::cv::FernClassifier::*getSignatureSize_function_type )(  ) const;
+            
+            FernClassifier_exposer.def( 
+                "getSignatureSize"
+                , getSignatureSize_function_type( &::cv::FernClassifier::getSignatureSize ) );
+        
+        }
+        { //::cv::FernClassifier::getStructCount
+        
+            typedef int ( ::cv::FernClassifier::*getStructCount_function_type )(  ) const;
+            
+            FernClassifier_exposer.def( 
+                "getStructCount"
+                , getStructCount_function_type( &::cv::FernClassifier::getStructCount ) );
+        
+        }
+        { //::cv::FernClassifier::getStructSize
+        
+            typedef int ( ::cv::FernClassifier::*getStructSize_function_type )(  ) const;
+            
+            FernClassifier_exposer.def( 
+                "getStructSize"
+                , getStructSize_function_type( &::cv::FernClassifier::getStructSize ) );
+        
+        }
+        { //::cv::FernClassifier::operator()
+        
+            typedef boost::python::tuple ( *default___call___function_type )( cv::FernClassifier const &,cv::Mat const &,::cv::Point2f );
+            
+            FernClassifier_exposer.def( 
                 "__call__"
-                , __call___function_type( &PlanarObjectDetector_wrapper::__call___4ace94e257458a02821c3e23f229be80 )
-                , ( bp::arg("inst"), bp::arg("image"), bp::arg("H") )
+                , default___call___function_type( &FernClassifier_wrapper::default___call___c4d2198033cf380377bb6f32571c2657 )
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("kpt") )
                 , "\nWrapped function:"
     "\n    operator()"
-    "\nArgument 'corners':"\
-    "\n    C++ type: ::std::vector< cv::Point_<float> > &"\
-    "\n    Python type: vector_Point2f"\
+    "\nArgument 'signature':"\
+    "\n    C++ type: ::std::vector< float > &"\
+    "\n    Python type: vector_float32"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
-    "\n    ((bool), corners)" );
+    "\n    ((int), signature)" );
         
         }
-        { //::cv::PlanarObjectDetector::operator()
+        { //::cv::FernClassifier::operator()
         
-            typedef boost::python::tuple ( *__call___function_type )( cv::PlanarObjectDetector const &,std::vector<cv::Mat> const &,std::vector<cv::KeyPoint> const &,cv::Mat & );
+            typedef boost::python::tuple ( *default___call___function_type )( cv::FernClassifier const &,cv::Mat const & );
             
-            PlanarObjectDetector_exposer.def( 
+            FernClassifier_exposer.def( 
                 "__call__"
-                , __call___function_type( &PlanarObjectDetector_wrapper::__call___353477db407d578b28250d295a56ae36 )
-                , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("keypoints"), bp::arg("H") )
+                , default___call___function_type( &FernClassifier_wrapper::default___call___ddcd7402f4cc50fa35ce4888642630c7 )
+                , ( bp::arg("inst"), bp::arg("patch") )
                 , "\nWrapped function:"
     "\n    operator()"
-    "\nArgument 'corners':"\
-    "\n    C++ type: ::std::vector< cv::Point_<float> > &"\
-    "\n    Python type: vector_Point2f"\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nArgument 'pairs':"\
-    "\n    C++ type: ::std::vector< int > *"\
-    "\n    Python type: vector_int"\
+    "\nArgument 'signature':"\
+    "\n    C++ type: ::std::vector< float > &"\
+    "\n    Python type: vector_float32"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
-    "\n    ((bool), corners, pairs)" );
+    "\n    ((int), signature)" );
         
         }
-        { //::cv::PlanarObjectDetector::read
+        { //::cv::FernClassifier::read
         
-            typedef void ( ::cv::PlanarObjectDetector::*read_function_type )( ::cv::FileNode const & ) ;
+            typedef void ( ::cv::FernClassifier::*read_function_type )( ::cv::FileNode const & ) ;
+            typedef void ( FernClassifier_wrapper::*default_read_function_type )( ::cv::FileNode const & ) ;
             
-            PlanarObjectDetector_exposer.def( 
+            FernClassifier_exposer.def( 
                 "read"
-                , read_function_type( &::cv::PlanarObjectDetector::read )
-                , ( bp::arg("node") ) );
+                , read_function_type(&::cv::FernClassifier::read)
+                , default_read_function_type(&FernClassifier_wrapper::default_read)
+                , ( bp::arg("n") ) );
         
         }
-        { //::cv::PlanarObjectDetector::setVerbose
+        { //::cv::FernClassifier::setVerbose
         
-            typedef void ( ::cv::PlanarObjectDetector::*setVerbose_function_type )( bool ) ;
+            typedef void ( ::cv::FernClassifier::*setVerbose_function_type )( bool ) ;
             
-            PlanarObjectDetector_exposer.def( 
+            FernClassifier_exposer.def( 
                 "setVerbose"
-                , setVerbose_function_type( &::cv::PlanarObjectDetector::setVerbose )
+                , setVerbose_function_type( &::cv::FernClassifier::setVerbose )
                 , ( bp::arg("verbose") ) );
         
         }
-        { //::cv::PlanarObjectDetector::train
+        { //::cv::FernClassifier::train
         
-            typedef void ( ::cv::PlanarObjectDetector::*train_function_type )( ::std::vector< cv::Mat > const &,int,int,int,int,int,::cv::LDetector const &,::cv::PatchGenerator const & ) ;
-            typedef void ( PlanarObjectDetector_wrapper::*default_train_function_type )( ::std::vector< cv::Mat > const &,int,int,int,int,int,::cv::LDetector const &,::cv::PatchGenerator const & ) ;
+            typedef void ( ::cv::FernClassifier::*train_function_type )( ::std::vector< cv::Point_<float> > const &,::std::vector< cv::Ptr<cv::Mat> > const &,::std::vector< int > const &,int,int,int,int,int,int,int,::cv::PatchGenerator const & ) ;
+            typedef void ( FernClassifier_wrapper::*default_train_function_type )( ::std::vector< cv::Point_<float> > const &,::std::vector< cv::Ptr<cv::Mat> > const &,::std::vector< int > const &,int,int,int,int,int,int,int,::cv::PatchGenerator const & ) ;
             
-            PlanarObjectDetector_exposer.def( 
+            FernClassifier_exposer.def( 
                 "train"
-                , train_function_type(&::cv::PlanarObjectDetector::train)
-                , default_train_function_type(&PlanarObjectDetector_wrapper::default_train)
-                , ( bp::arg("pyr"), bp::arg("_npoints")=(int)(300), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() ) );
+                , train_function_type(&::cv::FernClassifier::train)
+                , default_train_function_type(&FernClassifier_wrapper::default_train)
+                , ( bp::arg("points"), bp::arg("refimgs"), bp::arg("labels")=std::vector<int>(), bp::arg("_nclasses")=(int)(0), bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() ) );
         
         }
-        { //::cv::PlanarObjectDetector::train
+        { //::cv::FernClassifier::trainFromSingleView
         
-            typedef void ( ::cv::PlanarObjectDetector::*train_function_type )( ::std::vector< cv::Mat > const &,::std::vector< cv::KeyPoint > const &,int,int,int,int,::cv::LDetector const &,::cv::PatchGenerator const & ) ;
-            typedef void ( PlanarObjectDetector_wrapper::*default_train_function_type )( ::std::vector< cv::Mat > const &,::std::vector< cv::KeyPoint > const &,int,int,int,int,::cv::LDetector const &,::cv::PatchGenerator const & ) ;
+            typedef void ( ::cv::FernClassifier::*trainFromSingleView_function_type )( ::cv::Mat const &,::std::vector< cv::KeyPoint > const &,int,int,int,int,int,int,::cv::PatchGenerator const & ) ;
+            typedef void ( FernClassifier_wrapper::*default_trainFromSingleView_function_type )( ::cv::Mat const &,::std::vector< cv::KeyPoint > const &,int,int,int,int,int,int,::cv::PatchGenerator const & ) ;
             
-            PlanarObjectDetector_exposer.def( 
-                "train"
-                , train_function_type(&::cv::PlanarObjectDetector::train)
-                , default_train_function_type(&PlanarObjectDetector_wrapper::default_train)
-                , ( bp::arg("pyr"), bp::arg("keypoints"), bp::arg("_patchSize")=(int)(cv::FernClassifier::PATCH_SIZE), bp::arg("_nstructs")=(int)(cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=(int)(cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=(int)(cv::FernClassifier::DEFAULT_VIEWS), bp::arg("detector")=cv::LDetector(), bp::arg("patchGenerator")=cv::PatchGenerator() ) );
+            FernClassifier_exposer.def( 
+                "trainFromSingleView"
+                , trainFromSingleView_function_type(&::cv::FernClassifier::trainFromSingleView)
+                , default_trainFromSingleView_function_type(&FernClassifier_wrapper::default_trainFromSingleView)
+                , ( bp::arg("image"), bp::arg("keypoints"), bp::arg("_patchSize")=int(::cv::FernClassifier::PATCH_SIZE), bp::arg("_signatureSize")=int(::cv::FernClassifier::DEFAULT_SIGNATURE_SIZE), bp::arg("_nstructs")=int(::cv::FernClassifier::DEFAULT_STRUCTS), bp::arg("_structSize")=int(::cv::FernClassifier::DEFAULT_STRUCT_SIZE), bp::arg("_nviews")=int(::cv::FernClassifier::DEFAULT_VIEWS), bp::arg("_compressionMethod")=int(::cv::FernClassifier::COMPRESSION_NONE), bp::arg("patchGenerator")=cv::PatchGenerator() ) );
         
         }
-        { //::cv::PlanarObjectDetector::write
+        { //::cv::FernClassifier::write
         
-            typedef void ( ::cv::PlanarObjectDetector::*write_function_type )( ::cv::FileStorage &,::cv::String const & ) const;
+            typedef void ( ::cv::FernClassifier::*write_function_type )( ::cv::FileStorage &,::cv::String const & ) const;
+            typedef void ( FernClassifier_wrapper::*default_write_function_type )( ::cv::FileStorage &,::cv::String const & ) const;
             
-            PlanarObjectDetector_exposer.def( 
+            FernClassifier_exposer.def( 
                 "write"
-                , write_function_type( &::cv::PlanarObjectDetector::write )
+                , write_function_type(&::cv::FernClassifier::write)
+                , default_write_function_type(&FernClassifier_wrapper::default_write)
                 , ( bp::arg("fs"), bp::arg("name")=std::string() ) );
         
         }
     }
 
-    { //::cv::SelfSimDescriptor
-        typedef bp::class_< SelfSimDescriptor_wrapper > SelfSimDescriptor_exposer_t;
-        SelfSimDescriptor_exposer_t SelfSimDescriptor_exposer = SelfSimDescriptor_exposer_t( "SelfSimDescriptor", bp::init< >() );
-        bp::scope SelfSimDescriptor_scope( SelfSimDescriptor_exposer );
-        SelfSimDescriptor_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::SelfSimDescriptor >() );
-        bp::scope().attr("DEFAULT_SMALL_SIZE") = (int)cv::SelfSimDescriptor::DEFAULT_SMALL_SIZE;
-        bp::scope().attr("DEFAULT_LARGE_SIZE") = (int)cv::SelfSimDescriptor::DEFAULT_LARGE_SIZE;
-        bp::scope().attr("DEFAULT_NUM_ANGLES") = (int)cv::SelfSimDescriptor::DEFAULT_NUM_ANGLES;
-        bp::scope().attr("DEFAULT_START_DISTANCE_BUCKET") = (int)cv::SelfSimDescriptor::DEFAULT_START_DISTANCE_BUCKET;
-        bp::scope().attr("DEFAULT_NUM_DISTANCE_BUCKETS") = (int)cv::SelfSimDescriptor::DEFAULT_NUM_DISTANCE_BUCKETS;
-        SelfSimDescriptor_exposer.def( bp::init< int, int, bp::optional< int, int, int > >(( bp::arg("_ssize"), bp::arg("_lsize"), bp::arg("_startDistanceBucket")=int(::cv::SelfSimDescriptor::DEFAULT_START_DISTANCE_BUCKET), bp::arg("_numberOfDistanceBuckets")=int(::cv::SelfSimDescriptor::DEFAULT_NUM_DISTANCE_BUCKETS), bp::arg("_nangles")=int(::cv::SelfSimDescriptor::DEFAULT_NUM_ANGLES) )) );
-        SelfSimDescriptor_exposer.def( bp::init< cv::SelfSimDescriptor const & >(( bp::arg("ss") )) );
-        { //::cv::SelfSimDescriptor::SSD
+    { //::cv::HOGDescriptor
+        typedef bp::class_< HOGDescriptor_wrapper > HOGDescriptor_exposer_t;
+        HOGDescriptor_exposer_t HOGDescriptor_exposer = HOGDescriptor_exposer_t( "HOGDescriptor", bp::init< >() );
+        bp::scope HOGDescriptor_scope( HOGDescriptor_exposer );
+        HOGDescriptor_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::HOGDescriptor >() );
+        bp::scope().attr("L2Hys") = (int)cv::HOGDescriptor::L2Hys;
+        HOGDescriptor_exposer.def( bp::init< cv::Size, cv::Size, cv::Size, cv::Size, int, bp::optional< int, double, int, double, bool > >(( bp::arg("_winSize"), bp::arg("_blockSize"), bp::arg("_blockStride"), bp::arg("_cellSize"), bp::arg("_nbins"), bp::arg("_derivAperture")=(int)(1), bp::arg("_winSigma")=-0x000000001, bp::arg("_histogramNormType")=int(::cv::HOGDescriptor::L2Hys), bp::arg("_L2HysThreshold")=2.00000000000000011102230246251565404236316680908e-1, bp::arg("_gammaCorrection")=(bool)(false) )) );
+        HOGDescriptor_exposer.def( bp::init< cv::String const & >(( bp::arg("filename") )) );
+        bp::implicitly_convertible< cv::String const &, cv::HOGDescriptor >();
+        { //::cv::HOGDescriptor::checkDetectorSize
         
-            typedef void ( ::cv::SelfSimDescriptor::*SSD_function_type )( ::cv::Mat const &,::cv::Point,::cv::Mat & ) const;
-            typedef void ( SelfSimDescriptor_wrapper::*default_SSD_function_type )( ::cv::Mat const &,::cv::Point,::cv::Mat & ) const;
+            typedef bool ( ::cv::HOGDescriptor::*checkDetectorSize_function_type )(  ) const;
             
-            SelfSimDescriptor_exposer.def( 
-                "SSD"
-                , SSD_function_type(&::cv::SelfSimDescriptor::SSD)
-                , default_SSD_function_type(&SelfSimDescriptor_wrapper::default_SSD)
-                , ( bp::arg("img"), bp::arg("pt"), bp::arg("ssd") ) );
+            HOGDescriptor_exposer.def( 
+                "checkDetectorSize"
+                , checkDetectorSize_function_type( &::cv::HOGDescriptor::checkDetectorSize ) );
         
         }
-        { //::cv::SelfSimDescriptor::compute
+        { //::cv::HOGDescriptor::compute
         
-            typedef void ( ::cv::SelfSimDescriptor::*compute_function_type )( ::cv::Mat const &,::std::vector< float > &,::cv::Size,::std::vector< cv::Point_<int> > const & ) const;
-            typedef void ( SelfSimDescriptor_wrapper::*default_compute_function_type )( ::cv::Mat const &,::std::vector< float > &,::cv::Size,::std::vector< cv::Point_<int> > const & ) const;
+            typedef boost::python::object ( *default_compute_function_type )( cv::HOGDescriptor const &,cv::Mat const &,::cv::Size,::cv::Size,std::vector<cv::Point_<int> > const & );
             
-            SelfSimDescriptor_exposer.def( 
+            HOGDescriptor_exposer.def( 
                 "compute"
-                , compute_function_type(&::cv::SelfSimDescriptor::compute)
-                , default_compute_function_type(&SelfSimDescriptor_wrapper::default_compute)
-                , ( bp::arg("img"), bp::arg("descriptors"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("locations")=std::vector<cv::Point>() ) );
-        
-        }
-        { //::cv::SelfSimDescriptor::computeLogPolarMapping
-        
-            typedef void ( ::cv::SelfSimDescriptor::*computeLogPolarMapping_function_type )( ::cv::Mat & ) const;
-            typedef void ( SelfSimDescriptor_wrapper::*default_computeLogPolarMapping_function_type )( ::cv::Mat & ) const;
-            
-            SelfSimDescriptor_exposer.def( 
-                "computeLogPolarMapping"
-                , computeLogPolarMapping_function_type(&::cv::SelfSimDescriptor::computeLogPolarMapping)
-                , default_computeLogPolarMapping_function_type(&SelfSimDescriptor_wrapper::default_computeLogPolarMapping)
-                , ( bp::arg("mappingMask") ) );
-        
-        }
-        { //::cv::SelfSimDescriptor::getDescriptorSize
-        
-            typedef ::size_t ( ::cv::SelfSimDescriptor::*getDescriptorSize_function_type )(  ) const;
-            
-            SelfSimDescriptor_exposer.def( 
-                "getDescriptorSize"
-                , getDescriptorSize_function_type( &::cv::SelfSimDescriptor::getDescriptorSize ) );
-        
-        }
-        { //::cv::SelfSimDescriptor::getGridSize
-        
-            typedef ::cv::Size ( ::cv::SelfSimDescriptor::*getGridSize_function_type )( ::cv::Size,::cv::Size ) const;
-            
-            SelfSimDescriptor_exposer.def( 
-                "getGridSize"
-                , getGridSize_function_type( &::cv::SelfSimDescriptor::getGridSize )
-                , ( bp::arg("imgsize"), bp::arg("winStride") ) );
-        
-        }
-        { //::cv::SelfSimDescriptor::operator=
-        
-            typedef ::cv::SelfSimDescriptor & ( ::cv::SelfSimDescriptor::*assign_function_type )( ::cv::SelfSimDescriptor const & ) ;
-            
-            SelfSimDescriptor_exposer.def( 
-                "assign"
-                , assign_function_type( &::cv::SelfSimDescriptor::operator= )
-                , ( bp::arg("ss") )
-                , bp::return_self< >()
-                , "\nWrapped function:"
-    "\n    operator=" );
-        
-        }
-        SelfSimDescriptor_exposer.def_readwrite( "largeSize", &cv::SelfSimDescriptor::largeSize );
-        SelfSimDescriptor_exposer.def_readwrite( "numberOfAngles", &cv::SelfSimDescriptor::numberOfAngles );
-        SelfSimDescriptor_exposer.def_readwrite( "numberOfDistanceBuckets", &cv::SelfSimDescriptor::numberOfDistanceBuckets );
-        SelfSimDescriptor_exposer.def_readwrite( "smallSize", &cv::SelfSimDescriptor::smallSize );
-        SelfSimDescriptor_exposer.def_readwrite( "startDistanceBucket", &cv::SelfSimDescriptor::startDistanceBucket );
-    }
-
-    { //::cv::SpinImageModel
-        typedef bp::class_< cv::SpinImageModel > SpinImageModel_exposer_t;
-        SpinImageModel_exposer_t SpinImageModel_exposer = SpinImageModel_exposer_t( "SpinImageModel", bp::init< >() );
-        bp::scope SpinImageModel_scope( SpinImageModel_exposer );
-        SpinImageModel_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::SpinImageModel >() );
-        SpinImageModel_exposer.def( bp::init< cv::Mesh3D const & >(( bp::arg("mesh") )) );
-        bp::implicitly_convertible< cv::Mesh3D const &, cv::SpinImageModel >();
-        { //::cv::SpinImageModel::compute
-        
-            typedef void ( ::cv::SpinImageModel::*compute_function_type )(  ) ;
-            
-            SpinImageModel_exposer.def( 
-                "compute"
-                , compute_function_type( &::cv::SpinImageModel::compute ) );
-        
-        }
-        { //::cv::SpinImageModel::getMesh
-        
-            typedef ::cv::Mesh3D const & ( ::cv::SpinImageModel::*getMesh_function_type )(  ) const;
-            
-            SpinImageModel_exposer.def( 
-                "getMesh"
-                , getMesh_function_type( &::cv::SpinImageModel::getMesh )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::cv::SpinImageModel::getMesh
-        
-            typedef ::cv::Mesh3D & ( ::cv::SpinImageModel::*getMesh_function_type )(  ) ;
-            
-            SpinImageModel_exposer.def( 
-                "getMesh"
-                , getMesh_function_type( &::cv::SpinImageModel::getMesh )
-                , bp::return_internal_reference< >() );
-        
-        }
-        { //::cv::SpinImageModel::getSpinCount
-        
-            typedef ::size_t ( ::cv::SpinImageModel::*getSpinCount_function_type )(  ) const;
-            
-            SpinImageModel_exposer.def( 
-                "getSpinCount"
-                , getSpinCount_function_type( &::cv::SpinImageModel::getSpinCount ) );
-        
-        }
-        { //::cv::SpinImageModel::getSpinImage
-        
-            typedef ::cv::Mat ( ::cv::SpinImageModel::*getSpinImage_function_type )( ::size_t ) const;
-            
-            SpinImageModel_exposer.def( 
-                "getSpinImage"
-                , getSpinImage_function_type( &::cv::SpinImageModel::getSpinImage )
-                , ( bp::arg("index") ) );
-        
-        }
-        { //::cv::SpinImageModel::getSpinNormal
-        
-            typedef ::cv::Point3f const & ( ::cv::SpinImageModel::*getSpinNormal_function_type )( ::size_t ) const;
-            
-            SpinImageModel_exposer.def( 
-                "getSpinNormal"
-                , getSpinNormal_function_type( &::cv::SpinImageModel::getSpinNormal )
-                , ( bp::arg("index") )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::cv::SpinImageModel::getSpinVertex
-        
-            typedef ::cv::Point3f const & ( ::cv::SpinImageModel::*getSpinVertex_function_type )( ::size_t ) const;
-            
-            SpinImageModel_exposer.def( 
-                "getSpinVertex"
-                , getSpinVertex_function_type( &::cv::SpinImageModel::getSpinVertex )
-                , ( bp::arg("index") )
-                , bp::return_value_policy< bp::copy_const_reference >() );
-        
-        }
-        { //::cv::SpinImageModel::match
-        
-            typedef boost::python::object ( *match_function_type )( cv::SpinImageModel &,cv::SpinImageModel const & );
-            
-            SpinImageModel_exposer.def( 
-                "match"
-                , match_function_type( &match_86773a6b4d89ae97806d1109a2438811 )
-                , ( bp::arg("inst"), bp::arg("scene") )
-                , "\nArgument 'result':"\
-    "\n    C++ type: ::std::vector< std::vector< cv::Vec<int, 2> > > &"\
-    "\n    Python type: vector_vector_Vec2i"\
+                , default_compute_function_type( &HOGDescriptor_wrapper::default_compute )
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=std::vector<cv::Point>() )
+                , "\nArgument 'descriptors':"\
+    "\n    C++ type: ::std::vector< float > &"\
+    "\n    Python type: vector_float32"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
-    "\n    result" );
+    "\n    descriptors" );
         
         }
-        { //::cv::SpinImageModel::packRandomScaledSpins
+        { //::cv::HOGDescriptor::computeGradient
         
-            typedef ::cv::Mat ( ::cv::SpinImageModel::*packRandomScaledSpins_function_type )( bool,::size_t,::size_t ) const;
+            typedef void ( ::cv::HOGDescriptor::*computeGradient_function_type )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Size,::cv::Size ) const;
+            typedef void ( HOGDescriptor_wrapper::*default_computeGradient_function_type )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Size,::cv::Size ) const;
             
-            SpinImageModel_exposer.def( 
-                "packRandomScaledSpins"
-                , packRandomScaledSpins_function_type( &::cv::SpinImageModel::packRandomScaledSpins )
-                , ( bp::arg("separateScale")=(bool)(false), bp::arg("xCount")=(::size_t)(10), bp::arg("yCount")=(::size_t)(10) ) );
+            HOGDescriptor_exposer.def( 
+                "computeGradient"
+                , computeGradient_function_type(&::cv::HOGDescriptor::computeGradient)
+                , default_computeGradient_function_type(&HOGDescriptor_wrapper::default_computeGradient)
+                , ( bp::arg("img"), bp::arg("grad"), bp::arg("angleOfs"), bp::arg("paddingTL")=cv::Size_<int>(), bp::arg("paddingBR")=cv::Size_<int>() ) );
         
         }
-        { //::cv::SpinImageModel::selectRandomSubset
+        { //::cv::HOGDescriptor::detect
         
-            typedef void ( ::cv::SpinImageModel::*selectRandomSubset_function_type )( float ) ;
+            typedef boost::python::object ( *default_detect_function_type )( cv::HOGDescriptor const &,cv::Mat const &,double,::cv::Size,::cv::Size,std::vector<cv::Point_<int> > const & );
             
-            SpinImageModel_exposer.def( 
-                "selectRandomSubset"
-                , selectRandomSubset_function_type( &::cv::SpinImageModel::selectRandomSubset )
-                , ( bp::arg("ratio") ) );
+            HOGDescriptor_exposer.def( 
+                "detect"
+                , default_detect_function_type( &HOGDescriptor_wrapper::default_detect )
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=std::vector<cv::Point>() )
+                , "\nArgument 'foundLocations':"\
+    "\n    C++ type: ::std::vector< cv::Point_<int> > &"\
+    "\n    Python type: vector_Point2i"\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    foundLocations" );
         
         }
-        { //::cv::SpinImageModel::setSubset
+        { //::cv::HOGDescriptor::detectMultiScale
         
-            typedef void ( ::cv::SpinImageModel::*setSubset_function_type )( ::std::vector< int > const & ) ;
+            typedef boost::python::object ( *default_detectMultiScale_function_type )( cv::HOGDescriptor const &,cv::Mat const &,double,::cv::Size,::cv::Size,double,int );
             
-            SpinImageModel_exposer.def( 
-                "setSubset"
-                , setSubset_function_type( &::cv::SpinImageModel::setSubset )
-                , ( bp::arg("subset") ) );
+            HOGDescriptor_exposer.def( 
+                "detectMultiScale"
+                , default_detectMultiScale_function_type( &HOGDescriptor_wrapper::default_detectMultiScale )
+                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("scale")=1.05000000000000004440892098500626161694526672363e+0, bp::arg("groupThreshold")=(int)(2) )
+                , "\nArgument 'foundLocations':"\
+    "\n    C++ type: ::std::vector< cv::Rect_<int> > &"\
+    "\n    Python type: vector_Rect"\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    foundLocations" );
         
         }
-        { //::cv::SpinImageModel::spinCorrelation
+        { //::cv::HOGDescriptor::getDefaultPeopleDetector
         
-            typedef bool ( *spinCorrelation_function_type )( ::cv::Mat const &,::cv::Mat const &,float,float & );
+            typedef ::std::vector< float > ( *getDefaultPeopleDetector_function_type )(  );
             
-            SpinImageModel_exposer.def( 
-                "spinCorrelation"
-                , spinCorrelation_function_type( &::cv::SpinImageModel::spinCorrelation )
-                , ( bp::arg("spin1"), bp::arg("spin2"), bp::arg("lambda"), bp::arg("result") ) );
+            HOGDescriptor_exposer.def( 
+                "getDefaultPeopleDetector"
+                , getDefaultPeopleDetector_function_type( &::cv::HOGDescriptor::getDefaultPeopleDetector ) );
         
         }
-        SpinImageModel_exposer.def_readwrite( "T_GeometriccConsistency", &cv::SpinImageModel::T_GeometriccConsistency );
-        SpinImageModel_exposer.def_readwrite( "T_GroupingCorespondances", &cv::SpinImageModel::T_GroupingCorespondances );
-        SpinImageModel_exposer.def_readwrite( "binSize", &cv::SpinImageModel::binSize );
-        SpinImageModel_exposer.def_readwrite( "gamma", &cv::SpinImageModel::gamma );
-        SpinImageModel_exposer.def_readwrite( "imageWidth", &cv::SpinImageModel::imageWidth );
-        SpinImageModel_exposer.def_readwrite( "lambda_", &cv::SpinImageModel::lambda );
-        SpinImageModel_exposer.def_readwrite( "minNeighbors", &cv::SpinImageModel::minNeighbors );
-        SpinImageModel_exposer.def_readwrite( "normalRadius", &cv::SpinImageModel::normalRadius );
-        SpinImageModel_exposer.staticmethod( "spinCorrelation" );
+        { //::cv::HOGDescriptor::getDescriptorSize
+        
+            typedef ::size_t ( ::cv::HOGDescriptor::*getDescriptorSize_function_type )(  ) const;
+            
+            HOGDescriptor_exposer.def( 
+                "getDescriptorSize"
+                , getDescriptorSize_function_type( &::cv::HOGDescriptor::getDescriptorSize ) );
+        
+        }
+        { //::cv::HOGDescriptor::getWinSigma
+        
+            typedef double ( ::cv::HOGDescriptor::*getWinSigma_function_type )(  ) const;
+            
+            HOGDescriptor_exposer.def( 
+                "getWinSigma"
+                , getWinSigma_function_type( &::cv::HOGDescriptor::getWinSigma ) );
+        
+        }
+        { //::cv::HOGDescriptor::load
+        
+            typedef bool ( ::cv::HOGDescriptor::*load_function_type )( ::cv::String const &,::cv::String const & ) ;
+            typedef bool ( HOGDescriptor_wrapper::*default_load_function_type )( ::cv::String const &,::cv::String const & ) ;
+            
+            HOGDescriptor_exposer.def( 
+                "load"
+                , load_function_type(&::cv::HOGDescriptor::load)
+                , default_load_function_type(&HOGDescriptor_wrapper::default_load)
+                , ( bp::arg("filename"), bp::arg("objname")=std::string() ) );
+        
+        }
+        { //::cv::HOGDescriptor::save
+        
+            typedef void ( ::cv::HOGDescriptor::*save_function_type )( ::cv::String const &,::cv::String const & ) const;
+            typedef void ( HOGDescriptor_wrapper::*default_save_function_type )( ::cv::String const &,::cv::String const & ) const;
+            
+            HOGDescriptor_exposer.def( 
+                "save"
+                , save_function_type(&::cv::HOGDescriptor::save)
+                , default_save_function_type(&HOGDescriptor_wrapper::default_save)
+                , ( bp::arg("filename"), bp::arg("objname")=std::string() ) );
+        
+        }
+        { //::cv::HOGDescriptor::setSVMDetector
+        
+            typedef void ( ::cv::HOGDescriptor::*setSVMDetector_function_type )( ::std::vector< float > const & ) ;
+            typedef void ( HOGDescriptor_wrapper::*default_setSVMDetector_function_type )( ::std::vector< float > const & ) ;
+            
+            HOGDescriptor_exposer.def( 
+                "setSVMDetector"
+                , setSVMDetector_function_type(&::cv::HOGDescriptor::setSVMDetector)
+                , default_setSVMDetector_function_type(&HOGDescriptor_wrapper::default_setSVMDetector)
+                , ( bp::arg("_svmdetector") ) );
+        
+        }
+        HOGDescriptor_exposer.def_readwrite( "L2HysThreshold", &cv::HOGDescriptor::L2HysThreshold );
+        HOGDescriptor_exposer.def_readwrite( "blockSize", &cv::HOGDescriptor::blockSize );
+        HOGDescriptor_exposer.def_readwrite( "blockStride", &cv::HOGDescriptor::blockStride );
+        HOGDescriptor_exposer.def_readwrite( "cellSize", &cv::HOGDescriptor::cellSize );
+        HOGDescriptor_exposer.def_readwrite( "derivAperture", &cv::HOGDescriptor::derivAperture );
+        HOGDescriptor_exposer.def_readwrite( "gammaCorrection", &cv::HOGDescriptor::gammaCorrection );
+        HOGDescriptor_exposer.def_readwrite( "histogramNormType", &cv::HOGDescriptor::histogramNormType );
+        HOGDescriptor_exposer.def_readwrite( "nbins", &cv::HOGDescriptor::nbins );
+        HOGDescriptor_exposer.def_readwrite( "svmDetector", &cv::HOGDescriptor::svmDetector );
+        HOGDescriptor_exposer.def_readwrite( "winSigma", &cv::HOGDescriptor::winSigma );
+        HOGDescriptor_exposer.def_readwrite( "winSize", &cv::HOGDescriptor::winSize );
+        HOGDescriptor_exposer.staticmethod( "getDefaultPeopleDetector" );
     }
 
-    bp::class_< cv::TickMeter >( "TickMeter", bp::init< >() )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::TickMeter >() )    
+    bp::class_< cv::LDetector >( "LDetector", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::LDetector >() )    
+        .def( bp::init< int, int, int, int, double, double >(( bp::arg("_radius"), bp::arg("_threshold"), bp::arg("_nOctaves"), bp::arg("_nViews"), bp::arg("_baseFeatureSize"), bp::arg("_clusteringDistance") )) )    
         .def( 
-            "getCounter"
-            , (::int64 ( cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getCounter ) )    
+            "getMostStable2D"
+            , (void ( cv::LDetector::* )( ::cv::Mat const &,::std::vector< cv::KeyPoint > &,int,::cv::PatchGenerator const & ) const)( &::cv::LDetector::getMostStable2D )
+            , ( bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") ) )    
         .def( 
-            "getTimeMicro"
-            , (double ( cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeMicro ) )    
+            "__call__"
+            , (boost::python::object (*)( cv::LDetector const &,cv::Mat const &,int,bool ))( &__call___14ec982e59fdc13237968e34b82d6fe2 )
+            , ( bp::arg("inst"), bp::arg("image"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
+            , "\nWrapped function:"
+    "\n    operator()"
+    "\nArgument 'keypoints':"\
+    "\n    C++ type: ::std::vector< cv::KeyPoint > &"\
+    "\n    Python type: vector_KeyPoint"\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    keypoints" )    
         .def( 
-            "getTimeMilli"
-            , (double ( cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeMilli ) )    
+            "__call__"
+            , (boost::python::object (*)( cv::LDetector const &,std::vector<cv::Mat> const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
+            , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
+            , "\nWrapped function:"
+    "\n    operator()"
+    "\nArgument 'keypoints':"\
+    "\n    C++ type: ::std::vector< cv::KeyPoint > &"\
+    "\n    Python type: vector_KeyPoint"\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    keypoints" )    
         .def( 
-            "getTimeSec"
-            , (double ( cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeSec ) )    
+            "read"
+            , (void ( cv::LDetector::* )( ::cv::FileNode const & ) )( &::cv::LDetector::read )
+            , ( bp::arg("node") ) )    
         .def( 
-            "getTimeTicks"
-            , (::int64 ( cv::TickMeter::* )(  ) const)( &::cv::TickMeter::getTimeTicks ) )    
+            "setVerbose"
+            , (void ( cv::LDetector::* )( bool ) )( &::cv::LDetector::setVerbose )
+            , ( bp::arg("verbose") ) )    
         .def( 
-            "reset"
-            , (void ( cv::TickMeter::* )(  ) )( &::cv::TickMeter::reset ) )    
-        .def( 
-            "start"
-            , (void ( cv::TickMeter::* )(  ) )( &::cv::TickMeter::start ) )    
-        .def( 
-            "stop"
-            , (void ( cv::TickMeter::* )(  ) )( &::cv::TickMeter::stop ) );
-
-    { //::cvaux_dummy_struct
-        typedef bp::class_< cvaux_dummy_struct > __cvaux_dummy_struct_exposer_t;
-        __cvaux_dummy_struct_exposer_t __cvaux_dummy_struct_exposer = __cvaux_dummy_struct_exposer_t( "__cvaux_dummy_struct" );
-        bp::scope __cvaux_dummy_struct_scope( __cvaux_dummy_struct_exposer );
-        __cvaux_dummy_struct_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cvaux_dummy_struct >() );
-        bp::class_< cvaux_dummy_struct::dummy_struct2 >( "dummy_struct2" )    
-            .add_property( "this", pyplus_conv::make_addressof_inst_getter< cvaux_dummy_struct::dummy_struct2 >() );
-        __cvaux_dummy_struct_exposer.setattr("v0", 0);
-    }
-    {;
-    }
+            "write"
+            , (void ( cv::LDetector::* )( ::cv::FileStorage &,::cv::String const & ) const)( &::cv::LDetector::write )
+            , ( bp::arg("fs"), bp::arg("name")=std::string() ) )    
+        .def_readwrite( "baseFeatureSize", &cv::LDetector::baseFeatureSize )    
+        .def_readwrite( "clusteringDistance", &cv::LDetector::clusteringDistance )    
+        .def_readwrite( "nOctaves", &cv::LDetector::nOctaves )    
+        .def_readwrite( "nViews", &cv::LDetector::nViews )    
+        .def_readwrite( "radius", &cv::LDetector::radius )    
+        .def_readwrite( "threshold", &cv::LDetector::threshold )    
+        .def_readwrite( "verbose", &cv::LDetector::verbose );
 
 }

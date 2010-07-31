@@ -21,7 +21,7 @@ import memvar_transformers as MT
 from pygccxml import declarations as D
 from pyplusplus.module_builder import call_policies as CP
 import sdpypp
-sb = sdpypp.SdModuleBuilder('cvaux', number_of_files=5)
+sb = sdpypp.SdModuleBuilder('cvaux', number_of_files=6)
 sb.load_regs('cv_hpp_reg.sdd')
 
 
@@ -474,10 +474,18 @@ z.add_registration_code('def("GetModuleName", &::CvVSModule_GetModuleName)')
 sb.finalize_class(z)
 
 # CvFGDetector
-# TODO: fix this guy
-# z = sb.mb.class_('CvFGDetector')
-# z.include()
-# z.decls().exclude()
+z = sb.mb.class_('CvFGDetector')
+sb.init_class(z)
+sb.finalize_class(z)
+sb.insert_del_interface('CvFGDetector', '_ext._cvReleaseFGDetector')
+
+# cvReleaseFGDetector
+z = sb.mb.free_fun('cvReleaseFGDetector')
+FT.add_underscore(z)
+z._transformer_creators.append(FT.input_double_pointee('ppT'))
+
+# cvCreateFGDetectorBase -- TODO: how to expose 'void *param'?
+# FT.expose_func(sb.mb.free_fun('cvCreateFGDetectorBase'), ownershiplevel=1)
 
 # CvBlob
 sb.mb.class_('CvBlob').include()
@@ -561,7 +569,7 @@ for t in ('cvCreateModuleBlobTrackGen1', 'cvCreateModuleBlobTrackGenYML'):
 z = sb.mb.class_('CvBlobTracker')
 sb.init_class(z)
 sb.finalize_class(z)
-sb.insert_del_interface('CvBlobTrackGen', '_ext._cvReleaseBlobTracker')
+sb.insert_del_interface('CvBlobTracker', '_ext._cvReleaseBlobTracker')
 
 # cvReleaseBlobTracker
 z = sb.mb.free_fun('cvReleaseBlobTracker')
@@ -572,7 +580,7 @@ z._transformer_creators.append(FT.input_double_pointee('ppT'))
 z = sb.mb.class_('CvBlobTrackerOne')
 sb.init_class(z)
 sb.finalize_class(z)
-sb.insert_del_interface('CvBlobTrackGen', '_ext._cvReleaseBlobTrackerOne')
+sb.insert_del_interface('CvBlobTrackerOne', '_ext._cvReleaseBlobTrackerOne')
 
 # cvReleaseBlobTrackerOne
 z = sb.mb.free_fun('cvReleaseBlobTrackerOne')
@@ -609,7 +617,106 @@ for t in (
     'cvCreateBlobTrackerMSFG', 'cvCreateBlobTrackerMSFGS',
     'cvCreateBlobTrackerMS', 'cvCreateBlobTrackerMSPF'):
     FT.expose_func(sb.mb.free_fun(t), ownershiplevel=1)
+    
+# CvBlobTrackPostProc
+z = sb.mb.class_('CvBlobTrackPostProc')
+sb.init_class(z)
+sb.finalize_class(z)
+sb.insert_del_interface('CvBlobTrackPostProc', '_ext._cvReleaseBlobTrackPostProc')
 
+# cvReleaseBlobTrackPostProc
+z = sb.mb.free_fun('cvReleaseBlobTrackPostProc')
+FT.add_underscore(z)
+z._transformer_creators.append(FT.input_double_pointee('pBTPP'))
+
+# CvBlobTrackPostProcOne
+z = sb.mb.class_('CvBlobTrackPostProcOne')
+sb.init_class(z)
+sb.finalize_class(z)
+
+# cvCreateBlobTrackPostProcList -- TODO
+
+# cvCreateModuleBlobTrackPostProcXXX
+for t in ('cvCreateModuleBlobTrackPostProcKalman',
+    'cvCreateModuleBlobTrackPostProcTimeAverRect',
+    'cvCreateModuleBlobTrackPostProcTimeAverExp'):
+    FT.expose_func(sb.mb.free_fun(t))
+
+# CvBlobTrackPredictor
+z = sb.mb.class_('CvBlobTrackPredictor')
+sb.init_class(z)
+sb.finalize_class(z)
+
+# cvCreateModuleBlobTrackPredictKalman
+FT.expose_func(sb.mb.free_fun('cvCreateModuleBlobTrackPredictKalman'))
+
+# CvBlobTrackAnalysis
+z = sb.mb.class_('CvBlobTrackAnalysis')
+sb.init_class(z)
+sb.finalize_class(z)
+sb.insert_del_interface('CvBlobTrackAnalysis', '_ext._cvReleaseBlobTrackAnalysis')
+
+# cvReleaseBlobTrackAnalysis
+z = sb.mb.free_fun('cvReleaseBlobTrackAnalysis')
+FT.add_underscore(z)
+z._transformer_creators.append(FT.input_double_pointee('pBTPP'))
+
+# CvBlobTrackFVGen -- TODO
+
+# CvBlobTrackAnalysis
+z = sb.mb.class_('CvBlobTrackAnalysisOne')
+sb.init_class(z)
+sb.finalize_class(z)
+
+# cvCreateBlobTrackAnalysisList -- TODO
+
+# cvCreateModuleBlobTrackAnalysisXXXX
+for t in ('cvCreateModuleBlobTrackAnalysisHistP', 'cvCreateModuleBlobTrackAnalysisHistPV',
+    'cvCreateModuleBlobTrackAnalysisHistPVS', 'cvCreateModuleBlobTrackAnalysisHistSS',
+    'cvCreateModuleBlobTrackAnalysisTrackDist', 'cvCreateModuleBlobTrackAnalysisIOR',):
+    FT.expose_func(sb.mb.free_fun(t))
+
+# CvBlobTrackAnalysisHeight
+z = sb.mb.class_('CvBlobTrackAnalysisHeight')
+sb.init_class(z)
+sb.finalize_class(z)
+
+# CvBlobTrackerAuto
+z = sb.mb.class_('CvBlobTrackerAuto')
+sb.init_class(z)
+sb.finalize_class(z)
+sb.insert_del_interface('CvBlobTrackerAuto', '_ext._cvReleaseBlobTrackerAuto')
+
+# cvReleaseBlobTrackerAuto
+z = sb.mb.free_fun('cvReleaseBlobTrackerAuto')
+FT.add_underscore(z)
+z._transformer_creators.append(FT.input_double_pointee('ppT'))
+
+# CvBlobTrackerAutoParam1
+z = sb.mb.class_('CvBlobTrackerAutoParam1')
+sb.init_class(z)
+sb.finalize_class(z)
+
+# cvCreateBlobTrackerAuto1, cvCreateBlobTrackerAuto
+# TODO: how to expose 'void *param=NULL'?
+
+# CvTracksTimePos
+z = sb.mb.class_('CvTracksTimePos')
+sb.init_class(z)
+sb.finalize_class(z)
+
+# not yet implemented
+# for t in ('cvCreateTracks_One', 'cvCreateTracks_Same', 'cvCreateTracks_AreaErr'):
+    # sb.mb.free_fun(t).include()
+
+    
+# TODO: expose CvProb and its functions
+
+# TODO: expose CvTestSeq and its functions
+    
+    
+
+    
 #=============================================================================
 # Free Functions
 #=============================================================================

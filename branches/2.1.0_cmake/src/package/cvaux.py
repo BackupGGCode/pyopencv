@@ -185,6 +185,13 @@ CV_BLOB_MINH = 5
 
 
 
+CvFGDetector._ownershiplevel = 0
+
+def _CvFGDetector__del__(self):
+    if self._ownershiplevel==1:
+        _ext._cvReleaseFGDetector(self)
+CvFGDetector.__del__ = _CvFGDetector__del__
+
 CvBlobDetector._ownershiplevel = 0
 
 def _CvBlobDetector__del__(self):
@@ -199,20 +206,41 @@ def _CvBlobTrackGen__del__(self):
         _ext._cvReleaseBlobTrackGen(self)
 CvBlobTrackGen.__del__ = _CvBlobTrackGen__del__
 
-CvBlobTrackGen._ownershiplevel = 0
+CvBlobTracker._ownershiplevel = 0
 
-def _CvBlobTrackGen__del__(self):
+def _CvBlobTracker__del__(self):
     if self._ownershiplevel==1:
         _ext._cvReleaseBlobTracker(self)
-CvBlobTrackGen.__del__ = _CvBlobTrackGen__del__
+CvBlobTracker.__del__ = _CvBlobTracker__del__
 
-CvBlobTrackGen._ownershiplevel = 0
+CvBlobTrackerOne._ownershiplevel = 0
 
-def _CvBlobTrackGen__del__(self):
+def _CvBlobTrackerOne__del__(self):
     if self._ownershiplevel==1:
         _ext._cvReleaseBlobTrackerOne(self)
-CvBlobTrackGen.__del__ = _CvBlobTrackGen__del__
+CvBlobTrackerOne.__del__ = _CvBlobTrackerOne__del__
 
 PROFILE_EPANECHNIKOV = 0
 PROFILE_DOG = 1
 
+
+CvBlobTrackPostProc._ownershiplevel = 0
+
+def _CvBlobTrackPostProc__del__(self):
+    if self._ownershiplevel==1:
+        _ext._cvReleaseBlobTrackPostProc(self)
+CvBlobTrackPostProc.__del__ = _CvBlobTrackPostProc__del__
+
+CvBlobTrackAnalysis._ownershiplevel = 0
+
+def _CvBlobTrackAnalysis__del__(self):
+    if self._ownershiplevel==1:
+        _ext._cvReleaseBlobTrackAnalysis(self)
+CvBlobTrackAnalysis.__del__ = _CvBlobTrackAnalysis__del__
+
+CvBlobTrackerAuto._ownershiplevel = 0
+
+def _CvBlobTrackerAuto__del__(self):
+    if self._ownershiplevel==1:
+        _ext._cvReleaseBlobTrackerAuto(self)
+CvBlobTrackerAuto.__del__ = _CvBlobTrackerAuto__del__

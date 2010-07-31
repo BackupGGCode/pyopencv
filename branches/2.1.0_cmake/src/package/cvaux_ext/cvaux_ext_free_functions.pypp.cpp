@@ -153,6 +153,84 @@ void register_free_functions(){
     
     }
 
+    { //::cvCreateModuleBlobTrackAnalysisHistP
+    
+        typedef ::CvBlobTrackAnalysis * ( *createModuleBlobTrackAnalysisHistP_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackAnalysisHistP"
+            , createModuleBlobTrackAnalysisHistP_function_type( &::cvCreateModuleBlobTrackAnalysisHistP )
+            , bp::return_value_policy< bp::reference_existing_object >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackAnalysisHistP" );
+    
+    }
+
+    { //::cvCreateModuleBlobTrackAnalysisHistPV
+    
+        typedef ::CvBlobTrackAnalysis * ( *createModuleBlobTrackAnalysisHistPV_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackAnalysisHistPV"
+            , createModuleBlobTrackAnalysisHistPV_function_type( &::cvCreateModuleBlobTrackAnalysisHistPV )
+            , bp::return_value_policy< bp::reference_existing_object >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackAnalysisHistPV" );
+    
+    }
+
+    { //::cvCreateModuleBlobTrackAnalysisHistPVS
+    
+        typedef ::CvBlobTrackAnalysis * ( *createModuleBlobTrackAnalysisHistPVS_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackAnalysisHistPVS"
+            , createModuleBlobTrackAnalysisHistPVS_function_type( &::cvCreateModuleBlobTrackAnalysisHistPVS )
+            , bp::return_value_policy< bp::reference_existing_object >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackAnalysisHistPVS" );
+    
+    }
+
+    { //::cvCreateModuleBlobTrackAnalysisHistSS
+    
+        typedef ::CvBlobTrackAnalysis * ( *createModuleBlobTrackAnalysisHistSS_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackAnalysisHistSS"
+            , createModuleBlobTrackAnalysisHistSS_function_type( &::cvCreateModuleBlobTrackAnalysisHistSS )
+            , bp::return_value_policy< bp::reference_existing_object >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackAnalysisHistSS" );
+    
+    }
+
+    { //::cvCreateModuleBlobTrackAnalysisIOR
+    
+        typedef ::CvBlobTrackAnalysis * ( *createModuleBlobTrackAnalysisIOR_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackAnalysisIOR"
+            , createModuleBlobTrackAnalysisIOR_function_type( &::cvCreateModuleBlobTrackAnalysisIOR )
+            , bp::return_value_policy< bp::reference_existing_object >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackAnalysisIOR" );
+    
+    }
+
+    { //::cvCreateModuleBlobTrackAnalysisTrackDist
+    
+        typedef ::CvBlobTrackAnalysis * ( *createModuleBlobTrackAnalysisTrackDist_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackAnalysisTrackDist"
+            , createModuleBlobTrackAnalysisTrackDist_function_type( &::cvCreateModuleBlobTrackAnalysisTrackDist )
+            , bp::return_value_policy< bp::reference_existing_object >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackAnalysisTrackDist" );
+    
+    }
+
     { //::cvCreateModuleBlobTrackGen1
     
         typedef ::CvBlobTrackGen * ( *createModuleBlobTrackGen1_function_type )(  );
@@ -176,6 +254,58 @@ void register_free_functions(){
             , bp::with_ownershiplevel_postcall< 1, bp::return_value_policy< bp::reference_existing_object > >()
             , "\nWrapped function:"
     "\n    cvCreateModuleBlobTrackGenYML" );
+    
+    }
+
+    { //::cvCreateModuleBlobTrackPostProcKalman
+    
+        typedef ::CvBlobTrackPostProc * ( *createModuleBlobTrackPostProcKalman_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackPostProcKalman"
+            , createModuleBlobTrackPostProcKalman_function_type( &::cvCreateModuleBlobTrackPostProcKalman )
+            , bp::return_value_policy< bp::reference_existing_object >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackPostProcKalman" );
+    
+    }
+
+    { //::cvCreateModuleBlobTrackPostProcTimeAverExp
+    
+        typedef ::CvBlobTrackPostProc * ( *createModuleBlobTrackPostProcTimeAverExp_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackPostProcTimeAverExp"
+            , createModuleBlobTrackPostProcTimeAverExp_function_type( &::cvCreateModuleBlobTrackPostProcTimeAverExp )
+            , bp::return_value_policy< bp::reference_existing_object >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackPostProcTimeAverExp" );
+    
+    }
+
+    { //::cvCreateModuleBlobTrackPostProcTimeAverRect
+    
+        typedef ::CvBlobTrackPostProc * ( *createModuleBlobTrackPostProcTimeAverRect_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackPostProcTimeAverRect"
+            , createModuleBlobTrackPostProcTimeAverRect_function_type( &::cvCreateModuleBlobTrackPostProcTimeAverRect )
+            , bp::return_value_policy< bp::reference_existing_object >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackPostProcTimeAverRect" );
+    
+    }
+
+    { //::cvCreateModuleBlobTrackPredictKalman
+    
+        typedef ::CvBlobTrackPredictor * ( *createModuleBlobTrackPredictKalman_function_type )(  );
+        
+        bp::def( 
+            "createModuleBlobTrackPredictKalman"
+            , createModuleBlobTrackPredictKalman_function_type( &::cvCreateModuleBlobTrackPredictKalman )
+            , bp::return_value_policy< bp::reference_existing_object >()
+            , "\nWrapped function:"
+    "\n    cvCreateModuleBlobTrackPredictKalman" );
     
     }
 
