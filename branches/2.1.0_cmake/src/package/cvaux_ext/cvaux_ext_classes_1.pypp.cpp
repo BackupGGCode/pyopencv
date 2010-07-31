@@ -6,11 +6,19 @@
 #include "boost/python/suite/indexing/vector_indexing_suite.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "cvaux_wrapper.hpp"
+#include "opencv_headers.hpp"
 #include "boost/python/object.hpp"
-#include "boost/python/str.hpp"
 #include "cvaux_ext_classes_1.pypp.hpp"
 
 namespace bp = boost::python;
+
+static inline void vector_Octree_Node_resize(::std::vector< cv::Octree::Node > &inst, size_t num) { inst.resize(num); }
+
+static inline void vector_FernClassifier_Feature_resize(::std::vector< cv::FernClassifier::Feature > &inst, size_t num) { inst.resize(num); }
+
+static inline void vector_CvFuzzyRule_Ptr_resize(::std::vector< CvFuzzyRule* > &inst, size_t num) { inst.resize(num); }
+
+static inline void vector_CvFuzzyCurve_resize(::std::vector< CvFuzzyCurve > &inst, size_t num) { inst.resize(num); }
 
 struct CvBlobSeq_wrapper : CvBlobSeq, bp::wrapper< CvBlobSeq > {
 
@@ -256,20 +264,6 @@ struct CvBlobTrackSeq_wrapper : CvBlobTrackSeq, bp::wrapper< CvBlobTrackSeq > {
 
 };
 
-static CvDefParam * get_CvDefParam_next( CvDefParam const & inst ) { return inst.next; }
-
-static bp::object get_CvDefParam_pName( CvDefParam const & inst ){        
-    return inst.pName? bp::str(inst.pName): bp::object();
-}
-
-static bp::object get_CvDefParam_pComment( CvDefParam const & inst ){        
-    return inst.pComment? bp::str(inst.pComment): bp::object();
-}
-
-static bp::object get_CvDefParam_Str( CvDefParam const & inst ){        
-    return inst.Str? bp::str(inst.Str): bp::object();
-}
-
 void register_classes_1(){
 
     { //::std::vector< cv::Octree::Node >
@@ -278,6 +272,33 @@ void register_classes_1(){
         bp::scope vector_Octree_Node_scope( vector_Octree_Node_exposer );
         //WARNING: the next line of code will not compile, because "cv::Octree::Node" does not have operator== !
         vector_Octree_Node_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::Octree::Node > >() );
+        vector_Octree_Node_exposer.def("resize", &::vector_Octree_Node_resize, ( bp::arg("num") ));
+    }
+
+    { //::std::vector< cv::FernClassifier::Feature >
+        typedef bp::class_< std::vector< cv::FernClassifier::Feature > > vector_FernClassifier_Feature_exposer_t;
+        vector_FernClassifier_Feature_exposer_t vector_FernClassifier_Feature_exposer = vector_FernClassifier_Feature_exposer_t( "vector_FernClassifier_Feature" );
+        bp::scope vector_FernClassifier_Feature_scope( vector_FernClassifier_Feature_exposer );
+        //WARNING: the next line of code will not compile, because "cv::FernClassifier::Feature" does not have operator== !
+        vector_FernClassifier_Feature_exposer.def( bp::vector_indexing_suite< ::std::vector< cv::FernClassifier::Feature > >() );
+        vector_FernClassifier_Feature_exposer.def("resize", &::vector_FernClassifier_Feature_resize, ( bp::arg("num") ));
+    }
+
+    { //::std::vector< CvFuzzyRule* >
+        typedef bp::class_< std::vector< CvFuzzyRule* > > vector_CvFuzzyRule_Ptr_exposer_t;
+        vector_CvFuzzyRule_Ptr_exposer_t vector_CvFuzzyRule_Ptr_exposer = vector_CvFuzzyRule_Ptr_exposer_t( "vector_CvFuzzyRule_Ptr" );
+        bp::scope vector_CvFuzzyRule_Ptr_scope( vector_CvFuzzyRule_Ptr_exposer );
+        vector_CvFuzzyRule_Ptr_exposer.def( bp::vector_indexing_suite< ::std::vector< CvFuzzyRule* > >() );
+        vector_CvFuzzyRule_Ptr_exposer.def("resize", &::vector_CvFuzzyRule_Ptr_resize, ( bp::arg("num") ));
+    }
+
+    { //::std::vector< CvFuzzyCurve >
+        typedef bp::class_< std::vector< CvFuzzyCurve > > vector_CvFuzzyCurve_exposer_t;
+        vector_CvFuzzyCurve_exposer_t vector_CvFuzzyCurve_exposer = vector_CvFuzzyCurve_exposer_t( "vector_CvFuzzyCurve" );
+        bp::scope vector_CvFuzzyCurve_scope( vector_CvFuzzyCurve_exposer );
+        //WARNING: the next line of code will not compile, because "CvFuzzyCurve" does not have operator== !
+        vector_CvFuzzyCurve_exposer.def( bp::vector_indexing_suite< ::std::vector< CvFuzzyCurve > >() );
+        vector_CvFuzzyCurve_exposer.def("resize", &::vector_CvFuzzyCurve_resize, ( bp::arg("num") ));
     }
 
     bp::class_< CvAdaptiveSkinDetector >( "CvAdaptiveSkinDetector", bp::no_init )    
@@ -519,24 +540,5 @@ void register_classes_1(){
         
         }
     }
-
-    bp::class_< CvCamShiftTracker >( "CvCamShiftTracker" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvCamShiftTracker >() );
-
-    bp::class_< CvConDensation >( "CvConDensation" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvConDensation >() )    
-        .def_readwrite( "DP", &CvConDensation::DP )    
-        .def_readwrite( "MP", &CvConDensation::MP )    
-        .def_readwrite( "SamplesNum", &CvConDensation::SamplesNum );
-
-    bp::class_< CvDefParam >( "CvDefParam" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvDefParam >() )    
-        .def_readwrite( "Double", &CvDefParam::Double )    
-        .def_readwrite( "Float", &CvDefParam::Float )    
-        .def_readwrite( "Int", &CvDefParam::Int )    
-        .add_property( "next", bp::make_function(&::get_CvDefParam_next, bp::return_internal_reference<>()) )    
-        .add_property( "pName", &::get_CvDefParam_pName )    
-        .add_property( "pComment", &::get_CvDefParam_pComment )    
-        .add_property( "Str", &::get_CvDefParam_Str );
 
 }

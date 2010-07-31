@@ -20,6 +20,7 @@ from pygccxml import declarations as D
 from pyplusplus.module_builder import call_policies as CP
 import sdpypp
 sb = sdpypp.SdModuleBuilder('cxcore_hpp_vec', number_of_files=9)
+sb.load_regs('cxcore_h_reg.sdd')
 
 sb.cc.write('''
 #=============================================================================
@@ -196,3 +197,4 @@ c.add_registration_code('def("__radd__", &__radd__<int, CLASS> )' \
 
     
 sb.done()
+sb.save_regs('cxcore_hpp_vec_reg.sdd')

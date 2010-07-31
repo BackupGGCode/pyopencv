@@ -20,58 +20,7 @@ from pygccxml import declarations as D
 from pyplusplus.module_builder import call_policies as CP
 import sdpypp
 sb = sdpypp.SdModuleBuilder('cxcore_hpp', number_of_files=4)
-
-sb.register_vec('std::vector', 'unsigned char', excluded=True)
-sb.register_vec('std::vector', 'int', excluded=True)
-sb.register_vec('std::vector', 'unsigned int', excluded=True)
-sb.register_vec('std::vector', 'float', excluded=True)
-sb.register_ti('cv::Mat')
-sb.register_vec('std::vector', 'cv::Mat', excluded=True)
-sb.register_ti('cv::MatND')
-sb.register_vec('std::vector', 'cv::MatND', excluded=True)
-
-dtype_dict = {
-    'b': 'unsigned char',
-    's': 'short',
-    'w': 'unsigned short',
-    'i': 'int',
-    'f': 'float',
-    'd': 'double',
-}
-
-Vec_dict = {
-    2: 'bswifd',
-    3: 'bswifd',
-    4: 'bswifd',
-    6: 'fd',
-}
-
-Point_dict = 'ifd'
-
-# Vec et al
-for i in Vec_dict.keys():
-    for suffix in Vec_dict[i]:
-        z = sb.register_ti('cv::Vec', [dtype_dict[suffix], i], 'Vec%d%s' % (i, suffix))
-        sb.register_vec('std::vector', z, excluded=True)
-
-# Complex et al
-for suffix in Vec_dict[6]:
-    sb.register_ti('cv::Complex', [dtype_dict[suffix]], 'Complex%s' % suffix)
-
-# Point et al
-for suffix in Point_dict:
-    alias = 'Point2%s' % suffix
-    z = sb.register_ti('cv::Point_', [dtype_dict[suffix]], alias)
-    sb.register_vec('std::vector', z, excluded=True)
-    sb.register_vec('std::vector', 'std::vector< %s >' % z, excluded=True)
-
-# Point3 et al
-for suffix in Point_dict:
-    alias = 'Point3%s' % suffix
-    z = sb.register_ti('cv::Point3_', [dtype_dict[suffix]], alias)
-    sb.register_vec('std::vector', z, excluded=True)
-    sb.register_vec('std::vector', 'std::vector< %s >' % z, excluded=True)
-
+sb.load_regs('cxcore_hpp_point_reg.sdd')
 
 sb.cc.write('''
 #=============================================================================
@@ -83,6 +32,17 @@ sb.cc.write('''
 #=============================================================================
 # Structures
 #=============================================================================
+
+dtype_dict = {
+    'b': 'unsigned char',
+    's': 'short',
+    'w': 'unsigned short',
+    'i': 'int',
+    'f': 'float',
+    'd': 'double',
+}
+
+Point_dict = 'ifd'
 
 # Size et al
 Size_dict = 'if'
@@ -644,3 +604,4 @@ sb.expose_class_Seq('int')
 sb.mb.decls(lambda x: 'MatExpr' in x.decl_string).exclude()
 
 sb.done()
+sb.save_regs('cxcore_hpp_reg.sdd')

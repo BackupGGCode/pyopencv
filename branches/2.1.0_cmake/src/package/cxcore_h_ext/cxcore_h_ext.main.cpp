@@ -312,10 +312,10 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'param1':"\
     "\n    C++ type: ::CvScalar."\
-    "\n    Python type: Scalar__float64."\
+    "\n    Python type: Scalar."\
     "\nArgument 'param2':"\
     "\n    C++ type: ::CvScalar."\
-    "\n    Python type: Scalar__float64." );
+    "\n    Python type: Scalar." );
     
     }
 

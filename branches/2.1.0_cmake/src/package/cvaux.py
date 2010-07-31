@@ -130,8 +130,52 @@ CvConDensation.__del__ = _CvConDensation__del__
 
 
 
+vector_CvFuzzyCurve.__old_init__ = vector_CvFuzzyCurve.__init__
+vector_CvFuzzyCurve.__init__ = _c.__vector__init__
+vector_CvFuzzyCurve.create = _c.__vector_create
+vector_CvFuzzyCurve.__repr__ = _c.__vector__repr__
+vector_CvFuzzyCurve.tolist = _c.__vector_tolist
+vector_CvFuzzyCurve.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_CvFuzzyCurve()
+_z.resize(1)
+vector_CvFuzzyCurve.elem_type = _z[0].__class__
+del(_z)
+        
+vector_CvFuzzyRule_Ptr.__old_init__ = vector_CvFuzzyRule_Ptr.__init__
+vector_CvFuzzyRule_Ptr.__init__ = _c.__vector__init__
+vector_CvFuzzyRule_Ptr.create = _c.__vector_create
+vector_CvFuzzyRule_Ptr.__repr__ = _c.__vector__repr__
+vector_CvFuzzyRule_Ptr.tolist = _c.__vector_tolist
+vector_CvFuzzyRule_Ptr.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_CvFuzzyRule_Ptr()
+_z.resize(1)
+vector_CvFuzzyRule_Ptr.elem_type = _z[0].__class__
+del(_z)
+        
+vector_Octree_Node.__old_init__ = vector_Octree_Node.__init__
+vector_Octree_Node.__init__ = _c.__vector__init__
+vector_Octree_Node.create = _c.__vector_create
+vector_Octree_Node.__repr__ = _c.__vector__repr__
+vector_Octree_Node.tolist = _c.__vector_tolist
+vector_Octree_Node.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_Octree_Node()
+_z.resize(1)
+vector_Octree_Node.elem_type = _z[0].__class__
+del(_z)
+        
 YAPE = LDetector
 
+vector_FernClassifier_Feature.__old_init__ = vector_FernClassifier_Feature.__init__
+vector_FernClassifier_Feature.__init__ = _c.__vector__init__
+vector_FernClassifier_Feature.create = _c.__vector_create
+vector_FernClassifier_Feature.__repr__ = _c.__vector__repr__
+vector_FernClassifier_Feature.tolist = _c.__vector_tolist
+vector_FernClassifier_Feature.fromlist = classmethod(_c.__vector_fromlist)
+_z = vector_FernClassifier_Feature()
+_z.resize(1)
+vector_FernClassifier_Feature.elem_type = _z[0].__class__
+del(_z)
+        
 #=============================================================================
 # cvvidsurf.hpp
 #=============================================================================

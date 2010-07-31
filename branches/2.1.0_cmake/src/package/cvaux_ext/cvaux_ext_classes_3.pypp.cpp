@@ -3,12 +3,84 @@
 #include "boost/python.hpp"
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
+#include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "cvaux_wrapper.hpp"
-#include "opencv_converters.hpp"
 #include "cvaux_ext_classes_3.pypp.hpp"
 
 namespace bp = boost::python;
+
+static void Detect_d8fa7b620f024b1a2f20fc4afa978e15( ::CvObjectDetector & inst, ::cv::Mat & arg0, ::CvBlobSeq * arg1=0 ){
+    inst.Detect(get_CvMat_ptr(arg0), arg1);
+}
+
+struct CvVSModule_wrapper : CvVSModule, bp::wrapper< CvVSModule > {
+
+    CvVSModule_wrapper( )
+    : CvVSModule( )
+      , bp::wrapper< CvVSModule >(){
+        // null constructor
+    
+    }
+
+    virtual void LoadState( ::CvFileStorage * arg0, ::CvFileNode * arg1 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_LoadState = this->get_override( "LoadState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_LoadState.ptr(), arg0, arg1 );
+        }
+        else{
+            CvVSModule::LoadState( boost::python::ptr(arg0), boost::python::ptr(arg1) );
+        }
+    }
+    
+    static void default_LoadState( ::CvVSModule & inst, ::cv::FileStorage & arg0, ::cv::FileNode & arg1 ){
+        if( dynamic_cast< CvVSModule_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::LoadState(arg0.fs, *(arg1));
+        }
+        else{
+            inst.LoadState(arg0.fs, *(arg1));
+        }
+    }
+
+    virtual void ParamUpdate(  ) {
+        if( bp::override func_ParamUpdate = this->get_override( "ParamUpdate" ) )
+            func_ParamUpdate(  );
+        else{
+            this->CvVSModule::ParamUpdate(  );
+        }
+    }
+    
+    void default_ParamUpdate(  ) {
+        CvVSModule::ParamUpdate( );
+    }
+
+    virtual void Release(  ){
+        bp::override func_Release = this->get_override( "Release" );
+        func_Release(  );
+    }
+
+    virtual void SaveState( ::CvFileStorage * arg0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_SaveState = this->get_override( "SaveState" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_SaveState.ptr(), arg0 );
+        }
+        else{
+            CvVSModule::SaveState( boost::python::ptr(arg0) );
+        }
+    }
+    
+    static void default_SaveState( ::CvVSModule & inst, ::cv::FileStorage & arg0 ){
+        if( dynamic_cast< CvVSModule_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvVSModule::SaveState(arg0.fs);
+        }
+        else{
+            inst.SaveState(arg0.fs);
+        }
+    }
+
+};
+
+inline bp::str CvVSModule_GetModuleName(CvVSModule &inst) {  return bp::str(inst.GetModuleName()); }
 
 struct BackgroundSubtractor_wrapper : cv::BackgroundSubtractor, bp::wrapper< cv::BackgroundSubtractor > {
 
@@ -227,162 +299,137 @@ struct FernClassifier_wrapper : cv::FernClassifier, bp::wrapper< cv::FernClassif
 
 };
 
-struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor > {
-
-    HOGDescriptor_wrapper(cv::HOGDescriptor const & arg )
-    : cv::HOGDescriptor( arg )
-      , bp::wrapper< cv::HOGDescriptor >(){
-        // copy constructor
-        
-    }
-
-    HOGDescriptor_wrapper( )
-    : cv::HOGDescriptor( )
-      , bp::wrapper< cv::HOGDescriptor >(){
-        // null constructor
-    
-    }
-
-    HOGDescriptor_wrapper(::cv::Size _winSize, ::cv::Size _blockSize, ::cv::Size _blockStride, ::cv::Size _cellSize, int _nbins, int _derivAperture=1, double _winSigma=-0x000000001, int _histogramNormType=int(::cv::HOGDescriptor::L2Hys), double _L2HysThreshold=2.00000000000000011102230246251565404236316680908e-1, bool _gammaCorrection=false )
-    : cv::HOGDescriptor( _winSize, _blockSize, _blockStride, _cellSize, _nbins, _derivAperture, _winSigma, _histogramNormType, _L2HysThreshold, _gammaCorrection )
-      , bp::wrapper< cv::HOGDescriptor >(){
-        // constructor
-    
-    }
-
-    HOGDescriptor_wrapper(::cv::String const & filename )
-    : cv::HOGDescriptor( boost::ref(filename) )
-      , bp::wrapper< cv::HOGDescriptor >(){
-        // constructor
-    
-    }
-
-    virtual void compute( ::cv::Mat const & img, ::std::vector< float > & descriptors, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point>() ) const  {
-        namespace bpl = boost::python;
-        if( bpl::override func_compute = this->get_override( "compute" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_compute.ptr(), img, descriptors, winStride, padding, locations );
-        }
-        else{
-            cv::HOGDescriptor::compute( boost::ref(img), boost::ref(descriptors), winStride, padding, boost::ref(locations) );
-        }
-    }
-    
-    static boost::python::object default_compute( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & locations=std::vector<cv::Point>() ){
-        std::vector<float> descriptors2;
-        if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
-            inst.::cv::HOGDescriptor::compute(img, descriptors2, winStride, padding, locations);
-        }
-        else{
-            inst.compute(img, descriptors2, winStride, padding, locations);
-        }
-        return bp::object( descriptors2 );
-    }
-
-    virtual void computeGradient( ::cv::Mat const & img, ::cv::Mat & grad, ::cv::Mat & angleOfs, ::cv::Size paddingTL=cv::Size_<int>(), ::cv::Size paddingBR=cv::Size_<int>() ) const  {
-        if( bp::override func_computeGradient = this->get_override( "computeGradient" ) )
-            func_computeGradient( boost::ref(img), boost::ref(grad), boost::ref(angleOfs), paddingTL, paddingBR );
-        else{
-            this->cv::HOGDescriptor::computeGradient( boost::ref(img), boost::ref(grad), boost::ref(angleOfs), paddingTL, paddingBR );
-        }
-    }
-    
-    void default_computeGradient( ::cv::Mat const & img, ::cv::Mat & grad, ::cv::Mat & angleOfs, ::cv::Size paddingTL=cv::Size_<int>(), ::cv::Size paddingBR=cv::Size_<int>() ) const  {
-        cv::HOGDescriptor::computeGradient( boost::ref(img), boost::ref(grad), boost::ref(angleOfs), paddingTL, paddingBR );
-    }
-
-    virtual void detect( ::cv::Mat const & img, ::std::vector< cv::Point_<int> > & foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & searchLocations=std::vector<cv::Point>() ) const  {
-        namespace bpl = boost::python;
-        if( bpl::override func_detect = this->get_override( "detect" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_detect.ptr(), img, foundLocations, hitThreshold, winStride, padding, searchLocations );
-        }
-        else{
-            cv::HOGDescriptor::detect( boost::ref(img), boost::ref(foundLocations), hitThreshold, winStride, padding, boost::ref(searchLocations) );
-        }
-    }
-    
-    static boost::python::object default_detect( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), ::std::vector< cv::Point_<int> > const & searchLocations=std::vector<cv::Point>() ){
-        std::vector<cv::Point_<int> > foundLocations2;
-        if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
-            inst.::cv::HOGDescriptor::detect(img, foundLocations2, hitThreshold, winStride, padding, searchLocations);
-        }
-        else{
-            inst.detect(img, foundLocations2, hitThreshold, winStride, padding, searchLocations);
-        }
-        return bp::object( foundLocations2 );
-    }
-
-    virtual void detectMultiScale( ::cv::Mat const & img, ::std::vector< cv::Rect_<int> > & foundLocations, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), double scale=1.05000000000000004440892098500626161694526672363e+0, int groupThreshold=2 ) const  {
-        namespace bpl = boost::python;
-        if( bpl::override func_detectMultiScale = this->get_override( "detectMultiScale" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_detectMultiScale.ptr(), img, foundLocations, hitThreshold, winStride, padding, scale, groupThreshold );
-        }
-        else{
-            cv::HOGDescriptor::detectMultiScale( boost::ref(img), boost::ref(foundLocations), hitThreshold, winStride, padding, scale, groupThreshold );
-        }
-    }
-    
-    static boost::python::object default_detectMultiScale( ::cv::HOGDescriptor const & inst, ::cv::Mat const & img, double hitThreshold=0, ::cv::Size winStride=cv::Size_<int>(), ::cv::Size padding=cv::Size_<int>(), double scale=1.05000000000000004440892098500626161694526672363e+0, int groupThreshold=2 ){
-        std::vector<cv::Rect_<int> > foundLocations2;
-        if( dynamic_cast< HOGDescriptor_wrapper const* >( boost::addressof( inst ) ) ){
-            inst.::cv::HOGDescriptor::detectMultiScale(img, foundLocations2, hitThreshold, winStride, padding, scale, groupThreshold);
-        }
-        else{
-            inst.detectMultiScale(img, foundLocations2, hitThreshold, winStride, padding, scale, groupThreshold);
-        }
-        return bp::object( foundLocations2 );
-    }
-
-    virtual bool load( ::cv::String const & filename, ::cv::String const & objname=std::string() ) {
-        if( bp::override func_load = this->get_override( "load" ) )
-            return func_load( boost::ref(filename), boost::ref(objname) );
-        else{
-            return this->cv::HOGDescriptor::load( boost::ref(filename), boost::ref(objname) );
-        }
-    }
-    
-    bool default_load( ::cv::String const & filename, ::cv::String const & objname=std::string() ) {
-        return cv::HOGDescriptor::load( boost::ref(filename), boost::ref(objname) );
-    }
-
-    virtual void save( ::cv::String const & filename, ::cv::String const & objname=std::string() ) const  {
-        if( bp::override func_save = this->get_override( "save" ) )
-            func_save( boost::ref(filename), boost::ref(objname) );
-        else{
-            this->cv::HOGDescriptor::save( boost::ref(filename), boost::ref(objname) );
-        }
-    }
-    
-    void default_save( ::cv::String const & filename, ::cv::String const & objname=std::string() ) const  {
-        cv::HOGDescriptor::save( boost::ref(filename), boost::ref(objname) );
-    }
-
-    virtual void setSVMDetector( ::std::vector< float > const & _svmdetector ) {
-        if( bp::override func_setSVMDetector = this->get_override( "setSVMDetector" ) )
-            func_setSVMDetector( boost::ref(_svmdetector) );
-        else{
-            this->cv::HOGDescriptor::setSVMDetector( boost::ref(_svmdetector) );
-        }
-    }
-    
-    void default_setSVMDetector( ::std::vector< float > const & _svmdetector ) {
-        cv::HOGDescriptor::setSVMDetector( boost::ref(_svmdetector) );
-    }
-
-};
-
-static boost::python::object __call___14ec982e59fdc13237968e34b82d6fe2( ::cv::LDetector const & inst, ::cv::Mat const & image, int maxCount=0, bool scaleCoords=true ){
-    std::vector<cv::KeyPoint> keypoints2;
-    inst.operator()(image, keypoints2, maxCount, scaleCoords);
-    return bp::object( keypoints2 );
-}
-
-static boost::python::object __call___015c5cd98f14b41d0eaab62238a1a6fe( ::cv::LDetector const & inst, ::std::vector< cv::Mat > const & pyr, int maxCount=0, bool scaleCoords=true ){
-    std::vector<cv::KeyPoint> keypoints2;
-    inst.operator()(pyr, keypoints2, maxCount, scaleCoords);
-    return bp::object( keypoints2 );
-}
-
 void register_classes_3(){
+
+    bp::class_< CvFuzzyRule >( "CvFuzzyRule" )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvFuzzyRule >() );
+
+    { //::CvObjectDetector
+        typedef bp::class_< CvObjectDetector > CvObjectDetector_exposer_t;
+        CvObjectDetector_exposer_t CvObjectDetector_exposer = CvObjectDetector_exposer_t( "CvObjectDetector", bp::init< bp::optional< char const * > >(( bp::arg("arg0")=bp::object() )) );
+        bp::scope CvObjectDetector_scope( CvObjectDetector_exposer );
+        CvObjectDetector_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< CvObjectDetector >() );
+        bp::implicitly_convertible< char const *, CvObjectDetector >();
+        { //::CvObjectDetector::Detect
+        
+            typedef void ( *Detect_function_type )( CvObjectDetector &,::cv::Mat &,CvBlobSeq * );
+            
+            CvObjectDetector_exposer.def( 
+                "Detect"
+                , Detect_function_type( &Detect_d8fa7b620f024b1a2f20fc4afa978e15 )
+                , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1")=bp::object() )
+                , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvArr const *."\
+    "\n    Python type: Mat." );
+        
+        }
+        { //::CvObjectDetector::GetMaxBorderSize
+        
+            typedef int ( ::CvObjectDetector::*GetMaxBorderSize_function_type )(  ) const;
+            
+            CvObjectDetector_exposer.def( 
+                "GetMaxBorderSize"
+                , GetMaxBorderSize_function_type( &::CvObjectDetector::GetMaxBorderSize ) );
+        
+        }
+        { //::CvObjectDetector::GetMinWindowSize
+        
+            typedef ::CvSize ( ::CvObjectDetector::*GetMinWindowSize_function_type )(  ) const;
+            
+            CvObjectDetector_exposer.def( 
+                "GetMinWindowSize"
+                , GetMinWindowSize_function_type( &::CvObjectDetector::GetMinWindowSize ) );
+        
+        }
+        { //::CvObjectDetector::Load
+        
+            typedef bool ( ::CvObjectDetector::*Load_function_type )( char const * ) ;
+            
+            CvObjectDetector_exposer.def( 
+                "Load"
+                , Load_function_type( &::CvObjectDetector::Load )
+                , ( bp::arg("arg0")=bp::object() ) );
+        
+        }
+    }
+
+    bp::class_< CvVSModule_wrapper, boost::noncopyable >( "CvVSModule", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvVSModule >() )    
+        .def( 
+            "GetNickName"
+            , (char const * ( CvVSModule::* )(  ) )( &::CvVSModule::GetNickName ) )    
+        .def( 
+            "GetParam"
+            , (double ( CvVSModule::* )( char const * ) )( &::CvVSModule::GetParam )
+            , ( bp::arg("name") ) )    
+        .def( 
+            "GetParamComment"
+            , (char const * ( CvVSModule::* )( char const * ) )( &::CvVSModule::GetParamComment )
+            , ( bp::arg("name") ) )    
+        .def( 
+            "GetParamName"
+            , (char const * ( CvVSModule::* )( int ) )( &::CvVSModule::GetParamName )
+            , ( bp::arg("index") ) )    
+        .def( 
+            "GetParamStr"
+            , (char const * ( CvVSModule::* )( char const * ) )( &::CvVSModule::GetParamStr )
+            , ( bp::arg("name") ) )    
+        .def( 
+            "GetTypeName"
+            , (char const * ( CvVSModule::* )(  ) )( &::CvVSModule::GetTypeName ) )    
+        .def( 
+            "IsModuleName"
+            , (int ( CvVSModule::* )( char const * ) )( &::CvVSModule::IsModuleName )
+            , ( bp::arg("name") ) )    
+        .def( 
+            "IsModuleTypeName"
+            , (int ( CvVSModule::* )( char const * ) )( &::CvVSModule::IsModuleTypeName )
+            , ( bp::arg("name") ) )    
+        .def( 
+            "LoadState"
+            , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvVSModule_wrapper::default_LoadState )
+            , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage."\
+    "\nArgument 'arg1':"\
+    "\n    C++ type: ::CvFileNode *."\
+    "\n    Python type: FileNode." )    
+        .def( 
+            "ParamUpdate"
+            , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
+            , (void ( CvVSModule_wrapper::* )(  ) )(&CvVSModule_wrapper::default_ParamUpdate) )    
+        .def( 
+            "Release"
+            , bp::pure_virtual( (void ( CvVSModule::* )(  ) )(&::CvVSModule::Release) ) )    
+        .def( 
+            "SaveState"
+            , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvVSModule_wrapper::default_SaveState )
+            , ( bp::arg("inst"), bp::arg("arg0") )
+            , "\nArgument 'arg0':"\
+    "\n    C++ type: ::CvFileStorage *."\
+    "\n    Python type: FileStorage." )    
+        .def( 
+            "SetNickName"
+            , (void ( CvVSModule::* )( char const * ) )( &::CvVSModule::SetNickName )
+            , ( bp::arg("pStr") ) )    
+        .def( 
+            "SetParam"
+            , (void ( CvVSModule::* )( char const *,double ) )( &::CvVSModule::SetParam )
+            , ( bp::arg("name"), bp::arg("val") ) )    
+        .def( 
+            "SetParamStr"
+            , (void ( CvVSModule::* )( char const *,char const * ) )( &::CvVSModule::SetParamStr )
+            , ( bp::arg("name"), bp::arg("str") ) )    
+        .def( 
+            "TransferParamsFromChild"
+            , (void ( CvVSModule::* )( ::CvVSModule *,char const * ) )( &::CvVSModule::TransferParamsFromChild )
+            , ( bp::arg("pM"), bp::arg("prefix")=bp::object() ) )    
+        .def( 
+            "TransferParamsToChild"
+            , (void ( CvVSModule::* )( ::CvVSModule *,char * ) )( &::CvVSModule::TransferParamsToChild )
+            , ( bp::arg("pM"), bp::arg("prefix")=bp::object() ) )    
+        .def("GetModuleName", &::CvVSModule_GetModuleName);
 
     bp::class_< BackgroundSubtractor_wrapper >( "BackgroundSubtractor" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::BackgroundSubtractor >() )    
@@ -643,214 +690,5 @@ void register_classes_3(){
         
         }
     }
-
-    { //::cv::HOGDescriptor
-        typedef bp::class_< HOGDescriptor_wrapper > HOGDescriptor_exposer_t;
-        HOGDescriptor_exposer_t HOGDescriptor_exposer = HOGDescriptor_exposer_t( "HOGDescriptor", bp::init< >() );
-        bp::scope HOGDescriptor_scope( HOGDescriptor_exposer );
-        HOGDescriptor_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::HOGDescriptor >() );
-        bp::scope().attr("L2Hys") = (int)cv::HOGDescriptor::L2Hys;
-        HOGDescriptor_exposer.def( bp::init< cv::Size, cv::Size, cv::Size, cv::Size, int, bp::optional< int, double, int, double, bool > >(( bp::arg("_winSize"), bp::arg("_blockSize"), bp::arg("_blockStride"), bp::arg("_cellSize"), bp::arg("_nbins"), bp::arg("_derivAperture")=(int)(1), bp::arg("_winSigma")=-0x000000001, bp::arg("_histogramNormType")=int(::cv::HOGDescriptor::L2Hys), bp::arg("_L2HysThreshold")=2.00000000000000011102230246251565404236316680908e-1, bp::arg("_gammaCorrection")=(bool)(false) )) );
-        HOGDescriptor_exposer.def( bp::init< cv::String const & >(( bp::arg("filename") )) );
-        bp::implicitly_convertible< cv::String const &, cv::HOGDescriptor >();
-        { //::cv::HOGDescriptor::checkDetectorSize
-        
-            typedef bool ( ::cv::HOGDescriptor::*checkDetectorSize_function_type )(  ) const;
-            
-            HOGDescriptor_exposer.def( 
-                "checkDetectorSize"
-                , checkDetectorSize_function_type( &::cv::HOGDescriptor::checkDetectorSize ) );
-        
-        }
-        { //::cv::HOGDescriptor::compute
-        
-            typedef boost::python::object ( *default_compute_function_type )( cv::HOGDescriptor const &,cv::Mat const &,::cv::Size,::cv::Size,std::vector<cv::Point_<int> > const & );
-            
-            HOGDescriptor_exposer.def( 
-                "compute"
-                , default_compute_function_type( &HOGDescriptor_wrapper::default_compute )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=std::vector<cv::Point>() )
-                , "\nArgument 'descriptors':"\
-    "\n    C++ type: ::std::vector< float > &."\
-    "\n    Python type: vector_float32."\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nReturns:"\
-    "\n    descriptors" );
-        
-        }
-        { //::cv::HOGDescriptor::computeGradient
-        
-            typedef void ( ::cv::HOGDescriptor::*computeGradient_function_type )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Size,::cv::Size ) const;
-            typedef void ( HOGDescriptor_wrapper::*default_computeGradient_function_type )( ::cv::Mat const &,::cv::Mat &,::cv::Mat &,::cv::Size,::cv::Size ) const;
-            
-            HOGDescriptor_exposer.def( 
-                "computeGradient"
-                , computeGradient_function_type(&::cv::HOGDescriptor::computeGradient)
-                , default_computeGradient_function_type(&HOGDescriptor_wrapper::default_computeGradient)
-                , ( bp::arg("img"), bp::arg("grad"), bp::arg("angleOfs"), bp::arg("paddingTL")=cv::Size_<int>(), bp::arg("paddingBR")=cv::Size_<int>() ) );
-        
-        }
-        { //::cv::HOGDescriptor::detect
-        
-            typedef boost::python::object ( *default_detect_function_type )( cv::HOGDescriptor const &,cv::Mat const &,double,::cv::Size,::cv::Size,std::vector<cv::Point_<int> > const & );
-            
-            HOGDescriptor_exposer.def( 
-                "detect"
-                , default_detect_function_type( &HOGDescriptor_wrapper::default_detect )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=std::vector<cv::Point>() )
-                , "\nArgument 'foundLocations':"\
-    "\n    C++ type: ::std::vector< cv::Point_<int> > &."\
-    "\n    Python type: vector_Point2i."\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nReturns:"\
-    "\n    foundLocations" );
-        
-        }
-        { //::cv::HOGDescriptor::detectMultiScale
-        
-            typedef boost::python::object ( *default_detectMultiScale_function_type )( cv::HOGDescriptor const &,cv::Mat const &,double,::cv::Size,::cv::Size,double,int );
-            
-            HOGDescriptor_exposer.def( 
-                "detectMultiScale"
-                , default_detectMultiScale_function_type( &HOGDescriptor_wrapper::default_detectMultiScale )
-                , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("scale")=1.05000000000000004440892098500626161694526672363e+0, bp::arg("groupThreshold")=(int)(2) )
-                , "\nArgument 'foundLocations':"\
-    "\n    C++ type: ::std::vector< cv::Rect_<int> > &."\
-    "\n    Python type: vector_Rect."\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nReturns:"\
-    "\n    foundLocations" );
-        
-        }
-        { //::cv::HOGDescriptor::getDefaultPeopleDetector
-        
-            typedef ::std::vector< float > ( *getDefaultPeopleDetector_function_type )(  );
-            
-            HOGDescriptor_exposer.def( 
-                "getDefaultPeopleDetector"
-                , getDefaultPeopleDetector_function_type( &::cv::HOGDescriptor::getDefaultPeopleDetector ) );
-        
-        }
-        { //::cv::HOGDescriptor::getDescriptorSize
-        
-            typedef ::size_t ( ::cv::HOGDescriptor::*getDescriptorSize_function_type )(  ) const;
-            
-            HOGDescriptor_exposer.def( 
-                "getDescriptorSize"
-                , getDescriptorSize_function_type( &::cv::HOGDescriptor::getDescriptorSize ) );
-        
-        }
-        { //::cv::HOGDescriptor::getWinSigma
-        
-            typedef double ( ::cv::HOGDescriptor::*getWinSigma_function_type )(  ) const;
-            
-            HOGDescriptor_exposer.def( 
-                "getWinSigma"
-                , getWinSigma_function_type( &::cv::HOGDescriptor::getWinSigma ) );
-        
-        }
-        { //::cv::HOGDescriptor::load
-        
-            typedef bool ( ::cv::HOGDescriptor::*load_function_type )( ::cv::String const &,::cv::String const & ) ;
-            typedef bool ( HOGDescriptor_wrapper::*default_load_function_type )( ::cv::String const &,::cv::String const & ) ;
-            
-            HOGDescriptor_exposer.def( 
-                "load"
-                , load_function_type(&::cv::HOGDescriptor::load)
-                , default_load_function_type(&HOGDescriptor_wrapper::default_load)
-                , ( bp::arg("filename"), bp::arg("objname")=std::string() ) );
-        
-        }
-        { //::cv::HOGDescriptor::save
-        
-            typedef void ( ::cv::HOGDescriptor::*save_function_type )( ::cv::String const &,::cv::String const & ) const;
-            typedef void ( HOGDescriptor_wrapper::*default_save_function_type )( ::cv::String const &,::cv::String const & ) const;
-            
-            HOGDescriptor_exposer.def( 
-                "save"
-                , save_function_type(&::cv::HOGDescriptor::save)
-                , default_save_function_type(&HOGDescriptor_wrapper::default_save)
-                , ( bp::arg("filename"), bp::arg("objname")=std::string() ) );
-        
-        }
-        { //::cv::HOGDescriptor::setSVMDetector
-        
-            typedef void ( ::cv::HOGDescriptor::*setSVMDetector_function_type )( ::std::vector< float > const & ) ;
-            typedef void ( HOGDescriptor_wrapper::*default_setSVMDetector_function_type )( ::std::vector< float > const & ) ;
-            
-            HOGDescriptor_exposer.def( 
-                "setSVMDetector"
-                , setSVMDetector_function_type(&::cv::HOGDescriptor::setSVMDetector)
-                , default_setSVMDetector_function_type(&HOGDescriptor_wrapper::default_setSVMDetector)
-                , ( bp::arg("_svmdetector") ) );
-        
-        }
-        HOGDescriptor_exposer.def_readwrite( "L2HysThreshold", &cv::HOGDescriptor::L2HysThreshold );
-        HOGDescriptor_exposer.def_readwrite( "blockSize", &cv::HOGDescriptor::blockSize );
-        HOGDescriptor_exposer.def_readwrite( "blockStride", &cv::HOGDescriptor::blockStride );
-        HOGDescriptor_exposer.def_readwrite( "cellSize", &cv::HOGDescriptor::cellSize );
-        HOGDescriptor_exposer.def_readwrite( "derivAperture", &cv::HOGDescriptor::derivAperture );
-        HOGDescriptor_exposer.def_readwrite( "gammaCorrection", &cv::HOGDescriptor::gammaCorrection );
-        HOGDescriptor_exposer.def_readwrite( "histogramNormType", &cv::HOGDescriptor::histogramNormType );
-        HOGDescriptor_exposer.def_readwrite( "nbins", &cv::HOGDescriptor::nbins );
-        HOGDescriptor_exposer.def_readwrite( "svmDetector", &cv::HOGDescriptor::svmDetector );
-        HOGDescriptor_exposer.def_readwrite( "winSigma", &cv::HOGDescriptor::winSigma );
-        HOGDescriptor_exposer.def_readwrite( "winSize", &cv::HOGDescriptor::winSize );
-        HOGDescriptor_exposer.staticmethod( "getDefaultPeopleDetector" );
-    }
-
-    bp::class_< cv::LDetector >( "LDetector", bp::init< >() )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::LDetector >() )    
-        .def( bp::init< int, int, int, int, double, double >(( bp::arg("_radius"), bp::arg("_threshold"), bp::arg("_nOctaves"), bp::arg("_nViews"), bp::arg("_baseFeatureSize"), bp::arg("_clusteringDistance") )) )    
-        .def( 
-            "getMostStable2D"
-            , (void ( cv::LDetector::* )( ::cv::Mat const &,::std::vector< cv::KeyPoint > &,int,::cv::PatchGenerator const & ) const)( &::cv::LDetector::getMostStable2D )
-            , ( bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") ) )    
-        .def( 
-            "__call__"
-            , (boost::python::object (*)( cv::LDetector const &,cv::Mat const &,int,bool ))( &__call___14ec982e59fdc13237968e34b82d6fe2 )
-            , ( bp::arg("inst"), bp::arg("image"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
-            , "\nWrapped function:"
-    "\n    operator()"
-    "\nArgument 'keypoints':"\
-    "\n    C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: vector_KeyPoint."\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nReturns:"\
-    "\n    keypoints" )    
-        .def( 
-            "__call__"
-            , (boost::python::object (*)( cv::LDetector const &,std::vector<cv::Mat> const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
-            , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
-            , "\nWrapped function:"
-    "\n    operator()"
-    "\nArgument 'keypoints':"\
-    "\n    C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: vector_KeyPoint."\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nReturns:"\
-    "\n    keypoints" )    
-        .def( 
-            "read"
-            , (void ( cv::LDetector::* )( ::cv::FileNode const & ) )( &::cv::LDetector::read )
-            , ( bp::arg("node") ) )    
-        .def( 
-            "setVerbose"
-            , (void ( cv::LDetector::* )( bool ) )( &::cv::LDetector::setVerbose )
-            , ( bp::arg("verbose") ) )    
-        .def( 
-            "write"
-            , (void ( cv::LDetector::* )( ::cv::FileStorage &,::cv::String const & ) const)( &::cv::LDetector::write )
-            , ( bp::arg("fs"), bp::arg("name")=std::string() ) )    
-        .def_readwrite( "baseFeatureSize", &cv::LDetector::baseFeatureSize )    
-        .def_readwrite( "clusteringDistance", &cv::LDetector::clusteringDistance )    
-        .def_readwrite( "nOctaves", &cv::LDetector::nOctaves )    
-        .def_readwrite( "nViews", &cv::LDetector::nViews )    
-        .def_readwrite( "radius", &cv::LDetector::radius )    
-        .def_readwrite( "threshold", &cv::LDetector::threshold )    
-        .def_readwrite( "verbose", &cv::LDetector::verbose );
-
-    bp::class_< cv::LevMarqSparse >( "LevMarqSparse" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::LevMarqSparse >() );
 
 }

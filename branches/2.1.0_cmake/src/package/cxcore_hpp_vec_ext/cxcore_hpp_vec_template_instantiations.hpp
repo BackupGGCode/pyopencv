@@ -7,6 +7,7 @@ public:
     static const int total_size = 0
         + sizeof(cv::Complex<double>)
         + sizeof(cv::Complex<float>)
+        + sizeof(cv::Ptr<CvMemStorage>)
         + sizeof(cv::Scalar_<double>)
         + sizeof(cv::Vec<double,2>)
         + sizeof(cv::Vec<double,3>)
@@ -28,6 +29,7 @@ public:
         + sizeof(cv::Vec<unsigned short,2>)
         + sizeof(cv::Vec<unsigned short,3>)
         + sizeof(cv::Vec<unsigned short,4>)
+        + sizeof(std::vector<char>)
         + sizeof(std::vector<cv::Range>)
         + sizeof(std::vector<cv::Scalar_<double> >)
         + sizeof(std::vector<cv::Vec<double,2> >)
@@ -50,7 +52,21 @@ public:
         + sizeof(std::vector<cv::Vec<unsigned short,2> >)
         + sizeof(std::vector<cv::Vec<unsigned short,3> >)
         + sizeof(std::vector<cv::Vec<unsigned short,4> >)
-        + sizeof(std::vector<std::vector<cv::Vec<int,2> > >);
+        + sizeof(std::vector<double>)
+        + sizeof(std::vector<float>)
+        + sizeof(std::vector<int>)
+        + sizeof(std::vector<long long>)
+        + sizeof(std::vector<long>)
+        + sizeof(std::vector<short>)
+        + sizeof(std::vector<std::vector<cv::Vec<int,2> > >)
+        + sizeof(std::vector<std::vector<float> >)
+        + sizeof(std::vector<std::vector<int> >)
+        + sizeof(std::vector<unsigned char *>)
+        + sizeof(std::vector<unsigned char>)
+        + sizeof(std::vector<unsigned int>)
+        + sizeof(std::vector<unsigned long long>)
+        + sizeof(std::vector<unsigned long>)
+        + sizeof(std::vector<unsigned short>);
 };
 
 #endif

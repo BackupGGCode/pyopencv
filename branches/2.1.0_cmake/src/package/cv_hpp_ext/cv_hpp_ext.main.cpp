@@ -449,7 +449,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    Python type: vector_int."\
     "\nArgument 'ranges':"\
     "\n    C++ type: float const * *."\
-    "\n    Python type: (C++)std::vector<std::vector<float> >." );
+    "\n    Python type: vector_vector_float32." );
     
     }
 
@@ -472,7 +472,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    Python type: vector_int."\
     "\nArgument 'ranges':"\
     "\n    C++ type: float const * *."\
-    "\n    Python type: (C++)std::vector<std::vector<float> >." );
+    "\n    Python type: vector_vector_float32." );
     
     }
 
@@ -501,7 +501,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    Python type: vector_int."\
     "\nArgument 'ranges':"\
     "\n    C++ type: float const * *."\
-    "\n    Python type: (C++)std::vector<std::vector<float> >." );
+    "\n    Python type: vector_vector_float32." );
     
     }
 
@@ -530,7 +530,7 @@ BOOST_PYTHON_MODULE(cv_hpp_ext){
     "\n    Python type: vector_int."\
     "\nArgument 'ranges':"\
     "\n    C++ type: float const * *."\
-    "\n    Python type: (C++)std::vector<std::vector<float> >." );
+    "\n    Python type: vector_vector_float32." );
     
     }
 

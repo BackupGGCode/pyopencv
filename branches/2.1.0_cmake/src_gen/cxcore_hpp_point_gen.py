@@ -20,6 +20,7 @@ from pygccxml import declarations as D
 from pyplusplus.module_builder import call_policies as CP
 import sdpypp
 sb = sdpypp.SdModuleBuilder('cxcore_hpp_point', number_of_files=3)
+sb.load_regs('cxcore_hpp_vec_reg.sdd')
 
 sb.cc.write('''
 #=============================================================================
@@ -41,19 +42,7 @@ dtype_dict = {
     'd': 'double',
 }
 
-Vec_dict = {
-    2: 'bswifd',
-    3: 'bswifd',
-    4: 'bswifd',
-    6: 'fd',
-}
-
 Point_dict = 'ifd'
-
-# Vec et al
-for i in Vec_dict.keys():
-    for suffix in Vec_dict[i]:
-        sb.register_ti('cv::Vec', [dtype_dict[suffix], i], 'Vec%d%s' % (i, suffix))
 
 # Point et al
 for suffix in Point_dict:
@@ -277,9 +266,9 @@ list_dict = {
 }
 for key in list_dict:
     elem_type = list_dict[key]
-    z.add_registration_code('def("to_list_of_%s", &convert_from_Mat_to_seq<%s> )' % (key, elem_type))
-    z.add_registration_code('def("from_list_of_%s", &convert_from_seq_to_Mat_object<%s> )' % (key, elem_type))
-    z.add_registration_code('staticmethod("from_list_of_%s")' % key)
+    # z.add_registration_code('def("to_list_of_%s", &convert_from_Mat_to_seq<%s> )' % (key, elem_type))
+    # z.add_registration_code('def("from_list_of_%s", &convert_from_seq_to_Mat_object<%s> )' % (key, elem_type))
+    # z.add_registration_code('staticmethod("from_list_of_%s")' % key)
     try:
         z2 = sb.mb.class_(lambda x: x.alias=='vector_'+key)
         sb.asClass(z, z2, 'return convert_from_Mat_to_vector_of_T<%s>(inst)' % elem_type)
@@ -292,73 +281,6 @@ for key in list_dict:
     except RuntimeError:
         pass
 sb.finalize_class(z)
-
-# rewrite the asMat function # TODO: enable this
-# sb.cc.write('''
-# def reshapeSingleChannel(mat):
-    # """Reshapes a Mat object into one that has a single channel.
-    
-    # The function returns mat itself if it is single-channel.
-
-    # If it is multi-channel, the function invokes mat.reshape() to reshape
-    # the object. If the object has a single row, the returning object has
-    # rows=mat.cols and cols=mat.channels(). Otherwise, the returning object
-    # has rows=mat.rows and cols=mat.cols*mat.channels().    
-    # """
-    # if mat.channels() != 1:
-        # new_mat = mat.reshape(1, mat.cols if mat.rows==1 else mat.rows)
-        # if '_depends' in mat.__dict__:
-            # new_mat._depends = mat._depends
-        # return new_mat
-    # return mat
-    
-# def asMat(obj, force_single_channel=False):
-    # """Converts a Python object into a Mat object.
-    
-    # This general-purpose meta-function uses a simple heuristic method to
-    # identify the type of the given Python object in order to convert it into
-    # a Mat object. First, it invokes the internal asMat() function of the
-    # Python extension to try to convert. If not successful, it assumes the 
-    # object is a Python sequence, and converts the object into a std::vector 
-    # object whose element type is the type of the first element of the Python 
-    # sequence. After that, it converts the std::vector object into a Mat 
-    # object by invoking the internal asMat() function again.
-    
-    # In the case that the above heuristic method does not convert into a Mat
-    # object with your intended type and depth, use one of the asvector_...()
-    # functions to convert your object into a vector before invoking asMat().
-    
-    # If 'force_single_channel' is True, the returning Mat is single-channel (by
-    # invoking reshapeSingleChannel()). Otherwise, PyOpenCV tries to return a 
-    # multi-channel Mat whenever possible.
-    # """
-    
-    # if obj is None:
-        # return Mat()
-        
-    # try:
-        # out_mat = eval("_ext.asMat(inst_%s=obj)" % obj.__class__.__name__)
-    # except TypeError as e: # Boost.Python.ArgumentError is an unexposed subclass
-        # if not e.message.startswith('Python argument types in'):
-            # raise e
-            
-        # z = obj[0]
-        # if isinstance(z, int):
-            # out_mat = _ext.asMat(inst_vector_int=vector_int.fromlist(obj))
-        # elif isinstance(z, float):
-            # out_mat = _ext.asMat(inst_vector_float64=vector_float64.fromlist(obj))
-        # else:
-            # out_mat = eval("_ext.asMat(inst_vector_Type=vector_Type.fromlist(obj))"\
-                # .replace("Type", z.__class__.__name__))
-    
-    # if force_single_channel:
-        # return reshapeSingleChannel(out_mat)
-    # return out_mat
-# asMat.__doc__ = asMat.__doc__ + """
-# Docstring of the internal asMat function:
-
-# """ + _ext.asMat.__doc__
-# ''')
 
 # Ptr<Mat>
 sb.expose_class_Ptr('Mat', 'cv')
@@ -442,3 +364,4 @@ MatND.__repr__ = _MatND__repr__
 
 
 sb.done()
+sb.save_regs('cxcore_hpp_point_reg.sdd')

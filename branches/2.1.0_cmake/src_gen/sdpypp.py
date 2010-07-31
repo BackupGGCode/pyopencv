@@ -24,6 +24,7 @@ from pyplusplus.module_builder import call_policies as _CP
 import common as _c
 import function_transformers as _FT
 import memvar_transformers as _MT
+import cPickle as _cP
 
 
 class SdModuleBuilder:
@@ -125,6 +126,8 @@ from MODULE_NAME_ext import *
         # add 'pds' attribute to every class
         for z in self.mb.classes():
             z.pds = _c.unique_pds(z.partial_decl_string)
+            if z.name.startswith('vector'):
+                z.set_already_exposed(True)
 
         # dummy struct
         z = self.mb.class_(module_name+"_dummy_struct")
@@ -152,8 +155,6 @@ from MODULE_NAME_ext import *
         # make sure size_t is still size_t -- for 64-bit support
         z = self.mb.decl('size_t')
         z.type = _FT.size_t_t()
-
-        self.register_basic_data_types()
 
 
     def done(self):
@@ -213,30 +214,14 @@ from MODULE_NAME_ext import *
     # ==================
     decls_reg = {}
     
-    def register_basic_data_types(self):
-        # basic data types
-        self.register_decl('None', 'void')
-        self.register_decl('bool', 'bool')
-        self.register_decl('int8', 'char')
-        self.register_decl('int8', 'signed char')
-        self.register_decl('int8', 'schar')
-        self.register_decl('uint8', 'unsigned char')
-        self.register_decl('uint8', 'uchar')
-        self.register_decl('int16', 'short')
-        self.register_decl('int16', 'short int')
-        self.register_decl('uint16', 'unsigned short')
-        self.register_decl('uint16', 'short unsigned int')
-        self.register_decl('uint16', 'ushort')
-        self.register_decl('int', 'int')
-        self.register_decl('uint', 'unsigned int')
-        self.register_decl('long', 'long')
-        self.register_decl('ulong', 'unsigned long')
-        self.register_decl('int64', 'long long')
-        self.register_decl('uint64', 'unsigned long long')
-        self.register_decl('float32', 'float')
-        self.register_decl('float64', 'double')
-
-    
+    def load_regs(self, filename):
+        decls = _cP.load(open(filename))
+        for upds in decls:
+            pyName, child_pds, pyEquivName = decls[upds]
+            self.register_decl(pyName, upds, child_pds, pyEquivName)
+        
+    def save_regs(self, filename):
+        _cP.dump(self.decls_reg, open(filename, 'w'))    
 
     def prepare_decls_registration_code(self):
         str = '''#ifndef SD_MODULE_NAME_TEMPLATE_INSTANTIATIONS_HPP
@@ -401,6 +386,7 @@ KLASS.__FUNC__ = _KLASS__FUNC__
             return
             
         z.include()
+        z.set_already_exposed(False) # special case for vector
         # remember to create operator==() for each element type
         z.include_files.append("opencv_headers.hpp")
         z.add_declaration_code('static inline void CLASS_NAME_resize(CLASS_TYPE &inst, size_t num) { inst.resize(num); }'.replace("CLASS_NAME", z.alias).replace("CLASS_TYPE", z.partial_decl_string))

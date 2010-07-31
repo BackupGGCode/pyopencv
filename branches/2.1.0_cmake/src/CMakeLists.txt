@@ -389,6 +389,8 @@ add_library(pyopencv_extras SHARED ${EXTRA_SRCS})
 target_link_libraries(pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
 install(TARGETS pyopencv_extras RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
 
+set(PYTHON_MODULE_LIST)
+
 # 'add_python_module' macro
 macro(ADD_PYTHON_MODULE _NAME)
     file(GLOB ${_NAME}_SRCS package/${_NAME}_ext/*)
@@ -399,6 +401,7 @@ macro(ADD_PYTHON_MODULE _NAME)
         SUFFIX ${_modsuffix}) # The extension got from Python libraries
     install(TARGETS ${_NAME}_ext RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
     install(FILES package/${_NAME}.py DESTINATION ${CMAKE_INSTALL_PREFIX})
+    set(PYTHON_MODULE_LIST ${PYTHON_MODULE_LIST} ${_NAME})
 endmacro(ADD_PYTHON_MODULE)
 
 # CxCORE
@@ -442,5 +445,33 @@ if(WRAP_SDOPENCV)
     add_python_module(sdopencv)
 endif(WRAP_SDOPENCV)
 
+# ---------------------------------------------
+# write to 'package/config.py'
+# ---------------------------------------------
+file(WRITE package/config.py "
+PYOPENCV_VERSION_MAJOR = \"${PYOPENCV_VERSION_MAJOR}\" 
+PYOPENCV_VERSION_MINOR = \"${PYOPENCV_VERSION_MINOR}\"
+PYOPENCV_VERSION_PATCH = \"${PYOPENCV_VERSION_PATCH}\"
+PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
 
-install(FILES package/__init__.py package/common.py package/info.py package/cxerror_h.py package/cvver_h.py DESTINATION ${CMAKE_INSTALL_PREFIX})
+")
+foreach(MOD_NAME ${PYTHON_MODULE_LIST})
+    file(APPEND package/config.py "from ${MOD_NAME} import *
+")
+endforeach()
+
+# ---------------------------------------------
+# write to 'config.py'
+# ---------------------------------------------
+file(WRITE config.py "MODULE_LIST = [")
+foreach(MOD_NAME ${PYTHON_MODULE_LIST})
+    file(APPEND config.py "\"${MOD_NAME}\", ")
+endforeach()
+file(APPEND config.py "]
+PYOPENCV_VERSION_MAJOR = \"${PYOPENCV_VERSION_MAJOR}\" 
+PYOPENCV_VERSION_MINOR = \"${PYOPENCV_VERSION_MINOR}\"
+PYOPENCV_VERSION_PATCH = \"${PYOPENCV_VERSION_PATCH}\"
+PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
+")
+
+install(FILES package/__init__.py package/config.py package/common.py package/info.py package/cxerror_h.py package/cvver_h.py package/interfaces.py DESTINATION ${CMAKE_INSTALL_PREFIX})

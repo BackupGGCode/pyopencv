@@ -428,28 +428,28 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'prev_features':"\
     "\n    C++ type: ::CvPoint2D32f const *."\
-    "\n    Python type: (C++)std::vector<cv::Point_<float> >."\
+    "\n    Python type: vector_Point2f."\
     "\nArgument 'curr_features':"\
     "\n    C++ type: ::CvPoint2D32f *."\
-    "\n    Python type: (C++)std::vector<cv::Point_<float> >."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'matrices':"\
     "\n    C++ type: float *."\
-    "\n    Python type: (C++)std::vector<float>."\
+    "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'count':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'prev_features'."\
     "\nArgument 'win_size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: Size."\
+    "\n    Python type: Size2i."\
     "\nArgument 'status':"\
     "\n    C++ type: char *."\
-    "\n    Python type: (C++)std::vector<char>."\
+    "\n    Python type: vector_int8."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'track_error':"\
     "\n    C++ type: float *."\
-    "\n    Python type: (C++)std::vector<float>."\
+    "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'criteria':"\
     "\n    C++ type: ::CvTermCriteria."\
@@ -546,13 +546,13 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'block_size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: Size."\
+    "\n    Python type: Size2i."\
     "\nArgument 'shift_size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: Size."\
+    "\n    Python type: Size2i."\
     "\nArgument 'max_range':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: Size."\
+    "\n    Python type: Size2i."\
     "\nArgument 'velx':"\
     "\n    C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
@@ -630,7 +630,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'win_size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: Size."\
+    "\n    Python type: Size2i."\
     "\nArgument 'velx':"\
     "\n    C++ type: ::CvArr *."\
     "\n    Python type: Mat."\
@@ -664,24 +664,24 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'prev_features':"\
     "\n    C++ type: ::CvPoint2D32f const *."\
-    "\n    Python type: (C++)std::vector<cv::Point_<float> >."\
+    "\n    Python type: vector_Point2f."\
     "\nArgument 'curr_features':"\
     "\n    C++ type: ::CvPoint2D32f *."\
-    "\n    Python type: (C++)std::vector<cv::Point_<float> >."\
+    "\n    Python type: vector_Point2f."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'count':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'prev_features'."\
     "\nArgument 'win_size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: Size."\
+    "\n    Python type: Size2i."\
     "\nArgument 'status':"\
     "\n    C++ type: char *."\
-    "\n    Python type: (C++)std::vector<char>."\
+    "\n    Python type: vector_int8."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'track_error':"\
     "\n    C++ type: float *."\
-    "\n    Python type: (C++)std::vector<float>."\
+    "\n    Python type: vector_float32."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'criteria':"\
     "\n    C++ type: ::CvTermCriteria."\
@@ -706,7 +706,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    Python type: Mat."\
     "\nArgument 'size':"\
     "\n    C++ type: ::CvSize."\
-    "\n    Python type: Size." );
+    "\n    Python type: Size2i." );
     
     }
 
@@ -883,7 +883,7 @@ BOOST_PYTHON_MODULE(cv_h_ext){
     "\n    argument 'mask'."\
     "\nArgument 'mask':"\
     "\n    C++ type: float const *."\
-    "\n    Python type: (C++)std::vector<float>."\
+    "\n    Python type: vector_float32."\
     "\nArgument 'labels':"\
     "\n    C++ type: ::CvArr *."\
     "\n    Python type: Mat." );

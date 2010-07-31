@@ -396,7 +396,7 @@ void register_classes_2(){
     "\n    Python type: Mat."\
     "\nArgument 'weak_responses':"\
     "\n    C++ type: ::CvMat *."\
-    "\n    Python type: (C++)CvMat."\
+    "\n    Python type: CvMat."\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'slice':"\
     "\n    C++ type: ::CvSlice."\

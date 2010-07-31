@@ -32,7 +32,9 @@ Add iterator for SparseMat
 
 - make_nurse_and_patient(nurse, patient) = keep 'patient' alive as long as 'nurse' is alive, weird.
 
-
+- some conversion functions are missing due to lack of registered classes. e.g.
+cxcore_hpp_point exposes Mat, but it doesn't know the existence of vector_int
+therefore, the conversion from vector_int to mat (and vice versa) is not implemented -- damn
 
 ------------------------------------------
 Making a snapshot release using setuptools:

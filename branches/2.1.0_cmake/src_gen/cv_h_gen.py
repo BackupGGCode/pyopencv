@@ -22,20 +22,12 @@ from pygccxml import declarations as D
 from pyplusplus.module_builder import call_policies as CP
 import sdpypp
 sb = sdpypp.SdModuleBuilder('cv_h', number_of_files=3)
+sb.load_regs('cxcore_hpp_reg.sdd')
 
 for t in ('CvSubdiv2DPointLocation', 'CvNextEdgeType', 'CvFilter'):
     sb.mb.enums(t).include()
 
 
-sb.register_ti('cv::Point_', ['int'], 'Point2i')
-sb.register_ti('cv::Point_', ['float'], 'Point2f')
-sb.register_ti('cv::Rect_', ['int'], 'Rect')
-sb.register_ti('cv::Size_', ['int'], 'Size')
-sb.register_ti('cv::TermCriteria')
-sb.register_ti('cv::RotatedRect')
-
-
-    
 sb.cc.write('''
 #=============================================================================
 # cvtypes.h
@@ -798,3 +790,4 @@ for t in ('cvFindStereoCorrespondenceGC', 'cvReprojectImageTo3D'):
 
 
 sb.done()
+sb.save_regs('cv_h_reg.sdd')

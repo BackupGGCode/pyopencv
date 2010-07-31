@@ -18,9 +18,7 @@
 import function_transformers as FT
 import sdpypp
 sb = sdpypp.SdModuleBuilder('cxcore_h', number_of_files=3)
-
-sb.register_vec('std::vector', 'int', excluded=True)
-sb.register_vec('std::vector', 'float', excluded=True)
+sb.load_regs('cxtypes_h_reg.sdd')
 
 sb.cc.write('''
 #=============================================================================
@@ -334,7 +332,7 @@ for t in ('info', 'first', 'last'):
     
 sb.register_ti('cv::Range')
 sb.register_ti('double')
-sb.register_ti('cv::Scalar_', ['double'])
+sb.register_ti('cv::Scalar_', ['double'], 'Scalar')
 
 
 sb.cc.write('''
@@ -390,3 +388,4 @@ sb.mb.free_fun('hierarchicalClustering').include()
 
 
 sb.done()
+sb.save_regs('cxcore_h_reg.sdd')

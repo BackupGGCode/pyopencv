@@ -22,73 +22,10 @@ from pygccxml import declarations as D
 from pyplusplus.module_builder import call_policies as CP
 import sdpypp
 sb = sdpypp.SdModuleBuilder('cvaux', number_of_files=4)
+sb.load_regs('cv_hpp_reg.sdd')
 
 
 
-    
-sb.register_vec('std::vector', 'unsigned char', excluded=True)
-sb.register_vec('std::vector', 'int', excluded=True)
-sb.register_vec('std::vector', 'unsigned int', excluded=True)
-sb.register_vec('std::vector', 'float', excluded=True)
-sb.register_ti('cv::Mat')
-sb.register_vec('std::vector', 'cv::Mat', excluded=True)
-sb.register_ti('cv::MatND')
-sb.register_vec('std::vector', 'cv::MatND', excluded=True)
-sb.register_ti('cv::Ptr', ['cv::Mat'])
-sb.register_vec('std::vector', 'cv::Ptr<cv::Mat>', excluded=True)
-sb.register_ti('cv::KeyPoint')
-sb.register_vec('std::vector', 'cv::KeyPoint', excluded=True)
-sb.register_ti('cv::Scalar_', ['double'], 'Scalar')
-sb.register_vec('std::vector', 'cv::Scalar_<double>', excluded=True)
-
-z = sb.register_ti('cv::Rect_', ['int'], 'Rect')
-sb.register_vec('std::vector', z, excluded=True)
-sb.register_ti('cv::Size_', ['int'], 'Size')
-sb.register_ti('cv::TermCriteria')
-sb.register_ti('cv::RotatedRect')
-sb.register_ti('cv::Range')
-
-dtype_dict = {
-    'b': 'unsigned char',
-    's': 'short',
-    'w': 'unsigned short',
-    'i': 'int',
-    'f': 'float',
-    'd': 'double',
-}
-
-Vec_dict = {
-    2: 'bswifd',
-    3: 'bswifd',
-    4: 'bswifd',
-    6: 'fd',
-}
-
-Point_dict = 'ifd'
-
-# Vec et al
-for i in Vec_dict.keys():
-    for suffix in Vec_dict[i]:
-        z = sb.register_ti('cv::Vec', [dtype_dict[suffix], i], 'Vec%d%s' % (i, suffix))
-        sb.register_vec('std::vector', z, excluded=True)
-
-# Point et al
-for suffix in Point_dict:
-    alias = 'Point2%s' % suffix
-    z = sb.register_ti('cv::Point_', [dtype_dict[suffix]], alias)
-    sb.register_vec('std::vector', z, excluded=True)
-    sb.register_vec('std::vector', 'std::vector< %s >' % z, excluded=True)
-
-# Point3 et al
-for suffix in Point_dict:
-    alias = 'Point3%s' % suffix
-    z = sb.register_ti('cv::Point3_', [dtype_dict[suffix]], alias)
-    sb.register_vec('std::vector', z, excluded=True)
-    sb.register_vec('std::vector', 'std::vector< %s >' % z, excluded=True)
-
-
-    
-    
 sb.cc.write('''
 #=============================================================================
 # cvaux.h
@@ -96,8 +33,6 @@ sb.cc.write('''
 
 
 ''')
-
-sb.register_vec('std::vector', 'std::vector< cv::Vec<int, 2> >', excluded=True)
 
 FT.expose_func(sb.mb.free_fun('cvSegmentImage'), ward_indices=(5,))
 
@@ -315,14 +250,14 @@ z.decls().exclude()
 # CvFuzzyPoint
 z = sb.mb.class_('CvFuzzyPoint')
 sb.init_class(z)
-# sb.register_vec('std::vector', 'CvFuzzyPoint', 'vector_CvFuzzyPoint')    
-# don't register this class because it's used privately only
+# sb.expose_class_vector('CvFuzzyPoint')
+# don't expose this class because it's used privately only
 sb.finalize_class(z)
 
 # CvFuzzyCurve
 z = sb.mb.class_('CvFuzzyCurve')
 sb.init_class(z)
-sb.register_vec('std::vector', 'CvFuzzyCurve', 'vector_CvFuzzyCurve')
+sb.expose_class_vector('CvFuzzyCurve')
 sb.finalize_class(z)
 
 # CvFuzzyFunction
@@ -336,7 +271,7 @@ z.decls().exclude()
 z = sb.mb.class_('CvFuzzyRule')
 sb.init_class(z)
 z.decls().exclude()
-sb.register_vec('std::vector', 'CvFuzzyRule*', 'vector_CvFuzzyRule_Ptr')
+sb.expose_class_vector('CvFuzzyRule*', 'vector_CvFuzzyRule_Ptr')
 sb.finalize_class(z)
 
 # CvFuzzyController
@@ -361,7 +296,7 @@ sb.finalize_class(z)
 z = z.class_('Node')
 sb.init_class(z)
 sb.finalize_class(z)
-sb.register_vec('std::vector', 'cv::Octree::Node', 'vector_Octree_Node')
+sb.expose_class_vector('cv::Octree::Node', 'vector_Octree_Node')
     
 # Mesh3D
 z = sb.mb.class_('Mesh3D')
@@ -421,7 +356,7 @@ sb.finalize_class(z)
 z = z.class_('Feature')
 sb.init_class(z)
 sb.finalize_class(z)
-sb.register_vec('std::vector', 'cv::FernClassifier::Feature', 'vector_FernClassifier_Feature')
+sb.expose_class_vector('cv::FernClassifier::Feature', 'vector_FernClassifier_Feature')
 
 # PlanarObjectDetector
 z = sb.mb.class_('PlanarObjectDetector')
@@ -589,3 +524,4 @@ sb.finalize_class(z)
 # findOneWayDescriptor
     
 sb.done()
+sb.save_regs('cvaux_reg.sdd')
