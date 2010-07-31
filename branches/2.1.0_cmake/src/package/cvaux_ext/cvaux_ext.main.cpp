@@ -96,8 +96,8 @@ BOOST_PYTHON_MODULE(cvaux_ext){
             , FAST_function_type( &FAST_23d17220884e2f371691b185394322ec )
             , ( bp::arg("image"), bp::arg("threshold"), bp::arg("nonmax_supression")=(bool)(true) )
             , "\nArgument 'keypoints':"\
-    "\n    C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: vector_KeyPoint."\
+    "\n    C++ type: ::std::vector< cv::KeyPoint > &"\
+    "\n    Python type: vector_KeyPoint"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    keypoints" );
@@ -128,11 +128,11 @@ BOOST_PYTHON_MODULE(cvaux_ext){
             , "\nWrapped function:"
     "\n    cvConDensInitSampleSet"
     "\nArgument 'lower_bound':"\
-    "\n    C++ type: ::CvMat *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat *"\
+    "\n    Python type: Mat"\
     "\nArgument 'upper_bound':"\
-    "\n    C++ type: ::CvMat *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvMat *"\
+    "\n    Python type: Mat" );
     
     }
 
@@ -147,8 +147,8 @@ BOOST_PYTHON_MODULE(cvaux_ext){
             , "\nWrapped function:"
     "\n    cvFindDominantPoints"
     "\nArgument 'storage':"\
-    "\n    C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
+    "\n    C++ type: ::CvMemStorage *"\
+    "\n    Python type: MemStorage" );
     
     }
 
@@ -163,14 +163,14 @@ BOOST_PYTHON_MODULE(cvaux_ext){
             , "\nWrapped function:"
     "\n    cvFindStereoCorrespondence"
     "\nArgument 'leftImage':"\
-    "\n    C++ type: ::CvArr const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvArr const *"\
+    "\n    Python type: Mat"\
     "\nArgument 'rightImage':"\
-    "\n    C++ type: ::CvArr const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvArr const *"\
+    "\n    Python type: Mat"\
     "\nArgument 'dispImage':"\
-    "\n    C++ type: ::CvArr *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvArr *"\
+    "\n    Python type: Mat" );
     
     }
 
@@ -185,8 +185,8 @@ BOOST_PYTHON_MODULE(cvaux_ext){
             , "\nWrapped function:"
     "\n    cvReleaseBlobDetector"
     "\nArgument 'ppBD':"\
-    "\n    C++ type: ::CvBlobDetector * *."\
-    "\n    Python type: CvBlobDetector." );
+    "\n    C++ type: ::CvBlobDetector * *"\
+    "\n    Python type: CvBlobDetector" );
     
     }
 
@@ -201,8 +201,8 @@ BOOST_PYTHON_MODULE(cvaux_ext){
             , "\nWrapped function:"
     "\n    cvReleaseConDensation"
     "\nArgument 'condens':"\
-    "\n    C++ type: ::CvConDensation * *."\
-    "\n    Python type: CvConDensation." );
+    "\n    C++ type: ::CvConDensation * *"\
+    "\n    Python type: CvConDensation" );
     
     }
 
@@ -217,14 +217,14 @@ BOOST_PYTHON_MODULE(cvaux_ext){
             , "\nWrapped function:"
     "\n    cvSegmentImage"
     "\nArgument 'srcarr':"\
-    "\n    C++ type: ::CvArr const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvArr const *"\
+    "\n    Python type: Mat"\
     "\nArgument 'dstarr':"\
-    "\n    C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvArr *"\
+    "\n    Python type: Mat"\
     "\nArgument 'storage':"\
-    "\n    C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
+    "\n    C++ type: ::CvMemStorage *"\
+    "\n    Python type: MemStorage" );
     
     }
 

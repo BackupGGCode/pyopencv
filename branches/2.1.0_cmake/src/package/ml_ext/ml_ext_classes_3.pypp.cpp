@@ -595,11 +595,11 @@ void register_classes_3(){
             , (boost::python::object (*)( CvDTree const &,::cv::Mat &,::cv::Mat,bool ))( &CvDTree_wrapper::default_predict_76f915d59fbfe6ec6c36b63903c7e6de )
             , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("_missing_data_mask")=cv::Mat(), bp::arg("preprocessed_input")=(bool)(false) )
             , "\nArgument '_sample':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_missing_data_mask':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." )    
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat" )    
         .def( 
             "predict"
             , (::CvDTreeNode * ( CvDTree::* )( ::cv::Mat const &,::cv::Mat const &,bool ) const)(&::CvDTree::predict)
@@ -613,11 +613,11 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." )    
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
         .def( 
             "read_ea82e003cd38c548aefac78eb636ff45"
             , (void (*)( CvDTree &,::cv::FileStorage &,::cv::FileNode &,CvDTreeTrainData * ))( &CvDTree_wrapper::default_read_ea82e003cd38c548aefac78eb636ff45 )
@@ -625,33 +625,33 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." )    
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
         .def( 
             "train"
             , (boost::python::object (*)( CvDTree &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,CvDTreeParams ))( &CvDTree_wrapper::default_train_e7fbbd1bbcaefbdc1d2bb52c4a4a1164 )
             , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvDTreeParams( ) )
             , "\nArgument '_train_data':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_responses':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_var_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_sample_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_var_type':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_missing_mask':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." )    
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat" )    
         .def( 
             "train"
             , (bool ( CvDTree::* )( ::CvMLData *,::CvDTreeParams ) )(&::CvDTree::train)
@@ -662,8 +662,8 @@ void register_classes_3(){
             , (boost::python::object (*)( CvDTree &,CvDTreeTrainData *,::cv::Mat & ))( &CvDTree_wrapper::default_train_e18ab36aab283a0a1ad725a1ae852c5c )
             , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_subsample_idx") )
             , "\nArgument '_subsample_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." )    
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat" )    
         .def( 
             "train"
             , (bool ( CvDTree::* )( ::cv::Mat const &,int,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvDTreeParams ) )(&::CvDTree::train)
@@ -676,8 +676,8 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    write"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" )    
         .def( 
             "write_d1e064f966d50e01902f80ef0f045741"
             , (void (*)( CvDTree const &,::cv::FileStorage & ))( &CvDTree_wrapper::default_write_d1e064f966d50e01902f80ef0f045741 )
@@ -685,8 +685,8 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    write"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" )    
         .def_readwrite( "pruned_tree_idx", &CvDTree::pruned_tree_idx )    
         .def( 
             "load"
@@ -712,11 +712,11 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." )    
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
         .def( 
             "read_93f028bf66aae7b24915780d90476481"
             , (void (*)( CvBoostTree &,::cv::FileStorage &,::cv::FileNode & ))( &CvBoostTree_wrapper::default_read_93f028bf66aae7b24915780d90476481 )
@@ -724,11 +724,11 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." )    
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
         .def( 
             "read_2a3ca3cc513554db6e212a9addc77685"
             , (void (*)( CvBoostTree &,::cv::FileStorage &,::cv::FileNode &,CvDTreeTrainData * ))( &CvBoostTree_wrapper::default_read_2a3ca3cc513554db6e212a9addc77685 )
@@ -736,11 +736,11 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    read"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." )    
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
         .def( 
             "scale"
             , (void ( CvBoostTree::* )( double ) )(&::CvBoostTree::scale)
@@ -753,8 +753,8 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    train"
     "\nArgument 'subsample_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." )    
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat" )    
         .def( 
             "train_0503ec4c95e73eb7564170b4ebf2868c"
             , (boost::python::object (*)( CvBoostTree &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,CvDTreeParams ))( &CvBoostTree_wrapper::default_train_0503ec4c95e73eb7564170b4ebf2868c )
@@ -762,23 +762,23 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    train"
     "\nArgument '_train_data':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_responses':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_var_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_sample_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_var_type':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_missing_mask':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." )    
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat" )    
         .def( 
             "train_b294c2069381303933ee1350dc284522"
             , (boost::python::object (*)( CvBoostTree &,CvDTreeTrainData *,::cv::Mat & ))( &CvBoostTree_wrapper::default_train_b294c2069381303933ee1350dc284522 )
@@ -786,8 +786,8 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    train"
     "\nArgument '_subsample_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." )    
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat" )    
         .def( 
             "get_var_importance"
             , (::CvMat const * ( CvDTree::* )(  ) )(&::CvDTree::get_var_importance)
@@ -803,11 +803,11 @@ void register_classes_3(){
             , (boost::python::object (*)( CvDTree const &,::cv::Mat &,::cv::Mat,bool ))( &CvBoostTree_wrapper::default_predict_76f915d59fbfe6ec6c36b63903c7e6de )
             , ( bp::arg("inst"), bp::arg("_sample"), bp::arg("_missing_data_mask")=cv::Mat(), bp::arg("preprocessed_input")=(bool)(false) )
             , "\nArgument '_sample':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_missing_data_mask':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." )    
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat" )    
         .def( 
             "predict"
             , (::CvDTreeNode * ( CvDTree::* )( ::cv::Mat const &,::cv::Mat const &,bool ) const)(&::CvDTree::predict)
@@ -836,8 +836,8 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    write"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" )    
         .def( 
             "write_d1e064f966d50e01902f80ef0f045741"
             , (void (*)( CvDTree const &,::cv::FileStorage & ))( &CvBoostTree_wrapper::default_write_d1e064f966d50e01902f80ef0f045741 )
@@ -845,7 +845,7 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    write"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
 
 }

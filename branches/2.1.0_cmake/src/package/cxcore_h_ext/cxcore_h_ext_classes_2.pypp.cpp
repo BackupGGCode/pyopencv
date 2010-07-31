@@ -191,12 +191,12 @@ void register_classes_2(){
             , (boost::python::tuple (*)( cv::flann::Index &,std::vector<float> const &,int,cv::flann::SearchParams const & ))( &knnSearch_b27556db8034853ef4327f12b2570dc5 )
             , ( bp::arg("inst"), bp::arg("queries"), bp::arg("knn"), bp::arg("params") )
             , "\nArgument 'indices':"\
-    "\n    C++ type: ::std::vector< int > &."\
-    "\n    Python type: vector_int."\
+    "\n    C++ type: ::std::vector< int > &"\
+    "\n    Python type: vector_int"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'dists':"\
-    "\n    C++ type: ::std::vector< float > &."\
-    "\n    Python type: vector_float32."\
+    "\n    C++ type: ::std::vector< float > &"\
+    "\n    Python type: vector_float32"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    (indices, dists)" )    
@@ -209,12 +209,12 @@ void register_classes_2(){
             , (boost::python::tuple (*)( cv::flann::Index &,std::vector<float> const &,float,cv::flann::SearchParams const & ))( &radiusSearch_9595058c6922b247b15bed6a4e25038c )
             , ( bp::arg("inst"), bp::arg("query"), bp::arg("radius"), bp::arg("params") )
             , "\nArgument 'indices':"\
-    "\n    C++ type: ::std::vector< int > &."\
-    "\n    Python type: vector_int."\
+    "\n    C++ type: ::std::vector< int > &"\
+    "\n    Python type: vector_int"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'dists':"\
-    "\n    C++ type: ::std::vector< float > &."\
-    "\n    Python type: vector_float32."\
+    "\n    C++ type: ::std::vector< float > &"\
+    "\n    Python type: vector_float32"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((int), indices, dists)" )    

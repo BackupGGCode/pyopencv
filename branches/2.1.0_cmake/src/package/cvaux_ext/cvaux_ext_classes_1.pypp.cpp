@@ -406,11 +406,11 @@ void register_classes_1(){
             , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvVSModule_wrapper::default_LoadState )
             , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
             , "\nArgument 'arg0':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'arg1':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." )    
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
         .def( 
             "ParamUpdate"
             , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
@@ -423,8 +423,8 @@ void register_classes_1(){
             , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvVSModule_wrapper::default_SaveState )
             , ( bp::arg("inst"), bp::arg("arg0") )
             , "\nArgument 'arg0':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" )    
         .def( 
             "SetNickName"
             , (void ( CvVSModule::* )( char const * ) )( &::CvVSModule::SetNickName )
@@ -454,11 +454,11 @@ void register_classes_1(){
             , (boost::python::object (*)( CvBlobDetector &,::cv::Mat &,::cv::Mat &,CvBlobSeq *,CvBlobSeq * ))( &CvBlobDetector_wrapper::default_DetectNewBlob )
             , ( bp::arg("inst"), bp::arg("pImg"), bp::arg("pImgFG"), bp::arg("pNewBlobList"), bp::arg("pOldBlobList") )
             , "\nArgument 'pImg':"\
-    "\n    C++ type: ::IplImage *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::IplImage *"\
+    "\n    Python type: Mat"\
     "\nArgument 'pImgFG':"\
-    "\n    C++ type: ::IplImage *."\
-    "\n    Python type: Mat." )    
+    "\n    C++ type: ::IplImage *"\
+    "\n    Python type: Mat" )    
         .def( 
             "Release"
             , bp::pure_virtual( (void ( CvBlobDetector::* )(  ) )(&::CvBlobDetector::Release) ) )    
@@ -467,11 +467,11 @@ void register_classes_1(){
             , (void (*)( CvVSModule &,::cv::FileStorage &,::cv::FileNode & ))( &CvBlobDetector_wrapper::default_LoadState )
             , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1") )
             , "\nArgument 'arg0':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'arg1':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." )    
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
         .def( 
             "ParamUpdate"
             , (void ( CvVSModule::* )(  ) )(&::CvVSModule::ParamUpdate)
@@ -481,8 +481,8 @@ void register_classes_1(){
             , (void (*)( CvVSModule &,::cv::FileStorage & ))( &CvBlobDetector_wrapper::default_SaveState )
             , ( bp::arg("inst"), bp::arg("arg0") )
             , "\nArgument 'arg0':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
 
     { //::CvBlobSeq
         typedef bp::class_< CvBlobSeq_wrapper > CvBlobSeq_exposer_t;
@@ -593,11 +593,11 @@ void register_classes_1(){
                 , default_Load_function_type( &CvBlobSeq_wrapper::default_Load )
                 , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
                 , "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." );
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" );
         
         }
         { //::CvBlobSeq::Write
@@ -609,8 +609,8 @@ void register_classes_1(){
                 , default_Write_function_type( &CvBlobSeq_wrapper::default_Write )
                 , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
                 , "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
         
         }
     }

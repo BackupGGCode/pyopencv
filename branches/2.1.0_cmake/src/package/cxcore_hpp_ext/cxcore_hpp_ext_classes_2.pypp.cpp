@@ -562,8 +562,8 @@ void register_classes_2(){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/xml_yaml_persistence.html#filestorage"
     "\nArgument 'vec':"\
-    "\n    C++ type: ::uchar const *."\
-    "\n    Python type: vector_uint8."\
+    "\n    C++ type: ::uchar const *"\
+    "\n    Python type: vector_uint8"\
     "\nArgument 'len':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'vec'." );
@@ -616,19 +616,19 @@ void register_classes_2(){
                 , findNearest_function_type( &findNearest_ea97c6aa84c5363d34b3e91951773ead )
                 , ( bp::arg("inst"), bp::arg("vec"), bp::arg("K"), bp::arg("Emax") )
                 , "\nArgument 'vec':"\
-    "\n    C++ type: float const *."\
-    "\n    Python type: vector_float32."\
+    "\n    C++ type: float const *"\
+    "\n    Python type: vector_float32"\
     "\nArgument 'neighborsIdx':"\
-    "\n    C++ type: ::std::vector< int > *."\
-    "\n    Python type: vector_int."\
+    "\n    C++ type: ::std::vector< int > *"\
+    "\n    Python type: vector_int"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'neighbors':"\
-    "\n    C++ type: ::cv::Mat *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::cv::Mat *"\
+    "\n    Python type: Mat"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'dist':"\
-    "\n    C++ type: ::std::vector< float > *."\
-    "\n    Python type: vector_float32."\
+    "\n    C++ type: ::std::vector< float > *"\
+    "\n    Python type: vector_float32"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((int), neighborsIdx, neighbors, dist)" );
@@ -643,18 +643,18 @@ void register_classes_2(){
                 , findOrthoRange_function_type( &findOrthoRange_8f5141c7ea87ab587a033ff4e81c09d9 )
                 , ( bp::arg("inst"), bp::arg("minBounds"), bp::arg("maxBounds") )
                 , "\nArgument 'minBounds':"\
-    "\n    C++ type: float const *."\
-    "\n    Python type: vector_float32."\
+    "\n    C++ type: float const *"\
+    "\n    Python type: vector_float32"\
     "\nArgument 'maxBounds':"\
-    "\n    C++ type: float const *."\
-    "\n    Python type: vector_float32."\
+    "\n    C++ type: float const *"\
+    "\n    Python type: vector_float32"\
     "\nArgument 'neighborsIdx':"\
-    "\n    C++ type: ::std::vector< int > *."\
-    "\n    Python type: vector_int."\
+    "\n    C++ type: ::std::vector< int > *"\
+    "\n    Python type: vector_int"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'neighbors':"\
-    "\n    C++ type: ::cv::Mat *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::cv::Mat *"\
+    "\n    Python type: Mat"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    (neighborsIdx, neighbors)" );
@@ -669,14 +669,14 @@ void register_classes_2(){
                 , getPoints_function_type( &getPoints_cb19ade779f56a2e3d487759ce0fd7ea )
                 , ( bp::arg("inst"), bp::arg("idx") )
                 , "\nArgument 'idx':"\
-    "\n    C++ type: int const *."\
-    "\n    Python type: vector_int."\
+    "\n    C++ type: int const *"\
+    "\n    Python type: vector_int"\
     "\nArgument 'nidx':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'idx'."\
     "\nArgument 'pts':"\
-    "\n    C++ type: ::cv::Mat &."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::cv::Mat &"\
+    "\n    Python type: Mat"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    pts" );
@@ -691,8 +691,8 @@ void register_classes_2(){
                 , getPoints_function_type( &getPoints_dfa4c20a74f0aaa501985d64a11da238 )
                 , ( bp::arg("inst"), bp::arg("idxs") )
                 , "\nArgument 'pts':"\
-    "\n    C++ type: ::cv::Mat &."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::cv::Mat &"\
+    "\n    Python type: Mat"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    pts" );
@@ -738,8 +738,8 @@ void register_classes_2(){
                 , init_function_type( &NAryMatNDIterator_wrapper::init )
                 , ( bp::arg("inst"), bp::arg("arrays") )
                 , "\nArgument 'arrays':"\
-    "\n    C++ type: ::cv::MatND const * *."\
-    "\n    Python type: vector_MatND."\
+    "\n    C++ type: ::cv::MatND const * *"\
+    "\n    Python type: vector_MatND"\
     "\nArgument 'count':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'arrays'." );

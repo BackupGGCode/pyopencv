@@ -125,6 +125,8 @@ static bp::object get_CvDefParam_Str( CvDefParam const & inst ){
     return inst.Str? bp::str(inst.Str): bp::object();
 }
 
+static cv::Scalar_<double> *get_CvDrawShape_color(CvDrawShape const &inst) { return (cv::Scalar_<double> *)(&inst.color); }
+
 void register_classes_2(){
 
     { //::CvBlobTrackSeq
@@ -242,6 +244,16 @@ void register_classes_2(){
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvDetectedBlob >() )    
         .def_readwrite( "response", &CvDetectedBlob::response );
 
+    { //::CvDrawShape
+        typedef bp::class_< CvDrawShape > CvDrawShape_exposer_t;
+        CvDrawShape_exposer_t CvDrawShape_exposer = CvDrawShape_exposer_t( "CvDrawShape" );
+        bp::scope CvDrawShape_scope( CvDrawShape_exposer );
+        CvDrawShape_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< CvDrawShape >() );
+        bp::scope().attr("RECT") = (int)CvDrawShape::RECT;
+        bp::scope().attr("ELLIPSE") = (int)CvDrawShape::ELLIPSE;
+        CvDrawShape_exposer.add_property( "color", bp::make_function(&::get_CvDrawShape_color, bp::return_internal_reference<>()) );
+    }
+
     bp::class_< CvFuzzyController >( "CvFuzzyController" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvFuzzyController >() );
 
@@ -278,11 +290,5 @@ void register_classes_2(){
 
     bp::class_< CvFuzzyMeanShiftTracker >( "CvFuzzyMeanShiftTracker" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvFuzzyMeanShiftTracker >() );
-
-    bp::class_< CvFuzzyPoint >( "CvFuzzyPoint", bp::init< double, double >(( bp::arg("_x"), bp::arg("_y") )) )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvFuzzyPoint >() )    
-        .def_readwrite( "value", &CvFuzzyPoint::value )    
-        .def_readwrite( "x", &CvFuzzyPoint::x )    
-        .def_readwrite( "y", &CvFuzzyPoint::y );
 
 }

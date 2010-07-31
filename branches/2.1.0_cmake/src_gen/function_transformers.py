@@ -128,11 +128,11 @@ def remove_ptr( type_ ):
 
 # some doc functions
 def doc_common(func, func_arg, type_str=None):
-    common.add_func_arg_doc(func, func_arg, "C++ type: %s." % func_arg.type.partial_decl_string)
+    common.add_func_arg_doc(func, func_arg, "C++ type: %s" % func_arg.type.partial_decl_string)
     if type_str is None:
         new_type = _D.remove_const(_D.remove_reference(func_arg.type))
         type_str = common.current_sb.get_decl_equivname(new_type.partial_decl_string[2:])
-    common.add_func_arg_doc(func, func_arg, "Python type: %s." % type_str)
+    common.add_func_arg_doc(func, func_arg, "Python type: %s" % type_str)
 
 
 def doc_list_of_Mat(func, func_arg):

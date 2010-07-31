@@ -155,8 +155,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvClearMemStorage"
     "\nArgument 'storage':"\
-    "\n    C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
+    "\n    C++ type: ::CvMemStorage *"\
+    "\n    Python type: MemStorage" );
     
     }
 
@@ -171,8 +171,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvCloneSeq"
     "\nArgument 'storage':"\
-    "\n    C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
+    "\n    C++ type: ::CvMemStorage *"\
+    "\n    Python type: MemStorage" );
     
     }
 
@@ -187,8 +187,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvCreateSeq"
     "\nArgument 'storage':"\
-    "\n    C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
+    "\n    C++ type: ::CvMemStorage *"\
+    "\n    Python type: MemStorage" );
     
     }
 
@@ -203,8 +203,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvCreateSet"
     "\nArgument 'storage':"\
-    "\n    C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
+    "\n    C++ type: ::CvMemStorage *"\
+    "\n    Python type: MemStorage" );
     
     }
 
@@ -219,8 +219,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvEndWriteStruct"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
     
     }
 
@@ -235,8 +235,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvGetElemType"
     "\nArgument 'arr':"\
-    "\n    C++ type: ::CvArr const *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvArr const *"\
+    "\n    Python type: Mat" );
     
     }
 
@@ -251,8 +251,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvGetHashedKey"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
     
     }
 
@@ -270,11 +270,11 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'arrs'."\
     "\nArgument 'arrs':"\
-    "\n    C++ type: ::CvArr * *."\
-    "\n    Python type: (C++)std::vector<cv::Mat>."\
+    "\n    C++ type: ::CvArr * *"\
+    "\n    Python type: (C++)std::vector<cv::Mat>"\
     "\nArgument 'mask':"\
-    "\n    C++ type: ::CvArr const *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvArr const *"\
+    "\n    Python type: Mat" );
     
     }
 
@@ -289,8 +289,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvMemStorageAllocString"
     "\nArgument 'storage':"\
-    "\n    C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
+    "\n    C++ type: ::CvMemStorage *"\
+    "\n    Python type: MemStorage" );
     
     }
 
@@ -305,17 +305,17 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvRandArr"
     "\nArgument 'rng':"\
-    "\n    C++ type: ::CvRNG *."\
-    "\n    Python type: RNG."\
+    "\n    C++ type: ::CvRNG *"\
+    "\n    Python type: RNG"\
     "\nArgument 'arr':"\
-    "\n    C++ type: ::CvArr *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvArr *"\
+    "\n    Python type: Mat"\
     "\nArgument 'param1':"\
-    "\n    C++ type: ::CvScalar."\
-    "\n    Python type: Scalar."\
+    "\n    C++ type: ::CvScalar"\
+    "\n    Python type: Scalar"\
     "\nArgument 'param2':"\
-    "\n    C++ type: ::CvScalar."\
-    "\n    Python type: Scalar." );
+    "\n    C++ type: ::CvScalar"\
+    "\n    Python type: Scalar" );
     
     }
 
@@ -330,8 +330,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvRange"
     "\nArgument 'mat':"\
-    "\n    C++ type: ::CvArr *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvArr *"\
+    "\n    Python type: Mat" );
     
     }
 
@@ -346,8 +346,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvRestoreMemStoragePos"
     "\nArgument 'storage':"\
-    "\n    C++ type: ::CvMemStorage *."\
-    "\n    Python type: MemStorage." );
+    "\n    C++ type: ::CvMemStorage *"\
+    "\n    Python type: MemStorage" );
     
     }
 
@@ -362,8 +362,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvSaveMemStoragePos"
     "\nArgument 'storage':"\
-    "\n    C++ type: ::CvMemStorage const *."\
-    "\n    Python type: MemStorage." );
+    "\n    C++ type: ::CvMemStorage const *"\
+    "\n    Python type: MemStorage" );
     
     }
 
@@ -378,8 +378,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvSliceLength"
     "\nArgument 'slice':"\
-    "\n    C++ type: ::CvSlice."\
-    "\n    Python type: Range." );
+    "\n    C++ type: ::CvSlice"\
+    "\n    Python type: Range" );
     
     }
 
@@ -394,11 +394,11 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvSolveCubic"
     "\nArgument 'coeffs':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument 'roots':"\
-    "\n    C++ type: ::CvMat *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvMat *"\
+    "\n    Python type: Mat" );
     
     }
 
@@ -413,11 +413,11 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvSolvePoly"
     "\nArgument 'coeffs':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument 'roots2':"\
-    "\n    C++ type: ::CvMat *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvMat *"\
+    "\n    Python type: Mat" );
     
     }
 
@@ -432,8 +432,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvStartNextStream"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
     
     }
 
@@ -448,8 +448,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvStartWriteStruct"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
     
     }
 
@@ -477,11 +477,11 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvWrite"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'ptr':"\
-    "\n    C++ type: void const *."\
-    "\n    Python type: string." );
+    "\n    C++ type: void const *"\
+    "\n    Python type: string" );
     
     }
 
@@ -496,8 +496,8 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvWriteComment"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
     
     }
 
@@ -512,11 +512,11 @@ BOOST_PYTHON_MODULE(cxcore_h_ext){
             , "\nWrapped function:"
     "\n    cvWriteFileNode"
     "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode const *."\
-    "\n    Python type: FileNode." );
+    "\n    C++ type: ::CvFileNode const *"\
+    "\n    Python type: FileNode" );
     
     }
 

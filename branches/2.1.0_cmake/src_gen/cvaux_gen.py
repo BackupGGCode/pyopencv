@@ -522,6 +522,17 @@ z = sb.mb.class_('CvObjectDetector')
 sb.init_class(z)
 sb.finalize_class(z)
 
+# CvDrawShape
+z = sb.mb.class_('CvDrawShape')
+sb.init_class(z)
+z.decl('shape').exclude() # TODO: don't know why I can't expose this enum
+sb.finalize_class(z)
+
+# CvImageDrawer
+# z = sb.mb.class_('CvImageDrawer')
+# sb.init_class(z)
+# sb.finalize_class(z)
+
 
 
 #=============================================================================

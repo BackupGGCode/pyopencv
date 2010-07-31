@@ -354,8 +354,8 @@ void register_classes_3(){
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument '_sizes'."\
     "\nArgument '_sizes':"\
-    "\n    C++ type: int const *."\
-    "\n    Python type: vector_int." );
+    "\n    C++ type: int const *"\
+    "\n    Python type: vector_int" );
         
         }
         { //::cv::MatND::depth
@@ -434,8 +434,8 @@ void register_classes_3(){
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument '_newsz'."\
     "\nArgument '_newsz':"\
-    "\n    C++ type: int const *."\
-    "\n    Python type: vector_int." );
+    "\n    C++ type: int const *"\
+    "\n    Python type: vector_int" );
         
         }
         { //::cv::MatND::setTo

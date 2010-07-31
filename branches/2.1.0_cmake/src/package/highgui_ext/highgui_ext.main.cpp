@@ -89,11 +89,11 @@ BOOST_PYTHON_MODULE(highgui_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/c/user_interface.html#convertimage#convertimage"
     "\nArgument 'src':"\
-    "\n    C++ type: ::CvArr const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvArr const *"\
+    "\n    Python type: Mat"\
     "\nArgument 'dst':"\
-    "\n    C++ type: ::CvArr *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvArr *"\
+    "\n    Python type: Mat" );
     
     }
 
@@ -114,8 +114,8 @@ BOOST_PYTHON_MODULE(highgui_ext){
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'argv'."\
     "\nArgument 'argv':"\
-    "\n    C++ type: char * *."\
-    "\n    Python type: list of strings." );
+    "\n    C++ type: char * *"\
+    "\n    Python type: list of strings" );
     
     }
 
@@ -152,8 +152,8 @@ BOOST_PYTHON_MODULE(highgui_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/reading_and_writing_images_and_video.html#cv-imencode"
     "\nArgument 'buf':"\
-    "\n    C++ type: ::std::vector< unsigned char > &."\
-    "\n    Python type: vector_uint8."\
+    "\n    C++ type: ::std::vector< unsigned char > &"\
+    "\n    Python type: vector_uint8"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((bool), buf)" );

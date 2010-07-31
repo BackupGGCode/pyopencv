@@ -170,8 +170,8 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#checkrange"
     "\nArgument 'idx':"\
-    "\n    C++ type: int *."\
-    "\n    Python type: int."\
+    "\n    C++ type: int *"\
+    "\n    Python type: int"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((bool), idx)" );
@@ -190,8 +190,8 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#checkrange"
     "\nArgument 'pt':"\
-    "\n    C++ type: ::cv::Point *."\
-    "\n    Python type: Point2i."\
+    "\n    C++ type: ::cv::Point *"\
+    "\n    Python type: Point2i"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((bool), pt)" );
@@ -210,8 +210,8 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillconvexpoly"
     "\nArgument 'pts':"\
-    "\n    C++ type: ::cv::Point const *."\
-    "\n    Python type: vector_Point2i."\
+    "\n    C++ type: ::cv::Point const *"\
+    "\n    Python type: vector_Point2i"\
     "\nArgument 'npts':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'pts'." );
@@ -230,8 +230,8 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-fillpoly"
     "\nArgument 'pts':"\
-    "\n    C++ type: ::cv::Point const * *."\
-    "\n    Python type: vector_vector_Point2i."\
+    "\n    C++ type: ::cv::Point const * *"\
+    "\n    Python type: vector_vector_Point2i"\
     "\nArgument 'npts':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'pts'."\
@@ -253,8 +253,8 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-gettextsize"
     "\nArgument 'baseLine':"\
-    "\n    C++ type: int *."\
-    "\n    Python type: int."\
+    "\n    C++ type: int *"\
+    "\n    Python type: int"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    (((C++)cv::Size), baseLine)" );
@@ -270,8 +270,8 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
             , kmeans_function_type( &kmeans_7acc1faebc4e430dbd210d93113e85c9 )
             , ( bp::arg("data"), bp::arg("K"), bp::arg("best_labels"), bp::arg("criteria"), bp::arg("attempts"), bp::arg("flags") )
             , "\nArgument 'centers':"\
-    "\n    C++ type: ::cv::Mat *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::cv::Mat *"\
+    "\n    Python type: Mat"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((float64), centers)" );
@@ -290,20 +290,20 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
     "\nArgument 'minVal':"\
-    "\n    C++ type: double *."\
-    "\n    Python type: float64."\
+    "\n    C++ type: double *"\
+    "\n    Python type: float64"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'maxVal':"\
-    "\n    C++ type: double *."\
-    "\n    Python type: float64."\
+    "\n    C++ type: double *"\
+    "\n    Python type: float64"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'minIdx':"\
-    "\n    C++ type: int *."\
-    "\n    Python type: int."\
+    "\n    C++ type: int *"\
+    "\n    Python type: int"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'maxIdx':"\
-    "\n    C++ type: int *."\
-    "\n    Python type: int."\
+    "\n    C++ type: int *"\
+    "\n    Python type: int"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    (minVal, maxVal, minIdx, maxIdx)" );
@@ -322,20 +322,20 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
     "\nArgument 'minVal':"\
-    "\n    C++ type: double *."\
-    "\n    Python type: float64."\
+    "\n    C++ type: double *"\
+    "\n    Python type: float64"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'maxVal':"\
-    "\n    C++ type: double *."\
-    "\n    Python type: float64."\
+    "\n    C++ type: double *"\
+    "\n    Python type: float64"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'minIdx':"\
-    "\n    C++ type: int *."\
-    "\n    Python type: int."\
+    "\n    C++ type: int *"\
+    "\n    Python type: int"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'maxIdx':"\
-    "\n    C++ type: int *."\
-    "\n    Python type: int."\
+    "\n    C++ type: int *"\
+    "\n    Python type: int"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    (minVal, maxVal, minIdx, maxIdx)" );
@@ -354,20 +354,20 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-minmaxloc"
     "\nArgument 'minVal':"\
-    "\n    C++ type: double *."\
-    "\n    Python type: float64."\
+    "\n    C++ type: double *"\
+    "\n    Python type: float64"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'maxVal':"\
-    "\n    C++ type: double *."\
-    "\n    Python type: float64."\
+    "\n    C++ type: double *"\
+    "\n    Python type: float64"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'minLoc':"\
-    "\n    C++ type: ::cv::Point *."\
-    "\n    Python type: Point2i."\
+    "\n    C++ type: ::cv::Point *"\
+    "\n    Python type: Point2i"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'maxLoc':"\
-    "\n    C++ type: ::cv::Point *."\
-    "\n    Python type: Point2i."\
+    "\n    C++ type: ::cv::Point *"\
+    "\n    Python type: Point2i"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    (minVal, maxVal, minLoc, maxLoc)" );
@@ -387,8 +387,8 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
     "\nArgument 'fromTo':"\
-    "\n    C++ type: int const *."\
-    "\n    Python type: vector_int." );
+    "\n    C++ type: int const *"\
+    "\n    Python type: vector_int" );
     
     }
 
@@ -405,8 +405,8 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/operations_on_arrays.html#cv-mixchannels"
     "\nArgument 'fromTo':"\
-    "\n    C++ type: int const *."\
-    "\n    Python type: vector_int." );
+    "\n    C++ type: int const *"\
+    "\n    Python type: vector_int" );
     
     }
 
@@ -422,8 +422,8 @@ BOOST_PYTHON_MODULE(cxcore_hpp_ext){
     "\nReference:"
     "\n    http://opencv.willowgarage.com/documentation/cpp/drawing_functions.html#cv-polylines"
     "\nArgument 'pts':"\
-    "\n    C++ type: ::cv::Point const * *."\
-    "\n    Python type: vector_vector_Point2i."\
+    "\n    C++ type: ::cv::Point const * *"\
+    "\n    Python type: vector_vector_Point2i"\
     "\nArgument 'npts':"\
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument 'pts'."\

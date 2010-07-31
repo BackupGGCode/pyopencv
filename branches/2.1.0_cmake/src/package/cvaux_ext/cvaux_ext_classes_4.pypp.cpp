@@ -11,6 +11,18 @@
 
 namespace bp = boost::python;
 
+static boost::python::object __call___14ec982e59fdc13237968e34b82d6fe2( ::cv::LDetector const & inst, ::cv::Mat const & image, int maxCount=0, bool scaleCoords=true ){
+    std::vector<cv::KeyPoint> keypoints2;
+    inst.operator()(image, keypoints2, maxCount, scaleCoords);
+    return bp::object( keypoints2 );
+}
+
+static boost::python::object __call___015c5cd98f14b41d0eaab62238a1a6fe( ::cv::LDetector const & inst, ::std::vector< cv::Mat > const & pyr, int maxCount=0, bool scaleCoords=true ){
+    std::vector<cv::KeyPoint> keypoints2;
+    inst.operator()(pyr, keypoints2, maxCount, scaleCoords);
+    return bp::object( keypoints2 );
+}
+
 struct Octree_wrapper : cv::Octree, bp::wrapper< cv::Octree > {
 
     Octree_wrapper(cv::Octree const & arg )
@@ -230,6 +242,57 @@ static boost::python::object match_86773a6b4d89ae97806d1109a2438811( ::cv::SpinI
 
 void register_classes_4(){
 
+    bp::class_< cv::LDetector >( "LDetector", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::LDetector >() )    
+        .def( bp::init< int, int, int, int, double, double >(( bp::arg("_radius"), bp::arg("_threshold"), bp::arg("_nOctaves"), bp::arg("_nViews"), bp::arg("_baseFeatureSize"), bp::arg("_clusteringDistance") )) )    
+        .def( 
+            "getMostStable2D"
+            , (void ( cv::LDetector::* )( ::cv::Mat const &,::std::vector< cv::KeyPoint > &,int,::cv::PatchGenerator const & ) const)( &::cv::LDetector::getMostStable2D )
+            , ( bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") ) )    
+        .def( 
+            "__call__"
+            , (boost::python::object (*)( cv::LDetector const &,cv::Mat const &,int,bool ))( &__call___14ec982e59fdc13237968e34b82d6fe2 )
+            , ( bp::arg("inst"), bp::arg("image"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
+            , "\nWrapped function:"
+    "\n    operator()"
+    "\nArgument 'keypoints':"\
+    "\n    C++ type: ::std::vector< cv::KeyPoint > &"\
+    "\n    Python type: vector_KeyPoint"\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    keypoints" )    
+        .def( 
+            "__call__"
+            , (boost::python::object (*)( cv::LDetector const &,std::vector<cv::Mat> const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
+            , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
+            , "\nWrapped function:"
+    "\n    operator()"
+    "\nArgument 'keypoints':"\
+    "\n    C++ type: ::std::vector< cv::KeyPoint > &"\
+    "\n    Python type: vector_KeyPoint"\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    keypoints" )    
+        .def( 
+            "read"
+            , (void ( cv::LDetector::* )( ::cv::FileNode const & ) )( &::cv::LDetector::read )
+            , ( bp::arg("node") ) )    
+        .def( 
+            "setVerbose"
+            , (void ( cv::LDetector::* )( bool ) )( &::cv::LDetector::setVerbose )
+            , ( bp::arg("verbose") ) )    
+        .def( 
+            "write"
+            , (void ( cv::LDetector::* )( ::cv::FileStorage &,::cv::String const & ) const)( &::cv::LDetector::write )
+            , ( bp::arg("fs"), bp::arg("name")=std::string() ) )    
+        .def_readwrite( "baseFeatureSize", &cv::LDetector::baseFeatureSize )    
+        .def_readwrite( "clusteringDistance", &cv::LDetector::clusteringDistance )    
+        .def_readwrite( "nOctaves", &cv::LDetector::nOctaves )    
+        .def_readwrite( "nViews", &cv::LDetector::nViews )    
+        .def_readwrite( "radius", &cv::LDetector::radius )    
+        .def_readwrite( "threshold", &cv::LDetector::threshold )    
+        .def_readwrite( "verbose", &cv::LDetector::verbose );
+
     bp::class_< cv::LevMarqSparse >( "LevMarqSparse" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::LevMarqSparse >() );
 
@@ -370,8 +433,8 @@ void register_classes_4(){
                 , default_getPointsWithinSphere_function_type( &Octree_wrapper::default_getPointsWithinSphere )
                 , ( bp::arg("inst"), bp::arg("center"), bp::arg("radius") )
                 , "\nArgument 'points':"\
-    "\n    C++ type: ::std::vector< cv::Point3_<float> > &."\
-    "\n    Python type: vector_Point3f."\
+    "\n    C++ type: ::std::vector< cv::Point3_<float> > &"\
+    "\n    Python type: vector_Point3f"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    points" );
@@ -414,8 +477,8 @@ void register_classes_4(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'corners':"\
-    "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: vector_Point2f."\
+    "\n    C++ type: ::std::vector< cv::Point_<float> > &"\
+    "\n    Python type: vector_Point2f"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((bool), corners)" );
@@ -432,12 +495,12 @@ void register_classes_4(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'corners':"\
-    "\n    C++ type: ::std::vector< cv::Point_<float> > &."\
-    "\n    Python type: vector_Point2f."\
+    "\n    C++ type: ::std::vector< cv::Point_<float> > &"\
+    "\n    Python type: vector_Point2f"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nArgument 'pairs':"\
-    "\n    C++ type: ::std::vector< int > *."\
-    "\n    Python type: vector_int."\
+    "\n    C++ type: ::std::vector< int > *"\
+    "\n    Python type: vector_int"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((bool), corners, pairs)" );
@@ -672,8 +735,8 @@ void register_classes_4(){
                 , match_function_type( &match_86773a6b4d89ae97806d1109a2438811 )
                 , ( bp::arg("inst"), bp::arg("scene") )
                 , "\nArgument 'result':"\
-    "\n    C++ type: ::std::vector< std::vector< cv::Vec<int, 2> > > &."\
-    "\n    Python type: vector_vector_Vec2i."\
+    "\n    C++ type: ::std::vector< std::vector< cv::Vec<int, 2> > > &"\
+    "\n    Python type: vector_vector_Vec2i"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    result" );

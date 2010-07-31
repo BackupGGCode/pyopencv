@@ -736,23 +736,23 @@ void register_classes_4(){
         .def( bp::init< CvMat const *, int, CvMat const *, bp::optional< CvMat const *, CvMat const *, CvMat const *, CvMat const *, CvDTreeParams const &, bool, bool > >(( bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=bp::object(), bp::arg("_sample_idx")=bp::object(), bp::arg("_var_type")=bp::object(), bp::arg("_missing_mask")=bp::object(), bp::arg("_params")=::CvDTreeParams( ), bp::arg("_shared")=(bool)(false), bp::arg("_add_labels")=(bool)(false) ), "\nWrapped function:"
     "\n    CvDTreeTrainData"
     "\nArgument '_train_data':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_responses':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_var_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_sample_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_var_type':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_missing_mask':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat.") )    
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat") )    
         .def( 
             "clear"
             , (void ( CvDTreeTrainData::* )(  ) )(&::CvDTreeTrainData::clear)
@@ -813,33 +813,33 @@ void register_classes_4(){
             , (void (*)( CvDTreeTrainData &,::cv::FileStorage &,::cv::FileNode & ))( &CvDTreeTrainData_wrapper::default_read_params )
             , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
             , "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." )    
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
         .def( 
             "set_data"
             , (void (*)( CvDTreeTrainData &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,CvDTreeParams const &,bool,bool,bool ))( &CvDTreeTrainData_wrapper::default_set_data )
             , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("_params")=::CvDTreeParams( ), bp::arg("_shared")=(bool)(false), bp::arg("_add_labels")=(bool)(false), bp::arg("_update_data")=(bool)(false) )
             , "\nArgument '_train_data':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_responses':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_var_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_sample_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_var_type':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_missing_mask':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." )    
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat" )    
         .def( 
             "set_params"
             , (bool ( CvDTreeTrainData::* )( ::CvDTreeParams const & ) )(&::CvDTreeTrainData::set_params)
@@ -850,15 +850,15 @@ void register_classes_4(){
             , (boost::python::object (*)( CvDTreeTrainData &,::cv::Mat & ))( &CvDTreeTrainData_wrapper::default_subsample_data )
             , ( bp::arg("inst"), bp::arg("_subsample_idx") )
             , "\nArgument '_subsample_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." )    
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat" )    
         .def( 
             "write_params"
             , (void (*)( CvDTreeTrainData const &,::cv::FileStorage & ))( &CvDTreeTrainData_wrapper::default_write_params )
             , ( bp::arg("inst"), bp::arg("fs") )
             , "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." )    
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" )    
         .def_readwrite( "buf_count", &CvDTreeTrainData::buf_count )    
         .def_readwrite( "buf_size", &CvDTreeTrainData::buf_size )    
         .def_readwrite( "cat_var_count", &CvDTreeTrainData::cat_var_count )    
@@ -949,14 +949,14 @@ void register_classes_4(){
         CvEM_exposer.def( bp::init< CvMat const *, bp::optional< CvMat const *, CvEMParams, CvMat * > >(( bp::arg("samples"), bp::arg("sample_idx")=bp::object(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() ), "\nWrapped function:"
     "\n    CvEM"
     "\nArgument 'samples':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument 'sample_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument 'labels':"\
-    "\n    C++ type: ::CvMat *."\
-    "\n    Python type: Mat.") );
+    "\n    C++ type: ::CvMat *"\
+    "\n    Python type: Mat") );
         bp::implicitly_convertible< CvMat const *, CvEM >();
         CvEM_exposer.def( bp::init< cv::Mat const &, bp::optional< cv::Mat const &, CvEMParams, cv::Mat * > >(( bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() )) );
         bp::implicitly_convertible< cv::Mat const &, CvEM >();
@@ -1028,11 +1028,11 @@ void register_classes_4(){
                 , default_predict_function_type( &CvEM_wrapper::default_predict_e2a6ccb3e80d0945b65e2adfc4d80129 )
                 , ( bp::arg("inst"), bp::arg("sample"), bp::arg("probs") )
                 , "\nArgument 'sample':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument 'probs':"\
-    "\n    C++ type: ::CvMat *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvMat *"\
+    "\n    Python type: Mat" );
         
         }
         { //::CvEM::predict
@@ -1056,14 +1056,14 @@ void register_classes_4(){
                 , default_train_function_type( &CvEM_wrapper::default_train_ad96ec9280c0f7571752ed3a0ca86d28 )
                 , ( bp::arg("inst"), bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=cv::Mat() )
                 , "\nArgument 'samples':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument 'sample_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument 'labels':"\
-    "\n    C++ type: ::CvMat *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvMat *"\
+    "\n    Python type: Mat" );
         
         }
         { //::CvEM::train
@@ -1099,11 +1099,11 @@ void register_classes_4(){
                 , default_read_function_type( &CvEM_wrapper::default_read )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
                 , "\nArgument 'storage':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." );
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" );
         
         }
         { //::CvStatModel::save
@@ -1127,8 +1127,8 @@ void register_classes_4(){
                 , default_write_function_type( &CvEM_wrapper::default_write )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
                 , "\nArgument 'storage':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
         
         }
     }

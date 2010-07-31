@@ -673,8 +673,8 @@ void register_classes_4(){
     "\n    Dependent argument: omitted from input. Its value is derived from "\
     "\n    argument '_sizes'."\
     "\nArgument '_sizes':"\
-    "\n    C++ type: int const *."\
-    "\n    Python type: vector_int." );
+    "\n    C++ type: int const *"\
+    "\n    Python type: vector_int" );
         
         }
         { //::cv::SparseMat::depth
@@ -724,8 +724,8 @@ void register_classes_4(){
                 , "\nWrapped function:"
     "\n    erase"
     "\nArgument 'hashval':"\
-    "\n    C++ type: ::size_t *."\
-    "\n    Python type: uint."\
+    "\n    C++ type: ::size_t *"\
+    "\n    Python type: uint"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    hashval" );
@@ -742,8 +742,8 @@ void register_classes_4(){
                 , "\nWrapped function:"
     "\n    erase"
     "\nArgument 'hashval':"\
-    "\n    C++ type: ::size_t *."\
-    "\n    Python type: uint."\
+    "\n    C++ type: ::size_t *"\
+    "\n    Python type: uint"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    hashval" );
@@ -760,11 +760,11 @@ void register_classes_4(){
                 , "\nWrapped function:"
     "\n    erase"
     "\nArgument 'idx':"\
-    "\n    C++ type: int const *."\
-    "\n    Python type: vector_int."\
+    "\n    C++ type: int const *"\
+    "\n    Python type: vector_int"\
     "\nArgument 'hashval':"\
-    "\n    C++ type: ::size_t *."\
-    "\n    Python type: uint."\
+    "\n    C++ type: ::size_t *"\
+    "\n    Python type: uint"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    hashval" );
@@ -811,8 +811,8 @@ void register_classes_4(){
                 , "\nWrapped function:"
     "\n    hash"
     "\nArgument 'idx':"\
-    "\n    C++ type: int const *."\
-    "\n    Python type: vector_int." );
+    "\n    C++ type: int const *"\
+    "\n    Python type: vector_int" );
         
         }
         { //::cv::SparseMat::node

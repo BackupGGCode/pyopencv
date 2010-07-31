@@ -314,8 +314,8 @@ void register_classes_1(){
         CvANN_MLP_TrainParams_exposer.def( bp::init< CvTermCriteria, int, double, bp::optional< double > >(( bp::arg("term_crit"), bp::arg("train_method"), bp::arg("param1"), bp::arg("param2")=0 ), "\nWrapped function:"
     "\n    CvANN_MLP_TrainParams"
     "\nArgument 'term_crit':"\
-    "\n    C++ type: ::CvTermCriteria."\
-    "\n    Python type: TermCriteria.") );
+    "\n    C++ type: ::CvTermCriteria"\
+    "\n    Python type: TermCriteria") );
         CvANN_MLP_TrainParams_exposer.def_readwrite( "bp_dw_scale", &CvANN_MLP_TrainParams::bp_dw_scale );
         CvANN_MLP_TrainParams_exposer.def_readwrite( "bp_moment_scale", &CvANN_MLP_TrainParams::bp_moment_scale );
         CvANN_MLP_TrainParams_exposer.def_readwrite( "rp_dw0", &CvANN_MLP_TrainParams::rp_dw0 );
@@ -343,11 +343,11 @@ void register_classes_1(){
             , (void (*)( CvStatModel &,::cv::FileStorage &,::cv::FileNode & ))( &CvStatModel_wrapper::default_read )
             , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
             , "\nArgument 'storage':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." )    
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" )    
         .def( 
             "save"
             , (void ( CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
@@ -358,8 +358,8 @@ void register_classes_1(){
             , (void (*)( CvStatModel const &,::cv::FileStorage &,char const * ))( &CvStatModel_wrapper::default_write )
             , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
             , "\nArgument 'storage':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
 
     { //::CvANN_MLP
         typedef bp::class_< CvANN_MLP_wrapper, bp::bases< CvStatModel > > CvANN_MLP_exposer_t;
@@ -392,8 +392,8 @@ void register_classes_1(){
                 , default_create_function_type( &CvANN_MLP_wrapper::default_create_2df16ffe056647bb3693b370c1654006 )
                 , ( bp::arg("inst"), bp::arg("_layer_sizes"), bp::arg("_activ_func")=int(::CvANN_MLP::SIGMOID_SYM), bp::arg("_f_param1")=0, bp::arg("_f_param2")=0 )
                 , "\nArgument '_layer_sizes':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat" );
         
         }
         { //::CvANN_MLP::create
@@ -436,11 +436,11 @@ void register_classes_1(){
                 , default_predict_function_type( &CvANN_MLP_wrapper::default_predict_b2417e3fee351e89cc767f5cf2c03f3c )
                 , ( bp::arg("inst"), bp::arg("_inputs"), bp::arg("_outputs") )
                 , "\nArgument '_inputs':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_outputs':"\
-    "\n    C++ type: ::CvMat *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvMat *"\
+    "\n    Python type: Mat" );
         
         }
         { //::CvANN_MLP::predict
@@ -464,11 +464,11 @@ void register_classes_1(){
                 , default_read_function_type( &CvANN_MLP_wrapper::default_read )
                 , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
                 , "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage."\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
     "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode *."\
-    "\n    Python type: FileNode." );
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" );
         
         }
         { //::CvANN_MLP::train
@@ -480,17 +480,17 @@ void register_classes_1(){
                 , default_train_function_type( &CvANN_MLP_wrapper::default_train_9aa430cd36f2c0c2d3639234b6e204fc )
                 , ( bp::arg("inst"), bp::arg("_inputs"), bp::arg("_outputs"), bp::arg("_sample_weights"), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvANN_MLP_TrainParams( ), bp::arg("flags")=(int)(0) )
                 , "\nArgument '_inputs':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_outputs':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_sample_weights':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat."\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
     "\nArgument '_sample_idx':"\
-    "\n    C++ type: ::CvMat const *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat" );
         
         }
         { //::CvANN_MLP::train
@@ -514,8 +514,8 @@ void register_classes_1(){
                 , default_write_function_type( &CvANN_MLP_wrapper::default_write )
                 , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
                 , "\nArgument 'storage':"\
-    "\n    C++ type: ::CvFileStorage *."\
-    "\n    Python type: FileStorage." );
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
         
         }
         { //::CvStatModel::load

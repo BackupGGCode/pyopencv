@@ -375,19 +375,13 @@ struct HOGDescriptor_wrapper : cv::HOGDescriptor, bp::wrapper< cv::HOGDescriptor
 
 };
 
-static boost::python::object __call___14ec982e59fdc13237968e34b82d6fe2( ::cv::LDetector const & inst, ::cv::Mat const & image, int maxCount=0, bool scaleCoords=true ){
-    std::vector<cv::KeyPoint> keypoints2;
-    inst.operator()(image, keypoints2, maxCount, scaleCoords);
-    return bp::object( keypoints2 );
-}
-
-static boost::python::object __call___015c5cd98f14b41d0eaab62238a1a6fe( ::cv::LDetector const & inst, ::std::vector< cv::Mat > const & pyr, int maxCount=0, bool scaleCoords=true ){
-    std::vector<cv::KeyPoint> keypoints2;
-    inst.operator()(pyr, keypoints2, maxCount, scaleCoords);
-    return bp::object( keypoints2 );
-}
-
 void register_classes_3(){
+
+    bp::class_< CvFuzzyPoint >( "CvFuzzyPoint", bp::init< double, double >(( bp::arg("_x"), bp::arg("_y") )) )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvFuzzyPoint >() )    
+        .def_readwrite( "value", &CvFuzzyPoint::value )    
+        .def_readwrite( "x", &CvFuzzyPoint::x )    
+        .def_readwrite( "y", &CvFuzzyPoint::y );
 
     bp::class_< CvFuzzyRule >( "CvFuzzyRule" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvFuzzyRule >() );
@@ -407,8 +401,8 @@ void register_classes_3(){
                 , Detect_function_type( &Detect_d8fa7b620f024b1a2f20fc4afa978e15 )
                 , ( bp::arg("inst"), bp::arg("arg0"), bp::arg("arg1")=bp::object() )
                 , "\nArgument 'arg0':"\
-    "\n    C++ type: ::CvArr const *."\
-    "\n    Python type: Mat." );
+    "\n    C++ type: ::CvArr const *"\
+    "\n    Python type: Mat" );
         
         }
         { //::CvObjectDetector::GetMaxBorderSize
@@ -616,8 +610,8 @@ void register_classes_3(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'signature':"\
-    "\n    C++ type: ::std::vector< float > &."\
-    "\n    Python type: vector_float32."\
+    "\n    C++ type: ::std::vector< float > &"\
+    "\n    Python type: vector_float32"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((int), signature)" );
@@ -634,8 +628,8 @@ void register_classes_3(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'signature':"\
-    "\n    C++ type: ::std::vector< float > &."\
-    "\n    Python type: vector_float32."\
+    "\n    C++ type: ::std::vector< float > &"\
+    "\n    Python type: vector_float32"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    ((int), signature)" );
@@ -728,8 +722,8 @@ void register_classes_3(){
                 , default_compute_function_type( &HOGDescriptor_wrapper::default_compute )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("locations")=std::vector<cv::Point>() )
                 , "\nArgument 'descriptors':"\
-    "\n    C++ type: ::std::vector< float > &."\
-    "\n    Python type: vector_float32."\
+    "\n    C++ type: ::std::vector< float > &"\
+    "\n    Python type: vector_float32"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    descriptors" );
@@ -756,8 +750,8 @@ void register_classes_3(){
                 , default_detect_function_type( &HOGDescriptor_wrapper::default_detect )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("searchLocations")=std::vector<cv::Point>() )
                 , "\nArgument 'foundLocations':"\
-    "\n    C++ type: ::std::vector< cv::Point_<int> > &."\
-    "\n    Python type: vector_Point2i."\
+    "\n    C++ type: ::std::vector< cv::Point_<int> > &"\
+    "\n    Python type: vector_Point2i"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    foundLocations" );
@@ -772,8 +766,8 @@ void register_classes_3(){
                 , default_detectMultiScale_function_type( &HOGDescriptor_wrapper::default_detectMultiScale )
                 , ( bp::arg("inst"), bp::arg("img"), bp::arg("hitThreshold")=0, bp::arg("winStride")=cv::Size_<int>(), bp::arg("padding")=cv::Size_<int>(), bp::arg("scale")=1.05000000000000004440892098500626161694526672363e+0, bp::arg("groupThreshold")=(int)(2) )
                 , "\nArgument 'foundLocations':"\
-    "\n    C++ type: ::std::vector< cv::Rect_<int> > &."\
-    "\n    Python type: vector_Rect."\
+    "\n    C++ type: ::std::vector< cv::Rect_<int> > &"\
+    "\n    Python type: vector_Rect"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    foundLocations" );
@@ -855,56 +849,5 @@ void register_classes_3(){
         HOGDescriptor_exposer.def_readwrite( "winSize", &cv::HOGDescriptor::winSize );
         HOGDescriptor_exposer.staticmethod( "getDefaultPeopleDetector" );
     }
-
-    bp::class_< cv::LDetector >( "LDetector", bp::init< >() )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::LDetector >() )    
-        .def( bp::init< int, int, int, int, double, double >(( bp::arg("_radius"), bp::arg("_threshold"), bp::arg("_nOctaves"), bp::arg("_nViews"), bp::arg("_baseFeatureSize"), bp::arg("_clusteringDistance") )) )    
-        .def( 
-            "getMostStable2D"
-            , (void ( cv::LDetector::* )( ::cv::Mat const &,::std::vector< cv::KeyPoint > &,int,::cv::PatchGenerator const & ) const)( &::cv::LDetector::getMostStable2D )
-            , ( bp::arg("image"), bp::arg("keypoints"), bp::arg("maxCount"), bp::arg("patchGenerator") ) )    
-        .def( 
-            "__call__"
-            , (boost::python::object (*)( cv::LDetector const &,cv::Mat const &,int,bool ))( &__call___14ec982e59fdc13237968e34b82d6fe2 )
-            , ( bp::arg("inst"), bp::arg("image"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
-            , "\nWrapped function:"
-    "\n    operator()"
-    "\nArgument 'keypoints':"\
-    "\n    C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: vector_KeyPoint."\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nReturns:"\
-    "\n    keypoints" )    
-        .def( 
-            "__call__"
-            , (boost::python::object (*)( cv::LDetector const &,std::vector<cv::Mat> const &,int,bool ))( &__call___015c5cd98f14b41d0eaab62238a1a6fe )
-            , ( bp::arg("inst"), bp::arg("pyr"), bp::arg("maxCount")=(int)(0), bp::arg("scaleCoords")=(bool)(true) )
-            , "\nWrapped function:"
-    "\n    operator()"
-    "\nArgument 'keypoints':"\
-    "\n    C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: vector_KeyPoint."\
-    "\n    Output argument: omitted from input and returned as output."\
-    "\nReturns:"\
-    "\n    keypoints" )    
-        .def( 
-            "read"
-            , (void ( cv::LDetector::* )( ::cv::FileNode const & ) )( &::cv::LDetector::read )
-            , ( bp::arg("node") ) )    
-        .def( 
-            "setVerbose"
-            , (void ( cv::LDetector::* )( bool ) )( &::cv::LDetector::setVerbose )
-            , ( bp::arg("verbose") ) )    
-        .def( 
-            "write"
-            , (void ( cv::LDetector::* )( ::cv::FileStorage &,::cv::String const & ) const)( &::cv::LDetector::write )
-            , ( bp::arg("fs"), bp::arg("name")=std::string() ) )    
-        .def_readwrite( "baseFeatureSize", &cv::LDetector::baseFeatureSize )    
-        .def_readwrite( "clusteringDistance", &cv::LDetector::clusteringDistance )    
-        .def_readwrite( "nOctaves", &cv::LDetector::nOctaves )    
-        .def_readwrite( "nViews", &cv::LDetector::nViews )    
-        .def_readwrite( "radius", &cv::LDetector::radius )    
-        .def_readwrite( "threshold", &cv::LDetector::threshold )    
-        .def_readwrite( "verbose", &cv::LDetector::verbose );
 
 }
