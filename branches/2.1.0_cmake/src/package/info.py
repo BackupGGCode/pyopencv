@@ -40,6 +40,7 @@ if _NP.version.version < '1.2.0':
     raise ImportError("NumPy is installed but its version is too old (%s detected). Please install NumPy of version at least 1.2.0." % _NP.version.version)
 
 import config as _cfg
+import functools as _fc
 
 def _smart_import(global_dict):
     cvt_dict = {}
@@ -52,9 +53,16 @@ def _smart_import(global_dict):
             cvt_dict[klass2][klass1] = val
         else:
             global_dict[item] = val
+            
+    def convert(the_dict, x):
+        try:
+            f = the_dict[x.__class__.__name__]
+        except KeyError:
+            raise TypeError("Unable to convert from an object of type '%s'" % x.__class__.__name__)
+        return f(x)
                 
     for item in cvt_dict:
-        func = lambda x: cvt_dict[item][x.__class__.__name__](x)
+        func = _fc.partial(convert, cvt_dict[item])
         func.__doc__ = """Converts an object into an object of type %s
 
     The type of the input object must be one of the followings:
@@ -114,11 +122,12 @@ if 'asMat' in globals():
         except KeyError:
             z = obj[0]
             if isinstance(z, int):
-                out_mat = _asMat(vector_int.fromlist(obj))
+                t = vector_int.fromlist(obj)
             elif isinstance(z, float):
-                out_mat = _asMat(vector_float64.fromlist(obj))
+                t = vector_float64.fromlist(obj)
             else:
-                out_mat = eval("_asMat(vector_%s.fromlist(obj))" % z.__class__.__name__)
+                t = eval("vector_%s.fromlist(obj)" % z.__class__.__name__)
+            out_mat = _asMat(t)
         
         if force_single_channel:
             return reshapeSingleChannel(out_mat)
