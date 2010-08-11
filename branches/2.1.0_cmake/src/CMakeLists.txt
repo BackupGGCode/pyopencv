@@ -10,6 +10,9 @@
 #
 # ----------------------------------------------------------------------------
 
+project(pyopencv)
+cmake_minimum_required(VERSION 2.4)
+
 # --------------------------------------------------------------
 # Detect Python at set up the installation path:
 # --------------------------------------------------------------
@@ -21,10 +24,7 @@ execute_process ( COMMAND ${PYTHON_EXECUTABLE} -c "from distutils.sysconfig impo
     OUTPUT_VARIABLE PYTHON_SITE_PACKAGES OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 # it _must_ go before PROJECT(PyOpenCV) in order to work
-set(CMAKE_INSTALL_PREFIX ${PYTHON_SITE_PACKAGES}/pyopencv CACHE PATH "PyOpenCV's installation path")
-
-project(pyopencv)
-cmake_minimum_required(VERSION 2.4)
+set(PYOPENCV_INSTALL_PATH ${PYTHON_SITE_PACKAGES}/pyopencv CACHE PATH "PyOpenCV's installation path")
 
 # Need Python-dev
 find_package(PythonLibs REQUIRED)
@@ -387,7 +387,11 @@ endif("${CMAKE_CONFIGURE_LDFLAGS}")
 file(GLOB_RECURSE EXTRA_SRCS package/extras/*)
 add_library(pyopencv_extras SHARED ${EXTRA_SRCS})
 target_link_libraries(pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
-install(TARGETS pyopencv_extras RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+if(WIN32)
+    install(TARGETS pyopencv_extras RUNTIME DESTINATION ${PYOPENCV_INSTALL_PATH})
+else()
+    install(TARGETS pyopencv_extras RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+endif()
 
 set(PYTHON_MODULE_LIST)
 
@@ -399,20 +403,39 @@ macro(ADD_PYTHON_MODULE _NAME)
     set_target_properties(${_NAME}_ext PROPERTIES 
         PREFIX "" # There is no prefix even on UNIXes
         SUFFIX ${_modsuffix}) # The extension got from Python libraries
-    install(TARGETS ${_NAME}_ext RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
-    install(FILES package/${_NAME}.py DESTINATION ${CMAKE_INSTALL_PREFIX})
+    if(WIN32)    
+        install(TARGETS ${_NAME}_ext RUNTIME DESTINATION ${PYOPENCV_INSTALL_PATH})
+    else(WIN32)
+        install(TARGETS ${_NAME}_ext LIBRARY DESTINATION ${PYOPENCV_INSTALL_PATH})
+    endif(WIN32)    
+    install(FILES package/${_NAME}.py DESTINATION ${PYOPENCV_INSTALL_PATH})
     set(PYTHON_MODULE_LIST ${PYTHON_MODULE_LIST} ${_NAME})
 endmacro(ADD_PYTHON_MODULE)
 
-# CxCORE
-set(WRAP_CXCORE ON CACHE BOOL "Wrap the CxCORE component of OpenCV -- mandatory" FORCE)
-if(WRAP_CXCORE)
+# CxType
+set(WRAP_CXTYPE ON CACHE BOOL "Wrap the CxType component of OpenCV -- mandatory" FORCE)
+if(WRAP_CXTYPE)
     add_python_module(cxtypes_h)
+endif(WRAP_CXTYPE)
+
+# CxCORE
+set(WRAP_CXCORE ON CACHE BOOL "Wrap the CxCORE component of OpenCV")
+if(WRAP_CXCORE)
     add_python_module(cxcore_h)
     add_python_module(cxcore_hpp_vec)
     add_python_module(cxcore_hpp_point)
     add_python_module(cxcore_hpp)
 endif(WRAP_CXCORE)
+
+# CxCORE
+# set(WRAP_CXCORE ON CACHE BOOL "Wrap the CxCORE component of OpenCV -- mandatory" FORCE)
+# if(WRAP_CXCORE)
+    # add_python_module(cxtypes_h)
+    # add_python_module(cxcore_h)
+    # add_python_module(cxcore_hpp_vec)
+    # add_python_module(cxcore_hpp_point)
+    # add_python_module(cxcore_hpp)
+# endif(WRAP_CXCORE)
 
 # CV
 set(WRAP_CV ON CACHE BOOL "Wrap the CV component of OpenCV")
@@ -474,4 +497,4 @@ PYOPENCV_VERSION_PATCH = \"${PYOPENCV_VERSION_PATCH}\"
 PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
 ")
 
-install(FILES package/__init__.py package/config.py package/common.py package/info.py package/cxerror_h.py package/cvver_h.py package/interfaces.py DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(FILES package/__init__.py package/config.py package/common.py package/info.py package/cxerror_h.py package/cvver_h.py package/interfaces.py DESTINATION ${PYOPENCV_INSTALL_PATH})
