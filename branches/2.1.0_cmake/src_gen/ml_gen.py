@@ -27,6 +27,8 @@ sb.load_regs('cxcore_hpp_reg.sdd')
 
 
 sb.cc.write('''
+import numpy as _np
+
 #=============================================================================
 # ml.h
 #=============================================================================
@@ -269,7 +271,7 @@ sb.finalize_class(z)
 sb.cc.write('''
 def __CvSVM_get_support_vectors(self):
     """Returns all support vectors as a 2D ndarray, each vector per row."""
-    return _NP.array([self.get_support_vector(i) for i in range(self.get_support_vector_count())])
+    return _np.array([self.get_support_vector(i) for i in range(self.get_support_vector_count())])
 CvSVM.get_support_vectors = __CvSVM_get_support_vectors
 ''')
 

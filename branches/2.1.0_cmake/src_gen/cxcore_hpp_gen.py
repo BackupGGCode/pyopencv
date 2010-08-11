@@ -151,6 +151,12 @@ sb.finalize_class(z)
 
 # Scalar et al
 sb.register_ti('cv::Scalar_', ['double'], 'Scalar')
+sb.cc.write('''
+# Constructs a color value
+def CV_RGB(r, g, b):
+    return Scalar(b, g, r)
+
+''')
 
 # Range
 sb.register_ti('cv::Range')

@@ -111,11 +111,6 @@ CvGraphScanner.__del__ = _CvGraphScanner__del__
     
 CV_FILLED = -1
 CV_AA = 16
-
-# Constructs a color value
-def CV_RGB(r, g, b):
-    return Scalar(b, g, r)
-
     
 
 #-----------------------------------------------------------------------------

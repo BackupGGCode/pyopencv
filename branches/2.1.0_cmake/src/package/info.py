@@ -137,3 +137,5 @@ Docstring of the internal asMat function:
 
     """ + _asMat.__doc__
 
+if 'asPoint2i' in globals():
+    asPoint = asPoint2i
