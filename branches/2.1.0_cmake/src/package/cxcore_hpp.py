@@ -196,11 +196,6 @@ def _RotatedRect__repr__(self):
 RotatedRect.__repr__ = _RotatedRect__repr__
         
 
-# Constructs a color value
-def CV_RGB(r, g, b):
-    return Scalar(b, g, r)
-
-
 def _RNG__repr__(self):
     return "RNG(state=" + repr(self.state) + ")"
 RNG.__repr__ = _RNG__repr__

@@ -135,6 +135,11 @@ sb.cc.write('''
 def _Scalar__repr__(self):
     return "Scalar(" + self.ndarray.__str__() + ")"
 Scalar.__repr__ = _Scalar__repr__
+
+# Constructs a color value
+def CV_RGB(r, g, b):
+    return Scalar(b, g, r)
+
 ''')
 
 # Scalar operations

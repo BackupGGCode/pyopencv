@@ -904,6 +904,11 @@ def _Scalar__repr__(self):
     return "Scalar(" + self.ndarray.__str__() + ")"
 Scalar.__repr__ = _Scalar__repr__
 
+# Constructs a color value
+def CV_RGB(r, g, b):
+    return Scalar(b, g, r)
+
+
 vector_Range.__old_init__ = vector_Range.__init__
 vector_Range.__init__ = _c.__vector__init__
 vector_Range.create = _c.__vector_create
