@@ -386,11 +386,12 @@ endif("${CMAKE_CONFIGURE_LDFLAGS}")
 # PyOpenCV's "extras" library
 file(GLOB_RECURSE EXTRA_SRCS package/extras/*)
 add_library(pyopencv_extras SHARED ${EXTRA_SRCS})
+set_target_properties(pyopencv_extras PROPERTIES VERSION 1.0.0 SOVERSION 1)
 target_link_libraries(pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
 if(WIN32)
     install(TARGETS pyopencv_extras RUNTIME DESTINATION ${PYOPENCV_INSTALL_PATH})
 else()
-    install(TARGETS pyopencv_extras RUNTIME DESTINATION ${CMAKE_INSTALL_PREFIX})
+    install(TARGETS pyopencv_extras DESTINATION lib PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 endif()
 
 set(PYTHON_MODULE_LIST)
