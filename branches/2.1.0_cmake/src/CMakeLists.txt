@@ -66,7 +66,7 @@ endif()
 # ----------------------------------------------------------------------------
 #  Current version number:
 # ----------------------------------------------------------------------------
-set(PYOPENCV_VERSION_MAJOR "2.1.0_wr1")
+set(PYOPENCV_VERSION_MAJOR "2.1.0.wr1")
 set(PYOPENCV_VERSION_MINOR "1")
 set(PYOPENCV_VERSION_PATCH "1")
 set(PYOPENCV_VERSION "${PYOPENCV_VERSION_MAJOR}.${PYOPENCV_VERSION_MINOR}.${PYOPENCV_VERSION_PATCH}")

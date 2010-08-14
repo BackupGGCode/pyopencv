@@ -92,6 +92,7 @@ from setuptools import setup, find_packages, Extension, Library
 from glob import glob
 import sys
 import os
+import os.path as op
 
 try:
     import config as C
@@ -112,7 +113,7 @@ setup(
 	long_description = "\n".join(DOCLINES[2:]),
     ext_modules=C.extension_list,
     install_requires = ['numpy>=1.2.0'],
-    # package_data = {'pyopencv': bundled_files, '': ['AUTHORS', 'ChangeLog', 'COPYING', 'README', 'THANKS', 'TODO']},
+    package_data = {'pyopencv': ['*.dll']},
     include_package_data = True,
     # zip_safe = (os.name!='nt'), # thanks to ffmpeg dependency
     package_dir={'':'package'},
