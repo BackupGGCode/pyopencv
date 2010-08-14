@@ -100,39 +100,6 @@ except ImportError:
     print "You must first use the CMake build tool to configure."
     sys.exit(-1)
 
-include_dirs = [
-    'm:/programming/packages/scipack/boost/boost_1_42_0',
-    'm:/programming/packages/opencv/build/2.1.0_mgw443/include/opencv',
-    'm:/programming/builders/Python26/Lib/site-packages/numpy/core/include/numpy',
-    OP.join('package', 'extras', 'core'),
-    OP.join('package', 'extras', 'sdopencv'),
-]
-
-library_dirs = [
-    'm:/programming/packages/scipack/boost/boost_1_42_0/stage/lib',
-    'm:/programming/packages/opencv/build/2.1.0_mgw443/lib',
-]
-
-libraries = [
-    'boost_python',
-    'cvaux210.dll', 'ml210.dll', 'highgui210.dll', 'cv210.dll', 'cxcore210.dll',
-]
-
-pyopencv_extras = Library('pyopencv.pyopencv_extras',
-    sources=glob(OP.join('package', 'extras', 'core', '*.cpp'))+\
-        glob(OP.join('package', 'extras', 'sdopencv', '*.cpp')),
-    include_dirs=include_dirs,
-    libraries=libraries,
-    library_dirs=library_dirs,
-)
-
-cxtypes_h_ext = Extension('pyopencv.cxtypes_h_ext',
-    sources=glob(OP.join('package', 'cxtypes_h_ext', '*.cpp')),
-    include_dirs=include_dirs+['package'],
-    library_dirs=library_dirs,
-    libraries=libraries+['pyopencv_extras'],
-)
-
 setup(
     name = "pyopencv",
 	version = '2.1.0.wr1.1.1',
@@ -144,11 +111,14 @@ setup(
 	platforms = 'OS Independent, Windows, Linux, MacOS',
 	classifiers = filter(None, CLASSIFIERS.split('\n')),
 	long_description = "\n".join(DOCLINES[2:]),
-    ext_modules=[pyopencv_extras, cxtypes_h_ext],
+    ext_modules=C.extension_list,
     install_requires = ['numpy>=1.2.0'],
     # package_data = {'pyopencv': bundled_files, '': ['AUTHORS', 'ChangeLog', 'COPYING', 'README', 'THANKS', 'TODO']},
-    # include_package_data = True,
+    include_package_data = True,
+    zip_safe = False,
     # zip_safe = (os.name!='nt'), # thanks to ffmpeg dependency
-    packages = find_packages(),
+    package_dir={'':'package'},
+    packages = find_packages('package'),
+    py_modules=C.py_modules,
 )
 

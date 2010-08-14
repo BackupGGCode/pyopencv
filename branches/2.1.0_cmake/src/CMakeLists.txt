@@ -427,16 +427,20 @@ PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
 # ---------------------------------------------
 
 # version
-file(WRITE config.py "]
+file(WRITE config.py "from setuptools import Extension, Library
+import os.path as op
+
 PYOPENCV_VERSION_MAJOR = \"${PYOPENCV_VERSION_MAJOR}\" 
 PYOPENCV_VERSION_MINOR = \"${PYOPENCV_VERSION_MINOR}\"
 PYOPENCV_VERSION_PATCH = \"${PYOPENCV_VERSION_PATCH}\"
 PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
+
 ")
 
 # include dirs
 file(APPEND config.py "include_dirs = [")
 foreach(DIR ${PYOPENCV_INCLUDE_DIRS})
+    string(REPLACE "\\" "/" DIR ${DIR})
     file(APPEND config.py "\"${DIR}\", ")
 endforeach()
 file(APPEND config.py "]
@@ -456,14 +460,7 @@ foreach(DIR ${PYOPENCV_LIBRARIES})
     file(APPEND config.py "\"${DIR}\", ")
 endforeach()
 file(APPEND config.py "]
-")
 
-# modules
-file(APPEND config.py "MODULE_LIST = [")
-foreach(MOD_NAME ${PYTHON_MODULE_LIST})
-    file(APPEND config.py "\"${MOD_NAME}\", ")
-endforeach()
-file(APPEND config.py "]
 ")
 
 
@@ -472,7 +469,7 @@ file(APPEND config.py "]
 # ---------------------------------------------
 
 # PyOpenCV's "extras" library
-file(GLOB_RECURSE EXTRA_SRCS package/extras/*)
+file(GLOB_RECURSE EXTRA_SRCS package/extras/*.cpp)
 add_library(pyopencv_extras SHARED ${EXTRA_SRCS})
 set_target_properties(pyopencv_extras PROPERTIES VERSION 1.0.0 SOVERSION 1)
 target_link_libraries(pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
@@ -482,23 +479,44 @@ else()
     install(TARGETS pyopencv_extras DESTINATION lib PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 endif()
 
+# write to config.py
+file(APPEND config.py "pyopencv_extras_srcs = [")
+foreach(F ${EXTRA_SRCS})
+    file(APPEND config.py "\"${F}\", ")
+endforeach()
+file(APPEND config.py "]
+
+pyopencv_extras = Library('pyopencv.pyopencv_extras', 
+    sources=pyopencv_extras_srcs, include_dirs=include_dirs,
+    libraries=libraries, library_dirs=library_dirs
+)
+
+")
+
 
 # 'add_python_module' macro
 macro(ADD_PYTHON_MODULE _NAME)
-    file(GLOB ${_NAME}_SRCS package/${_NAME}_ext/*)
+    file(GLOB ${_NAME}_SRCS package/${_NAME}_ext/*.cpp)
     add_library(${_NAME}_ext MODULE ${${_NAME}_SRCS})
     target_link_libraries(${_NAME}_ext pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
     set_target_properties(${_NAME}_ext PROPERTIES 
         PREFIX "" # There is no prefix even on UNIXes
         SUFFIX ${_modsuffix}) # The extension got from Python libraries
     install(TARGETS ${_NAME}_ext DESTINATION ${PYOPENCV_INSTALL_PATH})
-    # if(WIN32)    
-        # install(TARGETS ${_NAME}_ext RUNTIME DESTINATION ${PYOPENCV_INSTALL_PATH})
-    # else(WIN32)
-        # install(TARGETS ${_NAME}_ext LIBRARY DESTINATION ${PYOPENCV_INSTALL_PATH})
-    # endif(WIN32)    
     install(FILES package/${_NAME}.py DESTINATION ${PYOPENCV_INSTALL_PATH})
     set(PYTHON_MODULE_LIST ${PYTHON_MODULE_LIST} ${_NAME})
+    
+    # write to config.py
+    file(APPEND config.py "${_NAME}_srcs = [")
+ foreach(F ${${_NAME}_SRCS})
+    file(APPEND config.py "\"${F}\", ")
+endforeach()
+    file(APPEND config.py "]
+${_NAME}_ext = Extension('pyopencv.${_NAME}_ext',
+    sources=${_NAME}_srcs, include_dirs=include_dirs+[op.join('package', '${_NAME}_ext')],
+    library_dirs=library_dirs, libraries=libraries+['pyopencv_extras'])
+
+")
 endmacro(ADD_PYTHON_MODULE)
 
 # CxType
@@ -561,10 +579,20 @@ if(WRAP_SDOPENCV)
     add_python_module(sdopencv)
 endif(WRAP_SDOPENCV)
 
+# modules
 foreach(MOD_NAME ${PYTHON_MODULE_LIST})
     file(APPEND package/config.py "from ${MOD_NAME} import *
 ")
 endforeach()
+
+# modules
+file(APPEND config.py "extension_list = [pyopencv_extras, ")
+foreach(MOD_NAME ${PYTHON_MODULE_LIST})
+    file(APPEND config.py "${MOD_NAME}_ext, ")
+endforeach()
+file(APPEND config.py "]
+")
+
 
 # ---------------------------------------------
 # installation
