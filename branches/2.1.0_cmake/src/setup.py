@@ -97,7 +97,16 @@ import os.path as op
 try:
     import config as C
 except ImportError:
-    print "You must first use the CMake build tool to configure."
+    print "Error: file 'config.py' not found."
+    print "Starting from version 1.1.1 for OpenCV 2.1.0, PyOpenCV relies on"
+    print "the CMake build tool to configure. Run the following commands:"
+    print "    mkdir build"
+    print "    cd build"
+    print "    cmake .."
+    print "    cd .."
+    print "And then you can build PyOpenCV using either cmake's standard"
+    print "procedure or run the following command:"
+    print "    python setup.py install"
     sys.exit(-1)
 
 setup(
