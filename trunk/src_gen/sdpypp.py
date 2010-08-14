@@ -61,7 +61,7 @@ class SdModuleBuilder:
             ])
 
         # create a Python file
-        self.cc = open(_op.join(self.pkg_dir, self.module_name+'.py'), 'w')
+        self.cc = open(_op.join(self.pkg_dir, 'pyopencv', self.module_name+'.py'), 'w')
         self.cc.write('''#!/usr/bin/env python
 # PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 
