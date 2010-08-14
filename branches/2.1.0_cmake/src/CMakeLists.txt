@@ -406,6 +406,8 @@ endif("${CMAKE_CONFIGURE_LDFLAGS}")
 #                       REAL PYOPENCV STUFF
 # ----------------------------------------------------------------------------
 
+set(PYTHON_MODULE_LIST)
+
 # include_directories
 include_directories(${PYOPENCV_INCLUDE_DIRS})
 
@@ -419,10 +421,6 @@ PYOPENCV_VERSION_PATCH = \"${PYOPENCV_VERSION_PATCH}\"
 PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
 
 ")
-foreach(MOD_NAME ${PYTHON_MODULE_LIST})
-    file(APPEND package/config.py "from ${MOD_NAME} import *
-")
-endforeach()
 
 # ---------------------------------------------
 # write to 'config.py'
@@ -484,8 +482,6 @@ else()
     install(TARGETS pyopencv_extras DESTINATION lib PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 endif()
 
-
-set(PYTHON_MODULE_LIST)
 
 # 'add_python_module' macro
 macro(ADD_PYTHON_MODULE _NAME)
@@ -565,6 +561,10 @@ if(WRAP_SDOPENCV)
     add_python_module(sdopencv)
 endif(WRAP_SDOPENCV)
 
+foreach(MOD_NAME ${PYTHON_MODULE_LIST})
+    file(APPEND package/config.py "from ${MOD_NAME} import *
+")
+endforeach()
 
 # ---------------------------------------------
 # installation
