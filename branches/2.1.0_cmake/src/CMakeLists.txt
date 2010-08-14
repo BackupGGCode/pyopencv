@@ -412,9 +412,9 @@ set(PYTHON_MODULE_LIST)
 include_directories(${PYOPENCV_INCLUDE_DIRS})
 
 # ---------------------------------------------
-# write to 'package/config.py'
+# write to 'package/pyopencv/config.py'
 # ---------------------------------------------
-file(WRITE package/config.py "
+file(WRITE package/pyopencv/config.py "
 PYOPENCV_VERSION_MAJOR = \"${PYOPENCV_VERSION_MAJOR}\" 
 PYOPENCV_VERSION_MINOR = \"${PYOPENCV_VERSION_MINOR}\"
 PYOPENCV_VERSION_PATCH = \"${PYOPENCV_VERSION_PATCH}\"
@@ -429,11 +429,19 @@ PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
 # version
 file(WRITE config.py "from setuptools import Extension, Library
 import os.path as op
+from glob import glob
 
 PYOPENCV_VERSION_MAJOR = \"${PYOPENCV_VERSION_MAJOR}\" 
 PYOPENCV_VERSION_MINOR = \"${PYOPENCV_VERSION_MINOR}\"
 PYOPENCV_VERSION_PATCH = \"${PYOPENCV_VERSION_PATCH}\"
 PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
+
+")
+
+# flags
+file(APPEND config.py "
+CXX_FLAGS = '${CMAKE_CXX_FLAGS_RELEASE}'
+LINK_FLAGS = '${CMAKE_EXE_LINKER_FLAGS_RELEASE}'
 
 ")
 
@@ -460,6 +468,16 @@ foreach(DIR ${PYOPENCV_LIBRARIES})
     file(APPEND config.py "\"${DIR}\", ")
 endforeach()
 file(APPEND config.py "]
+    
+def revise_lib(lib):
+    path, lib = op.split(op.normpath(lib))
+    if not path=='':
+        x = lib.rfind('.')
+        if x >= 0:
+            return lib[:x]
+    return lib
+    
+libraries = [revise_lib(lib) for lib in libraries]
 
 ")
 
@@ -480,11 +498,7 @@ else()
 endif()
 
 # write to config.py
-file(APPEND config.py "pyopencv_extras_srcs = [")
-foreach(F ${EXTRA_SRCS})
-    file(APPEND config.py "\"${F}\", ")
-endforeach()
-file(APPEND config.py "]
+file(APPEND config.py "pyopencv_extras_srcs = glob(op.join('package', 'extras', 'core', '*.cpp'))+glob(op.join('package', 'extras', 'sdopencv', '*.cpp'))
 
 pyopencv_extras = Library('pyopencv.pyopencv_extras', 
     sources=pyopencv_extras_srcs, include_dirs=include_dirs,
@@ -507,13 +521,9 @@ macro(ADD_PYTHON_MODULE _NAME)
     set(PYTHON_MODULE_LIST ${PYTHON_MODULE_LIST} ${_NAME})
     
     # write to config.py
-    file(APPEND config.py "${_NAME}_srcs = [")
- foreach(F ${${_NAME}_SRCS})
-    file(APPEND config.py "\"${F}\", ")
-endforeach()
-    file(APPEND config.py "]
-${_NAME}_ext = Extension('pyopencv.${_NAME}_ext',
-    sources=${_NAME}_srcs, include_dirs=include_dirs+[op.join('package', '${_NAME}_ext')],
+    file(APPEND config.py "${_NAME}_ext = Extension('pyopencv.${_NAME}_ext',
+    sources=glob(op.join('package', '${_NAME}_ext', '*.cpp')), 
+    include_dirs=include_dirs+[op.join('package', '${_NAME}_ext')],
     library_dirs=library_dirs, libraries=libraries+['pyopencv_extras'])
 
 ")
@@ -581,7 +591,7 @@ endif(WRAP_SDOPENCV)
 
 # modules
 foreach(MOD_NAME ${PYTHON_MODULE_LIST})
-    file(APPEND package/config.py "from ${MOD_NAME} import *
+    file(APPEND package/pyopencv/config.py "from ${MOD_NAME} import *
 ")
 endforeach()
 

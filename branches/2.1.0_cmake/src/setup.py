@@ -92,7 +92,6 @@ from setuptools import setup, find_packages, Extension, Library
 from glob import glob
 import sys
 import os
-import os.path as OP
 
 try:
     import config as C
@@ -102,7 +101,7 @@ except ImportError:
 
 setup(
     name = "pyopencv",
-	version = '2.1.0.wr1.1.1',
+	version = C.PYOPENCV_VERSION,
 	description = DOCLINES[0],
 	author = 'Minh-Tri Pham',
 	author_email = 'pmtri80@gmail.com',
@@ -115,10 +114,8 @@ setup(
     install_requires = ['numpy>=1.2.0'],
     # package_data = {'pyopencv': bundled_files, '': ['AUTHORS', 'ChangeLog', 'COPYING', 'README', 'THANKS', 'TODO']},
     include_package_data = True,
-    zip_safe = False,
     # zip_safe = (os.name!='nt'), # thanks to ffmpeg dependency
     package_dir={'':'package'},
     packages = find_packages('package'),
-    py_modules=C.py_modules,
 )
 
