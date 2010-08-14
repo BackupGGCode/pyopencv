@@ -179,14 +179,14 @@ endif()
 
 # Boost.Python
 set(Boost_USE_STATIC_LIBS OFF) # need dynamic linking
-set(Boost_python_DYN_LINK ON)
+set(Boost_Python_DYN_LINK ON)
 find_package(Boost COMPONENTS python REQUIRED)
 
 # OpenCV
 find_package(OpenCV REQUIRED CMAKE_FIND_ROOT_PATH_BOTH)
 
-# include directories
-include_directories(
+# include_dirs
+set(PYOPENCV_INCLUDE_DIRS
 	${PYTHON_INCLUDE_PATH}
 	${Boost_INCLUDE_DIRS}
 	${OpenCV_INCLUDE_DIRS}
@@ -196,6 +196,29 @@ include_directories(
 	${PROJECT_SOURCE_DIR}/package/extras/sdopencv
 )
 
+# library_dirs
+set(PYOPENCV_LIBRARY_DIRS
+    ${Boost_LIBRARY_DIRS}
+    ${OpenCV_LIB_DIR}
+)
+
+# libraries
+set(PYOPENCV_LIBRARIES ${Boost_PYTHON_LIBRARY_RELEASE})
+set(FOUND_LIB 0)
+foreach(LIB ${OpenCV_LIBS})
+    if(LIB STREQUAL "optimized")
+        set(FOUND_LIB 1)
+    else()
+        if(FOUND_LIB EQUAL 1)
+            set(PYOPENCV_LIBRARIES ${LIB} ${PYOPENCV_LIBRARIES})
+            set(FOUND_LIB 0)
+        endif()
+    endif()
+endforeach()
+
+# install files
+set(PYOPENCV_INSTALL_FILES "")
+
 # Detect NumPy include dirs. If not found, use our copy of NumPy 1.4.0 include dir
 execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import numpy.distutils; print numpy.distutils.misc_util.get_numpy_include_dirs()[0]"
     RESULT_VARIABLE PYTHON_NUMPY_PROCESS
@@ -203,12 +226,12 @@ execute_process(COMMAND ${PYTHON_EXECUTABLE} -c "import numpy.distutils; print n
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 if(PYTHON_NUMPY_PROCESS EQUAL 0)
     set(PYTHON_NUMPY_INCLUDE_DIRS ${PYTHON_NUMPY_INCLUDE_DIRS}/numpy)
-    message(STATUS "NumPy include dirs detected at: ${PYTHON_NUMPY_INCLUDE_DIRS}")
+    message(STATUS "NumPy include directory detected at: ${PYTHON_NUMPY_INCLUDE_DIRS}")
 else()
     set(PYTHON_NUMPY_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/package/extras/numpy_include)
-    message(STATUS "NumPy include dirs not detected. Use our copy at: ${PYTHON_NUMPY_INCLUDE_DIRS}")
+    message(STATUS "NumPy include directory not detected, using our copy of numpy 1.4.1 at: ${PYTHON_NUMPY_INCLUDE_DIRS}")
 endif()
-include_directories(AFTER ${PYTHON_NUMPY_INCLUDE_DIRS})
+set(PYOPENCV_INCLUDE_DIRS ${PYOPENCV_INCLUDE_DIRS} ${PYTHON_NUMPY_INCLUDE_DIRS})
 
 # ----------------------------------------------------------------------------
 #           Set the maximum level of warnings:
@@ -383,6 +406,73 @@ endif("${CMAKE_CONFIGURE_LDFLAGS}")
 #                       REAL PYOPENCV STUFF
 # ----------------------------------------------------------------------------
 
+# include_directories
+include_directories(${PYOPENCV_INCLUDE_DIRS})
+
+# ---------------------------------------------
+# write to 'package/config.py'
+# ---------------------------------------------
+file(WRITE package/config.py "
+PYOPENCV_VERSION_MAJOR = \"${PYOPENCV_VERSION_MAJOR}\" 
+PYOPENCV_VERSION_MINOR = \"${PYOPENCV_VERSION_MINOR}\"
+PYOPENCV_VERSION_PATCH = \"${PYOPENCV_VERSION_PATCH}\"
+PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
+
+")
+foreach(MOD_NAME ${PYTHON_MODULE_LIST})
+    file(APPEND package/config.py "from ${MOD_NAME} import *
+")
+endforeach()
+
+# ---------------------------------------------
+# write to 'config.py'
+# ---------------------------------------------
+
+# version
+file(WRITE config.py "]
+PYOPENCV_VERSION_MAJOR = \"${PYOPENCV_VERSION_MAJOR}\" 
+PYOPENCV_VERSION_MINOR = \"${PYOPENCV_VERSION_MINOR}\"
+PYOPENCV_VERSION_PATCH = \"${PYOPENCV_VERSION_PATCH}\"
+PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
+")
+
+# include dirs
+file(APPEND config.py "include_dirs = [")
+foreach(DIR ${PYOPENCV_INCLUDE_DIRS})
+    file(APPEND config.py "\"${DIR}\", ")
+endforeach()
+file(APPEND config.py "]
+")
+
+# library dirs
+file(APPEND config.py "library_dirs = [")
+foreach(DIR ${PYOPENCV_LIBRARY_DIRS})
+    file(APPEND config.py "\"${DIR}\", ")
+endforeach()
+file(APPEND config.py "]
+")
+
+# libraries
+file(APPEND config.py "libraries = [")
+foreach(DIR ${PYOPENCV_LIBRARIES})
+    file(APPEND config.py "\"${DIR}\", ")
+endforeach()
+file(APPEND config.py "]
+")
+
+# modules
+file(APPEND config.py "MODULE_LIST = [")
+foreach(MOD_NAME ${PYTHON_MODULE_LIST})
+    file(APPEND config.py "\"${MOD_NAME}\", ")
+endforeach()
+file(APPEND config.py "]
+")
+
+
+# ---------------------------------------------
+# python extensions
+# ---------------------------------------------
+
 # PyOpenCV's "extras" library
 file(GLOB_RECURSE EXTRA_SRCS package/extras/*)
 add_library(pyopencv_extras SHARED ${EXTRA_SRCS})
@@ -394,21 +484,23 @@ else()
     install(TARGETS pyopencv_extras DESTINATION lib PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
 endif()
 
+
 set(PYTHON_MODULE_LIST)
 
 # 'add_python_module' macro
 macro(ADD_PYTHON_MODULE _NAME)
     file(GLOB ${_NAME}_SRCS package/${_NAME}_ext/*)
-    add_library(${_NAME}_ext SHARED ${${_NAME}_SRCS})
+    add_library(${_NAME}_ext MODULE ${${_NAME}_SRCS})
     target_link_libraries(${_NAME}_ext pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
     set_target_properties(${_NAME}_ext PROPERTIES 
         PREFIX "" # There is no prefix even on UNIXes
         SUFFIX ${_modsuffix}) # The extension got from Python libraries
-    if(WIN32)    
-        install(TARGETS ${_NAME}_ext RUNTIME DESTINATION ${PYOPENCV_INSTALL_PATH})
-    else(WIN32)
-        install(TARGETS ${_NAME}_ext LIBRARY DESTINATION ${PYOPENCV_INSTALL_PATH})
-    endif(WIN32)    
+    install(TARGETS ${_NAME}_ext DESTINATION ${PYOPENCV_INSTALL_PATH})
+    # if(WIN32)    
+        # install(TARGETS ${_NAME}_ext RUNTIME DESTINATION ${PYOPENCV_INSTALL_PATH})
+    # else(WIN32)
+        # install(TARGETS ${_NAME}_ext LIBRARY DESTINATION ${PYOPENCV_INSTALL_PATH})
+    # endif(WIN32)    
     install(FILES package/${_NAME}.py DESTINATION ${PYOPENCV_INSTALL_PATH})
     set(PYTHON_MODULE_LIST ${PYTHON_MODULE_LIST} ${_NAME})
 endmacro(ADD_PYTHON_MODULE)
@@ -418,6 +510,10 @@ set(WRAP_CXTYPE ON CACHE BOOL "Wrap the CxType component of OpenCV -- mandatory"
 if(WRAP_CXTYPE)
     add_python_module(cxtypes_h)
 endif(WRAP_CXTYPE)
+
+# testing
+# get_target_property(TRIFEO2 cxtypes_h_ext LINK_FLAGS)
+# message("hehe " ${TRIFEO2})
 
 # CxCORE
 set(WRAP_CXCORE ON CACHE BOOL "Wrap the CxCORE component of OpenCV")
@@ -469,33 +565,10 @@ if(WRAP_SDOPENCV)
     add_python_module(sdopencv)
 endif(WRAP_SDOPENCV)
 
-# ---------------------------------------------
-# write to 'package/config.py'
-# ---------------------------------------------
-file(WRITE package/config.py "
-PYOPENCV_VERSION_MAJOR = \"${PYOPENCV_VERSION_MAJOR}\" 
-PYOPENCV_VERSION_MINOR = \"${PYOPENCV_VERSION_MINOR}\"
-PYOPENCV_VERSION_PATCH = \"${PYOPENCV_VERSION_PATCH}\"
-PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
-
-")
-foreach(MOD_NAME ${PYTHON_MODULE_LIST})
-    file(APPEND package/config.py "from ${MOD_NAME} import *
-")
-endforeach()
 
 # ---------------------------------------------
-# write to 'config.py'
+# installation
 # ---------------------------------------------
-file(WRITE config.py "MODULE_LIST = [")
-foreach(MOD_NAME ${PYTHON_MODULE_LIST})
-    file(APPEND config.py "\"${MOD_NAME}\", ")
-endforeach()
-file(APPEND config.py "]
-PYOPENCV_VERSION_MAJOR = \"${PYOPENCV_VERSION_MAJOR}\" 
-PYOPENCV_VERSION_MINOR = \"${PYOPENCV_VERSION_MINOR}\"
-PYOPENCV_VERSION_PATCH = \"${PYOPENCV_VERSION_PATCH}\"
-PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
-")
+
 
 install(FILES package/__init__.py package/config.py package/common.py package/info.py package/cxerror_h.py package/cvver_h.py package/interfaces.py DESTINATION ${PYOPENCV_INSTALL_PATH})
