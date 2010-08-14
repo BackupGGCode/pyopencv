@@ -1,9 +1,0 @@
-import cxtypes_h_gen
-import cxcore_h_gen
-import cxcore_hpp_vec_gen
-import cxcore_hpp_point_gen
-import cxcore_hpp_gen
-import cvaux_gen
-import highgui_gen
-import ml_gen
-import sdopencv_gen
