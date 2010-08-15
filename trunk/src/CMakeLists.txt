@@ -440,8 +440,8 @@ PYOPENCV_VERSION = \"${PYOPENCV_VERSION}\"
 
 # flags
 file(APPEND config.py "
-CXX_FLAGS = '${CMAKE_CXX_FLAGS_RELEASE}'
-LINK_FLAGS = '${CMAKE_EXE_LINKER_FLAGS_RELEASE}'
+CXX_FLAGS = '${CMAKE_CXX_FLAGS_RELEASE}'.split()
+LINK_FLAGS = '${CMAKE_EXE_LINKER_FLAGS_RELEASE}'.split()
 
 ")
 
@@ -503,7 +503,7 @@ file(APPEND config.py "pyopencv_extras_srcs = glob(op.join('package', 'extras', 
 pyopencv_extras = Library('pyopencv.pyopencv_extras', 
     sources=pyopencv_extras_srcs, include_dirs=include_dirs,
     libraries=libraries, library_dirs=library_dirs,
-    extra_compile_args=[CXX_FLAGS], extra_link_args=[LINK_FLAGS])
+    extra_compile_args=CXX_FLAGS, extra_link_args=LINK_FLAGS)
 
 ")
 
@@ -525,7 +525,7 @@ macro(ADD_PYTHON_MODULE _NAME)
     sources=glob(op.join('package', '${_NAME}_ext', '*.cpp')), 
     include_dirs=include_dirs+[op.join('package', '${_NAME}_ext')],
     library_dirs=library_dirs, libraries=libraries+['pyopencv_extras'],
-    extra_compile_args=[CXX_FLAGS], extra_link_args=[LINK_FLAGS])
+    extra_compile_args=CXX_FLAGS, extra_link_args=LINK_FLAGS)
 
 ")
 endmacro(ADD_PYTHON_MODULE)
