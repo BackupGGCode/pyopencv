@@ -502,8 +502,8 @@ file(APPEND config.py "pyopencv_extras_srcs = glob(op.join('package', 'extras', 
 
 pyopencv_extras = Library('pyopencv.pyopencv_extras', 
     sources=pyopencv_extras_srcs, include_dirs=include_dirs,
-    libraries=libraries, library_dirs=library_dirs
-)
+    libraries=libraries, library_dirs=library_dirs,
+    extra_compile_args=[CXX_FLAGS], extra_link_args=[LINK_FLAGS])
 
 ")
 
@@ -524,7 +524,8 @@ macro(ADD_PYTHON_MODULE _NAME)
     file(APPEND config.py "${_NAME}_ext = Extension('pyopencv.${_NAME}_ext',
     sources=glob(op.join('package', '${_NAME}_ext', '*.cpp')), 
     include_dirs=include_dirs+[op.join('package', '${_NAME}_ext')],
-    library_dirs=library_dirs, libraries=libraries+['pyopencv_extras'])
+    library_dirs=library_dirs, libraries=libraries+['pyopencv_extras'],
+    extra_compile_args=[CXX_FLAGS], extra_link_args=[LINK_FLAGS])
 
 ")
 endmacro(ADD_PYTHON_MODULE)
