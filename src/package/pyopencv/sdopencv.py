@@ -19,8 +19,26 @@ import common as _c
 import sdopencv_ext as _ext
 from sdopencv_ext import *
         
+import numpy as _np
+    
 #=============================================================================
 # sdopencv
 #=============================================================================
 
+def cmpsum(arr, thresh=0, pos_val=1, neg_val=None):
+    """Compares and sums up.
+    
+    Description:
+        return np.sum(np.where(arr >= thresh, pos_val, neg_val), axis=-1)
+        
+    Input:
+        arr : ndarray
+            input array
+        thresh : 1D ndarray or a number (default value: 0)
+        pos_val : 1D ndarray or a number (default value: 1)
+        neg_val : 1D ndarray or a number (default value: -pos_val)
+    """
+    if neg_val is None:
+        neg_val = -pos_val
+    return _np.sum(_np.where(arr >= thresh, pos_val, neg_val), axis=-1)
 
