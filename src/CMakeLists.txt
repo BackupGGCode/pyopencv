@@ -517,7 +517,7 @@ macro(ADD_PYTHON_MODULE _NAME)
         PREFIX "" # There is no prefix even on UNIXes
         SUFFIX ${_modsuffix}) # The extension got from Python libraries
     install(TARGETS ${_NAME}_ext DESTINATION ${PYOPENCV_INSTALL_PATH})
-    install(FILES package/${_NAME}.py DESTINATION ${PYOPENCV_INSTALL_PATH})
+    install(FILES package/pyopencv/${_NAME}.py DESTINATION ${PYOPENCV_INSTALL_PATH})
     set(PYTHON_MODULE_LIST ${PYTHON_MODULE_LIST} ${_NAME})
     
     # write to config.py
@@ -610,4 +610,4 @@ file(APPEND config.py "]
 # ---------------------------------------------
 
 
-install(FILES package/__init__.py package/config.py package/common.py package/info.py package/cxerror_h.py package/cvver_h.py package/interfaces.py DESTINATION ${PYOPENCV_INSTALL_PATH})
+install(FILES package/pyopencv/__init__.py package/pyopencv/config.py package/pyopencv/common.py package/pyopencv/info.py package/pyopencv/cxerror_h.py package/pyopencv/cvver_h.py package/pyopencv/interfaces.py DESTINATION ${PYOPENCV_INSTALL_PATH})
