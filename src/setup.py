@@ -103,9 +103,13 @@ except ImportError:
     print "    mkdir build"
     print "    cd build"
     print "    cmake .."
-    print "    cd .."
     print "And then you can build PyOpenCV using either cmake's standard"
-    print "procedure or run the following command:"
+    print "procedure, like:"
+    print "    make"
+    print "    make install"
+    print "    [ldconfig] if you are on Ubuntu"
+    print "or run the following commands (not recommended):"
+    print "    cv .."
     print "    python setup.py install"
     sys.exit(-1)
 
