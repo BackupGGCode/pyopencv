@@ -7,7 +7,7 @@
 #
 #   - JUN-2010: Initial version, by Dat Chu
 #   - JUL-2010: Adapted, by Minh-Tri Pham, from OpenCV's CMakeLists.txt -- thanks WG people
-#   - AUG-2010: Fixed linking bugs on Mac, by Atilla
+#   - AUG-2010: Fixed linking bugs on Mac, by Attila
 #
 # ----------------------------------------------------------------------------
 
