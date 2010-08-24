@@ -6,7 +6,8 @@
 #
 #
 #   - JUN-2010: Initial version, by Dat Chu
-#   - JUL-2010: Revision 1, by Minh-Tri Pham, adapted from OpenCV's CMakeLists.txt -- thanks WG people
+#   - JUL-2010: Adapted, by Minh-Tri Pham, from OpenCV's CMakeLists.txt -- thanks WG people
+#   - AUG-2010: Fixed linking bugs on Mac, by Atilla
 #
 # ----------------------------------------------------------------------------
 
@@ -473,8 +474,8 @@ def revise_lib(lib):
     path, lib = op.split(op.normpath(lib))
     if not path=='':
         x = lib.rfind('.')
-        if x >= 0:
-            return lib[:x]
+        if x >= 0: lib = lib[:x]
+        if lib[:3]=='lib' : lib = lib[3:]
     return lib
     
 libraries = [revise_lib(lib) for lib in libraries]
@@ -503,9 +504,13 @@ file(APPEND config.py "pyopencv_extras_srcs = glob(op.join('package', 'extras', 
 pyopencv_extras = Library('pyopencv.pyopencv_extras', 
     sources=pyopencv_extras_srcs, include_dirs=include_dirs,
     libraries=libraries, library_dirs=library_dirs,
-    extra_compile_args=CXX_FLAGS, extra_link_args=LINK_FLAGS)
-
+    extra_compile_args=CXX_FLAGS, 
 ")
+if(APPLE)
+    file(APPEND config.py "extra_link_args=[ \"-install_name\", \"${PYOPENCV_INSTALL_PATH}/libpyopencv_extras.dylib\" ] + LINK_FLAGS)")
+else()
+    file(APPEND config.py "extra_link_args=LINK_FLAGS)")
+endif()
 
 
 # 'add_python_module' macro
