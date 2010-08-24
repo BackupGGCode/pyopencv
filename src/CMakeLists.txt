@@ -507,9 +507,11 @@ pyopencv_extras = Library('pyopencv.pyopencv_extras',
     extra_compile_args=CXX_FLAGS, 
 ")
 if(APPLE)
-    file(APPEND config.py "extra_link_args=[ \"-install_name\", \"${PYOPENCV_INSTALL_PATH}/libpyopencv_extras.dylib\" ] + LINK_FLAGS)")
+    file(APPEND config.py "extra_link_args=[ \"-install_name\", \"${PYOPENCV_INSTALL_PATH}/libpyopencv_extras.dylib\" ] + LINK_FLAGS)
+")
 else()
-    file(APPEND config.py "extra_link_args=LINK_FLAGS)")
+    file(APPEND config.py "extra_link_args=LINK_FLAGS)
+")
 endif()
 
 
