@@ -36,12 +36,13 @@ def findPairs(surf, objectKeypoints, objectDescriptors, imageKeypoints, imageDes
 
 # a rough implementation for planar object location
 def locatePlanarObject(ptpairs, src_corners, dst_corners):
+    import numpy as _n
+
     n = len(ptpairs)
     if n < 4:
         return 0
-        
-    pt1 = cv.asMat([pair[0] for pair in ptpairs])
-    pt2 = cv.asMat([pair[1] for pair in ptpairs])
+    pt1 = cv.asMat(_n.array([cv.asndarray(pair[0]) for pair in ptpairs]))
+    pt2 = cv.asMat(_n.array([cv.asndarray(pair[1]) for pair in ptpairs]))
     h = cv.findHomography(pt1, pt2, method=cv.RANSAC, ransacReprojThreshold=5)[:]
 
     for i in range(4):
@@ -106,7 +107,7 @@ if __name__ == '__main__':
     print("Extraction time = %gms\n" % (tt/(cv.getTickFrequency()*1000.)))
     
     # create a correspond Mat
-    correspond = cv.Mat(image.rows+object.rows, image.cols, cv.CV_8UC1)
+    correspond = cv.Mat(image.rows+object.rows, image.cols, cv.CV_8UC1, cv.Scalar(0))
     
     # copy the images to correspond -- numpy way
     correspond[:object.rows, :object.cols] = object[:]
@@ -116,8 +117,7 @@ if __name__ == '__main__':
     ptpairs = findPairs(surf, objectKeypoints, objectDescriptors, imageKeypoints, imageDescriptors)
 
     for pair in ptpairs:
-        print pair
-        cv.line( correspond, cv.asPoint(inst_Point2f=pair[0]), cv.Point(int(pair[1].x), int(pair[1].y+object.rows)), colors[8] )
+        cv.line( correspond, cv.asPoint(pair[0]), cv.Point(int(pair[1].x), int(pair[1].y+object.rows)), colors[8] )
 
     # locate planar object
     if locatePlanarObject( ptpairs, src_corners, dst_corners ):
@@ -131,7 +131,7 @@ if __name__ == '__main__':
     
     # draw circles
     for keypt in objectKeypoints:
-        cv.circle(object_color, cv.asPoint(inst_Point2f=keypt.pt), int(keypt.size*1.2/9.*2), colors[0], 1, 8, 0)
+        cv.circle(object_color, cv.asPoint(keypt.pt), int(keypt.size*1.2/9.*2), colors[0], 1, 8, 0)
     cv.imshow("Object", object_color)
         
     cv.waitKey(0)
