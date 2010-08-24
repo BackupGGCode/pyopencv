@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # OpenCV 2.x's C demo
-# -- adapted further by abergou, Aug 2010
+# -- adapted further by Attila, Aug 2010
 # -- adapted by Daniel to work with PyOpenCV
 # -- modified a bit Minh-Tri Pham
 
