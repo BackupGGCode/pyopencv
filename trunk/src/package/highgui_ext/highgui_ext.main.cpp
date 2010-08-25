@@ -22,7 +22,7 @@
 
 namespace bp = boost::python;
 
-static boost::python::tuple createTrackbar_a255009d4d0c76c9c0a784685d2594ee( ::std::string const & trackbarname, ::std::string const & winname, unsigned int value, int count, boost::python::object onChange=bp::object(), boost::python::object userdata=bp::object() ){
+static boost::python::tuple createTrackbar_a255009d4d0c76c9c0a784685d2594ee( ::std::string const & trackbarname, ::std::string const & winname, Py_intptr_t value, int count, boost::python::object onChange=bp::object(), boost::python::object userdata=bp::object() ){
     bp::tuple z_onChange= bp::make_tuple(onChange, userdata);
     int result = ::cv::createTrackbar(trackbarname, winname, reinterpret_cast< int * >( value ), count, sdTrackbarCallback2, (void *)(z_onChange.ptr()));
     return bp::make_tuple( result, z_onChange );
@@ -56,7 +56,7 @@ static boost::python::tuple imencode_7058867f40db2ceceebdc74b4943c841( ::std::st
 BOOST_PYTHON_MODULE(highgui_ext){
     { //::cv::createTrackbar
     
-        typedef boost::python::tuple ( *_createTrackbar_function_type )( ::std::string const &,::std::string const &,unsigned int,int,boost::python::object,boost::python::object );
+        typedef boost::python::tuple ( *_createTrackbar_function_type )( ::std::string const &,::std::string const &,Py_intptr_t,int,boost::python::object,boost::python::object );
         
         bp::def( 
             "_createTrackbar"
