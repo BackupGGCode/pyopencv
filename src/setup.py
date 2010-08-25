@@ -98,6 +98,7 @@ try:
     import config as C
 except ImportError:
     print "Error: file 'config.py' not found."
+    print
     print "Starting from version 1.1.1 for OpenCV 2.1.0, PyOpenCV relies on"
     print "the CMake build tool to configure. Run the following commands:"
     print "    mkdir build"
@@ -108,9 +109,12 @@ except ImportError:
     print "    make"
     print "    make install"
     print "    [ldconfig] if you are on Ubuntu"
-    print "or run the following commands (not recommended):"
-    print "    cv .."
+    print "or run the following commands (not recommended under Windows):"
+    print "    cd .."
     print "    python setup.py install"
+    print "Make sure that you have Administrator's priviledges when running"
+    print "commands involving installing: e.g. 'make install', 'python setup"
+    print "install', and 'ldconfig'."
     sys.exit(-1)
 
 setup(

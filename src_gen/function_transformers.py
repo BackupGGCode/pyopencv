@@ -1584,3 +1584,36 @@ def input_as_Mat( *args, **keywd ):
     return creator
     
     
+# from_address_t -- modification of Py++'s from_address_t, which was incompatible with 64-bit platforms
+class from_address_t(_T.type_modifier_t):
+    """Handles a single input variable.
+
+    Replaces the actual argument type with some integral type, so you
+    could use :mod:`ctypes` package.
+
+    void do_something(int** image) -> do_something(unsigned int image_address)
+    """
+
+    def __init__(self, function, arg_ref):
+        """Constructor.
+
+        The specified argument must be a reference or a pointer.
+
+        :param arg_ref: Index of the argument that is an output value
+        :type arg_ref: int
+        """
+        modifier = lambda type_: _D.dummy_type_t('Py_intptr_t')
+        _T.type_modifier_t.__init__( self, function, arg_ref, modifier )
+
+        if not _T.is_ptr_or_array( self.arg.type ):
+            raise ValueError( '%s\nin order to use "from_address_t" transformation, argument %s type must be a pointer or a array (got %s).' ) \
+                  % ( function, self.arg_ref.name, arg.type)
+
+    def __str__(self):
+        return "from_address(%s)"%(self.arg.name)
+
+def from_address( *args, **keywd ):
+    def creator( function ):
+        return from_address_t( function, *args, **keywd )
+    return creator
+
