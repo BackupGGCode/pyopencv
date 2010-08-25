@@ -775,7 +775,6 @@ FROM_NDARRAY(cv::MatND)
 void npy_init1()
 {
     import_array();
-    sdcpp::register_sdobject<sdcpp::ndarray>();
     // REGVECSS;
 }
 
