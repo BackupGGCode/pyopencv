@@ -70,6 +70,7 @@ z = sb.dummy_struct
 z.include_files.append("opencv_converters.hpp")
 z.include_files.append("sequence.hpp")
 sb.add_reg_code("sdcpp::register_sdobject<sdcpp::sequence>();")
+sb.add_reg_code("sdcpp::register_sdobject<sdcpp::ndarray>();")
 
 
 sb.register_ti('cv::Scalar_', ['double'], 'Scalar')

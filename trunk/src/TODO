@@ -23,9 +23,12 @@ Add iterator for SparseMat
   
 - expose C functions for class CvSet, write a Set<T> that is a subclass of Seq<T>?
 
-- wrap CvBlobsLib for info gabor
-
 - make_nurse_and_patient(nurse, patient) = keep 'patient' alive as long as 'nurse' is alive, weird.
+
+- Review the svn log and thank many people who have contributed to PyOpenCV
+  - Newmann for interfacing with numpy in 64-bit platforms
+  - Dat Chu for cmake
+  - Attila for Ubuntu 64-bit and Mac compilation
 
 ------------------------------------------
 Making a snapshot release using setuptools:

@@ -350,7 +350,8 @@ void register_classes_3(){
         bp::def("convert_ndarray_to_vector_float32", &sdcpp::ndarray_to_vector2< float >, (bp::arg("inst_ndarray")) );
         bp::def("convert_vector_float64_to_ndarray", &sdcpp::vector_to_ndarray2< double >, (bp::arg("inst_vector_float64")) );
         bp::def("convert_ndarray_to_vector_float64", &sdcpp::ndarray_to_vector2< double >, (bp::arg("inst_ndarray")) );
-        sdcpp::register_sdobject<sdcpp::sequence>();;
+        sdcpp::register_sdobject<sdcpp::sequence>();
+        sdcpp::register_sdobject<sdcpp::ndarray>();;
     }
 
 }
