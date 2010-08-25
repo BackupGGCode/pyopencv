@@ -491,21 +491,17 @@ libraries = [revise_lib(lib) for lib in libraries]
 file(GLOB_RECURSE EXTRA_SRCS package/extras/*.cpp)
 add_library(pyopencv_extras SHARED ${EXTRA_SRCS})
 set_target_properties(pyopencv_extras PROPERTIES 
-    VERSION ${PYOPENCV_VERSION} 
+    VERSION ${PYOPENCV_VERSION}
     SOVERSION ${PYOPENCV_VERSION})
-set_target_properties(pyopencv_extras PROPERTIES 
-    ARCHIVE_OUTPUT_DIRECTORY ${PYOPENCV_INSTALL_PATH}
-    RUNTIME_OUTPUT_DIRECTORY ${PYOPENCV_INSTALL_PATH})
+# set_target_properties(pyopencv_extras PROPERTIES 
+    # ARCHIVE_OUTPUT_DIRECTORY ${PYOPENCV_INSTALL_PATH}
+    # RUNTIME_OUTPUT_DIRECTORY ${PYOPENCV_INSTALL_PATH})
 target_link_libraries(pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
-install(TARGETS pyopencv_extras
-    RUNTIME DESTINATION ${PYOPENCV_INSTALL_PATH}
-    LIBRARY DESTINATION ${PYOPENCV_INSTALL_PATH}
-    ARCHIVE DESTINATION ${PYOPENCV_INSTALL_PATH})
-# if(WIN32)
-    # install(TARGETS pyopencv_extras RUNTIME DESTINATION ${PYOPENCV_INSTALL_PATH})
-# else()
-    # install(TARGETS pyopencv_extras DESTINATION lib PERMISSIONS OWNER_READ GROUP_READ WORLD_READ)
-# endif()
+if(WIN32)
+    install(TARGETS pyopencv_extras RUNTIME DESTINATION ${PYOPENCV_INSTALL_PATH})
+else()
+    install(TARGETS pyopencv_extras DESTINATION lib)
+endif()
 
 # write to config.py
 file(APPEND config.py "pyopencv_extras_srcs = glob(op.join('package', 'extras', 'core', '*.cpp'))+glob(op.join('package', 'extras', 'sdopencv', '*.cpp'))
