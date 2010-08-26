@@ -500,7 +500,7 @@ target_link_libraries(pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} 
 if(WIN32)
     install(TARGETS pyopencv_extras RUNTIME DESTINATION ${PYOPENCV_INSTALL_PATH})
 else()
-    install(TARGETS pyopencv_extras DESTINATION lib)
+    install(TARGETS pyopencv_extras DESTINATION ${PYOPENCV_INSTALL_PATH})
 endif()
 
 # write to config.py
@@ -525,6 +525,11 @@ macro(ADD_PYTHON_MODULE _NAME)
     file(GLOB ${_NAME}_SRCS package/${_NAME}_ext/*.cpp)
     add_library(${_NAME}_ext MODULE ${${_NAME}_SRCS})
     target_link_libraries(${_NAME}_ext pyopencv_extras ${Boost_PYTHON_LIBRARY} ${PYTHON_LIBRARY} ${OpenCV_LIBS})
+    # rpath
+    set_target_properties(${_NAME}_ext PROPERTIES
+	    INSTALL_RPATH ${PYOPENCV_INSTALL_PATH}
+        BUILD_WITH_INSTALL_RPATH TRUE
+        SKIP_BUILD_RPATH FALSE)
     set_target_properties(${_NAME}_ext PROPERTIES 
         PREFIX "" # There is no prefix even on UNIXes
         SUFFIX ${_modsuffix}) # The extension got from Python libraries
