@@ -84,6 +84,8 @@ Topic :: Scientific/Engineering :: Human Machine Interfaces
 Topic :: Software Development :: Libraries :: Python Modules
 """
 
+import distutils_hack
+
 import ez_setup
 ez_setup.use_setuptools()
 
@@ -93,29 +95,44 @@ from glob import glob
 import sys
 import os
 import os.path as op
+import distutils.spawn as ds
+import distutils.dir_util as dd
 
 try:
     import config as C
-except ImportError:
-    print "Error: file 'config.py' not found."
-    print
-    print "Starting from version 1.1.1 for OpenCV 2.1.0, PyOpenCV relies on"
-    print "the CMake build tool to configure. Run the following commands:"
-    print "    mkdir build"
-    print "    cd build"
-    print "    cmake .."
-    print "And then you can build PyOpenCV using either cmake's standard"
-    print "procedure, like:"
-    print "    make"
-    print "    make install"
-    print "    [ldconfig] if you are on Ubuntu"
-    print "or run the following commands (not recommended under Windows):"
-    print "    cd .."
-    print "    python setup.py install"
-    print "Make sure that you have Administrator's priviledges when running"
-    print "commands involving installing: e.g. 'make install', 'python setup"
-    print "install', and 'ldconfig'."
-    sys.exit(-1)
+except ImportError: # no config.py file found
+    if ds.find_executable('cmake') is None:
+        print "Error: unable to configure PyOpenCV!"
+        print
+        print "Starting from version 1.1.1 OpenCV 2.1.0, PyOpenCV relies on the"
+        print "CMake build tool (http://www.cmake.org/) to configure. However,"
+        print "CMake is not found in your system. Please install CMake before"
+        print "running the setup file. "
+        print 
+        print "Once CMake is installed, you can also manually configure PyOpenCV"
+        print "by running the following commands:"
+        print "    mkdir build"
+        print "    cd build"
+        print "    cmake .."
+        print "    cd .."
+        sys.exit(-1)
+        
+    print "Configuring PyOpenCV via CMake..."
+    cur_dir = os.getcwd()
+    new_dir = op.join(op.split(__file__)[0], 'build')
+    dd.mkpath(new_dir)
+    os.chdir(new_dir)
+    try:
+        ds.spawn(['cmake', '..'])
+    except ds.DistutilsExecError:
+        print "Error: error occurred while running CMake to configure PyOpenCV."
+        print "You may want to manually configure PyOpenCV by running cmake's tools:"
+        print "    cd build"
+        print "    cmake-gui or cmake .."
+        print "    cd .."
+        sys.exit(-1)
+    os.chdir(cur_dir)
+    import config as C
 
 setup(
     name = "pyopencv",
