@@ -149,7 +149,7 @@ setup(
     install_requires = ['numpy>=1.2.0'],
     package_data = {'pyopencv': ['*.dll']},
     include_package_data = True,
-    # zip_safe = (os.name!='nt'), # thanks to ffmpeg dependency
+    zip_safe = (os.name!='nt'), # thanks to ffmpeg dependency
     package_dir={'':'package'},
     packages = find_packages('package'),
 )
