@@ -13,6 +13,10 @@
 namespace bp = boost::python;
 
 BOOST_PYTHON_MODULE(sdopencv_ext){
+    bp::implicitly_convertible< sdopencv::LUTFunc, sdopencv::StepFunc >();
+
+    bp::implicitly_convertible< sdopencv::StumpFunc, sdopencv::StepFunc >();
+
     register_classes_1();
 
     register_free_functions();

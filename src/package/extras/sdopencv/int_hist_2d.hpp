@@ -1,7 +1,7 @@
 #ifndef SDOPENCV_INTERGAL_HISTOGRAM_2D_HPP
 #define SDOPENCV_INTERGAL_HISTOGRAM_2D_HPP
 
-#include <cxcore.h>
+#include "opencv_headers.hpp"
 #include <vector>
 #include "integral_2d.hpp"
 

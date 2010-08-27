@@ -1,9 +1,10 @@
 #ifndef SDOPENCV_ITERATORS_HPP
 #define SDOPENCV_ITERATORS_HPP
 
-#include <cxcore.h>
+#include "opencv_headers.hpp"
 #include <cv.h>
 #include <cstring>
+#include <vector>
 
 namespace sdopencv
 {
@@ -12,6 +13,38 @@ template<typename T>
 struct unbounded_array
 {
     T &operator[](unsigned int i) { return ((T *)(this))[i]; }
+};
+
+// Wikipedia: step function or staircase function
+// 'Step' is a right-continuous step function (a generalisation of the Heaviside step function)
+struct StepFunc
+{
+    std::vector<double> thresholds, values;
+    StepFunc(std::vector<double> const &thresholds, std::vector<double> const &values);    
+    double operator()(double input);
+};
+
+// a special case of StepFunc:
+//    f(x) = output_low if f < low
+//           output_high if f >= high
+//           output[(int)floor((x-low)*output.size()/(high-low))] otherwise
+struct LUTFunc
+{
+    double low, high, output_low, output_high, interval;
+    std::vector<double> output;
+    LUTFunc(double low, double high, double output_low, double output_high, std::vector<double> const &output);
+    double operator()(double input);
+    operator StepFunc() const;
+};
+
+// a special case of StepFunc: StumpFunc(x) = x >= threshold? pos_val: neg_val
+struct StumpFunc
+{
+    double neg_val, pos_val, threshold;
+    StumpFunc(double neg_val, double pos_val, double threshold=0) 
+        : neg_val(neg_val), pos_val(pos_val), threshold(threshold) {}
+    double operator()(double input) { return input >= threshold? pos_val: neg_val; }
+    operator StepFunc() const;
 };
 
 }

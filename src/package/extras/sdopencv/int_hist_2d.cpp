@@ -1,8 +1,9 @@
 #include <algorithm>
-#include <cv.h>
 
 #include "dtype.hpp"
 #include "int_hist_2d.hpp"
+
+#include <cv.h>
 
 using namespace std;
 

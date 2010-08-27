@@ -1,7 +1,7 @@
 #ifndef SDCPP_DIFFERENTIALCHARACTERISTICS_H
 #define SDCPP_DIFFERENTIALCHARACTERISTICS_H
 
-#include <cxcore.h>
+#include "opencv_headers.hpp"
 
 namespace sdopencv
 {

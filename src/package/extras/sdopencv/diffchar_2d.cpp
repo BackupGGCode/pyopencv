@@ -1,8 +1,8 @@
 #include <cmath>
-#include <cv.h>
-
-#include "dtype.hpp"
 #include "diffchar_2d.hpp"
+
+#include <cv.h>
+#include "dtype.hpp"
 
 using namespace std;
 
