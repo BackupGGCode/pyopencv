@@ -375,16 +375,91 @@ for z2 in z.operators('()'):
 sb.finalize_class(z)
 
 # LevMarqSparse
-# TODO: fix the rest of the member declarations
 z = sb.mb.class_('LevMarqSparse')
-z.include()
-z.decls().exclude()
+sb.init_class(z)
+z.constructor(lambda x: len(x.arguments) > 1).exclude()
+z.mem_fun('run').exclude()
+z.add_wrapper_code('''
+    bp::object fjac, func, data;
+    
+    // real callback for estimation of Jacobian matrices
+    static void real_fjac(int i, int j, cv::Mat& point_params,
+                           cv::Mat& cam_params, cv::Mat& A, cv::Mat& B, void* data)
+    {
+        LevMarqSparse_wrapper *self = (LevMarqSparse_wrapper *)data;
+        if(self->fjac.ptr() != Py_None) // if not None
+            self->fjac(i, j, point_params, cam_params, A, B, data);
+    }
+    
+    // real callback for estimation of backprojection errors
+    static void real_func(int i, int j, cv::Mat& point_params,
+                           cv::Mat& cam_params, cv::Mat& estim, void* data)
+    {
+        LevMarqSparse_wrapper *self = (LevMarqSparse_wrapper *)data;
+        if(self->func.ptr() != Py_None) // if not None
+            self->func(i, j, point_params, cam_params, estim, data);
+    }
+    
 
-# DefaultRngAuto
-# TODO: fix the rest of the member declarations
-z = sb.mb.class_('DefaultRngAuto')
-z.include()
-z.decls().exclude()
+    void sdrun( int npoints, // number of points
+        int ncameras, // number of cameras
+        int nPointParams, // number of params per one point  (3 in case of 3D points)
+        int nCameraParams, // number of parameters per one camera
+        int nErrParams, // number of parameters in measurement vector
+                        // for 1 point at one camera (2 in case of 2D projections)
+        cv::Mat& visibility, // visibility matrix. rows correspond to points, columns correspond to cameras
+                         // 1 - point is visible for the camera, 0 - invisible
+        cv::Mat& P0, // starting vector of parameters, first cameras then points
+        cv::Mat& X, // measurements, in order of visibility. non visible cases are skipped 
+        cv::TermCriteria criteria, // termination criteria
+        
+        // callback for estimation of Jacobian matrices
+        bp::object const &fjac,
+        // callback for estimation of backprojection errors
+        bp::object const &func,
+        bp::object const &data // user-specific data passed to the callbacks
+        )
+    {
+        this->fjac = fjac;
+        this->func = func;
+        this->data = data;
+        run(npoints, ncameras, nPointParams, nCameraParams, nErrParams, 
+            visibility, P0, X, criteria, real_fjac, real_func, (void *)this);
+    }
+    
+    LevMarqSparse_wrapper(int npoints, // number of points
+        int ncameras, // number of cameras
+        int nPointParams, // number of params per one point  (3 in case of 3D points)
+        int nCameraParams, // number of parameters per one camera
+        int nErrParams, // number of parameters in measurement vector
+                        // for 1 point at one camera (2 in case of 2D projections)
+        cv::Mat& visibility, // visibility matrix. rows correspond to points, columns correspond to cameras
+                         // 1 - point is visible for the camera, 0 - invisible
+        cv::Mat& P0, // starting vector of parameters, first cameras then points
+        cv::Mat& X, // measurements, in order of visibility. non visible cases are skipped 
+        cv::TermCriteria criteria, // termination criteria
+        
+        // callback for estimation of Jacobian matrices
+        bp::object const &fjac,
+        // callback for estimation of backprojection errors
+        bp::object const &func,
+        bp::object const &data // user-specific data passed to the callbacks
+        )
+        : cv::LevMarqSparse(), bp::wrapper< cv::LevMarqSparse >()
+    {
+        sdrun(npoints, ncameras, nPointParams, nCameraParams, nErrParams,
+            visibility, P0, X, criteria, fjac, func, data);
+    }
+
+''')
+z.add_registration_code('def( bp::init< int, int, int, int, int, cv::Mat&, cv::Mat&, cv::Mat&, cv::TermCriteria, bp::object const &, bp::object const &, bp::object const & >(( bp::arg("npoints"), bp::arg("ncameras"), bp::arg("nPointParams"), bp::arg("nCameraParams"), bp::arg("nErrParams"), bp::arg("visibility"), bp::arg("P0"), bp::arg("X"), bp::arg("criteria"), bp::arg("fjac"), bp::arg("func"), bp::arg("data"))) )')
+z.add_registration_code('def("run", &LevMarqSparse_wrapper::sdrun, ( bp::arg("npoints"), bp::arg("ncameras"), bp::arg("nPointParams"), bp::arg("nCameraParams"), bp::arg("nErrParams"), bp::arg("visibility"), bp::arg("P0"), bp::arg("X"), bp::arg("criteria"), bp::arg("fjac"), bp::arg("func"), bp::arg("data")) )')
+sb.finalize_class(z)
+
+# DefaultRngAuto -- not yet implemented by OpenCV
+# z = sb.mb.class_('DefaultRngAuto')
+# sb.init_class(z)
+# sb.finalize_class(z)
 
 for t in (
     'BackgroundSubtractor', 

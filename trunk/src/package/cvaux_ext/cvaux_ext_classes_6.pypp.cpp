@@ -230,9 +230,6 @@ static boost::python::object match_86773a6b4d89ae97806d1109a2438811( ::cv::SpinI
 
 void register_classes_6(){
 
-    bp::class_< cv::LevMarqSparse >( "LevMarqSparse" )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::LevMarqSparse >() );
-
     { //::cv::Mesh3D
         typedef bp::class_< cv::Mesh3D > Mesh3D_exposer_t;
         Mesh3D_exposer_t Mesh3D_exposer = Mesh3D_exposer_t( "Mesh3D", bp::init< >() );

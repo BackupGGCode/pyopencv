@@ -382,6 +382,107 @@ static boost::python::object __call___015c5cd98f14b41d0eaab62238a1a6fe( ::cv::LD
     return bp::object( keypoints2 );
 }
 
+struct LevMarqSparse_wrapper : cv::LevMarqSparse, bp::wrapper< cv::LevMarqSparse > {
+
+    LevMarqSparse_wrapper(cv::LevMarqSparse const & arg )
+    : cv::LevMarqSparse( arg )
+      , bp::wrapper< cv::LevMarqSparse >(){
+        // copy constructor
+        
+    }
+
+    LevMarqSparse_wrapper( )
+    : cv::LevMarqSparse( )
+      , bp::wrapper< cv::LevMarqSparse >(){
+        // null constructor
+    
+    }
+
+    virtual void clear(  ) {
+        if( bp::override func_clear = this->get_override( "clear" ) )
+            func_clear(  );
+        else{
+            this->cv::LevMarqSparse::clear(  );
+        }
+    }
+    
+    void default_clear(  ) {
+        cv::LevMarqSparse::clear( );
+    }
+
+    bp::object fjac, func, data;
+    
+    // real callback for estimation of Jacobian matrices
+    static void real_fjac(int i, int j, cv::Mat& point_params,
+                           cv::Mat& cam_params, cv::Mat& A, cv::Mat& B, void* data)
+    {
+        LevMarqSparse_wrapper *self = (LevMarqSparse_wrapper *)data;
+        if(self->fjac.ptr() != Py_None) // if not None
+            self->fjac(i, j, point_params, cam_params, A, B, data);
+    }
+    
+    // real callback for estimation of backprojection errors
+    static void real_func(int i, int j, cv::Mat& point_params,
+                           cv::Mat& cam_params, cv::Mat& estim, void* data)
+    {
+        LevMarqSparse_wrapper *self = (LevMarqSparse_wrapper *)data;
+        if(self->func.ptr() != Py_None) // if not None
+            self->func(i, j, point_params, cam_params, estim, data);
+    }
+    
+
+    void sdrun( int npoints, // number of points
+        int ncameras, // number of cameras
+        int nPointParams, // number of params per one point  (3 in case of 3D points)
+        int nCameraParams, // number of parameters per one camera
+        int nErrParams, // number of parameters in measurement vector
+                        // for 1 point at one camera (2 in case of 2D projections)
+        cv::Mat& visibility, // visibility matrix. rows correspond to points, columns correspond to cameras
+                         // 1 - point is visible for the camera, 0 - invisible
+        cv::Mat& P0, // starting vector of parameters, first cameras then points
+        cv::Mat& X, // measurements, in order of visibility. non visible cases are skipped 
+        cv::TermCriteria criteria, // termination criteria
+        
+        // callback for estimation of Jacobian matrices
+        bp::object const &fjac,
+        // callback for estimation of backprojection errors
+        bp::object const &func,
+        bp::object const &data // user-specific data passed to the callbacks
+        )
+    {
+        this->fjac = fjac;
+        this->func = func;
+        this->data = data;
+        run(npoints, ncameras, nPointParams, nCameraParams, nErrParams, 
+            visibility, P0, X, criteria, real_fjac, real_func, (void *)this);
+    }
+    
+    LevMarqSparse_wrapper(int npoints, // number of points
+        int ncameras, // number of cameras
+        int nPointParams, // number of params per one point  (3 in case of 3D points)
+        int nCameraParams, // number of parameters per one camera
+        int nErrParams, // number of parameters in measurement vector
+                        // for 1 point at one camera (2 in case of 2D projections)
+        cv::Mat& visibility, // visibility matrix. rows correspond to points, columns correspond to cameras
+                         // 1 - point is visible for the camera, 0 - invisible
+        cv::Mat& P0, // starting vector of parameters, first cameras then points
+        cv::Mat& X, // measurements, in order of visibility. non visible cases are skipped 
+        cv::TermCriteria criteria, // termination criteria
+        
+        // callback for estimation of Jacobian matrices
+        bp::object const &fjac,
+        // callback for estimation of backprojection errors
+        bp::object const &func,
+        bp::object const &data // user-specific data passed to the callbacks
+        )
+        : cv::LevMarqSparse(), bp::wrapper< cv::LevMarqSparse >()
+    {
+        sdrun(npoints, ncameras, nPointParams, nCameraParams, nErrParams,
+            visibility, P0, X, criteria, fjac, func, data);
+    }
+
+};
+
 void register_classes_5(){
 
     bp::class_< CvTracksTimePos >( "CvTracksTimePos" )    
@@ -433,13 +534,6 @@ void register_classes_5(){
         .def_readwrite( "lambda2", &cv::CvAffinePose::lambda2 )    
         .def_readwrite( "phi", &cv::CvAffinePose::phi )    
         .def_readwrite( "theta", &cv::CvAffinePose::theta );
-
-    { //::cv::DefaultRngAuto
-        typedef bp::class_< cv::DefaultRngAuto, boost::noncopyable > DefaultRngAuto_exposer_t;
-        DefaultRngAuto_exposer_t DefaultRngAuto_exposer = DefaultRngAuto_exposer_t( "DefaultRngAuto", bp::no_init );
-        bp::scope DefaultRngAuto_scope( DefaultRngAuto_exposer );
-        DefaultRngAuto_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::DefaultRngAuto >() );
-    }
 
     bp::class_< cv::PatchGenerator >( "PatchGenerator", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::PatchGenerator >() )    
@@ -861,5 +955,19 @@ void register_classes_5(){
         .def_readwrite( "radius", &cv::LDetector::radius )    
         .def_readwrite( "threshold", &cv::LDetector::threshold )    
         .def_readwrite( "verbose", &cv::LDetector::verbose );
+
+    bp::class_< LevMarqSparse_wrapper >( "LevMarqSparse", bp::init< >() )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< cv::LevMarqSparse >() )    
+        .def( 
+            "bundleAdjust"
+            , (void (*)( ::std::vector< cv::Point3_<double> > &,::std::vector< std::vector< cv::Point_<double> > > const &,::std::vector< std::vector< int > > const &,::std::vector< cv::Mat > &,::std::vector< cv::Mat > &,::std::vector< cv::Mat > &,::std::vector< cv::Mat > &,::cv::TermCriteria const & ))( &::cv::LevMarqSparse::bundleAdjust )
+            , ( bp::arg("points"), bp::arg("imagePoints"), bp::arg("visibility"), bp::arg("cameraMatrix"), bp::arg("R"), bp::arg("T"), bp::arg("distCoeffs"), bp::arg("criteria")=cv::TermCriteria(3, 30, 2.220446049250313080847263336181640625e-16) ) )    
+        .def( 
+            "clear"
+            , (void ( cv::LevMarqSparse::* )(  ) )(&::cv::LevMarqSparse::clear)
+            , (void ( LevMarqSparse_wrapper::* )(  ) )(&LevMarqSparse_wrapper::default_clear) )    
+        .staticmethod( "bundleAdjust" )    
+        .def( bp::init< int, int, int, int, int, cv::Mat&, cv::Mat&, cv::Mat&, cv::TermCriteria, bp::object const &, bp::object const &, bp::object const & >(( bp::arg("npoints"), bp::arg("ncameras"), bp::arg("nPointParams"), bp::arg("nCameraParams"), bp::arg("nErrParams"), bp::arg("visibility"), bp::arg("P0"), bp::arg("X"), bp::arg("criteria"), bp::arg("fjac"), bp::arg("func"), bp::arg("data"))) )    
+        .def("run", &LevMarqSparse_wrapper::sdrun, ( bp::arg("npoints"), bp::arg("ncameras"), bp::arg("nPointParams"), bp::arg("nCameraParams"), bp::arg("nErrParams"), bp::arg("visibility"), bp::arg("P0"), bp::arg("X"), bp::arg("criteria"), bp::arg("fjac"), bp::arg("func"), bp::arg("data")) );
 
 }
