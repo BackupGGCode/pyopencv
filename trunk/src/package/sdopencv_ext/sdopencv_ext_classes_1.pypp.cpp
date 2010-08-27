@@ -3,6 +3,7 @@
 #include "boost/python.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "sdopencv_wrapper.hpp"
+#include "opencv_converters.hpp"
 #include "sdopencv_ext_classes_1.pypp.hpp"
 
 namespace bp = boost::python;
@@ -184,6 +185,40 @@ void register_classes_1(){
         IntegralImage_exposer.def_readwrite( "sdepth", &sdopencv::IntegralImage::sdepth );
     }
 
+    bp::class_< sdopencv::LUTFunc >( "LUTFunc", bp::init< double, double, double, double, std::vector< double > const & >(( bp::arg("low"), bp::arg("high"), bp::arg("output_low"), bp::arg("output_high"), bp::arg("output") )) )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< sdopencv::LUTFunc >() )    
+        .def( "__temp_func", &sdopencv::LUTFunc::operator ::sdopencv::StepFunc  )    
+        .def( 
+            "__call__"
+            , (double ( sdopencv::LUTFunc::* )( double ) )( &::sdopencv::LUTFunc::operator() )
+            , ( bp::arg("input") ) )    
+        .def_readwrite( "high", &sdopencv::LUTFunc::high )    
+        .def_readwrite( "interval", &sdopencv::LUTFunc::interval )    
+        .def_readwrite( "low", &sdopencv::LUTFunc::low )    
+        .def_readwrite( "output", &sdopencv::LUTFunc::output )    
+        .def_readwrite( "output_high", &sdopencv::LUTFunc::output_high )    
+        .def_readwrite( "output_low", &sdopencv::LUTFunc::output_low );
+
+    bp::class_< sdopencv::StepFunc >( "StepFunc", bp::init< std::vector< double > const &, std::vector< double > const & >(( bp::arg("thresholds"), bp::arg("values") )) )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< sdopencv::StepFunc >() )    
+        .def( 
+            "__call__"
+            , (double ( sdopencv::StepFunc::* )( double ) )( &::sdopencv::StepFunc::operator() )
+            , ( bp::arg("input") ) )    
+        .def_readwrite( "thresholds", &sdopencv::StepFunc::thresholds )    
+        .def_readwrite( "values", &sdopencv::StepFunc::values );
+
+    bp::class_< sdopencv::StumpFunc >( "StumpFunc", bp::init< double, double, bp::optional< double > >(( bp::arg("neg_val"), bp::arg("pos_val"), bp::arg("threshold")=0 )) )    
+        .add_property( "this", pyplus_conv::make_addressof_inst_getter< sdopencv::StumpFunc >() )    
+        .def( "__temp_func", &sdopencv::StumpFunc::operator ::sdopencv::StepFunc  )    
+        .def( 
+            "__call__"
+            , (double ( sdopencv::StumpFunc::* )( double ) )( &::sdopencv::StumpFunc::operator() )
+            , ( bp::arg("input") ) )    
+        .def_readwrite( "neg_val", &sdopencv::StumpFunc::neg_val )    
+        .def_readwrite( "pos_val", &sdopencv::StumpFunc::pos_val )    
+        .def_readwrite( "threshold", &sdopencv::StumpFunc::threshold );
+
     { //::sdopencv_dummy_struct
         typedef bp::class_< sdopencv_dummy_struct > __sdopencv_dummy_struct_exposer_t;
         __sdopencv_dummy_struct_exposer_t __sdopencv_dummy_struct_exposer = __sdopencv_dummy_struct_exposer_t( "__sdopencv_dummy_struct" );
@@ -193,7 +228,10 @@ void register_classes_1(){
             .add_property( "this", pyplus_conv::make_addressof_inst_getter< sdopencv_dummy_struct::dummy_struct2 >() );
         __sdopencv_dummy_struct_exposer.setattr("v0", 0);
     }
-    {;
+    {
+        
+        bp::def("convert_LUTFunc_to_StepFunc", &::normal_cast< ::sdopencv::LUTFunc, ::sdopencv::StepFunc >, (bp::arg("inst_LUTFunc")));
+        bp::def("convert_StumpFunc_to_StepFunc", &::normal_cast< ::sdopencv::StumpFunc, ::sdopencv::StepFunc >, (bp::arg("inst_StumpFunc")));;
     }
 
 }

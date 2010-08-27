@@ -1,7 +1,6 @@
-#include <cv.h>
-
 #include "dtype.hpp"
 #include "integral_2d.hpp"
+#include <cv.h>
 
 using namespace std;
 

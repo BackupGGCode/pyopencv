@@ -59,6 +59,10 @@ for t in ('DifferentialImage', 'IntegralImage', 'IntegralHistogram'):
     z = sdopencv.class_(t)
     sb.init_class(z)
     sb.finalize_class(z)
+    
+for t in ('LUTFunc', 'StumpFunc'):
+    z = sdopencv.class_(t)
+    sb.asClass(z, sdopencv.class_('StepFunc'))
 
 sb.done()
 sb.save_regs('sdopencv_reg.sdd')
