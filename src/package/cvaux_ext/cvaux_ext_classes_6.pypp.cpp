@@ -7,6 +7,7 @@
 #include "ndarray.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "cvaux_wrapper.hpp"
+#include "sstream"
 #include "cvaux_ext_classes_6.pypp.hpp"
 
 namespace bp = boost::python;
@@ -226,6 +227,20 @@ static boost::python::object match_86773a6b4d89ae97806d1109a2438811( ::cv::SpinI
     std::vector<std::vector<cv::Vec<int,2> > > result3;
     inst.match(scene, result3);
     return bp::object( result3 );
+}
+
+static bp::str TickMeter__str__(cv::TickMeter const &inst)
+{
+    std::ostringstream oss;
+    oss << inst;
+    return bp::str(oss.str());
+}
+
+static bp::str TickMeter__repr__(cv::TickMeter const &inst)
+{
+    std::ostringstream oss;
+    oss << "TickMeter(" << inst << ")";
+    return bp::str(oss.str());
 }
 
 void register_classes_6(){
@@ -752,7 +767,9 @@ void register_classes_6(){
             , (void ( cv::TickMeter::* )(  ) )( &::cv::TickMeter::start ) )    
         .def( 
             "stop"
-            , (void ( cv::TickMeter::* )(  ) )( &::cv::TickMeter::stop ) );
+            , (void ( cv::TickMeter::* )(  ) )( &::cv::TickMeter::stop ) )    
+        .def("__str__", &::TickMeter__str__)    
+        .def("__repr__", &::TickMeter__repr__);
 
     { //::cvaux_dummy_struct
         typedef bp::class_< cvaux_dummy_struct > __cvaux_dummy_struct_exposer_t;

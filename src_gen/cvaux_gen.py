@@ -314,7 +314,29 @@ z.var('lambda').rename('lambda_') # to avoid a conflict with keyword lambda
 sb.finalize_class(z)
 
 # TickMeter
-sb.mb.class_('TickMeter').include()
+z = sb.mb.class_('TickMeter')
+z.include_files.append("sstream")
+z.add_declaration_code('''
+static bp::str TickMeter__str__(cv::TickMeter const &inst)
+{
+    std::ostringstream oss;
+    oss << inst;
+    return bp::str(oss.str());
+}
+
+static bp::str TickMeter__repr__(cv::TickMeter const &inst)
+{
+    std::ostringstream oss;
+    oss << "TickMeter(" << inst << ")";
+    return bp::str(oss.str());
+}
+
+''')
+z.add_registration_code('def("__str__", &::TickMeter__str__)')
+z.add_registration_code('def("__repr__", &::TickMeter__repr__)')
+sb.init_class(z)
+
+sb.finalize_class(z)
 
 # HOGDescriptor
 z = sb.mb.class_('HOGDescriptor')
@@ -502,7 +524,6 @@ for t in (
     sb.mb.free_fun(t).include()
 
 # TODO:
-# TickMeter's operator <<
 # findOneWayDescriptor
 
 # FAST
