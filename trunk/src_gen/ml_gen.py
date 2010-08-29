@@ -332,16 +332,18 @@ for t in ('num_valid', 'cv_Tn', 'cv_node_risk', 'cv_node_error'):
 z = sb.mb.class_('CvDTreeParams')
 sb.init_class(z)
 FT.expose_member_as_ndarray1d(z, 'priors', 'inst.max_categories')
-# remove the longer constructor, let the user handle it
-z.constructor(lambda x: len(x.arguments) > 1).exclude()
+z.constructor(lambda x: len(x.arguments) > 1)._transformer_creators.append(FT.input_array1d('_priors'))
 sb.finalize_class(z)
 
 # CvDTreeTrainData
 z = sb.mb.class_('CvDTreeTrainData')
 sb.init_class(z)
+z.mem_fun('get_vectors')._transformer_creators.extend([
+    FT.input_array1d('values'), FT.input_array1d('missing'), FT.input_array1d('responses')])
+z.mem_fun('get_ord_responses').call_policies = CP.return_arg(2)
 # TODO: fix these member functions
 for t in (
-    'get_vectors', 'get_ord_responses', 'get_class_labels', 'get_cv_labels', 
+    'get_class_labels', 'get_cv_labels', 
     'get_sample_indices', 'get_cat_var_data', 'get_ord_var_data',
     ):
     z.mem_funs(t).exclude()

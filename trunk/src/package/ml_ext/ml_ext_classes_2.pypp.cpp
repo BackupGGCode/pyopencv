@@ -249,6 +249,11 @@ void register_classes_2(){
 
     bp::class_< CvDTreeParams >( "CvDTreeParams", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvDTreeParams >() )    
+        .def( bp::init< int, int, float, bool, int, int, bool, bool, float const * >(( bp::arg("_max_depth"), bp::arg("_min_sample_count"), bp::arg("_regression_accuracy"), bp::arg("_use_surrogates"), bp::arg("_max_categories"), bp::arg("_cv_folds"), bp::arg("_use_1se_rule"), bp::arg("_truncate_pruned_tree"), bp::arg("_priors") ), "\nWrapped function:"
+    "\n    CvDTreeParams"
+    "\nArgument '_priors':"\
+    "\n    C++ type: float const *"\
+    "\n    Python type: vector_float32") )    
         .def_readwrite( "cv_folds", &CvDTreeParams::cv_folds )    
         .def_readwrite( "max_categories", &CvDTreeParams::max_categories )    
         .def_readwrite( "max_depth", &CvDTreeParams::max_depth )    
