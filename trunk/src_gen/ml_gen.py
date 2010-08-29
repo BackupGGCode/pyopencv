@@ -391,9 +391,11 @@ for t in ('train',):
         t2._transformer_kwds['alias'] = t
 sb.finalize_class(z)
 
-# CvBoostParams # TODO: expose 'priors', fix the longer constructor
+# CvBoostParams
 z = sb.mb.class_('CvBoostParams')
-z.include()
+sb.init_class(z)
+z.constructor(lambda x: len(x.arguments) > 1)._transformer_creators.append(FT.input_array1d('priors'))
+sb.finalize_class(z)
 
 # CvBoostTree
 z = sb.mb.class_('CvBoostTree')
@@ -406,10 +408,8 @@ sb.init_class(z)
 for t in ('train', 'predict'):
     for t2 in z.mem_funs(t):
         t2._transformer_kwds['alias'] = t
-        if t=='predict': # to fix a bug with CV_WHOLE_SEQ
-            t2.arguments[1].default_value = None
-            t2.arguments[2].default_value = None
-            t2.arguments[3].default_value = None
+        if t=='predict': # workaround to fix a bug with CV_WHOLE_SEQ
+            t2.arguments[3].default_value = "cv::Range( 0, 0x3fffffff )"
             t2._transformer_creators.append(FT.output_type1('weak_responses'))
 sb.finalize_class(z)
 
