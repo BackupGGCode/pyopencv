@@ -421,11 +421,12 @@ sb.finalize_class(z)
 # CvANN_MLP
 z = sb.mb.class_('CvANN_MLP')
 sb.init_class(z)
-z.constructors(lambda x: len(x.arguments) > 1).exclude()
 for t in ('create', 'train', 'predict'):
     for t2 in z.mem_funs(t):
         t2._transformer_kwds['alias'] = t
-z.mem_fun('get_weights').exclude() # TODO: fix this func somehow
+
+# workaround for the long constructor (their code not yet implemented)
+z.constructors(lambda x: len(x.arguments) > 1).exclude()
 z.add_wrapper_code('''    
     CvANN_MLP_wrapper(::cv::Mat const & _layer_sizes, int _activ_func=int(::CvANN_MLP::SIGMOID_SYM), double _f_param1=0, double _f_param2=0 )
     : CvANN_MLP()
@@ -434,8 +435,26 @@ z.add_wrapper_code('''
         create( _layer_sizes, _activ_func, _f_param1, _f_param2 );
     }
 ''')
-# workaround for the long constructor (their code not yet implemented)
 z.add_registration_code('def( bp::init< cv::Mat const &, bp::optional< int, double, double > >(( bp::arg("_layer_sizes"), bp::arg("_activ_func")=int(::CvANN_MLP::SIGMOID_SYM), bp::arg("_f_param1")=0, bp::arg("_f_param2")=0 )) )')
+# expose the difficult 'get_weights' function
+z.mem_fun('get_weights').exclude()
+z.include_files.append( "arrayobject.h" ) # to get NumPy's flags
+z.include_files.append('ndarray.hpp')
+z.add_declaration_code('''    
+static bp::object CvANN_MLP_get_weights(bp::object const &bpinst, int layer)
+{
+    CvANN_MLP &inst = bp::extract<CvANN_MLP &>(bpinst);
+    double* buf = inst.get_weights(layer);
+    if(!buf) return bp::object();
+    int *sizes = inst.get_layer_sizes()->data.i;
+    sdcpp::ndarray result = sdcpp::new_ndarray2d(sizes[layer-1]+1, sizes[layer], 
+        NPY_DOUBLE, (void *)buf);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
+''')
+z.add_registration_code('def( "get_weights", &::CvANN_MLP_get_weights, (bp::arg("bpinst"), bp::arg("layer")))')
 sb.finalize_class(z)
 
 # Convolutional Neural Network, Estimate classifiers algorithms, and Cross validation are not yet enabled
