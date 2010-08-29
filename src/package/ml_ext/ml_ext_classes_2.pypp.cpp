@@ -7,9 +7,14 @@
 #include "ndarray.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "ml_wrapper.hpp"
+#include "ndarray.hpp"
 #include "ml_ext_classes_2.pypp.hpp"
 
 namespace bp = boost::python;
+
+static sdcpp::ndarray CvDTreeParams_get_CvDTreeParams_priors( CvDTreeParams const & inst ){
+    return sdcpp::new_ndarray1d(inst.max_categories, sdcpp::dtypeof< float const >(), (void *)(inst.priors));
+}
 
 struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
 
@@ -244,7 +249,6 @@ void register_classes_2(){
 
     bp::class_< CvDTreeParams >( "CvDTreeParams", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvDTreeParams >() )    
-        .def( bp::init< int, int, float, bool, int, int, bool, bool, float const * >(( bp::arg("_max_depth"), bp::arg("_min_sample_count"), bp::arg("_regression_accuracy"), bp::arg("_use_surrogates"), bp::arg("_max_categories"), bp::arg("_cv_folds"), bp::arg("_use_1se_rule"), bp::arg("_truncate_pruned_tree"), bp::arg("_priors") )) )    
         .def_readwrite( "cv_folds", &CvDTreeParams::cv_folds )    
         .def_readwrite( "max_categories", &CvDTreeParams::max_categories )    
         .def_readwrite( "max_depth", &CvDTreeParams::max_depth )    
@@ -252,7 +256,8 @@ void register_classes_2(){
         .def_readwrite( "regression_accuracy", &CvDTreeParams::regression_accuracy )    
         .def_readwrite( "truncate_pruned_tree", &CvDTreeParams::truncate_pruned_tree )    
         .def_readwrite( "use_1se_rule", &CvDTreeParams::use_1se_rule )    
-        .def_readwrite( "use_surrogates", &CvDTreeParams::use_surrogates );
+        .def_readwrite( "use_surrogates", &CvDTreeParams::use_surrogates )    
+        .add_property( "priors", &::CvDTreeParams_get_CvDTreeParams_priors );
 
     bp::class_< CvBoostParams, bp::bases< CvDTreeParams > >( "CvBoostParams", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvBoostParams >() )    
