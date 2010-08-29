@@ -6,6 +6,8 @@
 #include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "ml_wrapper.hpp"
+#include "arrayobject.h"
+#include "ndarray.hpp"
 #include "ml_ext_classes_1.pypp.hpp"
 
 namespace bp = boost::python;
@@ -302,6 +304,18 @@ struct CvANN_MLP_wrapper : CvANN_MLP, bp::wrapper< CvANN_MLP > {
 
 };
 
+static bp::object CvANN_MLP_get_weights(bp::object const &bpinst, int layer)
+{
+    CvANN_MLP &inst = bp::extract<CvANN_MLP &>(bpinst);
+    double* buf = inst.get_weights(layer);
+    if(!buf) return bp::object();
+    int *sizes = inst.get_layer_sizes()->data.i;
+    sdcpp::ndarray result = sdcpp::new_ndarray2d(sizes[layer-1]+1, sizes[layer], 
+        NPY_DOUBLE, (void *)buf);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
 void register_classes_1(){
 
     { //::CvANN_MLP_TrainParams
@@ -543,6 +557,7 @@ void register_classes_1(){
         
         }
         CvANN_MLP_exposer.def( bp::init< cv::Mat const &, bp::optional< int, double, double > >(( bp::arg("_layer_sizes"), bp::arg("_activ_func")=int(::CvANN_MLP::SIGMOID_SYM), bp::arg("_f_param1")=0, bp::arg("_f_param2")=0 )) );
+        CvANN_MLP_exposer.def( "get_weights", &::CvANN_MLP_get_weights, (bp::arg("bpinst"), bp::arg("layer")));
     }
 
 }

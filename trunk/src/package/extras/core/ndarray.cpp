@@ -80,6 +80,14 @@ ndarray simplenew_ndarray(int len, const int *shape, int dtype)
     return ndarray(get_new_object(PyArray_SimpleNew(len, &shape2[0], dtype)));
 }
 
+// ndarray uses the big-endian dimension order, dim=0: highest dimension, dim=nd-1: lowest dimension
+ndarray new_ndarray2d(int rows, int cols, int dtype, void *data)
+{
+    npy_intp size[2]; size[0] = rows; size[1] = cols;
+    return ndarray(get_new_object(PyArray_New(&PyArray_Type, 2, 
+        size, dtype, 0, data, 0, NPY_C_CONTIGUOUS | NPY_WRITEABLE, NULL)));
+}
+
 ndarray new_ndarray1d(int len, int dtype, void *data)
 {
     npy_intp len2 = len;

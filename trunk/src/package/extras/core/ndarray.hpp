@@ -61,6 +61,10 @@ ndarray simplenew_ndarray(int len, const int *shape, int dtype);
 ndarray new_ndarray1d(int len, int dtype, void *data);
 
 // be careful with the new_() function. you must keep the data alive until the ndarray is deleted.
+// creates a one-dimensional ndarray that wraps around data, with 'len' items
+ndarray new_ndarray2d(int rows, int cols, int dtype, void *data);
+
+// be careful with the new_() function. you must keep the data alive until the ndarray is deleted.
 ndarray new_ndarray(sdcpp::array_data_arrangement const &ada, int dtype, void *data, int flags);
 
 // ================================================================================================
