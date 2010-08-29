@@ -7,11 +7,22 @@
 #include "__ctypes_integration.pypp.hpp"
 #include "ml_wrapper.hpp"
 #include "boost/python/object.hpp"
+#include "ndarray.hpp"
 #include "ml_ext_classes_3.pypp.hpp"
 
 namespace bp = boost::python;
 
 static CvDTreeSplit * get_CvDTreeSplit_next( CvDTreeSplit const & inst ) { return inst.next; }
+
+static sdcpp::ndarray CvDTreeSplit_get_CvDTreeSplit_subset( CvDTreeSplit const & inst ){
+    return sdcpp::new_ndarray1d(2, sdcpp::dtypeof< int >(), (void *)(inst.subset));
+}
+
+static float CvDTreeSplit_get_c(CvDTreeSplit const &inst) { return inst.ord.c; }
+static void CvDTreeSplit_set_c(CvDTreeSplit &inst, float _c) { inst.ord.c = _c; }
+
+static int CvDTreeSplit_get_split_point(CvDTreeSplit const &inst) { return inst.ord.split_point; }
+static void CvDTreeSplit_set_split_point(CvDTreeSplit &inst, int _split_point) { inst.ord.split_point = _split_point; }
 
 struct CvDTree_wrapper : CvDTree, bp::wrapper< CvDTree > {
 
@@ -566,7 +577,10 @@ void register_classes_3(){
         .def_readwrite( "inversed", &CvDTreeSplit::inversed )    
         .def_readwrite( "quality", &CvDTreeSplit::quality )    
         .def_readwrite( "var_idx", &CvDTreeSplit::var_idx )    
-        .add_property( "next", bp::make_function(&::get_CvDTreeSplit_next, bp::return_internal_reference<>()) );
+        .add_property( "next", bp::make_function(&::get_CvDTreeSplit_next, bp::return_internal_reference<>()) )    
+        .add_property( "subset", &::CvDTreeSplit_get_CvDTreeSplit_subset )    
+        .add_property( "c", &CvDTreeSplit_get_c, &CvDTreeSplit_set_c )    
+        .add_property( "split_point", &CvDTreeSplit_get_split_point, &CvDTreeSplit_set_split_point );
 
     bp::class_< CvDTree_wrapper, bp::bases< CvStatModel > >( "CvDTree", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvDTree >() )    

@@ -49,7 +49,7 @@ def cmpsum(arr, thresh=0, pos_val=1, neg_val=None):
     if neg_val is None:
         neg_val = -pos_val
     return _np.sum(_np.where(arr >= thresh, pos_val, neg_val), axis=-1)
-
+    
 def vectorize_float64(pyfunc):
     """Performs 'numpy.vectorize(pyfunc)' assuming 'pyfunc' maps from float64 to float64"""
     try:

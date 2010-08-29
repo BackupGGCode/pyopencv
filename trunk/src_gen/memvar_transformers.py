@@ -198,6 +198,7 @@ def expose_member_as_ndarray1d(klass, member_name, array_size):
     klass.include_files.append( "ndarray.hpp")
     z = klass.var(member_name)
     z.exclude()
+    elem_type = _D.array_item_type(z.type) if _D.is_array(z.type) else _D.remove_pointer(z.type)
     klass.add_declaration_code('''
 static sdcpp::ndarray CLASS_NAME_get_CLASS_NAME_MEMBER_NAME( CLASS_TYPE const & inst ){
     return sdcpp::new_ndarray1d(ARRAY_SIZE, sdcpp::dtypeof< ELEM_TYPE >(), (void *)(inst.MEMBER_NAME));
@@ -206,7 +207,7 @@ static sdcpp::ndarray CLASS_NAME_get_CLASS_NAME_MEMBER_NAME( CLASS_TYPE const & 
     '''.replace("MEMBER_NAME", member_name) \
         .replace("CLASS_NAME", klass.alias) \
         .replace("CLASS_TYPE", klass.pds) \
-        .replace("ELEM_TYPE", _D.remove_pointer(z.type).partial_decl_string) \
+        .replace("ELEM_TYPE", elem_type.partial_decl_string) \
         .replace("ARRAY_SIZE", str(array_size)))
     klass.add_registration_code('add_property( "MEMBER_NAME", &::CLASS_NAME_get_CLASS_NAME_MEMBER_NAME )' \
         .replace("MEMBER_NAME", member_name).replace("CLASS_NAME", klass.alias))
