@@ -4,6 +4,7 @@
 #include "__call_policies.pypp.hpp"
 #include "__convenience.pypp.hpp"
 #include "opencv_converters.hpp"
+#include "ndarray.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "ml_wrapper.hpp"
 #include "boost/python/object.hpp"
@@ -38,6 +39,29 @@ struct CvDTree_wrapper : CvDTree, bp::wrapper< CvDTree > {
       , bp::wrapper< CvDTree >(){
         // null constructor
     
+    }
+
+    virtual float calc_error( ::CvMLData * _data, int type, ::std::vector< float > * resp=0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_calc_error = this->get_override( "calc_error" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_calc_error.ptr(), _data, type, resp );
+            return bpl::extract< float >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvDTree::calc_error( boost::python::ptr(_data), type, boost::python::ptr(resp) );
+        }
+    }
+    
+    static boost::python::tuple default_calc_error( ::CvDTree & inst, ::CvMLData * _data, int type ){
+        std::vector<float> resp2;
+        float result;
+        if( dynamic_cast< CvDTree_wrapper * >( boost::addressof( inst ) ) ){
+            result = inst.::CvDTree::calc_error(_data, type, &resp2);
+        }
+        else{
+            result = inst.calc_error(_data, type, &resp2);
+        }
+        return bp::make_tuple( result, resp2 );
     }
 
     virtual void clear(  ) {
@@ -432,6 +456,29 @@ struct CvBoostTree_wrapper : CvBoostTree, bp::wrapper< CvBoostTree > {
         return bp::object( result );
     }
 
+    virtual float calc_error( ::CvMLData * _data, int type, ::std::vector< float > * resp=0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_calc_error = this->get_override( "calc_error" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_calc_error.ptr(), _data, type, resp );
+            return bpl::extract< float >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvDTree::calc_error( boost::python::ptr(_data), type, boost::python::ptr(resp) );
+        }
+    }
+    
+    static boost::python::tuple default_calc_error( ::CvDTree & inst, ::CvMLData * _data, int type ){
+        std::vector<float> resp2;
+        float result;
+        if( dynamic_cast< CvBoostTree_wrapper * >( boost::addressof( inst ) ) ){
+            result = inst.::CvDTree::calc_error(_data, type, &resp2);
+        }
+        else{
+            result = inst.calc_error(_data, type, &resp2);
+        }
+        return bp::make_tuple( result, resp2 );
+    }
+
     virtual ::CvMat const * get_var_importance(  ) {
         if( bp::override func_get_var_importance = this->get_override( "get_var_importance" ) )
             return func_get_var_importance(  );
@@ -584,6 +631,16 @@ void register_classes_3(){
 
     bp::class_< CvDTree_wrapper, bp::bases< CvStatModel > >( "CvDTree", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvDTree >() )    
+        .def( 
+            "calc_error"
+            , (boost::python::tuple (*)( CvDTree &,CvMLData *,int ))( &CvDTree_wrapper::default_calc_error )
+            , ( bp::arg("inst"), bp::arg("_data"), bp::arg("type") )
+            , "\nArgument 'resp':"\
+    "\n    C++ type: ::std::vector< float > *"\
+    "\n    Python type: vector_float32"\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    ((float32), resp)" )    
         .def( 
             "clear"
             , (void ( CvDTree::* )(  ) )(&::CvDTree::clear)
@@ -802,6 +859,16 @@ void register_classes_3(){
     "\nArgument '_subsample_idx':"\
     "\n    C++ type: ::CvMat const *"\
     "\n    Python type: Mat" )    
+        .def( 
+            "calc_error"
+            , (boost::python::tuple (*)( CvDTree &,CvMLData *,int ))( &CvBoostTree_wrapper::default_calc_error )
+            , ( bp::arg("inst"), bp::arg("_data"), bp::arg("type") )
+            , "\nArgument 'resp':"\
+    "\n    C++ type: ::std::vector< float > *"\
+    "\n    Python type: vector_float32"\
+    "\n    Output argument: omitted from input and returned as output."\
+    "\nReturns:"\
+    "\n    ((float32), resp)" )    
         .def( 
             "get_var_importance"
             , (::CvMat const * ( CvDTree::* )(  ) )(&::CvDTree::get_var_importance)
