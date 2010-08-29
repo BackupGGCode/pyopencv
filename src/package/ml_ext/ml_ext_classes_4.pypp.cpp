@@ -106,6 +106,37 @@ struct CvDTreeTrainData_wrapper : CvDTreeTrainData, bp::wrapper< CvDTreeTrainDat
         return CvDTreeTrainData::get_child_buf_idx( boost::python::ptr(n) );
     }
 
+    virtual float const * get_ord_responses( ::CvDTreeNode * n, float * values_buf, int * sample_indices_buf ) {
+        if( bp::override func_get_ord_responses = this->get_override( "get_ord_responses" ) )
+            return func_get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
+        else{
+            return this->CvDTreeTrainData::get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
+        }
+    }
+    
+    float const * default_get_ord_responses( ::CvDTreeNode * n, float * values_buf, int * sample_indices_buf ) {
+        return CvDTreeTrainData::get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
+    }
+
+    virtual void get_vectors( ::CvMat const * _subsample_idx, float * values, ::uchar * missing, float * responses, bool get_class_idx=false ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_get_vectors = this->get_override( "get_vectors" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_get_vectors.ptr(), _subsample_idx, values, missing, responses, get_class_idx );
+        }
+        else{
+            CvDTreeTrainData::get_vectors( boost::python::ptr(_subsample_idx), values, missing, responses, get_class_idx );
+        }
+    }
+    
+    static void default_get_vectors( ::CvDTreeTrainData & inst, ::cv::Mat & _subsample_idx, std::vector<float> const & values, std::vector<unsigned char> const & missing, std::vector<float> const & responses, bool get_class_idx=false ){
+        if( dynamic_cast< CvDTreeTrainData_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvDTreeTrainData::get_vectors(get_CvMat_ptr(_subsample_idx), (float *)(&values[0]), (::uchar *)(&missing[0]), (float *)(&responses[0]), get_class_idx);
+        }
+        else{
+            inst.get_vectors(get_CvMat_ptr(_subsample_idx), (float *)(&values[0]), (::uchar *)(&missing[0]), (float *)(&responses[0]), get_class_idx);
+        }
+    }
+
     virtual ::CvDTreeNode * new_node( ::CvDTreeNode * parent, int count, int storage_idx, int offset ) {
         if( bp::override func_new_node = this->get_override( "new_node" ) )
             return func_new_node( boost::python::ptr(parent), count, storage_idx, offset );
@@ -784,9 +815,31 @@ void register_classes_4(){
             "get_num_classes"
             , (int ( CvDTreeTrainData::* )(  ) const)( &::CvDTreeTrainData::get_num_classes ) )    
         .def( 
+            "get_ord_responses"
+            , (float const * ( CvDTreeTrainData::* )( ::CvDTreeNode *,float *,int * ) )(&::CvDTreeTrainData::get_ord_responses)
+            , (float const * ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,float *,int * ) )(&CvDTreeTrainData_wrapper::default_get_ord_responses)
+            , ( bp::arg("n"), bp::arg("values_buf"), bp::arg("sample_indices_buf") )
+            , bp::return_arg< 2 >() )    
+        .def( 
             "get_var_type"
             , (int ( CvDTreeTrainData::* )( int ) const)( &::CvDTreeTrainData::get_var_type )
             , ( bp::arg("vi") ) )    
+        .def( 
+            "get_vectors"
+            , (void (*)( CvDTreeTrainData &,::cv::Mat &,std::vector<float> const &,std::vector<unsigned char> const &,std::vector<float> const &,bool ))( &CvDTreeTrainData_wrapper::default_get_vectors )
+            , ( bp::arg("inst"), bp::arg("_subsample_idx"), bp::arg("values"), bp::arg("missing"), bp::arg("responses"), bp::arg("get_class_idx")=(bool)(false) )
+            , "\nArgument '_subsample_idx':"\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
+    "\nArgument 'values':"\
+    "\n    C++ type: float *"\
+    "\n    Python type: vector_float32"\
+    "\nArgument 'missing':"\
+    "\n    C++ type: ::uchar *"\
+    "\n    Python type: vector_uint8"\
+    "\nArgument 'responses':"\
+    "\n    C++ type: float *"\
+    "\n    Python type: vector_float32" )    
         .def( 
             "get_work_var_count"
             , (int ( CvDTreeTrainData::* )(  ) const)( &::CvDTreeTrainData::get_work_var_count ) )    

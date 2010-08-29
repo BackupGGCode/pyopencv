@@ -140,6 +140,18 @@ struct CvERTreeTrainData_wrapper : CvERTreeTrainData, bp::wrapper< CvERTreeTrain
         return CvDTreeTrainData::get_child_buf_idx( boost::python::ptr(n) );
     }
 
+    virtual float const * get_ord_responses( ::CvDTreeNode * n, float * values_buf, int * sample_indices_buf ) {
+        if( bp::override func_get_ord_responses = this->get_override( "get_ord_responses" ) )
+            return func_get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
+        else{
+            return this->CvDTreeTrainData::get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
+        }
+    }
+    
+    float const * default_get_ord_responses( ::CvDTreeNode * n, float * values_buf, int * sample_indices_buf ) {
+        return CvDTreeTrainData::get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
+    }
+
     virtual ::CvDTreeNode * new_node( ::CvDTreeNode * parent, int count, int storage_idx, int offset ) {
         if( bp::override func_new_node = this->get_override( "new_node" ) )
             return func_new_node( boost::python::ptr(parent), count, storage_idx, offset );
@@ -542,6 +554,12 @@ void register_classes_5(){
             , (int ( CvDTreeTrainData::* )( ::CvDTreeNode * ) )(&::CvDTreeTrainData::get_child_buf_idx)
             , (int ( CvERTreeTrainData_wrapper::* )( ::CvDTreeNode * ) )(&CvERTreeTrainData_wrapper::default_get_child_buf_idx)
             , ( bp::arg("n") ) )    
+        .def( 
+            "get_ord_responses"
+            , (float const * ( CvDTreeTrainData::* )( ::CvDTreeNode *,float *,int * ) )(&::CvDTreeTrainData::get_ord_responses)
+            , (float const * ( CvERTreeTrainData_wrapper::* )( ::CvDTreeNode *,float *,int * ) )(&CvERTreeTrainData_wrapper::default_get_ord_responses)
+            , ( bp::arg("n"), bp::arg("values_buf"), bp::arg("sample_indices_buf") )
+            , bp::return_arg< 2 >() )    
         .def( 
             "new_node"
             , (::CvDTreeNode * ( CvDTreeTrainData::* )( ::CvDTreeNode *,int,int,int ) )(&::CvDTreeTrainData::new_node)
