@@ -326,11 +326,15 @@ z = sb.mb.class_('CvDTreeNode')
 for t in ('parent', 'left', 'right', 'split'):
     FT.expose_member_as_pointee(z, t)
 for t in ('num_valid', 'cv_Tn', 'cv_node_risk', 'cv_node_error'):
-    z.var(t).exclude() # TODO: expose these members
+    z.var(t).exclude() # members for internal use, no need to expose
 
-# CvDTreeParams # TODO: expose 'priors', fix the longer constructor
+# CvDTreeParams 
 z = sb.mb.class_('CvDTreeParams')
-z.include()
+sb.init_class(z)
+FT.expose_member_as_ndarray1d(z, 'priors', 'inst.max_categories')
+# remove the longer constructor, let the user handle it
+z.constructor(lambda x: len(x.arguments) > 1).exclude()
+sb.finalize_class(z)
 
 # CvDTreeTrainData
 z = sb.mb.class_('CvDTreeTrainData')
