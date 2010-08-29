@@ -2,6 +2,8 @@
 PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 =======================================================================
 
+- To add fast polygonal integration (cvpr'10)
+
 - To update wiki the instructions for installing PyOpenCV via CMake and setuptools
 
 - To support 64-bit platforms

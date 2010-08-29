@@ -306,8 +306,19 @@ sb.finalize_class(z)
 z = sb.mb.class_('CvDTreeSplit')
 sb.init_class(z)
 FT.expose_member_as_pointee(z, 'next')
-for t in ('subset', 'c', 'split_point'):
-    z.var(t).exclude() # TODO: fix these members
+FT.expose_member_as_ndarray1d(z, 'subset', 2)
+for t in ('c', 'split_point'): # workaround for unnamed union
+    z.var(t).exclude()
+z.add_declaration_code('''
+static float CvDTreeSplit_get_c(CvDTreeSplit const &inst) { return inst.ord.c; }
+static void CvDTreeSplit_set_c(CvDTreeSplit &inst, float _c) { inst.ord.c = _c; }
+
+static int CvDTreeSplit_get_split_point(CvDTreeSplit const &inst) { return inst.ord.split_point; }
+static void CvDTreeSplit_set_split_point(CvDTreeSplit &inst, int _split_point) { inst.ord.split_point = _split_point; }
+
+''')
+z.add_registration_code('add_property( "c", &CvDTreeSplit_get_c, &CvDTreeSplit_set_c )')
+z.add_registration_code('add_property( "split_point", &CvDTreeSplit_get_split_point, &CvDTreeSplit_set_split_point )')
 sb.finalize_class(z)
 
 # CvDTreeNode
