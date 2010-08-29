@@ -56,19 +56,6 @@ CV_VAR_NUMERICAL    = 0
 CV_VAR_ORDERED      = 0
 CV_VAR_CATEGORICAL  = 1
 
-CV_TYPE_NAME_ML_SVM         = "opencv-ml-svm"
-CV_TYPE_NAME_ML_KNN         = "opencv-ml-knn"
-CV_TYPE_NAME_ML_NBAYES      = "opencv-ml-bayesian"
-CV_TYPE_NAME_ML_EM          = "opencv-ml-em"
-CV_TYPE_NAME_ML_BOOSTING    = "opencv-ml-boost-tree"
-CV_TYPE_NAME_ML_TREE        = "opencv-ml-tree"
-CV_TYPE_NAME_ML_ANN_MLP     = "opencv-ml-ann-mlp"
-CV_TYPE_NAME_ML_CNN         = "opencv-ml-cnn"
-CV_TYPE_NAME_ML_RTREES      = "opencv-ml-random-trees"
-
-CV_TRAIN_ERROR  = 0
-CV_TEST_ERROR   = 1
-
 CV_TS_CONCENTRIC_SPHERES = 0
 
 CV_COUNT     = 0

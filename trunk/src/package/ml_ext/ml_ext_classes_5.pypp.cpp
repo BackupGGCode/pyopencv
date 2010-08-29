@@ -242,6 +242,8 @@ struct CvERTreeTrainData_wrapper : CvERTreeTrainData, bp::wrapper< CvERTreeTrain
 
 static cv::Mat get_CvERTreeTrainData_missing_mask(CvERTreeTrainData const &inst) { return inst.missing_mask? cv::Mat(inst.missing_mask): cv::Mat(); }
 
+static cv::TermCriteria *get_CvRTParams_term_crit(CvRTParams const &inst) { return (cv::TermCriteria *)(&inst.term_crit); }
+
 struct CvRTrees_wrapper : CvRTrees, bp::wrapper< CvRTrees > {
 
     CvRTrees_wrapper(CvRTrees const & arg )
@@ -604,10 +606,14 @@ void register_classes_5(){
 
     bp::class_< CvRTParams, bp::bases< CvDTreeParams > >( "CvRTParams", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvRTParams >() )    
-        .def( bp::init< int, int, float, bool, int, float const *, bool, int, int, float, int >(( bp::arg("_max_depth"), bp::arg("_min_sample_count"), bp::arg("_regression_accuracy"), bp::arg("_use_surrogates"), bp::arg("_max_categories"), bp::arg("_priors"), bp::arg("_calc_var_importance"), bp::arg("_nactive_vars"), bp::arg("max_num_of_trees_in_the_forest"), bp::arg("forest_accuracy"), bp::arg("termcrit_type") )) )    
+        .def( bp::init< int, int, float, bool, int, float const *, bool, int, int, float, int >(( bp::arg("_max_depth"), bp::arg("_min_sample_count"), bp::arg("_regression_accuracy"), bp::arg("_use_surrogates"), bp::arg("_max_categories"), bp::arg("_priors"), bp::arg("_calc_var_importance"), bp::arg("_nactive_vars"), bp::arg("max_num_of_trees_in_the_forest"), bp::arg("forest_accuracy"), bp::arg("termcrit_type") ), "\nWrapped function:"
+    "\n    CvRTParams"
+    "\nArgument '_priors':"\
+    "\n    C++ type: float const *"\
+    "\n    Python type: vector_float32") )    
         .def_readwrite( "calc_var_importance", &CvRTParams::calc_var_importance )    
         .def_readwrite( "nactive_vars", &CvRTParams::nactive_vars )    
-        .def_readwrite( "term_crit", &CvRTParams::term_crit );
+        .add_property( "term_crit", bp::make_function(&::get_CvRTParams_term_crit, bp::return_internal_reference<>()) );
 
     bp::class_< CvRTrees_wrapper, bp::bases< CvStatModel > >( "CvRTrees", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvRTrees >() )    

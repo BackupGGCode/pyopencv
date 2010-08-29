@@ -64,19 +64,6 @@ CV_VAR_NUMERICAL    = 0
 CV_VAR_ORDERED      = 0
 CV_VAR_CATEGORICAL  = 1
 
-CV_TYPE_NAME_ML_SVM         = "opencv-ml-svm"
-CV_TYPE_NAME_ML_KNN         = "opencv-ml-knn"
-CV_TYPE_NAME_ML_NBAYES      = "opencv-ml-bayesian"
-CV_TYPE_NAME_ML_EM          = "opencv-ml-em"
-CV_TYPE_NAME_ML_BOOSTING    = "opencv-ml-boost-tree"
-CV_TYPE_NAME_ML_TREE        = "opencv-ml-tree"
-CV_TYPE_NAME_ML_ANN_MLP     = "opencv-ml-ann-mlp"
-CV_TYPE_NAME_ML_CNN         = "opencv-ml-cnn"
-CV_TYPE_NAME_ML_RTREES      = "opencv-ml-random-trees"
-
-CV_TRAIN_ERROR  = 0
-CV_TEST_ERROR   = 1
-
 CV_TS_CONCENTRIC_SPHERES = 0
 
 CV_COUNT     = 0
@@ -352,7 +339,7 @@ sb.finalize_class(z)
 # CvDTree
 z = sb.mb.class_('CvDTree')
 sb.init_class(z)
-z.mem_fun('calc_error').exclude() # TODO: fix this function
+z.mem_fun('calc_error')._transformer_creators.append(FT.output_type1('resp'))
 for t in ('train', 'predict'):
     for t2 in z.mem_funs(t):
         t2._transformer_kwds['alias'] = t
@@ -365,9 +352,11 @@ for t in z.mem_funs('train'):
     t._transformer_kwds['alias'] = 'train'
 sb.finalize_class(z)
 
-# CvRTParams # TODO: expose 'priors', fix the longer constructor
+# CvRTParams
 z = sb.mb.class_('CvRTParams')
-z.include()
+sb.init_class(z)
+z.constructor(lambda x: len(x.arguments) > 1)._transformer_creators.append(FT.input_array1d('_priors'))
+sb.finalize_class(z)
 
 # CvRTrees
 z = sb.mb.class_('CvRTrees')
