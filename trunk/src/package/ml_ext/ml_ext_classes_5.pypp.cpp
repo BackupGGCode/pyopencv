@@ -26,6 +26,25 @@ struct CvERTreeTrainData_wrapper : CvERTreeTrainData, bp::wrapper< CvERTreeTrain
         
     }
 
+    virtual void get_vectors( ::CvMat const * _subsample_idx, float * values, ::uchar * missing, float * responses, bool get_class_idx=false ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_get_vectors = this->get_override( "get_vectors" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_get_vectors.ptr(), _subsample_idx, values, missing, responses, get_class_idx );
+        }
+        else{
+            CvERTreeTrainData::get_vectors( boost::python::ptr(_subsample_idx), values, missing, responses, get_class_idx );
+        }
+    }
+    
+    static void default_get_vectors( ::CvERTreeTrainData & inst, ::cv::Mat & _subsample_idx, std::vector<float> const & values, std::vector<unsigned char> const & missing, std::vector<float> const & responses, bool get_class_idx=false ){
+        if( dynamic_cast< CvERTreeTrainData_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvERTreeTrainData::get_vectors(get_CvMat_ptr(_subsample_idx), (float *)(&values[0]), (::uchar *)(&missing[0]), (float *)(&responses[0]), get_class_idx);
+        }
+        else{
+            inst.get_vectors(get_CvMat_ptr(_subsample_idx), (float *)(&values[0]), (::uchar *)(&missing[0]), (float *)(&responses[0]), get_class_idx);
+        }
+    }
+
     virtual void set_data( ::CvMat const * _train_data, int _tflag, ::CvMat const * _responses, ::CvMat const * _var_idx=0, ::CvMat const * _sample_idx=0, ::CvMat const * _var_type=0, ::CvMat const * _missing_mask=0, ::CvDTreeParams const & _params=::CvDTreeParams( ), bool _shared=false, bool _add_labels=false, bool _update_data=false ) {
         namespace bpl = boost::python;
         if( bpl::override func_set_data = this->get_override( "set_data" ) ){
@@ -258,6 +277,18 @@ struct CvRTrees_wrapper : CvRTrees, bp::wrapper< CvRTrees > {
       , bp::wrapper< CvRTrees >(){
         // null constructor
     
+    }
+
+    virtual float calc_error( ::CvMLData * _data, int type, ::std::vector< float > * resp=0 ) {
+        if( bp::override func_calc_error = this->get_override( "calc_error" ) )
+            return func_calc_error( boost::python::ptr(_data), type, boost::python::ptr(resp) );
+        else{
+            return this->CvRTrees::calc_error( boost::python::ptr(_data), type, boost::python::ptr(resp) );
+        }
+    }
+    
+    float default_calc_error( ::CvMLData * _data, int type, ::std::vector< float > * resp=0 ) {
+        return CvRTrees::calc_error( boost::python::ptr(_data), type, boost::python::ptr(resp) );
     }
 
     virtual void clear(  ) {
@@ -501,6 +532,22 @@ void register_classes_5(){
     bp::class_< CvERTreeTrainData_wrapper, bp::bases< CvDTreeTrainData > >( "CvERTreeTrainData" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvERTreeTrainData >() )    
         .def( 
+            "get_vectors"
+            , (void (*)( CvERTreeTrainData &,::cv::Mat &,std::vector<float> const &,std::vector<unsigned char> const &,std::vector<float> const &,bool ))( &CvERTreeTrainData_wrapper::default_get_vectors )
+            , ( bp::arg("inst"), bp::arg("_subsample_idx"), bp::arg("values"), bp::arg("missing"), bp::arg("responses"), bp::arg("get_class_idx")=(bool)(false) )
+            , "\nArgument '_subsample_idx':"\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
+    "\nArgument 'values':"\
+    "\n    C++ type: float *"\
+    "\n    Python type: vector_float32"\
+    "\nArgument 'missing':"\
+    "\n    C++ type: ::uchar *"\
+    "\n    Python type: vector_uint8"\
+    "\nArgument 'responses':"\
+    "\n    C++ type: float *"\
+    "\n    Python type: vector_float32" )    
+        .def( 
             "set_data"
             , (void (*)( CvERTreeTrainData &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,CvDTreeParams const &,bool,bool,bool ))( &CvERTreeTrainData_wrapper::default_set_data )
             , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("_params")=::CvDTreeParams( ), bp::arg("_shared")=(bool)(false), bp::arg("_add_labels")=(bool)(false), bp::arg("_update_data")=(bool)(false) )
@@ -617,6 +664,11 @@ void register_classes_5(){
 
     bp::class_< CvRTrees_wrapper, bp::bases< CvStatModel > >( "CvRTrees", bp::init< >() )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvRTrees >() )    
+        .def( 
+            "calc_error"
+            , (float ( CvRTrees::* )( ::CvMLData *,int,::std::vector< float > * ) )(&::CvRTrees::calc_error)
+            , (float ( CvRTrees_wrapper::* )( ::CvMLData *,int,::std::vector< float > * ) )(&CvRTrees_wrapper::default_calc_error)
+            , ( bp::arg("_data"), bp::arg("type"), bp::arg("resp")=bp::object() ) )    
         .def( 
             "clear"
             , (void ( CvRTrees::* )(  ) )(&::CvRTrees::clear)

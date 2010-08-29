@@ -339,7 +339,6 @@ sb.finalize_class(z)
 # CvDTree
 z = sb.mb.class_('CvDTree')
 sb.init_class(z)
-z.mem_fun('calc_error')._transformer_creators.append(FT.output_type1('resp'))
 for t in ('train', 'predict'):
     for t2 in z.mem_funs(t):
         t2._transformer_kwds['alias'] = t
@@ -361,8 +360,7 @@ sb.finalize_class(z)
 # CvRTrees
 z = sb.mb.class_('CvRTrees')
 sb.init_class(z)
-z.mem_fun('calc_error').exclude() # TODO: fix this function
-z.mem_funs(lambda x: 'CvRNG' in x.decl_string).exclude() # TODO: fix these functions
+z.mem_fun('get_rng').exclude() # wait for request, no need to expose this get_rng function
 for t in ('train', 'predict', 'predict_prob'):
     for t2 in z.mem_funs(t):
         t2._transformer_kwds['alias'] = t
@@ -371,10 +369,11 @@ sb.finalize_class(z)
 # CvERTreeTrainData
 z = sb.mb.class_('CvERTreeTrainData')
 sb.init_class(z)
+z.mem_fun('get_vectors')._transformer_creators.extend([
+    FT.input_array1d('values'), FT.input_array1d('missing'), FT.input_array1d('responses')])
 # TODO: fix these member functions
 for t in (
     'get_ord_var_data', 'get_sample_indices', 'get_cv_labels', 'get_cat_var_data',
-    'get_vectors',
     ):
     z.mem_funs(t).exclude()
 sb.finalize_class(z)
@@ -404,7 +403,6 @@ sb.finalize_class(z)
 # CvBoost
 z = sb.mb.class_('CvBoost')
 sb.init_class(z)
-z.mem_fun('calc_error').exclude() # TODO: fix this function
 for t in ('train', 'predict'):
     for t2 in z.mem_funs(t):
         t2._transformer_kwds['alias'] = t

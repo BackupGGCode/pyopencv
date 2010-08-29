@@ -46,6 +46,18 @@ struct CvBoost_wrapper : CvBoost, bp::wrapper< CvBoost > {
     
     }
 
+    virtual float calc_error( ::CvMLData * _data, int type, ::std::vector< float > * resp=0 ) {
+        if( bp::override func_calc_error = this->get_override( "calc_error" ) )
+            return func_calc_error( boost::python::ptr(_data), type, boost::python::ptr(resp) );
+        else{
+            return this->CvBoost::calc_error( boost::python::ptr(_data), type, boost::python::ptr(resp) );
+        }
+    }
+    
+    float default_calc_error( ::CvMLData * _data, int type, ::std::vector< float > * resp=0 ) {
+        return CvBoost::calc_error( boost::python::ptr(_data), type, boost::python::ptr(resp) );
+    }
+
     virtual void clear(  ) {
         if( bp::override func_clear = this->get_override( "clear" ) )
             func_clear(  );
@@ -306,6 +318,18 @@ void register_classes_2(){
     "\n    C++ type: ::CvMat const *"\
     "\n    Python type: Mat") );
         CvBoost_exposer.def( bp::init< cv::Mat const &, int, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const &, cv::Mat const &, cv::Mat const &, CvBoostParams > >(( bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvBoostParams( ) )) );
+        { //::CvBoost::calc_error
+        
+            typedef float ( ::CvBoost::*calc_error_function_type )( ::CvMLData *,int,::std::vector< float > * ) ;
+            typedef float ( CvBoost_wrapper::*default_calc_error_function_type )( ::CvMLData *,int,::std::vector< float > * ) ;
+            
+            CvBoost_exposer.def( 
+                "calc_error"
+                , calc_error_function_type(&::CvBoost::calc_error)
+                , default_calc_error_function_type(&CvBoost_wrapper::default_calc_error)
+                , ( bp::arg("_data"), bp::arg("type"), bp::arg("resp")=bp::object() ) );
+        
+        }
         { //::CvBoost::clear
         
             typedef void ( ::CvBoost::*clear_function_type )(  ) ;
