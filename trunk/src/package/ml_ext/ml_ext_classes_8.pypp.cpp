@@ -585,7 +585,7 @@ void register_classes_8(){
         CvSVM_exposer.staticmethod( "get_default_grid" );
         CvSVM_exposer.def( bp::init< cv::Mat const &, cv::Mat const &, bp::optional< cv::Mat const &, cv::Mat const &, CvSVMParams > >(( bp::arg("_train_data"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_params")=::CvSVMParams( ) )) );
         CvSVM_exposer.add_property("decision_func", bp::make_function(&CvSVM_wrapper::get_decision_func, bp::return_internal_reference<>()));
-        CvSVM_exposer.def( "get_support_vector", &CvSVM_get_support_vector, (bp::arg("i")) );
+        CvSVM_exposer.def( "get_support_vector", &CvSVM_get_support_vector, (bp::arg("self"), bp::arg("i")) );
     }
 
     bp::class_< CvSVMDecisionFunc >( "CvSVMDecisionFunc" )    

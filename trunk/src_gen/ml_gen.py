@@ -253,7 +253,7 @@ sdcpp::ndarray CvSVM_get_support_vector(bp::object const &bpinst, int i) {
 
 ''')
 z.mem_fun('get_support_vector').exclude()
-z.add_registration_code('def( "get_support_vector", &CvSVM_get_support_vector, (bp::arg("i")) )')
+z.add_registration_code('def( "get_support_vector", &CvSVM_get_support_vector, (bp::arg("self"), bp::arg("i")) )')
 sb.finalize_class(z)
 sb.cc.write('''
 def __CvSVM_get_support_vectors(self):
@@ -322,18 +322,148 @@ FT.expose_member_as_ndarray1d(z, 'priors', 'inst.max_categories')
 z.constructor(lambda x: len(x.arguments) > 1)._transformer_creators.append(FT.input_array1d('_priors'))
 sb.finalize_class(z)
 
+# ...TrainData functions
+def transform_XXXTrainData(z):
+    z.include_files.append( "arrayobject.h" ) # to get NumPy's flags
+    z.include_files.append( "ndarray.hpp" )
+    z.mem_fun('get_vectors')._transformer_creators.extend([
+    FT.input_array1d('values'), FT.input_array1d('missing'), FT.input_array1d('responses')])
+    for t in (
+        'get_cv_labels', 'get_sample_indices', 'get_cat_var_data', 'get_ord_var_data',
+        ):
+        z.mem_funs(t).exclude()
+    z.add_declaration_code('''
+static bp::object CLASS_NAME_get_cat_var_data(bp::object const &bpinst, CvDTreeNode* n, int vi)
+{
+    CLASS_TYPE &inst = bp::extract<CLASS_TYPE &>(bpinst);
+    int size = n->sample_count;
+    sdcpp::ndarray result = sdcpp::simplenew_ndarray(1, &size, NPY_INT);
+    int *in_arr = (int*)result.data();
+    const int *out_arr = inst.get_cat_var_data(n, vi, in_arr);
+    
+    if(!out_arr) return bp::object();
+    if(out_arr == in_arr) return result.get_obj();
+    
+    result = sdcpp::new_ndarray1d(size, NPY_INT, (void *)out_arr);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
+static bp::object CLASS_NAME_get_cv_labels(bp::object const &bpinst, CvDTreeNode* n)
+{
+    CLASS_TYPE &inst = bp::extract<CLASS_TYPE &>(bpinst);
+    int size = n->sample_count;
+    sdcpp::ndarray result = sdcpp::simplenew_ndarray(1, &size, NPY_INT);
+    int *in_arr = (int*)result.data();
+    const int *out_arr = inst.get_cv_labels(n, in_arr);
+    
+    if(!out_arr) return bp::object();
+    if(out_arr == in_arr) return result.get_obj();
+    
+    result = sdcpp::new_ndarray1d(size, NPY_INT, (void *)out_arr);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
+static bp::object CLASS_NAME_get_sample_indices(bp::object const &bpinst, CvDTreeNode* n)
+{
+    CLASS_TYPE &inst = bp::extract<CLASS_TYPE &>(bpinst);
+    int size = n->sample_count;
+    sdcpp::ndarray result = sdcpp::simplenew_ndarray(1, &size, NPY_INT);
+    int *in_arr = (int*)result.data();
+    const int *out_arr = inst.get_sample_indices(n, in_arr);
+    
+    if(!out_arr) return bp::object();
+    if(out_arr == in_arr) return result.get_obj();
+    
+    result = sdcpp::new_ndarray1d(size, NPY_INT, (void *)out_arr);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
+static bp::tuple CLASS_NAME_get_ord_var_data(bp::object const &bpinst, CvDTreeNode* n, int vi)
+{
+    CLASS_TYPE &inst = bp::extract<CLASS_TYPE &>(bpinst);
+    int size = n->sample_count;
+    std::vector<int> sample_indices(size);
+    sdcpp::ndarray result1 = sdcpp::simplenew_ndarray(1, &size, NPY_FLOAT);
+    sdcpp::ndarray result2 = sdcpp::simplenew_ndarray(1, &size, NPY_INT);
+    float *in_arr1 = (float*)result1.data();
+    int *in_arr2 = (int*)result2.data();
+    const float *out_arr1;
+    const int *out_arr2;
+    inst.get_ord_var_data(n, vi, in_arr1, in_arr2, &out_arr1, &out_arr2, &sample_indices[0]);
+    
+    bp::object obj1, obj2;
+    
+    if(out_arr1 && out_arr1 != in_arr1)
+    {
+        result1 = sdcpp::new_ndarray1d(size, NPY_FLOAT, (void *)out_arr1);
+        bp::objects::make_nurse_and_patient(result1.get_obj().ptr(), bpinst.ptr());
+    }
+    if(out_arr1) obj1 = result1.get_obj();
+    
+    if(out_arr2 && out_arr2 != in_arr2)
+    {
+        result2 = sdcpp::new_ndarray1d(size, NPY_INT, (void *)out_arr2);
+        bp::objects::make_nurse_and_patient(result2.get_obj().ptr(), bpinst.ptr());
+    }
+    if(out_arr2) obj2 = result2.get_obj();
+    
+    return bp::make_tuple(obj1, obj2);
+}
+
+    '''.replace("CLASS_NAME", z.alias).replace("CLASS_TYPE", z.pds))
+    z.add_registration_code('def("get_cat_var_data", &::CLASS_NAME_get_cat_var_data, (bp::arg("self"), bp::arg("n"), bp::arg("vi")))'.replace("CLASS_NAME", z.alias))
+    z.add_registration_code('def("get_cv_labels", &::CLASS_NAME_get_cv_labels, (bp::arg("self"), bp::arg("n")))'.replace("CLASS_NAME", z.alias))
+    z.add_registration_code('def("get_sample_indices", &::CLASS_NAME_get_sample_indices, (bp::arg("self"), bp::arg("n")))'.replace("CLASS_NAME", z.alias))
+    z.add_registration_code('def("get_ord_var_data", &::CLASS_NAME_get_ord_var_data, (bp::arg("self"), bp::arg("n"), bp::arg("vi")))'.replace("CLASS_NAME", z.alias))
+    
 # CvDTreeTrainData
 z = sb.mb.class_('CvDTreeTrainData')
 sb.init_class(z)
-z.mem_fun('get_vectors')._transformer_creators.extend([
-    FT.input_array1d('values'), FT.input_array1d('missing'), FT.input_array1d('responses')])
-z.mem_fun('get_ord_responses').call_policies = CP.return_arg(2)
-# TODO: fix these member functions
+transform_XXXTrainData(z)
 for t in (
-    'get_class_labels', 'get_cv_labels', 
-    'get_sample_indices', 'get_cat_var_data', 'get_ord_var_data',
+    'get_ord_responses', 'get_class_labels',
     ):
     z.mem_funs(t).exclude()
+z.add_declaration_code('''
+static bp::object CvDTreeTrainData_get_ord_responses(bp::object const &bpinst, CvDTreeNode* n)
+{
+    CvDTreeTrainData &inst = bp::extract<CvDTreeTrainData &>(bpinst);
+    int size = n->sample_count;
+    std::vector<int> sample_indices(size);
+    sdcpp::ndarray result = sdcpp::simplenew_ndarray(1, &size, NPY_FLOAT);
+    float *in_arr = (float*)result.data();
+    const float *out_arr = inst.get_ord_responses(n, in_arr, &sample_indices[0]);
+    
+    if(!out_arr) return bp::object();
+    if(out_arr == in_arr) return result.get_obj();
+    
+    result = sdcpp::new_ndarray1d(size, NPY_FLOAT, (void *)out_arr);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
+static bp::object CvDTreeTrainData_get_class_labels(bp::object const &bpinst, CvDTreeNode* n)
+{
+    CvDTreeTrainData &inst = bp::extract<CvDTreeTrainData &>(bpinst);
+    int size = n->sample_count;
+    sdcpp::ndarray result = sdcpp::simplenew_ndarray(1, &size, NPY_INT);
+    int *in_arr = (int*)result.data();
+    const int *out_arr = inst.get_class_labels(n, in_arr);
+    
+    if(!out_arr) return bp::object();
+    if(out_arr == in_arr) return result.get_obj();
+    
+    result = sdcpp::new_ndarray1d(size, NPY_INT, (void *)out_arr);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
+''')
+z.add_registration_code('def("get_ord_responses", &::CvDTreeTrainData_get_ord_responses, (bp::arg("self"), bp::arg("n")))')
+z.add_registration_code('def("get_class_labels", &::CvDTreeTrainData_get_class_labels, (bp::arg("self"), bp::arg("n")))')
 sb.finalize_class(z)
 
 # CvDTree
@@ -369,13 +499,7 @@ sb.finalize_class(z)
 # CvERTreeTrainData
 z = sb.mb.class_('CvERTreeTrainData')
 sb.init_class(z)
-z.mem_fun('get_vectors')._transformer_creators.extend([
-    FT.input_array1d('values'), FT.input_array1d('missing'), FT.input_array1d('responses')])
-# TODO: fix these member functions
-for t in (
-    'get_ord_var_data', 'get_sample_indices', 'get_cv_labels', 'get_cat_var_data',
-    ):
-    z.mem_funs(t).exclude()
+transform_XXXTrainData(z)
 sb.finalize_class(z)
 
 # CvForestERTree
@@ -439,7 +563,7 @@ z.add_registration_code('def( bp::init< cv::Mat const &, bp::optional< int, doub
 # expose the difficult 'get_weights' function
 z.mem_fun('get_weights').exclude()
 z.include_files.append( "arrayobject.h" ) # to get NumPy's flags
-z.include_files.append('ndarray.hpp')
+z.include_files.append( "ndarray.hpp" )
 z.add_declaration_code('''    
 static bp::object CvANN_MLP_get_weights(bp::object const &bpinst, int layer)
 {
@@ -454,7 +578,7 @@ static bp::object CvANN_MLP_get_weights(bp::object const &bpinst, int layer)
 }
 
 ''')
-z.add_registration_code('def( "get_weights", &::CvANN_MLP_get_weights, (bp::arg("bpinst"), bp::arg("layer")))')
+z.add_registration_code('def( "get_weights", &::CvANN_MLP_get_weights, (bp::arg("self"), bp::arg("layer")))')
 sb.finalize_class(z)
 
 # Convolutional Neural Network, Estimate classifiers algorithms, and Cross validation are not yet enabled
