@@ -557,7 +557,7 @@ void register_classes_1(){
         
         }
         CvANN_MLP_exposer.def( bp::init< cv::Mat const &, bp::optional< int, double, double > >(( bp::arg("_layer_sizes"), bp::arg("_activ_func")=int(::CvANN_MLP::SIGMOID_SYM), bp::arg("_f_param1")=0, bp::arg("_f_param2")=0 )) );
-        CvANN_MLP_exposer.def( "get_weights", &::CvANN_MLP_get_weights, (bp::arg("bpinst"), bp::arg("layer")));
+        CvANN_MLP_exposer.def( "get_weights", &::CvANN_MLP_get_weights, (bp::arg("self"), bp::arg("layer")));
     }
 
 }

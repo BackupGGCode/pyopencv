@@ -6,6 +6,8 @@
 #include "opencv_converters.hpp"
 #include "__ctypes_integration.pypp.hpp"
 #include "ml_wrapper.hpp"
+#include "arrayobject.h"
+#include "ndarray.hpp"
 #include "boost/python/object.hpp"
 #include "ml_ext_classes_4.pypp.hpp"
 
@@ -104,18 +106,6 @@ struct CvDTreeTrainData_wrapper : CvDTreeTrainData, bp::wrapper< CvDTreeTrainDat
     
     int default_get_child_buf_idx( ::CvDTreeNode * n ) {
         return CvDTreeTrainData::get_child_buf_idx( boost::python::ptr(n) );
-    }
-
-    virtual float const * get_ord_responses( ::CvDTreeNode * n, float * values_buf, int * sample_indices_buf ) {
-        if( bp::override func_get_ord_responses = this->get_override( "get_ord_responses" ) )
-            return func_get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
-        else{
-            return this->CvDTreeTrainData::get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
-        }
-    }
-    
-    float const * default_get_ord_responses( ::CvDTreeNode * n, float * values_buf, int * sample_indices_buf ) {
-        return CvDTreeTrainData::get_ord_responses( boost::python::ptr(n), values_buf, sample_indices_buf );
     }
 
     virtual void get_vectors( ::CvMat const * _subsample_idx, float * values, ::uchar * missing, float * responses, bool get_class_idx=false ) {
@@ -539,6 +529,119 @@ struct CvDTreeTrainData_wrapper : CvDTreeTrainData, bp::wrapper< CvDTreeTrainDat
 
 };
 
+static bp::object CvDTreeTrainData_get_cat_var_data(bp::object const &bpinst, CvDTreeNode* n, int vi)
+{
+    CvDTreeTrainData &inst = bp::extract<CvDTreeTrainData &>(bpinst);
+    int size = n->sample_count;
+    sdcpp::ndarray result = sdcpp::simplenew_ndarray(1, &size, NPY_INT);
+    int *in_arr = (int*)result.data();
+    const int *out_arr = inst.get_cat_var_data(n, vi, in_arr);
+    
+    if(!out_arr) return bp::object();
+    if(out_arr == in_arr) return result.get_obj();
+    
+    result = sdcpp::new_ndarray1d(size, NPY_INT, (void *)out_arr);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
+static bp::object CvDTreeTrainData_get_cv_labels(bp::object const &bpinst, CvDTreeNode* n)
+{
+    CvDTreeTrainData &inst = bp::extract<CvDTreeTrainData &>(bpinst);
+    int size = n->sample_count;
+    sdcpp::ndarray result = sdcpp::simplenew_ndarray(1, &size, NPY_INT);
+    int *in_arr = (int*)result.data();
+    const int *out_arr = inst.get_cv_labels(n, in_arr);
+    
+    if(!out_arr) return bp::object();
+    if(out_arr == in_arr) return result.get_obj();
+    
+    result = sdcpp::new_ndarray1d(size, NPY_INT, (void *)out_arr);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
+static bp::object CvDTreeTrainData_get_sample_indices(bp::object const &bpinst, CvDTreeNode* n)
+{
+    CvDTreeTrainData &inst = bp::extract<CvDTreeTrainData &>(bpinst);
+    int size = n->sample_count;
+    sdcpp::ndarray result = sdcpp::simplenew_ndarray(1, &size, NPY_INT);
+    int *in_arr = (int*)result.data();
+    const int *out_arr = inst.get_sample_indices(n, in_arr);
+    
+    if(!out_arr) return bp::object();
+    if(out_arr == in_arr) return result.get_obj();
+    
+    result = sdcpp::new_ndarray1d(size, NPY_INT, (void *)out_arr);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
+static bp::tuple CvDTreeTrainData_get_ord_var_data(bp::object const &bpinst, CvDTreeNode* n, int vi)
+{
+    CvDTreeTrainData &inst = bp::extract<CvDTreeTrainData &>(bpinst);
+    int size = n->sample_count;
+    std::vector<int> sample_indices(size);
+    sdcpp::ndarray result1 = sdcpp::simplenew_ndarray(1, &size, NPY_FLOAT);
+    sdcpp::ndarray result2 = sdcpp::simplenew_ndarray(1, &size, NPY_INT);
+    float *in_arr1 = (float*)result1.data();
+    int *in_arr2 = (int*)result2.data();
+    const float *out_arr1;
+    const int *out_arr2;
+    inst.get_ord_var_data(n, vi, in_arr1, in_arr2, &out_arr1, &out_arr2, &sample_indices[0]);
+    
+    bp::object obj1, obj2;
+    
+    if(out_arr1 && out_arr1 != in_arr1)
+    {
+        result1 = sdcpp::new_ndarray1d(size, NPY_FLOAT, (void *)out_arr1);
+        bp::objects::make_nurse_and_patient(result1.get_obj().ptr(), bpinst.ptr());
+    }
+    if(out_arr1) obj1 = result1.get_obj();
+    
+    if(out_arr2 && out_arr2 != in_arr2)
+    {
+        result2 = sdcpp::new_ndarray1d(size, NPY_INT, (void *)out_arr2);
+        bp::objects::make_nurse_and_patient(result2.get_obj().ptr(), bpinst.ptr());
+    }
+    if(out_arr2) obj2 = result2.get_obj();
+    
+    return bp::make_tuple(obj1, obj2);
+}
+
+static bp::object CvDTreeTrainData_get_ord_responses(bp::object const &bpinst, CvDTreeNode* n)
+{
+    CvDTreeTrainData &inst = bp::extract<CvDTreeTrainData &>(bpinst);
+    int size = n->sample_count;
+    std::vector<int> sample_indices(size);
+    sdcpp::ndarray result = sdcpp::simplenew_ndarray(1, &size, NPY_FLOAT);
+    float *in_arr = (float*)result.data();
+    const float *out_arr = inst.get_ord_responses(n, in_arr, &sample_indices[0]);
+    
+    if(!out_arr) return bp::object();
+    if(out_arr == in_arr) return result.get_obj();
+    
+    result = sdcpp::new_ndarray1d(size, NPY_FLOAT, (void *)out_arr);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
+static bp::object CvDTreeTrainData_get_class_labels(bp::object const &bpinst, CvDTreeNode* n)
+{
+    CvDTreeTrainData &inst = bp::extract<CvDTreeTrainData &>(bpinst);
+    int size = n->sample_count;
+    sdcpp::ndarray result = sdcpp::simplenew_ndarray(1, &size, NPY_INT);
+    int *in_arr = (int*)result.data();
+    const int *out_arr = inst.get_class_labels(n, in_arr);
+    
+    if(!out_arr) return bp::object();
+    if(out_arr == in_arr) return result.get_obj();
+    
+    result = sdcpp::new_ndarray1d(size, NPY_INT, (void *)out_arr);
+    bp::objects::make_nurse_and_patient(result.get_obj().ptr(), bpinst.ptr());
+    return result.get_obj();
+}
+
 static cv::Mat get_CvDTreeTrainData_train_data(CvDTreeTrainData const &inst) { return inst.train_data? cv::Mat(inst.train_data): cv::Mat(); }
 
 static cv::Mat get_CvDTreeTrainData_responses(CvDTreeTrainData const &inst) { return inst.responses? cv::Mat(inst.responses): cv::Mat(); }
@@ -815,12 +918,6 @@ void register_classes_4(){
             "get_num_classes"
             , (int ( CvDTreeTrainData::* )(  ) const)( &::CvDTreeTrainData::get_num_classes ) )    
         .def( 
-            "get_ord_responses"
-            , (float const * ( CvDTreeTrainData::* )( ::CvDTreeNode *,float *,int * ) )(&::CvDTreeTrainData::get_ord_responses)
-            , (float const * ( CvDTreeTrainData_wrapper::* )( ::CvDTreeNode *,float *,int * ) )(&CvDTreeTrainData_wrapper::default_get_ord_responses)
-            , ( bp::arg("n"), bp::arg("values_buf"), bp::arg("sample_indices_buf") )
-            , bp::return_arg< 2 >() )    
-        .def( 
             "get_var_type"
             , (int ( CvDTreeTrainData::* )( int ) const)( &::CvDTreeTrainData::get_var_type )
             , ( bp::arg("vi") ) )    
@@ -931,6 +1028,12 @@ void register_classes_4(){
         .def_readwrite( "var_all", &CvDTreeTrainData::var_all )    
         .def_readwrite( "var_count", &CvDTreeTrainData::var_count )    
         .def_readwrite( "work_var_count", &CvDTreeTrainData::work_var_count )    
+        .def("get_cat_var_data", &::CvDTreeTrainData_get_cat_var_data, (bp::arg("self"), bp::arg("n"), bp::arg("vi")))    
+        .def("get_cv_labels", &::CvDTreeTrainData_get_cv_labels, (bp::arg("self"), bp::arg("n")))    
+        .def("get_sample_indices", &::CvDTreeTrainData_get_sample_indices, (bp::arg("self"), bp::arg("n")))    
+        .def("get_ord_var_data", &::CvDTreeTrainData_get_ord_var_data, (bp::arg("self"), bp::arg("n"), bp::arg("vi")))    
+        .def("get_ord_responses", &::CvDTreeTrainData_get_ord_responses, (bp::arg("self"), bp::arg("n")))    
+        .def("get_class_labels", &::CvDTreeTrainData_get_class_labels, (bp::arg("self"), bp::arg("n")))    
         .add_property( "train_data", &::get_CvDTreeTrainData_train_data )    
         .add_property( "responses", &::get_CvDTreeTrainData_responses )    
         .add_property( "responses_copy", bp::make_function(&CvDTreeTrainData_wrapper::get_CvDTreeTrainData_responses_copy, bp::return_internal_reference<>()),
