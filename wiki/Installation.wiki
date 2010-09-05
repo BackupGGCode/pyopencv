@@ -27,7 +27,7 @@ Right now, only gcc 4.x compilers are supported. The reason is that I have not t
 In short, there are three major steps:
 
     # [Installation_OpenCV Install OpenCV 2.x]
-    # [Installation_Boost_Python Install Boost and bjam] -- starting from version 2.1.0.wr.1.1.1, bjam is no longer required
+    # [Installation_Boost_Python Install Boost.Python and bjam] -- starting from version 2.1.0.wr.1.1.1, bjam is no longer required
     # [Installation_PyOpenCV Download, configure, build, and install PyOpenCV]
 
 See also the [FAQ FAQ] entries to avoid some installation issues.
