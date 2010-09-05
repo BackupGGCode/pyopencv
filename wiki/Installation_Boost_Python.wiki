@@ -1,10 +1,37 @@
-#summary Instructions for installing Boost and bjam
+#summary Instructions for installing Boost.Python and bjam
 
-=Installing Boost and bjam=
+PyOpenCV relies on [http://www.boost.org/doc/libs/release/libs/python/doc/ Boost.Python] (and partially on Boost.MPL) to wrap C/C++ code. In version 2.1.0.wr1.1.0 and earlier, PyOpenCV relies on bjam to build Python extensions that use Boost.Python. However, starting from version 2.1.0.wr1.1.1, bjam is no longer needed. Instead, PyOpenCV relies on CMake to detect both OpenCV and Boost.Python installed on your system. In these versions, you can use either setuptools or cmake to build PyOpenCV.
+
+=Installing Boost.Python if you are installing PyOpenCV version 2.1.0.wr1.1.1 or later=
+
+Simply follow the [http://www.boost.org/doc/libs/release/libs/python/doc/building.html#basic-procedure standard instructions] to install Boost.Python on your system. However, there are a few important notices:
+   # You must make sure that a shared library of Boost.Python is installed. Python extensions linked against a shared Boost.Python library can share their exposed declarations with each other. If you use a static Boost.Python library, the declarations are not shared and PyOpenCV will fail.
+   # The version of Boost.Python must be at last 1.41.0 or 1.40.0 with patches. There is a bug in Boost.Python under Python 2.6.3 and later that has only been fixed very recently in Boost 1.41.0 (thanks to Guy K. Kloss for having pointed it out).
+   # Remember that the preferred C++ compiler is gcc and I have not tested with other C++ compiler. Therefore, if you build Boost.Python from source, you should specify the option `toolset=gcc` when invoking bjam.
+   # If, for some reason, PyOpenCV cannot detect your Boost.Python installation, make sure you have the `ROOT_BOOST` environment variable point to the root directory of the Boost source distribution.
+
+==Examples==
+
+===Building Boost.Python from source===
+   # Download Boost source distribution and install bjam. If you are not sure how to, see the detailed instructions in the next section.
+   # Run the command:
+{{{
+    bjam toolset=gcc link=shared --with-python
+}}}
+
+===Installing Boost.Python from Linux distributions===
+
+Some Linux distributions come with a pre-compiled Boost.Python shared library. Just follow the standard procedure to install it. For example, under Ubuntu:
+{{{
+    sudo apt-get install libboost-python-dev
+}}}
+
+
+=Installing Boost and bjam if you are installing PyOpenCV version 2.1.0.wr1.1.0 or earlier=
 
 ==Get Boost==
 
-PyOpenCV relies on Boost.Python (and partially on Boost.MPL) to wrap C/C++ code. Please follow the instructions below to get the Boost library:
+Please follow the instructions below to get the Boost library:
 
   # Go to http://www.boost.org.
   # Download [http://sourceforge.net/projects/boost/files/boost/ Boost source distribution] version [http://sourceforge.net/projects/boost/files/boost/1.41.0/ 1.41.0] or later. There is a bug in using Boost.Python under Python 2.6.3 and later that has only been fixed very recently in Boost 1.41.0 (thanks to Guy K. Kloss for having pointed it out).
