@@ -127,8 +127,9 @@ except ImportError: # no config.py file found
     except ds.DistutilsExecError:
         print "Error: error occurred while running CMake to configure PyOpenCV."
         print "You may want to manually configure PyOpenCV by running cmake's tools:"
+        print "    mkdir build"
         print "    cd build"
-        print "    cmake-gui or cmake .."
+        print "    cmake-gui ..    OR    cmake .."
         print "    cd .."
         sys.exit(-1)
     os.chdir(cur_dir)
@@ -149,7 +150,7 @@ setup(
     install_requires = ['numpy>=1.2.0'],
     package_data = {'pyopencv': ['*.dll']},
     include_package_data = True,
-    zip_safe = (os.name!='nt'), # thanks to ffmpeg dependency
+    # zip_safe = (os.name!='nt'), # thanks to ffmpeg dependency
     package_dir={'':'package'},
     packages = find_packages('package'),
 )

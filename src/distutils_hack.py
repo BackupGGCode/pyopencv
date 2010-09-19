@@ -37,12 +37,15 @@ class Mingw32CCompiler (dcyg.CygwinCCompiler):
         # dlls need another dll (mingwm10.dll see Mingw32 docs)
         # (-mthreads: Support thread-safe exception handling on `Mingw32')
 
-        # no additional libraries needed
+		# no additional libraries needed
         self.dll_libraries=[]
 
+        # CMake says don't use msvcr90 but instead use this set of dll libraries
+        self.dll_libraries=['kernel32', 'user32', 'gdi32', 'winspool', 'shell32', 'ole32', 'oleaut32', 'uuid', 'comdlg32', 'advapi32']
+ 
         # Include the appropriate MSVC runtime library if Python was built
         # with MSVC 7.0 or later.
-        self.dll_libraries = dcyg.get_msvcr()
+        # self.dll_libraries = dcyg.get_msvcr()
 
     # __init__ ()
 
