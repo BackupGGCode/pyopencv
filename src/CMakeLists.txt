@@ -130,7 +130,6 @@ endif()
 
 if(CMAKE_COMPILER_IS_GNUCXX)
     set(ENABLE_PROFILING OFF CACHE BOOL "Enable profiling in the GCC compiler (Add flags: -g -pg)")
-    set(USE_OMIT_FRAME_POINTER ON CACHE BOOL "Enable -fomit-frame-pointer for GCC")
     if(${CMAKE_SYSTEM_PROCESSOR} MATCHES arm*)
         # We can use only -O2 because the -O3 causes gcc crash
         set(USE_O2 ON CACHE BOOL "Enable -O2 for GCC")
@@ -296,9 +295,6 @@ if(CMAKE_COMPILER_IS_GNUCXX)
     endif()
 
     # Other optimizations
-    if(USE_OMIT_FRAME_POINTER)
-       set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -fomit-frame-pointer")
-    endif()
     if(USE_O2)
        set(EXTRA_C_FLAGS_RELEASE "${EXTRA_C_FLAGS_RELEASE} -O2")
     endif()

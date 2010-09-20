@@ -365,8 +365,8 @@ void register_classes_3(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'keypoints':"\
-    "\n    C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: vector_KeyPoint."\
+    "\n    C++ type: ::std::vector< cv::KeyPoint > &"\
+    "\n    Python type: vector_KeyPoint"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    keypoints" );
@@ -383,8 +383,8 @@ void register_classes_3(){
                 , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'descriptors':"\
-    "\n    C++ type: ::std::vector< float > &."\
-    "\n    Python type: vector_float32."\
+    "\n    C++ type: ::std::vector< float > &"\
+    "\n    Python type: vector_float32"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    descriptors" );
@@ -402,8 +402,8 @@ void register_classes_3(){
             , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'keypoints':"\
-    "\n    C++ type: ::std::vector< cv::KeyPoint > &."\
-    "\n    Python type: vector_KeyPoint."\
+    "\n    C++ type: ::std::vector< cv::KeyPoint > &"\
+    "\n    Python type: vector_KeyPoint"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    keypoints" );

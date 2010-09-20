@@ -91,7 +91,7 @@ try:
     }
     
     def cvCreateImageFromPilImage(pilimage):
-        """Converts a PIL.Image into an IplImage
+        """Converts a PIL.Image into a Mat
         
         Right now, PyOpenCV can convert PIL.Images of band ('L'), ('I'), 
         ('F'), ('R', 'G', 'B'), or ('R', 'G', 'B', 'A'). Whether the 
@@ -108,7 +108,7 @@ try:
         step = cols * nchannels * elem_size
         data = pilimage.tostring(decoder, mode, step)
         z = _NP.frombuffer(data, dtype=dtype, count=rows*cols*nchannels).reshape(rows, cols, nchannels)
-        return Mat.from_ndarray(z)
+        return asMat(z)
         
     Mat.from_pil_image = staticmethod(cvCreateImageFromPilImage)
         
@@ -169,7 +169,7 @@ try:
         z = _NP.frombuffer(pixbuf.get_pixels(), dtype='uint8', count=rows*step).reshape(rows, step, 1)
         z.shape = (rows, cols, 3)
         z.strides = (step, 3, 1)
-        return Mat.from_ndarray(z)
+        return asMat(z)
 
     Mat.from_gtk_pixbuf = staticmethod(cvCreateMatFromGtkPixbuf)
             
