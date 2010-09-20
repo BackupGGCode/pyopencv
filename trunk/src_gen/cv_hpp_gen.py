@@ -246,7 +246,7 @@ for z in (
     'inpaint', 'distanceTransform', 'cvtColor', 'moments', 'matchTemplate',
     'drawContours', 
     'arcLength', 'boundingRect', 'contourArea', 'minAreaRect', 
-    'minEnclosingCircle', 'matchShapes', 'isContourConvex', 'fitEllipse',
+    'matchShapes', 'isContourConvex', 'fitEllipse',
     'fitLine', 'pointPolygonTest', 'updateMotionHistory', 
     'calcMotionGradient', 'calcGlobalOrientation', 'CamShift', 'meanShift', 
     'estimateAffine3D', 
@@ -379,6 +379,12 @@ for z in sb.mb.free_funs('approxPolyDP'):
         z._transformer_kwds['alias'] = 'approxPolyDP_float32'
     else:
         z._transformer_kwds['alias'] = 'approxPolyDP' # won't ever occur
+        
+# minEnclosingCircle
+FT.expose_func(sb.mb.free_fun('minEnclosingCircle'), return_pointee=False,
+    transformer_creators=[FT.arg_output('center'), FT.arg_output('radius')])
+
+
     
 # convexHull
 for z in sb.mb.free_funs('convexHull'):

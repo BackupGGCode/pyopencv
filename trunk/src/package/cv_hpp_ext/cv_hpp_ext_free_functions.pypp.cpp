@@ -1053,17 +1053,6 @@ void register_free_functions(){
     
     }
 
-    { //::cv::minEnclosingCircle
-    
-        typedef void ( *minEnclosingCircle_function_type )( ::cv::Mat const &,::cv::Point2f &,float & );
-        
-        bp::def( 
-            "minEnclosingCircle"
-            , minEnclosingCircle_function_type( &::cv::minEnclosingCircle )
-            , ( bp::arg("points"), bp::arg("center"), bp::arg("radius") ) );
-    
-    }
-
     { //::cv::moments
     
         typedef ::cv::Moments ( *moments_function_type )( ::cv::Mat const &,bool );

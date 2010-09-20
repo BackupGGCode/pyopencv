@@ -360,8 +360,8 @@ void register_classes_2(){
                 , detectMultiScale_function_type( &CascadeClassifier_wrapper::detectMultiScale )
                 , ( bp::arg("inst"), bp::arg("image"), bp::arg("scaleFactor")=1.10000000000000008881784197001252323389053344727e+0, bp::arg("minNeighbors")=(int)(3), bp::arg("flags")=(int)(0), bp::arg("minSize")=cv::Size_<int>() )
                 , "\nArgument 'objects':"\
-    "\n    C++ type: ::std::vector< cv::Rect_<int> > &."\
-    "\n    Python type: vector_Rect."\
+    "\n    C++ type: ::std::vector< cv::Rect_<int> > &"\
+    "\n    Python type: vector_Rect"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    objects" );
@@ -628,8 +628,8 @@ void register_classes_2(){
             , "\nWrapped function:"
     "\n    operator()"
     "\nArgument 'msers':"\
-    "\n    C++ type: ::std::vector< std::vector< cv::Point_<int> > > &."\
-    "\n    Python type: vector_vector_Point2i."\
+    "\n    C++ type: ::std::vector< std::vector< cv::Point_<int> > > &"\
+    "\n    Python type: vector_vector_Point2i"\
     "\n    Output argument: omitted from input and returned as output."\
     "\nReturns:"\
     "\n    msers" );
