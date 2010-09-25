@@ -41,8 +41,8 @@ best of both world: fast computer vision functionality (OpenCV) and fast
 multi-dimensional array computation (NumPy). 
 
 :Author: Minh-Tri Pham <pmtri80@gmail.com>
-:Version: 2.1.0.wr1.1.1 (beta)
-:Released: Aug 2010
+:Version: 2.1.0.wr1.2.0 (beta)
+:Released: Sep 2010
 :License: New BSD License
 
 Availability
