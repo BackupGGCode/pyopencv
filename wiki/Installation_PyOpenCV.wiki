@@ -14,9 +14,35 @@ svn checkout http://pyopencv.googlecode.com/svn/branches/2.0.0/src/ pyopencv
 
 =Configuring PyOpenCV=
 
-==Installing Boost.Python if you are installing PyOpenCV version 2.1.0.wr1.1.1 or later==
+==If you are installing PyOpenCV version 2.1.0.wr1.1.1 or later==
 
-==Installing Boost.Python if you are installing PyOpenCV version 2.1.0.wr1.1.0 or earlier==
+PyOpenCV now supports building from cmake and setuptools. 
+
+===Configuring via cmake===
+
+To configure using cmake, simply follow the standard process in cmake:
+    * Create a custom build folder: `mkdir mybuild`
+    * Change the current directory: `cd mybuild`
+    * Run cmake or cmake-gui: `cmake ..` or `cmake-gui ..`
+cmake has a capacity to detect OpenCV and Boost.Python on your system. If you receive an error message when running cmake, something must have been not configured correctly. Don't hesitate to raise your concern to the discussion group of the project.
+
+===Configuring via setuptools===
+
+To configure using setuptools, simply invoke:
+{{{
+python setup.py config
+}}}
+This would invoke cmake automatically to configure. Internally, this is what the setup script does:
+{{{
+mkdir build
+cd build
+cmake ..
+cd ..
+}}}
+
+A `config.py` file is then generated from cmake for PyOpenCV.
+
+==If you are installing PyOpenCV version 2.1.0.wr1.1.0 or earlier==
 
 ===Editing file `config.py`===
 
@@ -99,9 +125,52 @@ boost_runtime_libraries_to_be_bundled = []
 
 =Building and Installing PyOpenCV=
 
-==Installing Boost.Python if you are installing PyOpenCV version 2.1.0.wr1.1.1 or later==
+==If you are installing PyOpenCV version 2.1.0.wr1.1.1 or later==
 
-==Installing Boost.Python if you are installing PyOpenCV version 2.1.0.wr1.1.0 or earlier==
+===Building and installing via cmake===
+
+To build and PyOpenCV via cmake, go to your custom build folder and issue the command
+{{{
+make
+make install
+}}}
+
+*On Windows*: if you are using MinGW as the compiler for PyOpenCV, you may want to use `mingw32-make` instead:
+{{{
+mingw32-make
+mingw32-make install
+}}}
+
+*On Linux*: make sure that you have the privilege to install on your system. For instance, on Ubuntu:
+{{{
+make
+sudo make install
+}}}
+
+===Building and installing via setuptools===
+
+To build, issue the command:
+{{{
+python setup.py build
+}}}
+
+*On Windows*: you may want to specify MinGW as the compiler, i.e.:
+{{{
+python setup.py build -cmingw32
+}}}
+
+To install, issue the command:
+{{{
+python setup.py install
+}}}
+
+*On Linux*: make sure you have the privilege to install on your system. For instance, on Ubuntu:
+{{{
+sudo python setup.py install
+}}} 
+
+
+==If you are installing PyOpenCV version 2.1.0.wr1.1.0 or earlier==
 
 Now that you have obtained all the necessary libraries, the remaining steps are straight forward. 
 
