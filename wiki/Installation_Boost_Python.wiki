@@ -13,7 +13,7 @@ Simply follow the [http://www.boost.org/doc/libs/release/libs/python/doc/buildin
 ==Examples==
 
 ===Building Boost.Python from source===
-   # Download Boost source distribution and install bjam. If you are not sure how to, see the detailed instructions in the next section.
+   # Download Boost source distribution and install bjam. If you are not sure how to do so, see the instructions in the next section.
    # Run the command:
 {{{
     bjam toolset=gcc link=shared --with-python
