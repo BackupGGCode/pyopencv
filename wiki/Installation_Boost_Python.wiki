@@ -1,6 +1,6 @@
 #summary Instructions for installing Boost.Python and bjam
 
-PyOpenCV relies on [http://www.boost.org/doc/libs/release/libs/python/doc/ Boost.Python] (and partially on Boost.MPL) to wrap C/C++ code. In version 2.1.0.wr1.1.0 and earlier, PyOpenCV relies on bjam to build Python extensions that use Boost.Python. However, starting from version 2.1.0.wr1.1.1, bjam is no longer needed. Instead, PyOpenCV relies on CMake to detect both OpenCV and Boost.Python installed on your system. In these versions, you can use either setuptools or cmake to build PyOpenCV.
+PyOpenCV relies on [http://www.boost.org/doc/libs/release/libs/python/doc/ Boost.Python] (and partially on Boost.MPL) to wrap C/C++ code. In version 2.1.0.wr1.1.0 and earlier, PyOpenCV relies on bjam to build Python extensions that use Boost.Python. However, starting from version 2.1.0.wr1.1.1, bjam is no longer required by PyOpenCV (but you may still need it to install Boost.Python). Instead, PyOpenCV relies on CMake to detect both OpenCV and Boost.Python installed on your system. In these versions, you can use either setuptools or cmake to build PyOpenCV.
 
 =Installing Boost.Python if you are installing PyOpenCV version 2.1.0.wr1.1.1 or later=
 
