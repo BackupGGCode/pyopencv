@@ -20,11 +20,23 @@ PyOpenCV now supports building from cmake and setuptools.
 
 ===Configuring via cmake===
 
+First, you need have [http://www.cmake.org/ cmake] installed on your system. If you build OpenCV from source then cmake is probably already installed. If not, download and install cmake from http://www.cmake.org. On Ubuntu, you may want to issue the following command:
+
+{{{
+sudo apt-get install cmake cmake-gui
+}}}
+
 To configure using cmake, simply follow the standard process in cmake:
     * Create a custom build folder: `mkdir mybuild`
     * Change the current directory: `cd mybuild`
     * Run cmake or cmake-gui: `cmake ..` or `cmake-gui ..`
 cmake has a capacity to detect OpenCV and Boost.Python on your system. If you receive an error message when running cmake, something must have been not configured correctly. Don't hesitate to raise your concern to the discussion group of the project.
+
+If you are on Windows, you might want to use the MinGW generator instead, i.e.:
+
+{{{
+cmake -G "MinGW Makefiles" ..
+}}}
 
 ===Configuring via setuptools===
 
