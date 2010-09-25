@@ -21,7 +21,7 @@ Simply follow the [http://www.boost.org/doc/libs/release/libs/python/doc/buildin
 
 ===Installing Boost.Python from Linux distributions===
 
-Some Linux distributions come with a pre-compiled Boost.Python shared library. Just follow the standard procedure to install it. For example, under Ubuntu:
+Some Linux distributions come with a pre-compiled Boost.Python shared library. Just follow the standard procedure to install it. For example, on Ubuntu:
 {{{
     sudo apt-get install libboost-python-dev
 }}}
