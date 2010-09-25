@@ -6,6 +6,7 @@ Follow the link(s) below to go to the epydoc-generated API documentation pages o
 
 ==OpenCV 2.1.0==
 
+  * [http://packages.python.org/pyopencv/2.1.0.wr1.2.0 Generated API for version 1.2.0]
   * [http://packages.python.org/pyopencv/2.1.0.wr1.0.2 Generated API for version 1.0.2]
   * [http://packages.python.org/pyopencv/2.1.0.wr1.0.1 Generated API for version 1.0.1]
   * [http://packages.python.org/pyopencv/2.1.0.wr1.0.0 Generated API for version 1.0.0]
