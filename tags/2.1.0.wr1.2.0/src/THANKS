@@ -1,0 +1,33 @@
+=======================================================================
+PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
+=======================================================================
+
+Thanks go to many people in the ctypes-opencv Google group as well as
+those have contacted me via email for their invaluable discussion and 
+contributions. In particular, I would like to thank:
+
+- Gijs Molenaar for his help in packaging PyOpenCV and ctypes-opencv on 
+  Ubuntu
+- Dat Chu for his proposal of using CMake to build PyOpenCV and his
+  efforts in making the proposal become a reality
+- Thomas Newmann for his contribution in fixing ndarray so that PyOpenCV
+  works with 64-bit platforms
+- Attila Bergou for his contributions in making PyOpenCV work on 64-bit 
+  Ubuntu and Mac OS X 10.6
+
+Thanks also go to the people at Intel and Willow Garage for having 
+invented and developed OpenCV. 
+
+ctypes-opencv
+-------------
+
+PyOpenCV inherits many features from its preceder, ctypes-opencv, which 
+had received an enormous amount of ideas, suggestions, and code 
+contributions by many people. I would like to thank the following people
+in particular:
+- Gary Bishop (and former contributors) for his CVtypes package, which 
+  precedes ctypes-opencv
+- Jérémy Bethmont for his contributions in conversion between IplImage 
+  and PIL's Image, and in detection of OpenCV's libraries
+- David Bolen for his many suggestions and contributions
+- And many people in the ctypes-opencv Google group

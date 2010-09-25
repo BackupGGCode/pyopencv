@@ -1,0 +1,33 @@
+=======================================================================
+PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
+=======================================================================
+
+- To add fast polygonal integration (cvpr'10)
+
+- To update wiki the instructions for installing PyOpenCV via CMake and setuptools
+
+- To support 64-bit platforms
+
+- Image conversion to/from wxWidget
+
+- Provide more demos -- may ask people to help :)
+
+- Fix squares.py demo, something's wrong with the algorithm. It's running but too slowly.
+
+- Add iterator for SparseMat
+
+- 2d lists should have better documentation: i.e. when is list of Mat, when is list of lists
+
+- introduce debugging mode so that people know which argument has been converted, which has been not
+
+- On Windows, there seems to be a problem when libopencv_ffmpeg210.dll is used --> VideoCapture
+  of a video file stops working. Remove the ffmpeg dll file and it appears to work again.
+  
+- expose C functions for class CvSet, write a Set<T> that is a subclass of Seq<T>?
+
+- make_nurse_and_patient(nurse, patient) = keep 'patient' alive as long as 'nurse' is alive, weird.
+
+------------------------------------------
+Making a snapshot release using setuptools:
+
+http://peak.telecommunity.com/DevCenter/setuptools#id33
