@@ -159,6 +159,8 @@ python setup.py build
 python setup.py build -cmingw32
 }}}
 
+Depending the number of modules you would like to install, it may take up to 45 minutes to build. Take a rest and have some coffee or green tea.
+
 To install, issue the command:
 {{{
 python setup.py install
