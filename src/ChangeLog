@@ -5,6 +5,42 @@ PyOpenCV - A Python wrapper for OpenCV 2.x using Boost.Python and NumPy
 Change Log
 ==========
 
+pyopencv-2.1.0.wr1.2.0 transition release
+-----------------------------------------
+
+Overview:
+Starting from this release, PyOpenCV does not rely on bjam to build its
+extensions anymore. The supported build tools are cmake and setuptools. 
+The code is restructured into a few modules, reducing the compilation time
+significantly. By using cmake, the user is able to select which module 
+he/she would like to install. Aside from the usual bug fixes, there is an 
+important fix of a bug that previously made PyOpenCV crash when run on 
+Windows systems that have more than one runtime library of Visual C++ 2008.
+
+Bug fixes:
+- fixed a small bug with CV_RGB()
+- fixed a bug in the highgui module
+- added Attila's version of find_obj.py
+- fixed a linking bug on Mac -- by Atilla
+- fixed a bug on 32-bit vs. 64 bit issue in Py++'s from_address function 
+  transformer, which affected function createTrackbar() -- thanks Attila
+- fixed a warning in registering sdcpp::ndarray multiple times
+- added a hack in Mingw32Compiler so that distutils can compile Boost.Python 
+  code properly using Mingw
+- exposed LevMarqSparse
+- improved the representation string of TickMeter
+- added vectorize_float64
+- fully exposed CvDTreeSplit
+- fully exposed CvDTreeParams and CvDTreeNode
+- fully exposed CvRTParams
+- exposed function calc_error() in some ML classes
+- fully exposed CvRTrees, CvBoost*
+- fully exposed CvANN_MLP
+- fully exposed CvDTreeTrainData and CvERTreeTrainData
+- fixed a bug in Mingw32Compiler that makes Python crash on Windows with msvcr90
+- fixed a bug at minEnclosingCircle
+
+
 pyopencv-2.1.0.wr1.1.0 transition release
 -----------------------------------------
 
