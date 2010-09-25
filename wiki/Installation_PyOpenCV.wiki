@@ -1,6 +1,6 @@
 #summary Instructions for downloading, configuring, and installing PyOpenCV
 
-==Download PyOpenCV==
+=Download PyOpenCV=
 
 Download a PyOpenCV source archive from the [http://code.google.com/p/pyopencv/downloads/list Downloads] page, and extract it. Alternatively, use this command to anonymously check out the latest project source code:
 {{{
@@ -11,6 +11,8 @@ If you want to check out PyOpenCV for OpenCV 2.0, however, check out at:
 {{{
 svn checkout http://pyopencv.googlecode.com/svn/branches/2.0.0/src/ pyopencv
 }}}
+
+=Configure PyOpenCV=
 
 ===Edit file `config.py`===
 
@@ -91,7 +93,7 @@ boost_runtime_library_dirs = []
 boost_runtime_libraries_to_be_bundled = []
 }}}
 
-==Build and Install PyOpenCV==
+=Build and Install PyOpenCV=
 
 Now that you have obtained all the necessary libraries, the remaining steps are straight forward. 
 
