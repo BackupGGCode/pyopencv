@@ -321,12 +321,14 @@ void register_classes_2(){
         }
         { //::cv::Mat::diag
         
-            typedef ::cv::Mat ( *diag_function_type )( ::cv::Mat const & );
+            typedef ::cv::Mat ( *diagonalize_function_type )( ::cv::Mat const & );
             
             Mat_exposer.def( 
-                "diag"
-                , diag_function_type( &::cv::Mat::diag )
-                , ( bp::arg("d") ) );
+                "diagonalize"
+                , diagonalize_function_type( &::cv::Mat::diag )
+                , ( bp::arg("d") )
+                , "\nWrapped function:"
+    "\n    diag" );
         
         }
         { //::cv::Mat::dot
@@ -517,7 +519,7 @@ void register_classes_2(){
         Mat_exposer.def_readwrite( "flags", &cv::Mat::flags );
         Mat_exposer.def_readwrite( "rows", &cv::Mat::rows );
         Mat_exposer.def_readwrite( "step", &cv::Mat::step );
-        Mat_exposer.staticmethod( "diag" );
+        Mat_exposer.staticmethod( "diagonalize" );
         Mat_exposer.add_property("data", &::Mat_get_data);
         Mat_exposer.add_property("ndarray", &sdcpp::as_ndarray< cv::Mat >);
         Mat_exposer.def("__init__", bp::make_constructor(&Mat__init1__, bp::default_call_policies(), ( bp::arg("arg1") )));
