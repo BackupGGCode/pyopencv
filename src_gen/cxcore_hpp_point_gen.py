@@ -142,6 +142,7 @@ for t in ('::IplImage', '::CvMat', 'MatExp'):
 z.mem_funs('setTo').call_policies = CP.return_self()
 z.mem_funs('adjustROI').call_policies = CP.return_self()
 FT.add_data_interface(z, 'inst.data', 'inst.rows*inst.step', ['ptr', 'data', 'refcount', 'datastart', 'dataend', 'addref', 'release'])
+z.mem_fun(lambda x: x.name=='diag' and 'Mat' in x.arguments[0].type.partial_decl_string).rename('diagonalize') # rename static method 'diag' to 'diagonalize' to avoid a naming conflict in Python
 sb.add_ndarray_interface(z)
 sb.cc.write('''
 def _Mat__repr__(self):
