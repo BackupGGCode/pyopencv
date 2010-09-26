@@ -12,7 +12,7 @@ PyOpenCV is now compilable and running on a 64-bit Ubuntu 10.4 platform and a Ma
 
 ===Is PyOpenCV compatible with Python 3?===
 
-Boost.Python is now compatible with Python 3. When NumPy is eventually compatible with Python 3, I will refine PyOpenCV to make it compatible with Python 3.
+Almost all of the source code of PyOpenCV is compatible with Python 3. Boost.Python and NumPy are now both compatible with Python 3. The only remaining show stopper is setuptools. There is an alternative package to setuptools called 'distribute' that is compatible with Python 3. I will try to see if we can replace setuptools with it and make PyOpenCV fully compatible with Python 3.
 
 ===Declaration X or declaration X of class Y is not exposed. Can I have it exposed?===
 
