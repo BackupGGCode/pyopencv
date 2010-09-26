@@ -1,8 +1,6 @@
 #summary Frequently Asked Questions
 
-= Details =
-
-==General questions==
+=General questions=
 
 ===Which version of OpenCV is PyOpenCV compatible with?===
 
@@ -26,7 +24,7 @@ If an OpenCV function in C is named as cvAbcXyz(), it is typically renamed as ab
 
 If you do not see abcXyz(), then either an equivalent function/class in C++ exists or the function is not yet exposed. In the latter case, please file an issue on the project's Issues tab. I will try to resolve it when I have time.
 
-==PyOpenCV version 2.1.0.wr1.1.0 or earlier==
+=Questions related to PyOpenCV version 2.1.0.wr1.1.0 and earlier=
 
 ===On Linux, when building PyOpenCV, I receive an error: "...error: duplicate initialization of gcc with the following parameters:..."===
 
