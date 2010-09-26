@@ -8,7 +8,7 @@ PyOpenCV is compatible with OpenCV version 2.0 and 2.1.0. The main line of devel
 
 ===Is PyOpenCV 64-bit compatible?===
 
-PyOpenCV is now compilable and running on a 64-bit Ubuntu 10.4 platform and a Mac OS X 10.6 platform (thanks Attila). Other platforms have not been tested.
+PyOpenCV is now compilable and running on a 64-bit Ubuntu 10.4 platform and a Mac OS X 10.6 platform (thanks Attila). Other platforms have not been tested on.
 
 ===Is PyOpenCV compatible with Python 3?===
 
