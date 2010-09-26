@@ -437,6 +437,11 @@ sb.finalize_class(z)
 # cv::MemStorage
 sb.register_ti('cv::Ptr', ['CvMemStorage'], 'MemStorage')
 sb.expose_class_Ptr('CvMemStorage')
+sb.cc.write('''
+def _MemStorage__repr__(self):
+    return "MemStorage()" if self.empty() else "MemStorage(block_size="+repr(self.pointee.block_size)+")"
+MemStorage.__repr__ = _MemStorage__repr__
+''')
 
 
 # CvMemStoragePos

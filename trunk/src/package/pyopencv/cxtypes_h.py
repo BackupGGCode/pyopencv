@@ -354,6 +354,10 @@ CV_TYPE_NAME_GRAPH = "opencv-graph"
 
 
 
+def _MemStorage__repr__(self):
+    return "MemStorage()" if self.empty() else "MemStorage(block_size="+repr(self.pointee.block_size)+")"
+MemStorage.__repr__ = _MemStorage__repr__
+
 #-----------------------------------------------------------------------------
 # Sequence types
 #-----------------------------------------------------------------------------
