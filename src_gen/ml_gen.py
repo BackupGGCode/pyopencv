@@ -310,10 +310,12 @@ sb.finalize_class(z)
 
 # CvDTreeNode
 z = sb.mb.class_('CvDTreeNode')
+sb.init_class(z)
 for t in ('parent', 'left', 'right', 'split'):
     FT.expose_member_as_pointee(z, t)
 for t in ('num_valid', 'cv_Tn', 'cv_node_risk', 'cv_node_error'):
     z.var(t).exclude() # members for internal use, no need to expose
+sb.finalize_class(z)
 
 # CvDTreeParams 
 z = sb.mb.class_('CvDTreeParams')

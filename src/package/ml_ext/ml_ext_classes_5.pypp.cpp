@@ -12,6 +12,180 @@
 
 namespace bp = boost::python;
 
+struct CvEM_wrapper : CvEM, bp::wrapper< CvEM > {
+
+    CvEM_wrapper(CvEM const & arg )
+    : CvEM( arg )
+      , bp::wrapper< CvEM >(){
+        // copy constructor
+        
+    }
+
+    CvEM_wrapper( )
+    : CvEM( )
+      , bp::wrapper< CvEM >(){
+        // null constructor
+    
+    }
+
+    CvEM_wrapper(::CvMat const * samples, ::CvMat const * sample_idx=0, ::CvEMParams params=::CvEMParams( ), ::CvMat * labels=0 )
+    : CvEM( boost::python::ptr(samples), boost::python::ptr(sample_idx), params, boost::python::ptr(labels) )
+      , bp::wrapper< CvEM >(){
+        // constructor
+    
+    }
+
+    CvEM_wrapper(::cv::Mat const & samples, ::cv::Mat const & sample_idx=cv::Mat(), ::CvEMParams params=::CvEMParams( ), ::cv::Mat * labels=0 )
+    : CvEM( boost::ref(samples), boost::ref(sample_idx), params, boost::python::ptr(labels) )
+      , bp::wrapper< CvEM >(){
+        // constructor
+    
+    }
+
+    virtual void clear(  ) {
+        if( bp::override func_clear = this->get_override( "clear" ) )
+            func_clear(  );
+        else{
+            this->CvEM::clear(  );
+        }
+    }
+    
+    void default_clear(  ) {
+        CvEM::clear( );
+    }
+
+    virtual float predict( ::CvMat const * sample, ::CvMat * probs ) const  {
+        namespace bpl = boost::python;
+        if( bpl::override func_predict = this->get_override( "predict" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_predict.ptr(), sample, probs );
+            return bpl::extract< float >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvEM::predict( boost::python::ptr(sample), boost::python::ptr(probs) );
+        }
+    }
+    
+    static boost::python::object default_predict_e2a6ccb3e80d0945b65e2adfc4d80129( ::CvEM const & inst, ::cv::Mat & sample, ::cv::Mat & probs ){
+        float result;
+        if( dynamic_cast< CvEM_wrapper const* >( boost::addressof( inst ) ) ){
+            result = inst.::CvEM::predict(get_CvMat_ptr(sample), get_CvMat_ptr(probs));
+        }
+        else{
+            result = inst.predict(get_CvMat_ptr(sample), get_CvMat_ptr(probs));
+        }
+        return bp::object( result );
+    }
+
+    virtual float predict( ::cv::Mat const & sample, ::cv::Mat * probs ) const  {
+        if( bp::override func_predict = this->get_override( "predict" ) )
+            return func_predict( boost::ref(sample), boost::python::ptr(probs) );
+        else{
+            return this->CvEM::predict( boost::ref(sample), boost::python::ptr(probs) );
+        }
+    }
+    
+    float default_predict( ::cv::Mat const & sample, ::cv::Mat * probs ) const  {
+        return CvEM::predict( boost::ref(sample), boost::python::ptr(probs) );
+    }
+
+    virtual bool train( ::CvMat const * samples, ::CvMat const * sample_idx=0, ::CvEMParams params=::CvEMParams( ), ::CvMat * labels=0 ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_train = this->get_override( "train" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_train.ptr(), samples, sample_idx, params, labels );
+            return bpl::extract< bool >( pyplus_conv::get_out_argument( py_result, 0 ) );
+        }
+        else{
+            return CvEM::train( boost::python::ptr(samples), boost::python::ptr(sample_idx), params, boost::python::ptr(labels) );
+        }
+    }
+    
+    static boost::python::object default_train_ad96ec9280c0f7571752ed3a0ca86d28( ::CvEM & inst, ::cv::Mat & samples, ::cv::Mat sample_idx=cv::Mat(), ::CvEMParams params=::CvEMParams( ), ::cv::Mat labels=cv::Mat() ){
+        bool result;
+        if( dynamic_cast< CvEM_wrapper * >( boost::addressof( inst ) ) ){
+            result = inst.::CvEM::train(get_CvMat_ptr(samples), get_CvMat_ptr(sample_idx), params, get_CvMat_ptr(labels));
+        }
+        else{
+            result = inst.train(get_CvMat_ptr(samples), get_CvMat_ptr(sample_idx), params, get_CvMat_ptr(labels));
+        }
+        return bp::object( result );
+    }
+
+    virtual bool train( ::cv::Mat const & samples, ::cv::Mat const & sample_idx=cv::Mat(), ::CvEMParams params=::CvEMParams( ), ::cv::Mat * labels=0 ) {
+        if( bp::override func_train = this->get_override( "train" ) )
+            return func_train( boost::ref(samples), boost::ref(sample_idx), params, boost::python::ptr(labels) );
+        else{
+            return this->CvEM::train( boost::ref(samples), boost::ref(sample_idx), params, boost::python::ptr(labels) );
+        }
+    }
+    
+    bool default_train( ::cv::Mat const & samples, ::cv::Mat const & sample_idx=cv::Mat(), ::CvEMParams params=::CvEMParams( ), ::cv::Mat * labels=0 ) {
+        return CvEM::train( boost::ref(samples), boost::ref(sample_idx), params, boost::python::ptr(labels) );
+    }
+
+    virtual void load( char const * filename, char const * name=0 ) {
+        if( bp::override func_load = this->get_override( "load" ) )
+            func_load( filename, name );
+        else{
+            this->CvStatModel::load( filename, name );
+        }
+    }
+    
+    void default_load( char const * filename, char const * name=0 ) {
+        CvStatModel::load( filename, name );
+    }
+
+    virtual void read( ::CvFileStorage * storage, ::CvFileNode * node ) {
+        namespace bpl = boost::python;
+        if( bpl::override func_read = this->get_override( "read" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_read.ptr(), storage, node );
+        }
+        else{
+            CvStatModel::read( boost::python::ptr(storage), boost::python::ptr(node) );
+        }
+    }
+    
+    static void default_read( ::CvStatModel & inst, ::cv::FileStorage & storage, ::cv::FileNode & node ){
+        if( dynamic_cast< CvEM_wrapper * >( boost::addressof( inst ) ) ){
+            inst.::CvStatModel::read(storage.fs, *(node));
+        }
+        else{
+            inst.read(storage.fs, *(node));
+        }
+    }
+
+    virtual void save( char const * filename, char const * name=0 ) const  {
+        if( bp::override func_save = this->get_override( "save" ) )
+            func_save( filename, name );
+        else{
+            this->CvStatModel::save( filename, name );
+        }
+    }
+    
+    void default_save( char const * filename, char const * name=0 ) const  {
+        CvStatModel::save( filename, name );
+    }
+
+    virtual void write( ::CvFileStorage * storage, char const * name ) const  {
+        namespace bpl = boost::python;
+        if( bpl::override func_write = this->get_override( "write" ) ){
+            bpl::object py_result = bpl::call<bpl::object>( func_write.ptr(), storage, name );
+        }
+        else{
+            CvStatModel::write( boost::python::ptr(storage), name );
+        }
+    }
+    
+    static void default_write( ::CvStatModel const & inst, ::cv::FileStorage & storage, char const * name ){
+        if( dynamic_cast< CvEM_wrapper const* >( boost::addressof( inst ) ) ){
+            inst.::CvStatModel::write(storage.fs, name);
+        }
+        else{
+            inst.write(storage.fs, name);
+        }
+    }
+
+};
+
 struct CvERTreeTrainData_wrapper : CvERTreeTrainData, bp::wrapper< CvERTreeTrainData > {
 
     CvERTreeTrainData_wrapper(CvERTreeTrainData const & arg )
@@ -333,271 +507,205 @@ static cv::Mat get_CvERTreeTrainData_missing_mask(CvERTreeTrainData const &inst)
 
 static cv::TermCriteria *get_CvRTParams_term_crit(CvRTParams const &inst) { return (cv::TermCriteria *)(&inst.term_crit); }
 
-struct CvRTrees_wrapper : CvRTrees, bp::wrapper< CvRTrees > {
-
-    CvRTrees_wrapper(CvRTrees const & arg )
-    : CvRTrees( arg )
-      , bp::wrapper< CvRTrees >(){
-        // copy constructor
-        
-    }
-
-    CvRTrees_wrapper( )
-    : CvRTrees( )
-      , bp::wrapper< CvRTrees >(){
-        // null constructor
-    
-    }
-
-    virtual float calc_error( ::CvMLData * _data, int type, ::std::vector< float > * resp=0 ) {
-        if( bp::override func_calc_error = this->get_override( "calc_error" ) )
-            return func_calc_error( boost::python::ptr(_data), type, boost::python::ptr(resp) );
-        else{
-            return this->CvRTrees::calc_error( boost::python::ptr(_data), type, boost::python::ptr(resp) );
-        }
-    }
-    
-    float default_calc_error( ::CvMLData * _data, int type, ::std::vector< float > * resp=0 ) {
-        return CvRTrees::calc_error( boost::python::ptr(_data), type, boost::python::ptr(resp) );
-    }
-
-    virtual void clear(  ) {
-        if( bp::override func_clear = this->get_override( "clear" ) )
-            func_clear(  );
-        else{
-            this->CvRTrees::clear(  );
-        }
-    }
-    
-    void default_clear(  ) {
-        CvRTrees::clear( );
-    }
-
-    virtual float get_proximity( ::CvMat const * sample1, ::CvMat const * sample2, ::CvMat const * missing1=0, ::CvMat const * missing2=0 ) const  {
-        namespace bpl = boost::python;
-        if( bpl::override func_get_proximity = this->get_override( "get_proximity" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_get_proximity.ptr(), sample1, sample2, missing1, missing2 );
-            return bpl::extract< float >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
-        else{
-            return CvRTrees::get_proximity( boost::python::ptr(sample1), boost::python::ptr(sample2), boost::python::ptr(missing1), boost::python::ptr(missing2) );
-        }
-    }
-    
-    static boost::python::object default_get_proximity( ::CvRTrees const & inst, ::cv::Mat & sample1, ::cv::Mat & sample2, ::cv::Mat missing1=cv::Mat(), ::cv::Mat missing2=cv::Mat() ){
-        float result;
-        if( dynamic_cast< CvRTrees_wrapper const* >( boost::addressof( inst ) ) ){
-            result = inst.::CvRTrees::get_proximity(get_CvMat_ptr(sample1), get_CvMat_ptr(sample2), get_CvMat_ptr(missing1), get_CvMat_ptr(missing2));
-        }
-        else{
-            result = inst.get_proximity(get_CvMat_ptr(sample1), get_CvMat_ptr(sample2), get_CvMat_ptr(missing1), get_CvMat_ptr(missing2));
-        }
-        return bp::object( result );
-    }
-
-    virtual float get_train_error(  ) {
-        if( bp::override func_get_train_error = this->get_override( "get_train_error" ) )
-            return func_get_train_error(  );
-        else{
-            return this->CvRTrees::get_train_error(  );
-        }
-    }
-    
-    float default_get_train_error(  ) {
-        return CvRTrees::get_train_error( );
-    }
-
-    virtual ::CvMat const * get_var_importance(  ) {
-        if( bp::override func_get_var_importance = this->get_override( "get_var_importance" ) )
-            return func_get_var_importance(  );
-        else{
-            return this->CvRTrees::get_var_importance(  );
-        }
-    }
-    
-    ::CvMat const * default_get_var_importance(  ) {
-        return CvRTrees::get_var_importance( );
-    }
-
-    virtual float predict( ::CvMat const * sample, ::CvMat const * missing=0 ) const  {
-        namespace bpl = boost::python;
-        if( bpl::override func_predict = this->get_override( "predict" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_predict.ptr(), sample, missing );
-            return bpl::extract< float >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
-        else{
-            return CvRTrees::predict( boost::python::ptr(sample), boost::python::ptr(missing) );
-        }
-    }
-    
-    static boost::python::object default_predict_8f760c2403d8e76b3c8cb03f101d0997( ::CvRTrees const & inst, ::cv::Mat & sample, ::cv::Mat missing=cv::Mat() ){
-        float result;
-        if( dynamic_cast< CvRTrees_wrapper const* >( boost::addressof( inst ) ) ){
-            result = inst.::CvRTrees::predict(get_CvMat_ptr(sample), get_CvMat_ptr(missing));
-        }
-        else{
-            result = inst.predict(get_CvMat_ptr(sample), get_CvMat_ptr(missing));
-        }
-        return bp::object( result );
-    }
-
-    virtual float predict( ::cv::Mat const & sample, ::cv::Mat const & missing=cv::Mat() ) const  {
-        if( bp::override func_predict = this->get_override( "predict" ) )
-            return func_predict( boost::ref(sample), boost::ref(missing) );
-        else{
-            return this->CvRTrees::predict( boost::ref(sample), boost::ref(missing) );
-        }
-    }
-    
-    float default_predict( ::cv::Mat const & sample, ::cv::Mat const & missing=cv::Mat() ) const  {
-        return CvRTrees::predict( boost::ref(sample), boost::ref(missing) );
-    }
-
-    virtual float predict_prob( ::CvMat const * sample, ::CvMat const * missing=0 ) const  {
-        namespace bpl = boost::python;
-        if( bpl::override func_predict_prob = this->get_override( "predict_prob" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_predict_prob.ptr(), sample, missing );
-            return bpl::extract< float >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
-        else{
-            return CvRTrees::predict_prob( boost::python::ptr(sample), boost::python::ptr(missing) );
-        }
-    }
-    
-    static boost::python::object default_predict_prob_4a1ffb549242708ef963dcd84a06f27d( ::CvRTrees const & inst, ::cv::Mat & sample, ::cv::Mat missing=cv::Mat() ){
-        float result;
-        if( dynamic_cast< CvRTrees_wrapper const* >( boost::addressof( inst ) ) ){
-            result = inst.::CvRTrees::predict_prob(get_CvMat_ptr(sample), get_CvMat_ptr(missing));
-        }
-        else{
-            result = inst.predict_prob(get_CvMat_ptr(sample), get_CvMat_ptr(missing));
-        }
-        return bp::object( result );
-    }
-
-    virtual float predict_prob( ::cv::Mat const & sample, ::cv::Mat const & missing=cv::Mat() ) const  {
-        if( bp::override func_predict_prob = this->get_override( "predict_prob" ) )
-            return func_predict_prob( boost::ref(sample), boost::ref(missing) );
-        else{
-            return this->CvRTrees::predict_prob( boost::ref(sample), boost::ref(missing) );
-        }
-    }
-    
-    float default_predict_prob( ::cv::Mat const & sample, ::cv::Mat const & missing=cv::Mat() ) const  {
-        return CvRTrees::predict_prob( boost::ref(sample), boost::ref(missing) );
-    }
-
-    virtual void read( ::CvFileStorage * fs, ::CvFileNode * node ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_read = this->get_override( "read" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_read.ptr(), fs, node );
-        }
-        else{
-            CvRTrees::read( boost::python::ptr(fs), boost::python::ptr(node) );
-        }
-    }
-    
-    static void default_read( ::CvRTrees & inst, ::cv::FileStorage & fs, ::cv::FileNode & node ){
-        if( dynamic_cast< CvRTrees_wrapper * >( boost::addressof( inst ) ) ){
-            inst.::CvRTrees::read(fs.fs, *(node));
-        }
-        else{
-            inst.read(fs.fs, *(node));
-        }
-    }
-
-    virtual bool train( ::CvMat const * _train_data, int _tflag, ::CvMat const * _responses, ::CvMat const * _var_idx=0, ::CvMat const * _sample_idx=0, ::CvMat const * _var_type=0, ::CvMat const * _missing_mask=0, ::CvRTParams params=::CvRTParams( ) ) {
-        namespace bpl = boost::python;
-        if( bpl::override func_train = this->get_override( "train" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_train.ptr(), _train_data, _tflag, _responses, _var_idx, _sample_idx, _var_type, _missing_mask, params );
-            return bpl::extract< bool >( pyplus_conv::get_out_argument( py_result, 0 ) );
-        }
-        else{
-            return CvRTrees::train( boost::python::ptr(_train_data), _tflag, boost::python::ptr(_responses), boost::python::ptr(_var_idx), boost::python::ptr(_sample_idx), boost::python::ptr(_var_type), boost::python::ptr(_missing_mask), params );
-        }
-    }
-    
-    static boost::python::object default_train_cfc4310d5a1b0f02573fba5d58a97880( ::CvRTrees & inst, ::cv::Mat & _train_data, int _tflag, ::cv::Mat & _responses, ::cv::Mat _var_idx=cv::Mat(), ::cv::Mat _sample_idx=cv::Mat(), ::cv::Mat _var_type=cv::Mat(), ::cv::Mat _missing_mask=cv::Mat(), ::CvRTParams params=::CvRTParams( ) ){
-        bool result;
-        if( dynamic_cast< CvRTrees_wrapper * >( boost::addressof( inst ) ) ){
-            result = inst.::CvRTrees::train(get_CvMat_ptr(_train_data), _tflag, get_CvMat_ptr(_responses), get_CvMat_ptr(_var_idx), get_CvMat_ptr(_sample_idx), get_CvMat_ptr(_var_type), get_CvMat_ptr(_missing_mask), params);
-        }
-        else{
-            result = inst.train(get_CvMat_ptr(_train_data), _tflag, get_CvMat_ptr(_responses), get_CvMat_ptr(_var_idx), get_CvMat_ptr(_sample_idx), get_CvMat_ptr(_var_type), get_CvMat_ptr(_missing_mask), params);
-        }
-        return bp::object( result );
-    }
-
-    virtual bool train( ::CvMLData * data, ::CvRTParams params=::CvRTParams( ) ) {
-        if( bp::override func_train = this->get_override( "train" ) )
-            return func_train( boost::python::ptr(data), params );
-        else{
-            return this->CvRTrees::train( boost::python::ptr(data), params );
-        }
-    }
-    
-    bool default_train( ::CvMLData * data, ::CvRTParams params=::CvRTParams( ) ) {
-        return CvRTrees::train( boost::python::ptr(data), params );
-    }
-
-    virtual bool train( ::cv::Mat const & _train_data, int _tflag, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::cv::Mat const & _var_type=cv::Mat(), ::cv::Mat const & _missing_mask=cv::Mat(), ::CvRTParams params=::CvRTParams( ) ) {
-        if( bp::override func_train = this->get_override( "train" ) )
-            return func_train( boost::ref(_train_data), _tflag, boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), boost::ref(_var_type), boost::ref(_missing_mask), params );
-        else{
-            return this->CvRTrees::train( boost::ref(_train_data), _tflag, boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), boost::ref(_var_type), boost::ref(_missing_mask), params );
-        }
-    }
-    
-    bool default_train( ::cv::Mat const & _train_data, int _tflag, ::cv::Mat const & _responses, ::cv::Mat const & _var_idx=cv::Mat(), ::cv::Mat const & _sample_idx=cv::Mat(), ::cv::Mat const & _var_type=cv::Mat(), ::cv::Mat const & _missing_mask=cv::Mat(), ::CvRTParams params=::CvRTParams( ) ) {
-        return CvRTrees::train( boost::ref(_train_data), _tflag, boost::ref(_responses), boost::ref(_var_idx), boost::ref(_sample_idx), boost::ref(_var_type), boost::ref(_missing_mask), params );
-    }
-
-    virtual void write( ::CvFileStorage * fs, char const * name ) const  {
-        namespace bpl = boost::python;
-        if( bpl::override func_write = this->get_override( "write" ) ){
-            bpl::object py_result = bpl::call<bpl::object>( func_write.ptr(), fs, name );
-        }
-        else{
-            CvRTrees::write( boost::python::ptr(fs), name );
-        }
-    }
-    
-    static void default_write( ::CvRTrees const & inst, ::cv::FileStorage & fs, char const * name ){
-        if( dynamic_cast< CvRTrees_wrapper const* >( boost::addressof( inst ) ) ){
-            inst.::CvRTrees::write(fs.fs, name);
-        }
-        else{
-            inst.write(fs.fs, name);
-        }
-    }
-
-    virtual void load( char const * filename, char const * name=0 ) {
-        if( bp::override func_load = this->get_override( "load" ) )
-            func_load( filename, name );
-        else{
-            this->CvStatModel::load( filename, name );
-        }
-    }
-    
-    void default_load( char const * filename, char const * name=0 ) {
-        CvStatModel::load( filename, name );
-    }
-
-    virtual void save( char const * filename, char const * name=0 ) const  {
-        if( bp::override func_save = this->get_override( "save" ) )
-            func_save( filename, name );
-        else{
-            this->CvStatModel::save( filename, name );
-        }
-    }
-    
-    void default_save( char const * filename, char const * name=0 ) const  {
-        CvStatModel::save( filename, name );
-    }
-
-};
-
 void register_classes_5(){
+
+    { //::CvEM
+        typedef bp::class_< CvEM_wrapper, bp::bases< CvStatModel > > CvEM_exposer_t;
+        CvEM_exposer_t CvEM_exposer = CvEM_exposer_t( "CvEM", bp::init< >() );
+        bp::scope CvEM_scope( CvEM_exposer );
+        CvEM_exposer.add_property( "this", pyplus_conv::make_addressof_inst_getter< CvEM >() );
+        bp::scope().attr("COV_MAT_SPHERICAL") = (int)CvEM::COV_MAT_SPHERICAL;
+        bp::scope().attr("COV_MAT_DIAGONAL") = (int)CvEM::COV_MAT_DIAGONAL;
+        bp::scope().attr("COV_MAT_GENERIC") = (int)CvEM::COV_MAT_GENERIC;
+        bp::scope().attr("START_E_STEP") = (int)CvEM::START_E_STEP;
+        bp::scope().attr("START_M_STEP") = (int)CvEM::START_M_STEP;
+        bp::scope().attr("START_AUTO_STEP") = (int)CvEM::START_AUTO_STEP;
+        CvEM_exposer.def( bp::init< CvMat const *, bp::optional< CvMat const *, CvEMParams, CvMat * > >(( bp::arg("samples"), bp::arg("sample_idx")=bp::object(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() ), "\nWrapped function:"
+    "\n    CvEM"
+    "\nArgument 'samples':"\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
+    "\nArgument 'sample_idx':"\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
+    "\nArgument 'labels':"\
+    "\n    C++ type: ::CvMat *"\
+    "\n    Python type: Mat") );
+        bp::implicitly_convertible< CvMat const *, CvEM >();
+        CvEM_exposer.def( bp::init< cv::Mat const &, bp::optional< cv::Mat const &, CvEMParams, cv::Mat * > >(( bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() )) );
+        bp::implicitly_convertible< cv::Mat const &, CvEM >();
+        { //::CvEM::clear
+        
+            typedef void ( ::CvEM::*clear_function_type )(  ) ;
+            typedef void ( CvEM_wrapper::*default_clear_function_type )(  ) ;
+            
+            CvEM_exposer.def( 
+                "clear"
+                , clear_function_type(&::CvEM::clear)
+                , default_clear_function_type(&CvEM_wrapper::default_clear) );
+        
+        }
+        { //::CvEM::get_log_likelihood
+        
+            typedef double ( ::CvEM::*get_log_likelihood_function_type )(  ) const;
+            
+            CvEM_exposer.def( 
+                "get_log_likelihood"
+                , get_log_likelihood_function_type( &::CvEM::get_log_likelihood ) );
+        
+        }
+        { //::CvEM::get_means
+        
+            typedef ::CvMat const * ( ::CvEM::*get_means_function_type )(  ) const;
+            
+            CvEM_exposer.def( 
+                "get_means"
+                , get_means_function_type( &::CvEM::get_means )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::CvEM::get_nclusters
+        
+            typedef int ( ::CvEM::*get_nclusters_function_type )(  ) const;
+            
+            CvEM_exposer.def( 
+                "get_nclusters"
+                , get_nclusters_function_type( &::CvEM::get_nclusters ) );
+        
+        }
+        { //::CvEM::get_probs
+        
+            typedef ::CvMat const * ( ::CvEM::*get_probs_function_type )(  ) const;
+            
+            CvEM_exposer.def( 
+                "get_probs"
+                , get_probs_function_type( &::CvEM::get_probs )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::CvEM::get_weights
+        
+            typedef ::CvMat const * ( ::CvEM::*get_weights_function_type )(  ) const;
+            
+            CvEM_exposer.def( 
+                "get_weights"
+                , get_weights_function_type( &::CvEM::get_weights )
+                , bp::return_internal_reference< >() );
+        
+        }
+        { //::CvEM::predict
+        
+            typedef boost::python::object ( *default_predict_function_type )( CvEM const &,::cv::Mat &,::cv::Mat & );
+            
+            CvEM_exposer.def( 
+                "predict"
+                , default_predict_function_type( &CvEM_wrapper::default_predict_e2a6ccb3e80d0945b65e2adfc4d80129 )
+                , ( bp::arg("inst"), bp::arg("sample"), bp::arg("probs") )
+                , "\nArgument 'sample':"\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
+    "\nArgument 'probs':"\
+    "\n    C++ type: ::CvMat *"\
+    "\n    Python type: Mat" );
+        
+        }
+        { //::CvEM::predict
+        
+            typedef float ( ::CvEM::*predict_function_type )( ::cv::Mat const &,::cv::Mat * ) const;
+            typedef float ( CvEM_wrapper::*default_predict_function_type )( ::cv::Mat const &,::cv::Mat * ) const;
+            
+            CvEM_exposer.def( 
+                "predict"
+                , predict_function_type(&::CvEM::predict)
+                , default_predict_function_type(&CvEM_wrapper::default_predict)
+                , ( bp::arg("sample"), bp::arg("probs") ) );
+        
+        }
+        { //::CvEM::train
+        
+            typedef boost::python::object ( *default_train_function_type )( CvEM &,::cv::Mat &,::cv::Mat,CvEMParams,::cv::Mat );
+            
+            CvEM_exposer.def( 
+                "train"
+                , default_train_function_type( &CvEM_wrapper::default_train_ad96ec9280c0f7571752ed3a0ca86d28 )
+                , ( bp::arg("inst"), bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=cv::Mat() )
+                , "\nArgument 'samples':"\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
+    "\nArgument 'sample_idx':"\
+    "\n    C++ type: ::CvMat const *"\
+    "\n    Python type: Mat"\
+    "\nArgument 'labels':"\
+    "\n    C++ type: ::CvMat *"\
+    "\n    Python type: Mat" );
+        
+        }
+        { //::CvEM::train
+        
+            typedef bool ( ::CvEM::*train_function_type )( ::cv::Mat const &,::cv::Mat const &,::CvEMParams,::cv::Mat * ) ;
+            typedef bool ( CvEM_wrapper::*default_train_function_type )( ::cv::Mat const &,::cv::Mat const &,::CvEMParams,::cv::Mat * ) ;
+            
+            CvEM_exposer.def( 
+                "train"
+                , train_function_type(&::CvEM::train)
+                , default_train_function_type(&CvEM_wrapper::default_train)
+                , ( bp::arg("samples"), bp::arg("sample_idx")=cv::Mat(), bp::arg("params")=::CvEMParams( ), bp::arg("labels")=bp::object() ) );
+        
+        }
+        { //::CvStatModel::load
+        
+            typedef void ( ::CvStatModel::*load_function_type )( char const *,char const * ) ;
+            typedef void ( CvEM_wrapper::*default_load_function_type )( char const *,char const * ) ;
+            
+            CvEM_exposer.def( 
+                "load"
+                , load_function_type(&::CvStatModel::load)
+                , default_load_function_type(&CvEM_wrapper::default_load)
+                , ( bp::arg("filename"), bp::arg("name")=bp::object() ) );
+        
+        }
+        { //::CvStatModel::read
+        
+            typedef void ( *default_read_function_type )( CvStatModel &,::cv::FileStorage &,::cv::FileNode & );
+            
+            CvEM_exposer.def( 
+                "read"
+                , default_read_function_type( &CvEM_wrapper::default_read )
+                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("node") )
+                , "\nArgument 'storage':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage"\
+    "\nArgument 'node':"\
+    "\n    C++ type: ::CvFileNode *"\
+    "\n    Python type: FileNode" );
+        
+        }
+        { //::CvStatModel::save
+        
+            typedef void ( ::CvStatModel::*save_function_type )( char const *,char const * ) const;
+            typedef void ( CvEM_wrapper::*default_save_function_type )( char const *,char const * ) const;
+            
+            CvEM_exposer.def( 
+                "save"
+                , save_function_type(&::CvStatModel::save)
+                , default_save_function_type(&CvEM_wrapper::default_save)
+                , ( bp::arg("filename"), bp::arg("name")=bp::object() ) );
+        
+        }
+        { //::CvStatModel::write
+        
+            typedef void ( *default_write_function_type )( CvStatModel const &,::cv::FileStorage &,char const * );
+            
+            CvEM_exposer.def( 
+                "write"
+                , default_write_function_type( &CvEM_wrapper::default_write )
+                , ( bp::arg("inst"), bp::arg("storage"), bp::arg("name") )
+                , "\nArgument 'storage':"\
+    "\n    C++ type: ::CvFileStorage *"\
+    "\n    Python type: FileStorage" );
+        
+        }
+    }
 
     bp::class_< CvERTreeTrainData_wrapper, bp::bases< CvDTreeTrainData > >( "CvERTreeTrainData" )    
         .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvERTreeTrainData >() )    
@@ -729,143 +837,5 @@ void register_classes_5(){
         .def_readwrite( "calc_var_importance", &CvRTParams::calc_var_importance )    
         .def_readwrite( "nactive_vars", &CvRTParams::nactive_vars )    
         .add_property( "term_crit", bp::make_function(&::get_CvRTParams_term_crit, bp::return_internal_reference<>()) );
-
-    bp::class_< CvRTrees_wrapper, bp::bases< CvStatModel > >( "CvRTrees", bp::init< >() )    
-        .add_property( "this", pyplus_conv::make_addressof_inst_getter< CvRTrees >() )    
-        .def( 
-            "calc_error"
-            , (float ( CvRTrees::* )( ::CvMLData *,int,::std::vector< float > * ) )(&::CvRTrees::calc_error)
-            , (float ( CvRTrees_wrapper::* )( ::CvMLData *,int,::std::vector< float > * ) )(&CvRTrees_wrapper::default_calc_error)
-            , ( bp::arg("_data"), bp::arg("type"), bp::arg("resp")=bp::object() ) )    
-        .def( 
-            "clear"
-            , (void ( CvRTrees::* )(  ) )(&::CvRTrees::clear)
-            , (void ( CvRTrees_wrapper::* )(  ) )(&CvRTrees_wrapper::default_clear) )    
-        .def( 
-            "get_active_var_mask"
-            , (::CvMat * ( CvRTrees::* )(  ) )( &::CvRTrees::get_active_var_mask )
-            , bp::return_internal_reference< >() )    
-        .def( 
-            "get_proximity"
-            , (boost::python::object (*)( CvRTrees const &,::cv::Mat &,::cv::Mat &,::cv::Mat,::cv::Mat ))( &CvRTrees_wrapper::default_get_proximity )
-            , ( bp::arg("inst"), bp::arg("sample1"), bp::arg("sample2"), bp::arg("missing1")=cv::Mat(), bp::arg("missing2")=cv::Mat() )
-            , "\nArgument 'sample1':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'sample2':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'missing1':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'missing2':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "get_train_error"
-            , (float ( CvRTrees::* )(  ) )(&::CvRTrees::get_train_error)
-            , (float ( CvRTrees_wrapper::* )(  ) )(&CvRTrees_wrapper::default_get_train_error) )    
-        .def( 
-            "get_tree"
-            , (::CvForestTree * ( CvRTrees::* )( int ) const)( &::CvRTrees::get_tree )
-            , ( bp::arg("i") )
-            , bp::return_internal_reference< >() )    
-        .def( 
-            "get_tree_count"
-            , (int ( CvRTrees::* )(  ) const)( &::CvRTrees::get_tree_count ) )    
-        .def( 
-            "get_var_importance"
-            , (::CvMat const * ( CvRTrees::* )(  ) )(&::CvRTrees::get_var_importance)
-            , (::CvMat const * ( CvRTrees_wrapper::* )(  ) )(&CvRTrees_wrapper::default_get_var_importance)
-            , bp::return_internal_reference< >() )    
-        .def( 
-            "predict"
-            , (boost::python::object (*)( CvRTrees const &,::cv::Mat &,::cv::Mat ))( &CvRTrees_wrapper::default_predict_8f760c2403d8e76b3c8cb03f101d0997 )
-            , ( bp::arg("inst"), bp::arg("sample"), bp::arg("missing")=cv::Mat() )
-            , "\nArgument 'sample':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'missing':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "predict"
-            , (float ( CvRTrees::* )( ::cv::Mat const &,::cv::Mat const & ) const)(&::CvRTrees::predict)
-            , (float ( CvRTrees_wrapper::* )( ::cv::Mat const &,::cv::Mat const & ) const)(&CvRTrees_wrapper::default_predict)
-            , ( bp::arg("sample"), bp::arg("missing")=cv::Mat() ) )    
-        .def( 
-            "predict_prob"
-            , (boost::python::object (*)( CvRTrees const &,::cv::Mat &,::cv::Mat ))( &CvRTrees_wrapper::default_predict_prob_4a1ffb549242708ef963dcd84a06f27d )
-            , ( bp::arg("inst"), bp::arg("sample"), bp::arg("missing")=cv::Mat() )
-            , "\nArgument 'sample':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat"\
-    "\nArgument 'missing':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "predict_prob"
-            , (float ( CvRTrees::* )( ::cv::Mat const &,::cv::Mat const & ) const)(&::CvRTrees::predict_prob)
-            , (float ( CvRTrees_wrapper::* )( ::cv::Mat const &,::cv::Mat const & ) const)(&CvRTrees_wrapper::default_predict_prob)
-            , ( bp::arg("sample"), bp::arg("missing")=cv::Mat() ) )    
-        .def( 
-            "read"
-            , (void (*)( CvRTrees &,::cv::FileStorage &,::cv::FileNode & ))( &CvRTrees_wrapper::default_read )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("node") )
-            , "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *"\
-    "\n    Python type: FileStorage"\
-    "\nArgument 'node':"\
-    "\n    C++ type: ::CvFileNode *"\
-    "\n    Python type: FileNode" )    
-        .def( 
-            "train"
-            , (boost::python::object (*)( CvRTrees &,::cv::Mat &,int,::cv::Mat &,::cv::Mat,::cv::Mat,::cv::Mat,::cv::Mat,CvRTParams ))( &CvRTrees_wrapper::default_train_cfc4310d5a1b0f02573fba5d58a97880 )
-            , ( bp::arg("inst"), bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvRTParams( ) )
-            , "\nArgument '_train_data':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat"\
-    "\nArgument '_responses':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat"\
-    "\nArgument '_var_idx':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat"\
-    "\nArgument '_sample_idx':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat"\
-    "\nArgument '_var_type':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat"\
-    "\nArgument '_missing_mask':"\
-    "\n    C++ type: ::CvMat const *"\
-    "\n    Python type: Mat" )    
-        .def( 
-            "train"
-            , (bool ( CvRTrees::* )( ::CvMLData *,::CvRTParams ) )(&::CvRTrees::train)
-            , (bool ( CvRTrees_wrapper::* )( ::CvMLData *,::CvRTParams ) )(&CvRTrees_wrapper::default_train)
-            , ( bp::arg("data"), bp::arg("params")=::CvRTParams( ) ) )    
-        .def( 
-            "train"
-            , (bool ( CvRTrees::* )( ::cv::Mat const &,int,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvRTParams ) )(&::CvRTrees::train)
-            , (bool ( CvRTrees_wrapper::* )( ::cv::Mat const &,int,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::cv::Mat const &,::CvRTParams ) )(&CvRTrees_wrapper::default_train)
-            , ( bp::arg("_train_data"), bp::arg("_tflag"), bp::arg("_responses"), bp::arg("_var_idx")=cv::Mat(), bp::arg("_sample_idx")=cv::Mat(), bp::arg("_var_type")=cv::Mat(), bp::arg("_missing_mask")=cv::Mat(), bp::arg("params")=::CvRTParams( ) ) )    
-        .def( 
-            "write"
-            , (void (*)( CvRTrees const &,::cv::FileStorage &,char const * ))( &CvRTrees_wrapper::default_write )
-            , ( bp::arg("inst"), bp::arg("fs"), bp::arg("name") )
-            , "\nArgument 'fs':"\
-    "\n    C++ type: ::CvFileStorage *"\
-    "\n    Python type: FileStorage" )    
-        .def( 
-            "load"
-            , (void ( CvStatModel::* )( char const *,char const * ) )(&::CvStatModel::load)
-            , (void ( CvRTrees_wrapper::* )( char const *,char const * ) )(&CvRTrees_wrapper::default_load)
-            , ( bp::arg("filename"), bp::arg("name")=bp::object() ) )    
-        .def( 
-            "save"
-            , (void ( CvStatModel::* )( char const *,char const * ) const)(&::CvStatModel::save)
-            , (void ( CvRTrees_wrapper::* )( char const *,char const * ) const)(&CvRTrees_wrapper::default_save)
-            , ( bp::arg("filename"), bp::arg("name")=bp::object() ) );
 
 }
